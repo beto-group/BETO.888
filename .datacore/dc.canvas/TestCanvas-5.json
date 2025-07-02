@@ -1,0 +1,109 @@
+{
+  "canvasState": {
+    "position": {
+      "x": 270.58778929752356,
+      "y": 410.87936664924047
+    },
+    "zoom": 0.21698716233636645,
+    "isDarkMode": true,
+    "isCanvasLocked": false
+  },
+  "boxes": [
+    {
+      "id": "box-1748445315732-ijfl94",
+      "x": -440.42312421364073,
+      "y": -684.1853816124058,
+      "width": 1008.2053994759741,
+      "height": 585.9953879160164,
+      "baseColor": "white",
+      "backgroundColor": "rgba(50, 50, 50, 0.7)",
+      "opacity": 1,
+      "border": "1px dashed #888",
+      "label": "Datacore Component (Edit to Configure)",
+      "type": "datacore-component",
+      "filePath": "_OPERATION/PUBLIC/DATACORE/1 DATACORE.flexilis/D.q.datacore.flexilis.component.md",
+      "header": "ViewComponent",
+      "functionName": "View"
+    },
+    {
+      "id": "box-1748445365231-jaeol",
+      "x": -179.92355998703937,
+      "y": -1565.4277221156908,
+      "width": 735.2167631724237,
+      "height": 476.4253649941081,
+      "baseColor": "white",
+      "backgroundColor": "rgba(50, 50, 50, 0.7)",
+      "opacity": 1,
+      "border": "1px dashed #888",
+      "label": "Datacore Component (Edit to Configure)",
+      "type": "datacore-component",
+      "filePath": "_OPERATION/PRIVATE/DATACORE/9 ContentViewer888/D.q.contentviewer888.viewer.md",
+      "header": "ViewComponent",
+      "functionName": "ContentExplorer"
+    },
+    {
+      "id": "box-1748445657536-5ywxdu",
+      "x": -173.954209921417,
+      "y": -1065.5817061932773,
+      "width": 719.7611360026152,
+      "height": 352.93060851885593,
+      "baseColor": "white",
+      "backgroundColor": "rgba(50, 50, 50, 0.7)",
+      "opacity": 1,
+      "border": "1px dashed #888",
+      "label": "Datacore Component (Edit to Configure)",
+      "type": "datacore-component",
+      "filePath": "_OPERATION/PRIVATE/DATACORE/12 LottieExperiment/D.q.lottieexperiment.component.md",
+      "header": "ViewComponent",
+      "functionName": "View"
+    },
+    {
+      "id": "box-1748445738553-p8xpxm",
+      "x": -988.0692352265135,
+      "y": -1567.5027873513968,
+      "width": 769.3561554562192,
+      "height": 863.5366047620894,
+      "baseColor": "white",
+      "backgroundColor": "rgba(50, 50, 50, 0.7)",
+      "opacity": 1,
+      "border": "1px dashed #888",
+      "label": "Datacore Component (Edit to Configure)",
+      "type": "datacore-component",
+      "filePath": "_OPERATION/PRIVATE/DATACORE/8 FitnessExplorer/D.q.fitnessexplorer.viewer.md",
+      "header": "ViewComponent",
+      "functionName": "ContentExplorer"
+    },
+    {
+      "id": "box-1748445801570-gag27r",
+      "x": -988.5678294380898,
+      "y": -601.4295910473271,
+      "width": 512.7421723391608,
+      "height": 502.1195208884261,
+      "baseColor": "white",
+      "backgroundColor": "rgba(50, 50, 50, 0.7)",
+      "opacity": 1,
+      "border": "1px dashed #888",
+      "label": "Datacore Component (Edit to Configure)",
+      "type": "datacore-component",
+      "filePath": "_OPERATION/PRIVATE/DATACORE/24 MapGlobe/D.q.mapglobe.component.md",
+      "header": "ViewComponent",
+      "functionName": "View"
+    },
+    {
+      "id": "box-1748446034698-rif0t",
+      "x": -999.4546675955742,
+      "y": 32.72194590603635,
+      "width": 1574.271861614161,
+      "height": 387.3836889176605,
+      "baseColor": "white",
+      "backgroundColor": "rgba(50, 50, 50, 0.7)",
+      "opacity": 1,
+      "border": "1px dashed #888",
+      "label": "Datacore Component (Edit to Configure)",
+      "type": "datacore-component",
+      "filePath": "_OPERATION/PRIVATE/DATACORE/22 World888/D.q.world888.component.md",
+      "header": "ViewComponent",
+      "functionName": "WorldView"
+    }
+  ]
+}

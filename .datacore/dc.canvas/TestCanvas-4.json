@@ -1,0 +1,77 @@
+{
+  "canvasState": {
+    "position": {
+      "x": 458.00098585527996,
+      "y": 555.4569296972227
+    },
+    "zoom": 0.34808577012934744,
+    "isDarkMode": true,
+    "isCanvasLocked": false
+  },
+  "boxes": [
+    {
+      "id": "box-1748445315732-ijfl94",
+      "x": -334.42607004531095,
+      "y": -817.8338412159521,
+      "width": 708.8397419101104,
+      "height": 719.9383090078405,
+      "baseColor": "white",
+      "backgroundColor": "rgba(50, 50, 50, 0.7)",
+      "opacity": 1,
+      "border": "1px dashed #888",
+      "label": "Datacore Component (Edit to Configure)",
+      "type": "datacore-component",
+      "filePath": "_OPERATION/PUBLIC/DATACORE/1 DATACORE.flexilis/D.q.datacore.flexilis.component.md",
+      "header": "ViewComponent",
+      "functionName": "View"
+    },
+    {
+      "id": "box-1748445365231-jaeol",
+      "x": -1235.2855340978012,
+      "y": -1477.8649382375054,
+      "width": 885.4198444932147,
+      "height": 836.3683493162624,
+      "baseColor": "white",
+      "backgroundColor": "rgba(50, 50, 50, 0.7)",
+      "opacity": 1,
+      "border": "1px dashed #888",
+      "label": "Datacore Component (Edit to Configure)",
+      "type": "datacore-component",
+      "filePath": "_OPERATION/PRIVATE/DATACORE/9 ContentViewer888/D.q.contentviewer888.viewer.md",
+      "header": "ViewComponent",
+      "functionName": "ContentExplorer"
+    },
+    {
+      "id": "box-1748445657536-5ywxdu",
+      "x": -335.25407496017965,
+      "y": -1471.0387519777369,
+      "width": 685.2243191946407,
+      "height": 425.48027306112886,
+      "baseColor": "white",
+      "backgroundColor": "rgba(50, 50, 50, 0.7)",
+      "opacity": 1,
+      "border": "1px dashed #888",
+      "label": "Datacore Component (Edit to Configure)",
+      "type": "datacore-component",
+      "filePath": "_OPERATION/PRIVATE/DATACORE/12 LottieExperiment/D.q.lottieexperiment.component.md",
+      "header": "ViewComponent",
+      "functionName": "View"
+    },
+    {
+      "id": "box-1748445801570-gag27r",
+      "x": -873.3536401246879,
+      "y": -610.6467261923992,
+      "width": 512.7421723391608,
+      "height": 502.1195208884261,
+      "baseColor": "white",
+      "backgroundColor": "rgba(50, 50, 50, 0.7)",
+      "opacity": 1,
+      "border": "1px dashed #888",
+      "label": "Datacore Component (Edit to Configure)",
+      "type": "datacore-component",
+      "filePath": "_OPERATION/PRIVATE/DATACORE/24 MapGlobe/D.q.mapglobe.component.md",
+      "header": "ViewComponent",
+      "functionName": "View"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "canvasState": {
+    "position": {
+      "x": 392.30582016086197,
+      "y": 408.09804064899936
+    },
+    "zoom": 0.3768894828730002,
+    "isDarkMode": true,
+    "isCanvasLocked": false
+  },
+  "boxes": [
+    {
+      "id": "box-1748445315732-ijfl94",
+      "x": -440.42312421364073,
+      "y": -684.1853816124058,
+      "width": 1008.2053994759741,
+      "height": 585.9953879160164,
+      "baseColor": "white",
+      "backgroundColor": "rgba(50, 50, 50, 0.7)",
+      "opacity": 1,
+      "border": "1px dashed #888",
+      "label": "Datacore Component (Edit to Configure)",
+      "type": "datacore-component",
+      "filePath": "_OPERATION/PUBLIC/DATACORE/1 DATACORE.flexilis/D.q.datacore.flexilis.component.md",
+      "header": "ViewComponent",
+      "functionName": "View"
+    },
+    {
+      "id": "box-1748445365231-jaeol",
+      "x": -985.2146579437228,
+      "y": -676.822230800949,
+      "width": 531.8758191631232,
+      "height": 566.406291047713,
+      "baseColor": "white",
+      "backgroundColor": "rgba(50, 50, 50, 0.7)",
+      "opacity": 1,
+      "border": "1px dashed #888",
+      "label": "Datacore Component (Edit to Configure)",
+      "type": "datacore-component",
+      "filePath": "_OPERATION/PRIVATE/DATACORE/9 ContentViewer888/D.q.contentviewer888.viewer.md",
+      "header": "ViewComponent",
+      "functionName": "ContentExplorer"
+    }
+  ]
+}

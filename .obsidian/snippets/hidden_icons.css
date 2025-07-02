@@ -1,0 +1,23 @@
+
+
+/* For default theme */
+.cm-highlight {
+  background-color: #542c6e !important;
+}
+
+
+.svg-icon.lucide-layout-dashboard {
+  display: none;
+}
+
+.svg-icon.lucide-calendar {
+  display: none;
+}
+
+.svg-icon.BratIcon {
+  display: none;
+}
+
+.svg-icon.lucide-files {
+  display: none;
+}

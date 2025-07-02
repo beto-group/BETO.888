@@ -1,7 +1,7 @@
 
 # BETO.888 - An Evolving Obsidian Experience
 
-![BETO.888 Cover](beto.888.cover.gif)
+![BETO.888 Cover](_RESOURCES/GIF/beto.888.cover.gif)
 
 Welcome to **BETO.888**, an ever-evolving Obsidian Vault from **BETO.GROUP**. This vault is designed to be a powerful, dynamic toolkit for thought, creation, and personal development. It's a space where ideas are forged and reality is shaped by what you *do* and desire.
 

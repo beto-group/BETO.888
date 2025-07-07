@@ -1,0 +1,35 @@
+---
+permalink: obsidian.sidebars.locations
+---
+
+## LEFT SIDEBAR
+
+- FILE STORAGE
+- SEARCH VAULT
+
+## CENTER
+
+- WORK STATION
+
+## RIGHT SIDEBAR
+
+### TOP
+
+- CALENDAR
+- TAGS
+
+### BOTTOM
+
+- HELP | MORE INFO
+- DIFFERENT FILTERS ON VAULT
+	- ALL RECIPES
+		- PER GENRE
+		- PER KEYWORDS
+		- PER SOURCES
+		- TAGS
+		- RECENTLY ADDED
+	- ALL NOTES
+
+
+
+

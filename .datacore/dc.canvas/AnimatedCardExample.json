@@ -1,0 +1,31 @@
+{
+  "canvasState": {
+    "position": {
+      "x": -34.488852314124095,
+      "y": 58.072367345291084
+    },
+    "zoom": 0.43629668761085694,
+    "isDarkMode": true,
+    "isCanvasLocked": false
+  },
+  "boxes": [
+    {
+      "id": "box-1751333676742-aqd4o",
+      "x": 579.4048120276772,
+      "y": 91.9404536569219,
+      "width": 600,
+      "height": 888,
+      "baseColor": "white",
+      "backgroundColor": "rgba(50, 50, 50, 0.7)",
+      "opacity": 1,
+      "border": "1px dashed #888",
+      "label": "Datacore Component (Edit to Configure)",
+      "type": "datacore-component",
+      "filePath": "_OPERATION/PRIVATE/DATACORE/34 AnimatedCard/D.q.animatedcard.component.md",
+      "header": "ViewComponent",
+      "functionName": "WorldView",
+      "autoReload": false,
+      "props": {}
+    }
+  ]
+}

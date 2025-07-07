@@ -1,0 +1,28 @@
+
+
+[WORK IN PROGRESS]
+
+
+
+
+ENIGMAS:
+
+
+IDEAS
+ - polish them ish
+	 - share
+		 - [ ] X
+		 - [ ] IG / META / THREADS 
+		 - [ ] COMMUNITy FORUMS
+			 - [ ] REDDIT
+			 - [ ] DISCORD
+			 - [ ] DISCOURSE
+		 - [ ] LINKEDIN / MEDIUM
+		 - [ ] GITHUB
+		 - [ ] TIKTOK
+		 - [ ] YOUTUBE / VIMEO / ODYSEE / RUMBLE?
+
+- DIFF POSTING STYLE DEPENDING ON PLATFORM
+	- CREATE SERIES FROM PLATFORM WITH BEST REACH
+
+

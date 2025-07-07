@@ -1,0 +1,183 @@
+{
+  "dualConfigs": false,
+  "showConsoleLog": false,
+  "desktop": {
+    "shortDelaySeconds": 3,
+    "longDelaySeconds": 8,
+    "delayBetweenPlugins": 40,
+    "defaultStartupType": null,
+    "showDescriptions": true,
+    "enableDependencies": false,
+    "plugins": {
+      "3d-graph": {
+        "startupType": "disabled"
+      },
+      "table-editor-obsidian": {
+        "startupType": "disabled"
+      },
+      "obsidian42-brat": {
+        "startupType": "instant"
+      },
+      "breadcrumbs": {
+        "startupType": "disabled"
+      },
+      "buttons": {
+        "startupType": "disabled"
+      },
+      "cmdr": {
+        "startupType": "long"
+      },
+      "convert-url-to-iframe": {
+        "startupType": "disabled"
+      },
+      "copilot": {
+        "startupType": "disabled"
+      },
+      "obsidian-custom-frames": {
+        "startupType": "instant"
+      },
+      "notion-like-tables": {
+        "startupType": "disabled"
+      },
+      "dataview": {
+        "startupType": "instant"
+      },
+      "cm-editor-syntax-highlight-obsidian": {
+        "startupType": "disabled"
+      },
+      "obsidian-mkdocs-publisher": {
+        "startupType": "disabled"
+      },
+      "excalibrain": {
+        "startupType": "disabled"
+      },
+      "obsidian-excalidraw-plugin": {
+        "startupType": "instant"
+      },
+      "fantasy-calendar": {
+        "startupType": "disabled"
+      },
+      "obsidian-full-calendar": {
+        "startupType": "disabled"
+      },
+      "obsidian-git": {
+        "startupType": "disabled"
+      },
+      "helpmate": {
+        "startupType": "disabled"
+      },
+      "obsidian-hover-editor": {
+        "startupType": "instant"
+      },
+      "obsidian-icon-folder": {
+        "startupType": "disabled"
+      },
+      "obsidian-kanban": {
+        "startupType": "long"
+      },
+      "make-md": {
+        "startupType": "disabled"
+      },
+      "obsidian-minimal-settings": {
+        "startupType": "disabled"
+      },
+      "modalforms": {
+        "startupType": "disabled"
+      },
+      "obsidian-outliner": {
+        "startupType": "disabled"
+      },
+      "pane-relief": {
+        "startupType": "disabled"
+      },
+      "obsidian-projects": {
+        "startupType": "disabled"
+      },
+      "quickadd": {
+        "startupType": "instant"
+      },
+      "templater-obsidian": {
+        "startupType": "long"
+      },
+      "terminal": {
+        "startupType": "disabled"
+      },
+      "tldraw": {
+        "startupType": "disabled"
+      },
+      "code-files": {
+        "startupType": "instant"
+      },
+      "dataview-publisher": {
+        "startupType": "instant"
+      },
+      "datacore": {
+        "startupType": "instant"
+      },
+      "surfing": {
+        "startupType": "instant"
+      },
+      "mesh-ai": {
+        "startupType": "short"
+      },
+      "api-request": {
+        "startupType": "disabled"
+      },
+      "command-tracker": {
+        "startupType": "instant"
+      },
+      "vertical-tabs": {
+        "startupType": "disabled"
+      },
+      "break-page": {
+        "startupType": "disabled"
+      },
+      "multi-properties": {
+        "startupType": "disabled"
+      },
+      "python-scripter": {
+        "startupType": "instant"
+      },
+      "auto-card-link": {
+        "startupType": "disabled"
+      },
+      "morgen-tasks": {
+        "startupType": "instant"
+      },
+      "calendarium": {
+        "startupType": "long"
+      },
+      "markwhen": {
+        "startupType": "disabled"
+      },
+      "obsidian-map-view": {
+        "startupType": "instant"
+      },
+      "smart-composer": {
+        "startupType": "disabled"
+      },
+      "local-backup": {
+        "startupType": "disabled"
+      },
+      "3d-graph-new": {
+        "startupType": "disabled"
+      },
+      "tags-routes": {
+        "startupType": "disabled"
+      },
+      "image-converter": {
+        "startupType": "short"
+      },
+      "ai-mentor": {
+        "startupType": "instant"
+      },
+      "extended-graph": {
+        "startupType": "instant"
+      },
+      "systemsculpt-ai": {
+        "startupType": "instant"
+      }
+    },
+    "loadOrder": []
+  }
+}

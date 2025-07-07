@@ -71,13 +71,6 @@ This vault is more than just a collection of notes; it's a feature-rich platform
 *   📜 **Embedded Guides:** Your vault comes with this README, a full [FAQ](https://www.beto.group/faq), and our [[LICENSE GUIDE]] to ensure you have all the information you need right at your fingertips.
 *   🔮 **[COMING SOON] The "Enigmas" Collection:** A future expansion will add curated knowledge packs on diverse topics (Health, Wealth, Experiences) designed to spark deep exploration.
 
----
-
-## Download
-
-github repo
-
-
 -------
 ##  License
 

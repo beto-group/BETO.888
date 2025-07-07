@@ -9,24 +9,49 @@ Our mission is simple and cyclical: **Discover, Learn, Develop, Teach, Repeat.**
 
 ---
 ## 🚀 Quick Start & Installation
+**Prerequisites:** You must have the Obsidian.md application installed on your device. Git is optional.
 
-**Prerequisites:** You must have the [Obsidian.md](https://www.google.com/url?sa=E&q=https%3A%2F%2Fobsidian.md%2F) application and [Git](https://www.google.com/url?sa=E&q=https%3A%2F%2Fgit-scm.com%2Fdownloads) installed on your device.
+There are two ways to install this vault. Choose the one that suits you best.
 
-### Installation Steps
+---
 
-1. **Clone the Vault:**  
-    Open your computer's terminal (or Command Prompt / PowerShell on Windows) and run the following command. This will download the repository into a new BETO.888 folder.
+#### Method 1: Direct Download (Simple & Quick)
+This is the easiest method if you don't use Git.
 
-```
-git clone https://github.com/BETO-GROUP/BETO.888
-```
+1.  **Download the ZIP file:**
+    - Go to the top of the repository page: [https://github.com/BETO-GROUP/BETO.888](https://github.com/BETO-GROUP/BETO.888)
+    - Click the green `<> Code` button.
+    - Select `Download ZIP`.
 
-1. **Open in Obsidian:**
+2.  **Unzip the folder:**
+    - Find the downloaded `.zip` file on your computer and unzip it.
+    - This will create a folder named `BETO.888-main`. You can rename it to just `BETO.888` for simplicity.
+
+3.  **Open in Obsidian:**
     - Launch the Obsidian application.
-    - Click on **"Open another vault"** (the vault icon in the left-hand ribbon).        
-    - Select **"Open folder as vault"**.
-    - Navigate to the BETO.888 folder you just cloned in the previous step and select it.
-        
+    - Click on "Open another vault" (the vault icon in the left-hand ribbon).
+    - Select "Open folder as vault".
+    - Navigate to the folder you just unzipped (`BETO.888-main` or `BETO.888`) and select it.
+
+---
+
+#### Method 2: Using Git (Recommended for updates)
+This method uses Git to clone the repository. The main advantage is that it's much easier to get future updates.
+
+1.  **Clone the Vault:**
+    - Make sure you have Git installed.
+    - Open your computer's terminal (or Command Prompt / PowerShell on Windows) and run the following command. This will download the repository into a new `BETO.888` folder.
+    ```shell
+    git clone https://github.com/BETO-GROUP/BETO.888
+    ```
+
+2.  **Open in Obsidian:**
+    - Launch the Obsidian application.
+    - Click on "Open another vault".
+    - Select "Open folder as vault".
+    - Navigate to the `BETO.888` folder you just cloned and select it.
+
+---
 
 That's it! The BETO.888 vault will open, and your journey begins.
 
@@ -63,7 +88,7 @@ This is a critical part of using our work. We've made it as simple as possible.
 *   **Your Sole Obligation:** You **must** include our original copyright notice and the full MIT license text (found in the `LICENSE.md` file) in any substantial distribution of this work.
 
 > [!WARNING]
-> This is a summary. For full legal clarity, please read the `LICENSE.md` file included in this vault and **[TOS - SECTION 1](https://www.beto.group/terms_of_service#1.+Licensing+Model)*.
+> This is a summary. For full legal clarity, please read the `LICENSE.md` file included in this vault and **[TOS - SECTION 1](https://www.beto.group/terms_of_service#1.+Licensing+Model)**.
 
 ---
 

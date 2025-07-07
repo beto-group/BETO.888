@@ -48,7 +48,7 @@
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -160,10 +160,10 @@
             "state": {
               "type": "file-properties",
               "state": {
-                "file": "_RESOURCES/ASSETS/888/ASSETS LIBRARY_.a.md"
+                "file": "README.md"
               },
               "icon": "lucide-info",
-              "title": "File properties for ASSETS LIBRARY_.a"
+              "title": "File properties for README"
             }
           },
           {
@@ -265,8 +265,9 @@
       "obsidian42-brat:BRAT": true
     }
   },
-  "active": "d9c2402be7ceda3c",
+  "active": "d60f576ffdd70a18",
   "lastOpenFiles": [
+    "_RESOURCES/ASSETS/888/ASSETS LIBRARY_.a.md",
     "README.md",
     "_OPERATION/PRIVATE/DATACORE/DATACORE.showcase.md",
     "_RESOURCES/ASSETS/888/ASSETS_.A/HAND_v13_.A.svg",
@@ -299,7 +300,6 @@
     "_RESOURCES/ASSETS/888/ASSETS_.A/ENLIGHTMENT_v01_.A 1.md",
     "_RESOURCES/ASSETS/888/ASSETS_.A/ENLIGHTMENT_v01_.A.md",
     "_RESOURCES/ASSETS/888/ASSETS_.A/OVERVIEW_v01_.A.md",
-    "_RESOURCES/ASSETS/888/ASSETS LIBRARY_.a.md",
     "_OPERATION/PUBLIC/888.enigmas..md",
     "_OPERATION/PRIVATE/DATACORE/29 FuzzyText/D.q.fuzzytext.viewer.md",
     "_OPERATION/PRIVATE/DATACORE/36 MusicPlayer/D.q.musicplayer.component.md",

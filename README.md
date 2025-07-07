@@ -55,7 +55,7 @@ This method uses Git to clone the repository. The main advantage is that it's mu
 
 That's it! The BETO.888 vault will open, and your journey begins.
 
-> [!TIP]  
+> [!TIP]-
 > **To update the vault** in the future, navigate to its folder in your terminal and run git pull.
 > 
 > **Once the vault is open,** we recommend exploring the [[DATACORE.showcase]] note and the Bookmarked items in the left panel to get oriented.

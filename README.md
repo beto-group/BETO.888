@@ -92,7 +92,7 @@ BETO.GROUP thrives on its community. Your participation and feedback are what fu
 *   **Principle:** *Nullius in verba* — "Take nobody's word for it." We prove our commitment through action, and we value contributions over words.
 *   **Join the Conversation:** The best place to connect, ask questions, and share your work is our **[Discord Server](https://discord.gg/6rDp4q4Y2B)**.
 *   **Provide Feedback:** Found a bug? Have a brilliant idea? Share it in the `#feedback` channel on Discord. In line with our **Reciprocity Ethos**, valuable contributions are highly appreciated and may be recognized with community perks.
-*   **Stay Updated:** To see the latest changes, check the [[_OPERATION/PUBLIC/CHANGE LOG|CHANGE LOG]] note.
+*   **Stay Updated:** To see the latest changes, check the [CHANGE LOG](_OPERATION/PUBLIC/CHANGE LOG) note.
 
 ---
 

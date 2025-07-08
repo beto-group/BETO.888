@@ -3,20 +3,21 @@ aliases:
   - datacore.flexilis.v03
 ---
 
-###### NAVIGATE - BACK : [[888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_public/obsidian/DATACORE.flexilis]]
--------
+
+##### FILE
+
+###### COMPONENT : [[D.q.datacore.flexilis.v3.component|D.q.datacore.flexilis.v3.component]]
+
+###### VIEWER : [[D.q.datacore.flexilis.v3.viewer|D.q.datacore.flexilis.v3.viewer]]
+
+
+
+-----
 
 #### BUILD YOURSELF.
 	2 parts
 		1. MAIN COMPONENT CODE [component]
 		2. CALL COMPONENT [view]
-
-
-###### [[DATACORE.flexilis.component.v01]]
-
-###### [[DATACORE.flexilus.view.v01]]
-
-
 
 
 ----

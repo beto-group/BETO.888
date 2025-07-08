@@ -1,9 +1,6 @@
 ---
 permalink: obsidian.plugins.datacore.showcase
 ---
-	
-###### NAVIGATE - BACK : [[DATACORE]]
--------
 
 
 
@@ -28,11 +25,11 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [BOUNTY VIEW 🎅](7%20BountyView%20🎅/BOUNTY%20VIEW%20🎅.md)
 
-###### [[CONTENT EXPLORER 888]]
+###### [CONTENT EXPLORER 888](9%20ContentExplorer888/Content%20EXPLORER%20888.md)
 
-###### [[FITNESS EXPLORER]]
+###### [FITNESS EXPLORER](8%20FitnessExplorer/FITNESS%20EXPLORER.md)
 
-###### [[ACTIVITYWATCH DASHBOARD]] {NEW*}
+###### [ACTIVITYWATCH DASHBOARD](35%20ActivityWatchDashboard/ACTIVITYWATCH%20DASHBOARD.md) {NEW*}
 
 
 
@@ -40,7 +37,7 @@ permalink: obsidian.plugins.datacore.showcase
 ## **Development & Building Tools**
 
 
-###### [[DATACORE.flexilis]]
+###### [DATACORE.flexilis](0%20DATACORE.flexilis/DATACORE.flexilis.md)
 
 ###### [[CUSTOM IFRAME BUILDER]]
 

@@ -78,9 +78,9 @@ permalink: obsidian.plugins.datacore.query
 ###### [[D.q.component.v10.]]
 	broken
 
-###### [[D.q.view.v03.]]
-###### [[D.q.component.v09.]]
-- [ ]  [[Datacore No Code Flexilis Query v02]] - demo
+###### [[D.q.datacore.flexilis.v2.viewer]]
+###### [[D.q.datacore.flexilis.v2.component]]
+- [ ]  [[DATACORE.flexilis.v2]] - demo
 	best so far
 		closest to what we want.
 			- no delete or add file currently
@@ -131,8 +131,8 @@ THESE ARE JUST MASSIVE CODE BLOCKS
 ###### [[DATACORE.query.basic]]
 
 
-###### [[C.d.e.031.]]
-- [ ]  [[Datacore No Code Flexilis Query v01]] - demo
+###### [[D.q.datacore.flexilis.v1.viewer]]
+- [ ]  [[DATACORE.flexilis.v1]] - demo
 	good good
 		bug with group by [no pagination]
 		+ header not staying fix with horizontal scroll

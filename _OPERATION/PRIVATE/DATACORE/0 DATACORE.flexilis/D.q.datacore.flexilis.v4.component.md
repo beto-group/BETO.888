@@ -18,7 +18,7 @@ permalink: datacore.flexilis.component
 ////////////////////////////////////////////////////
 ///             Main View Component              ///
 ////////////////////////////////////////////////////
-const componentFile = "_OPERATION/PUBLIC/DATACORE/1 DATACORE.flexilis/D.q.datacore.flexilis.component.md"; //CHANGE this to your own PATH/renamed filename
+const componentFile = "_OPERATION/PRIVATE/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v4.component.md"; //CHANGE this to your own PATH/renamed filename
 
 // Import initial settings, helper functions, components, and styles.
 const { initialSettings } = await dc.require(dc.headerLink(componentFile, "InitialSettings"));
@@ -725,7 +725,7 @@ return { View, DisplaySettingsEditor };
 ///                 Components                   ///
 ////////////////////////////////////////////////////
 
-const componentFileComponents = "_OPERATION/PUBLIC/DATACORE/1 DATACORE.flexilis/D.q.datacore.flexilis.component.md"; //CHANGE this to your own PATH/renamed filename
+const componentFileComponents = "_OPERATION/PRIVATE/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v4.component.md"; //CHANGE this to your own PATH/renamed filename
 
 // Import React hooks and helper functions.
 const { useState, useEffect, useMemo, useRef } = dc;

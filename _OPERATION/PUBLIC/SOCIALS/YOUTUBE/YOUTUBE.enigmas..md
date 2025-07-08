@@ -96,7 +96,7 @@ OKAY discovery today,
 
 you cant actually embed youtube video inside website if they get claim for any sort of copyright claim
 	- right now vid for music copyrighted . oopsie hehe
-THIS VID = [[Datacore No Code Flexilis Query v02]]
+THIS VID = [[DATACORE.flexilis.v2]]
 
 
 ------

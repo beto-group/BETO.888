@@ -5,8 +5,17 @@ aliases:
 permalink: datacore.flexilis.v02
 ---
 
-###### NAVIGATE - BACK : [[888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_public/obsidian/DATACORE.flexilis]]
-------
+
+
+###### COMPONENT:  [[D.q.datacore.flexilis.v2.component]]
+###### VIEW: [[D.q.datacore.flexilis.v2.viewer]]
+
+
+
+-----
+
+<iframe allowfullscreen src="https://www.youtube.com/watch?v=DPOTy1so-zw" width="100%" height="555" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ></iframe>
+
 
 https://www.youtube.com/watch?v=DPOTy1so-zw
 
@@ -42,20 +51,6 @@ Just having a blast with this, but don't let me have all the fun - dive in and p
 
 Occasional bugs, Oh, and here's a pro tip: grab yourself an Obsidian code editor plugin. I'm using [Code Files](https://obsidian.md/plugins?id=code-files) one [but feel free to explore others]. Trust me, it's an absolute game-changer!
 
-
-#### FILES
-
-###### COMPONENT:  [[D.q.component.v09.]]
-###### VIEW: [[D.q.view.v03.]]
-
-
-
-### RELATUS
-
-- [ ] [[OBSIDIAN|OBSIDIAN]]
-	- [ ] [[OBSIDIAN.plugins.community]]
-		- [ ] [[DATACORE]]
-			- [ ] [[DATACORE.query]]
 
 
 -----

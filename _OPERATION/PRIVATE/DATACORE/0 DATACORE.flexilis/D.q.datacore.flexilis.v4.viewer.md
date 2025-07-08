@@ -23,7 +23,7 @@ DOWNLOAD [here](https://bafybeiad4vqixutf56mbdn2cxvof4govu2qvx2l2dwfwevdoku4u4nx
 // pagination, display settings, and placeholder text.
 
 // Retrieve the View component from the setup file [update path to file location]
-const { View } = await dc.require(dc.headerLink("_OPERATION/PUBLIC/DATACORE/1 DATACORE.flexilis/D.q.datacore.flexilis.component.md", "ViewComponent"));
+const { View } = await dc.require(dc.headerLink("_OPERATION/PRIVATE/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v4.component.md", "ViewComponent"));
 
 // Customize your settings here
 const initialSettingsOverride = {

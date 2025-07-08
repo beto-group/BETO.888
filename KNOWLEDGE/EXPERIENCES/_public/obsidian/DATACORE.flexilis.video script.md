@@ -2,7 +2,7 @@
 permalink: datacore.flexilis.v04.video_script
 ---
 
-###### NAVIGATE - BACK : [[DATACORE.flexilis.v04]]
+###### NAVIGATE - BACK : [[DATACORE.flexilis.v4]]
 ------
 #### WALKTHROUGH  #1
 

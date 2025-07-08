@@ -1,6 +1,7 @@
 
 
 
+
 ```datacorejsx
 // Import necessary hooks and components
 const { useState, useEffect } = dc;

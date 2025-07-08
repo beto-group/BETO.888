@@ -88,7 +88,7 @@ Datacore
    Add double group
 https://forum.obsidian.md/t/how-to-produce-a-dataview-table-consisting-of-a-two-level-grouping/85516/13
 did it 
-- [ ] [[Datacore No Code Flexilis Query v02|DatacoreNoCodeFlexilisQuery.v02]]
+- [ ] [[DATACORE.flexilis.v2|DatacoreNoCodeFlexilisQuery.v02]]
 
 
 -----

@@ -19,14 +19,14 @@
     - Requires an internet connection to download its core libraries (Babylon.js, Havok).
 
 
-![[world_888.webp]]
+![[world_888.webp](/_RESOURCES/IMAGES/world_888.webp)
 
 
 
 
 ### Components
 
-###### [[D.q.world888.viewer|World 888 Viewer]]
+###### [World 888 Viewer](D.q.world888.viewer.md)
 
-###### [[D.q.world888.component|World 888 Component]]
+###### [World 888 Component](D.q.world888.component.md)
 

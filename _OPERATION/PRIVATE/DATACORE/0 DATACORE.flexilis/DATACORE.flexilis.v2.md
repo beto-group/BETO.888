@@ -7,8 +7,9 @@ permalink: datacore.flexilis.v02
 
 
 
-###### COMPONENT:  [[D.q.datacore.flexilis.v2.component]]
-###### VIEW: [[D.q.datacore.flexilis.v2.viewer]]
+###### COMPONENT:  [D.q.datacore.flexilis.v2.component](D.q.datacore.flexilis.v2.component.md)
+
+###### VIEW: [D.q.datacore.flexilis.v2.viewer](D.q.datacore.flexilis.v2.viewer.md)
 
 
 

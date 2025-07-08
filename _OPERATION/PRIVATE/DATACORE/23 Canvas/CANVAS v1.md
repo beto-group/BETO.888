@@ -25,14 +25,14 @@
 
 
 
-![[canvas_1.webp]]
+![canvas_1.webp](/_RESOURCES/IMAGES/canvas_1.webp)
 
 
 
 
 ### Components
 
-###### [[D.q.canvas.viewer.v1|Canvas v1 Viewer]]
+###### [Canvas v1 Viewer](D.q.canvas.viewer.v1.md)
 
-###### [[D.q.canvas.component.v1|Canvas v1 Component]]
+###### [Canvas v1 Component](D.q.canvas.component.v1.md)
 

@@ -18,15 +18,15 @@
     - Function without access to the dc.app object provided by the Datacore environment.
 
 
-![[external_input_blocker.webp]]
+![external_input_blocker.webp](/_RESOURCES/IMAGES/external_input_blocker.webp)
 
 
 
 
 ### Components
 
-###### [[D.q.externalinputblocker.viewer|External Input Blocker Viewer]]
+###### [External Input Blocker Viewer](D.q.externalinputblocker.viewer.md)
 
-###### [[D.q.externalinputblocker.component|External Input Blocker Component]]
+###### [External Input Blocker Component](D.q.externalinputblocker.component.md)
 
 

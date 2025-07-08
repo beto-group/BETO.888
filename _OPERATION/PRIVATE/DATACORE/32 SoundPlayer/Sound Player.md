@@ -19,14 +19,14 @@
 
 
 
-![[sound_player.webp]]
+![sound_player.webp](/_RESOURCES/IMAGES/sound_player.webp)
 
 
 
 ### Components
 
 
-###### [[D.q.soundplayer.viewer|Sound Player Viewer]]
+###### [Sound Player Viewer](D.q.soundplayer.viewer.md)
 
-###### [[D.q.soundplayer.component|Sound Player Component]]
+###### [Sound Player Component](D.q.soundplayer.component.md)
 

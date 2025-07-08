@@ -19,13 +19,13 @@
     - Remember its "completed" state between page reloads; it re-evaluates the task file every time it loads.
 
 
-![[license_agreement.webp]]
+![license_agreement.webp](/_RESOURCES/IMAGES/license_agreement.webp)
 
 
 
 
 ### Components
 
-###### [[D.q.licenseagreement.viewer|License Agreement Viewer]]
+###### [License Agreement Viewer](D.q.licenseagreement.viewer.md)
 
-###### [[D.q.licenseagreement.component|License Agreement Component]]
+###### [License Agreement Component](D.q.licenseagreement.component.md)

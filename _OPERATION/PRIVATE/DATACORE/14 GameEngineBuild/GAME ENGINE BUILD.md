@@ -24,14 +24,14 @@
 <iframe allowfullscreen src="https://www.youtube.com/embed/w3mjNEaTR0k" width="100%" height="555" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ></iframe>
 
 
-![[game_engine_build.webp]]
+![game_engine_build.webp](/_RESOURCES/IMAGES/game_engine_build.webp)
 
 
 
 
 ### Components
 
-###### [[D.q.gameenginebuild.viewer|Game Engine Build Viewer]]
+###### [Game Engine Build Viewer](D.q.gameenginebuild.viewer.md)
 
-###### [[D.q.gameenginebuild.component|Game Engine Build Component]]
+###### [Game Engine Build Component](D.q.gameenginebuild.component.md)
 

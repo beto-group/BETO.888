@@ -24,13 +24,13 @@
     - Function if the ActivityWatch server is not running on the local machine.
 
 
-![[activity_watch.webp]]
+![activity_watch.webp](/_RESOURCES/IMAGES/activity_watch.webp)
 
 
 
 ### Components
 
-###### [[D.q.activitywatchdashboard.viewer|ActivityWatch Dashboard Viewer]]
+###### [ActivityWatch Dashboard Viewer](D.q.activitywatchdashboard.viewer.md)
 
-###### [[D.q.activitywatchdashboard.component|ActivityWatch Dashboard Component]]
+###### [ActivityWatch Dashboard Component](D.q.activitywatchdashboard.component.md)
 

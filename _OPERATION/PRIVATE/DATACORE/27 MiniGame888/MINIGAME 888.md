@@ -26,15 +26,15 @@
 
 
 
-![[minigame888.webp]]
+![minigame888.webp](/_RESOURCES/IMAGES/minigame888.webp)
 
 
 
 ### Components 
 
-###### [[D.q.minigame888.viewer|Minigame 888 Viewer]]
+###### [Minigame 888 Viewer](D.q.minigame888.viewer.md)
 
-###### [[D.q.minigame888.component|Minigame 888 Component]]
+###### [Minigame 888 Component](D.q.minigame888.component.md)
 
 
 

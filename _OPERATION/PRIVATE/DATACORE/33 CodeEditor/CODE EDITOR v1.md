@@ -14,7 +14,7 @@
     - No file save/load integration for edited code.
 
 
-![[code_editor_1.webp]]
+![code_editor_1.webp](/_RESOURCES/IMAGES/code_editor_1.webp)
 
 
 
@@ -22,6 +22,6 @@
 
 ### Components
 
-###### [[D.q.codeeditor.viewer.v1|Code Editor v1 Viewer]]
+###### [Code Editor v1 Viewer](D.q.codeeditor.viewer.v1.md)
 
-###### [[D.q.codeeditor.component.v1|Code Editor v1 Component]]
+###### [Code Editor v1 Component](D.q.codeeditor.component.v1.md)

@@ -23,7 +23,7 @@
 
 
 
-![[fitness_explorer.webp]]
+![fitness_explorer.webp](/_RESOURCES/IMAGES/fitness_explorer.webp)
 
 
 

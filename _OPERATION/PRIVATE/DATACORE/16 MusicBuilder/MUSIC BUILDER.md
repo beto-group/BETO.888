@@ -19,14 +19,14 @@
     - Function offline, as it is entirely dependent on CDN-hosted libraries and audio samples.
 
 
-![[music_builder.webp]]
+![music_builder.webp](/_RESOURCES/IMAGES/music_builder.webp)
 
 
 
 ### Components
 
-###### [[D.q.musicbuilder.viewer|Music Builder Viewer]]
+###### [Music Builder Viewer](D.q.musicbuilder.viewer.md)
 
-###### [[D.q.musicbuilder.component|Music Builder Component]]
+###### [Music Builder Component](D.q.musicbuilder.component.md)
 
 

@@ -25,10 +25,7 @@ permalink: obsidian.plugins.datacore.flexilis
 
 
 
-
-
-
-![[datacore_flexilis.webp]]
+![datacore_flexilis.webp](/_RESOURCES/IMAGES/datacore_flexilis.webp)
 
 ----
 #### LATEST
@@ -44,13 +41,13 @@ permalink: obsidian.plugins.datacore.flexilis
 #### REFERENCE
 
 
-###### [[DATACORE.flexilis.v4]]
+###### [DATACORE.flexilis.v4](DATACORE.flexilis.v4.md)
 
-###### [[DATACORE.flexilis.v3|DATACORE.flexilis.v03]] [unpublish]
+###### [DATACORE.flexilis.v03](DATACORE.flexilis.v3.md)  [unpublish]
 
-###### [[DATACORE.flexilis.v2|DATACORE.flexilis.v2]]
+###### [DATACORE.flexilis.v2](DATACORE.flexilis.v2.md)
 
-###### [[DATACORE.flexilis.v1|DATACORE.flexilis.v1]]
+###### [DATACORE.flexilis.v1](DATACORE.flexilis.v1)
 
 
 ------

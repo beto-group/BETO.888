@@ -23,13 +23,14 @@
 <iframe allowfullscreen src="https://www.youtube.com/embed/KS_PlZXM7uo" width="100%" height="555" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ></iframe>
 
 
-![[music_player.webp]]
+![music_player.webp](/_RESOURCES/IMAGES/music_player.webp)
 
 
 
 
 ### Components
 
-###### [[D.q.musicplayer.viewer|Music Player Viewer]]
+###### [Music Player Viewer](D.q.musicplayer.viewer.md)
 
-###### [[D.q.musicplayer.component|Music Player Component]]
+###### [Music Player Component](D.q.musicplayer.component.md)
+

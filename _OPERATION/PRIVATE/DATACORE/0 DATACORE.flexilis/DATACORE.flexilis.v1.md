@@ -8,7 +8,7 @@ permalink: datacore.flexilis.v01
 
 ##### FILE
 
-###### [[D.q.datacore.flexilis.v1.viewer|DATACORE.flexilis.v1.viewer]]
+###### [DATACORE.flexilis.v1.viewer](D.q.datacore.flexilis.v1.viewer.md)
 
 
 

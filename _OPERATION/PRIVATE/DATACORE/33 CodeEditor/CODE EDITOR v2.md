@@ -22,14 +22,14 @@
 
 
 
-![[code_editor_2.png]]
+![code_editor_2.webp](/_RESOURCES/IMAGES/code_editor_2.webp))
 
 
 
 
 ### Components
 
-###### [[D.q.codeeditor.viewer.v2|Code Editor v2 Viewer]]
+###### [Code Editor v2 Viewer](D.q.codeeditor.viewer.v2.md)
 
-###### [[D.q.codeeditor.component.v2|Code Editor v2 Component]]
+###### [Code Editor v2 Component](D.q.codeeditor.component.v2.md)
 

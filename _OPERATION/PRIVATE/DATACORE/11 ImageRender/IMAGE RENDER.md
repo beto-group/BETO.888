@@ -18,10 +18,10 @@
     - Does not provide playback controls for Lottie animations (it's set to autoplay and loop).
 
 
-![[image_renderer.webp]]
+![image_renderer.webp](/_RESOURCES/IMAGES/image_renderer.webp)
 
 
 
 ### Components
 
-###### [[d.q.imagerender.viewer|Image Render Viewer]]
+###### [Image Render Viewer](d.q.imagerender.viewer.md)

@@ -18,13 +18,13 @@
     - **Note:** The component is marked as a work-in-progress, with plans to improve its functionality.
 
 
-![[iframe_player.webp]]
+![iframe_player.webp](/_RESOURCES/IMAGES/iframe_player.webp)
 
 
 
 
 ### Components
 
-###### [[D.q.iframeplayer.viewer|Iframe Player Viewer]]
+###### [Iframe Player Viewer](D.q.iframeplayer.viewer.md)
 
-###### [[D.q.iframeplayer.component|Iframe Player Component]]
+###### [Iframe Player Component](D.q.iframeplayer.component.md)

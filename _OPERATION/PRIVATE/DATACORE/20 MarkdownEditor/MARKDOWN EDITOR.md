@@ -20,7 +20,7 @@
 
 
 
-![[markdown_editor.webp]]
+![markdown_editor.webp](/_RESOURCES/IMAGES/markdown_editor.webp)
 
 
 
@@ -28,7 +28,7 @@
 
 ### Components
 
-###### [[D.q.markdowneditor.viewer|Markdown Editor Viewer]]
+###### [Markdown Editor Viewer](D.q.markdowneditor.viewer.md)
 
-###### [[D.q.markdowneditor.component|Markdown Editor Component]]
+###### [Markdown Editor Component](D.q.markdowneditor.component.md)
 

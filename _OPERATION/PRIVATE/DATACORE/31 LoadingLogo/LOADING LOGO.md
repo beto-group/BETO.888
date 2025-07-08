@@ -18,13 +18,14 @@
     - Function without an internet connection on first run due to its dependency on the CDN-hosted Fuse.js library.
 
 
-![[loading_logo.webp]]
+![loading_logo.webp](/_RESOURCES/IMAGES/loading_logo.webp)
 
 
 
 
 ### Components
 
-###### [[D.q.loadinglogo.viewer|Loading Logo Viewer]]
+###### [Loading Logo Viewer](D.q.loadinglogo.viewer.md)
 
-###### [[D.q.loadinglogo.component|Loading Logo Component]]
+###### [Loading Logo Component](D.q.loadinglogo.component.md)
+

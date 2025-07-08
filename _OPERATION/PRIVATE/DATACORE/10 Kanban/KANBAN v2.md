@@ -22,12 +22,12 @@
 
 
 
-![[kanban.webp]]
+![kanban.webp](/_RESOURCES/IMAGES/kanban.webp)
 
 
 ### Components
 
-###### [[D.q.kanban.viewer|Kanban Viewer]]
+###### [Kanban Viewer](D.q.kanban.viewer.md)
 
-###### [[D.q.kanban.component|Kanban Component]]
+###### [|Kanban Component](D.q.kanban.component.md)
 

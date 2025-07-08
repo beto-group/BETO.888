@@ -25,11 +25,12 @@
 
 
 
-![[animated_card.webp]]
+![animated_card.webp](/_RESOURCES/IMAGES/animated_card.webp)
 
 
 ### Components
 
-###### [[D.q.animatedcard.viewer|Animated Card Viewer]]
+###### [Animated Card Viewer](D.q.animatedcard.viewer.md)
 
-###### [[D.q.animatedcard.component|Animated Card Component]]
+###### [Animated Card Component](D.q.animatedcard.component.md)
+

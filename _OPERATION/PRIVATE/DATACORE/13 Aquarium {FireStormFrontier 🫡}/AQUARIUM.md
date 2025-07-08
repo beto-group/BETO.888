@@ -23,12 +23,12 @@
 
 
 
-![[aquarium_view_broken.webp]]
+![aquarium_view_broken.webp](/_RESOURCES/IMAGES/aquarium_view_broken.webp)
 
 
 
 ### Components
 
-###### [[D.q.Aquarium.viewer|Aquarium Viewer {FireStormFrontier 🫡}]]
+###### [Aquarium Viewer {FireStormFrontier 🫡}](D.q.Aquarium.viewer.md)
 
-###### [[D.q.Aquarium.component|Aquarium Component {FireStormFrontier 🫡}]]
+###### [Aquarium Component {FireStormFrontier 🫡}](D.q.Aquarium.component.md)

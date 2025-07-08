@@ -7,8 +7,6 @@ aliases:
 excalidraw-open-md: true
 ---
 
-###### NAVIGATE - BACK : [[DATACORE.flexilis]]
-----
 ### CAPABILITIES
 
 ##### DYNAMIC VIEWS 😎
@@ -51,16 +49,16 @@ excalidraw-open-md: true
 -----
 ### Components
 
-###### [[DATACORE.flexilis.v04.install|DATACORE.flexilis.install]]
+###### [DATACORE.flexilis.install](DATACORE.flexilis.v04.install.md)
 
 
 
 ----
 #### REFERENCES
 
-###### [[DATACORE.flexilis.v04.diagram|DATACORE.flexilis.diagram]] - not perfect needs a rework
+###### [DATACORE.flexilis.diagram](DATACORE.flexilis.v04.diagram.md) - not perfect needs a rework
 
-###### [[DATACORE.flexilis.video script]]
+###### [DATACORE.flexilis.video script](DATACORE.flexilis.video script.md)
 
 -----
 ### DISCLAIMER

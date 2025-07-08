@@ -18,12 +18,12 @@
     - Function offline, as it requires an internet connection to download the globe.gl library and its textures.
 
 
-![[map_globe.webp]]
+![map_globe.webp](/_RESOURCES/IMAGES/map_globe.webp)
 
 
 
 ### Components
 
-###### [[D.q.mapglobe.viewer]]
+###### [Map Globe Viewer](D.q.mapglobe.viewer.md)
 
-###### [[D.q.mapglobe.component]]
+###### [Map Globe Component](D.q.mapglobe.component.md)

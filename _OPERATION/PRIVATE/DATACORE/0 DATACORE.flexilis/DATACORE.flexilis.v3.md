@@ -6,9 +6,9 @@ aliases:
 
 ##### FILE
 
-###### COMPONENT : [[D.q.datacore.flexilis.v3.component|D.q.datacore.flexilis.v3.component]]
+###### COMPONENT : [D.q.datacore.flexilis.v3.component](D.q.datacore.flexilis.v3.component.md)
 
-###### VIEWER : [[D.q.datacore.flexilis.v3.viewer|D.q.datacore.flexilis.v3.viewer]]
+###### VIEWER : [D.q.datacore.flexilis.v3.viewer](D.q.datacore.flexilis.v3.viewer.md)
 
 
 

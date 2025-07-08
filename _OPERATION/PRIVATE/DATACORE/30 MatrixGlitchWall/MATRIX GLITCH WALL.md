@@ -24,12 +24,12 @@
     - Be configured (e.g., change colors, character set, speed) without editing the component's props in the code.
         
 
-![[matrix_glitchwall.webp]]
+![[matrix_glitchwall.webp](/_RESOURCES/IMAGES/matrix_glitchwall.webp)
 
 
 
 ### Components
 
-###### [[D.q.matrixglitchwall.viewer|Matrix Glitch Wall Viewer]]
+###### [Matrix Glitch Wall Viewer](D.q.matrixglitchwall.viewer.md)
 
-###### [[D.q.matrixglitchwall.component|Matrix Glitch Wall Component]]
+###### [Matrix Glitch Wall Component](D.q.matrixglitchwall.component.md)

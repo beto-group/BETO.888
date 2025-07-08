@@ -18,7 +18,7 @@
     - Wrap text automatically; it's designed for single-line or pre-formatted text blocks.
 
 
-![[fuzzytext.webp]]
+![fuzzytext.webp](/_RESOURCES/IMAGES/fuzzytext.webp)
 
 
 
@@ -26,8 +26,8 @@
 
 ### Components
 
-###### [[D.q.fuzzytext.viewer|Fuzzy Text Viewer]]
+###### [Fuzzy Text Viewer](D.q.fuzzytext.viewer.md)
 
-###### [[D.q.fuzzytext.component|Fuzzy Text Component]]
+###### [Fuzzy Text Component](D.q.fuzzytext.component.md)
 
 

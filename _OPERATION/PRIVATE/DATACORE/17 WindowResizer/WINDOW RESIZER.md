@@ -25,29 +25,29 @@ Missing the TAB Mode Showcase
 
 
 ##### NORMAL
-![[window_resizer_normal.webp]]
+![window_resizer_normal.webp](/_RESOURCES/IMAGES/window_resizer_normal.webp)
 
 ##### TAB
-![[window_resizer_tab.webp]]
+![window_resizer_tab.webp](/_RESOURCES/IMAGES/window_resizer_tab.webp)
 
 
 ##### PIP
-![[window_resizer_pip.webp]]
+![window_resizer_pip.webp](/_RESOURCES/IMAGES/window_resizer_pip.webp)
 
 
 ##### WINDOW
-![[window_resizer_window.webp]]
+![window_resizer_window.webp](/_RESOURCES/IMAGES/window_resizer_window.webp)
 
 ##### FULLSCREEN
-![[window_resizer_fullscreen.webp]]
+![window_resizer_fullscreen.webp](/_RESOURCES/IMAGES/window_resizer_fullscreen.webp)
 
 
 
 
 ### Components
 
-###### [[D.q.windowresizer.viewer|Window Resizer Viewer]]
+###### [Window Resizer Viewer](D.q.windowresizer.viewer.md)
 
-###### [[D.q.windowresizer.component|Window Resizer Component]]
+###### [Window Resizer Component](D.q.windowresizer.component.md)
 
 

@@ -16,7 +16,7 @@
 
 
 
-![[views_inceptions.webp]]
+![views_inceptions.webp](/_RESOURCES/IMAGES/views_inceptions.webp)
 
 
 
@@ -24,6 +24,6 @@
 
 ### Components
 
-###### [[D.q.viewsinceptions.viewer|Views Inceptions Viewer]]
+###### [Views Inceptions Viewer](D.q.viewsinceptions.viewer.md)
 
-###### [[D.q.viewsinceptions.component|Views Inceptions Component]]
+###### [Views Inceptions Component](D.q.viewsinceptions.component.md)

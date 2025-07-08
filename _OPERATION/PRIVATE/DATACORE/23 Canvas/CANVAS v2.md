@@ -19,12 +19,12 @@
     - Still does not support visual connectors (lines/arrows) between boxes.
 
 
-![[canvas_2.webp]]
+![canvas_2.webp](/_RESOURCES/IMAGES/canvas_2.webp)
 
 
 
 ### Components
 
-###### [[D.q.canvas.viewer.v2|Canvas v2 Viewer]]
+###### [Canvas v2 Viewer](D.q.canvas.viewer.v2.md)
 
-###### [[D.q.canvas.component.v2|Canvas v2 Component]]
+###### [Canvas v2 Component](D.q.canvas.component.v2.md)

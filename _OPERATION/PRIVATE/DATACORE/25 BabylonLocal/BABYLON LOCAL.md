@@ -19,7 +19,7 @@
     - Dynamically change the lighting or environment without editing the code.
 
 
-![[babylon_local.webp]]
+![babylon_local.webp](/_RESOURCES/IMAGES/babylon_local.webp)
 
 
 
@@ -27,6 +27,6 @@
 
 ### Components
 
-###### [[D.q.babylonlocal.viewer|Babylon Local Viewer]]
+###### [Babylon Local Viewer](D.q.babylonlocal.viewer.md)
 
-###### [[D.q.babylonlocal.component|Babylon Local Component]]
+###### [Babylon Local Component](D.q.babylonlocal.component.md)

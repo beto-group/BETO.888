@@ -16,15 +16,15 @@
     - Be configured to load different assets without editing the component's code, as it is a demonstration, not a general-purpose tool.
 
 
-![[loadscript.webp]]
+![loadscript.webp](/_RESOURCES/IMAGES/loadscript.webp)
 
 
 
 
 ### Components
 
-###### [[D.q.loadscript.viewer|Load Script Viewer]]
+###### [Load Script Viewer](D.q.loadscript.viewer.md)
 
-###### [[D.q.loadscript.component|Load Script Component]]
+###### [Load Script Component](D.q.loadscript.component.md)
 
 

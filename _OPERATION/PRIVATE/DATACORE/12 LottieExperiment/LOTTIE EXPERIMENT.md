@@ -22,11 +22,12 @@
 
 
 
-![[lottie_experiment.webp]]
+![lottie_experiment.webp](/_RESOURCES/IMAGES/lottie_experiment.webp)
 
 
 ### Components
 
-###### [[D.q.lottieexperiment.viewer|Lottie Experiment Viewer]]
+###### [Lottie Experiment Viewer](D.q.lottieexperiment.viewer.md)
 
-###### [[D.q.lottieexperiment.component|Lottie Experiment Component]]
+###### [Lottie Experiment Component](D.q.lottieexperiment.component.md)
+

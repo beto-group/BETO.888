@@ -19,12 +19,12 @@
 
 
 
-![[custom_iframebuilder.webp]]
+![custom_iframebuilder.webp](/_RESOURCES/IMAGES/custom_iframebuilder.webp)
 
 
 ### Components
 
 
-###### [[D.q.customiframebuilder.viewer|Custom Iframe Builder Viewer]]
+###### [Custom Iframe Builder Viewer](D.q.customiframebuilder.viewer.md)
 
-###### [[D.q.customiframebuilder.component|Custom Iframe Builder Component]]
+###### [Custom Iframe Builder Component](D.q.customiframebuilder.component.md)

@@ -18,12 +18,13 @@
     - Complex setup for non-coders.
 
 
-![[custom_feed.webp]]
+![custom_feed.webp](/_RESOURCES/IMAGES/custom_feed.webp)
 
 
 ### Components
 
 
-###### [[D.q.customfeed.viewer|Custom Feed Viewer]]
+###### [Custom Feed Viewer](D.q.customfeed.viewer.md)
 
-###### [[D.q.customfeed.component|Custom Feed Component]]
+###### [Custom Feed Component](D.q.customfeed.component.md)
+

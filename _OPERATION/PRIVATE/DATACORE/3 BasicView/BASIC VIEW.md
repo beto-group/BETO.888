@@ -15,10 +15,10 @@
     - Limited to static styling without additional customization.
 
 
-![[basic_view.webp]]
+![basic_view.webp](/_RESOURCES/IMAGES/basic_view.webp)
 
 ### Components
 
-###### [[D.q.basicview.viewer|Basic View Viewer]]
+###### [Basic View Viewer](D.q.basicview.viewer.md)
 
-###### [[D.q.basicview.component|Basic View Component]]
+###### [Basic View Component](D.q.basicview.component.md)

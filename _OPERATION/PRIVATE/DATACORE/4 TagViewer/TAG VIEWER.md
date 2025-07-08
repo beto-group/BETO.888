@@ -17,13 +17,13 @@
     - Complex setup for non-coders.
 
 
-![[tag_viewer.webp]]
+![tag_viewer.webp](/_RESOURCES/IMAGES/tag_viewer.webp)
 
 
 
 ### Components
 
 
-###### [[D.q.tagviewer.viewer|Tag Viewer Viewer]]
+###### [[Tag Viewer Viewer](D.q.tagviewer.viewer.md)
 
-###### [[D.q.tagviewer.component|Tag Viewer Component]]
+###### [Tag Viewer Component](D.q.tagviewer.component.md)

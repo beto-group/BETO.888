@@ -16,10 +16,10 @@
     - Limited to predefined columns (name, created, modified, tags).
 
 
-![[basic_query.webp]]
+![basic_query.webp](/_RESOURCES/IMAGES/basic_query.webp)
 
 
 ### Components
 
 
-###### [[DATACORE.query.basicquery|Basic Query Viewer]]
+###### [Basic Query Viewer](DATACORE.query.basicquery)

@@ -14,7 +14,7 @@
   - Limited to .namzu files; complex for non-coders.
 - **Visual**: 
 
-![[bounty_view.webp]]
+![bounty_view.webp](/_RESOURCES/IMAGES/bounty_view.webp)
 
 
 
@@ -22,6 +22,6 @@
 ### Components
 
 
-###### [[D.q.bountyview.viewer|Bounty View Viewer]]
+###### [Bounty View Viewer](D.q.bountyview.viewer.md)
 
-###### [[D.q.bountyview.component|Bounty View Component]]
+###### [Bounty View Component](D.q.bountyview.component.md)

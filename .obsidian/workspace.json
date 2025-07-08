@@ -50,6 +50,62 @@
             }
           },
           {
+            "id": "ca4fe1643953feec",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "_OPERATION/PRIVATE/DATACORE/7 BountyView 🎅/BOUNTY VIEW 🎅.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "BOUNTY VIEW 🎅"
+            }
+          },
+          {
+            "id": "712149dcc1b5a97d",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "_OPERATION/PRIVATE/DATACORE/4 TagViewer/TAG VIEWER.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "TAG VIEWER"
+            }
+          },
+          {
+            "id": "5abe0b7cfb701ebc",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "_OPERATION/PRIVATE/DATACORE/3 BasicView/BASIC VIEW.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "BASIC VIEW"
+            }
+          },
+          {
+            "id": "95ee79ffbb303208",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "_OPERATION/PRIVATE/DATACORE/2 BasicQuery/BASIC QUERY.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "BASIC QUERY"
+            }
+          },
+          {
             "id": "d3d26558edf0b414",
             "type": "leaf",
             "state": {
@@ -92,7 +148,7 @@
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -309,13 +365,26 @@
       "obsidian42-brat:BRAT": true
     }
   },
-  "active": "d3d26558edf0b414",
+  "active": "460f802b2f406e58",
   "lastOpenFiles": [
+    "_OPERATION/PRIVATE/DATACORE/DATACORE.showcase.md",
+    "_OPERATION/PRIVATE/DATACORE/5 CustomFeed/CUSTOM FEED.md",
+    "_OPERATION/PRIVATE/DATACORE/3 BasicView/BASIC VIEW.md",
+    "_OPERATION/PRIVATE/DATACORE/4 TagViewer/TAG VIEWER.md",
+    "_OPERATION/PRIVATE/DATACORE/7 BountyView 🎅/BOUNTY VIEW 🎅.md",
+    "_OPERATION/PRIVATE/DATACORE/7 BountyView 🎅/D.q.bountyview.viewer.md",
+    "_RESOURCES/IMAGES/tag_viewer.webp",
+    "_OPERATION/PRIVATE/DATACORE/5 CustomFeed/D.q.customfeed.component.md",
+    "_RESOURCES/IMAGES/basic_view.webp",
+    "_OPERATION/PRIVATE/DATACORE/3 BasicView/D.q.basicview.component.md",
+    "_OPERATION/PRIVATE/DATACORE/3 BasicView/D.q.basicview.viewer.md",
+    "_OPERATION/PRIVATE/DATACORE/().md",
+    "_OPERATION/PRIVATE/DATACORE/2 BasicQuery/BASIC QUERY.md",
+    "_OPERATION/PRIVATE/DATACORE/2 BasicQuery/DATACORE.query.basicquery.md",
+    "_OPERATION/PRIVATE/DATACORE/1 SearchQuery/SEARCH QUERY.md",
     "README.md",
     "_OPERATION/PUBLIC/DEVLOG/CHANGE LOG.md",
-    "_OPERATION/PRIVATE/DATACORE/1 SearchQuery/SEARCH QUERY.md",
     "_OPERATION/PRIVATE/DATACORE/1 SearchQuery/DATACORE.query.searchquery.md",
-    "_OPERATION/PRIVATE/DATACORE/DATACORE.showcase.md",
     "_OPERATION/PUBLIC/DEVLOG/DEVLOG.md",
     "_OPERATION/PRIVATE/DATACORE/35 ActivityWatchDashboard/ACTIVITYWATCH DASHBOARD.md",
     "_OPERATION/PRIVATE/DATACORE/36 MusicPlayer/MUSIC PLAYER.md",
@@ -326,17 +395,6 @@
     "_OPERATION/PRIVATE/DATACORE/32 SoundPlayer/Sound Player.md",
     "_OPERATION/PRIVATE/DATACORE/31 LoadingLogo/LOADING LOGO.md",
     "_OPERATION/PRIVATE/DATACORE/30 MatrixGlitchWall/MATRIX GLITCH WALL.md",
-    "_OPERATION/PRIVATE/DATACORE/29 FuzzyText/FUZZY TEXT.md",
-    "_OPERATION/PRIVATE/DATACORE/28 LoadScript/LOAD SCRIPT.md",
-    "_OPERATION/PRIVATE/DATACORE/33 CodeEditor/D.q.codeeditor.viewer.v2.md",
-    "_OPERATION/PRIVATE/DATACORE/27 MiniGame888/MINIGAME 888.md",
-    "_OPERATION/PRIVATE/DATACORE/26 LicenseAgreement/LICENSE AGREEMENT.md",
-    "_OPERATION/PRIVATE/DATACORE/25 BabylonLocal/BABYLON LOCAL.md",
-    "_OPERATION/PRIVATE/DATACORE/24 MapGlobe/MAP GLOBE.md",
-    "_OPERATION/PRIVATE/DATACORE/23 Canvas/CANVAS v2.md",
-    "_OPERATION/PRIVATE/DATACORE/23 Canvas/CANVAS v1.md",
-    "_OPERATION/PRIVATE/DATACORE/22 World888/WORLD 888.md",
-    "_OPERATION/PRIVATE/DATACORE/21 ExternalInputBlocker/EXTERNAL INPUT BLOCKER.md",
     "_RESOURCES/IMAGES/views_inceptions.png",
     "_RESOURCES/IMAGES/world_888.webp",
     "_RESOURCES/IMAGES/window_resizer_tab.webp",
@@ -344,9 +402,7 @@
     "_RESOURCES/IMAGES/window_resizer_normal.webp",
     "_RESOURCES/IMAGES/window_resizer_fullscreen.webp",
     "_RESOURCES/IMAGES/views_inceptions.webp",
-    "_RESOURCES/IMAGES/tag_viewer.webp",
     "_RESOURCES/IMAGES/sound_player.webp",
-    "_RESOURCES/IMAGES/window_resizer_window.webp",
     "_OPERATION/PUBLIC/DEVLOG",
     "_OPERATION/PUBLIC/untitled folder",
     "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_public/obsidian",

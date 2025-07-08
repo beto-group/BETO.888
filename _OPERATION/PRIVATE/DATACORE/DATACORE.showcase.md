@@ -13,20 +13,20 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [SEARCH QUERY](1%20SearchQuery/SEARCH%20QUERY.md)
 
-###### [[BASIC QUERY]]
+###### [BASIC QUERY](2%20BasicQuery/BASIC%20QUERY.md)
 
-###### [[BASIC VIEW]]
+###### [BASIC VIEW](3%20BasicView/BASIC%20VIEW.md)
 
-###### [[TAG VIEWER]]
+###### [TAG VIEWER](4%20TagViewer/TAG%20VIEWER.md)
 
 
 
 ## **Content Viewers & Explorers**
 
 
-###### [[CUSTOM FEED]]
+###### [CUSTOM FEED](5%20CustomFeed/CUSTOM%20FEED.md)
 
-###### [[BOUNTY VIEW 🎅]]
+###### [BOUNTY VIEW 🎅](7%20BountyView%20🎅/BOUNTY%20VIEW%20🎅.md)
 
 ###### [[CONTENT EXPLORER 888]]
 

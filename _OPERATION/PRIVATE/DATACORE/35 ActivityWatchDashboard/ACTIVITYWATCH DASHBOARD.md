@@ -30,7 +30,7 @@
 
 ### Components
 
-###### [[D.q.activitywatchdashboard.viewer|ActivityWatchDashboard Viewer]]
+###### [[D.q.activitywatchdashboard.viewer|ActivityWatch Dashboard Viewer]]
 
-###### [[D.q.activitywatchdashboard.component|ActivityWatchDashboard Component]]
+###### [[D.q.activitywatchdashboard.component|ActivityWatch Dashboard Component]]
 

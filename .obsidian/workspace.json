@@ -8,34 +8,6 @@
         "type": "tabs",
         "children": [
           {
-            "id": "741464d6ca2e03c7",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "_OPERATION/PUBLIC/DEVLOG/CHANGE LOG.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "CHANGE LOG"
-            }
-          },
-          {
-            "id": "6d6cbeed36f1d18a",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "README.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "README"
-            }
-          },
-          {
             "id": "6fd6c730a8c0de60",
             "type": "leaf",
             "state": {
@@ -64,7 +36,7 @@
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -117,8 +89,7 @@
               "title": "Files"
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "horizontal",
@@ -283,11 +254,33 @@
   },
   "active": "0bf0f6aabe66c1bc",
   "lastOpenFiles": [
-    "_OPERATION/PUBLIC/DEVLOG/CHANGE LOG.md",
+    "_OPERATION/PRIVATE/DATACORE/35 ActivityWatchDashboard/ACTIVITYWATCH DASHBOARD.md",
+    "_OPERATION/PRIVATE/DATACORE/36 MusicPlayer/MUSIC PLAYER.md",
+    "_OPERATION/PRIVATE/DATACORE/35 ActivityWatchDashboard/D.q.activitywatchdashboard.viewer.md",
     "_OPERATION/PUBLIC/DEVLOG/DEVLOG.md",
-    "README.md",
+    "_OPERATION/PRIVATE/DATACORE/34 AnimatedCard/ANIMATED CARD.md",
+    "_OPERATION/PRIVATE/DATACORE/33 CodeEditor/CODE EDITOR v1.md",
+    "_OPERATION/PRIVATE/DATACORE/33 CodeEditor/CODE EDITOR v2.md",
+    "_OPERATION/PRIVATE/DATACORE/32 SoundPlayer/Sound Player.md",
+    "_OPERATION/PRIVATE/DATACORE/31 LoadingLogo/LOADING LOGO.md",
+    "_OPERATION/PRIVATE/DATACORE/30 MatrixGlitchWall/MATRIX GLITCH WALL.md",
+    "_OPERATION/PRIVATE/DATACORE/29 FuzzyText/FUZZY TEXT.md",
+    "_OPERATION/PRIVATE/DATACORE/28 LoadScript/LOAD SCRIPT.md",
+    "_OPERATION/PRIVATE/DATACORE/33 CodeEditor/D.q.codeeditor.viewer.v2.md",
+    "_OPERATION/PRIVATE/DATACORE/27 MiniGame888/MINIGAME 888.md",
+    "_OPERATION/PRIVATE/DATACORE/26 LicenseAgreement/LICENSE AGREEMENT.md",
+    "_OPERATION/PRIVATE/DATACORE/25 BabylonLocal/BABYLON LOCAL.md",
+    "_OPERATION/PRIVATE/DATACORE/24 MapGlobe/MAP GLOBE.md",
+    "_OPERATION/PRIVATE/DATACORE/23 Canvas/CANVAS v2.md",
+    "_OPERATION/PRIVATE/DATACORE/23 Canvas/CANVAS v1.md",
+    "_OPERATION/PRIVATE/DATACORE/22 World888/WORLD 888.md",
+    "_OPERATION/PRIVATE/DATACORE/21 ExternalInputBlocker/EXTERNAL INPUT BLOCKER.md",
+    "_OPERATION/PRIVATE/DATACORE/26 LicenseAgreement/D.q.licenseagreement.component.md",
+    "_OPERATION/PRIVATE/DATACORE/20 MarkdownEditor/MARKDOWN EDITOR.md",
+    "_OPERATION/PRIVATE/DATACORE/19 IframePlayer/IFRAME PLAYER.md",
+    "_OPERATION/PRIVATE/DATACORE/18 ViewsInceptions/VIEWS INCEPTIONS.md",
+    "_OPERATION/PRIVATE/DATACORE/17 WindowResizer/WINDOW RESIZER.md",
     "_RESOURCES/IMAGES/views_inceptions.png",
-    "_OPERATION/PRIVATE/DATACORE/28 LoadScript/D.q.loadscript.component.md",
     "_RESOURCES/IMAGES/world_888.webp",
     "_RESOURCES/IMAGES/window_resizer_tab.webp",
     "_RESOURCES/IMAGES/window_resizer_pip.webp",
@@ -299,28 +292,6 @@
     "_RESOURCES/IMAGES/window_resizer_window.webp",
     "_OPERATION/PUBLIC/DEVLOG",
     "_OPERATION/PUBLIC/untitled folder",
-    "_OPERATION/PRIVATE/DATACORE/DATACORE.showcase.md",
-    "_OPERATION/PRIVATE/DATACORE/5 CustomFeed/CUSTOM FEED.md",
-    "_OPERATION/PRIVATE/DATACORE/35 ActivityWatchDashboard/ACTIVITY WATCH DASHBOARD.md",
-    "_OPERATION/PRIVATE/DATACORE/35 ActivityWatchDashboard/D.q.activitywatchdashboard.component.md",
-    "_OPERATION/PRIVATE/DATACORE/35 ActivityWatchDashboard/D.q.activitywatchdashboard.viewer.md",
-    "_OPERATION/PRIVATE/DATACORE/30 MatrixGlitchWall/MATRIX GLITCH WALL.md",
-    "_OPERATION/PRIVATE/DATACORE/30 MatrixGlitchWall/D.q.matrixglitchwall.viewer.md",
-    "_OPERATION/PRIVATE/DATACORE/30 MatrixGlitchWall/D.q.matrixglitchwall.component.md",
-    "_OPERATION/PRIVATE/DATACORE/28 LoadScript/D.q.loadscript.viewer.md",
-    "_OPERATION/PRIVATE/DATACORE/21 ExternalInputBlocker/EXTERNAL INPUT BLOCKER.md",
-    "_OPERATION/PRIVATE/DATACORE/21 ExternalInputBlocker/D.q.externalinputblocker.component.md",
-    "_OPERATION/PRIVATE/DATACORE/21 ExternalInputBlocker/D.q.externalinputblocker.viewer.md",
-    "_OPERATION/PRIVATE/DATACORE/17 WindowResizer/WINDOW RESIZER.md",
-    "_OPERATION/PRIVATE/DATACORE/4 TagViewer/TAG VIEWER.md",
-    "_OPERATION/PRIVATE/DATACORE/3 BasicView/BASIC VIEW.md",
-    "_OPERATION/PRIVATE/DATACORE/2 BasicQuery/BASIC QUERY.md",
-    "_OPERATION/PRIVATE/DATACORE/1 SearchQuery/SEARCH QUERY.md",
-    "_OPERATION/PRIVATE/DATACORE/11 ImageRender/IMAGE RENDER.md",
-    "_OPERATION/PRIVATE/DATACORE/29 FuzzyText/FUZZY TEXT.md",
-    "_OPERATION/PRIVATE/DATACORE/29 FuzzyText/D.q.fuzzytext.viewer.md",
-    "_OPERATION/PRIVATE/DATACORE/29 FuzzyText/D.q.fuzzytext.component.md",
-    "_OPERATION/PRIVATE/DATACORE/28 LoadScript/LOAD SCRIPT.md",
     "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_public/obsidian",
     "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_public",
     "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES",

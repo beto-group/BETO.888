@@ -32,7 +32,7 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [[FITNESS EXPLORER]]
 
-###### [[ACTIVITY WATCH DASHBOARD]] {NEW*}
+###### [[ACTIVITYWATCH DASHBOARD]] {NEW*}
 
 
 

@@ -15,6 +15,7 @@
     - Complex setup for non-coders.
 
 
+[![Watch Santa's Video](https://img.youtube.com/vi/0UvjBq09olQ/hqdefault.jpg)](https://www.youtube.com/watch?v=0UvjBq09olQ)
 
 <iframe allowfullscreen src="https://www.youtube.com/embed/0UvjBq09olQ" width="100%" height="555" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ></iframe>
 

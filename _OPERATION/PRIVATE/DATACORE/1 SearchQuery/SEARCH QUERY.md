@@ -25,4 +25,4 @@
 ### COMPONENTS
 
 
-###### [[DATACORE.query.searchquery|Search Query Viewer]]
+###### [Search Query Viewer](_OPERATION/PRIVATE/DATACORE/1%20SearchQuery/DATACORE.query.searchquery)

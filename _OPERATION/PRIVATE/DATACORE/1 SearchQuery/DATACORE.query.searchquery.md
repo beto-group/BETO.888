@@ -1,6 +1,7 @@
 
+Fun Fact cant retrieve images this way
 
-
+CASE SENSITIVE
 
 ```datacorejsx
 function BasicFileSearch() {

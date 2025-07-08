@@ -1,6 +1,5 @@
 
 
-![[music_player.webp]]
 
 
 

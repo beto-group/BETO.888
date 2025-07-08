@@ -7,8 +7,6 @@ permalink: obsidian.plugins.datacore.showcase
 
 
 
-
-
 ## **Core Query & Data Handling**
 
 
@@ -20,9 +18,6 @@ permalink: obsidian.plugins.datacore.showcase
 ###### [[BASIC VIEW]]
 
 ###### [[TAG VIEWER]]
-
-
-
 
 
 
@@ -103,28 +98,28 @@ permalink: obsidian.plugins.datacore.showcase
 ## **Media Players**
 
 
-###### [[D.q.iframeplayer.viewer|Iframe Player]]
+###### [[IFRAME PLAYER]]
 
-###### [[D.q.musicbuilder.viewer|Music Builder]]
+###### [[MUSIC BUILDER]]
 
-###### [[D.q.soundplayer.viewer|SoundPlayer]] {NEW*}
+###### [[Sound Player]] {NEW*}
 
-###### [[D.q.musicplayer.viewer|MusicPlayer]] {NEW*}
-https://www.youtube.com/watch?v=KS_PlZXM7uo
+###### [[MUSIC PLAYER]] {NEW*}
 
 
 
 ## **System & Utility Components**
 
+###### [[LICENSE AGREEMENT]]
 
-###### [[D.q.licenseagreement.viewer|LicenseAgreement]]
+###### [[WINDOW RESIZER]] {UPGRADE*}
 
-###### [[D.q.windowresizer.viewer|Window Resizer]] {UPGRADE*}
+###### [[EXTERNAL INPUT BLOCKER]]
 
-###### [[D.q.externalinputblocker.viewer|External Input Blocker]]
+###### [[LOAD SCRIPT]]
 
-###### [[D.q.loadscript.viewer|LoadScript]]
+###### [[FUZZY TEXT]] {NEW*}
 
-###### [[D.q.fuzzytext.viewer|FuzzyText]]  {NEW*}
+###### [[MATRIX GLITCH WALL]]  {NEW*}
 
-###### [[D.q.matrixglitchwall.viewer|MatrixGlitchWall]] {NEW*}
+

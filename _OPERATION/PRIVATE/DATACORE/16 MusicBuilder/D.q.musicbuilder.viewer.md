@@ -1,5 +1,4 @@
 
-![[music_builder.webp]]
 
 
 Burger menu doesnt really work

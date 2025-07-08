@@ -1,9 +1,7 @@
 
 
-![[external_input_blocker.webp]]
 
-Blocks obsidian commands from being triggered etc
-	there is way to get around {sadly wip}
+
 
 ```datacorejsx
 ////////////////////////////////////////////////////

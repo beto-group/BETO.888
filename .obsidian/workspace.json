@@ -20,62 +20,6 @@
               "icon": "lucide-file",
               "title": "DATACORE.showcase"
             }
-          },
-          {
-            "id": "486ead9f20b7c62b",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "_OPERATION/PRIVATE/DATACORE/23 Canvas/D.q.canvas.viewer.v1.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "D.q.canvas.viewer.v1"
-            }
-          },
-          {
-            "id": "540da55dd2f77ee0",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "_OPERATION/PRIVATE/DATACORE/34 AnimatedCard/ANIMATED CARD.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "ANIMATED CARD"
-            }
-          },
-          {
-            "id": "5fa357ddeb600a52",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "_OPERATION/PRIVATE/DATACORE/34 AnimatedCard/D.q.animatedcard.component.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "D.q.animatedcard.component"
-            }
-          },
-          {
-            "id": "5bbde6cf0695828b",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "_OPERATION/PRIVATE/DATACORE/27 MiniGame888/MINIGAME 888.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "MINIGAME 888"
-            }
           }
         ]
       }
@@ -296,42 +240,41 @@
   },
   "active": "741464d6ca2e03c7",
   "lastOpenFiles": [
-    "_OPERATION/PRIVATE/DATACORE/1 SearchQuery/SEARCH QUERY.md",
-    "_OPERATION/PRIVATE/DATACORE/1 SearchQuery/DATACORE.query.searchquery.md",
-    "_OPERATION/PRIVATE/DATACORE/DATACORE.showcase.md",
-    "_OPERATION/PRIVATE/DATACORE/2 BasicQuery/BASIC QUERY.md",
-    "_RESOURCES/IMAGES/basic_query.webp",
-    "_OPERATION/PRIVATE/DATACORE/2 BasicQuery/DATACORE.query.basicquery.md",
-    "_OPERATION/PRIVATE/DATACORE/3 BasicView/BASIC VIEW.md",
-    "basic_view.webp",
-    "_OPERATION/PRIVATE/DATACORE/3 BasicView/D.q.basicview.viewer.md",
-    "_OPERATION/PRIVATE/DATACORE/4 TagViewer/TAG VIEWER.md",
-    "_OPERATION/PRIVATE/DATACORE/4 TagViewer/D.q.tagviewer.viewer.md",
     "_OPERATION/PRIVATE/DATACORE/5 CustomFeed/CUSTOM FEED.md",
-    "_OPERATION/PRIVATE/DATACORE/5 CustomFeed/D.q.customfeed.viewer.md",
-    "_OPERATION/PRIVATE/DATACORE/7 BountyView 🎅/BOUNTY VIEW 🎅.md",
-    "_OPERATION/PRIVATE/DATACORE/7 BountyView 🎅/D.q.bountyview.viewer.md",
-    "bounty_view.webp",
-    "_OPERATION/PRIVATE/DATACORE/9 ContentExplorer888/CONTENT EXPLORER 888.md",
-    "custom_feed.webp",
-    "_OPERATION/PRIVATE/DATACORE/9 ContentExplorer888/D.q.contentexplorer888.viewer.md",
-    "_OPERATION/PRIVATE/DATACORE/23 Canvas/D.q.canvas.viewer.v1.md",
-    "_OPERATION/PRIVATE/DATACORE/8 FitnessExplorer/FITNESS EXPLORER.md",
-    "_OPERATION/PRIVATE/DATACORE/8 FitnessExplorer/D.q.fitnessexplorer.viewer.md",
     "_OPERATION/PRIVATE/DATACORE/35 ActivityWatchDashboard/ACTIVITY WATCH DASHBOARD.md",
+    "_OPERATION/PRIVATE/DATACORE/35 ActivityWatchDashboard/D.q.activitywatchdashboard.component.md",
     "_OPERATION/PRIVATE/DATACORE/35 ActivityWatchDashboard/D.q.activitywatchdashboard.viewer.md",
+    "_OPERATION/PRIVATE/DATACORE/30 MatrixGlitchWall/MATRIX GLITCH WALL.md",
+    "matrix_glitchwall.webp",
+    "_OPERATION/PRIVATE/DATACORE/30 MatrixGlitchWall/D.q.matrixglitchwall.viewer.md",
+    "_OPERATION/PRIVATE/DATACORE/30 MatrixGlitchWall/D.q.matrixglitchwall.component.md",
+    "_OPERATION/PRIVATE/DATACORE/28 LoadScript/D.q.loadscript.viewer.md",
+    "_OPERATION/PRIVATE/DATACORE/21 ExternalInputBlocker/EXTERNAL INPUT BLOCKER.md",
+    "_OPERATION/PRIVATE/DATACORE/21 ExternalInputBlocker/D.q.externalinputblocker.component.md",
+    "_OPERATION/PRIVATE/DATACORE/21 ExternalInputBlocker/D.q.externalinputblocker.viewer.md",
+    "_OPERATION/PRIVATE/DATACORE/17 WindowResizer/WINDOW RESIZER.md",
+    "_OPERATION/PRIVATE/DATACORE/DATACORE.showcase.md",
+    "_OPERATION/PRIVATE/DATACORE/4 TagViewer/TAG VIEWER.md",
+    "_OPERATION/PRIVATE/DATACORE/3 BasicView/BASIC VIEW.md",
+    "_OPERATION/PRIVATE/DATACORE/2 BasicQuery/BASIC QUERY.md",
+    "_OPERATION/PRIVATE/DATACORE/1 SearchQuery/SEARCH QUERY.md",
+    "_OPERATION/PRIVATE/DATACORE/11 ImageRender/IMAGE RENDER.md",
     "activity_watch.webp",
-    "KNOWLEDGE/EXPERIENCES/_public/obsidian/DATACORE.flexilis.md",
-    "datacore_flexilis.webp",
-    "_OPERATION/PUBLIC/DATACORE/1 DATACORE.flexilis/D.q.datacore.flexilis.viewer.md",
-    "_OPERATION/PRIVATE/DATACORE/6 CustomIframeBuilder/CUSTOM IFRAME BUILDER.md",
-    "_OPERATION/PRIVATE/DATACORE/6 CustomIframeBuilder/D.q.customiframebuilder.viewer.md",
-    "_OPERATION/PRIVATE/DATACORE/18 ViewsInceptions/VIEWS INCEPTIONS.md",
-    "_OPERATION/PRIVATE/DATACORE/18 ViewsInceptions/D.q.viewsinceptions.viewer.md",
-    "loading_logo.webp",
-    "game_engine_build.webp",
-    "animated_card.webp",
-    "world_888.webp",
+    "_OPERATION/PRIVATE/DATACORE/29 FuzzyText/FUZZY TEXT.md",
+    "_OPERATION/PRIVATE/DATACORE/29 FuzzyText/D.q.fuzzytext.viewer.md",
+    "_OPERATION/PRIVATE/DATACORE/29 FuzzyText/D.q.fuzzytext.component.md",
+    "fuzzytext.webp",
+    "_OPERATION/PRIVATE/DATACORE/28 LoadScript/LOAD SCRIPT.md",
+    "loadscript.webp",
+    "_OPERATION/PRIVATE/DATACORE/28 LoadScript/D.q.loadscript.component.md",
+    "_OPERATION/PRIVATE/DATACORE/28 LoadScript/D.q.loadscript.component1.md",
+    "external_input_blocker.webp",
+    "window_resizer_tab.webp",
+    "window_resizer_window.webp",
+    "_OPERATION/PRIVATE/DATACORE/17 WindowResizer/D.q.windowresizer.viewer.md",
+    "window_resizer_pip.png",
+    "window_resizer_pip.webp",
+    "window_resizer_normal.webp",
     "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_public/obsidian",
     "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_public",
     "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES",

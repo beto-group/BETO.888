@@ -1,8 +1,7 @@
 
 
-![[license_agreement.webp]]
 
-
+// COMPONENT invisible
 ```datacorejsx
 ////////////////////////////////////////////////////
 ///             Viewer Entry Point               ///

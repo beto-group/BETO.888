@@ -1,6 +1,4 @@
 
-![[fuzzytext.webp]]
-
 
 REDESIGNED FROM : https://www.reactbits.dev/
 

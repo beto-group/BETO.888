@@ -17,7 +17,7 @@
 
 
 
-![[search_query.webp]]
+![search_query.webp](_RESOURCES/IMAGES/search_query.webp)
 
 
 
@@ -25,4 +25,4 @@
 ### COMPONENTS
 
 
-###### [Search Query Viewer](_OPERATION/PRIVATE/DATACORE/1%20SearchQuery/DATACORE.query.searchquery)
+###### [Search Query Viewer](DATACORE.query.searchquery.md)

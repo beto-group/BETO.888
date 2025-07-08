@@ -6,7 +6,7 @@ permalink: bonjour.jp
 
 NOTHING here YET ;) , 🤭🫣
 
-[[JUST DO IT]]!
+[[KNOWLEDGE/EXPERIENCES/_clean/JUST DO IT]]!
 
 ----
 #### [[SUD]]

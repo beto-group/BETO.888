@@ -67,61 +67,117 @@ async function fetchAndCacheImage(dc, url) {
 function View() {
   const globeRef = dc.useRef(null);
   const [ready, setReady] = dc.useState(false);
+  // NEW: State to hold log messages for on-screen display
+  const [logs, setLogs] = dc.useState([]);
+
+  // NEW: Helper function to log both to the developer console and the on-screen display
+  const logToView = (message, level = 'log') => {
+    // Forward the log to the actual developer console
+    console[level](message);
+    // Update the on-screen logs state
+    setLogs(prevLogs => {
+      const newLog = { text: message, level: level, timestamp: new Date().toLocaleTimeString() };
+      // Keep the last 8 logs to prevent the display from getting too cluttered
+      return [...prevLogs, newLog].slice(-8);
+    });
+  };
 
   dc.useEffect(() => {
     async function setupGlobe() {
-      console.log("[setupGlobe] Setup started.");
+      // All previous console.* calls are now replaced with logToView
+      logToView("[setupGlobe] Setup started.");
 
       if (!globeRef.current) {
-        console.error("[setupGlobe] globeRef is null! Abort.");
+        logToView("[setupGlobe] globeRef is null! Abort.", 'error');
         return;
       }
+      
+      logToView("Component rendered, preparing to load assets.");
 
       if (!window.Globe) {
-        console.log("[setupGlobe] Globe.gl not found, loading...");
+        logToView("[setupGlobe] Globe.gl not found, loading script...");
         await loadScript(dc, "https://unpkg.com/globe.gl");
-        console.log("[setupGlobe] Globe.gl loaded.");
+        logToView("[setupGlobe] Globe.gl script loaded.");
       } else {
-        console.log("[setupGlobe] Globe.gl already loaded.");
+        logToView("[setupGlobe] Globe.gl already loaded.");
       }
-
-      // **CHANGE**: Use the new caching function for images, passing `dc`
+      
+      logToView("[setupGlobe] Loading textures...");
       const [globeTexture, bumpTexture] = await Promise.all([
         fetchAndCacheImage(dc, "https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg"),
         fetchAndCacheImage(dc, "https://unpkg.com/three-globe/example/img/earth-topology.png")
       ]);
-
-      console.log("[setupGlobe] Textures loaded. Creating globe...");
+      logToView("[setupGlobe] Textures loaded. Creating globe instance...");
 
       const globe = Globe()(globeRef.current)
         .globeImageUrl(globeTexture)
         .bumpImageUrl(bumpTexture)
         .width(500)
         .height(500)
-        .backgroundColor("#000000");
+        .backgroundColor("rgba(0,0,0,0)"); // Set to transparent so the container's black shows through
 
-      console.log("[setupGlobe] Globe created. Setting controls...");
+      logToView("[setupGlobe] Globe created. Setting controls...");
       globe.controls().autoRotate = true;
       globe.controls().autoRotateSpeed = 0.5;
 
-      console.log("[setupGlobe] Finished.");
+      logToView("[setupGlobe] Finished. Globe is ready!", 'info');
       setReady(true);
     }
 
     if (globeRef.current) {
       setupGlobe().catch((err) => {
-        console.error("[setupGlobe] Error:", err);
+        logToView(`[setupGlobe] FATAL ERROR: ${err.message}`, 'error');
       });
     } else {
-      console.warn("[useEffect] globeRef not yet ready, waiting for render...");
+      logToView("[useEffect] globeRef not ready, waiting for initial render...", 'warn');
     }
   }, []);
 
+  // NEW: Style for the on-screen log container
+  const logContainerStyle = {
+    position: 'absolute',
+    bottom: '10px',
+    left: '10px',
+    right: '10px',
+    maxHeight: '140px',
+    overflowY: 'auto',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    borderRadius: '5px',
+    padding: '10px',
+    fontFamily: 'monospace',
+    fontSize: '12px',
+    zIndex: 10,
+    pointerEvents: 'none', // Allow clicks to pass through to the globe canvas
+  };
+
+  // NEW: Helper to get color based on log level
+  const getLogStyle = (level) => {
+    const style = { margin: 0, padding: '2px 0' };
+    switch (level) {
+      case 'error': style.color = '#ff8a8a'; break;
+      case 'warn':  style.color = '#ffd182'; break;
+      default:      style.color = '#a0e8a0'; break;
+    }
+    return style;
+  };
+
   return (
-    <div style={{ width: "500px", height: "500px" }}>
-      <div ref={globeRef} style={{ width: "100%", height: "100%" }}>
-        {!ready && <p>Loading globe...</p>}
+    // The main container is now relative to position the log overlay correctly
+    <div style={{ position: 'relative', width: "500px", height: "500px", backgroundColor: "#000000" }}>
+      
+      {/* The div where the globe library will render its canvas */}
+      <div ref={globeRef} style={{ width: "100%", height: "100%" }} />
+
+      {/* NEW: The on-screen "mini console" log viewer */}
+      <div style={logContainerStyle}>
+        {logs.length === 0 && <p style={getLogStyle('info')}>Initializing...</p>}
+        {logs.map((log, index) => (
+          <p key={index} style={getLogStyle(log.level)}>
+            <span style={{opacity: 0.6}}>{log.timestamp} - </span>{log.text}
+          </p>
+        ))}
       </div>
+
     </div>
   );
 }

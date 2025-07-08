@@ -1,5 +1,7 @@
 
 
+![[fitness_explorer.webp]]
+
 
 ```datacorejsx
 const { ContentExplorer } = await dc.require(dc.headerLink("_OPERATION/PRIVATE/DATACORE/8 FitnessExplorer/D.q.fitnessexplorer.viewer.md", "ViewComponent"));

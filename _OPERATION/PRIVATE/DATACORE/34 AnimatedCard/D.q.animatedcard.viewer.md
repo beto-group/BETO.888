@@ -1,5 +1,7 @@
 
 
+![[animated_card.webp]]
+
 
 
 ```datacorejsx

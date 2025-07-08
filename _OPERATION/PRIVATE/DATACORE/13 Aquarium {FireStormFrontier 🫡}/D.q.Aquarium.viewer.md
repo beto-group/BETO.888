@@ -1,4 +1,9 @@
 
+
+
+![[aquarium_view_broken.webp]]
+
+
 problem works in experimental vault
 	havent bothered fixing this
 

@@ -20,35 +20,8 @@
               "icon": "lucide-file",
               "title": "DATACORE.showcase"
             }
-          },
-          {
-            "id": "d60f576ffdd70a18",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "README.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "README"
-            }
-          },
-          {
-            "id": "d9c2402be7ceda3c",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "_RESOURCES/ASSETS/888/ASSETS LIBRARY_.a.md"
-              },
-              "icon": "excalidraw-icon",
-              "title": "ASSETS LIBRARY_.a"
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -77,7 +50,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "file:qr cod",
+                "query": "file:.enigmas",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -106,8 +79,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 351.50390243530273,
-    "collapsed": true
+    "width": 351.50390243530273
   },
   "right": {
     "id": "fe80ed10167d38ae",
@@ -160,10 +132,10 @@
             "state": {
               "type": "file-properties",
               "state": {
-                "file": "README.md"
+                "file": "_OPERATION/PRIVATE/DATACORE/16 MusicBuilder/D.q.musicbuilder.viewer.md"
               },
               "icon": "lucide-info",
-              "title": "File properties for README"
+              "title": "File properties for D.q.musicbuilder.viewer"
             }
           },
           {
@@ -220,13 +192,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "_OPERATION/PRIVATE/HOME.md",
+                "file": "_OPERATION/PRIVATE/DATACORE/DATACORE.showcase.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of HOME"
+              "title": "Outline of DATACORE.showcase"
             }
           },
           {
@@ -244,11 +216,12 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
-    "width": 343.5
+    "width": 343.5,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -265,53 +238,52 @@
       "obsidian42-brat:BRAT": true
     }
   },
-  "active": "d60f576ffdd70a18",
+  "active": "741464d6ca2e03c7",
   "lastOpenFiles": [
-    "_OPERATION/PUBLIC/CHANGE LOG.md",
-    "README.md",
-    "_RESOURCES/ASSETS/888/ASSETS LIBRARY_.a.md",
+    "_OPERATION/PRIVATE/DATACORE/28 LoadScript/D.q.loadscript.component1.md",
+    "_OPERATION/PRIVATE/DATACORE/28 LoadScript/D.q.loadscript.component.md",
+    "_OPERATION/PRIVATE/DATACORE/26 LicenseAgreement/D.q.licenseagreement.viewer.md",
     "_OPERATION/PRIVATE/DATACORE/DATACORE.showcase.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/HAND_v13_.A.svg",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/HAND_v13_.A.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/HAND_v12_.A 1.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/BASIC_v04_.A.svg",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/BASIC_v04_.A.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/BASIC_v03_.A 1.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/BASIC_v03_.A.svg",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/BASIC_v03_.A.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/EYE_v03_.A 1.md",
-    "KNOWLEDGE/EXPERIENCES/_public/obsidian/DATACORE.flexilis.md",
-    "_OPERATION/PUBLIC/TERMS OF SERVICE.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/EYE_v03_.A.svg",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/EYE_v03_.A.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/HARAMBE_v01_.A 1.md",
-    "_RESOURCES/beto.logo/v8/BETO_Logo_T_Loading.png",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/LETTERS_v12_.A.svg",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/LETTERS_v12_.A.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/LETTERS_v11_.A 1.md",
-    "PROJECTS/B26/B26.minigame.2.svg",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/LOVE_v01_.A.svg",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/OBSIDIAN_v05_.A.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/LOVE_v01_.A.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/LETTERS_v11_.A.svg",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/LETTERS_v11_.A.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/LETTERS_v10_.A 1.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/ETHOS_v01_.A.svg",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/ETHOS_v01_.A.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/ENLIGHTMENT_v01_.A 1.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/ENLIGHTMENT_v01_.A.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/OVERVIEW_v01_.A.md",
-    "_OPERATION/PUBLIC/888.enigmas..md",
+    "_OPERATION/PRIVATE/DATACORE/30 MatrixGlitchWall/D.q.matrixglitchwall.viewer.md",
+    "matrix_glitchwall.webp",
+    "matrix_glitchwall.png",
     "_OPERATION/PRIVATE/DATACORE/29 FuzzyText/D.q.fuzzytext.viewer.md",
+    "fuzzytext.png",
+    "fuzzytext.webp",
+    "_OPERATION/PRIVATE/DATACORE/19 IframePlayer/D.q.iframeplayer.viewer.md",
+    "_OPERATION/PRIVATE/DATACORE/28 LoadScript/D.q.loadscript.viewer.md",
+    "loadscript.png",
+    "loadscript.webp",
+    "_OPERATION/PRIVATE/DATACORE/21 ExternalInputBlocker/D.q.externalinputblocker.viewer.md",
+    "external_input_blocker.webp",
+    "external_input_blocker.png",
+    "_OPERATION/PRIVATE/DATACORE/17 WindowResizer/D.q.windowresizer.viewer.md",
+    "window_resizer_tab.webp",
+    "window_resizer_fullscreen.webp",
+    "_OPERATION/PRIVATE/DATACORE/17 WindowResizer/window_resizer.webp.md",
+    "_OPERATION/PRIVATE/TERMS OF SERVICE.approval.md",
+    "_OPERATION/PUBLIC/TERMS OF SERVICE.md",
+    "_OPERATION/PRIVATE/DATACORE/36 MusicPlayer/D.q.musicplayer.viewer.md",
+    "_OPERATION/PRIVATE/DATACORE/32 SoundPlayer/D.q.soundplayer.viewer.md",
+    "_OPERATION/PRIVATE/DATACORE/16 MusicBuilder/D.q.musicbuilder.viewer.md",
+    "_OPERATION/PRIVATE/DATACORE/34 AnimatedCard/D.q.animatedcard.viewer.md",
+    "_OPERATION/PRIVATE/DATACORE/27 MiniGame888/D.q.minigame888.viewer.md",
+    "_OPERATION/PRIVATE/DATACORE/22 World888/D.q.world888.viewer.md",
+    "_OPERATION/PRIVATE/DATACORE/14 GameEngineBuild/D.q.gameenginebuild.viewer.md",
+    "_OPERATION/PRIVATE/DATACORE/13 Aquarium {FireStormFrontier 🫡}/D.q.Aquarium.viewer.md",
+    "_OPERATION/PRIVATE/DATACORE/31 LoadingLogo/D.q.loadinglogo.viewer.md",
+    "_OPERATION/PRIVATE/DATACORE/25 BabylonLocal/D.q.babylonlocal.viewer.md",
+    "_OPERATION/PRIVATE/DATACORE/24 MapGlobe/D.q.mapglobe.viewer.md",
+    "KNOWLEDGE/HEALTH/HEALTH.enigmas..md",
+    "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_public/obsidian",
+    "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_public",
+    "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES",
+    "888/PROJECTS/888/KNOWLEDGE",
+    "888/PROJECTS/888",
+    "888/PROJECTS",
+    "888",
     "_RESOURCES/beto.logo/v8/BETO_Logo_T_Loading.svg.sb-583329da-mM6vEh",
     "_RESOURCES/beto.logo/v8/BETO_Logo_T_Loading.svg.sb-583329da-fEkJxU",
-    "_OPERATION/PRIVATE/DATACORE/36 MusicPlayer",
-    "_OPERATION/PRIVATE/DATACORE/Untitled",
-    "_OPERATION/PRIVATE/DATACORE/35 ActivityWatchDashboard",
-    "_RESOURCES/IMAGES/B26.cat",
-    "_RESOURCES/WEBM/card_cat_2.webm",
-    "_RESOURCES/WEBM/card_cat_1.webm",
-    "_RESOURCES/WEBM/card_cat_3.webm",
-    "_RESOURCES/WEBM"
+    "_OPERATION/PRIVATE/DATACORE/36 MusicPlayer"
   ]
 }

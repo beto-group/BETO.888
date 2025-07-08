@@ -63,7 +63,7 @@ excalidraw-open-md: true
 
 For optimal editing performance, please enable the hover editor plugin to prevent losing entries when the table re-renders. This code is entirely AI-generated—raw, experimental, and far from perfect—but it works. It’s a work in progress that will improve over time. Remember: iterate, experiment, and refine until it meets your needs. Enjoy the journey!
 
-Try and Fail till it works... [[JUST DO IT]]! 🫡
+Try and Fail till it works... [[KNOWLEDGE/EXPERIENCES/_clean/JUST DO IT]]! 🫡
 
 
 This project is licensed under the GNU General Public License v3.0 (GPL-3.0). You can freely download, modify, and redistribute the files under the terms of the GPLv3. See the full GPLv3 license text here: [https://www.gnu.org/licenses/gpl-3.0.html](https://www.gnu.org/licenses/gpl-3.0.html)

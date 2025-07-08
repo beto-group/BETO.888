@@ -1,5 +1,8 @@
 
 
+VIEW BUTTON DOESNT WORK
+![[bounty_view.webp]]
+
 ```datacorejsx
 ////////////////////////////////////////////////////
 ///             Viewer Entry Point               ///

@@ -1,16 +1,24 @@
 
 Fun Fact cant retrieve images this way
 
+CASE SENSITIVE
+
+![[search_query.webp]]
+
+
+
 
 ```datacorejsx
 function BasicFileSearch() {
-  // Constant query: search for files with @page and name exactly "back"
-  const queryString = '@page and $name = "beto.group.svg"';
+  const { useState } = dc;
+  const [term, setTerm] = useState("beto.group.svg");
+  const queryString = `@page and $name = "${term}"`;
   const files = dc.useQuery(queryString);
 
   return (
     <div>
-      <h2>Search results for "back"</h2>
+      <input value={term} onChange={e => setTerm(e.target.value)} />
+      <h2>Search results for "{term}"</h2>
       {files.length ? (
         <ul>
           {files.map(file => (
@@ -25,6 +33,5 @@ function BasicFileSearch() {
 }
 
 return BasicFileSearch;
-
 ```
 

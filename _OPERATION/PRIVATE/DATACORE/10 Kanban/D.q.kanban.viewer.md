@@ -1,6 +1,9 @@
 
 
+![[kanban.webp]]
 
+
+Broken would most likely involve a complete rework
 
 ```datacorejsx
 const { View } = await dc.require(dc.headerLink("_OPERATION/PRIVATE/DATACORE/10 Kanban/D.q.kanban.component.md", "viewer"));

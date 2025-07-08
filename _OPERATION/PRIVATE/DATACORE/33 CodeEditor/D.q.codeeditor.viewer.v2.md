@@ -1,4 +1,6 @@
 
+![[code_editor_2.png]]
+
 
 wip missing some functionality behind git versioning 
 

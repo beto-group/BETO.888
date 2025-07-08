@@ -7,7 +7,16 @@ permalink: obsidian.plugins.datacore.flexilis
 ###### NAVIGATE - BACK : [[DATACORE.showcase]]
 ------
 
+
+
+![[datacore_flexilis.webp]]
+
+
+
 ###### [[D.q.datacore.flexilis.viewer]]
+
+
+
 
 -----
 #### [[NAMZU]]

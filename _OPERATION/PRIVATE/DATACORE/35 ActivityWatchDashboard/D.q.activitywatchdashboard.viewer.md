@@ -4,6 +4,7 @@
 NEED ActivityWatch 
 	for this to work 
 
+![[activity_watch.webp]]
 
 ```datacorejsx
 ////////////////////////////////////////////////////

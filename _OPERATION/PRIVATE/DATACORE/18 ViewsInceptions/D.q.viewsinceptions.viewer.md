@@ -1,11 +1,13 @@
 
 
+![[views_inceptions.webp]]
+
 
 
 A valid entry for you to test it out
 
 ```FilePath
-_OPERATION/PRIVATE/12 LottieExperiment/D.q.lottieexperiment.component.md
+_OPERATION/PRIVATE/DATACORE/12 LottieExperiment/D.q.lottieexperiment.component.md
 ```
 
 ```Header

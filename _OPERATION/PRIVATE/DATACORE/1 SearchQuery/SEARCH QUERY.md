@@ -17,7 +17,7 @@
 
 
 
-![search_query.webp](_RESOURCES/IMAGES/search_query.webp)
+![search_query.webp](/_RESOURCES/IMAGES/search_query.webp)
 
 
 

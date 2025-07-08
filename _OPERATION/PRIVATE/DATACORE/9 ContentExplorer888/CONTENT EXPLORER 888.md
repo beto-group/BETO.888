@@ -20,10 +20,10 @@
 
 
 
-![[bounty_view.webp]]
+![bounty_view.webp](/_RESOURCES/IMAGES/bounty_view.webp)
 
 
-![[custom_feed.webp]]
+![custom_feed.webp](/_RESOURCES/IMAGES/custom_feed.webp)
 
 
 
@@ -31,4 +31,4 @@
 ### Components
 
 
-###### [[D.q.contentexplorer888.viewer|Content Viewer 888]]
+###### [Content Viewer 888](D.q.contentexplorer888.viewer.md)

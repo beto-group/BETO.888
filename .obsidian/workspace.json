@@ -64,7 +64,7 @@
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -281,10 +281,10 @@
       "obsidian42-brat:BRAT": true
     }
   },
-  "active": "0757f9f078e83bf7",
+  "active": "73496f7abe2c16ee",
   "lastOpenFiles": [
-    "_OPERATION/PRIVATE/DATACORE/1 SearchQuery/DATACORE.query.searchquery.md",
     "_OPERATION/PRIVATE/DATACORE/1 SearchQuery/SEARCH QUERY.md",
+    "_OPERATION/PRIVATE/DATACORE/1 SearchQuery/DATACORE.query.searchquery.md",
     "_OPERATION/PRIVATE/DATACORE/DATACORE.showcase.md",
     "_OPERATION/PUBLIC/DEVLOG/DEVLOG.md",
     "_OPERATION/PRIVATE/DATACORE/35 ActivityWatchDashboard/ACTIVITYWATCH DASHBOARD.md",

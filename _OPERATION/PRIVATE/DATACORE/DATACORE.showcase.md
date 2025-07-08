@@ -11,7 +11,7 @@ permalink: obsidian.plugins.datacore.showcase
 
 
 
-###### [SEARCH QUERY](_OPERATION/PRIVATE/DATACORE/1%20SearchQuery/SEARCH%20QUERY)
+###### [SEARCH QUERY](1%20SearchQuery/SEARCH%20QUERY)
 
 ###### [[BASIC QUERY]]
 

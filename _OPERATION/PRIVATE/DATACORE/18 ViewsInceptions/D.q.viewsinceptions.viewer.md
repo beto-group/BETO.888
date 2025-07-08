@@ -1,7 +1,5 @@
 
 
-![[views_inceptions.webp]]
-
 
 
 A valid entry for you to test it out

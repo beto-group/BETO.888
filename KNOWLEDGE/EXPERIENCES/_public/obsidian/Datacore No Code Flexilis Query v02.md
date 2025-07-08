@@ -4,6 +4,7 @@ aliases:
   - datacore.flexilis.v02
 permalink: datacore.flexilis.v02
 ---
+
 ###### NAVIGATE - BACK : [[888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_public/obsidian/DATACORE.flexilis]]
 ------
 

@@ -1,6 +1,6 @@
 
-![[image_renderer.webp]]
-Basic Image Rendering
+
+
 
 ```datacorejsx
 function loadScript(src, onload, onerror) {

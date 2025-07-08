@@ -2,8 +2,10 @@
 
 COMBINATION FROM CUSTOM FEED + BOUNTY VIEW
 
+the first few in View will always show nothing wip
+
 ```datacorejsx
-const { ContentExplorer } = await dc.require(dc.headerLink("_OPERATION/PRIVATE/DATACORE/9 ContentViewer888/D.q.contentviewer888.viewer.md", "ViewComponent"));
+const { ContentExplorer } = await dc.require(dc.headerLink("_OPERATION/PRIVATE/DATACORE/9 ContentExplorer888/D.q.contentexplorer888.viewer.md", "ViewComponent"));
 return <ContentExplorer />;
 ```
 

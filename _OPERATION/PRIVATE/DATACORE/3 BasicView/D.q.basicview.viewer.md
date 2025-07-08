@@ -3,7 +3,6 @@
 
 BLANK CANVAS TO WORK WITH
 
-![[basic_view.webp]]
 
 
 ```datacorejsx

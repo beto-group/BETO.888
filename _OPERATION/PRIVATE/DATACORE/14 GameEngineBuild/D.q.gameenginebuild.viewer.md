@@ -1,5 +1,4 @@
 
-![[game_engine_build.webp]]
 
 Inputs 
 

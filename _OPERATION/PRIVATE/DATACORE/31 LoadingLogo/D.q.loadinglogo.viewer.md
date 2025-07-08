@@ -1,8 +1,5 @@
 
 
-![[loading_logo.webp]]
-
-
 
 
 ```datacorejsx

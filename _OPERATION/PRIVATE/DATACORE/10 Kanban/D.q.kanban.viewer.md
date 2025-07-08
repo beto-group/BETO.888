@@ -1,6 +1,5 @@
 
 
-![[kanban.webp]]
 
 
 Broken would most likely involve a complete rework

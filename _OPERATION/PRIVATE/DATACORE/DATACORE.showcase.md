@@ -9,109 +9,98 @@ permalink: obsidian.plugins.datacore.showcase
 
 
 
-### **Core Query & Data Handling**
-
-
-###### [[DATACORE.query.searchquery|Search Query]]
-
-###### [[DATACORE.query.basicquery|Basic Query]]
-
-###### [[D.q.basicview.viewer|Basic View]]
-
-###### [[D.q.tagviewer.viewer|Tag Viewer]]
+## **Core Query & Data Handling**
 
 
 
+###### [[SEARCH QUERY]]
 
+###### [[BASIC QUERY]]
 
-### **Content Viewers & Explorers**
+###### [[BASIC VIEW]]
 
-
-###### [[D.q.customfeed.viewer|Custom Feed]]
-https://www.youtube.com/watch?v=0UvjBq09olQ
-
-###### [[D.q.bountyview.viewer|Bounty View 🎅]]
-
-###### [[D.q.contentviewer888.viewer|Content Explorer 888 🕸️🎅❄️]]
-https://www.youtube.com/watch?v=0UvjBq09olQ
-
-
-###### [[D.q.fitnessexplorer.viewer|Fitness Explorer]]
-https://www.youtube.com/watch?v=hMYlrVq4qmU
-
-###### [[D.q.activitywatchdashboard.viewer|ActivityWatchDashboard]] {NEW*}
+###### [[TAG VIEWER]]
 
 
 
 
 
-### **Development & Building Tools**
+
+## **Content Viewers & Explorers**
+
+
+###### [[CUSTOM FEED]]
+
+###### [[BOUNTY VIEW 🎅]]
+
+###### [[CONTENT EXPLORER 888]]
+
+###### [[FITNESS EXPLORER]]
+
+###### [[ACTIVITY WATCH DASHBOARD]] {NEW*}
+
+
+
+
+## **Development & Building Tools**
 
 
 ###### [[DATACORE.flexilis]]
-https://www.youtube.com/watch?v=Mo4Qssx3JXE
 
-###### [[D.q.customiframebuilder.viewer|Custom Iframe Builder]]
-https://www.youtube.com/watch?v=tlVjWpG7dJY
+###### [[CUSTOM IFRAME BUILDER]]
 
-###### [[D.q.viewsinceptions.viewer|Views Inceptions]]
-https://www.youtube.com/watch?v=F3fLdEs-S3c
+###### [[VIEWS INCEPTIONS]]
 
-###### [[D.q.markdowneditor.viewer|Markdown Editor]]
+###### [[MARKDOWN EDITOR]]
 
-###### [[D.q.codeeditor.viewer.v1|CodeEditor v1]] {NEW*}
+###### [[CODE EDITOR v1]] {NEW*}
 
-###### [[D.q.codeeditor.viewer.v2|CodeEditor v2]] {NEW*}
-https://www.youtube.com/watch?v=axsdZMtrIFo
+###### [[CODE EDITOR v2]] {NEW*}
 
 
 
 
-### **Graphics, Visualization & UI**
+## **Graphics, Visualization & UI**
 
-###### [[D.q.kanban.viewer|Kanban v2]]
-https://www.youtube.com/watch?v=LG4uf3WJ1S4
+###### [[KANBAN v2]]
 
-###### [[d.q.imagerender.viewer|Image Render]]
+###### [[IMAGE RENDER]]
 
-###### [[D.q.lottieexperiment.viewer|Lottie Experiment]]
-https://www.youtube.com/watch?v=BoJ_ciW3WZE
+###### [[LOTTIE EXPERIMENT]]
 
-###### [[D.q.d3jstest.viewer|D3.js Test]]
+###### [[D3.JS TEST]]
 
-###### [[D.q.canvas.viewer.v1|Canvas v1]]
-https://www.youtube.com/watch?v=9GBnD77I9nI
+###### [[CANVAS v1]]
 
-###### [[D.q.canvas.viewer.v2|Canvas v2]]
+###### [[CANVAS v2]]
 
-###### [[D.q.mapglobe.viewer|MapGlobe]]
+###### [[MAP GLOBE]]
 
-###### [[D.q.babylonlocal.viewer|BabylonLocal]]
+###### [[BABYLON LOCAL]]
 
-###### [[D.q.loadinglogo.viewer|LoadingLogo]] {NEW ish*}
+###### [[LOADING LOGO]] {NEW ish*}
 
 
 
-### **Games & Interactive Experiences**
+## **Games & Interactive Experiences**
 
 
-###### [[D.q.Aquarium.viewer|Aquarium {FireStormFrontier 🫡}]]
-https://www.youtube.com/watch?v=2COrqMzSXZw
+###### [[AQUARIUM]]
 
-###### [[D.q.gameenginebuild.viewer|Game Engine Build]]
-https://www.youtube.com/watch?v=w3mjNEaTR0k
+###### [[GAME ENGINE BUILD]]
 
-###### [[D.q.world888.viewer|world888]]
+###### [[WORLD 888]]
 
-###### [[D.q.minigame888.viewer|MiniGame888]]
-https://www.youtube.com/watch?v=TSVHwDIE8Dg&t=2s
+###### [[MINIGAME 888]]
 
-###### [[D.q.animatedcard.viewer|AnimatedCard]] {NEW*}
-https://www.youtube.com/watch?v=fcnKYyVMmCc
+###### [[ANIMATED CARD]]  {NEW*}
+
+###### [[D.q.animatedcard.viewer|AnimatedCard]]
 
 
 
-### **Media Players**
+
+## **Media Players**
 
 
 ###### [[D.q.iframeplayer.viewer|Iframe Player]]
@@ -125,7 +114,7 @@ https://www.youtube.com/watch?v=KS_PlZXM7uo
 
 
 
-### **System & Utility Components**
+## **System & Utility Components**
 
 
 ###### [[D.q.licenseagreement.viewer|LicenseAgreement]]

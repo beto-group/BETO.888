@@ -1,6 +1,5 @@
 
 
-![[animated_card.webp]]
 
 
 

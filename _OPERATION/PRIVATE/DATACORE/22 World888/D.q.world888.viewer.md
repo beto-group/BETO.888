@@ -4,8 +4,6 @@ aliases:
 ---
 dw
 
-![[world_888.webp]]
-
 
 Takes a second.... ish [patience is king]
 

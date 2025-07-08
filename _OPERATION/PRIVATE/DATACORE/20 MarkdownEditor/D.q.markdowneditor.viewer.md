@@ -1,5 +1,4 @@
 
-![[markdown_editor.webp]]
 
 
 wip

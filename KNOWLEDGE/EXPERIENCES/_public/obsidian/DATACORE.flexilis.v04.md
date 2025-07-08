@@ -50,7 +50,7 @@ excalidraw-open-md: true
 
 
 -----
-### DOCUMENTATION
+### Components
 
 ###### [[DATACORE.flexilis.v04.install|DATACORE.flexilis.install]]
 ###### [[DATACORE.flexilis.v04.diagram|DATACORE.flexilis.diagram]] - not perfect needs a rework

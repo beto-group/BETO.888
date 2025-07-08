@@ -1,6 +1,5 @@
 
 
-![[basic_query.webp]]
 
 
 ```datacorejsx

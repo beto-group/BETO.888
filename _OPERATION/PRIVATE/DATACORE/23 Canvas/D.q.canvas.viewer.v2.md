@@ -1,6 +1,4 @@
 
-![[canvas_2.webp]]
-
 
 
 ```datacorejsx

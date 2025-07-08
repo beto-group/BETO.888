@@ -1,10 +1,4 @@
 
-Fun Fact cant retrieve images this way
-
-CASE SENSITIVE
-
-![[search_query.webp]]
-
 
 
 

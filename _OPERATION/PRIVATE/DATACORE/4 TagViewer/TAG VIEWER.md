@@ -24,6 +24,6 @@
 ### Components
 
 
-###### [[Tag Viewer Viewer](D.q.tagviewer.viewer.md)
+###### [Tag Viewer Viewer](D.q.tagviewer.viewer.md)
 
 ###### [Tag Viewer Component](D.q.tagviewer.component.md)

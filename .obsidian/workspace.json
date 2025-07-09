@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "_OPERATION/PRIVATE/DATACORE/DATACORE.showcase.md",
+                "file": "_OPERATION/PRIVATE/HOME.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "DATACORE.showcase"
+              "title": "HOME"
             }
           }
         ]
@@ -34,6 +34,16 @@
         "id": "7f907c8f10e7a1c8",
         "type": "tabs",
         "children": [
+          {
+            "id": "fc367f0a2fda3ddd",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          },
           {
             "id": "d729f495d64f288a",
             "type": "leaf",
@@ -63,19 +73,8 @@
               "icon": "lucide-folder-closed",
               "title": "Files"
             }
-          },
-          {
-            "id": "fc367f0a2fda3ddd",
-            "type": "leaf",
-            "state": {
-              "type": "bookmarks",
-              "state": {},
-              "icon": "lucide-bookmark",
-              "title": "Bookmarks"
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -132,10 +131,10 @@
             "state": {
               "type": "file-properties",
               "state": {
-                "file": "_OPERATION/PRIVATE/DATACORE/16 MusicBuilder/D.q.musicbuilder.viewer.md"
+                "file": "_OPERATION/PRIVATE/HOME.md"
               },
               "icon": "lucide-info",
-              "title": "File properties for D.q.musicbuilder.viewer"
+              "title": "File properties for HOME"
             }
           },
           {
@@ -192,13 +191,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "_OPERATION/PRIVATE/DATACORE/5 CustomFeed/D.q.customfeed.viewer.md",
+                "file": "_OPERATION/PRIVATE/HOME.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of D.q.customfeed.viewer"
+              "title": "Outline of HOME"
             }
           },
           {
@@ -216,12 +215,11 @@
             }
           }
         ],
-        "currentTab": 5
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
-    "width": 343.5,
-    "collapsed": true
+    "width": 343.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -240,8 +238,22 @@
   },
   "active": "2e23fed106af6536",
   "lastOpenFiles": [
-    "_OPERATION/PRIVATE/DATACORE/28 LoadScript/LOAD SCRIPT.md",
+    "_OPERATION/PRIVATE/TERMS OF SERVICE.approval.md",
+    "_OPERATION/PRIVATE/HOME.md",
     "_OPERATION/PRIVATE/DATACORE/DATACORE.showcase.md",
+    "_OPERATION/PUBLIC/DEVLOG/CHANGE LOG.md",
+    "_OPERATION/PUBLIC/TERMS OF SERVICE.md",
+    "_OPERATION/PRIVATE/DATACORE/35 ActivityWatchDashboard/ACTIVITYWATCH DASHBOARD.md",
+    "_RESOURCES/IMAGES/activity_watch.webp",
+    "README.md",
+    "PROJECTS/COOKBOOK/KNOWLEDGE/HELP/README/README.md",
+    "_OPERATION/PRIVATE/DATACORE/26 LicenseAgreement/LICENSE AGREEMENT.md",
+    "KNOWLEDGE/EXPERIENCES/_public/obsidian/DATACORE.md",
+    "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_public/obsidian/DATACORE.enigmas..md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/PARADOX_v24_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS LIBRARY_.a.md",
+    "_OPERATION/PRIVATE/DATACORE/4 TagViewer/TAG VIEWER.md",
+    "_OPERATION/PRIVATE/DATACORE/28 LoadScript/LOAD SCRIPT.md",
     "_OPERATION/PRIVATE/DATACORE/30 MatrixGlitchWall/MATRIX GLITCH WALL.md",
     "_RESOURCES/IMAGES/loadscript.webp",
     "_OPERATION/PRIVATE/DATACORE/29 FuzzyText/FUZZY TEXT.md",
@@ -257,24 +269,11 @@
     "_RESOURCES/IMAGES/window_resizer_pip.webp",
     "_RESOURCES/IMAGES/window_resizer_tab.webp",
     "_RESOURCES/IMAGES/window_resizer_normal.webp",
-    "_OPERATION/PRIVATE/DATACORE/26 LicenseAgreement/LICENSE AGREEMENT.md",
-    "_RESOURCES/IMAGES/license_agreement.webp",
     "_OPERATION/PRIVATE/DATACORE/36 MusicPlayer/MUSIC PLAYER.md",
     "_OPERATION/PRIVATE/DATACORE/32 SoundPlayer/SOUND PLAYER.md",
     "_OPERATION/PRIVATE/DATACORE/32 SoundPlayer/D.q.soundplayer.component.md",
     "_OPERATION/PRIVATE/DATACORE/16 MusicBuilder/MUSIC BUILDER.md",
     "_OPERATION/PRIVATE/DATACORE/19 IframePlayer/IFRAME PLAYER.md",
-    "_OPERATION/PRIVATE/DATACORE/19 IframePlayer/D.q.iframeplayer.component.md",
-    "_OPERATION/PRIVATE/DATACORE/19 IframePlayer/D.q.iframeplayer.viewer.md",
-    "_OPERATION/PRIVATE/DATACORE/34 AnimatedCard/ANIMATED CARD.md",
-    "_OPERATION/PRIVATE/DATACORE/22 World888/WORLD 888.md",
-    "_OPERATION/PRIVATE/DATACORE/27 MiniGame888/MINIGAME 888.md",
-    "_OPERATION/PRIVATE/DATACORE/27 MiniGame888/D.q.minigame888.component.md",
-    "_OPERATION/PRIVATE/DATACORE/14 GameEngineBuild/GAME ENGINE BUILD.md",
-    "_OPERATION/PRIVATE/DATACORE/13 Aquarium {FireStormFrontier 🫡}/AQUARIUM.md",
-    "_OPERATION/PRIVATE/DATACORE/13 Aquarium {FireStormFrontier 🫡}/D.q.aquarium.component.md",
-    "_OPERATION/PRIVATE/DATACORE/13 Aquarium {FireStormFrontier 🫡}/D.q.Aquarium.viewer.md",
-    "_OPERATION/PRIVATE/DATACORE/31 LoadingLogo/LOADING LOGO.md",
     "31 LoadingLogol",
     "25 BabylonLocal",
     "_OPERATION/PRIVATE/DATACORE/0 DATACORE.flexilis",

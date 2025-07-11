@@ -39,9 +39,9 @@ This is a critical part of using our work. We've made it as simple as possible.
 
 ---
 ## 🚀 Quick Start & Installation
-**Prerequisites:** You must have the Obsidian.md application installed on your device. Git is optional.
+**Prerequisites:** You must have the Obsidian.md application installed on your device. Git is optional for Method 1, required for Method 2 or 3.
 
-There are two ways to install this vault. Choose the one that suits you best.
+Choose one of three methods to install this vault: a full direct download, a full Git clone, or a lightweight Git clone for a smaller version.
 
 #### Method 1: Direct Download (Simple & Quick)
 This is the easiest method if you don't use Git.
@@ -63,14 +63,32 @@ This is the easiest method if you don't use Git.
 
 ---
 
-#### Method 2: Using Git (Recommended for updates)
-This method uses Git to clone the repository. The main advantage is that it's much easier to get future updates.
+#### Method 2: Using Git - Full Version (Recommended for updates)
+This method uses Git to clone the full repository. The main advantage is that it's much easier to get future updates.
 
 1.  **Clone the Vault:**
     - Make sure you have Git installed.
     - Open your computer's terminal (or Command Prompt / PowerShell on Windows) and run the following command. This will download the repository into a new `BETO.888` folder.
     ```shell
     git clone https://github.com/BETO-GROUP/BETO.888
+    ```
+
+2.  **Open in Obsidian:**
+    - Launch the Obsidian application.
+    - Click on "Open another vault".
+    - Select "Open folder as vault".
+    - Navigate to the `BETO.888` folder you just cloned and select it.
+
+---
+
+#### Method 3: Using Git - Lite Version (Smaller download)
+This method uses Git to clone a lightweight version of the repository with fewer files, ideal for smaller storage needs.
+
+1.  **Clone the Lite Vault:**
+    - Make sure you have Git installed.
+    - Open your computer's terminal (or Command Prompt / PowerShell on Windows) and run the following command. This will download a smaller version of the repository into a new `BETO.888` folder, specifically from the `lite` branch.
+    ```shell
+    git clone -b lite https://github.com/BETO-GROUP/BETO.888
     ```
 
 2.  **Open in Obsidian:**

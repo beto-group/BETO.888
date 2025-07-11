@@ -1,0 +1,65 @@
+# This is a comment - it will be ignored
+
+# Ignore a specific directory and everything inside it
+# (Common for dependencies)
+node_modules/
+vendor/
+build/
+dist/
+
+# Ignore a specific file
+# (Common for environment variables - NEVER commit these!)
+.env
+config.local.php
+
+# Ignore files based on a pattern (wildcard)
+# Ignores all files ending in .log
+*.log
+
+# Ignores all files ending in .tmp
+*.tmp
+
+# Ignore operating system files
+.DS_Store
+Thumbs.db
+
+# Ignore IDE/editor-specific folders
+.idea/
+.vscode/
+*.swp
+
+
+#Syncthing Folder
+.stfolder
+
+# KNOWLEDGE BASE 
+
+KNOWLEDGE/EXPERIENCES/_CLEAN/
+KNOWLEDGE/HEALTH/
+KNOWLEDGE/WEALTH/
+
+# DASHBOARD
+
+_OPERATION/DASHBOARDS/
+
+# COOKBOOK
+
+PROJECTS/COOKBOOK/
+
+# FILES TOO LARGE
+
+_RESOURCES/ASSETS/888/ASSETS LIBRARY_.a.svg
+_RESOURCES/ASSETS/EXCALIDRAW/ASSETS.to do.svg
+_RESOURCES/ASSETS/EXCALIDRAW/ASSETS.to do.png
+_OPERATION/PUBLIC/COMING SOON.svg
+
+PROJECTS/B26/B26.nft.svg
+
+# LIGHT-VERSION removing assets for more compact experience
+_RESOURCES/ASSETS
+
+PROJECTS
+
+#999 for now
+
+999/

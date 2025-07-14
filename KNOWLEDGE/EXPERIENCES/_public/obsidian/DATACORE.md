@@ -22,7 +22,7 @@ permalink: obsidian.plugins.datacore
 
 ###### [[DISCORD.datacore]]
 
-###### [[DATACORE.paragogi.]]
+###### [[DATACORE.paragogi]]
 
 ###### [[DATACORE.syntax.]]
 

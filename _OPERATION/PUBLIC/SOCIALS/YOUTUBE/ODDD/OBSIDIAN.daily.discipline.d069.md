@@ -3,10 +3,10 @@ excalidraw-plugin: parsed
 tags:
   - excalidraw
 excalidraw-open-md: true
-permalink: obsidian.ddd.068
+permalink: obsidian.ddd.069
 aliases:
-  - obsidian.daily.discipline.d068
-  - oddd.068
+  - obsidian.daily.discipline.d069
+  - oddd.069
 ---
 
 ###### NAVIGATE - BACK : [[_ODDD]]

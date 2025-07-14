@@ -34,9 +34,37 @@
               "icon": "lucide-file",
               "title": "README"
             }
+          },
+          {
+            "id": "ff26f28602f3dcc6",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "_OPERATION/PRIVATE/DATACORE/30 MatrixGlitchWall/MATRIX GLITCH WALL.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "MATRIX GLITCH WALL"
+            }
+          },
+          {
+            "id": "6652805acdb07a0e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "KNOWLEDGE/EXPERIENCES/_clean/JOURNAL.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "JOURNAL"
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -145,11 +173,9 @@
             "type": "leaf",
             "state": {
               "type": "file-properties",
-              "state": {
-                "file": "README.md"
-              },
+              "state": {},
               "icon": "lucide-info",
-              "title": "File properties for README"
+              "title": "File properties"
             }
           },
           {
@@ -252,44 +278,44 @@
       "obsidian42-brat:BRAT": true
     }
   },
-  "active": "9005a62767dc3925",
+  "active": "6652805acdb07a0e",
   "lastOpenFiles": [
-    "window_resizer.webp.md",
-    "_OPERATION/PUBLIC/TERMS OF SERVICE.old {June 9}.md",
-    "_OPERATION/PRIVATE/DATACORE/32 SoundPlayer/Sound Player.md",
-    "_OPERATION/PRIVATE/HOME.md",
-    "_OPERATION/PRIVATE/TERMS OF SERVICE.approval.md",
-    "_OPERATION/PRIVATE/DATACORE/DATACORE.showcase.md",
-    "_OPERATION/PUBLIC/DEVLOG/CHANGE LOG.md",
-    "_OPERATION/PUBLIC/TERMS OF SERVICE.md",
-    "_OPERATION/PRIVATE/DATACORE/35 ActivityWatchDashboard/ACTIVITYWATCH DASHBOARD.md",
-    "_RESOURCES/IMAGES/activity_watch.webp",
-    "README.md",
-    "PROJECTS/COOKBOOK/KNOWLEDGE/HELP/README/README.md",
-    "_OPERATION/PRIVATE/DATACORE/26 LicenseAgreement/LICENSE AGREEMENT.md",
-    "KNOWLEDGE/EXPERIENCES/_public/obsidian/DATACORE.md",
-    "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_public/obsidian/DATACORE.enigmas..md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/PARADOX_v24_.A.md",
-    "_RESOURCES/ASSETS/888/ASSETS LIBRARY_.a.md",
-    "_OPERATION/PRIVATE/DATACORE/4 TagViewer/TAG VIEWER.md",
-    "_OPERATION/PRIVATE/DATACORE/28 LoadScript/LOAD SCRIPT.md",
+    "KNOWLEDGE/EXPERIENCES/_clean/07.13.2025.md",
+    "KNOWLEDGE/EXPERIENCES/_clean/JOURNAL.md",
+    "KNOWLEDGE/EXPERIENCES/_clean/07.12.2025.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/MEME_v03_.A.md",
+    "KNOWLEDGE/EXPERIENCES/_clean/07.11.2025.md",
     "_OPERATION/PRIVATE/DATACORE/30 MatrixGlitchWall/MATRIX GLITCH WALL.md",
-    "_RESOURCES/IMAGES/loadscript.webp",
-    "_OPERATION/PRIVATE/DATACORE/29 FuzzyText/FUZZY TEXT.md",
-    "_RESOURCES/IMAGES/fuzzytext.webp",
-    "_OPERATION/PRIVATE/DATACORE/1 SearchQuery/SEARCH QUERY.md",
-    "_RESOURCES/IMAGES/search_query.webp",
-    "_OPERATION/PRIVATE/DATACORE/28 LoadScript/D.q.loadscript.component.md",
-    "_OPERATION/PRIVATE/DATACORE/21 ExternalInputBlocker/EXTERNAL INPUT BLOCKER.md",
-    "_OPERATION/PRIVATE/DATACORE/17 WindowResizer/WINDOW RESIZER.md",
-    "_RESOURCES/IMAGES/external_input_blocker.webp",
-    "_RESOURCES/IMAGES/window_resizer_fullscreen.webp",
-    "_RESOURCES/IMAGES/window_resizer_window.webp",
-    "_RESOURCES/IMAGES/window_resizer_pip.webp",
-    "_RESOURCES/IMAGES/window_resizer_tab.webp",
-    "_RESOURCES/IMAGES/window_resizer_normal.webp",
-    "_OPERATION/PRIVATE/DATACORE/36 MusicPlayer/MUSIC PLAYER.md",
-    "_OPERATION/PRIVATE/DATACORE/32 SoundPlayer/SOUND PLAYER.md",
+    "_OPERATION/PRIVATE/DATACORE/DATACORE.showcase.md",
+    "KNOWLEDGE/EXPERIENCES/_public/obsidian/DATACORE.md",
+    "KNOWLEDGE/EXPERIENCES/_public/obsidian/DATACORE.habittracker.svg",
+    "KNOWLEDGE/EXPERIENCES/_public/obsidian/DATACORE.habittracker.md",
+    "KNOWLEDGE/EXPERIENCES/_public/obsidian/DATACORE.paragogi.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/PERSON_v05.1_.A.svg",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/PERSON_v05.1_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/PERSON_v05_.A 1.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/CONNECTION_v01_.A.svg",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/CONNECTION_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/HARAMBE_v01_.A 1.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/CREATOR_v01_.A.svg",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/CREATOR_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/GROWTH MINDSET_v01_.A 1.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/GROWTH MINDSET_v01_.A.svg",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/GROWTH MINDSET_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/SELF AWARENESS_v01_.A.svg",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/SELF AWARENESS_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/PERSON_v05_.A.svg",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/PERSON_v05_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/MEME_v03_.A.svg",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/MEME_v02_.A 1.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/MEME_v02_.A.svg",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/MEME_v02_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/CAT_v7_.A 1.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/CAT_v7_.A.svg",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/CAT_v7_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/CAT_v3_.A 1.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/LETTERS_v13_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/LETTERS_v11_.A 1.md",
     "31 LoadingLogol",
     "25 BabylonLocal",
     "_OPERATION/PRIVATE/DATACORE/0 DATACORE.flexilis",

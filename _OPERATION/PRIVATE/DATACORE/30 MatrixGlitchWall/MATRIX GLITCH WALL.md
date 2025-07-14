@@ -24,7 +24,7 @@
     - Be configured (e.g., change colors, character set, speed) without editing the component's props in the code.
         
 
-![[matrix_glitchwall.webp](/_RESOURCES/IMAGES/matrix_glitchwall.webp)
+![matrix_glitchwall.webp](/_RESOURCES/IMAGES/matrix_glitchwall.webp)
 
 
 

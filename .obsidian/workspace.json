@@ -1,0 +1,284 @@
+{
+  "main": {
+    "id": "e4e5677e27efcc03",
+    "type": "split",
+    "children": [
+      {
+        "id": "efa4a6e5eb1cbb3b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9005a62767dc3925",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "5b2da7abcd180a7a",
+    "type": "split",
+    "children": [
+      {
+        "id": "7f907c8f10e7a1c8",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "fc367f0a2fda3ddd",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          },
+          {
+            "id": "d729f495d64f288a",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "file:.enigmas",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "177bf4e8b7c58f91",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          }
+        ],
+        "currentTab": 2
+      }
+    ],
+    "direction": "horizontal",
+    "width": 351.50390243530273
+  },
+  "right": {
+    "id": "fe80ed10167d38ae",
+    "type": "split",
+    "children": [
+      {
+        "id": "5ae72c952d337495",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "99398dc77b07f4fb",
+            "type": "leaf",
+            "state": {
+              "type": "localgraph",
+              "state": {
+                "file": "_RESOURCES/ASSETS/888/ASSETS_.A/OBSIDIAN_v05_.A.md",
+                "options": {
+                  "collapse-filter": true,
+                  "search": "",
+                  "localJumps": 1,
+                  "localBacklinks": true,
+                  "localForelinks": true,
+                  "localInterlinks": false,
+                  "showTags": false,
+                  "showAttachments": false,
+                  "hideUnresolved": false,
+                  "collapse-color-groups": true,
+                  "colorGroups": [],
+                  "collapse-display": true,
+                  "showArrow": false,
+                  "textFadeMultiplier": 0,
+                  "nodeSizeMultiplier": 1,
+                  "lineSizeMultiplier": 1,
+                  "collapse-forces": true,
+                  "centerStrength": 0.518713248970312,
+                  "repelStrength": 10,
+                  "linkStrength": 1,
+                  "linkDistance": 250,
+                  "scale": 1,
+                  "close": true
+                }
+              },
+              "icon": "lucide-git-fork",
+              "title": "Graph of OBSIDIAN_v05_.A"
+            }
+          },
+          {
+            "id": "28d57c5e2db4e005",
+            "type": "leaf",
+            "state": {
+              "type": "file-properties",
+              "state": {},
+              "icon": "lucide-info",
+              "title": "File properties"
+            }
+          },
+          {
+            "id": "12d568276eba990a",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "_OPERATION/PRIVATE/HOME.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for HOME"
+            }
+          },
+          {
+            "id": "846f0b4ea6b3d320",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "KNOWLEDGE/EXPERIENCES/_clean/DONALD TRUMP.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from DONALD TRUMP"
+            }
+          },
+          {
+            "id": "06eed83daab9493d",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "117bece3812745e3",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "_OPERATION/PRIVATE/HOME.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of HOME"
+            }
+          },
+          {
+            "id": "7f4c2f7967465e12",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "horizontal",
+    "width": 343.5,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "publish:Publish changes...": true,
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": true,
+      "daily-notes:Open today's daily note": true,
+      "templates:Insert template": true,
+      "command-palette:Open command palette": false,
+      "workspaces:Manage workspace layouts": false,
+      "random-note:Open random note": false,
+      "obsidian-excalidraw-plugin:New drawing": true,
+      "obsidian42-brat:BRAT": true
+    }
+  },
+  "active": "9005a62767dc3925",
+  "lastOpenFiles": [
+    "_RESOURCES/WEBM/card_cat_1.webm",
+    "_RESOURCES/WEBM/card_cat_3.webm",
+    "_RESOURCES/WEBM/card_cat_2.webm",
+    "_RESOURCES/SVGS/B25/B25 ANNOUNCEMENT.svg",
+    "_RESOURCES/SVGS/B25",
+    "_RESOURCES/SVGS/github.svg",
+    "_RESOURCES/MUSIC/beto.minigame.soundtrack.wav",
+    "_RESOURCES/LOTTIES/brain_lottie.json",
+    "_RESOURCES/LOTTIES/test.json",
+    "_RESOURCES/LOTTIES/fish.json",
+    "_RESOURCES/LOTTIES/aquarium.json",
+    "_RESOURCES/LOTTIES/obsidian_lottie.json",
+    "_RESOURCES/IMAGES/datacore_view_001.png",
+    "_RESOURCES/IMAGES/world_888.webp",
+    "_RESOURCES/IMAGES/lottie_experiment.webp",
+    "_RESOURCES/IMAGES/custom_feed.webp",
+    "_RESOURCES/IMAGES/totem_001.png",
+    "_RESOURCES/IMAGES/BAT.matic.qr.code.png",
+    "_RESOURCES/IMAGES/markdown_editor.webp",
+    "_RESOURCES/IMAGES/fuzzytext.webp",
+    "_RESOURCES/IMAGES/beto.movement.webm",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/NUMBER_v02_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/THIS_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/ADULT_v1._A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/CAT_v4_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/GAME_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/START_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/JUST_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/INFINITY_v03_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/DIVIDEND_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/EMOTIONS_v04_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/GLASSES_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/SETTINGS_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/DATA_v03_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/INDICATE_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/DEER_v1_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/COMPANY_v11_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/RELATIONSHIPS_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/PRODUCT_v02_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/USE_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/SMOKE_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/QUALITY_v1_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/SETUP_v03_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/WALKING HUMAN_v1_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/POINT_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/PAIN_v07_.A.md"
+  ]
+}

@@ -1,0 +1,244 @@
+
+FIXED 
+	;0
+
+
+```datacorejsx
+const query = `@page and path("COOKBOOK/RECIPES/ALL")`;
+
+// DraggableLink Component
+function DraggableLink({ title }) {
+  const handleDragStart = (event) => {
+    // Set the data to be transferred during the drag
+    event.dataTransfer.setData("text/plain", `[[${title}]]`);
+    event.dataTransfer.effectAllowed = "copy";
+  };
+
+  return (
+    <a
+      href={`${title}`} // Removed the '#' to link to the entire note
+      className="internal-link" // Ensure this matches Obsidian's internal link class
+      draggable
+      onDragStart={handleDragStart}
+      title={`Drag to copy [[${title}]]`}
+    >
+      {title} {/* Display only the title without brackets */}
+    </a>
+  );
+}
+
+const COLUMNS = [
+  { 
+    id: "Recipes", 
+    value: (game) => <DraggableLink title={game.$name} /> // Renders the DraggableLink component
+  },
+  { 
+    id: "Source", 
+    value: (game) => game.value("Source") ?? game.value("link") 
+  },
+  { 
+    id: "Genre", 
+    value: (game) => game.value("genre") 
+  },
+  { 
+    id: "Tags", 
+    value: (game) => game.$tags.filter(t => t.startsWith("#")).join(" ") 
+  },
+  { 
+    id: "Rating", 
+    value: (game) => game.value("rating") 
+  }
+];
+
+function GenreGroup(genre, rows) {
+  return (
+    <dc.Group justify="space-between" align="center">
+      <h2>{genre || "Uncategorized"}</h2>
+      <span>{rows.length} recipes</span>
+    </dc.Group>
+  );
+}
+
+const GROUPINGS = { render: GenreGroup };
+
+function View() {
+  const [nameFilter, setNameFilter] = dc.useState("");
+
+  const recipes = dc.useQuery(query);
+  const grouped = dc.useArray(recipes, array => {
+    return array
+      .where(x => nameFilter === "" || x.$name.toLowerCase().includes(nameFilter.toLowerCase()))
+      .sort(x => x.value("rating"), 'desc')
+      .groupBy(x => x.value("genre") || "Uncategorized")
+      .sort(x => x.key);
+  }, [nameFilter]);
+
+  const viewStyle = {
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'hidden'
+  };
+
+  const searchControlStyle = {
+    padding: '10px',
+    flexShrink: 0
+  };
+
+  const tableContainerStyle = {
+    flexGrow: 1,
+    overflowY: 'auto'
+  };
+
+  return (
+    <dc.Stack style={viewStyle}>
+      <dc.Group id="search-controls" justify="end" style={searchControlStyle}>
+        <dc.Textbox 
+          type="search" 
+          placeholder="Filter recipes..." 
+          width="600px" 
+          onChange={e => setNameFilter(e.target.value)} 
+        />
+      </dc.Group>
+      <div style={tableContainerStyle}>
+        <dc.VanillaTable 
+          groupings={GROUPINGS} 
+          columns={COLUMNS} 
+          rows={grouped} 
+          paging={8}
+        />
+      </div>
+    </dc.Stack>
+  );
+}
+
+// Return the View function directly
+return View;
+```
+
+
+
+
+
+
+
+CODE
+
+```jsx
+const query = `@page and path("COOKBOOK/RECIPES/ALL")`;
+
+// DraggableLink Component
+function DraggableLink({ title }) {
+  const handleDragStart = (event) => {
+    // Set the data to be transferred during the drag
+    event.dataTransfer.setData("text/plain", `[[${title}]]`);
+    event.dataTransfer.effectAllowed = "copy";
+  };
+
+  return (
+    <a
+      href={`${title}`} // Removed the '#' to link to the entire note
+      className="internal-link" // Ensure this matches Obsidian's internal link class
+      draggable
+      onDragStart={handleDragStart}
+      title={`Drag to copy [[${title}]]`}
+    >
+      {title} {/* Display only the title without brackets */}
+    </a>
+  );
+}
+
+const COLUMNS = [
+  { 
+    id: "Recipes", 
+    value: (game) => <DraggableLink title={game.$name} /> // Renders the DraggableLink component
+  },
+  { 
+    id: "Source", 
+    value: (game) => game.value("Source") ?? game.value("link") 
+  },
+  { 
+    id: "Genre", 
+    value: (game) => game.value("genre") 
+  },
+  { 
+    id: "Tags", 
+    value: (game) => game.$tags.filter(t => t.startsWith("#")).join(" ") 
+  },
+  { 
+    id: "Rating", 
+    value: (game) => game.value("rating") 
+  }
+];
+
+function GenreGroup(genre, rows) {
+  return (
+    <dc.Group justify="space-between" align="center">
+      <h2>{genre || "Uncategorized"}</h2>
+      <span>{rows.length} recipes</span>
+    </dc.Group>
+  );
+}
+
+const GROUPINGS = { render: GenreGroup };
+
+function View() {
+  const [nameFilter, setNameFilter] = dc.useState("");
+
+  const recipes = dc.useQuery(query);
+  const grouped = dc.useArray(recipes, array => {
+    return array
+      .where(x => nameFilter === "" || x.$name.toLowerCase().includes(nameFilter.toLowerCase()))
+      .sort(x => x.value("rating"), 'desc')
+      .groupBy(x => x.value("genre") || "Uncategorized")
+      .sort(x => x.key);
+  }, [nameFilter]);
+
+  const viewStyle = {
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'hidden'
+  };
+
+  const searchControlStyle = {
+    padding: '10px',
+    flexShrink: 0
+  };
+
+  const tableContainerStyle = {
+    flexGrow: 1,
+    overflowY: 'auto'
+  };
+
+  return (
+    <dc.Stack style={viewStyle}>
+      <dc.Group id="search-controls" justify="end" style={searchControlStyle}>
+        <dc.Textbox 
+          type="search" 
+          placeholder="Filter recipes..." 
+          width="600px" 
+          onChange={e => setNameFilter(e.target.value)} 
+        />
+      </dc.Group>
+      <div style={tableContainerStyle}>
+        <dc.VanillaTable 
+          groupings={GROUPINGS} 
+          columns={COLUMNS} 
+          rows={grouped} 
+          paging={8}
+        />
+      </div>
+    </dc.Stack>
+  );
+}
+
+// Return the View function directly
+return View;
+```
+
+
+
+
+
+

@@ -21,7 +21,7 @@
 
 
 
-- [x] By checking this box, I confirm that I have read, understood, and agree to be bound by the BETO.GROUP Terms of Service and Privacy Policy.
+- [ ] By checking this box, I confirm that I have read, understood, and agree to be bound by the BETO.GROUP Terms of Service and Privacy Policy.
 
 
 

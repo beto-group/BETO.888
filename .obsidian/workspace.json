@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "53c2c071eebf604d",
+        "id": "8cba53974153d7c0",
         "type": "tabs",
         "children": [
           {
-            "id": "92a22897dd94d23f",
+            "id": "d29f1ab994c67f94",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -383,7 +383,7 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "92a22897dd94d23f",
+  "active": "d29f1ab994c67f94",
   "lastOpenFiles": [
     "_OPERATION/PRIVATE/TERMS OF SERVICE.approval.md",
     "_OPERATION/PUBLIC/HOME.md",

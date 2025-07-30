@@ -29,12 +29,13 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [FITNESS EXPLORER](FITNESS%20EXPLORER.md)
 
-###### [ACTIVITYWATCH DASHBOARD](ACTIVITYWATCH%20DASHBOARD.md) {NEW*}
+###### [ACTIVITYWATCH DASHBOARD](ACTIVITYWATCH%20DASHBOARD.md) 
 
 
 
 
 ## **Development & Building Tools**
+
 
 
 ###### [DATACORE.flexilis](DATACORE.flexilis.md)
@@ -45,10 +46,11 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [MARKDOWN EDITOR](MARKDOWN%20EDITOR.md)
 
-###### [CODE EDITOR v1](CODE%20EDITOR%20v1.md) {NEW*}
+###### [CODE EDITOR v1](CODE%20EDITOR%20v1.md) 
 
-###### [CODE EDITOR v2](CODE%20EDITOR%20v2.md) {NEW*}
+###### [CODE EDITOR v2](CODE%20EDITOR%20v2.md) 
 
+###### [[DATACORE QUERY BUILDER]] {NEW}
 
 
 
@@ -70,7 +72,7 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [BABYLON LOCAL](BABYLON%20LOCAL.md)
 
-###### [LOADING LOGO](LOADING%20LOGO.md) {NEW ish*}
+###### [LOADING LOGO](LOADING%20LOGO.md) 
 
 
 
@@ -85,7 +87,7 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [MINIGAME 888](MINIGAME%20888.md)
 
-###### [ANIMATED CARD](ANIMATED%20CARD.md)  {NEW*}
+###### [ANIMATED CARD](ANIMATED%20CARD.md)  
 
 
 
@@ -99,9 +101,9 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [MUSIC BUILDER](MUSIC%20BUILDER.md)
 
-###### [SOUND PLAYER](SOUND%20PLAYER.md) {NEW*}
+###### [SOUND PLAYER](SOUND%20PLAYER.md) 
 
-###### [MUSIC PLAYER](MUSIC%20PLAYER.md) {NEW*}
+###### [MUSIC PLAYER](MUSIC%20PLAYER.md) 
 
 
 
@@ -109,14 +111,13 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [LICENSE AGREEMENT](LICENSE%20AGREEMENT.md)
 
-###### [WINDOW RESIZER](WINDOW%20RESIZER.md) {UPGRADE*}
+###### [WINDOW RESIZER](WINDOW%20RESIZER.md) 
 
 ###### [EXTERNAL INPUT BLOCKER](EXTERNAL%20INPUT%20BLOCKER.md)
 
 ###### [LOAD SCRIPT](LOAD%20SCRIPT.md)
 
-###### [FUZZY TEXT](FUZZY%20TEXT.md) {NEW*}
+###### [FUZZY TEXT](FUZZY%20TEXT.md) 
 
-###### [MATRIX GLITCH WALL](MATRIX%20GLITCH%20WALL.md)  {NEW*}
-
+###### [MATRIX GLITCH WALL](MATRIX%20GLITCH%20WALL.md)  
 

@@ -30,8 +30,153 @@
               "icon": "lucide-file",
               "title": "HOME"
             }
+          },
+          {
+            "id": "7611f5ac27698dcf",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "_RESOURCES/DATACORE/36 MusicPlayer/MUSIC PLAYER.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
+              "icon": "lucide-file",
+              "title": "MUSIC PLAYER"
+            }
+          },
+          {
+            "id": "73ecb78ad8c2b6c8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/DATACORE QUERY BUILDER.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
+              "icon": "lucide-file",
+              "title": "DATACORE QUERY BUILDER"
+            }
+          },
+          {
+            "id": "23d33b2afc18a947",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/D.q.datacorequerybuilder.viewer.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
+              "icon": "lucide-file",
+              "title": "D.q.datacorequerybuilder.viewer"
+            }
+          },
+          {
+            "id": "e9d6f764032e0125",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "_RESOURCES/DATACORE/DATACORE.showcase.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
+              "icon": "lucide-file",
+              "title": "DATACORE.showcase"
+            }
+          },
+          {
+            "id": "31854d79d4a51fdc",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "_RESOURCES/DATACORE/36 MusicPlayer/MUSIC PLAYER.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
+              "icon": "lucide-file",
+              "title": "MUSIC PLAYER"
+            }
+          },
+          {
+            "id": "949d000d3cf4ed6d",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/D.q.datacorequerybuilder.viewer.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
+              "icon": "lucide-file",
+              "title": "D.q.datacorequerybuilder.viewer"
+            }
           }
-        ]
+        ],
+        "currentTab": 4
       }
     ],
     "direction": "vertical"
@@ -383,9 +528,15 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "d29f1ab994c67f94",
+  "active": "e9d6f764032e0125",
   "lastOpenFiles": [
+    "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/D.q.datacorequerybuilder.component.md",
+    "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/D.q.datacorequerybuilder.viewer.md",
+    "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/DATACORE QUERY BUILDER.md",
+    "_RESOURCES/IMAGES/datacore_query_builder.webp",
+    "_RESOURCES/DATACORE/36 MusicPlayer/MUSIC PLAYER.md",
     "_OPERATION/PRIVATE/TERMS OF SERVICE.approval.md",
+    "_RESOURCES/DATACORE/37 DatacoreQueryBuilder",
     "_OPERATION/PUBLIC/HOME.md",
     "README.md",
     "BONJOUR.md",
@@ -405,12 +556,7 @@
     "_OPERATION/PUBLIC/TERMS OF SERVICE.md",
     "_RESOURCES/DATACORE/36 MusicPlayer/D.q.musicplayer.component.md",
     "_RESOURCES/DATACORE/36 MusicPlayer/D.q.musicplayer.viewer.md",
-    "_RESOURCES/DATACORE/36 MusicPlayer/MUSIC PLAYER.md",
     "_RESOURCES/DATACORE/35 ActivityWatchDashboard/D.q.activitywatchdashboard.component.md",
-    "_RESOURCES/DATACORE/35 ActivityWatchDashboard/D.q.activitywatchdashboard.viewer.md",
-    "_RESOURCES/DATACORE/35 ActivityWatchDashboard/ACTIVITYWATCH DASHBOARD.md",
-    "_RESOURCES/DATACORE/34 AnimatedCard/D.q.animatedcard.component.md",
-    "_RESOURCES/DATACORE/34 AnimatedCard/D.q.animatedcard.viewer.md",
     "_RESOURCES/ASSETS/888/ASSETS_.A/THOTH_v3_.A.svg",
     "_OPERATION/PUBLIC/CONTRIBUTIONS/SOL.contribution.svg",
     "_OPERATION/PUBLIC/CONTRIBUTIONS",
@@ -421,7 +567,6 @@
     "888/PROJECTS/888/_RESOURCES/ASSETS/888/ASSETS_.A/DATACORE_v06_.A.svg",
     "888/_RESSOURCES/image-249.png",
     "888/PROJECTS/888/_RESOURCES/ASSETS/888/ASSETS_.A/CONSTRUCTION_v01_.A.svg",
-    "888/_RESSOURCES/image-248.png",
     "888/INSIGHTS/MOBILE/pinkbird/Millionaire Master Plan, The - Roger James Hamilton.pdf",
     "888/INSIGHTS/MOBILE/pinkbird/The Millionaire Master Plan Your Personalized Path to Financial Success (Roger James Hamilton) (Z-Library).epub",
     "888/INSIGHTS/MOBILE/pinkbird/Datacore/MobileExperience",
@@ -430,7 +575,6 @@
     "888/INSIGHTS/MOBILE/pinkbird/Recording 20250715115629.m4a",
     "888/INSIGHTS/MOBILE/pinkbird/voice_over.m4a",
     "888/INSIGHTS/MOBILE/pinkbird/Recording 20250715115558.m4a",
-    "888/INSIGHTS/MOBILE/pinkbird/Recording 20241207150712.m4a",
     "888/PROJECTS/888 copy/PROJECTS/COOKBOOK/KNOWLEDGE/DASHBOARDS/DASHBOARD.canvas",
     "888/PROJECTS/888 copy/KNOWLEDGE/EXPERIENCES/_clean/NFT LAYOUT.canvas",
     "888/PROJECTS/888/PROJECTS/COOKBOOK/KNOWLEDGE/DASHBOARDS/DASHBOARD.canvas",

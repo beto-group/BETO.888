@@ -1085,6 +1085,31 @@
             }
           ],
           "title": "36 MusicPlayer"
+        },
+        {
+          "type": "group",
+          "ctime": 1753900553829,
+          "items": [
+            {
+              "type": "file",
+              "ctime": 1753900572678,
+              "path": "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/DATACORE QUERY BUILDER.md",
+              "title": "Datacore Query Builder"
+            },
+            {
+              "type": "file",
+              "ctime": 1753900599447,
+              "path": "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/D.q.datacorequerybuilder.viewer.md",
+              "title": "Datacore Query Builder Viewer"
+            },
+            {
+              "type": "file",
+              "ctime": 1753900619295,
+              "path": "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/D.q.datacorequerybuilder.component.md",
+              "title": "Datacore Query Builder Component"
+            }
+          ],
+          "title": "37 DatacoreQueryBuilder"
         }
       ],
       "title": "DATACORE"

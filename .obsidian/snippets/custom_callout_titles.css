@@ -1,0 +1,48 @@
+
+
+/* APPLY SPECIAL TITLE FORMAT FOR CALLOUTS TITLES . VERY NICE 🫡 */
+.callout-title {
+  font-variant: small-caps;
+}
+
+
+/* callout part of title ? Idk don't remember teehee oopsie */
+.markdown-embed-title {
+  font-variant: small-caps !important;
+}
+
+.inline-title:not([data-level])  {
+  font-variant: small-caps;
+}
+
+
+/* FOR [[LI]] elements */
+.HyperMD-task-line {
+    font-variant: small-caps;
+}
+
+/* FOR [[LI]] elements / web-view -obsidian publish */
+.task-list-item {
+    font-variant: small-caps;
+}
+
+
+/* we adding more teehee the indent  */
+.cm-line {
+    font-variant: small-caps;
+}
+
+
+
+
+
+
+
+
+
+/* FOR [oBSIDIAn build-in headers] */
+.inline-title {
+    font-variant: small-caps;
+}
+
+

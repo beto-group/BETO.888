@@ -1,0 +1,310 @@
+
+
+/* GENERAL IFRAME CSS */
+
+/* General iframe container */
+.iframe-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px; /* Optional: Limit maximum width */
+  aspect-ratio: 16 / 9; /* Maintain aspect ratio */
+  background-color: #000; /* Fallback background */
+  border-radius: 12px; /* Rounded corners */
+  overflow: hidden; /* Clip content inside rounded edges */
+  box-sizing: border-box; /* Include padding in dimensions */
+  padding: 2px; /* Default slim inner border */
+  background-clip: padding-box; /* Ensure inner border color is inside padding */
+  border: 0; /* No external border */
+  box-shadow: inset 0 0 0 1px rgb(144, 88, 188, 0.8); /* Slim purple border by default */
+  transition: padding 0.3s ease, box-shadow 0.3s ease; /* Smooth hover/focus transition */
+  outline: none; /* Remove default focus outline for cleaner styling */
+}
+
+/* Inner iframe */
+.iframe-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none; /* Remove default iframe border */
+  border-radius: 10px; /* Slightly smaller to account for padding */
+  display: block; /* Prevent inline spacing issues */
+}
+
+/* Hover and focus effect for the container */
+.iframe-container:hover,
+.iframe-container:focus-within {
+  padding: 5px; /* Thicker inner border on hover/focus */
+  box-shadow: inset 0 0 0 3px rgb(144, 88, 188, 0.8); /* Thicker purple glow */
+  outline: none; /* Ensure no default outline appears */
+  transition: padding 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+
+
+.iframe-container.portrait {
+  height: auto; /* Allow content to dictate height */
+  max-height: 100vh; /* Prevent overflow on smaller screens */
+}
+
+
+
+/* CSS FOR DIFFERENT PLATFORMS    */
+
+
+/* YouTube: */
+
+/* YouTube Video */
+.iframe-youtube-video {
+  aspect-ratio: 16 / 9;
+  border: 2px solid rgba(99, 66, 222, 0.5);
+}
+
+/* YouTube Shorts */
+.iframe-youtube-short {
+  aspect-ratio: 9 / 16;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(99, 66, 222, 0.3);
+}
+
+.iframe-youtube-short:hover {
+  border: 2px solid #6342DE;
+  box-shadow: 0 10px 20px rgba(99, 66, 222, 0.6);
+}
+
+
+/* Instagram: */
+
+/* Instagram Post */
+.iframe-instagram-post {
+  aspect-ratio: 1 / 1;
+  border: 2px solid #6342DE;
+}
+
+.iframe-instagram-post:hover {
+  box-shadow: 0 8px 16px rgba(99, 66, 222, 0.4);
+}
+
+/* Instagram Reel */
+.iframe-instagram-reel {
+  aspect-ratio: 4 / 5;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #6342DE, #4B3BB4); /* Purple gradient */
+}
+
+.iframe-instagram-reel:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 24px rgba(99, 66, 222, 0.5);
+}
+
+
+
+/* Twitter Embed */
+.iframe-twitter {
+  aspect-ratio: 3 / 2;
+  border: 2px solid rgba(99, 66, 222, 0.5);
+}
+
+.iframe-twitter:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 16px rgba(99, 66, 222, 0.4);
+  border: 2px solid #6342DE;
+}
+
+
+/* LinkedIn: */
+
+/* LinkedIn: Horizontal feed content */
+.iframe-linkedin {
+  aspect-ratio: 3/5; /* Wide feed format */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  background: #f3f6f8; /* Neutral LinkedIn background */
+  border-radius: 8px; /* Smooth corners */
+  border: 2px solid rgba(99, 66, 222, 0.3); /* Purple-tinted border */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* LinkedIn: Horizontal feed content */
+.iframe-linkedin-post {
+  aspect-ratio: 3/5; /* Wide feed format */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  background: #f3f6f8; /* Neutral LinkedIn background */
+  border-radius: 8px; /* Smooth corners */
+  border: 2px solid rgba(99, 66, 222, 0.3); /* Purple-tinted border */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.iframe-linkedin:hover {
+  transform: scale(1.03); /* Slight zoom on hover */
+  box-shadow: 0 8px 16px rgba(99, 66, 222, 0.4); /* Purple glow on hover */
+  border: 2px solid #6342DE; /* Bold purple border */
+}
+
+/* Facebook: */
+
+/* Facebook: Vertical or square content */
+.iframe-facebook {
+  aspect-ratio: 2 / 3; /* Default square posts */
+  border: 2px solid #4267B2; /* Facebook’s primary blue */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: #f7f7f7; /* Neutral background for clarity */
+  width: 55%;
+}
+
+.iframe-facebook:hover {
+  transform: scale(1.03); /* Slight zoom effect */
+  box-shadow: 0 10px 20px rgba(66, 103, 178, 0.4); /* Facebook blue shadow */
+  border: 2px solid #4267B2; /* Intensify blue on hover */
+}
+
+
+
+/* Snapchat: Placeholder for unsupported embed */
+.iframe-snapchat {
+  aspect-ratio: 9 / 16; /* Vertical stories */
+  background: #FFFC00; /* Snapchat yellow */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000; /* Black text for high contrast */
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  border: 2px solid #000; /* Black border for emphasis */
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.iframe-snapchat:hover {
+  transform: scale(1.02); /* Slight scaling effect */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Soft shadow */
+}
+
+
+
+
+
+
+
+
+/* NARU.b hehe */
+
+
+/* Specific iframe style for NARU.b links */
+.naru-iframe {
+  position: relative;
+  width: 100%;
+  max-width: 800px; /* Limit max width */
+  aspect-ratio: 16 / 9; /* Maintain video aspect ratio */
+  border: none; /* Remove default iframe border */
+  border-radius: 12px; /* Rounded corners */
+  background: #1a1a1a; /* Fallback for broken embeds */
+  overflow: hidden; /* Clip content */
+  box-shadow: 0 0 0 2px rgba(144, 88, 188, 0.8); /* Purple border */
+  z-index: 1; /* Ensure layering */
+}
+
+/* Add pseudo-elements for glitch effect */
+.naru-iframe::before, 
+.naru-iframe::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(144, 88, 188, 0.2); /* Glitch color overlay */
+  mix-blend-mode: screen; /* Glitch-like effect */
+  z-index: 2; /* Above iframe content */
+  pointer-events: none; /* Prevent interaction */
+  animation: glitch 1.5s infinite;
+}
+
+/* Second layer for stronger glitch */
+.naru-iframe::after {
+  background: rgba(255, 0, 128, 0.1); /* Secondary glitch color */
+  animation: glitch 1.5s infinite reverse; /* Reverse animation for variation */
+}
+
+/* Add warning message using ::before */
+.naru-iframe::before {
+  content: "⚠️ Video Unavailable"; /* Warning message */
+  font-size: 1rem;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.9); /* White warning text */
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.7); /* Dark faded overlay */
+  z-index: 3; /* Above everything else */
+}
+
+/* Glitch animation */
+@keyframes glitch {
+  0% {
+      clip-path: inset(10% 0 85% 0);
+  }
+  25% {
+      clip-path: inset(50% 0 25% 0);
+      transform: translate(-2px, -2px);
+  }
+  50% {
+      clip-path: inset(15% 0 75% 0);
+      transform: translate(2px, 2px);
+  }
+  75% {
+      clip-path: inset(25% 0 60% 0);
+      transform: translate(-1px, 1px);
+  }
+  100% {
+      clip-path: inset(10% 0 85% 0);
+      transform: translate(0);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+/* FIX BUG */
+
+.callout-content {
+  /* Removed overflow-x: auto; */
+  overflow: visible !important; /* Default behavior */
+}
+
+
+
+
+
+/* MOBILE IMPROVEMENT CSS */
+
+
+@media (max-width: 768px) {
+  .iframe-container:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 12px rgba(99, 66, 222, 0.3);
+      z-index: 10; /* Fix disappearing on hover */
+  }
+}
+
+@media (max-width: 480px) {
+  .iframe-container {
+      aspect-ratio: 1 / 1;
+      z-index: 1;
+  }
+
+  .iframe-container:hover {
+      transform: scale(1.01); /* Subtle scaling on small screens */
+      box-shadow: none; /* Reduce shadow for cleaner look */
+      z-index: 10;
+  }
+}

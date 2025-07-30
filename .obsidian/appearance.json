@@ -1,0 +1,15 @@
+{
+  "accentColor": "#9058de",
+  "baseFontSize": 12,
+  "cssTheme": "",
+  "theme": "obsidian",
+  "enabledCssSnippets": [
+    "hide-folders",
+    "hideBrowserSearchBarOnNewTabs.errorCorrection",
+    "custom_callout_titles",
+    "custom_about_callouts",
+    "custom_iframe",
+    "highlight_color",
+    "obsidian_logo"
+  ]
+}

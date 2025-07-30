@@ -10,6 +10,14 @@ permalink: obsidian.plugins.datacore.enigmas
 
 
 
+
+create a screen filter component
+
+
+------
+
+
+
 this would be fun to recreate
 https://www.drumha.us/
 

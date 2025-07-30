@@ -11,7 +11,7 @@ Our mission is simple and cyclical: **Discover, Learn, Develop, Teach, Repeat.**
 > [!TIP]
 > **To update the vault** in the future, navigate to its folder in your terminal and run git pull.
 > 
-> **Once the vault is open,** we recommend exploring the [DATACORE.showcase](_OPERATION/PRIVATE/DATACORE/DATACORE.showcase.md) note and the Bookmarked items in the left panel to get oriented.
+> **Once the vault is open,** we recommend exploring the [DATACORE.showcase](DATACORE.showcase.md) note and the Bookmarked items in the left panel to get oriented.
 
 ---
 
@@ -19,7 +19,7 @@ Our mission is simple and cyclical: **Discover, Learn, Develop, Teach, Repeat.**
 
 This vault is more than just a collection of notes; it's a feature-rich platform for your Obsidian environment.
 
-*   🛠️ **Datacore Components:** A powerful, growing library of interactive tools and components built to enhance your workflow, organization, and creative expression. See them in action in the [DATACORE.showcase](_OPERATION/PRIVATE/DATACORE/DATACORE.showcase).
+*   🛠️ **Datacore Components:** A powerful, growing library of interactive tools and components built to enhance your workflow, organization, and creative expression. See them in action in the [DATACORE.showcase](DATACORE.showcase.md).
 *   🖼️ **Assets Library:** A curated collection of versatile visuals, icons, and images ready to be used in your own projects and notes.
 *   📜 **Embedded Guides:** Your vault comes with this README, a full [FAQ](https://www.beto.group/faq), and our [LICENSE GUIDE](_OPERATION/PUBLIC/LICENSE%20GUIDE) to ensure you have all the information you need right at your fingertips.
 *   🔮 **[COMING SOON] The "Enigmas" Collection:** A future expansion will add curated knowledge packs on diverse topics (Health, Wealth, Experiences) designed to spark deep exploration.

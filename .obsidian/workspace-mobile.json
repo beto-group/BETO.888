@@ -1,0 +1,179 @@
+{
+  "main": {
+    "id": "acd2099649a7cddc",
+    "type": "split",
+    "children": [
+      {
+        "id": "47178d503f080755",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "199b58c3ef84368d",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "888/PROJECTS/888/_OPERATION/PUBLIC/ABOUT.md",
+                "mode": "source",
+                "backlinks": true,
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "022adc63453a0a15",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Excalidraw/Drawing 2024-04-29 10.26.11.excalidraw.md",
+                "mode": "source",
+                "backlinks": true,
+                "source": false
+              }
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "bd933a67f77be742",
+    "type": "mobile-drawer",
+    "children": [
+      {
+        "id": "937fc262a266944a",
+        "type": "leaf",
+        "state": {
+          "type": "file-explorer",
+          "state": {
+            "sortOrder": "alphabetical"
+          }
+        }
+      },
+      {
+        "id": "dfc067224beeb510",
+        "type": "leaf",
+        "state": {
+          "type": "search",
+          "state": {
+            "query": "Beto",
+            "matchingCase": false,
+            "explainSearch": false,
+            "collapseAll": false,
+            "extraContext": false,
+            "sortOrder": "alphabetical"
+          }
+        }
+      },
+      {
+        "id": "d6726018a7704a71",
+        "type": "leaf",
+        "state": {
+          "type": "tag",
+          "state": {
+            "sortOrder": "frequency",
+            "useHierarchy": true
+          }
+        }
+      },
+      {
+        "id": "858e2cc131456e69",
+        "type": "leaf",
+        "state": {
+          "type": "all-properties",
+          "state": {
+            "sortOrder": "frequency",
+            "showSearch": false,
+            "searchQuery": ""
+          }
+        }
+      },
+      {
+        "id": "064488d20fcae255",
+        "type": "leaf",
+        "state": {
+          "type": "bookmarks",
+          "state": {}
+        }
+      }
+    ],
+    "currentTab": 1
+  },
+  "right": {
+    "id": "95cd688999aba99e",
+    "type": "mobile-drawer",
+    "children": [
+      {
+        "id": "a73a441a3b3a9b9a",
+        "type": "leaf",
+        "state": {
+          "type": "backlink",
+          "state": {
+            "file": "Excalidraw/Drawing 2024-04-29 10.26.11.excalidraw.md",
+            "collapseAll": true,
+            "extraContext": true,
+            "sortOrder": "alphabetical",
+            "showSearch": false,
+            "searchQuery": "",
+            "backlinkCollapsed": false,
+            "unlinkedCollapsed": true
+          }
+        }
+      },
+      {
+        "id": "009fbbb8c2a0a902",
+        "type": "leaf",
+        "state": {
+          "type": "outgoing-link",
+          "state": {
+            "file": "Excalidraw/Drawing 2024-04-29 10.26.11.excalidraw.md",
+            "linksCollapsed": false,
+            "unlinkedCollapsed": true
+          }
+        }
+      },
+      {
+        "id": "359588b3a0c34699",
+        "type": "leaf",
+        "state": {
+          "type": "outline",
+          "state": {
+            "file": "Excalidraw/Drawing 2024-04-29 10.26.11.excalidraw.md"
+          }
+        }
+      }
+    ],
+    "currentTab": 0
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "publish:Publish changes...": false,
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "random-note:Open random note": false,
+      "workspaces:Manage workspace layouts": false,
+      "templater-obsidian:Templater": false,
+      "notion-like-tables:Create loom": false,
+      "obsidian-excalidraw-plugin:Create new drawing": false
+    }
+  },
+  "active": "022adc63453a0a15",
+  "lastOpenFiles": [
+    "888/PROJECTS/888/_OPERATION/PUBLIC/ABOUT.md",
+    "Excalidraw/Drawing 2024-04-29 10.26.11.excalidraw.md",
+    "ACTIONS/_OVERVIEW/SECOND BRAIN/PEOPLE/TUNDY/NOTES/Tundy note.md",
+    "ACTIONS/_OVERVIEW/SECOND BRAIN/PEOPLE/TUNDY/TUNDY.md",
+    "888/_RESSOURCES/VIDS/Don't let dehydration destroy your phyical and mental health.mp4",
+    "888/_RESSOURCES/VIDS/How food affects you. Part 4 of 30.mp4",
+    "888/_RESSOURCES/VIDS/Increase Your Metabolism With This Trick-Neuroscientist Andrew Huberman.mp4",
+    "888/_RESSOURCES/VIDS/Grilled Matambre： South American Delight! ｜ Al Frugoni - Open Fire Cooking.mp4",
+    "888/_RESSOURCES/VIDS/Calisthenics AT HOME - you can train anywhere.mp4"
+  ]
+}

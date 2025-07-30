@@ -1,0 +1,31 @@
+{
+  "canvasState": {
+    "position": {
+      "x": 66.25134142455718,
+      "y": -218.4248954832998
+    },
+    "zoom": 0.8638375985314756,
+    "isDarkMode": true,
+    "isCanvasLocked": false
+  },
+  "boxes": [
+    {
+      "id": "box-1753844269874-e7ijo",
+      "x": 55.228931635990534,
+      "y": 367.7103675043995,
+      "width": 555,
+      "height": 444,
+      "baseColor": "white",
+      "backgroundColor": "rgba(50, 50, 50, 0.7)",
+      "opacity": 1,
+      "border": "1px dashed #888",
+      "label": "Datacore Component (Edit to Configure)",
+      "type": "datacore-component",
+      "filePath": "_RESOURCES/DATACORE/12 LottieExperiment/D.q.lottieexperiment.component.md",
+      "header": "ViewComponent",
+      "functionName": "View",
+      "autoReload": false,
+      "props": {}
+    }
+  ]
+}

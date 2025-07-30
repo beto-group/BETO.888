@@ -109,7 +109,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "_RESOURCES/DATACORE/DATACORE.showcase.md",
+                "file": "README.md",
                 "mode": "source",
                 "source": false,
                 "backlinks": true,
@@ -124,7 +124,7 @@
                 }
               },
               "icon": "lucide-file",
-              "title": "DATACORE.showcase"
+              "title": "README"
             }
           },
           {
@@ -530,6 +530,7 @@
   },
   "active": "e9d6f764032e0125",
   "lastOpenFiles": [
+    "_RESOURCES/DATACORE/DATACORE.showcase.md",
     "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/D.q.datacorequerybuilder.component.md",
     "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/D.q.datacorequerybuilder.viewer.md",
     "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/DATACORE QUERY BUILDER.md",
@@ -548,7 +549,6 @@
     "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.v4.md",
     "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.v1.md",
     "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.md",
-    "_RESOURCES/DATACORE/DATACORE.showcase.md",
     "KNOWLEDGE/EXPERIENCES/_clean/EXPERIENCES.md",
     "KNOWLEDGE/888.md",
     "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v4.viewer.md",

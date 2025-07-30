@@ -96,6 +96,53 @@ This method uses Git to clone a lightweight version of the repository with fewer
     - Select "Open folder as vault".
     - Navigate to the `BETO.888` folder you just cloned and select it.
 
+
+
+#### Method 3: Using Git - Lightweight Version (Smaller disk footprint)
+
+This method uses Git to clone only the essential files to your local disk, saving space and reducing clutter in your workspace. You'll still have the full history for updates.
+
+1. **Prepare your environment:**
+    - Make sure you have Git installed (version 2.25+ recommended for simpler commands).
+    - Open your computer's terminal (or Command Prompt / PowerShell on Windows).
+
+2. **Clone the vault without checking out files:**  
+    This command downloads the full repository history but leaves your local folder empty of files for now.
+
+```shell
+git clone --no-checkout https://github.com/BETO-GROUP/BETO.888
+cd BETO.888
+```
+  
+3. **Configure for specific folders:**  
+    Next, tell Git which parts of the vault you want to see on your disk. This example only pulls the necessary _RESOURCES/DATACORE folder.
+	
+```shell
+git sparse-checkout init --cone
+git sparse-checkout set _RESOURCES/DATACORE
+```
+
+    If you later decide you need other top-level folders, you can add them, e.g., git sparse-checkout set --add .obsidian
+	    or desiring only specific Datacore Component add /Folder name within `git sparse-checkout set` command
+
+4. **Populate your vault**:
+    Now, tell Git to actually put the selected files into your folder.
+
+```shell
+git checkout main
+```
+
+5. **Open in Obsidian:**
+    
+    - Launch the Obsidian application.
+    - Click on "Open another vault".
+    - Select "Open folder as vault".
+    - Navigate to the BETO.888 folder you just cloned and select it. You will only see the _RESOURCES folder and its contents.
+	    - remember you might not have installed `.obsidian` folder so wont have obsidian plugin/styling available either manual install or run a `git-sparse-checkout set .obsiidian` to add basic obsidian vault configs
+
+
+---
+
 ---
 
 That's it! The BETO.888 vault will open, and your journey begins.

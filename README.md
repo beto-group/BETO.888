@@ -79,25 +79,6 @@ This method uses Git to clone the full repository. The main advantage is that it
     - Navigate to the `BETO.888` folder you just cloned and select it.
 
 ---
-
-#### Method 3: Using Git - Lite Version (Smaller download)
-This method uses Git to clone a lightweight version of the repository with fewer files, ideal for smaller storage needs.
-
-1.  **Clone the Lite Vault:**
-    - Make sure you have Git installed.
-    - Open your computer's terminal (or Command Prompt / PowerShell on Windows) and run the following command. This will download a smaller version of the repository into a new `BETO.888` folder, specifically from the `lite` branch.
-    ```shell
-    git clone -b lite https://github.com/BETO-GROUP/BETO.888
-    ```
-
-2.  **Open in Obsidian:**
-    - Launch the Obsidian application.
-    - Click on "Open another vault".
-    - Select "Open folder as vault".
-    - Navigate to the `BETO.888` folder you just cloned and select it.
-
-
-
 #### Method 3: Using Git - Lightweight Version (Smaller disk footprint)
 
 This method uses Git to clone only the essential files to your local disk, saving space and reducing clutter in your workspace. You'll still have the full history for updates.

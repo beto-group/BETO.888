@@ -103,7 +103,7 @@ git sparse-checkout init --cone
 git sparse-checkout set _RESOURCES/DATACORE
 ```
 
-    If you later decide you need other top-level folders, you can add them, e.g., git sparse-checkout set --add .obsidian
+If you later decide you need other top-level folders, you can add them, e.g., git sparse-checkout set --add .obsidian
 	    or desiring only specific Datacore Component add /Folder name within `git sparse-checkout set` command
 
 4. **Populate your vault**:
@@ -119,7 +119,7 @@ git checkout main
     - Click on "Open another vault".
     - Select "Open folder as vault".
     - Navigate to the BETO.888 folder you just cloned and select it. You will only see the _RESOURCES folder and its contents.
-	    - remember you might not have installed `.obsidian` folder so wont have obsidian plugin/styling available either manual install or run a `git-sparse-checkout set .obsiidian` to add basic obsidian vault configs
+	    - remember you might not have installed `.obsidian` folder so wont have obsidian plugin/styling available either manual install or run a `git sparse-checkout set .obsidian` to add basic obsidian vault configs
 
 
 ---

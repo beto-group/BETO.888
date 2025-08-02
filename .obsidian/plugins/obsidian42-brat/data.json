@@ -3,7 +3,12 @@
     "kctekn/obsidian-TagsRoutes",
     "blacksmithgu/datacore"
   ],
-  "pluginSubListFrozenVersion": [],
+  "pluginSubListFrozenVersion": [
+    {
+      "repo": "kctekn/obsidian-TagsRoutes",
+      "version": ""
+    }
+  ],
   "themesList": [],
   "updateAtStartup": true,
   "updateThemesAtStartup": true,

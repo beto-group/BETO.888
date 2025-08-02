@@ -1,0 +1,307 @@
+/*
+This CSS file will be included with your plugin, and
+available in the app when your plugin is enabled.
+If your plugin does not need CSS, delete this file.
+*/
+
+.tags-routes {
+    padding: 0px !important;
+    position: relative;
+    overflow: hidden   !important;
+}
+
+/* .tags-routes .graph-container {
+    overflow: hidden !important;
+} */
+
+.tags-routes .tooltip-wrapper {
+    position: absolute;
+    margin-left: 0px;
+    transition: 1s ease-in-out;
+}
+
+.tags-routes .tooltip-wrapper {
+    overflow: hidden;
+    display: flex;
+    background-color: var(--background-secondary);
+    position: absolute !important;
+    left: 0px;
+    bottom: 0px;
+    border-top-right-radius: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+.tags-routes .tooltip-flexbox-container {
+    display: flex;
+    font: var(--text-normal);
+    top: 2.5%;
+    height: 95%;
+    width: 100%;
+    margin-left: 0%;
+}
+
+.tags-routes .hidden {
+    position: relative;
+    margin-left: -34.1em !important;
+    transition: 1s ease-in-out;
+}
+
+.tags-routes .tooltip-flexbox-container-hide {
+    font: var(--text-normal);
+    font-size: 10px;
+    margin-bottom: 0px;
+    border-radius: 0px;
+    border-top-right-radius: 5px;
+}
+
+.tags-routes .tooltip-flexbox {
+    margin: 5px;
+    font-size: 10px;
+}
+
+.tags-routes .tooltip-divider {
+    border: 0.5px solid var(--background-secondary-alt);
+    border-radius: 5px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+
+/* .tags-routes .settings-container {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: var(--background-primary);
+} */
+
+.tags-routes .narrow-icon-style {
+    padding: 0px;
+    border-radius: 2px;
+}
+
+.tags-routes .mod-close {
+    position: absolute;
+    top: var(--size-4-1);
+    inset-inline-end: var(--size-4-2);
+    padding: var(--size-2-2);
+}
+
+
+/*
+.tags-routes .slider-container {
+    display: block;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+
+.tags-routes .group-holder {
+    text-align: center;
+}
+*/
+
+.tags-routes .graph-button {
+    top: 15px;
+    right: 10px;
+    z-index: 10;
+    padding: 1px 10px;
+/*    margin: 4px;*/
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 25px;
+    text-align: center;
+}
+
+
+/* .tags-routes .title-bar {
+    display: block;
+    text-align: left;
+} */
+
+.tags-routes .inline-settings {
+    display: grid;
+    justify-content: end;
+    grid-auto-flow: column;
+    align-items: end;
+    /*  border-top: 1px solid var(--background-modifier-border);*/
+    text-align: right;
+}
+
+.tags-routes .tg-settingtab-heading {
+    border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.tags-routes .group-bar-button {
+    display: inline-block;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.tags-routes .group-bar-text {
+    display: inline-block;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-right: 45px;
+    margin-right: 5px;
+}
+
+.tags-routes .setting-item-block {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 0px;
+    border-top: 0px;
+}
+
+.tags-routes .setting-flex-box {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tags-routes .setting-item-inline {
+    display: flex;
+    justify-content: space-between;
+    border-top: 0px;
+}
+
+.tags-routes .setting-item-inline .setting-item-info {
+    flex: 0 1 auto;
+    padding-left: 5px;
+    justify-content: space-between;
+}
+
+.tags-routes .setting-item-name {
+    margin-left: 2px;
+}
+
+.tags-routes .setting-item-control input[type="range"] {
+    width: 100%;
+    height: 1px;
+    margin-top: 0.6em;
+    margin-bottom: 0.6em;
+    /* 确保滑动条的input元素也占据100%宽度 */
+}
+
+.tags-routes .setting-item-control input[type="text"] {
+    width: 100%;
+    margin-top: 0.5em;
+    padding: 0px;
+}
+.tags-routes .setting-item-filter {
+    display: flex;
+    align-items: flex-start ;
+}
+.tags-routes .setting-item-filter .setting-item-control textarea{
+    width: 20em;
+    height: 15em;
+}
+.tags-routes .setting-item-filter .setting-item-description {
+    padding-left: 0.2em;
+}
+.notice-container {
+    /*  display: none;*/
+}
+
+.tags-routes .scene-nav-info {
+    display: none;
+    visibility: hidden;
+}
+
+.tags-routes-settings-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tags-routes .group-link-button .clickable-icon {
+    /*  color: var(--interactive-accent);*/
+}
+.tags-routes .graph-animate-play-button .clickable-icon {
+  /*  color: var(--interactive-accent);*/
+}
+.tags-routes .graph-controls{
+    background-color: rgb(from var(--background-primary) r g b / 0.7)
+ }
+.tags-routes-need-save {
+    border-bottom: 5px solid var(--interactive-accent-hover);
+}
+.monitor-screen {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: rgb(from var(--background-primary) r g b / 0.7);
+    /*border: 1px solid #ccc;*/
+    /*border: 1px solid;*/
+    padding: 2px;
+    border-radius: 4px;
+    /*box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);*/
+    border: 1px solid var(--background-modifier-border);
+    box-shadow: var(--shadow-s)
+  }
+
+/*
+.tags-routes .graph-control-section{
+    padding: var(--size-2-3) var(--size-4-3)
+}*/
+
+.container-fluid {
+    /*height: 100px;*/
+    /*background: linear-gradient(45deg, #2d2a6c 1%,#5b81ea 83%,#9393f2 100%);*/
+    background: linear-gradient(45deg, var(--background-primary) 1%, var(--background-secondary) 83%, var(--background-secondary-alt) 100%);
+    text-align: center;
+    padding-top: 10px;
+    overflow: hidden !important;
+    position: relative;
+}
+
+.tg-alert {
+    color: var(--text-accent);
+    font-size: 2em;
+    animation: interference 3s infinite;
+}
+
+@keyframes interference {
+    0% {
+        transform: skewX(0)
+    }
+    31% {
+        transform: skewX(-2deg)
+    }
+    31.5% {
+        transform: skewX(89deg)
+    }
+    32% {
+        transform: skewX(89deg)
+    }
+    32.1% {
+        transform: skewX(0)
+    }
+    33% {
+        transform: skewX(2deg)
+    }
+    54% {
+        transform: skewX(0deg)
+    }
+    94% {
+        transform: skewX(2deg)
+    }
+    95.1% {
+        transform: skewX(-3deg)
+    }
+    95.2% {
+        transform: skewX(-89deg)
+    }
+    95.3% {
+        transform: skewX(2deg)
+    }
+    100% {
+        transform: skewX(0)
+    }
+}

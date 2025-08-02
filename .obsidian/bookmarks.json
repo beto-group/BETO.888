@@ -557,23 +557,23 @@
             {
               "type": "file",
               "ctime": 1753895699519,
-              "path": "_RESOURCES/DATACORE/17 WindowResizer/WINDOW RESIZER.md",
-              "title": "Window Resizer"
+              "path": "_RESOURCES/DATACORE/17 ViewsControl/VIEWS CONTROL.md",
+              "title": "Views Control"
             },
             {
               "type": "file",
               "ctime": 1753895708302,
-              "path": "_RESOURCES/DATACORE/17 WindowResizer/D.q.windowresizer.viewer.md",
-              "title": "Window Resizer Viewer"
+              "path": "_RESOURCES/DATACORE/17 ViewsControl/D.q.viewscontrol.viewer.md",
+              "title": "Views Control Viewer"
             },
             {
               "type": "file",
               "ctime": 1753895718784,
-              "path": "_RESOURCES/DATACORE/17 WindowResizer/D.q.windowresizer.component.md",
-              "title": "Window Resizer Component"
+              "path": "_RESOURCES/DATACORE/17 ViewsControl/D.q.viewscontrol.component.md",
+              "title": "Views Control Component"
             }
           ],
-          "title": "17 WindowResizer"
+          "title": "17 ViewsControl"
         },
         {
           "type": "group",

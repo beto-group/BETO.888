@@ -111,7 +111,7 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [LICENSE AGREEMENT](LICENSE%20AGREEMENT.md)
 
-###### [WINDOW RESIZER](WINDOW%20RESIZER.md) 
+###### [VIEWS CONTROL](VIEWS%20CONTROL.md) 
 
 ###### [EXTERNAL INPUT BLOCKER](EXTERNAL%20INPUT%20BLOCKER.md)
 

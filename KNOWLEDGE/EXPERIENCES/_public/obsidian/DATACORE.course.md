@@ -1,6 +1,5 @@
 
-great ressource
-https://blacksmithgu.github.io/datacore/
+###### [[DATACORE.doc]]
 
 what we want to teach
 

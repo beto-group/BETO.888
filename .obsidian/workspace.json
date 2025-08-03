@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "_OPERATION/PUBLIC/HOME.md",
+                "file": "_RESOURCES/DATACORE/DATACORE.showcase.md",
                 "mode": "source",
                 "source": false,
                 "backlinks": true,
@@ -28,7 +28,7 @@
                 }
               },
               "icon": "lucide-file",
-              "title": "HOME"
+              "title": "DATACORE.showcase"
             }
           }
         ]
@@ -105,10 +105,10 @@
             "state": {
               "type": "file-properties",
               "state": {
-                "file": "_OPERATION/PUBLIC/HOME.md"
+                "file": "_RESOURCES/DATACORE/DATACORE.showcase.md"
               },
               "icon": "lucide-info",
-              "title": "File properties for HOME"
+              "title": "File properties for DATACORE.showcase"
             }
           },
           {
@@ -377,15 +377,19 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "fc367f0a2fda3ddd",
+  "active": "6cd9562edd766b34",
   "lastOpenFiles": [
     "_RESOURCES/DATACORE/17 ViewsControl/VIEWS CONTROL.md",
+    "_RESOURCES/DATACORE/DATACORE.showcase.md",
+    "_OPERATION/PUBLIC/HOME.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/EDITOR_v01_.A.svg",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/EDITOR_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/HARAMBE_v01_.A 1.md",
     "_RESOURCES/ASSETS/888/ASSETS_.A/CONTROL_v03_.A.svg",
     "_RESOURCES/ASSETS/888/ASSETS_.A/CONTROL_v03_.A.md",
     "_RESOURCES/ASSETS/888/ASSETS_.A/CONTROL_v02_.A 1.md",
     "_RESOURCES/ASSETS/888/ASSETS_.A/CONTROL_v02_.A.svg",
     "_RESOURCES/ASSETS/888/ASSETS_.A/CONTROL_v02_.A.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/HARAMBE_v01_.A 1.md",
     "_RESOURCES/IMAGES/views_control_window.webp",
     "_RESOURCES/IMAGES/views_control_pip.webp",
     "_RESOURCES/DATACORE/17 ViewsControl/D.q.viewscontrol.viewer.md",
@@ -394,7 +398,6 @@
     "_RESOURCES/IMAGES/views_control_normal.webp",
     "_RESOURCES/IMAGES/views_control_full.webp",
     "_RESOURCES/IMAGES/window_resizer_normal.webp",
-    "_RESOURCES/IMAGES/window_resizer_fullscreen.webp",
     "_RESOURCES/DATACORE/17 ViewsControl/D.q.viewscontrol.component.md",
     "_OPERATION/PUBLIC/SOCIALS/YOUTUBE/ODDD/OBSIDIAN.daily.discipline.d075.md",
     "_OPERATION/PUBLIC/SOCIALS/YOUTUBE/ODDD/OBSIDIAN.daily.discipline.d074 1.md",
@@ -410,10 +413,8 @@
     "_RESOURCES/ASSETS/888/ASSETS_.A/INSTALL_v01_.A.md",
     "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/D.q.datacorequerybuilder.viewer.md",
     "_RESOURCES/DATACORE/36 MusicPlayer/MUSIC PLAYER.md",
-    "_OPERATION/PUBLIC/HOME.md",
     "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/DATACORE QUERY BUILDER.md",
     "README.md",
-    "_RESOURCES/ASSETS/888/ASSETS LIBRARY_.a 1.md",
     "_RESOURCES/DATACORE/37 DatacoreQueryBuilder",
     "_OPERATION/PUBLIC/CONTRIBUTIONS",
     "888/INSIGHTS/MOBILE/pinkbird/Millionaire Master Plan, The - Roger James Hamilton.pdf",

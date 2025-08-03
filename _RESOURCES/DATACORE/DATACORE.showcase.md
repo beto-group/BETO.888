@@ -50,7 +50,7 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [CODE EDITOR v2](CODE%20EDITOR%20v2.md) 
 
-###### [[DATACORE QUERY BUILDER]] {NEW}
+###### [DATACORE QUERY BUILDER](DATACORE%20QUERY%20BUILDER.md) {NEW}
 
 
 

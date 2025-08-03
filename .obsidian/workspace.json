@@ -4,7 +4,7 @@
     "type": "split",
     "children": [
       {
-        "id": "ef5757a65ca2a266",
+        "id": "e6e3c818705c5b72",
         "type": "tabs",
         "children": [
           {
@@ -378,10 +378,21 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "177bf4e8b7c58f91",
+  "active": "6cd9562edd766b34",
   "lastOpenFiles": [
-    "_RESOURCES/DATACORE/1 SearchQuery/SEARCH QUERY.md",
+    "_RESOURCES/DATACORE/32 SoundPlayer/SOUND PLAYER.md",
     "_RESOURCES/DATACORE/DATACORE.showcase.md",
+    "_RESOURCES/DATACORE/34 AnimatedCard/ANIMATED CARD.md",
+    "_RESOURCES/DATACORE/27 MiniGame888/MINIGAME 888.md",
+    "_RESOURCES/DATACORE/22 World888/WORLD 888.md",
+    "_RESOURCES/DATACORE/14 GameEngineBuild/GAME ENGINE BUILD.md",
+    "_RESOURCES/DATACORE/13 Aquarium {FireStormFrontier 🫡}/AQUARIUM.md",
+    "_RESOURCES/DATACORE/31 LoadingLogo/LOADING LOGO.md",
+    "_RESOURCES/DATACORE/15 D3JSTest/D3.JS TEST.md",
+    "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/DATACORE QUERY BUILDER.md",
+    "_RESOURCES/DATACORE/33 CodeEditor/CODE EDITOR v1.md",
+    "_RESOURCES/DATACORE/35 ActivityWatchDashboard/ACTIVITYWATCH DASHBOARD.md",
+    "_RESOURCES/DATACORE/1 SearchQuery/SEARCH QUERY.md",
     "_RESOURCES/DATACORE/17 ViewsControl/VIEWS CONTROL.md",
     "_OPERATION/PUBLIC/HOME.md",
     "_RESOURCES/ASSETS/888/ASSETS_.A/EDITOR_v01_.A.svg",
@@ -405,17 +416,6 @@
     "_OPERATION/PUBLIC/SOCIALS/YOUTUBE/ODDD/OBSIDIAN.daily.discipline.d074 1.md",
     "_RESOURCES/ASSETS/888/ASSETS_.A/MANAGER_v02_.A.md",
     "_RESOURCES/ASSETS/888/ASSETS_.A/MANAGER_v01_.A 1.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/VIEWS_v02_.A.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/VIEWS_v01_.A 1.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/VIEWS_v01_.A.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/MANAGER_v01_.A.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/COMMUNITY_v01_.A.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/INSTALL_v02_.A.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/INSTALL_v01_.A 1.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/INSTALL_v01_.A.md",
-    "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/D.q.datacorequerybuilder.viewer.md",
-    "_RESOURCES/DATACORE/36 MusicPlayer/MUSIC PLAYER.md",
-    "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/DATACORE QUERY BUILDER.md",
     "_RESOURCES/DATACORE/37 DatacoreQueryBuilder",
     "_OPERATION/PUBLIC/CONTRIBUTIONS",
     "888/INSIGHTS/MOBILE/pinkbird/Millionaire Master Plan, The - Roger James Hamilton.pdf",

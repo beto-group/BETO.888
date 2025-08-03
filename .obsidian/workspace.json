@@ -84,7 +84,8 @@
               "title": "Search"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -377,10 +378,11 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "6cd9562edd766b34",
+  "active": "177bf4e8b7c58f91",
   "lastOpenFiles": [
-    "_RESOURCES/DATACORE/17 ViewsControl/VIEWS CONTROL.md",
+    "_RESOURCES/DATACORE/1 SearchQuery/SEARCH QUERY.md",
     "_RESOURCES/DATACORE/DATACORE.showcase.md",
+    "_RESOURCES/DATACORE/17 ViewsControl/VIEWS CONTROL.md",
     "_OPERATION/PUBLIC/HOME.md",
     "_RESOURCES/ASSETS/888/ASSETS_.A/EDITOR_v01_.A.svg",
     "_RESOURCES/ASSETS/888/ASSETS_.A/EDITOR_v01_.A.md",
@@ -414,7 +416,6 @@
     "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/D.q.datacorequerybuilder.viewer.md",
     "_RESOURCES/DATACORE/36 MusicPlayer/MUSIC PLAYER.md",
     "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/DATACORE QUERY BUILDER.md",
-    "README.md",
     "_RESOURCES/DATACORE/37 DatacoreQueryBuilder",
     "_OPERATION/PUBLIC/CONTRIBUTIONS",
     "888/INSIGHTS/MOBILE/pinkbird/Millionaire Master Plan, The - Roger James Hamilton.pdf",

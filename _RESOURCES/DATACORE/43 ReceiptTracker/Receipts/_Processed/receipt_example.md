@@ -1,0 +1,41 @@
+---
+receiptImage: "[[_RESOURCES/IMAGES/receipt_example.webp]]"
+merchant_name: Berghote Grosse Scheidegg
+transaction_date: 2007-07-30
+total_amount: 54.5
+currency: CHF
+---
+
+# Processed Receipt: Berghote Grosse Scheidegg (2007-07-30)
+
+## Extracted Data
+```json
+{
+  "merchant_name": "Berghote Grosse Scheidegg",
+  "transaction_date": "2007-07-30",
+  "total_amount": 54.5,
+  "currency": "CHF",
+  "items": [
+    {
+      "description": "Macchiato",
+      "quantity": null,
+      "price": 4.5
+    },
+    {
+      "description": "IxGloki",
+      "quantity": null,
+      "price": 5
+    },
+    {
+      "description": "a 22.00",
+      "quantity": null,
+      "price": 22
+    }
+  ]
+}
+```
+
+## Raw OCR Text
+```text
+Berghote] Grosse Scheidegg 陸 3818 Grindelvald 沥 Familie R.MU1ler ` B o e 30.07.2007/13:29: 17 - . c Tisch ⑦0① i 渡 咤 水 口 , ⑲ 談 ' 医 匡 ztte Macchiato a 4.50 CHF ⑨0 阿 、 ・嚢_麟〟 IxGloki ⑧ 5.00 CHF “5.00 s | ichueinscmitze] a 22.00 r 22.00 陳 、 諸 caspatzn 8 ①⑧.⑤0 CHF ①⑧.⑤0 に 、 …蛋亡疆`芗′兽君'〕 ー 一 一 薇 綺 で 』 Total : CF 54 50 匣 麟 訣 睦 | e st 54.50 r 3.85 隆 談 | B 談 Entspricht n Euro 36.33 EUR 0 目 | dionte se: Ursula 隠 ③ 酔 、 髏甕曹 MwSt Nr.: 430 234 %:":E"- 国 Tel.: 033 853 67 ⑯ 隠 | Fax.: 033 853 67 19 院 e E-mail: grossescheideaghluewin. ch 璽言萱丁`・ . “ 1
+```

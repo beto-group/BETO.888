@@ -1,0 +1,229 @@
+{
+  "deck": [
+    {
+      "suit": "♣",
+      "rank": "9"
+    },
+    {
+      "suit": "♠",
+      "rank": "10"
+    },
+    {
+      "suit": "♥",
+      "rank": "6"
+    },
+    {
+      "suit": "♥",
+      "rank": "Q"
+    },
+    {
+      "suit": "♣",
+      "rank": "Q"
+    },
+    {
+      "suit": "♠",
+      "rank": "8"
+    },
+    {
+      "suit": "♥",
+      "rank": "8"
+    },
+    {
+      "suit": "JOKER",
+      "rank": "JOKER",
+      "color": "#D32F2F"
+    },
+    {
+      "suit": "♣",
+      "rank": "2"
+    },
+    {
+      "suit": "♠",
+      "rank": "7"
+    },
+    {
+      "suit": "♣",
+      "rank": "J"
+    },
+    {
+      "suit": "♦",
+      "rank": "J"
+    },
+    {
+      "suit": "♦",
+      "rank": "10"
+    },
+    {
+      "suit": "♣",
+      "rank": "4"
+    },
+    {
+      "suit": "♦",
+      "rank": "K"
+    },
+    {
+      "suit": "♣",
+      "rank": "7"
+    },
+    {
+      "suit": "♥",
+      "rank": "J"
+    },
+    {
+      "suit": "♣",
+      "rank": "K"
+    },
+    {
+      "suit": "♦",
+      "rank": "3"
+    },
+    {
+      "suit": "♥",
+      "rank": "A"
+    },
+    {
+      "suit": "♥",
+      "rank": "4"
+    },
+    {
+      "suit": "♦",
+      "rank": "7"
+    },
+    {
+      "suit": "♣",
+      "rank": "6"
+    },
+    {
+      "suit": "♣",
+      "rank": "5"
+    },
+    {
+      "suit": "♥",
+      "rank": "7"
+    },
+    {
+      "suit": "♦",
+      "rank": "5"
+    },
+    {
+      "suit": "♥",
+      "rank": "10"
+    },
+    {
+      "suit": "♠",
+      "rank": "2"
+    },
+    {
+      "suit": "♦",
+      "rank": "2"
+    },
+    {
+      "suit": "♦",
+      "rank": "8"
+    },
+    {
+      "suit": "♦",
+      "rank": "Q"
+    },
+    {
+      "suit": "♠",
+      "rank": "Q"
+    },
+    {
+      "suit": "♥",
+      "rank": "2"
+    },
+    {
+      "suit": "♥",
+      "rank": "3"
+    },
+    {
+      "suit": "♥",
+      "rank": "5"
+    },
+    {
+      "suit": "♥",
+      "rank": "K"
+    },
+    {
+      "suit": "♣",
+      "rank": "3"
+    },
+    {
+      "suit": "♦",
+      "rank": "4"
+    },
+    {
+      "suit": "♠",
+      "rank": "6"
+    },
+    {
+      "suit": "♠",
+      "rank": "J"
+    },
+    {
+      "suit": "♠",
+      "rank": "4"
+    },
+    {
+      "suit": "♠",
+      "rank": "9"
+    },
+    {
+      "suit": "♣",
+      "rank": "A"
+    },
+    {
+      "suit": "♣",
+      "rank": "10"
+    },
+    {
+      "suit": "♥",
+      "rank": "9"
+    },
+    {
+      "suit": "♦",
+      "rank": "9"
+    },
+    {
+      "suit": "♠",
+      "rank": "5"
+    },
+    {
+      "suit": "JOKER",
+      "rank": "JOKER",
+      "color": "#111"
+    },
+    {
+      "suit": "♠",
+      "rank": "A"
+    },
+    {
+      "suit": "♦",
+      "rank": "A"
+    },
+    {
+      "suit": "♦",
+      "rank": "6"
+    },
+    {
+      "suit": "♠",
+      "rank": "3"
+    },
+    {
+      "suit": "♠",
+      "rank": "K"
+    }
+  ],
+  "drawnCard": {
+    "suit": "♣",
+    "rank": "8"
+  },
+  "history": [
+    {
+      "suit": "♣",
+      "rank": "8"
+    }
+  ],
+  "score": 8
+}

@@ -1,0 +1,377 @@
+{
+  "gemini": {
+    "baseUrl": "https://generativelanguage.googleapis.com/",
+    "models": [
+      {
+        "id": "embedding-001",
+        "name": "Embedding 001"
+      },
+      {
+        "id": "embedding-gecko-001",
+        "name": "Embedding Gecko"
+      },
+      {
+        "id": "gemini-1.5-flash",
+        "name": "Gemini 1.5 Flash"
+      },
+      {
+        "id": "gemini-1.5-flash-002",
+        "name": "Gemini 1.5 Flash 002"
+      },
+      {
+        "id": "gemini-1.5-flash-latest",
+        "name": "Gemini 1.5 Flash Latest"
+      },
+      {
+        "id": "gemini-1.5-flash-8b",
+        "name": "Gemini 1.5 Flash-8B"
+      },
+      {
+        "id": "gemini-1.5-flash-8b-001",
+        "name": "Gemini 1.5 Flash-8B 001"
+      },
+      {
+        "id": "gemini-1.5-flash-8b-latest",
+        "name": "Gemini 1.5 Flash-8B Latest"
+      },
+      {
+        "id": "gemini-1.5-pro",
+        "name": "Gemini 1.5 Pro"
+      },
+      {
+        "id": "gemini-1.5-pro-002",
+        "name": "Gemini 1.5 Pro 002"
+      },
+      {
+        "id": "gemini-1.5-pro-latest",
+        "name": "Gemini 1.5 Pro Latest"
+      },
+      {
+        "id": "gemini-2.0-flash",
+        "name": "Gemini 2.0 Flash"
+      },
+      {
+        "id": "gemini-2.0-flash-exp-image-generation",
+        "name": "Gemini 2.0 Flash (Image Generation) Experimental"
+      },
+      {
+        "id": "gemini-2.0-flash-001",
+        "name": "Gemini 2.0 Flash 001"
+      },
+      {
+        "id": "gemini-2.0-flash-exp",
+        "name": "Gemini 2.0 Flash Experimental"
+      },
+      {
+        "id": "gemini-2.0-flash-preview-image-generation",
+        "name": "Gemini 2.0 Flash Preview Image Generation"
+      },
+      {
+        "id": "gemini-2.0-flash-lite",
+        "name": "Gemini 2.0 Flash-Lite"
+      },
+      {
+        "id": "gemini-2.0-flash-lite-001",
+        "name": "Gemini 2.0 Flash-Lite 001"
+      },
+      {
+        "id": "gemini-2.0-flash-lite-preview",
+        "name": "Gemini 2.0 Flash-Lite Preview"
+      },
+      {
+        "id": "gemini-2.0-flash-lite-preview-02-05",
+        "name": "Gemini 2.0 Flash-Lite Preview 02-05"
+      },
+      {
+        "id": "gemini-2.0-pro-exp",
+        "name": "Gemini 2.0 Pro Experimental"
+      },
+      {
+        "id": "gemini-2.0-pro-exp-02-05",
+        "name": "Gemini 2.0 Pro Experimental 02-05"
+      },
+      {
+        "id": "gemini-2.5-flash",
+        "name": "Gemini 2.5 Flash"
+      },
+      {
+        "id": "gemini-2.5-flash-preview-05-20",
+        "name": "Gemini 2.5 Flash Preview 05-20"
+      },
+      {
+        "id": "gemini-2.0-flash-thinking-exp-01-21",
+        "name": "Gemini 2.5 Flash Preview 05-20"
+      },
+      {
+        "id": "gemini-2.0-flash-thinking-exp",
+        "name": "Gemini 2.5 Flash Preview 05-20"
+      },
+      {
+        "id": "gemini-2.0-flash-thinking-exp-1219",
+        "name": "Gemini 2.5 Flash Preview 05-20"
+      },
+      {
+        "id": "gemini-2.5-flash-preview-tts",
+        "name": "Gemini 2.5 Flash Preview TTS"
+      },
+      {
+        "id": "gemini-2.5-flash-lite",
+        "name": "Gemini 2.5 Flash-Lite"
+      },
+      {
+        "id": "gemini-2.5-flash-lite-preview-06-17",
+        "name": "Gemini 2.5 Flash-Lite Preview 06-17"
+      },
+      {
+        "id": "gemini-2.5-pro",
+        "name": "Gemini 2.5 Pro"
+      },
+      {
+        "id": "gemini-2.5-pro-preview-06-05",
+        "name": "Gemini 2.5 Pro Preview"
+      },
+      {
+        "id": "gemini-2.5-pro-preview-03-25",
+        "name": "Gemini 2.5 Pro Preview 03-25"
+      },
+      {
+        "id": "gemini-2.5-pro-preview-05-06",
+        "name": "Gemini 2.5 Pro Preview 05-06"
+      },
+      {
+        "id": "gemini-2.5-pro-preview-tts",
+        "name": "Gemini 2.5 Pro Preview TTS"
+      },
+      {
+        "id": "gemini-embedding-001",
+        "name": "Gemini Embedding 001"
+      },
+      {
+        "id": "gemini-embedding-exp",
+        "name": "Gemini Embedding Experimental"
+      },
+      {
+        "id": "gemini-embedding-exp-03-07",
+        "name": "Gemini Embedding Experimental 03-07"
+      },
+      {
+        "id": "gemini-exp-1206",
+        "name": "Gemini Experimental 1206"
+      },
+      {
+        "id": "gemma-3-12b-it",
+        "name": "Gemma 3 12B"
+      },
+      {
+        "id": "gemma-3-1b-it",
+        "name": "Gemma 3 1B"
+      },
+      {
+        "id": "gemma-3-27b-it",
+        "name": "Gemma 3 27B"
+      },
+      {
+        "id": "gemma-3-4b-it",
+        "name": "Gemma 3 4B"
+      },
+      {
+        "id": "gemma-3n-e2b-it",
+        "name": "Gemma 3n E2B"
+      },
+      {
+        "id": "gemma-3n-e4b-it",
+        "name": "Gemma 3n E4B"
+      },
+      {
+        "id": "imagen-3.0-generate-002",
+        "name": "Imagen 3.0 002 model"
+      },
+      {
+        "id": "imagen-4.0-generate-preview-06-06",
+        "name": "Imagen 4 (Preview)"
+      },
+      {
+        "id": "learnlm-2.0-flash-experimental",
+        "name": "LearnLM 2.0 Flash Experimental"
+      },
+      {
+        "id": "aqa",
+        "name": "Model that performs Attributed Question Answering."
+      },
+      {
+        "id": "text-embedding-004",
+        "name": "Text Embedding 004"
+      }
+    ],
+    "model": "gemini-2.5-pro",
+    "temperature": 1,
+    "stopSequence": "",
+    "isCodeExecutionEnabled": false,
+    "isGoogleSearchEnabled": false
+  },
+  "openai": {
+    "baseUrl": "https://api.openai.com/v1/",
+    "models": [
+      {
+        "id": "gpt-4o",
+        "name": "GPT-4o"
+      }
+    ],
+    "model": "gpt-4o",
+    "temperature": 0.7,
+    "stopSequence": "",
+    "presencePenalty": 0,
+    "frequencyPenalty": 0,
+    "responseFormat": "text"
+  },
+  "anthropic": {
+    "baseUrl": "https://api.anthropic.com/v1/",
+    "models": [
+      {
+        "id": "claude-3-opus-20240229",
+        "name": "Claude 3 Opus"
+      }
+    ],
+    "model": "claude-3-opus-20240229",
+    "temperature": 0.7,
+    "stopSequence": "",
+    "maxTokens": 4096
+  },
+  "ollama": {
+    "baseUrl": "http://localhost:11434/",
+    "models": [
+      {
+        "id": "llama3",
+        "name": "Llama 3"
+      }
+    ],
+    "model": "llama3",
+    "temperature": 0.7,
+    "stopSequence": "",
+    "numCtx": 4096
+  },
+  "groq": {
+    "baseUrl": "https://api.groq.com/openai/v1/",
+    "models": [
+      {
+        "id": "allam-2-7b",
+        "name": "allam-2-7b"
+      },
+      {
+        "id": "compound-beta",
+        "name": "compound-beta"
+      },
+      {
+        "id": "compound-beta-mini",
+        "name": "compound-beta-mini"
+      },
+      {
+        "id": "deepseek-r1-distill-llama-70b",
+        "name": "deepseek-r1-distill-llama-70b"
+      },
+      {
+        "id": "distil-whisper-large-v3-en",
+        "name": "distil-whisper-large-v3-en"
+      },
+      {
+        "id": "gemma2-9b-it",
+        "name": "gemma2-9b-it"
+      },
+      {
+        "id": "llama-3.1-8b-instant",
+        "name": "llama-3.1-8b-instant"
+      },
+      {
+        "id": "llama-3.3-70b-versatile",
+        "name": "llama-3.3-70b-versatile"
+      },
+      {
+        "id": "llama3-70b-8192",
+        "name": "llama3-70b-8192"
+      },
+      {
+        "id": "llama3-8b-8192",
+        "name": "llama3-8b-8192"
+      },
+      {
+        "id": "meta-llama/llama-4-maverick-17b-128e-instruct",
+        "name": "meta-llama/llama-4-maverick-17b-128e-instruct"
+      },
+      {
+        "id": "meta-llama/llama-4-scout-17b-16e-instruct",
+        "name": "meta-llama/llama-4-scout-17b-16e-instruct"
+      },
+      {
+        "id": "meta-llama/llama-guard-4-12b",
+        "name": "meta-llama/llama-guard-4-12b"
+      },
+      {
+        "id": "meta-llama/llama-prompt-guard-2-22m",
+        "name": "meta-llama/llama-prompt-guard-2-22m"
+      },
+      {
+        "id": "meta-llama/llama-prompt-guard-2-86m",
+        "name": "meta-llama/llama-prompt-guard-2-86m"
+      },
+      {
+        "id": "moonshotai/kimi-k2-instruct",
+        "name": "moonshotai/kimi-k2-instruct"
+      },
+      {
+        "id": "openai/gpt-oss-120b",
+        "name": "openai/gpt-oss-120b"
+      },
+      {
+        "id": "openai/gpt-oss-20b",
+        "name": "openai/gpt-oss-20b"
+      },
+      {
+        "id": "playai-tts",
+        "name": "playai-tts"
+      },
+      {
+        "id": "playai-tts-arabic",
+        "name": "playai-tts-arabic"
+      },
+      {
+        "id": "qwen/qwen3-32b",
+        "name": "qwen/qwen3-32b"
+      },
+      {
+        "id": "whisper-large-v3",
+        "name": "whisper-large-v3"
+      },
+      {
+        "id": "whisper-large-v3-turbo",
+        "name": "whisper-large-v3-turbo"
+      }
+    ],
+    "model": "deepseek-r1-distill-llama-70b",
+    "temperature": 0.7,
+    "stopSequence": ""
+  },
+  "openrouter": {
+    "baseUrl": "https://openrouter.ai/api/v1",
+    "models": [
+      {
+        "id": "google/gemini-pro",
+        "name": "Gemini Pro"
+      }
+    ],
+    "model": "google/gemini-pro",
+    "temperature": 0.7,
+    "stopSequence": ""
+  },
+  "cerebrium": {
+    "baseUrl": "https://api.cortex.cerebrium.ai/v4/",
+    "models": [
+      {
+        "id": "your-model",
+        "name": "Your Deployed Model"
+      }
+    ],
+    "model": "your-model",
+    "temperature": 0.7,
+    "stopSequence": ""
+  }
+}

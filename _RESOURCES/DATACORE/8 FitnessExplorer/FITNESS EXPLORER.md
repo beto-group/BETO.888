@@ -32,7 +32,7 @@
 
 ### Components
 
-###### [[D.q.fitnessexplorer.viewer|Fitness Explorer Viewer]]
+###### [Fitness Explorer Viewer](D.q.fitnessexplorer.viewer.md)
 
-###### [[D.q.fitnessexplorer.component|Fitness Explorer Component]]
+###### [Fitness Explorer Component](D.q.fitnessexplorer.component.md)
 

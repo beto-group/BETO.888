@@ -93,7 +93,7 @@
   "fadeOutExcalidrawMarkup": false,
   "loadPropertySuggestions": true,
   "experimentalEnableFourthFont": true,
-  "experimantalFourthFont": "888/_RESOURCES/VAULTS/sss/_RESOURCES/FONTS/futura/Futura-CondensedLight.otf",
+  "experimantalFourthFont": "_RESOURCES/FONTS/futura/Futura-CondensedLight.otf",
   "addDummyTextElement": false,
   "zoteroCompatibility": false,
   "fieldSuggester": true,

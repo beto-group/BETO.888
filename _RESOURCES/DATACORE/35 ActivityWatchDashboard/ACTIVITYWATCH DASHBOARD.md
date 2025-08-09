@@ -15,6 +15,7 @@
         - **Timeline**: A pannable and zoomable timeline visualizing the sequence of events.
     - Features date controls to view data for a specific day or the last 7 days.
     - Integrates a ScreenModeHelper to allow the entire dashboard to be expanded to fill the current tab or a separate window.
+    - Quickly Acces localhost ActivityWatch Local : [[ACTIVITYWATCH DASHBOARD]]
 
 - **Can’t**:
    

@@ -24,7 +24,6 @@ You've just unlocked **BETO.888**, an ever-evolving Obsidian Vault from BETO.GRO
 ---
 ### What Awaits You:
 
-- A MINIGAME !
 *   🛠️ **Datacore Components:** A growing series of [[DATACORE.showcase|Obsidian tools]] to infinitely enhance your workflow, organization, and creative expression.
 *   🖼️ **Assets Library:** Versatile visuals and images ready for your projects.
 *   🌟 **[BONUS] Future Perks:** Potential access and discounts to future BETO.GROUP releases.
@@ -35,7 +34,7 @@ You've just unlocked **BETO.888**, an ever-evolving Obsidian Vault from BETO.GRO
 
 Welcome, voyager. Be aware that as you complete certain Experiences, they may leave behind an echo—a small, surprising digital relic to commemorate your passage. 
 
-In that same spirit, those who choose to become patrons of our work through an offering on our **[Ko-fi page](https://ko-fi.com/betogroup)** will receive their own unique echo in return—a distinct digital token, forged in gratitude for your support of our shared vision.
+In that same spirit, those who choose to become patrons of our work through an offering on our **[Ko-fi page](https://ko-fi.com/betogroup)** will receive their own unique echo in return—a distinct digital token, forged in gratitude for your support of our shared vision. and can find more across our platforms..
 
 
 -----

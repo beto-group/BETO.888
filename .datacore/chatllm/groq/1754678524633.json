@@ -1,0 +1,18 @@
+[
+  {
+    "role": "user",
+    "parts": [
+      {
+        "text": "Howdy Partner 🫡"
+      }
+    ]
+  },
+  {
+    "role": "model",
+    "parts": [
+      {
+        "text": "<think>\n\n</think>\n\nHowdy Partner! 🤠👋 What can I do for ya today?"
+      }
+    ]
+  }
+]

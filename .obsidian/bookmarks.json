@@ -12,88 +12,9 @@
       "items": [
         {
           "type": "file",
-          "ctime": 1753888743212,
+          "ctime": 1754694373085,
           "path": "_RESOURCES/DATACORE/DATACORE.showcase.md",
           "title": "DATACORE.showcase"
-        },
-        {
-          "type": "group",
-          "ctime": 1753888760600,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753889824297,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.md",
-              "title": "Datacore Flexilis"
-            },
-            {
-              "type": "file",
-              "ctime": 1753889910213,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.v1.md",
-              "title": "Datacore Flexilis v1"
-            },
-            {
-              "type": "file",
-              "ctime": 1753889963664,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.v2.md",
-              "title": "Datacore Flexilis v2"
-            },
-            {
-              "type": "file",
-              "ctime": 1753889986760,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.v3.md",
-              "title": "Datacore Flexilis v3"
-            },
-            {
-              "type": "file",
-              "ctime": 1753890001545,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.v4.md",
-              "title": "Datacore Flexilis v4"
-            },
-            {
-              "type": "file",
-              "ctime": 1753890090362,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v1.viewer.md",
-              "title": "Datacore Flexilis v1 Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753890120045,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v2.viewer.md",
-              "title": "Datacore Flexilis v2 Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753890138796,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v3.viewer.md",
-              "title": "Datacore Flexilis v3 Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753890157159,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v4.viewer.md",
-              "title": "Datacore Flexilis v4 Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753890177363,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v2.component.md",
-              "title": "Datacore Flexilis v2 Component"
-            },
-            {
-              "type": "file",
-              "ctime": 1753890190997,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v3.component.md",
-              "title": "Datacore Flexilis v3 Component"
-            },
-            {
-              "type": "file",
-              "ctime": 1753890213179,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v4.component.md",
-              "title": "Datacore Flexilis v4 Component"
-            }
-          ],
-          "title": "0 DATACORE.flexilis"
         },
         {
           "type": "group",
@@ -1110,6 +1031,156 @@
             }
           ],
           "title": "37 DatacoreQueryBuilder"
+        },
+        {
+          "type": "group",
+          "ctime": 1754685214210,
+          "items": [
+            {
+              "type": "file",
+              "ctime": 1754685307639,
+              "path": "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/DATACORE QUERY BUILDER.md",
+              "title": "ChatBot"
+            },
+            {
+              "type": "file",
+              "ctime": 1754685421876,
+              "path": "_RESOURCES/DATACORE/38 Chatbot/D.q.chatbot.viewer.md",
+              "title": "ChatBot Viewer"
+            },
+            {
+              "type": "file",
+              "ctime": 1754685462087,
+              "path": "_RESOURCES/DATACORE/38 Chatbot/D.q.chatbot.component.md",
+              "title": "ChatBot Component"
+            }
+          ],
+          "title": "38 ChatBot"
+        },
+        {
+          "type": "group",
+          "ctime": 1754685219578,
+          "items": [
+            {
+              "type": "file",
+              "ctime": 1754685494019,
+              "path": "_RESOURCES/DATACORE/39 MobileMusicPlayer/MOBILE MUSIC PLAYER.md",
+              "title": "Mobile Music Player"
+            },
+            {
+              "type": "file",
+              "ctime": 1754685506053,
+              "path": "_RESOURCES/DATACORE/39 MobileMusicPlayer/D.q.mobilemusicplayer.viewer.md",
+              "title": "Mobile Music Player Viewer"
+            },
+            {
+              "type": "file",
+              "ctime": 1754685516416,
+              "path": "_RESOURCES/DATACORE/39 MobileMusicPlayer/D.q.mobilemusicplayer.component.md",
+              "title": "Mobile Music Player Component"
+            }
+          ],
+          "title": "39 MobileMusicPlayer"
+        },
+        {
+          "type": "group",
+          "ctime": 1754685224460,
+          "items": [
+            {
+              "type": "file",
+              "ctime": 1754685529783,
+              "path": "_RESOURCES/DATACORE/40 CardPicker/CARD PICKER.md",
+              "title": "Card Picker"
+            },
+            {
+              "type": "file",
+              "ctime": 1754685539484,
+              "path": "_RESOURCES/DATACORE/40 CardPicker/D.q.cardpicker.viewer.md",
+              "title": "Card Picker Viewer"
+            },
+            {
+              "type": "file",
+              "ctime": 1754685549850,
+              "path": "_RESOURCES/DATACORE/40 CardPicker/D.q.cardpicker.component.md",
+              "title": "Card Picker Component"
+            }
+          ],
+          "title": "40 CardPicker"
+        },
+        {
+          "type": "group",
+          "ctime": 1754685231958,
+          "items": [
+            {
+              "type": "file",
+              "ctime": 1754685561483,
+              "path": "_RESOURCES/DATACORE/41 OCRReader/OCRREADER.md",
+              "title": "41 OCR Reader"
+            },
+            {
+              "type": "file",
+              "ctime": 1754685575652,
+              "path": "_RESOURCES/DATACORE/41 OCRReader/D.q.ocrreader.viewer.md",
+              "title": "OCR Reader Viewer"
+            },
+            {
+              "type": "file",
+              "ctime": 1754685586153,
+              "path": "_RESOURCES/DATACORE/41 OCRReader/D.q.ocrreader.component.md",
+              "title": "OCR Reader Component"
+            }
+          ],
+          "title": "41 OCRReader"
+        },
+        {
+          "type": "group",
+          "ctime": 1754685237063,
+          "items": [
+            {
+              "type": "file",
+              "ctime": 1754685603302,
+              "path": "_RESOURCES/DATACORE/42 ChatLLM/CHATLLM.md",
+              "title": "Chat LLM"
+            },
+            {
+              "type": "file",
+              "ctime": 1754685611901,
+              "path": "_RESOURCES/DATACORE/42 ChatLLM/D.q.chatllm.viewer.md",
+              "title": "Chat LLM Viewer"
+            },
+            {
+              "type": "file",
+              "ctime": 1754685619750,
+              "path": "_RESOURCES/DATACORE/42 ChatLLM/D.q.chatllm.component.md",
+              "title": "Chat LLM Component"
+            }
+          ],
+          "title": "42 ChatLLM"
+        },
+        {
+          "type": "group",
+          "ctime": 1754685631816,
+          "items": [
+            {
+              "type": "file",
+              "ctime": 1754685664353,
+              "path": "_RESOURCES/DATACORE/43 ReceiptTracker/RECEIPTTRACKER.md",
+              "title": "Receipt Tracker"
+            },
+            {
+              "type": "file",
+              "ctime": 1754685673154,
+              "path": "_RESOURCES/DATACORE/43 ReceiptTracker/D.q.receipttracker.viewer.md",
+              "title": "Receipt Tracker Viewer"
+            },
+            {
+              "type": "file",
+              "ctime": 1754685685168,
+              "path": "_RESOURCES/DATACORE/43 ReceiptTracker/D.q.receipttracker.component.md",
+              "title": "Receipt Tracker Component"
+            }
+          ],
+          "title": "43 ReceiptTracker"
         }
       ],
       "title": "DATACORE"
@@ -1171,7 +1242,13 @@
           "type": "file",
           "ctime": 1753896697717,
           "path": "_OPERATION/PUBLIC/DEVLOG/CHANGE LOG.md",
-          "title": "Change Log"
+          "title": "CHANGE LOG"
+        },
+        {
+          "type": "file",
+          "ctime": 1754742688142,
+          "path": "LICENSE.md",
+          "title": "LICENSE"
         }
       ],
       "title": "DISCLAIMERS"

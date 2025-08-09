@@ -5,10 +5,36 @@ permalink: change_log
 
 
 
+## RELEASE : BLUE-2
+**DATE** : 2025.08.09
+**LICENSE** : MIT
+**Availability:** GITHUB
+
+**I. SUMMARY**  
+The BLUE-2 release represents a fundamental evolution in our development philosophy. We are transitioning from creating individual tools to engineering integrated **systems** that solve real-world problems. This release is includes a full suite of AI and data components, showcased by our new financial automation system.
+
+**II. A New Development Paradigm: From Tools to Systems**  
+This update introduces our vision for the future: modular components working in concert to create powerful applications. The new **AI Receipt Tracker** exemplifies this, orchestrating OCR and AI to turn a folder of images into a dynamic dashboard.
+
+This is powered by our new **Intelligence Suite**:
+- **Receipt Tracker:** The main UI for financial processing and visualization.
+- **AiAdapter:** A universal connector to LLM services.
+- **OcrReceiver:** The frontend for vault-based OCR.
+
+**III. Full Component Changelog**
+- **New Components:**
+    - AiAdapter, OcrReceiver, Receipt Tracker
+    - CardPicker
+    - Datacore Query Builder
+    - Mobile Music Player
+    - Telegram Bot
+- **Upgraded Components:**
+    - ScreenModeHelper has been significantly enhanced with new layout management capabilities.
+
 
 ## RELEASE : RED-1
-DATE : 2025.07.09
-LICENSE : MIT
+**DATE** : 2025.07.09
+**LICENSE** : MIT
 **Availability:** GITHUB
 
 **I. SUMMARY**
@@ -98,6 +124,12 @@ Initial public release of the BETO.GROUP Obsidian Vault series. This release pro
 
 
 -----
+
+
+
+
+###### [[DEVLOG]] [MOV]
+
 
 ###### [[FAQ]]
 

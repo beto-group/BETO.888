@@ -30,6 +30,6 @@
 ![alt text](/_RESOURCES/IMAGES/datacore_query_builder.webp)
 
 
-###### [[D.q.datacorequerybuilder.viewer]]
+###### [Datacore Query Builder Viewer](D.q.datacorequerybuilder.viewer.md)
 
-###### [[D.q.datacorequerybuilder.component]]
+###### [Datacore Query Builder Viewer](D.q.datacorequerybuilder.component)

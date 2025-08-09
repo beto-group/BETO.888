@@ -50,8 +50,13 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [CODE EDITOR v2](33%20CodeEditor/CODE%20EDITOR%20v2.md) 
 
-###### [DATACORE QUERY BUILDER](37%20DatacoreQueryBuilder/DATACORE%20QUERY%20BUILDER.md) {NEW}
+###### [DATACORE QUERY BUILDER](37%20DatacoreQueryBuilder/DATACORE%20QUERY%20BUILDER.md) { NEW }
 
+###### [[CHATBOT]] {{ NEW } telegram}
+
+###### [[OCRREADER|OCR READER]] { NEW }
+
+###### [[CHATLLM|CHAT LLM]] { NEW }
 
 
 ## **Graphics, Visualization & UI**
@@ -75,6 +80,11 @@ permalink: obsidian.plugins.datacore.showcase
 ###### [LOADING LOGO](31%20LoadingLogo/LOADING%20LOGO.md) 
 
 
+## Finance
+
+###### [[RECEIPTTRACKER|RECEIPT TRACKER]] { NEW }
+
+
 
 ## **Games & Interactive Experiences**
 
@@ -89,7 +99,7 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [ANIMATED CARD](34%20AnimatedCard/ANIMATED%20CARD.md)  
 
-
+###### [[CARD PICKER]] { NEW }
 
 
 
@@ -105,13 +115,14 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [MUSIC PLAYER](36%20MusicPlayer/MUSIC%20PLAYER.md) 
 
+###### [[MOBILE MUSIC PLAYER]]  { NEW }
 
 
 ## **System & Utility Components**
 
 ###### [LICENSE AGREEMENT](26%20LicenseAgreement/LICENSE%20AGREEMENT.md)
 
-###### [VIEWS CONTROL](17%20ViewsControl/VIEWS%20CONTROL.md) 
+###### [VIEWS CONTROL](17%20ViewsControl/VIEWS%20CONTROL.md)  { UPGRADE }
 
 ###### [EXTERNAL INPUT BLOCKER](21%20ExternalInputBlocker/EXTERNAL%20INPUT%20BLOCKER.md)
 

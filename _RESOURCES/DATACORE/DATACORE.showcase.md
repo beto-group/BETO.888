@@ -52,7 +52,7 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [DATACORE QUERY BUILDER](37%20DatacoreQueryBuilder/DATACORE%20QUERY%20BUILDER.md) { NEW }
 
-###### [CHATBOT](38%20Chatbot/CHABOT.md)  telegram { NEW } 
+###### [CHATBOT](38%20Chatbot/CHATBOT.md)  telegram { NEW } 
 
 ###### [OCR READER](41%20OCRReader/OCRREADER.md) { NEW }
 

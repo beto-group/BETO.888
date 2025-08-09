@@ -88,7 +88,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 247.50271224975586
   },
   "right": {
     "id": "fe80ed10167d38ae",
@@ -244,9 +244,13 @@
   },
   "active": "56f59cc5d870c9e5",
   "lastOpenFiles": [
+    "README.md",
+    "BONJOUR.md",
+    "_RESOURCES/DATACORE/12 LottieExperiment/LOTTIE EXPERIMENT.md",
+    "_RESOURCES/ASSETS/888/ASSETS LIBRARY_.a.md",
+    "_OPERATION/PUBLIC/HOME.md",
     "_RESOURCES/DATACORE/43 ReceiptTracker/RECEIPT TRACKER.md",
     "LICENSE.md",
-    "_OPERATION/PUBLIC/HOME.md",
     "_OPERATION/PUBLIC/DEVLOG/CHANGE LOG.md",
     "_OPERATION/PUBLIC/LICENSE GUIDE.md",
     "_OPERATION/PUBLIC/FAQ.classic.md",
@@ -259,8 +263,6 @@
     "_RESOURCES/ASSETS/888/ASSETS_.A/PERSON_v06_..md",
     "_RESOURCES/ASSETS/888/ASSETS_.A/PERSON_v06_.A 1.md",
     "_RESOURCES/DATACORE/17 ViewsControl/VIEWS CONTROL.md",
-    "README.md",
-    "BONJOUR.md",
     "_RESOURCES/DATACORE/DATACORE.showcase.md",
     "_RESOURCES/DATACORE/30 MatrixGlitchWall/MATRIX GLITCH WALL.md",
     "_RESOURCES/DATACORE/29 FuzzyText/FUZZY TEXT.md",
@@ -268,8 +270,6 @@
     "_RESOURCES/DATACORE/21 ExternalInputBlocker/EXTERNAL INPUT BLOCKER.md",
     "_RESOURCES/DATACORE/26 LicenseAgreement/LICENSE AGREEMENT.md",
     "_RESOURCES/DATACORE/39 MobileMusicPlayer/MOBILE MUSIC PLAYER.md",
-    "_RESOURCES/DATACORE/36 MusicPlayer/MUSIC PLAYER.md",
-    "_RESOURCES/DATACORE/32 SoundPlayer/SOUND PLAYER.md",
     "5 CustomFeed",
     "_RESOURCES/IMAGES/chat_llm.webp",
     "_RESOURCES/IMAGES/receipt_tracker.webp",

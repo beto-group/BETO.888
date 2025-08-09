@@ -52,11 +52,11 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [DATACORE QUERY BUILDER](37%20DatacoreQueryBuilder/DATACORE%20QUERY%20BUILDER.md) { NEW }
 
-###### [[CHATBOT]] {{ NEW } telegram}
+###### [CHATBOT](38%20Chatbot/CHABOT.md)  telegram { NEW } 
 
-###### [[OCRREADER|OCR READER]] { NEW }
+###### [OCR READER](41%20OCRReader/OCRREADER.md) { NEW }
 
-###### [[CHATLLM|CHAT LLM]] { NEW }
+###### [CHAT LLM](42%20ChatLLM/CHATLLM.md) { NEW }
 
 
 ## **Graphics, Visualization & UI**
@@ -82,7 +82,7 @@ permalink: obsidian.plugins.datacore.showcase
 
 ## Finance
 
-###### [[RECEIPTTRACKER|RECEIPT TRACKER]] { NEW }
+###### [RECEIPT TRACKER](43%20ReceiptTracker/RECEIPT%20TRACKER.md) { NEW }
 
 
 
@@ -99,7 +99,7 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [ANIMATED CARD](34%20AnimatedCard/ANIMATED%20CARD.md)  
 
-###### [[CARD PICKER]] { NEW }
+###### [CARD PICKER](40%20CardPicker/CARD%20PICKER.md) { NEW }
 
 
 
@@ -115,7 +115,7 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [MUSIC PLAYER](36%20MusicPlayer/MUSIC%20PLAYER.md) 
 
-###### [[MOBILE MUSIC PLAYER]]  { NEW }
+###### [MOBILE MUSIC PLAYER](39%20MobileMusicPlayer/MOBILE%20MUSIC%20PLAYER.md)  { NEW }
 
 
 ## **System & Utility Components**

@@ -11,10 +11,24 @@
             "id": "192bd67d0a02b3c2",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "_OPERATION/PUBLIC/HOME.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "HOME"
             }
           }
         ]
@@ -90,9 +104,11 @@
             "type": "leaf",
             "state": {
               "type": "file-properties",
-              "state": {},
+              "state": {
+                "file": "_OPERATION/PUBLIC/HOME.md"
+              },
               "icon": "lucide-info",
-              "title": "File properties"
+              "title": "File properties for HOME"
             }
           },
           {
@@ -266,8 +282,11 @@
       }
     ]
   },
-  "active": "177bf4e8b7c58f91",
+  "active": "192bd67d0a02b3c2",
   "lastOpenFiles": [
+    "PROJECTS/COOKBOOK/COOKBOOK.md",
+    "PROJECTS/COOKBOOK/COOKBOOK.enigmas..md",
+    "BONJOUR.md",
     "KNOWLEDGE/EXPERIENCES/_clean/_public/obsidian/Part 1 Building a Second Brain.md",
     "KNOWLEDGE/EXPERIENCES/_clean/_public/obsidian/VAULT.888.md",
     "KNOWLEDGE/EXPERIENCES/_clean/_public/obsidian/VAULT.md",
@@ -299,9 +318,6 @@
     "KNOWLEDGE/EXPERIENCES/_clean/PKM.enigmas..md",
     "KNOWLEDGE/EXPERIENCES/_clean/MEME.enigmas..md",
     "_OPERATION/PUBLIC/ENIGMAS/ENIGMAS.md",
-    "KNOWLEDGE/EXPERIENCES/_clean/MEME.md",
-    "KNOWLEDGE/WEALTH/TAXES.enigmas..md",
-    "KNOWLEDGE/WEALTH/TAXES.md",
     "_RESOURCES/ASSETS/EXCALIDRAW/Drawing 2024-04-22 21.03.07.svg",
     "_RESOURCES/ASSETS/EXCALIDRAW/COMMUNITY/GOOGLE ASSETS.svg",
     "_RESOURCES/ASSETS/EXCALIDRAW/COMMUNITY/CHARTS ASSETS.svg",

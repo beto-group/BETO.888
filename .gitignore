@@ -44,7 +44,7 @@ _OPERATION/DASHBOARDS/
 
 # COOKBOOK
 
-PROJECTS/COOKBOOK/
+PROJECTS/
 
 # FILES TOO LARGE
 
@@ -64,4 +64,12 @@ PROJECTS/B26/B26.nft.svg
 
 *.svg
 
+
+# removing stuff not needed at this present time
+
+_OPERATION/_CLEAN/
+
+_RESOURCES/ASSETS/EXCALIDRAW/
+
+PROJECTS/
 

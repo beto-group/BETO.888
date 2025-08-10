@@ -1,6 +1,0 @@
-
-
-
-
-
-[[SHORT GUIDELINES]]

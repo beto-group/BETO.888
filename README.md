@@ -21,7 +21,7 @@ This vault is more than just a collection of notes; it's a feature-rich platform
 
 *   🛠️ **Datacore Components:** A powerful, growing library of interactive tools and components built to enhance your workflow, organization, and creative expression. See them in action in the [DATACORE.showcase](DATACORE.showcase.md).
 *   🖼️ **Assets Library:** A curated collection of versatile visuals, icons, and images ready to be used in your own projects and notes.
-*   📜 **Embedded Guides:** Your vault comes with this README, a full [FAQ](https://www.beto.group/faq), and our [LICENSE GUIDE](_OPERATION/PUBLIC/LICENSE%20GUIDE) to ensure you have all the information you need right at your fingertips.
+*   📜 **Embedded Guides:** Your vault comes with this README, a full [FAQ](https://www.beto.group/faq), and our [LICENSE GUIDE](LICENSE%20GUIDE.md) to ensure you have all the information you need right at your fingertips.
 *   🔮 **[COMING SOON] The "Enigmas" Collection:** A future expansion will add curated knowledge packs on diverse topics (Health, Wealth, Experiences) designed to spark deep exploration.
 
 -------

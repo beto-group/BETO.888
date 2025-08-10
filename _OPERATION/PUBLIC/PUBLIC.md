@@ -1,2 +1,0 @@
-
-[SECTION FOR THE PUBLIC ;)]

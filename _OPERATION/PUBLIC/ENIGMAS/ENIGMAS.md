@@ -6,7 +6,7 @@ permalink: enigmas
 excalidraw-open-md: true
 ---
 
-###### NAVIGATE - BACK : [[ABOUT]]
+###### NAVIGATE - BACK : [[about]]
 -----
 
 ###### [[ENIGMAS.888+]]

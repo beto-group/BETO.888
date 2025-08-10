@@ -1,4 +1,0 @@
-
-
-
-###### [[DATACORE.basic.table]]

@@ -14,7 +14,7 @@ excalidraw-export-transparent: true
 
 ## Text Elements
 ## Embedded Files
-929a614d77b4b2b825960046909449a3ee7cd972: [[888/_RESOURCES/VAULTS/sss/_RESOURCES/888/ASSETS/SETTINGS_v02_.A.svg]]
+929a614d77b4b2b825960046909449a3ee7cd972: [[SETTINGS_v02_.A.svg]]
 
 5d12d42cfe34ab1ff0ec9deeb9b0ddd12110bd75: [[EXPERIENCES_v02_.A.svg]]
 

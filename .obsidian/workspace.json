@@ -4,31 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "ebe31ec8740666fe",
+        "id": "7f6c071eb7da8427",
         "type": "tabs",
         "children": [
           {
-            "id": "56f59cc5d870c9e5",
+            "id": "192bd67d0a02b3c2",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "_OPERATION/PUBLIC/HOME.md",
-                "mode": "source",
-                "source": false,
-                "backlinks": true,
-                "backlinkOpts": {
-                  "collapseAll": false,
-                  "extraContext": false,
-                  "sortOrder": "alphabetical",
-                  "showSearch": false,
-                  "searchQuery": "",
-                  "backlinkCollapsed": false,
-                  "unlinkedCollapsed": true
-                }
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "HOME"
+              "title": "New tab"
             }
           }
         ]
@@ -84,7 +70,8 @@
               "title": "Files"
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "horizontal",
@@ -103,11 +90,9 @@
             "type": "leaf",
             "state": {
               "type": "file-properties",
-              "state": {
-                "file": "_OPERATION/PUBLIC/HOME.md"
-              },
+              "state": {},
               "icon": "lucide-info",
-              "title": "File properties for HOME"
+              "title": "File properties"
             }
           },
           {
@@ -242,54 +227,93 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "56f59cc5d870c9e5",
+  "floating": {
+    "id": "f905982e681debe4",
+    "type": "floating",
+    "children": [
+      {
+        "id": "8e54068e86784d22",
+        "type": "window",
+        "children": [
+          {
+            "id": "a0fbdcd94be7c66b",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "50776708b45fd4e9",
+                "type": "leaf",
+                "state": {
+                  "type": "webviewer",
+                  "state": {
+                    "url": "https://github.com/scambier/obsidian-text-extractor?tab=GPL-3.0-1-ov-file#readme",
+                    "title": "GitHub - scambier/obsidian-text-extractor: A (companion) plugin to facilitate the extraction of text from images (OCR) and PDFs.",
+                    "mode": "webview"
+                  },
+                  "icon": "globe-2",
+                  "title": "GitHub - scambier/obsidian-text-extractor: A (companion) plugin to facilitate the extraction of text from images (OCR) and PDFs."
+                }
+              }
+            ]
+          }
+        ],
+        "direction": "vertical",
+        "x": 388,
+        "y": 129,
+        "width": 1024,
+        "height": 800,
+        "maximize": false,
+        "zoom": 1.5
+      }
+    ]
+  },
+  "active": "177bf4e8b7c58f91",
   "lastOpenFiles": [
-    "README.md",
-    "BONJOUR.md",
-    "_RESOURCES/DATACORE/12 LottieExperiment/LOTTIE EXPERIMENT.md",
+    "KNOWLEDGE/EXPERIENCES/_clean/_public/obsidian/Part 1 Building a Second Brain.md",
+    "KNOWLEDGE/EXPERIENCES/_clean/_public/obsidian/VAULT.888.md",
+    "KNOWLEDGE/EXPERIENCES/_clean/_public/obsidian/VAULT.md",
+    "_OPERATION/_CLEAN/_OLD/HOME.old.md",
     "_RESOURCES/ASSETS/888/ASSETS LIBRARY_.a.md",
-    "_OPERATION/PUBLIC/HOME.md",
-    "_RESOURCES/DATACORE/43 ReceiptTracker/RECEIPT TRACKER.md",
-    "LICENSE.md",
-    "_OPERATION/PUBLIC/DEVLOG/CHANGE LOG.md",
-    "_OPERATION/PUBLIC/LICENSE GUIDE.md",
-    "_OPERATION/PUBLIC/FAQ.classic.md",
-    "_OPERATION/PUBLIC/FAQ.enigma.md",
-    "_OPERATION/PUBLIC/TERMS OF SERVICE.md",
-    "_RESOURCES/DATACORE/39 MobileMusicPlayer/D.q.mobilemusicplayer.component.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/INSTALL_v02_.A.md",
+    "_RESOURCES/WEBM/card_cat_1.webm",
+    "_OPERATION/PRIVATE/DISCLAIMERS/THIRD PARTY LICENSES.md",
+    "_OPERATION/PRIVATE/TERMS OF SERVICE.old {June 9}.md",
+    "_OPERATION/PRIVATE/TERMS OF SERVICE.md",
+    "_OPERATION/_CLEAN/Untitled.md",
+    "_OPERATION/_CLEAN/QRBTF",
+    "_OPERATION/PUBLIC/PUBLIC.md",
+    "_OPERATION/_CLEAN/_OLD/PARTICIPARE CIRCULANS.md",
+    "_OPERATION/_CLEAN/_OLD/OV - BONJOUR.md",
+    "_OPERATION/_CLEAN/SOCIALS/OBSIDIAN.community.md",
+    "_OPERATION/PUBLIC/INFO/CUSTOMER SUPPORT.md",
+    "_OPERATION/PUBLIC/INFO/FAQ",
+    "_OPERATION/PRIVATE/DISCLAIMERS",
+    "_OPERATION/_CLEAN/CONTRIBUTIONS/CONTRIBUTION.md",
+    "_OPERATION/_CLEAN/_OLD/COMING SOON.md",
+    "_OPERATION/_CLEAN/_OLD",
     "_OPERATION/PUBLIC/DEVLOG/DEVLOG.md",
-    "KNOWLEDGE/EXPERIENCES/_clean/JOURNAL.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/PERSON_v07_.A.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/PERSON_v06_..md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/PERSON_v06_.A 1.md",
-    "_RESOURCES/DATACORE/17 ViewsControl/VIEWS CONTROL.md",
-    "_RESOURCES/DATACORE/DATACORE.showcase.md",
-    "_RESOURCES/DATACORE/30 MatrixGlitchWall/MATRIX GLITCH WALL.md",
-    "_RESOURCES/DATACORE/29 FuzzyText/FUZZY TEXT.md",
-    "_RESOURCES/DATACORE/28 LoadScript/LOAD SCRIPT.md",
-    "_RESOURCES/DATACORE/21 ExternalInputBlocker/EXTERNAL INPUT BLOCKER.md",
-    "_RESOURCES/DATACORE/26 LicenseAgreement/LICENSE AGREEMENT.md",
-    "_RESOURCES/DATACORE/39 MobileMusicPlayer/MOBILE MUSIC PLAYER.md",
+    "_OPERATION/PUBLIC/INFO",
+    "_OPERATION/PUBLIC/888",
+    "_OPERATION/PUBLIC/DEVLOG/CHANGE LOG.md",
+    "_OPERATION/PUBLIC/HOME.md",
+    "_OPERATION/_CLEAN",
+    "KNOWLEDGE/EXPERIENCES/_clean/PKM.enigmas..md",
+    "KNOWLEDGE/EXPERIENCES/_clean/MEME.enigmas..md",
+    "_OPERATION/PUBLIC/ENIGMAS/ENIGMAS.md",
+    "KNOWLEDGE/EXPERIENCES/_clean/MEME.md",
+    "KNOWLEDGE/WEALTH/TAXES.enigmas..md",
+    "KNOWLEDGE/WEALTH/TAXES.md",
+    "_RESOURCES/ASSETS/EXCALIDRAW/Drawing 2024-04-22 21.03.07.svg",
+    "_RESOURCES/ASSETS/EXCALIDRAW/COMMUNITY/GOOGLE ASSETS.svg",
+    "_RESOURCES/ASSETS/EXCALIDRAW/COMMUNITY/CHARTS ASSETS.svg",
     "5 CustomFeed",
     "_RESOURCES/IMAGES/chat_llm.webp",
     "_RESOURCES/IMAGES/receipt_tracker.webp",
     "_RESOURCES/IMAGES/receipt_example.webp",
     "_RESOURCES/DATACORE/43 ReceiptTracker/Receipts/_Processed",
     "_RESOURCES/DATACORE/43 ReceiptTracker/Receipts/receipt_example.webp",
-    "_RESOURCES/DATACORE/43 ReceiptTracker/Receipts",
-    "_RESOURCES/DATACORE/43 ReceiptTracker",
-    "_RESOURCES/DATACORE/42 ChatLLM",
     "_RESOURCES/IMAGES/ocr_reader.webp",
     "_RESOURCES/IMAGES/license_agreement.webp",
-    "_RESOURCES/DATACORE/41 OCRReader",
     "_RESOURCES/IMAGES/card_picker.webp",
-    "_RESOURCES/DATACORE/40 CardPicker",
-    "_RESOURCES/IMAGES/mobile_music_player.webp",
-    "_RESOURCES/IMAGES/chatbox.webp",
-    "_RESOURCES/DATACORE/39 MobileMusicPlayer",
-    "_RESOURCES/IMAGES/BAT.eth.qr.code.png",
-    "Untitled",
-    "_RESOURCES/DATACORE/38 Chatbot",
     "888/PROJECTS/888 copy/PROJECTS/COOKBOOK/KNOWLEDGE/DASHBOARDS/DASHBOARD.canvas",
     "888/PROJECTS/888 copy/KNOWLEDGE/EXPERIENCES/_clean/NFT LAYOUT.canvas",
     "888/PROJECTS/888/PROJECTS/COOKBOOK/KNOWLEDGE/DASHBOARDS/DASHBOARD.canvas",

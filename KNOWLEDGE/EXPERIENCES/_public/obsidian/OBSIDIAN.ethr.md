@@ -1,6 +1,0 @@
-
-###### NAVIGATE - BACK : [[OBSIDIAN]]
------
-#### [[ETHR]]
-
-

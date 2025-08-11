@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "_OPERATION/PUBLIC/INFO/FAQ/FAQ.enigma.md",
+                "file": "README.md",
                 "mode": "source",
                 "source": false,
                 "backlinks": true,
@@ -28,10 +28,35 @@
                 }
               },
               "icon": "lucide-file",
-              "title": "FAQ.enigma"
+              "title": "README"
+            }
+          },
+          {
+            "id": "c5f9e2ff11ea0981",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "HOME.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
+              "icon": "lucide-file",
+              "title": "HOME"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -242,12 +267,23 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "aad0fb9777b2c442",
+  "active": "c5f9e2ff11ea0981",
   "lastOpenFiles": [
+    "README.md",
+    "HOME.md",
+    "KNOWLEDGE/EXPERIENCES/_clean/NATURE.md",
+    "KNOWLEDGE/HEALTH/MEAL.enigmas..md",
+    "KNOWLEDGE/HEALTH/MEAL.md",
+    "PROJECTS/COOKBOOK/KNOWLEDGE/HELP/README/CONTENT/MEAL.md",
+    "WEATHER.md",
+    "WEATHER.enigams..md",
+    "LICENSE.md",
+    "_OPERATION/PUBLIC/INFO/DISCLAIMERS/LICENSES/LICENSE GUIDE.md",
+    "_OPERATION/PUBLIC/INFO/DISCLAIMERS/LICENSES/LICENSE INFO.md",
+    "_OPERATION/PUBLIC/INFO/FAQ/FAQ.enigma.md",
     "_OPERATION/PUBLIC/INFO/FAQ/FAQ.classic.md",
     "_OPERATION/PUBLIC/INFO/FAQ/FAQ.md",
     "_OPERATION/PUBLIC/INFO/CUSTOMER SUPPORT.md",
-    "_OPERATION/PUBLIC/INFO/DISCLAIMERS/LICENSES/LICENSE GUIDE.md",
     "_OPERATION/PUBLIC/INFO/about.md",
     "_OPERATION/_CLEAN/_OLD/ABOUT.un.md",
     "_OPERATION/_CLEAN/_OLD/ABOUT.namzu.md",
@@ -267,19 +303,8 @@
     "_OPERATION/_CLEAN/CONTRIBUTIONS/BAT.eth.qr.code.png",
     "_OPERATION/_CLEAN/CONTRIBUTIONS/BAT.avax.qr.code.png",
     "PROJECTS/COOKBOOK/COOKBOOK.md",
-    "HOME.md",
     "PROJECTS/COOKBOOK/COOKBOOK.enigmas..md",
-    "_OPERATION/_CLEAN/_OLD/BONJOUR.md",
-    "KNOWLEDGE/EXPERIENCES/_clean/_public/obsidian/Part 1 Building a Second Brain.md",
-    "KNOWLEDGE/EXPERIENCES/_clean/_public/obsidian/VAULT.888.md",
-    "KNOWLEDGE/EXPERIENCES/_clean/_public/obsidian/VAULT.md",
-    "_OPERATION/_CLEAN/_OLD/HOME.old.md",
-    "_RESOURCES/ASSETS/888/ASSETS LIBRARY_.a.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/INSTALL_v02_.A.md",
     "_RESOURCES/WEBM/card_cat_1.webm",
-    "_OPERATION/PUBLIC/INFO/DISCLAIMERS/LICENSES/THIRD PARTY LICENSES.md",
-    "_OPERATION/PUBLIC/INFO/DISCLAIMERS/TOS/TERMS OF SERVICE.old {June 9}.md",
-    "_OPERATION/PUBLIC/INFO/DISCLAIMERS/TOS/TERMS OF SERVICE.md",
     "_OPERATION/_CLEAN/QRBTF",
     "_OPERATION/PUBLIC/INFO/FAQ",
     "_OPERATION/PUBLIC/INFO/DISCLAIMERS",

@@ -3,7 +3,7 @@
     {
       "type": "file",
       "ctime": 1753888466328,
-      "path": "_OPERATION/PUBLIC/HOME.md",
+      "path": "HOME.md",
       "title": "HOME"
     },
     {
@@ -1219,7 +1219,7 @@
     {
       "type": "file",
       "ctime": 1753896725813,
-      "path": "BONJOUR.md",
+      "path": "_OPERATION/_CLEAN/_OLD/BONJOUR.md",
       "title": "BONJOUR"
     },
     {
@@ -1241,7 +1241,7 @@
         {
           "type": "file",
           "ctime": 1753896672818,
-          "path": "_OPERATION/PRIVATE/TERMS OF SERVICE.md",
+          "path": "_OPERATION/PUBLIC/INFO/DISCLAIMERS/TOS/TERMS OF SERVICE.md",
           "title": "TOS"
         },
         {

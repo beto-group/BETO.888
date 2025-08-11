@@ -1,6 +1,8 @@
 ---
 permalink: license_guide
 ---
+
+
 ### **BETO.GROUP Software Release License Guide (MIT License)**
 
 Welcome! This guide explains the simple and permissive licensing for BETO.GROUP software Releases (the Obsidian vaults we provide). Our goal is to make our work as easy as possible for you to use, build upon, and share.

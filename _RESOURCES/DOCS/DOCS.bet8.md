@@ -18,7 +18,7 @@
 
 ## HOME.old
 	[previous gen]
-###### [[HOME.old]]
+###### [[_RESOURCES/DOCS/DATA/INFO/HOME.old]]
 
 
 

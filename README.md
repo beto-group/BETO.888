@@ -1,30 +1,26 @@
-# BETO.888 - An Evolving Obsidian Experience
+<div align="center"> <a name="readme-top"></a> <img src="./_RESOURCES/beto.logo/v8/BETO.logo.animated.svg" alt="LOGO" width="200"> <h1 align="center">BETO.888 - Aɴ Eᴠᴏʟᴠɪɴɢ Oʙsɪᴅɪᴀɴ Exᴘᴇʀɪᴇɴᴄᴇ</h1> <h3 align="center"> Cʀᴇᴀᴛɪɴɢ Fᴀᴄᴛᴏᴛᴜᴍs </h3> </div> <div align="center"> <!-- TOP 3 BADGES (PURPLE) --> <a href="https://beto.group"><img src="https://img.shields.io/badge/Wᴇʙsɪᴛᴇ-7A46F1?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9Imx1Y2lkZSBsdWNpZGUtZ2xvYmUiPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjEwIi8+PHBhdGggZD0iTTEyIDJBNTYuNDggNTYuNDggMCAwIDAgNiA2djEyYTQ1LjQxIDQ1LjQxIDAgMCAwIDYgNHoiLz48cGF0aCBkPSJNMTIgMmE1Ni40OCAzNS40OCAwIDAgMSA2IDZ2MTJhNDUuNDEgNDUuNDEgMCAwIDEtNiA0eiIvPjwvc3ZnPg==" alt="Wᴇʙsɪᴛᴇ"></a> <a href="https://discord.com/invite/6rDp4q4Y2B"><img src="https://img.shields.io/badge/Dɪsᴄᴏʀᴅ-7A46F1?style=for-the-badge&logo=discord&logoColor=white" alt="Jᴏɪɴ ᴏᴜʀ Dɪsᴄᴏʀᴅ ᴄᴏᴍᴍᴜɴɪᴛʏ"></a> <a href="https://ko-fi.com/betogroup"><img src="https://img.shields.io/badge/Kᴏ--ғɪ-7A46F1?style=for-the-badge&logo=ko-fi&logoColor=white" alt="Sᴜᴘᴘᴏʀᴛ ᴜs ᴏɴ Kᴏ-ғɪ"></a> <br/> <!-- BOTTOM 4 BADGES (LUCIDE ICONS) --> <a href="https://github.com/beto-group/BETO.888/tree/main/_RESOURCES/DATACORE"><img src="https://img.shields.io/badge/DATACORE-000?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNGRkUxNjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48ZWxsaXBzZSBjeD0iMTIiIGN5PSI1IiByeD0iOSIgcnk9IjMiLz48cGF0aCBkPSJNMzA1djE0YTkgMyAwIDAgMCAxOCAwVjUiLz48cGF0aCBkPSJNMzEyYTkgMyAwIDAgMCAxOCAweiIvPjwvc3ZnPg==" alt="DATACORE"></a> <a href="https://github.com/beto-group/BETO.888/tree/main/_RESOURCES/ASSETS/888"><img src="https://img.shields.io/badge/ASSETS-000?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNGRkUxNjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cmVjdCB3aWR0aD0iMjAiIGhlaWdodD0iNSIgeD0iMiIgeT0iMyIgcng9IjEiLz48cGF0aCBkPSJNIDh2MTFhMiAyIDAgMCAwIDIgMmgxMmEyIDIgMCAwIDAgMi0yVjgiLz48cGF0aCBkPSJNMTAgMTJoNCIvPjwvc3ZnPg==" alt="ASSETS"></a> <a href="https://github.com/beto-group/BETO.888/tree/main/_RESOURCES/DOCS"><img src="https://img.shields.io/badge/DOCS-000?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZGg0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNGRkUxNjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTQuNSAySDZhMiAyIDAgMCAwLTIgMnYxNmEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJWNy41TDE0LjUgMnoiLz48cG9seWxpbmUgcG9pbnRzPSIxNCAyIDE0IDggMjAgOCIvPjxsaW5lIHgxPSIxNiIgeDI9IjgiIHkxPSIxMyIgeTI9IjEzIi8+PGxpbmUgeDE9IjE2IiB4Mj0iOCIgeTE9IjE3IiB5Mj0iMTciLz48bGluZSB4MT0iMTAiIHgyPSI4IiB5MT0iOSIgeTI9IjkiLz48L3N2Zz4=" alt="DOCS"></a> <a href="https://github.com/beto-group/BETO.888/tree/main/_OPERATION/PUBLIC/DEVLOG"><img src="https://img.shields.io/badge/DEVLOG-000?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNGRkUxNjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMgo2aDQiLz48cGF0aCBkPSJNMgoxMGg0Ii8+PHBhdGggZD0iTTIKMTRoNCIvPjxwYXRoIGQ9Ik0yIDE4aDQiLz48cmVjdCB3aWR0aD0iMTYiIGhlaWdodD0iMjAiIHg9IjQiIHk9IjIiIHJ4PSIyIi8+PHBhdGggZD0iTTE2IDJ2MjAiLz48L3N2Zz4=" alt="DEVLOG"></a> <hr> </div> 
 
-![BETO.888 Cover|942x488](_RESOURCES/GIF/beto.888.cover.gif)
+<img alt="Bᴇᴛᴏ.888 Tᴇᴀsᴇʀ" src="https://github.com/beto-group/beto.assets/blob/main/beto.888.teaser-f.gif?raw=true" width="100%" /> ----
 
-Welcome to **BETO.888**, an ever-evolving Obsidian Vault from **BETO.GROUP**. This vault is designed to be a powerful, dynamic toolkit for thought, creation, and personal development. It's a space where ideas are forged and reality is shaped by what you *do* and desire.
-
-Our mission is simple and cyclical: **Discover, Learn, Develop, Teach, Repeat.**
-
----
-
-> [!TIP]
-> **To update the vault** in the future, navigate to its folder in your terminal and run git pull.
-> 
-> **Once the vault is open,** we recommend exploring the [DATACORE.showcase](DATACORE.showcase.md) note and the Bookmarked items in the left panel to get oriented.
+----
+### COLLECTION OF YOURS TRULY.
 
 ---
+## ✨ Fᴇᴀᴛᴜʀᴇs
 
+Tʜᴇ ʟᴀᴛᴇsᴛ ʀᴇʟᴇᴀsᴇ ɪɴᴛʀᴏᴅᴜᴄᴇs ᴀ ɢʀᴏᴜɴᴅʙʀᴇᴀᴋɪɴɢ, ɪᴍᴍᴇʀsɪᴠᴇ UI ᴛʜᴀᴛ ᴘʀᴏᴠɪᴅᴇs ᴀ ɢᴀᴛᴇᴡᴀʏ ᴛᴏ ᴀ sᴜɪᴛᴇ ᴏғ ᴘᴏᴡᴇʀғᴜʟ, ɪɴᴛᴇɢʀᴀᴛᴇᴅ sʏsᴛᴇᴍs:
 
-## ✨ Features
+-   🖥️ **Dᴀsʜʙᴏᴀʀᴅ 888:** A ғᴜʟʟ-sᴄʀᴇᴇɴ UI sᴇʀᴠɪɴɢ ᴀs ᴛʜᴇ ᴄᴇɴᴛʀᴀʟ ʜᴜʙ ғᴏʀ ᴀʟʟ ᴄᴏʀᴇ sʏsᴛᴇᴍs, ғᴇᴀᴛᴜʀɪɴɢ ᴀɴ ɪɴᴛᴜɪᴛɪᴠᴇ ғʟᴏᴡ ғᴏʀ ǫᴜɪᴄᴋ ᴏɴʙᴏᴀʀᴅɪɴɢ.
 
-The latest release introduces a groundbreaking, immersive UI that transforms your Obsidian pane into a dedicated application environment. It preserves the classic Markdown navigation you're used to while providing a gateway to a suite of powerful, integrated systems.
+-   🛠️ **Dᴀᴛᴀᴄᴏʀᴇ Cᴏᴍᴘᴏɴᴇɴᴛ Lɪʙʀᴀʀʏ:** A ɢʀᴏᴡɪɴɢ ʟɪʙʀᴀʀʏ ᴏғ ɪɴᴛᴇʀᴀᴄᴛɪᴠᴇ ᴛᴏᴏʟs ᴀɴᴅ ᴄᴏᴍᴘᴏɴᴇɴᴛs. A ᴄʀᴇᴀᴛɪᴠᴇ sᴀɴᴅʙᴏx ᴅᴇsɪɢɴᴇડ ᴛᴏ ᴜɴʟᴏᴄᴋ ɴᴏᴠᴇʟ ᴡᴏʀᴋғʟᴏᴡs.
 
-- 🖥️ **Dashboard 888:** A full-screen UI serving as the central hub for all core systems. It features a unique, intuitive vault-integrated flow process to guide user onboarding to quickly grasp scope of vault capabilities.
+-   🖼️ **Vɪsᴜᴀʟ Aꜱꜱᴇᴛ Lɪʙʀᴀʀʏ:** A ʜɪɢʜ-ᴘᴇʀғᴏʀᴍᴀɴᴄᴇ, ᴄᴀɴᴠᴀs-ʙᴀsᴇᴅ ɢᴀʟʟᴇʀʏ ᴡɪᴛʜ ᴅᴜᴀʟ ʙʀᴏᴡsɪɴɢ ᴍᴏᴅᴇs ᴛᴏ ʜᴇʟᴘ ᴅɪsᴄᴏᴠᴇʀ ᴄᴏɴɴᴇᴄᴛɪᴏɴs ʙᴇᴛᴡᴇᴇɴ ʏᴏᴜʀ ɪᴅᴇᴀs.
 
-- 🛠️ **Datacore Component Library:** A powerful and growing library of interactive tools and application-like components, fully documented in the accompanying **Integrated Development Suite**. This is a creative sandbox—a work-in-progress designed to unlock novel workflows. While some components are experimental and may contain errors, they are crafted to inspire new forms of creative expression, all accessible through the central dashboard or good old [markdown](_RESOURCES/DOCS/DOCS.bet8.md).
+-   📖 **Dᴏᴄs:** A ᴅᴇᴅɪᴄᴀᴛᴇᴅ sᴘᴀᴄᴇ ғᴏʀ ᴅᴏᴄᴜᴍᴇɴᴛᴀᴛɪᴏɴ, ᴄᴏᴍᴘᴏɴᴇɴᴛ ᴘᴀᴛᴛᴇʀɴs, ᴀɴᴅ ᴜsᴀɢᴇ ɢᴜɪᴅᴇs. Tʜɪs sᴇᴄᴛɪᴏɴ ɪs ᴄᴜʀʀᴇɴᴛʟʏ ᴀ ᴡᴏʀᴋ-ɪɴ-ᴘʀᴏɢʀᴇss.
 
-- 🖼️ **Visual Asset Library:** A high-performance, canvas-based gallery for your visual assets, featuring an automated Excalidraw-to-SVG pipeline and dual browsing modes (Grid & Graph) to discover the hidden connections between your ideas and quickly find assets to use.
+-   📓 **DᴇᴠLᴏɢ:** A ᴘᴜʙʟɪᴄ ʟᴏɢ ᴅᴏᴄᴜᴍᴇɴᴛɪɴɢ ᴛʜᴇ ᴏɴɢᴏɪɴɢ ᴊᴏᴜʀɴᴇʏ ᴏғ ᴅᴇᴠᴇʟᴏᴘᴍᴇɴᴛ, sʜᴀʀɪɴɢ ᴘʀᴏɢʀᴇss ᴀɴᴅ ᴍɪʟᴇsᴛᴏɴᴇs.
+
+Check banner to quickly visit sections without installing vault.
 
 ---
 ## 🚀 Quick Start & Installation
@@ -101,6 +97,12 @@ git sparse-checkout set --add _RESOURCES
 ###### That's it! The BETO.888 vault experience is ready, and your journey begins.
 
 ----
+
+Welcome to **BETO.888**, an ever-evolving Obsidian Vault from **BETO.GROUP**. This vault is designed to be a powerful, dynamic toolkit for thought, creation, and personal development. It's a space where ideas are forged and reality is shaped by what you *do* and desire.
+
+Our mission is simple and cyclical: **Discover, Learn, Develop, Teach, Repeat.**
+
+-----
 ## 🤝 Contributing & Community
 
 BETO.GROUP thrives on its community. Your participation and feedback are what fuel our evolution.
@@ -120,3 +122,4 @@ BETO.GROUP thrives on its community. Your participation and feedback are what fu
 
 ## **THANK YOU FOR BELIEVING IN THE VISION! 🫡**
 
+![BETO.888 Cover|942x488](_RESOURCES/GIF/beto.888.cover.gif)

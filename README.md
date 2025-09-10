@@ -1,18 +1,35 @@
-<div align="center"> <a name="readme-top"></a> <img src="./_RESOURCES/beto.logo/v8/BETO.logo.animated.svg" alt="LOGO" width="200"> <h1 align="center">BETO.888 - Aɴ Eᴠᴏʟᴠɪɴɢ Oʙsɪᴅɪᴀɴ Exᴘᴇʀɪᴇɴᴄᴇ</h1> <h3 align="center"> Cʀᴇᴀᴛɪɴɢ Fᴀᴄᴛᴏᴛᴜᴍs </h3> </div> <div align="center"> <!-- TOP 3 BADGES (PURPLE) --> <a href="https://beto.group"><img src="https://img.shields.io/badge/Wᴇʙsɪᴛᴇ-7A46F1?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9Imx1Y2lkZSBsdWNpZGUtZ2xvYmUiPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjEwIi8+PHBhdGggZD0iTTEyIDJBNTYuNDggNTYuNDggMCAwIDAgNiA2djEyYTQ1LjQxIDQ1LjQxIDAgMCAwIDYgNHoiLz48cGF0aCBkPSJNMTIgMmE1Ni40OCAzNS40OCAwIDAgMSA2IDZ2MTJhNDUuNDEgNDUuNDEgMCAwIDEtNiA0eiIvPjwvc3ZnPg==" alt="Wᴇʙsɪᴛᴇ"></a> <a href="https://discord.com/invite/6rDp4q4Y2B"><img src="https://img.shields.io/badge/Dɪsᴄᴏʀᴅ-7A46F1?style=for-the-badge&logo=discord&logoColor=white" alt="Jᴏɪɴ ᴏᴜʀ Dɪsᴄᴏʀᴅ ᴄᴏᴍᴍᴜɴɪᴛʏ"></a> <a href="https://ko-fi.com/betogroup"><img src="https://img.shields.io/badge/Kᴏ--ғɪ-7A46F1?style=for-the-badge&logo=ko-fi&logoColor=white" alt="Sᴜᴘᴘᴏʀᴛ ᴜs ᴏɴ Kᴏ-ғɪ"></a> <br/> <!-- BOTTOM 4 BADGES (LUCIDE ICONS) --> <a href="https://github.com/beto-group/BETO.888/tree/main/_RESOURCES/DATACORE"><img src="https://img.shields.io/badge/DATACORE-000?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNGRkUxNjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48ZWxsaXBzZSBjeD0iMTIiIGN5PSI1IiByeD0iOSIgcnk9IjMiLz48cGF0aCBkPSJNMzA1djE0YTkgMyAwIDAgMCAxOCAwVjUiLz48cGF0aCBkPSJNMzEyYTkgMyAwIDAgMCAxOCAweiIvPjwvc3ZnPg==" alt="DATACORE"></a> <a href="https://github.com/beto-group/BETO.888/tree/main/_RESOURCES/ASSETS/888"><img src="https://img.shields.io/badge/ASSETS-000?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNGRkUxNjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cmVjdCB3aWR0aD0iMjAiIGhlaWdodD0iNSIgeD0iMiIgeT0iMyIgcng9IjEiLz48cGF0aCBkPSJNIDh2MTFhMiAyIDAgMCAwIDIgMmgxMmEyIDIgMCAwIDAgMi0yVjgiLz48cGF0aCBkPSJNMTAgMTJoNCIvPjwvc3ZnPg==" alt="ASSETS"></a> <a href="https://github.com/beto-group/BETO.888/tree/main/_RESOURCES/DOCS"><img src="https://img.shields.io/badge/DOCS-000?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZGg0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNGRkUxNjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTQuNSAySDZhMiAyIDAgMCAwLTIgMnYxNmEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJWNy41TDE0LjUgMnoiLz48cG9seWxpbmUgcG9pbnRzPSIxNCAyIDE0IDggMjAgOCIvPjxsaW5lIHgxPSIxNiIgeDI9IjgiIHkxPSIxMyIgeTI9IjEzIi8+PGxpbmUgeDE9IjE2IiB4Mj0iOCIgeTE9IjE3IiB5Mj0iMTciLz48bGluZSB4MT0iMTAiIHgyPSI4IiB5MT0iOSIgeTI9IjkiLz48L3N2Zz4=" alt="DOCS"></a> <a href="https://github.com/beto-group/BETO.888/tree/main/_OPERATION/PUBLIC/DEVLOG"><img src="https://img.shields.io/badge/DEVLOG-000?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNGRkUxNjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMgo2aDQiLz48cGF0aCBkPSJNMgoxMGg0Ii8+PHBhdGggZD0iTTIKMTRoNCIvPjxwYXRoIGQ9Ik0yIDE4aDQiLz48cmVjdCB3aWR0aD0iMTYiIGhlaWdodD0iMjAiIHg9IjQiIHk9IjIiIHJ4PSIyIi8+PHBhdGggZD0iTTE2IDJ2MjAiLz48L3N2Zz4=" alt="DEVLOG"></a> <hr> </div> 
+<div align="center"> <a name="readme-top"></a> <img src="./_RESOURCES/beto.logo/v8/BETO.logo.animated.svg" alt="LOGO" width="200"> <h1 align="center">BETO.888 - Aɴ Eᴠᴏʟᴠɪɴɢ Oʙsɪᴅɪᴀɴ Exᴘᴇʀɪᴇɴᴄᴇ</h1> <h3 align="center"> Cʀᴇᴀᴛɪɴɢ Fᴀᴄᴛᴏᴛᴜᴍs </h3> </div> <div align="center"> <!-- TOP 3 BADGES (PURPLE) --> <a href="https://beto.group"><img src="https://img.shields.io/badge/Wᴇʙsɪᴛᴇ-7A46F1?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9Imx1Y2lkZSBsdWNpZGUtZ2xvYmUiPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjEwIi8+PHBhdGggZD0iTTEyIDJBNTYuNDggNTYuNDggMCAwIDAgNiA2djEyYTQ1LjQxIDQ1LjQxIDAgMCAwIDYgNHoiLz48cGF0aCBkPSJNMTIgMmE1Ni40OCAzNS40OCAwIDAgMSA2IDZ2MTJhNDUuNDEgNDUuNDEgMCAwIDEtNiA0eiIvPjwvc3ZnPg==" alt="Wᴇʙsɪᴛᴇ"></a> <a href="https://discord.com/invite/6rDp4q4Y2B"><img src="https://img.shields.io/badge/Dɪsᴄᴏʀᴅ-7A46F1?style=for-the-badge&logo=discord&logoColor=white" alt="Jᴏɪɴ ᴏᴜʀ Dɪsᴄᴏʀᴅ ᴄᴏᴍᴍᴜɴɪᴛʏ"></a> <a href="https://ko-fi.com/betogroup"><img src="https://img.shields.io/badge/Kᴏ--ғɪ-7A46F1?style=for-the-badge&logo=ko-fi&logoColor=white" alt="Sᴜᴘᴘᴏʀᴛ ᴜs ᴏɴ Kᴏ-ғɪ"></a> <br/> <!-- BOTTOM 4 BADGES (LUCIDE ICONS) --> <a href="https://github.com/beto-group/BETO.888/tree/main/_RESOURCES/DATACORE"><img src="https://img.shields.io/badge/DATACORE-000?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNGRkUxNjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48ZWxsaXBzZSBjeD0iMTIiIGN5PSI1IiByeD0iOSIgcnk9IjMiLz48cGF0aCBkPSJNMzA1djE0YTkgMyAwIDAgMCAxOCAwVjUiLz48cGF0aCBkPSJNMzEyYTkgMyAwIDAgMCAxOCAweiIvPjwvc3ZnPg==" alt="DATACORE"></a> <a href="https://github.com/beto-group/BETO.888/tree/main/_RESOURCES/ASSETS/888"><img src="https://img.shields.io/badge/ASSETS-000?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNGRkUxNjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cmVjdCB3aWR0aD0iMjAiIGhlaWdodD0iNSIgeD0iMiIgeT0iMyIgcng9IjEiLz48cGF0aCBkPSJNIDh2MTFhMiAyIDAgMCAwIDIgMmgxMmEyIDIgMCAwIDAgMi0yVjgiLz48cGF0aCBkPSJNMTAgMTJoNCIvPjwvc3ZnPg==" alt="ASSETS"></a> <a href="https://github.com/beto-group/BETO.888/blob/main/_RESOURCES/DOCS/DOCS.bet8.md"><img src="https://img.shields.io/badge/DOCS-000?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZGg0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNGRkUxNjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTQuNSAySDZhMiAyIDAgMCAwLTIgMnYxNmEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJWNy41TDE0LjUgMnoiLz48cG9seWxpbmUgcG9pbnRzPSIxNCAyIDE0IDggMjAgOCIvPjxsaW5lIHgxPSIxNiIgeDI9IjgiIHkxPSIxMyIgeTI9IjEzIi8+PGxpbmUgeDE9IjE2IiB4Mj0iOCIgeTE9IjE3IiB5Mj0iMTciLz48bGluZSB4MT0iMTAiIHgyPSI4IiB5MT0iOSIgeTI9IjkiLz48L3N2Zz4=" alt="DOCS"></a> <a href="https://github.com/beto-group/BETO.888/blob/main/_OPERATION/PUBLIC/DEVLOG/DEVLOG.md"><img src="https://img.shields.io/badge/DEVLOG-000?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNGRkUxNjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMgo2aDQiLz48cGF0aCBkPSJNMgoxMGg0Ii8+PHBhdGggZD0iTTIKMTRoNCIvPjxwYXRoIGQ9Ik0yIDE4aDQiLz48cmVjdCB3aWR0aD0iMTYiIGhlaWdodD0iMjAiIHg9IjQiIHk9IjIiIHJ4PSIyIi8+PHBhdGggZD0iTTE2IDJ2MjAiLz48L3N2Zz4=" alt="DEVLOG"></a> <hr> </div>
 
-<img alt="Bᴇᴛᴏ.888 Tᴇᴀsᴇʀ" src="https://github.com/beto-group/beto.assets/blob/main/beto.888.teaser-f.gif?raw=true" width="100%" /> ----
-
-----
-### COLLECTION OF YOURS TRULY.
+<div align="center">
+  <p>
+    <small>
+      <small>
+        <i>
+          Dɪsᴄʟᴀɪᴍᴇʀ 🫡 <br/>Wᴇ ᴀʀᴇ ᴘᴏᴡᴇʀᴇᴅ ʙʏ Dᴀᴛᴀᴄᴏʀᴇ ʙᴜᴛ ᴀʀᴇ ᴀ sᴇᴘᴀʀᴀᴛᴇ ᴘʀᴏᴊᴇᴄᴛ.<br> Fᴏʀ ᴏғғɪᴄɪᴀʟ ʀᴇsᴏᴜʀᴄᴇs,
+          Vɪsɪᴛ 
+          <a href="https://blacksmithgu.github.io/datacore/">Dᴀᴛᴀᴄᴏʀᴇ Dᴏᴄs</a> ᴀɴᴅ ᴛʜᴇɪʀ <a href="https://discord.com/invite/KwZUX4BYba">Oғғɪᴄɪᴀʟ Dɪsᴄᴏʀᴅ</a>.
+        </i>
+      </small>
+    </small>
+  </p>
+</div>
 
 ---
+
+<img alt="Bᴇᴛᴏ.888 Tᴇᴀsᴇʀ" src="https://github.com/beto-group/beto.assets/blob/main/beto.888.teaser-f.gif?raw=true" width="100%" /> 
+
+---
+
+### COLLECTION OF YOURS TRULY.
+
+----
 ## ✨ Fᴇᴀᴛᴜʀᴇs
 
 Tʜᴇ ʟᴀᴛᴇsᴛ ʀᴇʟᴇᴀsᴇ ɪɴᴛʀᴏᴅᴜᴄᴇs ᴀ ɢʀᴏᴜɴᴅʙʀᴇᴀᴋɪɴɢ, ɪᴍᴍᴇʀsɪᴠᴇ UI ᴛʜᴀᴛ ᴘʀᴏᴠɪᴅᴇs ᴀ ɢᴀᴛᴇᴡᴀʏ ᴛᴏ ᴀ sᴜɪᴛᴇ ᴏғ ᴘᴏᴡᴇʀғᴜʟ, ɪɴᴛᴇɢʀᴀᴛᴇᴅ sʏsᴛᴇᴍs:
 
 -   🖥️ **Dᴀsʜʙᴏᴀʀᴅ 888:** A ғᴜʟʟ-sᴄʀᴇᴇɴ UI sᴇʀᴠɪɴɢ ᴀs ᴛʜᴇ ᴄᴇɴᴛʀᴀʟ ʜᴜʙ ғᴏʀ ᴀʟʟ ᴄᴏʀᴇ sʏsᴛᴇᴍs, ғᴇᴀᴛᴜʀɪɴɢ ᴀɴ ɪɴᴛᴜɪᴛɪᴠᴇ ғʟᴏᴡ ғᴏʀ ǫᴜɪᴄᴋ ᴏɴʙᴏᴀʀᴅɪɴɢ.
 
--   🛠️ **Dᴀᴛᴀᴄᴏʀᴇ Cᴏᴍᴘᴏɴᴇɴᴛ Lɪʙʀᴀʀʏ:** A ɢʀᴏᴡɪɴɢ ʟɪʙʀᴀʀʏ ᴏғ ɪɴᴛᴇʀᴀᴄᴛɪᴠᴇ ᴛᴏᴏʟs ᴀɴᴅ ᴄᴏᴍᴘᴏɴᴇɴᴛs. A ᴄʀᴇᴀᴛɪᴠᴇ sᴀɴᴅʙᴏx ᴅᴇsɪɢɴᴇડ ᴛᴏ ᴜɴʟᴏᴄᴋ ɴᴏᴠᴇʟ ᴡᴏʀᴋғʟᴏᴡs.
+-   🛠️ **Dᴀᴛᴀᴄᴏʀᴇ Cᴏᴍᴘᴏɴᴇɴᴛ Lɪʙʀᴀʀʏ:** A ɢʀᴏᴡɪɴɢ ʟɪʙʀᴀʀʏ ᴏғ ɪɴᴛᴇʀᴀᴄᴛɪᴠᴇ ᴛᴏᴏʟs ᴀɴᴅ ᴄᴏᴍᴘᴏɴᴇɴᴛs. A ᴄʀᴇᴀᴛɪᴠᴇ sᴀɴᴅʙᴏx ᴅᴇsɪɢɴᴇd ᴛᴏ ᴜɴʟᴏᴄᴋ ɴᴏᴠᴇʟ ᴡᴏʀᴋfʟᴏᴡs.
 
 -   🖼️ **Vɪsᴜᴀʟ Aꜱꜱᴇᴛ Lɪʙʀᴀʀʏ:** A ʜɪɢʜ-ᴘᴇʀғᴏʀᴍᴀɴᴄᴇ, ᴄᴀɴᴠᴀs-ʙᴀsᴇᴅ ɢᴀʟʟᴇʀʏ ᴡɪᴛʜ ᴅᴜᴀʟ ʙʀᴏᴡsɪɴɢ ᴍᴏᴅᴇs ᴛᴏ ʜᴇʟᴘ ᴅɪsᴄᴏᴠᴇʀ ᴄᴏɴɴᴇᴄᴛɪᴏɴs ʙᴇᴛᴡᴇᴇɴ ʏᴏᴜʀ ɪᴅᴇᴀs.
 
@@ -20,7 +37,7 @@ Tʜᴇ ʟᴀᴛᴇsᴛ ʀᴇʟᴇᴀsᴇ ɪɴᴛʀᴏᴅᴜᴄᴇs ᴀ ɢʀᴏ�
 
 -   📓 **DᴇᴠLᴏɢ:** A ᴘᴜʙʟɪᴄ ʟᴏɢ ᴅᴏᴄᴜᴍᴇɴᴛɪɴɢ ᴛʜᴇ ᴏɴɢᴏɪɴɢ ᴊᴏᴜʀɴᴇʏ ᴏғ ᴅᴇᴠᴇʟᴏᴘᴍᴇɴᴛ, sʜᴀʀɪɴɢ ᴘʀᴏɢʀᴇss ᴀɴᴅ ᴍɪʟᴇsᴛᴏɴᴇs.
 
-Check banner to quickly visit sections without installing vault.
+###### Check banner to quickly visit sections without installing vault.
 
 ---
 ## 🚀 Quick Start & Installation

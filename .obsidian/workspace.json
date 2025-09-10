@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "ff6ccab2d5d836a5",
+        "id": "42b55f9692088b27",
         "type": "tabs",
         "children": [
           {
-            "id": "f9e41f57bf419be6",
+            "id": "6a8e6cce16e32ff8",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -88,7 +88,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 274.5,
+    "width": 296.5004348754883,
     "collapsed": true
   },
   "right": {
@@ -105,10 +105,10 @@
             "state": {
               "type": "file-properties",
               "state": {
-                "file": "HOME.md"
+                "file": "README.md"
               },
               "icon": "lucide-info",
-              "title": "File properties for HOME"
+              "title": "File properties for README"
             }
           },
           {
@@ -244,12 +244,35 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "f9e41f57bf419be6",
+  "active": "6a8e6cce16e32ff8",
   "lastOpenFiles": [
     "README.md",
-    "_RESOURCES/DOCS/B8.docs.scene.info.md",
-    "CHANGE LOG.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/DRINK_v02_.A.md",
+    "_OPERATION/PUBLIC/INFO/DISCLAIMERS/TOS/TERMS OF SERVICE.old {June 9}.md",
     "HOME.md",
+    "_OPERATION/PUBLIC/INFO/DISCLAIMERS/TOS/TERMS OF SERVICE.md",
+    "_OPERATION/PUBLIC/DEVLOG/DEVLOG.md",
+    "_OPERATION/PUBLIC/DEVLOG/ITI/DEVLOG.yellow-3.md",
+    "CHANGE LOG.md",
+    "_OPERATION/PUBLIC/DEVLOG/ITI/DEVLOG.black-0.md",
+    "_OPERATION/PUBLIC/DEVLOG/ITI/DEVLOG.red-1.md",
+    "_OPERATION/PUBLIC/DEVLOG/ITI/DEVLOG.blue-2.md",
+    "_RESOURCES/DOCS/DATA/INFO/B8.docs.m2.files.md",
+    "_RESOURCES/DOCS/DATA/INFO/B8.docs.m1.data.md",
+    "_RESOURCES/DOCS/B8.docs.layers.info.md",
+    "_RESOURCES/DOCS/DOCS.bet8.md",
+    "_RESOURCES/DOCS/DATA/INFO/DOCS.bet8.enigmas..md",
+    "_RESOURCES/DOCS/DOCS.excalidraw.general.md",
+    "_RESOURCES/DOCS/B8.docs.controls.info.md",
+    "_RESOURCES/DOCS/B8.docs.ai.info.md",
+    "_RESOURCES/DOCS/B8.docs.display.info.md",
+    "_RESOURCES/DOCS/B8.docs.files.info.md",
+    "_RESOURCES/DOCS/B8.docs.design.info.md",
+    "_RESOURCES/DOCS/B8.docs.data.info.md",
+    "_RESOURCES/DOCS/DATA/INFO/HOME.old.md",
+    "_RESOURCES/DOCS/UTILITY.md",
+    "_RESOURCES/DOCS/MANIFESTO.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/DRINK_v02_.A.svg",
     "_RESOURCES/beto.logo/v8/BETO_Logo_WonB.svg",
     "_RESOURCES/beto.logo/v8/BETO_Logo_W.svg",
     "_RESOURCES/beto.logo/v8/BETO_Logo_T_Loading.svg",
@@ -259,35 +282,12 @@
     "_RESOURCES/SVGS/github.svg",
     "_RESOURCES/SVGS/docs.svg",
     "_RESOURCES/SVGS",
-    "_RESOURCES/DOCS/DATA/RAW/docs-dc-category-components.md",
-    "_RESOURCES/DOCS/DATA/RAW/FILE-CONTROLS-REFERENCE.md",
-    "_RESOURCES/DOCS/DATA/RAW/B8.docs.m9.mindmap.md",
-    "_RESOURCES/DOCS/DATA/RAW/B8.docs.m9.draft.old.md",
-    "_RESOURCES/DOCS/DATA/RAW/B8.docs.m9.draft.md",
-    "_RESOURCES/DOCS/DATA/RAW/B8.docs.m8.mindmap.md",
-    "_RESOURCES/DOCS/DATA/RAW/B8.docs.m8.draft.old.md",
-    "_RESOURCES/DOCS/DATA/RAW/B8.docs.m8.draft.md",
-    "_RESOURCES/DOCS/DATA/RAW/B8.docs.m7.resources.md",
-    "_RESOURCES/DOCS/DATA/RAW/B8.docs.m7.mindmap.md",
-    "_RESOURCES/DOCS/DATA/RAW/B8.docs.m7.draft.old.md",
-    "_RESOURCES/DOCS/DATA/RAW/B8.docs.m7.draft.md",
-    "_RESOURCES/DOCS/DATA/RAW/B8.docs.m6.mindmap.md",
-    "_RESOURCES/DOCS/DATA/RAW/B8.docs.m6.draft.old.md",
-    "_RESOURCES/DOCS/DATA/RAW/B8.docs.m6.draft.md",
-    "_RESOURCES/DOCS/DATA/RAW/B8.docs.m5.mindmap.md",
-    "_RESOURCES/DOCS/DATA/RAW/B8.docs.m5.draft.old.md",
-    "_RESOURCES/DOCS/DATA/RAW/B8.docs.m5.draft.md",
-    "_RESOURCES/DOCS/DATA/RAW/B8.docs.m4.mindmap.md",
-    "_RESOURCES/DOCS/DATA/RAW/B8.docs.m4.draft.md",
-    "_RESOURCES/DOCS/DATA/RAW/B8.docs.m3.mindmap.md",
-    "_RESOURCES/DOCS/DATA/RAW/B8.docs.m3.draft.old.md",
     "_RESOURCES/DOCS/DATA/RAW",
     "_RESOURCES/DOCS/DATA/INFO",
     "_RESOURCES/DOCS/DATA",
     "_RESOURCES/beto.logo/v8/BETO.logo.animated.svg.sb-a0097894-wnwBQO",
     "_RESOURCES/beto.logo/v8/BETO.logo.animated copy.svg",
     "_RESOURCES/beto.logo/v8/BETO_Logo_W_Loading.webm",
-    "_RESOURCES/beto.logo/v8/BETO_Logo_T_Loading.png",
     "_RESOURCES/VIDS/docs-cat.webm",
     "_RESOURCES/VIDS/beto.movement.webm",
     "_RESOURCES/VIDS/assets_library_1.webm",

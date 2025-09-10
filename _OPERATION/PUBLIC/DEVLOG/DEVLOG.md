@@ -1,17 +1,15 @@
 
+### MONTHLY UPDATES
 
-###### [[DEVLOG.yellow-3|YELLOW-3]]
+###### [YELLOW-3](DEVLOG.yellow-3.md)
 
-###### [[DEVLOG.blue-2|BLUE-2]]
+###### [BLUE-2](DEVLOG.blue-2.md)
 
-###### [[DEVLOG.red-1|RED-1]]
+###### [RED-1](DEVLOG.red-1.md)
 
-###### [[DEVLOG.black-0|BLACK-0]]
-
-
+###### [BLACK-0](DEVLOG.black-0.md)
 
 
---
 
 
 

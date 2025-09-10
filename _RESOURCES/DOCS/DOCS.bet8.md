@@ -6,19 +6,19 @@
 
 ## MANIFESTO
 	[the begin begins?]
-###### [[MANIFESTO]]
+###### [MANIFESTO](MANIFESTO.md)
 
 
 
 ## UTILITY
 	[extra]
-###### [[UTILITY]]
+###### [UTILITY](UTILITY.md)
 
 
 
 ## HOME.old
 	[previous gen]
-###### [[_RESOURCES/DOCS/DATA/INFO/HOME.old]]
+###### [HOME.old](HOME.old.md)
 
 
 
@@ -32,14 +32,14 @@
 ## DATA
 	[Data & Query Layer]
 
-###### [[B8.docs.data.info|DATA info]]
+###### [DATA info](B8.docs.data.info.md)
 
 
 -----
 ## FILES
 	[File System Operations]
 
-###### [[B8.docs.files.info|FILES info]]
+###### [FILES info](B8.docs.files.info.md)
 
 
 
@@ -47,7 +47,7 @@
 ## DESIGN
 	[Ul & Interaction Patterns]
 
-###### [[B8.docs.design.info|DESIGN info]]
+###### [DESIGN info](B8.docs.design.info.md)
 
 
 -----
@@ -56,7 +56,7 @@
 ## DISPLAY
 > Windowing & Display Management
 
-###### [[B8.docs.display.info|DISPLAY info]]
+###### [DISPLAY info](B8.docs.display.info.md)
 
 
 
@@ -66,7 +66,7 @@
 ## AI
 	[Al & Machine Learning Integration]
 
-###### [[B8.docs.ai.info|AI info]]
+###### [AI info](B8.docs.ai.info.md)
 
 
 -----
@@ -74,7 +74,7 @@
 ## SCENE
 	[Visualization & Rendering Engines]
 
-###### [[B8.docs.scene.info|SCENE info]]
+###### [SCENE info](B8.docs.scene.info.md)
 
 ---
 
@@ -83,21 +83,21 @@
 	 [Media & Audio Systems] 
 
 
-###### [[B8.docs.resources.info|RESOURCES info]]
+###### [RESOURCES info](B8.docs.resources.info.md)
 
 -----
 
 ## LAYERS
 	[Advanced Application & State Architecture]
 
-###### [[B8.docs.layers.info|LAYERS info]]
+###### [LAYERS info](B8.docs.layers.info.md)
 
 -----
 
 ## CONTROLS
 	[Immersive Control & Input Management]
 
-###### [[B8.docs.controls.info|CONTROLS info]]
+###### [CONTROLS info](B8.docs.controls.info.md)
 
 
 
@@ -109,7 +109,7 @@
 
 ## INFO
 
-###### [[DOCS.excalidraw.general|GENERAL]]
+###### [GENERAL](DOCS.excalidraw.general.md)
 
 
 
@@ -124,4 +124,4 @@
 ----
 
 
-[[DOCS.bet8.enigmas.]]
+[Docs.bet8.enigmas.](DOCS.bet8.enigmas..md)

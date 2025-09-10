@@ -1,7 +1,6 @@
 
 
 
-
 ```datacorejsx
 const COLUMNS = [
   { id: "Name", value: "$link" },
@@ -17,7 +16,7 @@ POLISHED_COLUMNS = COLUMNS.map(col => ({
 
 return function View() {
   const { useState } = dc;
-  const [path, setPath] = useState("KNOWLEDGE");
+  const [path, setPath] = useState("_OPERATION");
   const pages = dc.useQuery(`@page and path("${path}")`);
 
   const sortedPages = pages.sort((a, b) => {

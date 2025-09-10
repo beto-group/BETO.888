@@ -4,21 +4,32 @@ permalink: obsidian.plugins.datacore.showcase
 
 
 
-## **Core Query & Data Handling**
 
+## **Core Query & Data Handling**
 
 
 ###### [SEARCH QUERY](1%20SearchQuery/SEARCH%20QUERY.md)
 
 ###### [BASIC QUERY](2%20BasicQuery/BASIC%20QUERY.md)
 
-###### [BASIC VIEW](3%20BasicView/BASIC%20VIEW.md)
+###### [BASIC VIEW v1](3%20BasicView/BASIC%20VIEW%20v1.md)
+
+###### [BASIC VIEW v2](3%20BasicView/BASIC%20VIEW%20v2.md) { NEW }
 
 ###### [TAG VIEWER](4%20TagViewer/TAG%20VIEWER.md)
+
+###### [DATACORE QUERY BUILDER](37%20DatacoreQueryBuilder/DATACORE%20QUERY%20BUILDER.md) 
+
+###### [RANDOM FILE CONTROLS v2](47%20RandomFileControls/RANDOM%20FILE%20CONTROLS%20v2.md) { NEW }
+
+###### [RANDOM FILE CONTROLS v1](47%20RandomFileControls/RANDOM%20FILE%20CONTROLS%20v1.md)  { NEW }
+
+###### [METADATA EDIT](49%20MetadataEdit/METADATA%20EDIT.md) { NEW }
 
 
 
 ## **Content Viewers & Explorers**
+
 
 
 ###### [CUSTOM FEED](5%20CustomFeed/CUSTOM%20FEED.md)
@@ -31,6 +42,9 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [ACTIVITYWATCH DASHBOARD](35%20ActivityWatchDashboard/ACTIVITYWATCH%20DASHBOARD.md) 
 
+###### [DASHBOARD 888](53%20Dashboard888/DASHBOARD%20888.md) { NEW }  { FEATURED }
+
+###### [ASSETS LIBRARY](52%20AssetsLibrary/ASSETS%20LIBRARY.md) { NEW } { FEATURE }
 
 
 
@@ -50,13 +64,17 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [CODE EDITOR v2](33%20CodeEditor/CODE%20EDITOR%20v2.md) 
 
-###### [DATACORE QUERY BUILDER](37%20DatacoreQueryBuilder/DATACORE%20QUERY%20BUILDER.md) { NEW }
+###### [CHATBOT](38%20Chatbot/CHATBOT.md)  telegram
 
-###### [CHATBOT](38%20Chatbot/CHATBOT.md)  telegram { NEW } 
+###### [OCR READER](41%20OCRReader/OCR%20READER.md) 
 
-###### [OCR READER](41%20OCRReader/OCRREADER.md) { NEW }
+###### [CHAT LLM](42%20ChatLLM/CHATLLM.md) 
 
-###### [CHAT LLM](42%20ChatLLM/CHATLLM.md) { NEW }
+###### [ACTIONS MANAGER](50%20ActionsManager/ACTIONS%20MANAGER.md) { NEW } { PROTOTYPE } { Featured }
+
+###### [ACTIONS FLOW v1](51%20ActionsFlows/ACTIONS%20FLOW%20v1.md) { NEW } 
+
+###### [MARKDOWN PARSER](44%20MarkdownParser/MARKDOWN%20PARSER.md) { NEW }
 
 
 ## **Graphics, Visualization & UI**
@@ -79,10 +97,15 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [LOADING LOGO](31%20LoadingLogo/LOADING%20LOGO.md) 
 
+###### [SVG ANIMATIONS](45%20SVGAnimations/SVG%20ANIMATIONS.md)  { NEW }
+
+###### [SVG CONVERTER](48%20SVGConverter/SVG%20CONVERTER.md) { NEW }
+
+
 
 ## Finance
 
-###### [RECEIPT TRACKER](43%20ReceiptTracker/RECEIPT%20TRACKER.md) { NEW }
+###### [RECEIPT TRACKER](43%20ReceiptTracker/RECEIPT%20TRACKER.md) 
 
 
 
@@ -99,7 +122,7 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [ANIMATED CARD](34%20AnimatedCard/ANIMATED%20CARD.md)  
 
-###### [CARD PICKER](40%20CardPicker/CARD%20PICKER.md) { NEW }
+###### [CARD PICKER](40%20CardPicker/CARD%20PICKER.md) 
 
 
 
@@ -115,14 +138,14 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [MUSIC PLAYER](36%20MusicPlayer/MUSIC%20PLAYER.md) 
 
-###### [MOBILE MUSIC PLAYER](39%20MobileMusicPlayer/MOBILE%20MUSIC%20PLAYER.md)  { NEW }
+###### [MOBILE MUSIC PLAYER](39%20MobileMusicPlayer/MOBILE%20MUSIC%20PLAYER.md) 
 
 
 ## **System & Utility Components**
 
 ###### [LICENSE AGREEMENT](26%20LicenseAgreement/LICENSE%20AGREEMENT.md)
 
-###### [VIEWS CONTROL](17%20ViewsControl/VIEWS%20CONTROL.md)  { UPGRADE }
+###### [VIEWS CONTROL](17%20ViewsControl/VIEWS%20CONTROL.md)  
 
 ###### [EXTERNAL INPUT BLOCKER](21%20ExternalInputBlocker/EXTERNAL%20INPUT%20BLOCKER.md)
 
@@ -132,3 +155,4 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [MATRIX GLITCH WALL](30%20MatrixGlitchWall/MATRIX%20GLITCH%20WALL.md)  
 
+###### [VAULT UPDATER](46%20VaultUpdater/VAULT%20UPDATER.md) { NEW }

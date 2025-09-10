@@ -78,7 +78,7 @@
   "exportWithBackground": true,
   "exportPaddingSVG": 10,
   "exportEmbedScene": false,
-  "keepInSync": false,
+  "keepInSync": true,
   "autoexportSVG": true,
   "autoexportPNG": false,
   "autoExportLightAndDark": false,

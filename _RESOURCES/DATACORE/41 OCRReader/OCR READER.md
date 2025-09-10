@@ -23,11 +23,11 @@
     - Permanently save uploaded images; they are stored in a temporary directory for processing.
 
 
-![alt text](/_RESOURCES/IMAGES/ocr_reader.webp)
+![alt text](_RESOURCES/IMAGES/ocr_reader.webp)
 
 
 
 ###### [OCR Reader Viewer](D.q.ocrreader.viewer.md)
 
-###### [OCR Reader Component]([D.q.ocrreader.component.md)
+###### [OCR Reader Component](D.q.ocrreader.component.md)
 

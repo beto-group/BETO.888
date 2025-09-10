@@ -179,6 +179,9 @@
       },
       "aw-watcher-obsidian": {
         "startupType": "instant"
+      },
+      "text-extractor": {
+        "startupType": "instant"
       }
     },
     "loadOrder": []

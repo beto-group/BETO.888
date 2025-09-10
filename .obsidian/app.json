@@ -1,21 +1,5 @@
 {
-  "newFileLocation": "current",
-  "alwaysUpdateLinks": true,
-  "showUnsupportedFiles": true,
-  "attachmentFolderPath": "888/_RESSOURCES",
-  "userIgnoreFilters": [
-    "AGENTS/",
-    "FABRIC/",
-    "888/PROJECTS/COOKBOOK/",
-    "888/_RESOURCES/VAULTS/"
-  ],
   "propertiesInDocument": "hidden",
-  "promptDelete": true,
-  "pdfExportSettings": {
-    "includeName": false,
-    "pageSize": "Letter",
-    "landscape": false,
-    "margin": "0",
-    "downscalePercent": 100
-  }
+  "newFileLocation": "current",
+  "alwaysUpdateLinks": true
 }

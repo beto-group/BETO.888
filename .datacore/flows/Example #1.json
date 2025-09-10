@@ -1,0 +1,50 @@
+{
+  "nodes": [
+    {
+      "id": "n-mfb0qpgl-5tf8vuq",
+      "type": "command",
+      "label": "Open another vault",
+      "params": [
+        {
+          "key": "commandId",
+          "value": "app:open-vault"
+        }
+      ],
+      "group": "Core App",
+      "inputs": [
+        "flow"
+      ],
+      "outputs": [
+        "flow"
+      ],
+      "x": 2496,
+      "y": 544,
+      "w": 240,
+      "height": 100
+    },
+    {
+      "id": "n-mfc1dhjd-blwd89u",
+      "type": "command",
+      "label": "Open another vault",
+      "params": [
+        {
+          "key": "commandId",
+          "value": "app:open-vault"
+        }
+      ],
+      "group": "Core App",
+      "inputs": [
+        "flow"
+      ],
+      "outputs": [
+        "flow"
+      ],
+      "x": 1027.6092818773097,
+      "y": 1757.2902742506592,
+      "w": 240,
+      "height": 100
+    }
+  ],
+  "edges": [],
+  "savedAt": "2025-09-09T15:40:43.717Z"
+}

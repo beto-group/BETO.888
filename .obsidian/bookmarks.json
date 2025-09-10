@@ -2,6 +2,12 @@
   "items": [
     {
       "type": "file",
+      "ctime": 1753896650167,
+      "path": "README.md",
+      "title": "README"
+    },
+    {
+      "type": "file",
       "ctime": 1753888466328,
       "path": "HOME.md",
       "title": "HOME"
@@ -140,7 +146,7 @@
             {
               "type": "file",
               "ctime": 1753890336945,
-              "path": "_RESOURCES/DATACORE/3 BasicView/BASIC VIEW.md",
+              "path": "_RESOURCES/DATACORE/3 BasicView/BASIC VIEW v1.md",
               "title": "Basic View"
             },
             {
@@ -1181,58 +1187,277 @@
             }
           ],
           "title": "43 ReceiptTracker"
+        },
+        {
+          "type": "group",
+          "ctime": 1757375801792,
+          "items": [
+            {
+              "type": "file",
+              "ctime": 1757379011219,
+              "path": "_RESOURCES/DATACORE/44 MarkdownParser/MARKDOWN PARSER.md",
+              "title": "Markdown Parser"
+            },
+            {
+              "type": "file",
+              "ctime": 1757379026035,
+              "path": "_RESOURCES/DATACORE/44 MarkdownParser/D.q.markdownparser.viewer.md",
+              "title": "Markdown Parser Viewer"
+            },
+            {
+              "type": "file",
+              "ctime": 1757379034419,
+              "path": "_RESOURCES/DATACORE/44 MarkdownParser/D.q.markdownparser.component.md",
+              "title": "Markdown Parser Component"
+            }
+          ],
+          "title": "44 MarkdownParser"
+        },
+        {
+          "type": "group",
+          "ctime": 1757378208386,
+          "items": [
+            {
+              "type": "file",
+              "ctime": 1757378984277,
+              "path": "_RESOURCES/DATACORE/45 SVGAnimations/SVG ANIMATIONS.md",
+              "title": "SVG Animations"
+            },
+            {
+              "type": "file",
+              "ctime": 1757378988144,
+              "path": "_RESOURCES/DATACORE/45 SVGAnimations/D.q.svganimations.viewer.md",
+              "title": "SVG Animations Viewer"
+            },
+            {
+              "type": "file",
+              "ctime": 1757378991258,
+              "path": "_RESOURCES/DATACORE/45 SVGAnimations/D.q.svganimations.component.md",
+              "title": "SVG Animations Components"
+            }
+          ],
+          "title": "45 SVGAnimations"
+        },
+        {
+          "type": "group",
+          "ctime": 1757378479850,
+          "items": [
+            {
+              "type": "file",
+              "ctime": 1757378968284,
+              "path": "_RESOURCES/DATACORE/46 VaultUpdater/VAULT UPDATER.md",
+              "title": "Vault Updater"
+            },
+            {
+              "type": "file",
+              "ctime": 1757378971468,
+              "path": "_RESOURCES/DATACORE/46 VaultUpdater/D.q.vaultupdater.viewer.md",
+              "title": "Vault Updater Viewer"
+            },
+            {
+              "type": "file",
+              "ctime": 1757378973885,
+              "path": "_RESOURCES/DATACORE/46 VaultUpdater/D.q.vaultupdater.component.md",
+              "title": "Vault Updater Component"
+            }
+          ],
+          "title": "46 VaultUpdater"
+        },
+        {
+          "type": "group",
+          "ctime": 1757378494782,
+          "items": [
+            {
+              "type": "file",
+              "ctime": 1757378910686,
+              "path": "_RESOURCES/DATACORE/47 RandomFileControls/RANDOM FILE CONTROLS v1.md",
+              "title": "Random File Controls v1"
+            },
+            {
+              "type": "file",
+              "ctime": 1757378915069,
+              "path": "_RESOURCES/DATACORE/47 RandomFileControls/RANDOM FILE CONTROLS v2.md",
+              "title": "Random File Controls v2"
+            },
+            {
+              "type": "file",
+              "ctime": 1757378930902,
+              "path": "_RESOURCES/DATACORE/47 RandomFileControls/D.q.randomfilecontrols.viewer.v1.md",
+              "title": "Random File Control Viewer v1"
+            },
+            {
+              "type": "file",
+              "ctime": 1757378942320,
+              "path": "_RESOURCES/DATACORE/47 RandomFileControls/D.q.randomfilecontrols.viewer.v2.md",
+              "title": "Random File Control Viewer v2"
+            },
+            {
+              "type": "file",
+              "ctime": 1757378948569,
+              "path": "_RESOURCES/DATACORE/47 RandomFileControls/D.q.randomfilecontrols.component.v1.md",
+              "title": "Random File Control Component v1"
+            },
+            {
+              "type": "file",
+              "ctime": 1757378952352,
+              "path": "_RESOURCES/DATACORE/47 RandomFileControls/D.q.randomfilecontrols.component.v2.md",
+              "title": "Random File Control Component v2"
+            }
+          ],
+          "title": "47 RandomFileControls"
+        },
+        {
+          "type": "group",
+          "ctime": 1757378636846,
+          "items": [
+            {
+              "type": "file",
+              "ctime": 1757378894553,
+              "path": "_RESOURCES/DATACORE/48 SVGConverter/SVG CONVERTER.md",
+              "title": "SVG Converter"
+            },
+            {
+              "type": "file",
+              "ctime": 1757378897419,
+              "path": "_RESOURCES/DATACORE/48 SVGConverter/D.q.svgconverter.viewer.md",
+              "title": "SVG Converter Viewer"
+            },
+            {
+              "type": "file",
+              "ctime": 1757378899736,
+              "path": "_RESOURCES/DATACORE/48 SVGConverter/D.q.svgconverter.component.md",
+              "title": "SVG Converter Component"
+            }
+          ],
+          "title": "48 SVGConverter"
+        },
+        {
+          "type": "group",
+          "ctime": 1757378652149,
+          "items": [
+            {
+              "type": "file",
+              "ctime": 1757378884588,
+              "path": "_RESOURCES/DATACORE/49 MetadataEdit/METADATA EDIT.md",
+              "title": "Metadata Edit"
+            },
+            {
+              "type": "file",
+              "ctime": 1757378887570,
+              "path": "_RESOURCES/DATACORE/49 MetadataEdit/D.q.metadataedit.viewer.md",
+              "title": "Metadata Edit Viewer"
+            },
+            {
+              "type": "file",
+              "ctime": 1757378889952,
+              "path": "_RESOURCES/DATACORE/49 MetadataEdit/D.q.metadataedit.component.md",
+              "title": "Metadata Edit Component"
+            }
+          ],
+          "title": "49 MetadataEdit"
+        },
+        {
+          "type": "group",
+          "ctime": 1757378662698,
+          "items": [
+            {
+              "type": "file",
+              "ctime": 1757378878154,
+              "path": "_RESOURCES/DATACORE/50 ActionsManager/ACTIONS MANAGER.md",
+              "title": "Actions Manager"
+            },
+            {
+              "type": "file",
+              "ctime": 1757378869253,
+              "path": "_RESOURCES/DATACORE/50 ActionsManager/D.q.actionsmanager.viewer.md",
+              "title": "Actions Manager Viewer"
+            },
+            {
+              "type": "file",
+              "ctime": 1757378873969,
+              "path": "_RESOURCES/DATACORE/50 ActionsManager/D.q.actionsmanager.component.md",
+              "title": "Actions Manager Component"
+            }
+          ],
+          "title": "50 ActionsManager"
+        },
+        {
+          "type": "group",
+          "ctime": 1757378676242,
+          "items": [
+            {
+              "type": "file",
+              "ctime": 1757378843654,
+              "path": "_RESOURCES/DATACORE/51 ActionsFlows/ACTIONS FLOW v1.md",
+              "title": "Actions Flows v1"
+            },
+            {
+              "type": "file",
+              "ctime": 1757378862653,
+              "path": "_RESOURCES/DATACORE/51 ActionsFlows/D.q.actionsflows.viewer.v1.md",
+              "title": "Actions Flows Viewer v1"
+            },
+            {
+              "type": "file",
+              "ctime": 1757378865472,
+              "path": "_RESOURCES/DATACORE/51 ActionsFlows/D.q.actionsflows.component.v1.md",
+              "title": "Actions Flows Component v1"
+            }
+          ],
+          "title": "51 ActionsFlows"
+        },
+        {
+          "type": "group",
+          "ctime": 1757378686114,
+          "items": [
+            {
+              "type": "file",
+              "ctime": 1757378768189,
+              "path": "_RESOURCES/DATACORE/52 AssetsLibrary/ASSETS LIBRARY.md",
+              "title": "Assets Library"
+            },
+            {
+              "type": "file",
+              "ctime": 1757378793738,
+              "path": "_RESOURCES/DATACORE/52 AssetsLibrary/D.q.assetslibrary.viewer.md",
+              "title": "Assets Library Viewer"
+            },
+            {
+              "type": "file",
+              "ctime": 1757378782356,
+              "path": "_RESOURCES/DATACORE/52 AssetsLibrary/D.q.assetslibrary.component.md",
+              "title": "Assets Library Componen"
+            }
+          ],
+          "title": "52 AssetsLibrary"
+        },
+        {
+          "type": "group",
+          "ctime": 1757378697545,
+          "items": [
+            {
+              "type": "file",
+              "ctime": 1757378708925,
+              "path": "_RESOURCES/DATACORE/53 Dashboard888/DASHBOARD 888.md",
+              "title": "Dashboard 888"
+            },
+            {
+              "type": "file",
+              "ctime": 1757378714506,
+              "path": "_RESOURCES/DATACORE/53 Dashboard888/D.q.dashboard888.viewer.md",
+              "title": "Dashboard 888 Viewer"
+            },
+            {
+              "type": "file",
+              "ctime": 1757378727606,
+              "path": "_RESOURCES/DATACORE/53 Dashboard888/D.q.dashboard888.component.md",
+              "title": "Dashboard 888 Component"
+            }
+          ],
+          "title": "53 Dashboard888"
         }
       ],
       "title": "DATACORE"
-    },
-    {
-      "type": "group",
-      "ctime": 1753888498628,
-      "items": [
-        {
-          "type": "file",
-          "ctime": 1753888508394,
-          "path": "_OPERATION/PUBLIC/888/888.md",
-          "title": "888"
-        },
-        {
-          "type": "file",
-          "ctime": 1753888518631,
-          "path": "KNOWLEDGE/HEALTH/HEALTH.md",
-          "title": "HEALTH"
-        },
-        {
-          "type": "file",
-          "ctime": 1753888528593,
-          "path": "KNOWLEDGE/WEALTH/WEALTH.md",
-          "title": "WEALTH"
-        },
-        {
-          "type": "file",
-          "ctime": 1753888592245,
-          "path": "KNOWLEDGE/EXPERIENCES/_clean/EXPERIENCES.md",
-          "title": "EXPERIENCES"
-        }
-      ],
-      "title": "KNOWLEDGE"
-    },
-    {
-      "type": "file",
-      "ctime": 1753896725813,
-      "path": "_OPERATION/_CLEAN/_OLD/BONJOUR.md",
-      "title": "BONJOUR"
-    },
-    {
-      "type": "file",
-      "ctime": 1754766037747,
-      "path": "_RESOURCES/ASSETS/888/ASSETS LIBRARY_.a.md",
-      "title": "ASSETS LIBRARY"
-    },
-    {
-      "type": "file",
-      "ctime": 1753896650167,
-      "path": "README.md",
-      "title": "README"
     },
     {
       "type": "group",
@@ -1247,7 +1472,7 @@
         {
           "type": "file",
           "ctime": 1753896697717,
-          "path": "_OPERATION/PUBLIC/DEVLOG/CHANGE LOG.md",
+          "path": "CHANGE LOG.md",
           "title": "CHANGE LOG"
         },
         {
@@ -1258,6 +1483,31 @@
         }
       ],
       "title": "DISCLAIMERS"
+    },
+    {
+      "type": "group",
+      "ctime": 1757383237796,
+      "items": [
+        {
+          "type": "file",
+          "ctime": 1757383231095,
+          "path": "_OPERATION/_CLEAN/_OLD/BONJOUR.md",
+          "title": "BONJOUR"
+        },
+        {
+          "type": "file",
+          "ctime": 1753888508394,
+          "path": "_OPERATION/PUBLIC/888/888.md",
+          "title": "888"
+        },
+        {
+          "type": "file",
+          "ctime": 1754766037747,
+          "path": "_RESOURCES/ASSETS/888/ASSETS LIBRARY_.a.md",
+          "title": "ASSETS LIBRARY"
+        }
+      ],
+      "title": "_OLD"
     }
   ]
 }

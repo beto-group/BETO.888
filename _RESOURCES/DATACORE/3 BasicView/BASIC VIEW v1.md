@@ -1,6 +1,6 @@
 
 
-### Tab: Basic View
+### Tab: Basic View v1
 
 - **Description**: Renders a simple, customizable container in Obsidian notes with a title and styled border, serving as a blank canvas for content.
 

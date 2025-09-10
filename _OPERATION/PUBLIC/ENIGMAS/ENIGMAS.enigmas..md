@@ -10,7 +10,18 @@ permalink: enigmas.enigmas
 
 
 
+ecalidfaw though
 
+god and devil
+ we make them talk each and then we animate 1 sequence themselve without swap and then next sequence swap between so start frame god end devil and then vise versa
+ 
+ make moon normal on god then on devil complete opposite {the yin of the yang or whatenver} you get the point then add voice saying like 
+ 
+ so what did you just sign?
+	 this is for when you sign in and sign terms of service?
+
+
+-----
 
 
 

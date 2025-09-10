@@ -1,3 +1,7 @@
+---
+aliases:
+  - screenresizer.component
+---
 
 
 # ViewComponent

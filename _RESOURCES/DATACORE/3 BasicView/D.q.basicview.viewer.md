@@ -1,10 +1,6 @@
 
 
 
-BLANK CANVAS TO WORK WITH
-
-
-
 ```datacorejsx
 ////////////////////////////////////////////////////
 ///             Viewer Entry Point               ///

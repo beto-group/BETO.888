@@ -39,6 +39,7 @@
 ![alt text](/_RESOURCES/IMAGES/receipt_tracker.webp)
 
 
+### COMPONENTS
 ###### [Receipt Tracker Viewer](D.q.receipttracker.viewer.md)
 
 ###### [Receipt Tracker Component](D.q.receipttracker.component.md)

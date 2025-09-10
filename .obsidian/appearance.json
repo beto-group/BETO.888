@@ -1,8 +1,4 @@
 {
-  "accentColor": "#9058de",
-  "baseFontSize": 12,
-  "cssTheme": "",
-  "theme": "obsidian",
   "enabledCssSnippets": [
     "hide-folders",
     "hideBrowserSearchBarOnNewTabs.errorCorrection",

@@ -113,8 +113,90 @@ const DatacoreJSXRenderer = ({ code, babel }) => {
 
 async function getMediaResourcePath(filePathOrName) { if (!filePathOrName) return null; const normalize = (p) => p.trim().replace(/\\/g, '/').replace(/^\/+/, ''); const path = normalize(filePathOrName); let file = dc.app.vault.getAbstractFileByPath(path); if (file) return dc.app.vault.getResourcePath(file); const allFiles = dc.app.vault.getFiles(); const foundFile = allFiles.find(f => f.path.endsWith(path)); if (foundFile) return dc.app.vault.getResourcePath(foundFile); console.warn(`Media resource not found: ${filePathOrName}`); return null; }
 const slugify = (text) => text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
-const useShallowModuleScan = () => {  const [data, setData] = useState(null); const [isLoading, setIsLoading] = useState(true); const [error, setError] = useState(null); useEffect(() => { const scanMasterFile = async () => { try { const CONFIG = { sourceFilePath: "_RESOURCES/DOCS/DOCS.bet8.md", linkRegex: String.raw`###### \[\[([^|\]]+)(?:\|([^\]]+))?\]\]` }; const sourceFile = dc.app.vault.getAbstractFileByPath(CONFIG.sourceFilePath); if (!sourceFile) throw new Error(`Master file not found: ${CONFIG.sourceFilePath}`); const sourceContent = await dc.app.vault.read(sourceFile); const lines = sourceContent.split('\n'); const basePath = sourceFile.path.substring(0, sourceFile.path.lastIndexOf('/')); const compiledLinkRegex = new RegExp(CONFIG.linkRegex, 'g'); const modulesByCategory = {}; let currentMajorCategory = null; for (const line of lines) { const trimmedLine = line.trim(); if (trimmedLine.startsWith('# ') && !trimmedLine.startsWith('##')) { currentMajorCategory = trimmedLine.substring(2).trim().replace(/ info$/i, ''); if (!modulesByCategory[currentMajorCategory]) { modulesByCategory[currentMajorCategory] = []; } } else if (currentMajorCategory && trimmedLine.startsWith('###### [[')) { const match = [...trimmedLine.matchAll(compiledLinkRegex)][0]; if (match) { const filePath = `${basePath}/${decodeURIComponent(match[1].trim())}.md`; const displayName = (match[2] || match[1]).trim().replace(/ info$/i, ''); modulesByCategory[currentMajorCategory].push({ displayName: displayName, majorCategory: currentMajorCategory, filePath: filePath, id: filePath }); } } } setData(modulesByCategory); } catch (e) { console.error("[Docs Scanner] FATAL ERROR:", e); setError(e.stack); } finally { setIsLoading(false); } }; scanMasterFile(); }, []); return { data, isLoading, error }; };
+const useShallowModuleScan = () => {
+    const [data, setData] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
 
+    useEffect(() => {
+        const scanMasterFile = async () => {
+            try {
+                // Configuration remains the same, though the regex part is now handled internally.
+                const CONFIG = {
+                    sourceFilePath: "_RESOURCES/DOCS/DOCS.bet8.md"
+                };
+
+                const sourceFile = dc.app.vault.getAbstractFileByPath(CONFIG.sourceFilePath);
+                if (!sourceFile) throw new Error(`Master file not found: ${CONFIG.sourceFilePath}`);
+
+                const sourceContent = await dc.app.vault.read(sourceFile);
+                const lines = sourceContent.split('\n');
+                const basePath = sourceFile.path.substring(0, sourceFile.path.lastIndexOf('/'));
+                
+                // Define regex for both the new Markdown link format and the old Wikilink format.
+                const newLinkRegex = /###### \[([^\]]+)\]\(([^)]+)\)/;
+                const oldLinkRegex = /###### \[\[([^|\]]+)(?:\|([^\]]+))?\]\]/;
+
+                const modulesByCategory = {};
+                let currentMajorCategory = null;
+
+                for (const line of lines) {
+                    const trimmedLine = line.trim();
+
+                    // Detect a new major category (e.g., "# GENERAL", "# DATACORE")
+                    if (trimmedLine.startsWith('# ') && !trimmedLine.startsWith('##')) {
+                        currentMajorCategory = trimmedLine.substring(2).trim();
+                        if (!modulesByCategory[currentMajorCategory]) {
+                            modulesByCategory[currentMajorCategory] = [];
+                        }
+                        continue; // Move to the next line
+                    }
+
+                    // Process module links only if we are inside a major category
+                    if (currentMajorCategory && trimmedLine.startsWith('######')) {
+                        let moduleData = null;
+                        
+                        // Try to match the new Markdown link format first
+                        let match = trimmedLine.match(newLinkRegex);
+                        if (match) {
+                            const displayName = match[1].trim().replace(/ info$/i, '');
+                            const relativePath = match[2].trim();
+                            const filePath = `${basePath}/${decodeURIComponent(relativePath)}`;
+                            moduleData = { displayName, majorCategory: currentMajorCategory, filePath, id: filePath };
+                        } 
+                        
+                        // If it fails, try to match the old Wikilink format
+                        else {
+                            match = trimmedLine.match(oldLinkRegex);
+                            if (match) {
+                                const filePathPart = match[1].trim();
+                                const displayName = (match[2] || match[1]).trim().replace(/ info$/i, '');
+                                const filePath = `${basePath}/${decodeURIComponent(filePathPart)}.md`;
+                                moduleData = { displayName, majorCategory: currentMajorCategory, filePath, id: filePath };
+                            }
+                        }
+
+                        // If a module was successfully parsed, add it to the current category
+                        if (moduleData) {
+                            modulesByCategory[currentMajorCategory].push(moduleData);
+                        }
+                    }
+                }
+
+                setData(modulesByCategory);
+            } catch (e) {
+                console.error("[Docs Scanner] FATAL ERROR:", e);
+                setError(e.stack);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        scanMasterFile();
+    }, []);
+
+    return { data, isLoading, error };
+};
 
 // =-=--=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 // --- SECTION 2: VIEW COMPONENTS ---

@@ -1,6 +1,6 @@
 ---
 permalink: change_log
-version: 1.3.4
+version: 1.3.5
 ---
 
 >[!info]- [[DEVLOG]]
@@ -8,6 +8,23 @@ version: 1.3.4
 -----
 ----
 ----
+
+## YELLOW-3.patch-1
+DATE**: 2025.15.09  
+
+
+**I.** This patch delivers a major new tool and key infrastructure upgrades.
+- **New Core Component:**    
+    - **Datacore Playground:** A live, CodePen-like environment for building components directly in your vault.
+    
+- **Improvements:**
+    - **Core Messaging:** Reworked based on community feedback for a clearer vision.
+    - **Vault Updater:** Upgraded for significantly faster, smarter (differential) updates.
+    - **Views Inceptions v2:** Component development is now finalized.
+- **Fixes:**
+    - Addressed key updater bugs and minor UI polish for a better experience.
+
+-----
 
 ## YELLOW-3
 

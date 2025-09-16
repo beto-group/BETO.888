@@ -1,6 +1,4 @@
 
-### MONTHLY UPDATES
-
 ###### [YELLOW-3](DEVLOG.yellow-3.md)
 
 ###### [BLUE-2](DEVLOG.blue-2.md)

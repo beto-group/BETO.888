@@ -10,7 +10,7 @@
 // WorldView Component (ViewComponent)
 // -------------------------
 const { ScreenModeHelper } = await dc.require(
-  dc.headerLink("_RESOURCES/DATACORE/18 ViewsInceptions/D.q.viewsinceptions.component.md", "ScreenModeHelper")
+  dc.headerLink("_RESOURCES/DATACORE/18 ViewsInceptions/D.q.viewsinceptions.component.v1.md", "ScreenModeHelper")
 );
 const { useRef, useEffect, useState } = dc;
 

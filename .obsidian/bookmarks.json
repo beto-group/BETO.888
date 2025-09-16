@@ -509,20 +509,38 @@
             {
               "type": "file",
               "ctime": 1753895740051,
-              "path": "_RESOURCES/DATACORE/18 ViewsInceptions/VIEWS INCEPTIONS.md",
-              "title": "Views Inceptions"
+              "path": "_RESOURCES/DATACORE/18 ViewsInceptions/VIEWS INCEPTIONS v1.md",
+              "title": "Views Inceptions v1"
+            },
+            {
+              "type": "file",
+              "ctime": 1757819676009,
+              "path": "_RESOURCES/DATACORE/18 ViewsInceptions/VIEWS INCEPTIONS v2.md",
+              "title": "Views Inceptions v2"
             },
             {
               "type": "file",
               "ctime": 1753895750317,
-              "path": "_RESOURCES/DATACORE/18 ViewsInceptions/D.q.viewsinceptions.viewer.md",
-              "title": "Views Inceptions Viewer"
+              "path": "_RESOURCES/DATACORE/18 ViewsInceptions/D.q.viewsinceptions.viewer.v1.md",
+              "title": "Views Inceptions Viewer v1"
+            },
+            {
+              "type": "file",
+              "ctime": 1757819585810,
+              "path": "_RESOURCES/DATACORE/18 ViewsInceptions/D.q.viewsinceptions.viewer.v2.md",
+              "title": "Views Inceptions Viewer v2"
             },
             {
               "type": "file",
               "ctime": 1753895762349,
-              "path": "_RESOURCES/DATACORE/18 ViewsInceptions/D.q.viewsinceptions.component.md",
-              "title": "Views Inceptions Component"
+              "path": "_RESOURCES/DATACORE/18 ViewsInceptions/D.q.viewsinceptions.component.v1.md",
+              "title": "Views Inceptions Component v1"
+            },
+            {
+              "type": "file",
+              "ctime": 1757819588828,
+              "path": "_RESOURCES/DATACORE/18 ViewsInceptions/D.q.viewsinceptions.component.v2.md",
+              "title": "Views Inceptions Component v2"
             }
           ],
           "title": "18 ViewsInceptions"
@@ -1455,6 +1473,31 @@
             }
           ],
           "title": "53 Dashboard888"
+        },
+        {
+          "type": "group",
+          "ctime": 1758059598931,
+          "items": [
+            {
+              "type": "file",
+              "ctime": 1758059629156,
+              "path": "_RESOURCES/DATACORE/54 DatacorePlayground/DATACORE PLAYGROUND.md",
+              "title": "Datacore Playground"
+            },
+            {
+              "type": "file",
+              "ctime": 1758059634155,
+              "path": "_RESOURCES/DATACORE/54 DatacorePlayground/D.q.datacoreplayground.viewer.md",
+              "title": "Datacore Playground Viewer"
+            },
+            {
+              "type": "file",
+              "ctime": 1758059636975,
+              "path": "_RESOURCES/DATACORE/54 DatacorePlayground/D.q.datacoreplayground.component.md",
+              "title": "Datacore Playground Component"
+            }
+          ],
+          "title": "54 DatacorePlayground"
         }
       ],
       "title": "DATACORE"

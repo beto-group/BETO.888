@@ -6,7 +6,7 @@
 # ViewComponent
 
 ```jsx
- const { useEffect, useRef, useState, useCallback, useMemo } = dc;
+const { useEffect, useRef, useState, useCallback, useMemo } = dc;
 
 
 const { IntegratedDevelopmentSuite } = await dc.require(
@@ -24,6 +24,8 @@ const { AssetsLibrary } = await dc.require(
 const { UpdateManager } = await dc.require(
     dc.headerLink("_RESOURCES/DATACORE/46 VaultUpdater/D.q.vaultupdater.component.md", "ViewComponent")
 );
+
+const { DatacorePlayground } = await dc.require(dc.headerLink("_RESOURCES/DATACORE/54 DatacorePlayground/D.q.datacoreplayground.component.md", "ViewComponent"));
 
 
 // =================================================<===================
@@ -844,6 +846,8 @@ function BasicView() {
     const [hasPassedWelcome, setHasPassedWelcome] = useState(false);
     const [isSyncing, setIsSyncing] = useState(false);
     const [isReadyToLoad, setIsReadyToLoad] = useState(false);
+    const [isMatrixRainOn, setIsMatrixRainOn] = useState(true);
+    const [isRainToggleHovered, setIsRainToggleHovered] = useState(false);
 
     const preloadComponentMedia = useCallback(async (componentPath) => {
         if (componentMediaCache.current[componentPath])
@@ -1022,7 +1026,7 @@ function BasicView() {
             loadInitialData();
         }
     }, [isReadyToLoad]);
-        
+
     // --- MODIFICATION START ---
     // This effect now correctly handles TOS state changes without hijacking the initial load.
     useEffect(() => {
@@ -1041,7 +1045,7 @@ function BasicView() {
         };
     }, [hasPassedWelcome]); // Depend on `hasPassedWelcome` to re-evaluate the subscription logic
     // --- MODIFICATION END ---
-    
+
     useEffect(() => {
         const contentEl = contentLayerRef.current;
         if (contentEl) {
@@ -1864,15 +1868,19 @@ function BasicView() {
                             `Master devlog file missing at: "${MASTER_DEVLOG_PATH}"`
                         );
                     const masterContent = await dc.app.vault.read(masterFile);
-                    const linkRegex = /^###### \[\[([^|\]]+)\|?([^\]]*)\]\]/gm;
+
+                    // FIX: Updated regex for standard Markdown links `[text](link)` instead of `[[wikilinks]]`.
+                    const linkRegex = /^###### \[([^\]]+)\]\(([^)]+)\)/gm;
                     const entryLinks = [];
                     let match;
                     while ((match = linkRegex.exec(masterContent)) !== null) {
+                        // FIX: Correctly assign `displayName` from link text and `fileName` from link target.
                         entryLinks.push({
-                            fileName: match[1].trim(),
-                            displayName: match[2].trim() || match[1].trim(),
+                            displayName: match[1].trim(),
+                            fileName: match[2].trim(),
                         });
                     }
+
                     if (entryLinks.length === 0)
                         throw new Error("No devlog links found in master file.");
                     const sortedLogs = entryLinks
@@ -1959,10 +1967,10 @@ function BasicView() {
     };
     const Assets = () => {
         return (
-            <div style={{height: "60vh"}}>
+            <div style={{ height: "60vh" }}>
                 <AssetsLibrary />
             </div>)
-      };
+    };
     const NFModal = ({ state, onClose }) => {
         const [idx, setIdx] = useState(0);
         const [isPaused, setIsPaused] = useState(false);
@@ -2239,12 +2247,14 @@ function BasicView() {
             </div>
         );
     };
+
     const DataCore = () => {
         const [categories, setCategories] = useState([]);
         const [heroItems, setHeroItems] = useState([]);
         const [isLoading, setIsLoading] = useState(true);
         const [error, setError] = useState(null);
         const mountedRef = useRef(true);
+        const [activeTab, setActiveTab] = useState('showcase'); // New state for active tab
         const [modalState, setModalState] = useState({
             open: false,
             comp: null,
@@ -2252,7 +2262,7 @@ function BasicView() {
             loading: false,
         });
 
-         const parseShowcaseContent = useCallback((markdownContent, basePath) => {
+        const parseShowcaseContent = useCallback((markdownContent, basePath) => {
             const lines = markdownContent.split("\n");
             const parsedCategories = [];
             let currentCategory = null;
@@ -2283,12 +2293,12 @@ function BasicView() {
                     const name = componentMatch[1];
                     const path = decodeURIComponent(componentMatch[2]);
                     const tagsRaw = componentMatch[3] || "";
-                    
+
                     const hasNewTag = tagsRaw.includes("{ NEW }");
                     const hasPrototypeTag = tagsRaw.includes("{ PROTOTYPE }"); // New tag check
                     const hasFeaturedTag =
                         tagsRaw.includes("{ FEATURE }") || tagsRaw.includes("{ FEATURED }");
-                    
+
                     currentCategory.components.push({
                         name: name.replace(/ { ?(NEW|FEATURED?|PROTOTYPE) ?}/g, "").trim(),
                         path: `${basePath}/${path}`,
@@ -2737,24 +2747,49 @@ function BasicView() {
                 </div>
             );
         };
-       const CSS_NF = `.${uniqueWrapperClass} .nf-root{width:100%;max-width:1280px;display:flex;flex-direction:column;gap:28px}.${uniqueWrapperClass} .nf-hero{position:relative;width:100%;height:clamp(260px,40vw,520px);border-radius:12px;overflow:hidden;border:1px solid var(--glow-faint);background:#0d0d0d; cursor: pointer;}.${uniqueWrapperClass} .nf-hero-media{position:absolute;inset:0; background: #000;}.${uniqueWrapperClass} .nf-hero-media img{width:100%;height:100%;object-fit:contain;border:0}.${uniqueWrapperClass} .nf-hero-slide{position:absolute;inset:0;opacity:0;transition:opacity .4s ease-in-out;}.${uniqueWrapperClass} .nf-hero-slide.active{opacity:1;}.${uniqueWrapperClass} .nf-hero-grad{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,0.9) 100%), linear-gradient(to top, rgba(13,13,13,0.5) 0%, transparent 30%); pointer-events:none;}.${uniqueWrapperClass} .nf-hero-content{position:absolute;left:clamp(16px,4vw,40px);bottom:clamp(16px,4vw,40px);display:flex;flex-direction:column;gap:12px;max-width:min(70%,820px);z-index:2; pointer-events: none;}.${uniqueWrapperClass} .nf-hero-title{font-size:clamp(24px,4.5vw,48px);font-weight:900;letter-spacing:.5px;color:var(--glow); text-shadow: 0 0 12px rgba(0,0,0,0.8);}.${uniqueWrapperClass} .nf-hero-dots{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);z-index:3;display:flex;gap:8px; pointer-events: none;}.${uniqueWrapperClass} .nf-dot{width:10px;height:10px;border-radius:50%;background:oklch(from var(--glow) l c h/.28);transition:background .3s ease;}.${uniqueWrapperClass} .nf-dot.active{background:var(--glow)}.${uniqueWrapperClass} .nf-row{position:relative;width:100%}.${uniqueWrapperClass} .nf-row-header{padding:0 4px 8px 4px}.${uniqueWrapperClass} .nf-row-title{font-size:18px;font-weight:800;color:var(--text-normal);margin:0; font-variant: small-caps; letter-spacing: 0.5px;}.${uniqueWrapperClass} .nf-row-body{position:relative}.${uniqueWrapperClass} .nf-scroller{display:flex;gap:10px;overflow-x:auto;scroll-behavior:smooth;padding:4px 0 12px 0;scrollbar-width:none}.${uniqueWrapperClass} .nf-scroller::-webkit-scrollbar{display:none}.${uniqueWrapperClass} .nf-row-edge{position:absolute;top:0;bottom:0;height:100%;width:clamp(52px,15%,180px);z-index:5;color:var(--glow);cursor:pointer;border:none;padding:0;display:flex;align-items:center;justify-content:center;background:transparent;opacity:0;transition:opacity .3s ease,transform .3s ease}.${uniqueWrapperClass} .nf-row-edge svg{width:34px;height:34px;pointer-events:none}.${uniqueWrapperClass} .nf-row-left-edge{left:0;height:100%;background:linear-gradient(to right,rgba(0,0,0,0.5),transparent);transform:translateX(-20px)}.${uniqueWrapperClass} .nf-row-right-edge{right:0;height:100%;background:linear-gradient(to left,rgba(0,0,0,0.5),transparent);transform:translateX(20px)}.${uniqueWrapperClass} .nf-row-edge.nav-visible{opacity:1;transform:translateX(0)}.${uniqueWrapperClass} .nf-card{position:relative;flex:0 0 clamp(160px,22vw,240px);aspect-ratio:16/9;border-radius:8px;overflow:hidden;border:1px solid var(--glow-faint);background:#000;cursor:pointer;transform-origin:center;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}.${uniqueWrapperClass} .nf-card:hover{transform:scale(1.07);border-color:var(--glow);box-shadow:0 20px 60px rgba(0,0,0,.5);z-index:2}.${uniqueWrapperClass} .nf-card-media{position:absolute;inset:0}.${uniqueWrapperClass} .nf-card-media img, .${uniqueWrapperClass} .nf-card-media video{width:100%;height:100%;object-fit:contain;}.${uniqueWrapperClass} .nf-card-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.8) 100%);opacity:0;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;padding:10px;transition:opacity .2s ease}.${uniqueWrapperClass} .nf-card:hover .nf-card-overlay{opacity:1}.${uniqueWrapperClass} .nf-card-title{font-size:12px;color:#fff;font-weight:700;letter-spacing:.2px}.${uniqueWrapperClass} .nf-badge-new::after{content:"NEW";position:absolute;top:8px;right:8px;background:var(--glow);color:#0b0713;font-size:10px;font-weight:900;padding:3px 7px;border-radius:4px;z-index:2;}.${uniqueWrapperClass} .nf-badge-prototype::after{content:"PROTOTYPE";position:absolute;top:8px;left:8px;background:oklch(0.88 0.22 288);;color:#0b0713;font-size:10px;font-weight:900;padding:3px 7px;border-radius:4px;z-index:2;}.${uniqueWrapperClass} .nf-skel{width:100%;height:100%;background:linear-gradient(90deg,rgba(255,255,255,0.06) 25%,rgba(255,255,255,0.12) 37%,rgba(255,255,255,0.06) 63%);background-size:400% 100%;animation:nf-shimmer 1.2s ease-in-out infinite}@keyframes nf-shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}`;
-       
-       
+        const CSS_NF = `.${uniqueWrapperClass} .nf-root{width:100%;max-width:1280px;display:flex;flex-direction:column;gap:28px}.${uniqueWrapperClass} .nf-tabs{display:flex;gap:10px;margin-bottom:16px;border-bottom:1px solid var(--glow-faint);}.${uniqueWrapperClass} .nf-tab-button{padding:8px 16px;cursor:pointer;background:transparent;border:none;color:var(--text-muted);font-weight:600;font-size:16px;border-bottom:2px solid transparent;transition:all .2s ease;}.${uniqueWrapperClass} .nf-tab-button.active{color:var(--text-normal);border-bottom-color:var(--glow);}.${uniqueWrapperClass} .nf-hero{position:relative;width:100%;height:clamp(260px,40vw,520px);border-radius:12px;overflow:hidden;border:1px solid var(--glow-faint);background:#0d0d0d; cursor: pointer;}.${uniqueWrapperClass} .nf-hero-media{position:absolute;inset:0; background: #000;}.${uniqueWrapperClass} .nf-hero-media img{width:100%;height:100%;object-fit:contain;border:0}.${uniqueWrapperClass} .nf-hero-slide{position:absolute;inset:0;opacity:0;transition:opacity .4s ease-in-out;}.${uniqueWrapperClass} .nf-hero-slide.active{opacity:1;}.${uniqueWrapperClass} .nf-hero-grad{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,0.9) 100%), linear-gradient(to top, rgba(13,13,13,0.5) 0%, transparent 30%); pointer-events:none;}.${uniqueWrapperClass} .nf-hero-content{position:absolute;left:clamp(16px,4vw,40px);bottom:clamp(16px,4vw,40px);display:flex;flex-direction:column;gap:12px;max-width:min(70%,820px);z-index:2; pointer-events: none;}.${uniqueWrapperClass} .nf-hero-title{font-size:clamp(24px,4.5vw,48px);font-weight:900;letter-spacing:.5px;color:var(--glow); text-shadow: 0 0 12px rgba(0,0,0,0.8);}.${uniqueWrapperClass} .nf-hero-dots{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);z-index:3;display:flex;gap:8px; pointer-events: none;}.${uniqueWrapperClass} .nf-dot{width:10px;height:10px;border-radius:50%;background:oklch(from var(--glow) l c h/.28);transition:background .3s ease;}.${uniqueWrapperClass} .nf-dot.active{background:var(--glow)}.${uniqueWrapperClass} .nf-row{position:relative;width:100%}.${uniqueWrapperClass} .nf-row-header{padding:0 4px 8px 4px}.${uniqueWrapperClass} .nf-row-title{font-size:18px;font-weight:800;color:var(--text-normal);margin:0; font-variant: small-caps; letter-spacing: 0.5px;}.${uniqueWrapperClass} .nf-row-body{position:relative}.${uniqueWrapperClass} .nf-scroller{display:flex;gap:10px;overflow-x:auto;scroll-behavior:smooth;padding:4px 0 12px 0;scrollbar-width:none}.${uniqueWrapperClass} .nf-scroller::-webkit-scrollbar{display:none}.${uniqueWrapperClass} .nf-row-edge{position:absolute;top:0;bottom:0;height:100%;width:clamp(52px,15%,180px);z-index:5;color:var(--glow);cursor:pointer;border:none;padding:0;display:flex;align-items:center;justify-content:center;background:transparent;opacity:0;transition:opacity .3s ease,transform .3s ease}.${uniqueWrapperClass} .nf-row-edge svg{width:34px;height:34px;pointer-events:none}.${uniqueWrapperClass} .nf-row-left-edge{left:0;height:100%;background:linear-gradient(to right,rgba(0,0,0,0.5),transparent);transform:translateX(-20px)}.${uniqueWrapperClass} .nf-row-right-edge{right:0;height:100%;background:linear-gradient(to left,rgba(0,0,0,0.5),transparent);transform:translateX(20px)}.${uniqueWrapperClass} .nf-row-edge.nav-visible{opacity:1;transform:translateX(0)}.${uniqueWrapperClass} .nf-card{position:relative;flex:0 0 clamp(160px,22vw,240px);aspect-ratio:16/9;border-radius:8px;overflow:hidden;border:1px solid var(--glow-faint);background:#000;cursor:pointer;transform-origin:center;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}.${uniqueWrapperClass} .nf-card:hover{transform:scale(1.07);border-color:var(--glow);box-shadow:0 20px 60px rgba(0,0,0,.5);z-index:2}.${uniqueWrapperClass} .nf-card-media{position:absolute;inset:0}.${uniqueWrapperClass} .nf-card-media img, .${uniqueWrapperClass} .nf-card-media video{width:100%;height:100%;object-fit:contain;}.${uniqueWrapperClass} .nf-card-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.8) 100%);opacity:0;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;padding:10px;transition:opacity .2s ease}.${uniqueWrapperClass} .nf-card:hover .nf-card-overlay{opacity:1}.${uniqueWrapperClass} .nf-card-title{font-size:12px;color:#fff;font-weight:700;letter-spacing:.2px}.${uniqueWrapperClass} .nf-badge-new::after{content:"NEW";position:absolute;top:8px;right:8px;background:var(--glow);color:#0b0713;font-size:10px;font-weight:900;padding:3px 7px;border-radius:4px;z-index:2;}.${uniqueWrapperClass} .nf-badge-prototype::after{content:"PROTOTYPE";position:absolute;top:8px;left:8px;background:oklch(0.88 0.22 288);;color:#0b0713;font-size:10px;font-weight:900;padding:3px 7px;border-radius:4px;z-index:2;}.${uniqueWrapperClass} .nf-skel{width:100%;height:100%;background:linear-gradient(90deg,rgba(255,255,255,0.06) 25%,rgba(255,255,255,0.12) 37%,rgba(255,255,255,0.06) 63%);background-size:400% 100%;animation:nf-shimmer 1.2s ease-in-out infinite}@keyframes nf-shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}`;
+
         if (isLoading)
             return <div style={STYLES.tile}>Loading Datacore Showcase...</div>;
         if (error) return <div style={STYLES.tile}>Error: {error}</div>;
         return (
             <div className="nf-root" style={{ width: "100%" }}>
                 <style>{CSS_NF}</style>
-                <HeroCarousel items={heroItems} onOpenModal={onOpenModal} />
-                {categories.map((cat) => (
-                    <Row
-                        key={cat.name}
-                        title={cat.name}
-                        color={cat.color}
-                        items={cat.components}
-                    />
-                ))}
+                {/* Tabs */}
+                <div className="nf-tabs">
+                    <button
+                        className={`nf-tab-button ${activeTab === 'showcase' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('showcase')}
+                    >
+                        Sʜᴏᴡᴄᴀsᴇ
+                    </button>
+                    <button
+                        className={`nf-tab-button ${activeTab === 'playground' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('playground')}
+                    >
+                        Pʟᴀʏɢʀᴏᴜɴᴅ
+                    </button>
+                </div>
+
+                {/* Conditional content based on active tab */}
+                {activeTab === 'showcase' && (
+                    <>
+                        <HeroCarousel items={heroItems} onOpenModal={onOpenModal} />
+                        {categories.map((cat) => (
+                            <Row
+                                key={cat.name}
+                                title={cat.name}
+                                color={cat.color}
+                                items={cat.components}
+                            />
+                        ))}
+                    </>
+                )}
+
+                {activeTab === 'playground' && (
+                    <DatacorePlayground />
+                )}
+
                 <NFModal state={modalState} onClose={onCloseModal} />
             </div>
         );
@@ -3263,7 +3298,50 @@ function BasicView() {
             case "full":
                 return (
                     <div className="anim-boot-in" style={{ ...STYLES.shell }}>
-                        <MatrixRain frequency={0.01} spacingFactor={64} />
+                        <MatrixRain frequency={isMatrixRainOn ? 0.01 : 0} spacingFactor={64} />
+
+                        {/* --- NEW: Matrix Rain Toggle Button --- */}
+                        <button
+                            title="Toggle Ambiance"
+                            onClick={() => setIsMatrixRainOn(prev => !prev)}
+                            onMouseEnter={() => setIsRainToggleHovered(true)}
+                            onMouseLeave={() => setIsRainToggleHovered(false)}
+                            style={{
+                                position: 'absolute',
+                                top: '12px',
+                                left: '12px',
+                                zIndex: 50,
+                                background: 'rgba(10, 6, 16, 0.6)',
+                                border: '1px solid var(--glow-faint)',
+                                color: isMatrixRainOn ? 'var(--glow)' : 'var(--text-muted)',
+                                borderRadius: '8px',
+                                // --- Style changes for hover effect ---
+                                padding: '6px', // Base padding for icon
+                                width: isRainToggleHovered ? '80px' : '36px', // Animate width
+                                height: '36px',
+                                // ---
+                                fontSize: '12px',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center', // Center the icon
+                                gap: '6px',
+                                fontVariant: 'small-caps',
+                                // --- Transition for smooth expansion ---
+                                transition: 'width 0.3s ease-in-out, color 0.2s ease-out, border-color 0.2s ease-out',
+                                overflow: 'hidden', // Hide text until expanded
+                                whiteSpace: 'nowrap', // Prevent text wrapping
+                            }}
+                        >
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                            </svg>
+                            {/* --- Conditionally render text --- */}
+                            {isRainToggleHovered && (
+                                <span style={{ animation: 'fadeInText 0.3s ease-in-out' }}>Rain</span>
+                            )}
+                        </button>
+
                         <div
                             ref={contentLayerRef}
                             className="anim-fade-in-now"
@@ -3607,6 +3685,14 @@ const generateCSS = (uniqueWrapperClass) =>
     `;
 
 return { BasicView };
+
+
+
+
+
+
+
+
 
 ```
 

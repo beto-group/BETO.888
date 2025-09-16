@@ -18,7 +18,7 @@ View
 
 
 ```datacorejsx
-const { WorldView } = await dc.require(dc.headerLink("_RESOURCES/DATACORE/18 ViewsInceptions/D.q.viewsinceptions.component.md", "ViewComponent"));
+const { WorldView } = await dc.require(dc.headerLink("_RESOURCES/DATACORE/18 ViewsInceptions/D.q.viewsinceptions.component.v1.md", "ViewComponent"));
 return <WorldView />;
 
 ```

@@ -1,6 +1,8 @@
 
 # ⛩️ WELCOME TO BETO.888 - Your Journey Begins! 🫡
 
+> [!info]- A Glimpse into the Past 
+> Welcome to a snapshot of a previous era in the BETO.888 journey! This document is preserved in its original form as a historical artifact. > > The concepts and features described here may be outdated. For the latest and greatest, please see our current **[README](README.md)**.
 
 ```datacorejsx
 const { WorldView } = await dc.require(dc.headerLink("_RESOURCES/DATACORE/34 AnimatedCard/D.q.animatedcard.component.md", "ViewComponent"));

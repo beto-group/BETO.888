@@ -7,9 +7,12 @@
 >Anywho expect rework based off feedback, discussions, vibes. In the meantime, should help connect new patterns
 
 ![[_RESOURCES/VIDS/docs-cat.webm]]
-# HOWDY ,
+# HOWDY,
 
-Welcome to an evolving portal - BETO.888 . Thank you {ty}. We embrace you all and hope you find blissful experiences.
+Welcome to **BETO.888**, our evolving creative ecosystem. 
+We're grateful to have you here.
 
-Take. Care..
-we"ll be around.. 🫡
+We embrace you all and hope you find blissful experiences on your journey.
+
+Take Care..
+We'll be around.. 🫡

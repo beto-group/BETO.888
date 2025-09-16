@@ -1,0 +1,15 @@
+{
+  "version": "1.5.0",
+  "added": [
+    "path/to/new_feature.md",
+    "_RESOURCES/ASSETS/new_image.png"
+  ],
+  "modified": [
+    "Dashboard.md",
+    "CHANGE LOG.md",
+    ".obsidian/app.json"
+  ],
+  "deleted": [
+    "old_files/deprecated_note.md"
+  ]
+}

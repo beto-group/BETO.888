@@ -1,31 +1,25 @@
 
+### Getting Started
 
+The process is designed to be fast and lightweight, allowing you to quickly integrate your visual notes into the broader system.
 
-# GETTING STARTED
+*   **The Core Step:** To begin, simply convert your Excalidraw drawings into their **SVG (`.svg`) equivalent**. Once they are in SVG format, they are ready to be used within the vault.
+*   **Quick Setup:** The initial setup and conversion process typically takes less than 5 minutes.
+*   **Lightweight Footprint:** Integrating your drawings is efficient. The vault's total size will remain under 1GB, a significant optimization from our initial releases.
 
-Simply proceed with the convertion on the Excalidraw Drawing into their .svg equivalence and you are good to go
+### Current Capabilities
 
-the installation will take ruoughly less than 5 mins
-and the size of your installed vault will remain under 1 gb total which is 3 x smaller than initial footprint i had when first released this vault
+Once integrated, your Excalidraw assets gain several powerful features:
 
+*   **Full-Text Search:** All converted drawings are indexed and searchable, allowing you to find visual ideas as easily as you find text notes.
+*   **Visibility Toggles:** You have the ability to hide or show specific images within the library, helping you focus on what's relevant.
+*   **Flexible Export:** The system supports multiple ways to download and export your assets for use in other projects.
 
+### Known Limitations & Future Roadmap `(WIP)`
 
-Can search
+We are actively developing this feature and are aware of its current limitations. Here is what we are working on improving:
 
-
-
-current know limitations
-
-intiial load isnt handled properly not dynamic enough
-	wip
-the grouping of objects need rework in general + to allow grouping within grid and graph 
-
-
-better interaactivety with graph 
-	viewing modal selection individual nodes
-	
-can hide certain image if so wish
-
-
-download many ways 
-
+*   **Performance:** The initial load of the asset library can be slow if you have a very large number of drawings. A more dynamic, "on-demand" loading system is in development to solve this.
+*   **Advanced Grouping:** The current object grouping functionality needs to be reworked. A future update will enable robust grouping of assets within both the grid and graph views.
+*   **Enhanced Graph Node Interactivity:** We are planning significant improvements to the graph view's interactivity, including:
+    *   The ability to select individual nodes to open them in a detailed modal view.

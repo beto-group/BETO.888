@@ -5,6 +5,8 @@ permalink: obsidian.plugins.datacore.showcase
 
 
 
+
+
 ## **Core Query & Data Handling**
 
 
@@ -42,9 +44,9 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [ACTIVITYWATCH DASHBOARD](35%20ActivityWatchDashboard/ACTIVITYWATCH%20DASHBOARD.md) 
 
-###### [DASHBOARD 888](53%20Dashboard888/DASHBOARD%20888.md) { NEW }  { FEATURED }
+###### [DASHBOARD 888](53%20Dashboard888/DASHBOARD%20888.md) { NEW }  
 
-###### [ASSETS LIBRARY](52%20AssetsLibrary/ASSETS%20LIBRARY.md) { NEW } { FEATURE }
+###### [ASSETS LIBRARY](52%20AssetsLibrary/ASSETS%20LIBRARY.md) { NEW }
 
 
 
@@ -56,7 +58,9 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [CUSTOM IFRAME BUILDER](6%20CustomIframeBuilder/CUSTOM%20IFRAME%20BUILDER.md)
 
-###### [VIEWS INCEPTIONS](18%20ViewsInceptions/VIEWS%20INCEPTIONS.md)
+###### [VIEWS INCEPTIONS v1](18%20ViewsInceptions/VIEWS%20INCEPTIONS%20v1.md)
+
+###### [VIEWS INCEPTIONS v2](18%20ViewsInceptions/VIEWS%20INCEPTIONS%20v2.md) { NEW }
 
 ###### [MARKDOWN EDITOR](20%20MarkdownEditor/MARKDOWN%20EDITOR.md)
 
@@ -70,11 +74,13 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [CHAT LLM](42%20ChatLLM/CHATLLM.md) 
 
-###### [ACTIONS MANAGER](50%20ActionsManager/ACTIONS%20MANAGER.md) { NEW } { PROTOTYPE } { Featured }
+###### [ACTIONS MANAGER](50%20ActionsManager/ACTIONS%20MANAGER.md) { NEW } { PROTOTYPE } 
 
 ###### [ACTIONS FLOW v1](51%20ActionsFlows/ACTIONS%20FLOW%20v1.md) { NEW } 
 
 ###### [MARKDOWN PARSER](44%20MarkdownParser/MARKDOWN%20PARSER.md) { NEW }
+
+###### [DATACORE PLAYGROUND](54%20DatacorePlayground/DATACORE%20PLAYGROUND.md) { NEW } { FEATURED }
 
 
 ## **Graphics, Visualization & UI**

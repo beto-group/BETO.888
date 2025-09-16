@@ -24,6 +24,6 @@
 
 ### Components
 
-###### [Views Inceptions Viewer](D.q.viewsinceptions.viewer.md)
+###### [Views Inceptions Viewer](D.q.viewsinceptions.viewer.v1.md)
 
-###### [Views Inceptions Component](D.q.viewsinceptions.component.md)
+###### [Views Inceptions Component](D.q.viewsinceptions.component.v1.md)

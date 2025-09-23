@@ -1,0 +1,248 @@
+{
+  "_RESOURCES/DATACORE/51 ActionsFlows/D.q.actionsflows.component.v1.md": {
+    "tabs": {
+      "ViewComponent": {
+        "cursorState": [
+          {
+            "inSelectionMode": false,
+            "selectionStart": {
+              "lineNumber": 1,
+              "column": 1
+            },
+            "position": {
+              "lineNumber": 1,
+              "column": 1
+            }
+          }
+        ],
+        "viewState": {
+          "scrollLeft": 0,
+          "firstPosition": {
+            "lineNumber": 1,
+            "column": 1
+          },
+          "firstPositionDeltaTop": 0
+        },
+        "contributionsState": {
+          "editor.contrib.wordHighlighter": false,
+          "editor.contrib.folding": {
+            "lineCount": 296,
+            "foldedImports": false
+          }
+        }
+      }
+    },
+    "lastActive": "ViewComponent"
+  },
+  "_RESOURCES/DATACORE/COMPONENTS/ShowcasePlayground.md": {
+    "tabs": {
+      "ViewComponent": {
+        "cursorState": [
+          {
+            "inSelectionMode": false,
+            "selectionStart": {
+              "lineNumber": 2,
+              "column": 30
+            },
+            "position": {
+              "lineNumber": 2,
+              "column": 30
+            }
+          }
+        ],
+        "viewState": {
+          "scrollLeft": 0,
+          "firstPosition": {
+            "lineNumber": 1,
+            "column": 1
+          },
+          "firstPositionDeltaTop": 0
+        },
+        "contributionsState": {
+          "editor.contrib.wordHighlighter": false,
+          "editor.contrib.folding": {
+            "lineCount": 5,
+            "foldedImports": false
+          }
+        }
+      }
+    },
+    "lastActive": "ViewComponent"
+  },
+  "_RESOURCES/DATACORE/52 AssetsLibrary/D.q.assetslibrary.component.md": {
+    "tabs": {
+      "ViewComponent": {
+        "cursorState": [
+          {
+            "inSelectionMode": false,
+            "selectionStart": {
+              "lineNumber": 1,
+              "column": 1
+            },
+            "position": {
+              "lineNumber": 1,
+              "column": 1
+            }
+          }
+        ],
+        "viewState": {
+          "scrollLeft": 0,
+          "firstPosition": {
+            "lineNumber": 1,
+            "column": 1
+          },
+          "firstPositionDeltaTop": 0
+        },
+        "contributionsState": {
+          "editor.contrib.wordHighlighter": false,
+          "editor.contrib.folding": {
+            "lineCount": 2248,
+            "foldedImports": false
+          }
+        }
+      }
+    },
+    "lastActive": "ViewComponent"
+  },
+  "_RESOURCES/DATACORE/50 ActionsManager/D.q.actionsmanager.component.md": {
+    "tabs": {
+      "ViewComponent": {
+        "cursorState": [
+          {
+            "inSelectionMode": false,
+            "selectionStart": {
+              "lineNumber": 1,
+              "column": 1
+            },
+            "position": {
+              "lineNumber": 1,
+              "column": 1
+            }
+          }
+        ],
+        "viewState": {
+          "scrollLeft": 0,
+          "firstPosition": {
+            "lineNumber": 1,
+            "column": 1
+          },
+          "firstPositionDeltaTop": 0
+        },
+        "contributionsState": {
+          "editor.contrib.wordHighlighter": false,
+          "editor.contrib.folding": {
+            "lineCount": 1315,
+            "foldedImports": false
+          }
+        }
+      }
+    },
+    "lastActive": "ViewComponent"
+  },
+  "_RESOURCES/DATACORE/41 OCRReader/D.q.ocrreader.component.md": {
+    "tabs": {
+      "ViewComponent": {
+        "cursorState": [
+          {
+            "inSelectionMode": false,
+            "selectionStart": {
+              "lineNumber": 1,
+              "column": 1
+            },
+            "position": {
+              "lineNumber": 1,
+              "column": 1
+            }
+          }
+        ],
+        "viewState": {
+          "scrollLeft": 0,
+          "firstPosition": {
+            "lineNumber": 1,
+            "column": 1
+          },
+          "firstPositionDeltaTop": -7
+        },
+        "contributionsState": {
+          "editor.contrib.wordHighlighter": false,
+          "editor.contrib.folding": {
+            "lineCount": 467,
+            "provider": "indent",
+            "foldedImports": false
+          }
+        }
+      }
+    },
+    "lastActive": "ViewComponent"
+  },
+  "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.component.v2.md": {
+    "tabs": {
+      "ViewComponent": {
+        "cursorState": [
+          {
+            "inSelectionMode": false,
+            "selectionStart": {
+              "lineNumber": 1,
+              "column": 1
+            },
+            "position": {
+              "lineNumber": 1,
+              "column": 1
+            }
+          }
+        ],
+        "viewState": {
+          "scrollLeft": 0,
+          "firstPosition": {
+            "lineNumber": 1,
+            "column": 1
+          },
+          "firstPositionDeltaTop": 0
+        },
+        "contributionsState": {
+          "editor.contrib.wordHighlighter": false,
+          "editor.contrib.folding": {
+            "lineCount": 308,
+            "foldedImports": false
+          }
+        }
+      }
+    },
+    "lastActive": "ViewComponent"
+  },
+  "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.component.md": {
+    "tabs": {
+      "ViewComponent": {
+        "cursorState": [
+          {
+            "inSelectionMode": false,
+            "selectionStart": {
+              "lineNumber": 1,
+              "column": 1
+            },
+            "position": {
+              "lineNumber": 1,
+              "column": 1
+            }
+          }
+        ],
+        "viewState": {
+          "scrollLeft": 0,
+          "firstPosition": {
+            "lineNumber": 1,
+            "column": 1
+          },
+          "firstPositionDeltaTop": 0
+        },
+        "contributionsState": {
+          "editor.contrib.wordHighlighter": false,
+          "editor.contrib.folding": {
+            "lineCount": 18,
+            "foldedImports": false
+          }
+        }
+      }
+    },
+    "lastActive": "ViewComponent"
+  }
+}

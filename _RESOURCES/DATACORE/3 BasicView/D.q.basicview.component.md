@@ -1,5 +1,6 @@
-
-
+---
+tags: datacore-component
+---
 
 # ViewComponent
 
@@ -22,5 +23,4 @@ function BasicView() {
 
 
 return { BasicView };
-
 ```

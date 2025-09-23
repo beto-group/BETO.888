@@ -1,0 +1,104 @@
+{
+  "_RESOURCES/DATACORE/COMPONENTS/ShowcasePlayground.md": {
+    "tabs": {
+      "ViewComponent": {
+        "cursorState": [
+          {
+            "inSelectionMode": false,
+            "selectionStart": {
+              "lineNumber": 14,
+              "column": 12
+            },
+            "position": {
+              "lineNumber": 14,
+              "column": 12
+            }
+          }
+        ],
+        "viewState": {
+          "scrollLeft": 0,
+          "firstPosition": {
+            "lineNumber": 1,
+            "column": 1
+          },
+          "firstPositionDeltaTop": 0
+        },
+        "contributionsState": {
+          "editor.contrib.wordHighlighter": false,
+          "editor.contrib.folding": {
+            "lineCount": 14,
+            "foldedImports": false
+          }
+        }
+      },
+      "QueryComponent": {
+        "cursorState": [
+          {
+            "inSelectionMode": false,
+            "selectionStart": {
+              "lineNumber": 9,
+              "column": 23
+            },
+            "position": {
+              "lineNumber": 9,
+              "column": 23
+            }
+          }
+        ],
+        "viewState": {
+          "scrollLeft": 0,
+          "firstPosition": {
+            "lineNumber": 7,
+            "column": 1
+          },
+          "firstPositionDeltaTop": -3
+        },
+        "contributionsState": {
+          "editor.contrib.wordHighlighter": false,
+          "editor.contrib.folding": {
+            "lineCount": 20,
+            "provider": "indent",
+            "foldedImports": false
+          }
+        }
+      }
+    },
+    "lastActive": "ViewComponent"
+  },
+  "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.component.md": {
+    "tabs": {
+      "ViewComponent": {
+        "cursorState": [
+          {
+            "inSelectionMode": false,
+            "selectionStart": {
+              "lineNumber": 7,
+              "column": 25
+            },
+            "position": {
+              "lineNumber": 7,
+              "column": 25
+            }
+          }
+        ],
+        "viewState": {
+          "scrollLeft": 0,
+          "firstPosition": {
+            "lineNumber": 1,
+            "column": 1
+          },
+          "firstPositionDeltaTop": 0
+        },
+        "contributionsState": {
+          "editor.contrib.wordHighlighter": false,
+          "editor.contrib.folding": {
+            "lineCount": 18,
+            "provider": "indent",
+            "foldedImports": false
+          }
+        }
+      }
+    },
+    "lastActive": "ViewComponent"
+  }
+}

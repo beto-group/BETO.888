@@ -8,61 +8,27 @@
         "type": "tabs",
         "children": [
           {
-            "id": "61d7f6c192472b57",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "_RESOURCES/DATACORE/DATACORE.showcase.md",
-                "mode": "source",
-                "source": false,
-                "backlinks": true,
-                "backlinkOpts": {
-                  "collapseAll": false,
-                  "extraContext": false,
-                  "sortOrder": "alphabetical",
-                  "showSearch": false,
-                  "searchQuery": "",
-                  "backlinkCollapsed": false,
-                  "unlinkedCollapsed": true
-                }
-              },
-              "icon": "lucide-file",
-              "title": "DATACORE.showcase"
-            }
-          },
-          {
-            "id": "efb444f366519c83",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "_RESOURCES/DATACORE/62 PluginDevPlayground/PLUGIN DEV PLAYGROUND.md",
-                "mode": "source",
-                "source": false,
-                "backlinks": true,
-                "backlinkOpts": {
-                  "collapseAll": false,
-                  "extraContext": false,
-                  "sortOrder": "alphabetical",
-                  "showSearch": false,
-                  "searchQuery": "",
-                  "backlinkCollapsed": false,
-                  "unlinkedCollapsed": true
-                }
-              },
-              "icon": "lucide-file",
-              "title": "PLUGIN DEV PLAYGROUND"
-            }
-          },
-          {
             "id": "c19be7cf1625a3a5",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "HOME.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "HOME"
             }
           }
         ]
@@ -123,7 +89,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 465.5
+    "width": 342.5
   },
   "right": {
     "id": "fe80ed10167d38ae",
@@ -139,10 +105,10 @@
             "state": {
               "type": "file-properties",
               "state": {
-                "file": "_RESOURCES/DATACORE/62 PluginDevPlayground/D.q.plugindevplayground.viewer.md"
+                "file": "HOME.md"
               },
               "icon": "lucide-info",
-              "title": "File properties for D.q.plugindevplayground.viewer"
+              "title": "File properties for HOME"
             }
           },
           {
@@ -279,11 +245,24 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "61d7f6c192472b57",
+  "active": "c19be7cf1625a3a5",
   "lastOpenFiles": [
-    "_RESOURCES/DATACORE/62 PluginDevPlayground/PLUGIN DEV PLAYGROUND.md",
-    "README.md",
+    "_OPERATION/PUBLIC/DEVLOG/DEVLOG.md",
     "HOME.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/WAIFU_v03_.A.md",
+    "_OPERATION/PUBLIC/DEVLOG/ITI/DEVLOG.green-4.md",
+    "_RESOURCES/DATACORE/9 ContentExplorer888/D.q.contentexplorer888.viewer.md",
+    "_RESOURCES/DATACORE/62 PluginDevPlayground/D.q.plugindevplayground.viewer.md",
+    "_RESOURCES/DATACORE/62 PluginDevPlayground/PLUGIN DEV PLAYGROUND.md",
+    "_RESOURCES/DATACORE/DATACORE.showcase.md",
+    "_RESOURCES/IMAGES/DEVLOG_5.webp",
+    "_RESOURCES/IMAGES/devlog_5.png",
+    "_RESOURCES/VIDS/DEVLOG_5.webm",
+    "_RESOURCES/IMAGES/DEVLOG_3.webp",
+    "_RESOURCES/IMAGES/DEVLOG_1.webp",
+    "_RESOURCES/IMAGES/DEVLOG_4.webp",
+    "_OPERATION/PUBLIC/DEVLOG/ITI/DEVLOG.yellow-3.md",
+    "README.md",
     "_RESOURCES/DATACORE/53 Dashboard888/D.q.dashboard888.viewer.md",
     "_RESOURCES/DATACORE/53 Dashboard888/D.q.dashboard888.component.md",
     "_RESOURCES/DATACORE/10 Kanban/KANBAN v2.md",
@@ -299,20 +278,11 @@
     "KNOWLEDGE/HEALTH/ALCOHOL.md",
     "KNOWLEDGE/EXPERIENCES/_clean/FRUITS.md",
     "KNOWLEDGE/EXPERIENCES/_clean/HISTORY.md",
-    "KNOWLEDGE/EXPERIENCES/_clean/POLICE.md",
-    "KNOWLEDGE/EXPERIENCES/_clean/CIVILIZATIONS.enigmas..md",
-    "KNOWLEDGE/EXPERIENCES/_clean/CIVILIZATIONS.md",
-    "KNOWLEDGE/EXPERIENCES/_clean/CASINOS.enigmas..md",
-    "KNOWLEDGE/WEALTH/BUSINESS.drugs.enigmas..md",
-    "KNOWLEDGE/EXPERIENCES/_clean/MILITARY.enigmas..md",
-    "KNOWLEDGE/EXPERIENCES/_clean/MILITARY.md",
-    "KNOWLEDGE/EXPERIENCES/_clean/DONALD TRUMP.md",
     "_RESOURCES/IMAGES/plugin_dev_playground_2.webp",
     "_RESOURCES/IMAGES/plugin_dev_playground_3.webp",
     "_RESOURCES/IMAGES/plugin_dev_playground_1.webp",
     "_RESOURCES/IMAGES/integrated_ide.webp",
     "_RESOURCES/IMAGES/git_suite_manager.webp",
-    "_RESOURCES/IMAGES/hot_reload_files.webp",
     "_RESOURCES/DATACORE/62 PluginDevPlayground",
     "_RESOURCES/DATACORE/61 IntegratedIDE",
     "61 IntegratedIDE",
@@ -321,12 +291,7 @@
     "_RESOURCES/DATACORE/59 HotReloadFiles/example-folder",
     "_RESOURCES/DATACORE/59 HotReloadFiles",
     "59 HotReloadFiles",
-    "_OPERATION/_CLEAN/SOCIALS/YOUTUBE/ODDD/OBSIDIAN.daily.discipline.d080.svg",
-    "_RESOURCES/IMAGES/workspace_manager.webp",
-    "_RESOURCES/IMAGES/datacore_playground.webp",
-    "_RESOURCES/IMAGES/datacore_terminal.webp",
     "_RESOURCES/DATACORE/56 WorkspaceManager",
-    "_RESOURCES/DATACORE/58 DatacoreCommandManager",
     "888/PROJECTS/888 copy/PROJECTS/COOKBOOK/KNOWLEDGE/DASHBOARDS/DASHBOARD.canvas",
     "888/PROJECTS/888 copy/KNOWLEDGE/EXPERIENCES/_clean/NFT LAYOUT.canvas",
     "888/PROJECTS/888/PROJECTS/COOKBOOK/KNOWLEDGE/DASHBOARDS/DASHBOARD.canvas",

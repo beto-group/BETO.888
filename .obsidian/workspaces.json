@@ -1,469 +1,21 @@
 {
   "workspaces": {
-    "BASIC": {
+    "default": {
       "main": {
         "id": "e4e5677e27efcc03",
         "type": "split",
         "children": [
           {
-            "id": "06b0d9fd810dd398",
+            "id": "41448a5a3cfc702b",
             "type": "tabs",
             "children": [
               {
-                "id": "3293ffd767e4e07c",
-                "type": "leaf",
-                "state": {
-                  "type": "empty",
-                  "state": {},
-                  "icon": "lucide-file",
-                  "title": "New tab"
-                }
-              }
-            ]
-          }
-        ],
-        "direction": "vertical"
-      },
-      "left": {
-        "id": "5b2da7abcd180a7a",
-        "type": "split",
-        "children": [
-          {
-            "id": "7f907c8f10e7a1c8",
-            "type": "tabs",
-            "children": [
-              {
-                "id": "ff4c4dae9f2e38e7",
-                "type": "leaf",
-                "state": {
-                  "type": "vertical-tabs",
-                  "state": {},
-                  "icon": "lucide-file",
-                  "title": "Plugin no longer active"
-                }
-              },
-              {
-                "id": "177bf4e8b7c58f91",
-                "type": "leaf",
-                "state": {
-                  "type": "file-explorer",
-                  "state": {
-                    "sortOrder": "alphabetical"
-                  },
-                  "icon": "lucide-folder-closed",
-                  "title": "Files"
-                }
-              },
-              {
-                "id": "d729f495d64f288a",
-                "type": "leaf",
-                "state": {
-                  "type": "search",
-                  "state": {
-                    "query": "tag:#obsidian-clipper",
-                    "matchingCase": false,
-                    "explainSearch": false,
-                    "collapseAll": false,
-                    "extraContext": false,
-                    "sortOrder": "alphabetical"
-                  },
-                  "icon": "lucide-search",
-                  "title": "Search"
-                }
-              },
-              {
-                "id": "fc367f0a2fda3ddd",
-                "type": "leaf",
-                "state": {
-                  "type": "bookmarks",
-                  "state": {},
-                  "icon": "lucide-bookmark",
-                  "title": "Bookmarks"
-                }
-              }
-            ]
-          }
-        ],
-        "direction": "horizontal",
-        "width": 200,
-        "collapsed": true
-      },
-      "right": {
-        "id": "fe80ed10167d38ae",
-        "type": "split",
-        "children": [
-          {
-            "id": "5ae72c952d337495",
-            "type": "tabs",
-            "dimension": 40.536512667660205,
-            "children": [
-              {
-                "id": "1c8a41be76ff999a",
-                "type": "leaf",
-                "pinned": true,
-                "state": {
-                  "type": "empty",
-                  "state": {},
-                  "pinned": true,
-                  "icon": "lucide-file",
-                  "title": "New tab"
-                }
-              },
-              {
-                "id": "c06d66dc9a0c19e8",
-                "type": "leaf",
-                "state": {
-                  "type": "file-properties",
-                  "state": {},
-                  "icon": "lucide-info",
-                  "title": "File properties"
-                }
-              },
-              {
-                "id": "c92281035dcf47d4",
-                "type": "leaf",
-                "state": {
-                  "type": "localgraph",
-                  "state": {
-                    "options": {
-                      "collapse-filter": false,
-                      "search": "",
-                      "localJumps": 1,
-                      "localBacklinks": true,
-                      "localForelinks": true,
-                      "localInterlinks": true,
-                      "showTags": false,
-                      "showAttachments": false,
-                      "hideUnresolved": false,
-                      "collapse-color-groups": true,
-                      "colorGroups": [],
-                      "collapse-display": true,
-                      "showArrow": false,
-                      "textFadeMultiplier": 0,
-                      "nodeSizeMultiplier": 1,
-                      "lineSizeMultiplier": 1,
-                      "collapse-forces": true,
-                      "centerStrength": 0.518713248970312,
-                      "repelStrength": 10,
-                      "linkStrength": 1,
-                      "linkDistance": 250,
-                      "scale": 0.732818967116808,
-                      "close": true
-                    }
-                  },
-                  "icon": "lucide-git-fork",
-                  "title": "Graph view"
-                }
-              },
-              {
-                "id": "12d568276eba990a",
-                "type": "leaf",
-                "state": {
-                  "type": "backlink",
-                  "state": {
-                    "file": "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_public/obsidian/DATACORE.md",
-                    "collapseAll": false,
-                    "extraContext": false,
-                    "sortOrder": "alphabetical",
-                    "showSearch": false,
-                    "searchQuery": "",
-                    "backlinkCollapsed": false,
-                    "unlinkedCollapsed": true
-                  },
-                  "icon": "links-coming-in",
-                  "title": "Backlinks for DATACORE"
-                }
-              },
-              {
-                "id": "846f0b4ea6b3d320",
-                "type": "leaf",
-                "state": {
-                  "type": "outgoing-link",
-                  "state": {
-                    "file": "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_public/obsidian/DATACORE.md",
-                    "linksCollapsed": false,
-                    "unlinkedCollapsed": true
-                  },
-                  "icon": "links-going-out",
-                  "title": "Outgoing links from DATACORE"
-                }
-              },
-              {
-                "id": "06eed83daab9493d",
-                "type": "leaf",
-                "state": {
-                  "type": "tag",
-                  "state": {
-                    "sortOrder": "frequency",
-                    "useHierarchy": true
-                  },
-                  "icon": "lucide-tags",
-                  "title": "Tags"
-                }
-              },
-              {
-                "id": "117bece3812745e3",
-                "type": "leaf",
-                "state": {
-                  "type": "outline",
-                  "state": {
-                    "file": "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_public/obsidian/DATACORE.md"
-                  },
-                  "icon": "lucide-list",
-                  "title": "Outline of DATACORE"
-                }
-              },
-              {
-                "id": "7f4c2f7967465e12",
-                "type": "leaf",
-                "state": {
-                  "type": "all-properties",
-                  "state": {
-                    "sortOrder": "frequency",
-                    "showSearch": false,
-                    "searchQuery": ""
-                  },
-                  "icon": "lucide-archive",
-                  "title": "All properties"
-                }
-              }
-            ]
-          },
-          {
-            "id": "7dccc2159ff71593",
-            "type": "tabs",
-            "dimension": 59.46348733233979,
-            "children": [
-              {
-                "id": "d02b90e458b25ee0",
-                "type": "leaf",
-                "state": {
-                  "type": "mesh-view",
-                  "state": {},
-                  "icon": "lucide-file",
-                  "title": "Plugin no longer active"
-                }
-              },
-              {
-                "id": "2cde6d778b58e42f",
-                "type": "leaf",
-                "state": {
-                  "type": "webviewer",
-                  "state": {
-                    "url": "https://chatgpt.com/",
-                    "title": "ChatGPT",
-                    "mode": "webview"
-                  },
-                  "icon": "globe-2",
-                  "title": "ChatGPT"
-                }
-              },
-              {
-                "id": "3300f5e175dcb65e",
-                "type": "leaf",
-                "state": {
-                  "type": "webviewer",
-                  "state": {
-                    "url": "https://www.perplexity.ai/",
-                    "title": "Perplexity",
-                    "mode": "webview"
-                  },
-                  "icon": "globe-2",
-                  "title": "Perplexity"
-                }
-              },
-              {
-                "id": "ee5cd34eaddffff5",
-                "type": "leaf",
-                "state": {
-                  "type": "webviewer",
-                  "state": {
-                    "url": "https://claude.ai/new",
-                    "title": "Claude",
-                    "mode": "webview"
-                  },
-                  "icon": "globe-2",
-                  "title": "Claude"
-                }
-              },
-              {
-                "id": "9bf3b36594969932",
-                "type": "leaf",
-                "state": {
-                  "type": "webviewer",
-                  "state": {
-                    "url": "https://mail.proton.me/u/0/inbox",
-                    "title": "(733) Inbox | beto.group@proton.me | Proton Mail",
-                    "mode": "webview"
-                  },
-                  "icon": "globe-2",
-                  "title": "(733) Inbox | beto.group@proton.me | Proton Mail"
-                }
-              },
-              {
-                "id": "f70373f70b0c02df",
-                "type": "leaf",
-                "state": {
-                  "type": "webviewer",
-                  "state": {
-                    "url": "https://app.element.io/#/home",
-                    "title": "Element",
-                    "mode": "webview"
-                  },
-                  "icon": "globe-2",
-                  "title": "Element"
-                }
-              },
-              {
-                "id": "d9c65157a00d4294",
-                "type": "leaf",
-                "state": {
-                  "type": "webviewer",
-                  "state": {
-                    "url": "https://www.grammarly.com/signin",
-                    "title": "Login | Grammarly",
-                    "mode": "webview"
-                  },
-                  "icon": "globe-2",
-                  "title": "Login | Grammarly"
-                }
-              }
-            ],
-            "currentTab": 1
-          }
-        ],
-        "direction": "horizontal",
-        "width": 636.5
-      },
-      "left-ribbon": {
-        "hiddenItems": {
-          "obsidian-map-view:Open map view": false,
-          "publish:Publish changes...": false,
-          "switcher:Open quick switcher": false,
-          "graph:Open graph view": false,
-          "canvas:Create new canvas": false,
-          "daily-notes:Open today's daily note": false,
-          "templates:Insert template": false,
-          "command-palette:Open command palette": false,
-          "workspaces:Manage workspace layouts": false,
-          "random-note:Open random note": false,
-          "code-files:Create Code File": false,
-          "calendarium:Open Calendarium": false,
-          "obsidian42-brat:BRAT": false,
-          "obsidian-excalidraw-plugin:Create new drawing": false,
-          "mesh-ai:Mesh AI Integration": false,
-          "obsidian-kanban:Create new board": false,
-          "templater-obsidian:Templater": false
-        }
-      },
-      "active": "3293ffd767e4e07c",
-      "mtime": "2024-12-20T01:39:51-07:00"
-    },
-    "BASIC_v02": {
-      "main": {
-        "id": "e4e5677e27efcc03",
-        "type": "split",
-        "children": [
-          {
-            "id": "070b8764693c0e0d",
-            "type": "tabs",
-            "children": [
-              {
-                "id": "924d308ddb882a14",
-                "type": "leaf",
-                "state": {
-                  "type": "empty",
-                  "state": {},
-                  "icon": "lucide-file",
-                  "title": "New tab"
-                }
-              }
-            ]
-          }
-        ],
-        "direction": "vertical"
-      },
-      "left": {
-        "id": "5b2da7abcd180a7a",
-        "type": "split",
-        "children": [
-          {
-            "id": "7f907c8f10e7a1c8",
-            "type": "tabs",
-            "children": [
-              {
-                "id": "ff4c4dae9f2e38e7",
-                "type": "leaf",
-                "state": {
-                  "type": "vertical-tabs",
-                  "state": {},
-                  "icon": "lucide-file",
-                  "title": "Plugin no longer active"
-                }
-              },
-              {
-                "id": "177bf4e8b7c58f91",
-                "type": "leaf",
-                "state": {
-                  "type": "file-explorer",
-                  "state": {
-                    "sortOrder": "alphabetical"
-                  },
-                  "icon": "lucide-folder-closed",
-                  "title": "Files"
-                }
-              },
-              {
-                "id": "d729f495d64f288a",
-                "type": "leaf",
-                "state": {
-                  "type": "search",
-                  "state": {
-                    "query": "tag:#obsidian-clipper",
-                    "matchingCase": false,
-                    "explainSearch": false,
-                    "collapseAll": false,
-                    "extraContext": false,
-                    "sortOrder": "alphabetical"
-                  },
-                  "icon": "lucide-search",
-                  "title": "Search"
-                }
-              },
-              {
-                "id": "fc367f0a2fda3ddd",
-                "type": "leaf",
-                "state": {
-                  "type": "bookmarks",
-                  "state": {},
-                  "icon": "lucide-bookmark",
-                  "title": "Bookmarks"
-                }
-              }
-            ],
-            "currentTab": 1
-          }
-        ],
-        "direction": "horizontal",
-        "width": 294.5,
-        "collapsed": true
-      },
-      "right": {
-        "id": "fe80ed10167d38ae",
-        "type": "split",
-        "children": [
-          {
-            "id": "5ae72c952d337495",
-            "type": "tabs",
-            "dimension": 47.57009345794393,
-            "children": [
-              {
-                "id": "11843c95ac561b3d",
+                "id": "d1f2203f3d10fbb3",
                 "type": "leaf",
                 "state": {
                   "type": "markdown",
                   "state": {
-                    "file": "ACTIONS/AREA/WORK/BRTN/BRTN.timesheet.md",
+                    "file": "HOME.md",
                     "mode": "source",
                     "source": false,
                     "backlinks": true,
@@ -478,340 +30,7 @@
                     }
                   },
                   "icon": "lucide-file",
-                  "title": "BRTN.timesheet"
-                }
-              },
-              {
-                "id": "1c8a41be76ff999a",
-                "type": "leaf",
-                "pinned": true,
-                "state": {
-                  "type": "empty",
-                  "state": {},
-                  "pinned": true,
-                  "icon": "lucide-file",
-                  "title": "New tab"
-                }
-              },
-              {
-                "id": "c06d66dc9a0c19e8",
-                "type": "leaf",
-                "state": {
-                  "type": "file-properties",
-                  "state": {},
-                  "icon": "lucide-info",
-                  "title": "File properties"
-                }
-              },
-              {
-                "id": "c92281035dcf47d4",
-                "type": "leaf",
-                "state": {
-                  "type": "localgraph",
-                  "state": {
-                    "file": "888/PROJECTS/888/_OPERATION/PUBLIC/888.hot+.md",
-                    "options": {
-                      "collapse-filter": false,
-                      "search": "",
-                      "localJumps": 1,
-                      "localBacklinks": true,
-                      "localForelinks": true,
-                      "localInterlinks": true,
-                      "showTags": false,
-                      "showAttachments": false,
-                      "hideUnresolved": false,
-                      "collapse-color-groups": true,
-                      "colorGroups": [],
-                      "collapse-display": true,
-                      "showArrow": false,
-                      "textFadeMultiplier": 0,
-                      "nodeSizeMultiplier": 1,
-                      "lineSizeMultiplier": 1,
-                      "collapse-forces": true,
-                      "centerStrength": 0.518713248970312,
-                      "repelStrength": 10,
-                      "linkStrength": 1,
-                      "linkDistance": 250,
-                      "scale": 0.833218556359375,
-                      "close": true
-                    }
-                  },
-                  "icon": "lucide-git-fork",
-                  "title": "Graph of 888.hot+"
-                }
-              },
-              {
-                "id": "12d568276eba990a",
-                "type": "leaf",
-                "state": {
-                  "type": "backlink",
-                  "state": {
-                    "file": "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_public/obsidian/DATACORE.md",
-                    "collapseAll": false,
-                    "extraContext": false,
-                    "sortOrder": "alphabetical",
-                    "showSearch": false,
-                    "searchQuery": "",
-                    "backlinkCollapsed": false,
-                    "unlinkedCollapsed": true
-                  },
-                  "icon": "links-coming-in",
-                  "title": "Backlinks for DATACORE"
-                }
-              },
-              {
-                "id": "846f0b4ea6b3d320",
-                "type": "leaf",
-                "state": {
-                  "type": "outgoing-link",
-                  "state": {
-                    "file": "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_public/obsidian/DATACORE.md",
-                    "linksCollapsed": false,
-                    "unlinkedCollapsed": true
-                  },
-                  "icon": "links-going-out",
-                  "title": "Outgoing links from DATACORE"
-                }
-              },
-              {
-                "id": "06eed83daab9493d",
-                "type": "leaf",
-                "state": {
-                  "type": "tag",
-                  "state": {
-                    "sortOrder": "frequency",
-                    "useHierarchy": true
-                  },
-                  "icon": "lucide-tags",
-                  "title": "Tags"
-                }
-              },
-              {
-                "id": "117bece3812745e3",
-                "type": "leaf",
-                "state": {
-                  "type": "outline",
-                  "state": {
-                    "file": "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_public/obsidian/DATACORE.md"
-                  },
-                  "icon": "lucide-list",
-                  "title": "Outline of DATACORE"
-                }
-              },
-              {
-                "id": "7f4c2f7967465e12",
-                "type": "leaf",
-                "state": {
-                  "type": "all-properties",
-                  "state": {
-                    "sortOrder": "frequency",
-                    "showSearch": false,
-                    "searchQuery": ""
-                  },
-                  "icon": "lucide-archive",
-                  "title": "All properties"
-                }
-              },
-              {
-                "id": "8680761c84d599eb",
-                "type": "leaf",
-                "state": {
-                  "type": "smtcmp-chat-view",
-                  "state": {},
-                  "icon": "wand-sparkles",
-                  "title": "Smart composer chat"
-                }
-              }
-            ],
-            "currentTab": 9
-          },
-          {
-            "id": "7dccc2159ff71593",
-            "type": "tabs",
-            "dimension": 52.42990654205607,
-            "children": [
-              {
-                "id": "2cde6d778b58e42f",
-                "type": "leaf",
-                "state": {
-                  "type": "webviewer",
-                  "state": {
-                    "url": "https://chatgpt.com/c/676cf6d3-e550-8007-b6b2-90f54b124318",
-                    "title": "Datacore Visualization Challenge",
-                    "mode": "webview"
-                  },
-                  "icon": "globe-2",
-                  "title": "Datacore Visualization Challenge"
-                }
-              },
-              {
-                "id": "3300f5e175dcb65e",
-                "type": "leaf",
-                "state": {
-                  "type": "webviewer",
-                  "state": {
-                    "url": "https://www.perplexity.ai/search/how-to-run-genesis-ai-simluati-VHjyFvRKTZu1H6H8_KU8bw",
-                    "title": "how to run genesis ai simluation",
-                    "mode": "webview"
-                  },
-                  "icon": "globe-2",
-                  "title": "how to run genesis ai simluation"
-                }
-              },
-              {
-                "id": "ee5cd34eaddffff5",
-                "type": "leaf",
-                "state": {
-                  "type": "webviewer",
-                  "state": {
-                    "url": "https://claude.ai/chat/eb05e4c1-2421-41e4-9e4b-8af05f372b1a",
-                    "title": "Responsive Iframe Redesign - Claude",
-                    "mode": "webview"
-                  },
-                  "icon": "globe-2",
-                  "title": "Responsive Iframe Redesign - Claude"
-                }
-              },
-              {
-                "id": "9bf3b36594969932",
-                "type": "leaf",
-                "state": {
-                  "type": "webviewer",
-                  "state": {
-                    "url": "https://mail.proton.me/u/0/almost-all-mail",
-                    "title": "(1012) All mail | beto.group@proton.me | Proton Mail",
-                    "mode": "webview"
-                  },
-                  "icon": "globe-2",
-                  "title": "(1012) All mail | beto.group@proton.me | Proton Mail"
-                }
-              },
-              {
-                "id": "f70373f70b0c02df",
-                "type": "leaf",
-                "state": {
-                  "type": "webviewer",
-                  "state": {
-                    "url": "https://app.element.io/#/room/!EFYLmtkXulrCbGQmRX:matrix.org",
-                    "title": "Element [1] | Admin",
-                    "mode": "webview"
-                  },
-                  "icon": "globe-2",
-                  "title": "Element [1] | Admin"
-                }
-              },
-              {
-                "id": "d9c65157a00d4294",
-                "type": "leaf",
-                "state": {
-                  "type": "webviewer",
-                  "state": {
-                    "url": "https://www.grammarly.com/signin",
-                    "title": "Login | Grammarly",
-                    "mode": "webview"
-                  },
-                  "icon": "globe-2",
-                  "title": "Login | Grammarly"
-                }
-              },
-              {
-                "id": "d0f4b2787b13be22",
-                "type": "leaf",
-                "state": {
-                  "type": "webviewer",
-                  "state": {
-                    "url": "https://www.reddit.com/r/ObsidianMD/comments/1hbejjo/web_clipper_can_extract_the_transcript_from_a/",
-                    "title": "Web Clipper can extract the transcript from a YouTube video then run it through Interpreter to summarize the key points : r/ObsidianMD",
-                    "mode": "webview"
-                  },
-                  "icon": "globe-2",
-                  "title": "Web Clipper can extract the transcript from a YouTube video then run it through Interpreter to summarize the key points : r/ObsidianMD"
-                }
-              }
-            ]
-          }
-        ],
-        "direction": "horizontal",
-        "width": 495.5
-      },
-      "left-ribbon": {
-        "hiddenItems": {
-          "obsidian-map-view:Open map view": false,
-          "publish:Publish changes...": false,
-          "switcher:Open quick switcher": false,
-          "graph:Open graph view": false,
-          "canvas:Create new canvas": false,
-          "daily-notes:Open today's daily note": false,
-          "templates:Insert template": false,
-          "command-palette:Open command palette": false,
-          "workspaces:Manage workspace layouts": false,
-          "random-note:Open random note": false,
-          "code-files:Create Code File": false,
-          "smart-composer:Open smart composer": false,
-          "local-backup:Run local backup": false,
-          "obsidian42-brat:BRAT": false,
-          "calendarium:Open Calendarium": false,
-          "obsidian-excalidraw-plugin:Create new drawing": false,
-          "mesh-ai:Mesh AI Integration": false,
-          "obsidian-kanban:Create new board": false,
-          "templater-obsidian:Templater": false
-        }
-      },
-      "floating": {
-        "id": "9a978c44e011a70a",
-        "type": "floating",
-        "children": [
-          {
-            "id": "1a217895107d7f1a",
-            "type": "window",
-            "children": [
-              {
-                "id": "6ab93e2b62f2b38f",
-                "type": "tabs",
-                "children": [
-                  {
-                    "id": "d23ebbfdd3f332b8",
-                    "type": "leaf",
-                    "state": {
-                      "type": "graph",
-                      "state": {},
-                      "icon": "lucide-git-fork",
-                      "title": "Graph view"
-                    }
-                  }
-                ]
-              }
-            ],
-            "direction": "vertical",
-            "x": 1200,
-            "y": 386,
-            "width": 600,
-            "height": 600,
-            "maximize": true,
-            "zoom": 0
-          }
-        ]
-      },
-      "active": "924d308ddb882a14",
-      "mtime": "2024-12-26T00:17:27-07:00"
-    },
-    ".": {
-      "main": {
-        "id": "e4e5677e27efcc03",
-        "type": "split",
-        "children": [
-          {
-            "id": "070b8764693c0e0d",
-            "type": "tabs",
-            "children": [
-              {
-                "id": "924d308ddb882a14",
-                "type": "leaf",
-                "state": {
-                  "type": "empty",
-                  "state": {},
-                  "icon": "lucide-file",
-                  "title": "New tab"
+                  "title": "HOME"
                 }
               }
             ]
@@ -828,15 +47,13 @@
             "type": "tabs",
             "children": [
               {
-                "id": "177bf4e8b7c58f91",
+                "id": "fc367f0a2fda3ddd",
                 "type": "leaf",
                 "state": {
-                  "type": "file-explorer",
-                  "state": {
-                    "sortOrder": "alphabetical"
-                  },
-                  "icon": "lucide-folder-closed",
-                  "title": "Files"
+                  "type": "bookmarks",
+                  "state": {},
+                  "icon": "lucide-bookmark",
+                  "title": "Bookmarks"
                 }
               },
               {
@@ -845,7 +62,7 @@
                 "state": {
                   "type": "search",
                   "state": {
-                    "query": "tag:#obsidian-clipper",
+                    "query": "spotify",
                     "matchingCase": false,
                     "explainSearch": false,
                     "collapseAll": false,
@@ -857,21 +74,23 @@
                 }
               },
               {
-                "id": "fc367f0a2fda3ddd",
+                "id": "177bf4e8b7c58f91",
                 "type": "leaf",
                 "state": {
-                  "type": "bookmarks",
-                  "state": {},
-                  "icon": "lucide-bookmark",
-                  "title": "Bookmarks"
+                  "type": "file-explorer",
+                  "state": {
+                    "sortOrder": "alphabeticalReverse",
+                    "autoReveal": false
+                  },
+                  "icon": "lucide-folder-closed",
+                  "title": "Files"
                 }
               }
-            ],
-            "currentTab": 2
+            ]
           }
         ],
         "direction": "horizontal",
-        "width": 294.5,
+        "width": 465.5,
         "collapsed": true
       },
       "right": {
@@ -879,15 +98,28 @@
         "type": "split",
         "children": [
           {
-            "id": "22080c769b15cd9e",
+            "id": "5ae72c952d337495",
             "type": "tabs",
             "children": [
               {
-                "id": "0782dcbb6204c0a6",
+                "id": "aa538d6ef998f16a",
+                "type": "leaf",
+                "state": {
+                  "type": "file-properties",
+                  "state": {
+                    "file": "_RESOURCES/DATACORE/57 DatacoreTerminal/D.q.datacoreterminal.component.md"
+                  },
+                  "icon": "lucide-info",
+                  "title": "File properties for D.q.datacoreterminal.component"
+                }
+              },
+              {
+                "id": "12d568276eba990a",
                 "type": "leaf",
                 "state": {
                   "type": "backlink",
                   "state": {
+                    "file": "888/PROJECTS/888/KNOWLEDGE/HEALTH/FITNESS.enigmas..md",
                     "collapseAll": false,
                     "extraContext": false,
                     "sortOrder": "alphabetical",
@@ -897,11 +129,11 @@
                     "unlinkedCollapsed": true
                   },
                   "icon": "links-coming-in",
-                  "title": "Backlinks"
+                  "title": "Backlinks for FITNESS.enigmas."
                 }
               },
               {
-                "id": "8211e7da9c35266f",
+                "id": "846f0b4ea6b3d320",
                 "type": "leaf",
                 "state": {
                   "type": "outgoing-link",
@@ -914,612 +146,13 @@
                 }
               },
               {
-                "id": "8fb83d85424c7565",
-                "type": "leaf",
-                "state": {
-                  "type": "tag",
-                  "state": {
-                    "sortOrder": "frequency",
-                    "useHierarchy": true
-                  },
-                  "icon": "lucide-tags",
-                  "title": "Tags"
-                }
-              },
-              {
-                "id": "7f65c60c10f5cb77",
-                "type": "leaf",
-                "state": {
-                  "type": "all-properties",
-                  "state": {
-                    "sortOrder": "frequency",
-                    "showSearch": false,
-                    "searchQuery": ""
-                  },
-                  "icon": "lucide-archive",
-                  "title": "All properties"
-                }
-              },
-              {
-                "id": "cef2c4dff7b933f6",
-                "type": "leaf",
-                "state": {
-                  "type": "outline",
-                  "state": {},
-                  "icon": "lucide-list",
-                  "title": "Outline"
-                }
-              }
-            ]
-          }
-        ],
-        "direction": "horizontal",
-        "width": 495.5,
-        "collapsed": true
-      },
-      "left-ribbon": {
-        "hiddenItems": {
-          "obsidian-map-view:Open map view": false,
-          "publish:Publish changes...": false,
-          "switcher:Open quick switcher": false,
-          "graph:Open graph view": false,
-          "canvas:Create new canvas": false,
-          "daily-notes:Open today's daily note": false,
-          "templates:Insert template": false,
-          "command-palette:Open command palette": false,
-          "workspaces:Manage workspace layouts": false,
-          "random-note:Open random note": false,
-          "code-files:Create Code File": false,
-          "smart-composer:Open smart composer": false,
-          "local-backup:Run local backup": false,
-          "obsidian42-brat:BRAT": false,
-          "calendarium:Open Calendarium": false,
-          "obsidian-excalidraw-plugin:Create new drawing": false,
-          "mesh-ai:Mesh AI Integration": false,
-          "obsidian-kanban:Create new board": false,
-          "templater-obsidian:Templater": false
-        }
-      },
-      "floating": {
-        "id": "9a978c44e011a70a",
-        "type": "floating",
-        "children": [
-          {
-            "id": "1a217895107d7f1a",
-            "type": "window",
-            "children": [
-              {
-                "id": "6ab93e2b62f2b38f",
-                "type": "tabs",
-                "children": [
-                  {
-                    "id": "376329961f418c57",
-                    "type": "leaf",
-                    "state": {
-                      "type": "empty",
-                      "state": {},
-                      "icon": "lucide-file",
-                      "title": "New tab"
-                    }
-                  }
-                ]
-              }
-            ],
-            "direction": "vertical",
-            "x": 1200,
-            "y": 386,
-            "width": 600,
-            "height": 600,
-            "maximize": true,
-            "zoom": 0
-          }
-        ]
-      },
-      "active": "376329961f418c57",
-      "mtime": "2024-12-26T07:12:47-07:00"
-    },
-    "2025.03.18": {
-      "main": {
-        "id": "e4e5677e27efcc03",
-        "type": "split",
-        "children": [
-          {
-            "id": "e3f5615ee499e855",
-            "type": "tabs",
-            "dimension": 56.77570093457943,
-            "children": [
-              {
-                "id": "102dd5971410839b",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "888/PROJECTS/888/KNOWLEDGE/WEALTH/AFFILIATE MARKETING.enigmas..md",
-                    "mode": "source",
-                    "source": false,
-                    "backlinks": true,
-                    "backlinkOpts": {
-                      "collapseAll": false,
-                      "extraContext": false,
-                      "sortOrder": "alphabetical",
-                      "showSearch": false,
-                      "searchQuery": "",
-                      "backlinkCollapsed": false,
-                      "unlinkedCollapsed": true
-                    }
-                  },
-                  "icon": "lucide-file",
-                  "title": "AFFILIATE MARKETING.enigmas."
-                }
-              },
-              {
-                "id": "c6e3a7a6f211bb11",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_public/obsidian/DATACORE.flexilis.official.md",
-                    "mode": "source",
-                    "source": false,
-                    "backlinks": true,
-                    "backlinkOpts": {
-                      "collapseAll": false,
-                      "extraContext": false,
-                      "sortOrder": "alphabetical",
-                      "showSearch": false,
-                      "searchQuery": "",
-                      "backlinkCollapsed": false,
-                      "unlinkedCollapsed": true
-                    }
-                  },
-                  "icon": "lucide-file",
-                  "title": "DATACORE.flexilis.official"
-                }
-              },
-              {
-                "id": "e7f05ba5b343c8aa",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "888/INSIGHTS/MOBILE/pinkbird/PB.set.013.md",
-                    "mode": "source",
-                    "source": false,
-                    "backlinks": true,
-                    "backlinkOpts": {
-                      "collapseAll": false,
-                      "extraContext": false,
-                      "sortOrder": "alphabetical",
-                      "showSearch": false,
-                      "searchQuery": "",
-                      "backlinkCollapsed": false,
-                      "unlinkedCollapsed": true
-                    }
-                  },
-                  "icon": "lucide-file",
-                  "title": "PB.set.013"
-                }
-              },
-              {
-                "id": "40dd84dac7a656a4",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_public/obsidian/DATACORE.flexilis.official.md",
-                    "mode": "source",
-                    "source": false,
-                    "backlinks": true,
-                    "backlinkOpts": {
-                      "collapseAll": false,
-                      "extraContext": false,
-                      "sortOrder": "alphabetical",
-                      "showSearch": false,
-                      "searchQuery": "",
-                      "backlinkCollapsed": false,
-                      "unlinkedCollapsed": true
-                    }
-                  },
-                  "icon": "lucide-file",
-                  "title": "DATACORE.flexilis.official"
-                }
-              },
-              {
-                "id": "7921ad5cc3a4f235",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_clean/AI.image.enigmas..md",
-                    "mode": "source",
-                    "source": false,
-                    "backlinks": true,
-                    "backlinkOpts": {
-                      "collapseAll": false,
-                      "extraContext": false,
-                      "sortOrder": "alphabetical",
-                      "showSearch": false,
-                      "searchQuery": "",
-                      "backlinkCollapsed": false,
-                      "unlinkedCollapsed": true
-                    }
-                  },
-                  "icon": "lucide-file",
-                  "title": "AI.image.enigmas."
-                }
-              },
-              {
-                "id": "7cb718cb4a27e0f0",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "888/INSIGHTS/MOBILE/pinkbird/PB.set.013.md",
-                    "mode": "source",
-                    "source": false,
-                    "backlinks": true,
-                    "backlinkOpts": {
-                      "collapseAll": false,
-                      "extraContext": false,
-                      "sortOrder": "alphabetical",
-                      "showSearch": false,
-                      "searchQuery": "",
-                      "backlinkCollapsed": false,
-                      "unlinkedCollapsed": true
-                    }
-                  },
-                  "icon": "lucide-file",
-                  "title": "PB.set.013"
-                }
-              }
-            ],
-            "currentTab": 5
-          },
-          {
-            "id": "af5d39c1a8427593",
-            "type": "tabs",
-            "dimension": 43.22429906542057,
-            "children": [
-              {
-                "id": "65f59e4ac9a7af08",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "888/PROJECTS/888/KNOWLEDGE/HEALTH/FOOD.namzu.md",
-                    "mode": "source",
-                    "source": false,
-                    "backlinks": true,
-                    "backlinkOpts": {
-                      "collapseAll": false,
-                      "extraContext": false,
-                      "sortOrder": "alphabetical",
-                      "showSearch": false,
-                      "searchQuery": "",
-                      "backlinkCollapsed": false,
-                      "unlinkedCollapsed": true
-                    }
-                  },
-                  "icon": "lucide-file",
-                  "title": "FOOD.namzu"
-                }
-              },
-              {
-                "id": "452d5f9f60c764b8",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_clean/COUNTRIES.md",
-                    "mode": "source",
-                    "source": false,
-                    "backlinks": true,
-                    "backlinkOpts": {
-                      "collapseAll": false,
-                      "extraContext": false,
-                      "sortOrder": "alphabetical",
-                      "showSearch": false,
-                      "searchQuery": "",
-                      "backlinkCollapsed": false,
-                      "unlinkedCollapsed": true
-                    }
-                  },
-                  "icon": "lucide-file",
-                  "title": "COUNTRIES"
-                }
-              },
-              {
-                "id": "aa018670e4389eb4",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "888/PROJECTS/888/KNOWLEDGE/HEALTH/FOOD.namzu.md",
-                    "mode": "source",
-                    "source": false,
-                    "backlinks": true,
-                    "backlinkOpts": {
-                      "collapseAll": false,
-                      "extraContext": false,
-                      "sortOrder": "alphabetical",
-                      "showSearch": false,
-                      "searchQuery": "",
-                      "backlinkCollapsed": false,
-                      "unlinkedCollapsed": true
-                    }
-                  },
-                  "icon": "lucide-file",
-                  "title": "FOOD.namzu"
-                }
-              },
-              {
-                "id": "ebba16ddde185a75",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_clean/AI.llm.md",
-                    "mode": "source",
-                    "source": false,
-                    "backlinks": true,
-                    "backlinkOpts": {
-                      "collapseAll": false,
-                      "extraContext": false,
-                      "sortOrder": "alphabetical",
-                      "showSearch": false,
-                      "searchQuery": "",
-                      "backlinkCollapsed": false,
-                      "unlinkedCollapsed": true
-                    }
-                  },
-                  "icon": "lucide-file",
-                  "title": "AI.llm"
-                }
-              },
-              {
-                "id": "af4627fa761662ce",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_clean/DESIGN.namzu.md",
-                    "mode": "source",
-                    "source": false,
-                    "backlinks": true,
-                    "backlinkOpts": {
-                      "collapseAll": false,
-                      "extraContext": false,
-                      "sortOrder": "alphabetical",
-                      "showSearch": false,
-                      "searchQuery": "",
-                      "backlinkCollapsed": false,
-                      "unlinkedCollapsed": true
-                    }
-                  },
-                  "icon": "lucide-file",
-                  "title": "DESIGN.namzu"
-                }
-              },
-              {
-                "id": "6508d91a10257bf8",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_clean/UX.enigmas..md",
-                    "mode": "source",
-                    "source": false,
-                    "backlinks": true,
-                    "backlinkOpts": {
-                      "collapseAll": false,
-                      "extraContext": false,
-                      "sortOrder": "alphabetical",
-                      "showSearch": false,
-                      "searchQuery": "",
-                      "backlinkCollapsed": false,
-                      "unlinkedCollapsed": true
-                    }
-                  },
-                  "icon": "lucide-file",
-                  "title": "UX.enigmas."
-                }
-              },
-              {
-                "id": "f628182fa8be6bfd",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_public/obsidian/OBSIDIAN.plugins.enigmas..md",
-                    "mode": "source",
-                    "source": false,
-                    "backlinks": true,
-                    "backlinkOpts": {
-                      "collapseAll": false,
-                      "extraContext": false,
-                      "sortOrder": "alphabetical",
-                      "showSearch": false,
-                      "searchQuery": "",
-                      "backlinkCollapsed": false,
-                      "unlinkedCollapsed": true
-                    }
-                  },
-                  "icon": "lucide-file",
-                  "title": "OBSIDIAN.plugins.enigmas."
-                }
-              }
-            ],
-            "currentTab": 5
-          }
-        ],
-        "direction": "vertical"
-      },
-      "left": {
-        "id": "5b2da7abcd180a7a",
-        "type": "split",
-        "children": [
-          {
-            "id": "7f907c8f10e7a1c8",
-            "type": "tabs",
-            "children": [
-              {
-                "id": "ff4c4dae9f2e38e7",
-                "type": "leaf",
-                "state": {
-                  "type": "vertical-tabs",
-                  "state": {},
-                  "icon": "lucide-file",
-                  "title": "Plugin no longer active"
-                }
-              },
-              {
-                "id": "177bf4e8b7c58f91",
-                "type": "leaf",
-                "state": {
-                  "type": "file-explorer",
-                  "state": {
-                    "sortOrder": "alphabetical",
-                    "autoReveal": false
-                  },
-                  "icon": "lucide-folder-closed",
-                  "title": "Files"
-                }
-              },
-              {
-                "id": "d729f495d64f288a",
-                "type": "leaf",
-                "state": {
-                  "type": "search",
-                  "state": {
-                    "query": "",
-                    "matchingCase": false,
-                    "explainSearch": false,
-                    "collapseAll": false,
-                    "extraContext": false,
-                    "sortOrder": "alphabetical"
-                  },
-                  "icon": "lucide-search",
-                  "title": "Search"
-                }
-              },
-              {
-                "id": "fc367f0a2fda3ddd",
-                "type": "leaf",
-                "state": {
-                  "type": "bookmarks",
-                  "state": {},
-                  "icon": "lucide-bookmark",
-                  "title": "Bookmarks"
-                }
-              }
-            ],
-            "currentTab": 1
-          }
-        ],
-        "direction": "horizontal",
-        "width": 285.5,
-        "collapsed": true
-      },
-      "right": {
-        "id": "fe80ed10167d38ae",
-        "type": "split",
-        "children": [
-          {
-            "id": "5ae72c952d337495",
-            "type": "tabs",
-            "children": [
-              {
-                "id": "c06d66dc9a0c19e8",
-                "type": "leaf",
-                "state": {
-                  "type": "file-properties",
-                  "state": {
-                    "file": "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_clean/UX.enigmas..md"
-                  },
-                  "icon": "lucide-info",
-                  "title": "File properties for UX.enigmas."
-                }
-              },
-              {
-                "id": "c92281035dcf47d4",
-                "type": "leaf",
-                "state": {
-                  "type": "localgraph",
-                  "state": {
-                    "file": "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_clean/NAMZU.md",
-                    "options": {
-                      "collapse-filter": false,
-                      "search": "",
-                      "localJumps": 1,
-                      "localBacklinks": true,
-                      "localForelinks": true,
-                      "localInterlinks": true,
-                      "showTags": false,
-                      "showAttachments": false,
-                      "hideUnresolved": false,
-                      "collapse-color-groups": true,
-                      "colorGroups": [],
-                      "collapse-display": true,
-                      "showArrow": false,
-                      "textFadeMultiplier": 0,
-                      "nodeSizeMultiplier": 1,
-                      "lineSizeMultiplier": 1,
-                      "collapse-forces": true,
-                      "centerStrength": 0.518713248970312,
-                      "repelStrength": 10,
-                      "linkStrength": 1,
-                      "linkDistance": 250,
-                      "scale": 0.8137423959522092,
-                      "close": true
-                    }
-                  },
-                  "icon": "lucide-git-fork",
-                  "title": "Graph of NAMZU"
-                }
-              },
-              {
-                "id": "12d568276eba990a",
-                "type": "leaf",
-                "state": {
-                  "type": "backlink",
-                  "state": {
-                    "file": "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_public/obsidian/DATACORE.md",
-                    "collapseAll": false,
-                    "extraContext": false,
-                    "sortOrder": "alphabetical",
-                    "showSearch": false,
-                    "searchQuery": "",
-                    "backlinkCollapsed": false,
-                    "unlinkedCollapsed": true
-                  },
-                  "icon": "links-coming-in",
-                  "title": "Backlinks for DATACORE"
-                }
-              },
-              {
-                "id": "846f0b4ea6b3d320",
-                "type": "leaf",
-                "state": {
-                  "type": "outgoing-link",
-                  "state": {
-                    "file": "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_public/obsidian/DATACORE.md",
-                    "linksCollapsed": false,
-                    "unlinkedCollapsed": true
-                  },
-                  "icon": "links-going-out",
-                  "title": "Outgoing links from DATACORE"
-                }
-              },
-              {
                 "id": "06eed83daab9493d",
                 "type": "leaf",
                 "state": {
                   "type": "tag",
                   "state": {
                     "sortOrder": "frequency",
-                    "useHierarchy": true,
-                    "showSearch": false,
-                    "searchQuery": ""
+                    "useHierarchy": true
                   },
                   "icon": "lucide-tags",
                   "title": "Tags"
@@ -1552,24 +185,52 @@
                 }
               },
               {
-                "id": "8ccce051294aca8e",
+                "id": "c92281035dcf47d4",
                 "type": "leaf",
                 "state": {
-                  "type": "file-properties",
-                  "state": {},
-                  "icon": "lucide-info",
-                  "title": "File properties"
+                  "type": "localgraph",
+                  "state": {
+                    "file": "HOME.md",
+                    "options": {
+                      "collapse-filter": false,
+                      "search": "",
+                      "localJumps": 1,
+                      "localBacklinks": true,
+                      "localForelinks": true,
+                      "localInterlinks": false,
+                      "showTags": false,
+                      "showAttachments": false,
+                      "hideUnresolved": false,
+                      "collapse-color-groups": true,
+                      "colorGroups": [],
+                      "collapse-display": true,
+                      "showArrow": false,
+                      "textFadeMultiplier": 0,
+                      "nodeSizeMultiplier": 1,
+                      "lineSizeMultiplier": 1,
+                      "collapse-forces": true,
+                      "centerStrength": 0.518713248970312,
+                      "repelStrength": 10,
+                      "linkStrength": 1,
+                      "linkDistance": 250,
+                      "scale": 8,
+                      "close": true
+                    }
+                  },
+                  "icon": "lucide-git-fork",
+                  "title": "Graph of HOME"
                 }
               }
             ]
           }
         ],
         "direction": "horizontal",
-        "width": 334.5,
+        "width": 337.5,
         "collapsed": true
       },
       "left-ribbon": {
         "hiddenItems": {
+          "bases:Create new base": false,
           "publish:Publish changes...": false,
           "switcher:Open quick switcher": false,
           "graph:Open graph view": false,
@@ -1580,20 +241,14 @@
           "workspaces:Manage workspace layouts": false,
           "random-note:Open random note": false,
           "code-files:Create Code File": false,
-          "python-scripter:Run Script: 888/_RESOURCES/SCRIPTS/PYTHON/splitFiles.py": false,
-          "obsidian-map-view:Open map view": false,
-          "obsidian-excalidraw-plugin:Create new drawing": false,
-          "ai-mentor:Mentor": false,
+          "obsidian-excalidraw-plugin:New drawing": false,
           "obsidian42-brat:BRAT": false,
-          "mesh-ai:Mesh AI Integration": false,
-          "obsidian-kanban:Create new board": false,
-          "templater-obsidian:Templater": false,
-          "calendarium:Open Calendarium": false
+          "templater-obsidian:Templater": false
         }
       },
-      "active": "6508d91a10257bf8",
-      "mtime": "2025-03-18T09:36:38+09:00"
+      "active": "d1f2203f3d10fbb3",
+      "mtime": "2025-09-30T01:41:44+07:00"
     }
   },
-  "active": "BASIC"
+  "active": "current"
 }

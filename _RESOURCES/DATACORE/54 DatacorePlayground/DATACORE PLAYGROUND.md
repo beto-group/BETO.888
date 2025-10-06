@@ -25,6 +25,10 @@
     - Pass custom props to the previewed component; it always renders with no props.
 
 
+
+
+
+
 ![datacore_playground.webp](/_RESOURCES/IMAGES/datacore_playground.webp)
 
 

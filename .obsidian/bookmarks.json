@@ -40,27 +40,15 @@
             },
             {
               "type": "file",
-              "ctime": 1753889963664,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.v2.md",
-              "title": "Datacore Flexilis v2"
-            },
-            {
-              "type": "file",
-              "ctime": 1753889986760,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.v3.md",
-              "title": "Datacore Flexilis v3"
-            },
-            {
-              "type": "file",
-              "ctime": 1753890001545,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.v4.md",
-              "title": "Datacore Flexilis v4"
-            },
-            {
-              "type": "file",
               "ctime": 1753890090362,
               "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v1.viewer.md",
               "title": "Datacore Flexilis v1 Viewer"
+            },
+            {
+              "type": "file",
+              "ctime": 1753889963664,
+              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.v2.md",
+              "title": "Datacore Flexilis v2"
             },
             {
               "type": "file",
@@ -70,27 +58,39 @@
             },
             {
               "type": "file",
-              "ctime": 1753890138796,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v3.viewer.md",
-              "title": "Datacore Flexilis v3 Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753890157159,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v4.viewer.md",
-              "title": "Datacore Flexilis v4 Viewer"
-            },
-            {
-              "type": "file",
               "ctime": 1753890177363,
               "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v2.component.md",
               "title": "Datacore Flexilis v2 Component"
             },
             {
               "type": "file",
+              "ctime": 1753889986760,
+              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.v3.md",
+              "title": "Datacore Flexilis v3"
+            },
+            {
+              "type": "file",
+              "ctime": 1753890138796,
+              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v3.viewer.md",
+              "title": "Datacore Flexilis v3 Viewer"
+            },
+            {
+              "type": "file",
               "ctime": 1753890190997,
               "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v3.component.md",
               "title": "Datacore Flexilis v3 Component"
+            },
+            {
+              "type": "file",
+              "ctime": 1753890001545,
+              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.v4.md",
+              "title": "Datacore Flexilis v4"
+            },
+            {
+              "type": "file",
+              "ctime": 1753890157159,
+              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v4.viewer.md",
+              "title": "Datacore Flexilis v4 Viewer"
             },
             {
               "type": "file",
@@ -147,19 +147,55 @@
               "type": "file",
               "ctime": 1753890336945,
               "path": "_RESOURCES/DATACORE/3 BasicView/BASIC VIEW v1.md",
-              "title": "Basic View"
+              "title": "Basic View v1"
             },
             {
               "type": "file",
               "ctime": 1753890346251,
-              "path": "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.viewer.md",
-              "title": "Basic View Viewer"
+              "path": "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.viewer.v1.md",
+              "title": "Basic View v1 Viewer"
             },
             {
               "type": "file",
               "ctime": 1753890363447,
-              "path": "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.component.md",
-              "title": "Basic View Component"
+              "path": "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.component.v1.md",
+              "title": "Basic View v1 Component"
+            },
+            {
+              "type": "file",
+              "ctime": 1759172098075,
+              "path": "_RESOURCES/DATACORE/3 BasicView/BASIC VIEW v2.md",
+              "title": "Basic View v2"
+            },
+            {
+              "type": "file",
+              "ctime": 1759172283727,
+              "path": "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.viewer.v2.md",
+              "title": "Basic View v2 Viewer"
+            },
+            {
+              "type": "file",
+              "ctime": 1759172273841,
+              "path": "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.component.v2.md",
+              "title": "Basic View v2 Component"
+            },
+            {
+              "type": "file",
+              "ctime": 1759172288642,
+              "path": "_RESOURCES/DATACORE/3 BasicView/BASIC VIEW v3.md",
+              "title": "Basic View v3"
+            },
+            {
+              "type": "file",
+              "ctime": 1759172291758,
+              "path": "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.viewer.v3.md",
+              "title": "Basic View v3 Viewer"
+            },
+            {
+              "type": "file",
+              "ctime": 1759172295891,
+              "path": "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.component.v3.md",
+              "title": "Basic View v3 Component"
             }
           ],
           "title": "3 BasicView"
@@ -514,27 +550,27 @@
             },
             {
               "type": "file",
-              "ctime": 1757819676009,
-              "path": "_RESOURCES/DATACORE/18 ViewsInceptions/VIEWS INCEPTIONS v2.md",
-              "title": "Views Inceptions v2"
-            },
-            {
-              "type": "file",
               "ctime": 1753895750317,
               "path": "_RESOURCES/DATACORE/18 ViewsInceptions/D.q.viewsinceptions.viewer.v1.md",
               "title": "Views Inceptions Viewer v1"
             },
             {
               "type": "file",
-              "ctime": 1757819585810,
-              "path": "_RESOURCES/DATACORE/18 ViewsInceptions/D.q.viewsinceptions.viewer.v2.md",
-              "title": "Views Inceptions Viewer v2"
-            },
-            {
-              "type": "file",
               "ctime": 1753895762349,
               "path": "_RESOURCES/DATACORE/18 ViewsInceptions/D.q.viewsinceptions.component.v1.md",
               "title": "Views Inceptions Component v1"
+            },
+            {
+              "type": "file",
+              "ctime": 1757819676009,
+              "path": "_RESOURCES/DATACORE/18 ViewsInceptions/VIEWS INCEPTIONS v2.md",
+              "title": "Views Inceptions v2"
+            },
+            {
+              "type": "file",
+              "ctime": 1757819585810,
+              "path": "_RESOURCES/DATACORE/18 ViewsInceptions/D.q.viewsinceptions.viewer.v2.md",
+              "title": "Views Inceptions Viewer v2"
             },
             {
               "type": "file",
@@ -657,27 +693,27 @@
             },
             {
               "type": "file",
-              "ctime": 1753895964601,
-              "path": "_RESOURCES/DATACORE/23 Canvas/CANVAS v2.md",
-              "title": "Canvas v2"
-            },
-            {
-              "type": "file",
               "ctime": 1753895973733,
               "path": "_RESOURCES/DATACORE/23 Canvas/D.q.canvas.viewer.v1.md",
               "title": "Canvas v1 Viewer"
             },
             {
               "type": "file",
-              "ctime": 1753895982930,
-              "path": "_RESOURCES/DATACORE/23 Canvas/D.q.canvas.viewer.v2.md",
-              "title": "Canvas v2 Viewer"
-            },
-            {
-              "type": "file",
               "ctime": 1753895995700,
               "path": "_RESOURCES/DATACORE/23 Canvas/D.q.canvas.component.v1.md",
               "title": "Canvas v1 Component"
+            },
+            {
+              "type": "file",
+              "ctime": 1753895964601,
+              "path": "_RESOURCES/DATACORE/23 Canvas/CANVAS v2.md",
+              "title": "Canvas v2"
+            },
+            {
+              "type": "file",
+              "ctime": 1753895982930,
+              "path": "_RESOURCES/DATACORE/23 Canvas/D.q.canvas.viewer.v2.md",
+              "title": "Canvas v2 Viewer"
             },
             {
               "type": "file",
@@ -1498,6 +1534,112 @@
             }
           ],
           "title": "54 DatacorePlayground"
+        },
+        {
+          "type": "group",
+          "ctime": 1759171409365,
+          "items": [
+            {
+              "type": "file",
+              "ctime": 1759171523393,
+              "path": "_RESOURCES/DATACORE/55 DatacoreLimitations/DATACORE LIMITATIONS.md",
+              "title": "Datacore Limitations"
+            },
+            {
+              "type": "file",
+              "ctime": 1759171530126,
+              "path": "_RESOURCES/DATACORE/55 DatacoreLimitations/D.q.datacorelimitations.viewer.md",
+              "title": "Datacore Limitations Viewer"
+            },
+            {
+              "type": "file",
+              "ctime": 1759171533643,
+              "path": "_RESOURCES/DATACORE/55 DatacoreLimitations/D.q.datacorelimitations.component.md",
+              "title": "Datacore Limitations Component"
+            }
+          ],
+          "title": "55 DatacoreLimitations"
+        },
+        {
+          "type": "group",
+          "ctime": 1759171420657,
+          "items": [
+            {
+              "type": "file",
+              "ctime": 1759171584776,
+              "path": "_RESOURCES/DATACORE/56 WorkspaceManager/WORKSPACE MANAGER.md",
+              "title": "Workspace Manager"
+            },
+            {
+              "type": "file",
+              "ctime": 1759171587776,
+              "path": "_RESOURCES/DATACORE/56 WorkspaceManager/D.q.workspacemanager.viewer.md",
+              "title": "Workspace Manager Viewer"
+            },
+            {
+              "type": "file",
+              "ctime": 1759171590843,
+              "path": "_RESOURCES/DATACORE/56 WorkspaceManager/D.q.workspacemanager.component.md",
+              "title": "Workspace Manager Component"
+            }
+          ],
+          "title": "56 WorkspaceManager"
+        },
+        {
+          "type": "group",
+          "ctime": 1759171426434,
+          "items": [
+            {
+              "type": "file",
+              "ctime": 1759171640142,
+              "path": "_RESOURCES/DATACORE/57 DatacoreTerminal/DATACORE TERMINAL.md",
+              "title": "Datacore Terminal"
+            },
+            {
+              "type": "file",
+              "ctime": 1759171643591,
+              "path": "_RESOURCES/DATACORE/57 DatacoreTerminal/D.q.datacoreterminal.viewer.md",
+              "title": "Datacore Terminal Viewer"
+            },
+            {
+              "type": "file",
+              "ctime": 1759171646876,
+              "path": "_RESOURCES/DATACORE/57 DatacoreTerminal/D.q.datacoreterminal.component.md",
+              "title": "Datacore Terminal Component"
+            }
+          ],
+          "title": "57 DatacoreTerminal"
+        },
+        {
+          "type": "group",
+          "ctime": 1759171431363,
+          "items": [
+            {
+              "type": "file",
+              "ctime": 1759171675692,
+              "path": "_RESOURCES/DATACORE/58 DatacoreCommandManager/DATACORE COMMAND MANAGER.md",
+              "title": "Datacore Command Manager"
+            },
+            {
+              "type": "file",
+              "ctime": 1759171682209,
+              "path": "_RESOURCES/DATACORE/58 DatacoreCommandManager/D.q.datacorecommandmanager.viewer.md",
+              "title": "Datacore Command Manager Viewer"
+            },
+            {
+              "type": "file",
+              "ctime": 1759171685510,
+              "path": "_RESOURCES/DATACORE/58 DatacoreCommandManager/D.q.datacorecommandmanager.component.md",
+              "title": "Datacore Command Manager Component"
+            }
+          ],
+          "title": "58 DatacoreCommandManager"
+        },
+        {
+          "type": "group",
+          "ctime": 1759592539648,
+          "items": [],
+          "title": "59 HotReloadFiles"
         }
       ],
       "title": "DATACORE"

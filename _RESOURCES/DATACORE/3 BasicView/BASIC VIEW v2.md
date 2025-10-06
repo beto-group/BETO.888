@@ -31,7 +31,7 @@
 
 ### COMPONENTS
 
-###### [Basic View Viewer](D.q.basicview.viewer.v2.md)
+###### [Basic View Viewer v2](D.q.basicview.viewer.v2.md)
 
-###### [Basic View Component](D.q.basicview.component.v2.md)
+###### [Basic View Component v2](D.q.basicview.component.v2.md)
 

@@ -1,0 +1,9 @@
+{
+  "id": "dc-cmd",
+  "name": "DC Commands",
+  "version": "1.0.0",
+  "minAppVersion": "0.12.0",
+  "description": "Runs custom commands defined via the DC Commands manager.",
+  "author": "DC",
+  "isDesktopOnly": false
+}

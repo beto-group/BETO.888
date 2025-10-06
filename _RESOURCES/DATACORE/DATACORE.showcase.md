@@ -7,6 +7,15 @@ permalink: obsidian.plugins.datacore.showcase
 
 
 
+
+
+
+
+
+
+
+
+
 ## **Core Query & Data Handling**
 
 
@@ -16,17 +25,19 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [BASIC VIEW v1](3%20BasicView/BASIC%20VIEW%20v1.md)
 
-###### [BASIC VIEW v2](3%20BasicView/BASIC%20VIEW%20v2.md) { NEW }
+###### [BASIC VIEW v2](3%20BasicView/BASIC%20VIEW%20v2.md) 
+
+###### [BASIC VIEW v3](3%20BasicView/BASIC%20VIEW%20v3.md)  { NEW }
 
 ###### [TAG VIEWER](4%20TagViewer/TAG%20VIEWER.md)
 
 ###### [DATACORE QUERY BUILDER](37%20DatacoreQueryBuilder/DATACORE%20QUERY%20BUILDER.md) 
 
-###### [RANDOM FILE CONTROLS v2](47%20RandomFileControls/RANDOM%20FILE%20CONTROLS%20v2.md) { NEW }
+###### [RANDOM FILE CONTROLS v2](47%20RandomFileControls/RANDOM%20FILE%20CONTROLS%20v2.md) 
 
-###### [RANDOM FILE CONTROLS v1](47%20RandomFileControls/RANDOM%20FILE%20CONTROLS%20v1.md)  { NEW }
+###### [RANDOM FILE CONTROLS v1](47%20RandomFileControls/RANDOM%20FILE%20CONTROLS%20v1.md)
 
-###### [METADATA EDIT](49%20MetadataEdit/METADATA%20EDIT.md) { NEW }
+###### [METADATA EDIT](49%20MetadataEdit/METADATA%20EDIT.md)
 
 
 
@@ -44,14 +55,13 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [ACTIVITYWATCH DASHBOARD](35%20ActivityWatchDashboard/ACTIVITYWATCH%20DASHBOARD.md) 
 
-###### [DASHBOARD 888](53%20Dashboard888/DASHBOARD%20888.md) { NEW }  
+###### [DASHBOARD 888](53%20Dashboard888/DASHBOARD%20888.md) 
 
-###### [ASSETS LIBRARY](52%20AssetsLibrary/ASSETS%20LIBRARY.md) { NEW }
+###### [ASSETS LIBRARY](52%20AssetsLibrary/ASSETS%20LIBRARY.md)
 
 
 
 ## **Development & Building Tools**
-
 
 
 ###### [DATACORE.flexilis](0%20DATACORE.flexilis/DATACORE.flexilis.md)
@@ -60,7 +70,7 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [VIEWS INCEPTIONS v1](18%20ViewsInceptions/VIEWS%20INCEPTIONS%20v1.md)
 
-###### [VIEWS INCEPTIONS v2](18%20ViewsInceptions/VIEWS%20INCEPTIONS%20v2.md) { NEW }
+###### [VIEWS INCEPTIONS v2](18%20ViewsInceptions/VIEWS%20INCEPTIONS%20v2.md) 
 
 ###### [MARKDOWN EDITOR](20%20MarkdownEditor/MARKDOWN%20EDITOR.md)
 
@@ -74,13 +84,21 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [CHAT LLM](42%20ChatLLM/CHATLLM.md) 
 
-###### [ACTIONS MANAGER](50%20ActionsManager/ACTIONS%20MANAGER.md) { NEW } { PROTOTYPE } 
+###### [ACTIONS MANAGER](50%20ActionsManager/ACTIONS%20MANAGER.md) { PROTOTYPE } 
 
-###### [ACTIONS FLOW v1](51%20ActionsFlows/ACTIONS%20FLOW%20v1.md) { NEW } 
+###### [ACTIONS FLOW v1](51%20ActionsFlows/ACTIONS%20FLOW%20v1.md) 
 
-###### [MARKDOWN PARSER](44%20MarkdownParser/MARKDOWN%20PARSER.md) { NEW }
+###### [MARKDOWN PARSER](44%20MarkdownParser/MARKDOWN%20PARSER.md)
 
-###### [DATACORE PLAYGROUND](54%20DatacorePlayground/DATACORE%20PLAYGROUND.md) { NEW } { FEATURED }
+###### [INTEGRATED IDE](61%20IntegratedIDE/INTEGRATED%20IDE.md) { NEW }
+
+###### [PLUGIN DEV PLAYGROUND](62%20PluginDevPlayground/PLUGIN%20DEV%20PLAYGROUND.md) { NEW }  { FEATURED }
+
+###### [DATACORE PLAYGROUND](54%20DatacorePlayground/DATACORE%20PLAYGROUND.md) { FEATURED }
+
+###### [WORKSPACE MANAGER](56%20WorkspaceManager/WORKSPACE%20MANAGER.md) { NEW }
+
+###### [DATACORE COMAND MANAGER](58%20DatacoreCommandManager/DATACORE%20COMMAND%20MANAGER.md) { NEW }
 
 
 ## **Graphics, Visualization & UI**
@@ -103,9 +121,9 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [LOADING LOGO](31%20LoadingLogo/LOADING%20LOGO.md) 
 
-###### [SVG ANIMATIONS](45%20SVGAnimations/SVG%20ANIMATIONS.md)  { NEW }
+###### [SVG ANIMATIONS](45%20SVGAnimations/SVG%20ANIMATIONS.md)  
 
-###### [SVG CONVERTER](48%20SVGConverter/SVG%20CONVERTER.md) { NEW }
+###### [SVG CONVERTER](48%20SVGConverter/SVG%20CONVERTER.md) 
 
 
 
@@ -161,4 +179,12 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [MATRIX GLITCH WALL](30%20MatrixGlitchWall/MATRIX%20GLITCH%20WALL.md)  
 
-###### [VAULT UPDATER](46%20VaultUpdater/VAULT%20UPDATER.md) { NEW }
+###### [VAULT UPDATER](46%20VaultUpdater/VAULT%20UPDATER.md) 
+
+###### [DATACORE LIMITATIONS](55%20DatacoreLimitations/DATACORE%20LIMITATIONS.md) { NEW }
+
+###### [DATACORE TERMINAL](57%20DatacoreTerminal/DATACORE%20TERMINAL.md) { NEW }
+
+###### [HOT RELOAD FILES](59%20HotReloadFiles/HOT%20RELOAD%20FILES.md) { NEW }
+
+###### [GIT SUITE MANAGER](60%20GitSuiteManager/GIT%20SUITE%20MANAGER.md) { NEW }

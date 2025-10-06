@@ -3,6 +3,9 @@
   "lazy-plugins",
   "obsidian-hover-editor",
   "obsidian-excalidraw-plugin",
-  "aw-watcher-obsidian",
-  "text-extractor"
+  "text-extractor",
+  "obsidian-advanced-uri",
+  "si",
+  "test-plugin",
+  "datacore"
 ]

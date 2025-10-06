@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "41448a5a3cfc702b",
+        "id": "8280429d25b783bc",
         "type": "tabs",
         "children": [
           {
-            "id": "d1f2203f3d10fbb3",
+            "id": "61d7f6c192472b57",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HOME.md",
+                "file": "_RESOURCES/DATACORE/DATACORE.showcase.md",
                 "mode": "source",
                 "source": false,
                 "backlinks": true,
@@ -28,7 +28,41 @@
                 }
               },
               "icon": "lucide-file",
-              "title": "HOME"
+              "title": "DATACORE.showcase"
+            }
+          },
+          {
+            "id": "efb444f366519c83",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "_RESOURCES/DATACORE/62 PluginDevPlayground/PLUGIN DEV PLAYGROUND.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
+              "icon": "lucide-file",
+              "title": "PLUGIN DEV PLAYGROUND"
+            }
+          },
+          {
+            "id": "c19be7cf1625a3a5",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
             }
           }
         ]
@@ -60,7 +94,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "spotify",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -84,12 +118,12 @@
               "title": "Files"
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 465.5
   },
   "right": {
     "id": "fe80ed10167d38ae",
@@ -105,10 +139,10 @@
             "state": {
               "type": "file-properties",
               "state": {
-                "file": "HOME.md"
+                "file": "_RESOURCES/DATACORE/62 PluginDevPlayground/D.q.plugindevplayground.viewer.md"
               },
               "icon": "lucide-info",
-              "title": "File properties for HOME"
+              "title": "File properties for D.q.plugindevplayground.viewer"
             }
           },
           {
@@ -240,58 +274,59 @@
       "random-note:Open random note": false,
       "code-files:Create Code File": false,
       "obsidian-excalidraw-plugin:New drawing": false,
+      "test-plugin:Sample Plugin": false,
       "obsidian42-brat:BRAT": false,
       "templater-obsidian:Templater": false
     }
   },
-  "active": "d1f2203f3d10fbb3",
+  "active": "61d7f6c192472b57",
   "lastOpenFiles": [
-    "CHANGE LOG.md",
+    "_RESOURCES/DATACORE/62 PluginDevPlayground/PLUGIN DEV PLAYGROUND.md",
+    "README.md",
     "HOME.md",
-    "_RESOURCES/DATACORE/54 DatacorePlayground/D.q.datacoreplayground.component.md",
-    "_RESOURCES/DATACORE/COMPONENTS/ShowcasePlayground.md",
-    "_RESOURCES/DATACORE/COMPONENTS/TEMP/temp-codeblock.md",
-    "_RESOURCES/DATACORE/COMPONENTS/~temp-live-preview.component.md",
-    "_RESOURCES/DATACORE/COMPONENTS/TEMP/preview-ViewComponent-1758632585224.js",
-    "_RESOURCES/DATACORE/COMPONENTS/TEMP/",
-    "_RESOURCES/DATACORE/COMPONENTS/TEMP",
-    "_RESOURCES/DATACORE/54 DatacorePlayground/D.q.datacoreplayground.component 1.md",
-    "_RESOURCES/DATACORE/17 ViewsControl/D.q.viewscontrol.component.md",
-    "_RESOURCES/ASSETS/888/ASSETS LIBRARY_.a.md",
-    "_RESOURCES/DATACORE/9 ContentExplorer888/D.q.contentexplorer888.viewer.md",
-    "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.component.md",
-    "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.component.v2.md",
-    "KNOWLEDGE/EXPERIENCES/_clean/ANIMALS.enigmas..md",
-    "_RESOURCES/DATACORE/54 DatacorePlayground/D.q.datacoreplayground.viewer.md",
-    "KNOWLEDGE/EXPERIENCES/_clean/ANIMALS.md",
-    "KNOWLEDGE/WEALTH/TAXES.enigmas..md",
-    "KNOWLEDGE/EXPERIENCES/_clean/NOTION.enigmas..md",
-    "KNOWLEDGE/EXPERIENCES/_clean/NOTION.md",
-    "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.viewer.v2.md",
-    "_RESOURCES/DATACORE/54 DatacorePlayground/D.q.datacoreplayground.component 2.md",
-    "_RESOURCES/DATACORE/49 MetadataEdit/D.q.metadataedit.viewer.md",
-    "_RESOURCES/DATACORE/2 BasicQuery/DATACORE.query.basicquery.md",
-    "KNOWLEDGE/EXPERIENCES/_clean/MUSIC.enigmas..md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/DIRTY HUMAN_v1_.A.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/DIRTY HUMAN_v1_.A.svg",
-    "_OPERATION/_CLEAN/SOCIALS/YOUTUBE/ODDD/OBSIDIAN.daily.discipline.d078.svg",
-    "_OPERATION/_CLEAN/SOCIALS/YOUTUBE/ODDD/OBSIDIAN.daily.discipline.d078.md",
-    "_OPERATION/_CLEAN/SOCIALS/YOUTUBE/ODDD/OBSIDIAN.daily.discipline.d077 1.md",
-    "_RESOURCES/DATACORE/COMPONENTS",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/ARROW_v05_.A.svg",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/ARROW_v06_.A.svg",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/ARROW_v07_.A.svg",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/BOOKMARK_v01_.A.svg",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/CAT_v8_.A.svg",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/CODEBLOCK_v01_.A.svg",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/COMPANY_v15_.A.svg",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/DC_ACTIONS_v01_.A.svg",
-    "_RESOURCES/DATACORE/COMPONETS",
-    "54 DatacorePlayground",
-    "_RESOURCES/DATACORE/54 DatacorePlayground",
-    "_RESOURCES/SVGS",
-    "_RESOURCES/DOCS/DATA/RAW",
-    "_RESOURCES/DOCS/DATA/INFO",
+    "_RESOURCES/DATACORE/53 Dashboard888/D.q.dashboard888.viewer.md",
+    "_RESOURCES/DATACORE/53 Dashboard888/D.q.dashboard888.component.md",
+    "_RESOURCES/DATACORE/10 Kanban/KANBAN v2.md",
+    "KNOWLEDGE/EXPERIENCES/_clean/POLICE.enigmas..md",
+    "KNOWLEDGE/EXPERIENCES/_clean/CAT.enigmas..md",
+    "KNOWLEDGE/EXPERIENCES/_clean/DONALD TRUMP.enigmas..md",
+    "KNOWLEDGE/EXPERIENCES/_clean/HISTORY.enigmas..md",
+    "KNOWLEDGE/EXPERIENCES/_clean/FRUITS.enigmas..md",
+    "KNOWLEDGE/HEALTH/ALCOHOL.enigmas..md",
+    "KNOWLEDGE/EXPERIENCES/_clean/EGYPT.enigmas..md",
+    "KNOWLEDGE/EXPERIENCES/_clean/COUNTRIES.enigmas..md",
+    "KNOWLEDGE/EXPERIENCES/_clean/COUNTRIES.md",
+    "KNOWLEDGE/HEALTH/ALCOHOL.md",
+    "KNOWLEDGE/EXPERIENCES/_clean/FRUITS.md",
+    "KNOWLEDGE/EXPERIENCES/_clean/HISTORY.md",
+    "KNOWLEDGE/EXPERIENCES/_clean/POLICE.md",
+    "KNOWLEDGE/EXPERIENCES/_clean/CIVILIZATIONS.enigmas..md",
+    "KNOWLEDGE/EXPERIENCES/_clean/CIVILIZATIONS.md",
+    "KNOWLEDGE/EXPERIENCES/_clean/CASINOS.enigmas..md",
+    "KNOWLEDGE/WEALTH/BUSINESS.drugs.enigmas..md",
+    "KNOWLEDGE/EXPERIENCES/_clean/MILITARY.enigmas..md",
+    "KNOWLEDGE/EXPERIENCES/_clean/MILITARY.md",
+    "KNOWLEDGE/EXPERIENCES/_clean/DONALD TRUMP.md",
+    "_RESOURCES/IMAGES/plugin_dev_playground_2.webp",
+    "_RESOURCES/IMAGES/plugin_dev_playground_3.webp",
+    "_RESOURCES/IMAGES/plugin_dev_playground_1.webp",
+    "_RESOURCES/IMAGES/integrated_ide.webp",
+    "_RESOURCES/IMAGES/git_suite_manager.webp",
+    "_RESOURCES/IMAGES/hot_reload_files.webp",
+    "_RESOURCES/DATACORE/62 PluginDevPlayground",
+    "_RESOURCES/DATACORE/61 IntegratedIDE",
+    "61 IntegratedIDE",
+    "60 GitSuiteManager",
+    "_RESOURCES/DATACORE/60 GitSuiteManager",
+    "_RESOURCES/DATACORE/59 HotReloadFiles/example-folder",
+    "_RESOURCES/DATACORE/59 HotReloadFiles",
+    "59 HotReloadFiles",
+    "_OPERATION/_CLEAN/SOCIALS/YOUTUBE/ODDD/OBSIDIAN.daily.discipline.d080.svg",
+    "_RESOURCES/IMAGES/workspace_manager.webp",
+    "_RESOURCES/IMAGES/datacore_playground.webp",
+    "_RESOURCES/IMAGES/datacore_terminal.webp",
+    "_RESOURCES/DATACORE/56 WorkspaceManager",
+    "_RESOURCES/DATACORE/58 DatacoreCommandManager",
     "888/PROJECTS/888 copy/PROJECTS/COOKBOOK/KNOWLEDGE/DASHBOARDS/DASHBOARD.canvas",
     "888/PROJECTS/888 copy/KNOWLEDGE/EXPERIENCES/_clean/NFT LAYOUT.canvas",
     "888/PROJECTS/888/PROJECTS/COOKBOOK/KNOWLEDGE/DASHBOARDS/DASHBOARD.canvas",

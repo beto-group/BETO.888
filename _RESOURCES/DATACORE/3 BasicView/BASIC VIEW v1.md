@@ -20,7 +20,7 @@
 ### Components
 
 
-###### [Basic View Viewer](D.q.basicview.viewer.md)
+###### [Basic View Viewer v1](D.q.basicview.viewer.v1.md)
 
-###### [Basic View Component](D.q.basicview.component.md)
+###### [Basic View Component v1](D.q.basicview.component.v1.md)
 

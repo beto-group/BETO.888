@@ -1,0 +1,11 @@
+{
+  "id": "test-plugin",
+  "name": "TestPlugin",
+  "version": "1.0.0",
+  "minAppVersion": "0.15.0",
+  "description": "Demonstrates PluginDev Playground",
+  "author": "beto.group",
+  "authorUrl": "https://obsidian.md",
+  "fundingUrl": "https://obsidian.md/pricing",
+  "isDesktopOnly": false
+}

@@ -1,0 +1,7 @@
+[
+  {
+    "id": "dc-cmd:datacore-notice-example",
+    "name": "Datacore Notice Example",
+    "action": "new Notice(\"Hello from my DC command!\");"
+  }
+]

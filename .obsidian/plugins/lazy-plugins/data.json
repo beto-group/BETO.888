@@ -182,6 +182,18 @@
       },
       "text-extractor": {
         "startupType": "instant"
+      },
+      "obsidian-advanced-uri": {
+        "startupType": "instant"
+      },
+      "advanced-debug-mode": {
+        "startupType": "instant"
+      },
+      "dc-cmd": {
+        "startupType": "disabled"
+      },
+      "test-plugin": {
+        "startupType": "instant"
       }
     },
     "loadOrder": []

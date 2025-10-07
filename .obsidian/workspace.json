@@ -30,6 +30,40 @@
               "icon": "lucide-file",
               "title": "HOME"
             }
+          },
+          {
+            "id": "911d574691a55fd1",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "README.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
+              "icon": "lucide-file",
+              "title": "README"
+            }
+          },
+          {
+            "id": "bbe50c450ff2c3e1",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
+            }
           }
         ]
       }
@@ -105,10 +139,10 @@
             "state": {
               "type": "file-properties",
               "state": {
-                "file": "HOME.md"
+                "file": "README.md"
               },
               "icon": "lucide-info",
-              "title": "File properties for HOME"
+              "title": "File properties for README"
             }
           },
           {
@@ -247,8 +281,9 @@
   },
   "active": "c19be7cf1625a3a5",
   "lastOpenFiles": [
-    "_OPERATION/PUBLIC/DEVLOG/DEVLOG.md",
+    "README.md",
     "HOME.md",
+    "_OPERATION/PUBLIC/DEVLOG/DEVLOG.md",
     "_RESOURCES/ASSETS/888/ASSETS_.A/WAIFU_v03_.A.md",
     "_OPERATION/PUBLIC/DEVLOG/ITI/DEVLOG.green-4.md",
     "_RESOURCES/DATACORE/9 ContentExplorer888/D.q.contentexplorer888.viewer.md",
@@ -262,7 +297,6 @@
     "_RESOURCES/IMAGES/DEVLOG_1.webp",
     "_RESOURCES/IMAGES/DEVLOG_4.webp",
     "_OPERATION/PUBLIC/DEVLOG/ITI/DEVLOG.yellow-3.md",
-    "README.md",
     "_RESOURCES/DATACORE/53 Dashboard888/D.q.dashboard888.viewer.md",
     "_RESOURCES/DATACORE/53 Dashboard888/D.q.dashboard888.component.md",
     "_RESOURCES/DATACORE/10 Kanban/KANBAN v2.md",

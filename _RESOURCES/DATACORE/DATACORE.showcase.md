@@ -19,6 +19,9 @@ permalink: obsidian.plugins.datacore.showcase
 ## **Core Query & Data Handling**
 
 
+
+###### [DATACORE.flexilis](0%20DATACORE.flexilis/DATACORE.flexilis.md)
+
 ###### [SEARCH QUERY](1%20SearchQuery/SEARCH%20QUERY.md)
 
 ###### [BASIC QUERY](2%20BasicQuery/BASIC%20QUERY.md)
@@ -49,9 +52,9 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [BOUNTY VIEW 🎅](7%20BountyView%20🎅/BOUNTY%20VIEW%20🎅.md)
 
-###### [CONTENT EXPLORER 888](9%20ContentExplorer888/CONTENT%20EXPLORER%20888.md)
-
 ###### [FITNESS EXPLORER](8%20FitnessExplorer/FITNESS%20EXPLORER.md)
+
+###### [CONTENT EXPLORER 888](9%20ContentExplorer888/CONTENT%20EXPLORER%20888.md)
 
 ###### [ACTIVITYWATCH DASHBOARD](35%20ActivityWatchDashboard/ACTIVITYWATCH%20DASHBOARD.md) 
 
@@ -63,8 +66,6 @@ permalink: obsidian.plugins.datacore.showcase
 
 ## **Development & Building Tools**
 
-
-###### [DATACORE.flexilis](0%20DATACORE.flexilis/DATACORE.flexilis.md)
 
 ###### [CUSTOM IFRAME BUILDER](6%20CustomIframeBuilder/CUSTOM%20IFRAME%20BUILDER.md)
 
@@ -84,21 +85,22 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [CHAT LLM](42%20ChatLLM/CHATLLM.md) 
 
+###### [MARKDOWN PARSER](44%20MarkdownParser/MARKDOWN%20PARSER.md)
+
 ###### [ACTIONS MANAGER](50%20ActionsManager/ACTIONS%20MANAGER.md) { PROTOTYPE } 
 
 ###### [ACTIONS FLOW v1](51%20ActionsFlows/ACTIONS%20FLOW%20v1.md) 
 
-###### [MARKDOWN PARSER](44%20MarkdownParser/MARKDOWN%20PARSER.md)
-
-###### [INTEGRATED IDE](61%20IntegratedIDE/INTEGRATED%20IDE.md) { NEW }
-
-###### [PLUGIN DEV PLAYGROUND](62%20PluginDevPlayground/PLUGIN%20DEV%20PLAYGROUND.md) { NEW }  { FEATURED }
-
-###### [DATACORE PLAYGROUND](54%20DatacorePlayground/DATACORE%20PLAYGROUND.md) { FEATURED }
+###### [DATACORE PLAYGROUND](54%20DatacorePlayground/DATACORE%20PLAYGROUND.md)
 
 ###### [WORKSPACE MANAGER](56%20WorkspaceManager/WORKSPACE%20MANAGER.md) { NEW }
 
 ###### [DATACORE COMAND MANAGER](58%20DatacoreCommandManager/DATACORE%20COMMAND%20MANAGER.md) { NEW }
+
+###### [INTEGRATED IDE](61%20IntegratedIDE/INTEGRATED%20IDE.md) { NEW }
+
+###### [PLUGIN DEV SUITE](62%20PluginDevSuite/PLUGIN%20DEV%20SUITE.md) { NEW }  { FEATURED }
+
 
 
 ## **Graphics, Visualization & UI**
@@ -154,9 +156,9 @@ permalink: obsidian.plugins.datacore.showcase
 ## **Media Players**
 
 
-###### [IFRAME PLAYER](19%20IframePlayer/IFRAME%20PLAYER.md)
-
 ###### [MUSIC BUILDER](16%20MusicBuilder/MUSIC%20BUILDER.md)
+
+###### [IFRAME PLAYER](19%20IframePlayer/IFRAME%20PLAYER.md)
 
 ###### [SOUND PLAYER](32%20SoundPlayer/SOUND%20PLAYER.md) 
 
@@ -167,11 +169,12 @@ permalink: obsidian.plugins.datacore.showcase
 
 ## **System & Utility Components**
 
-###### [LICENSE AGREEMENT](26%20LicenseAgreement/LICENSE%20AGREEMENT.md)
 
 ###### [VIEWS CONTROL](17%20ViewsControl/VIEWS%20CONTROL.md)  
 
 ###### [EXTERNAL INPUT BLOCKER](21%20ExternalInputBlocker/EXTERNAL%20INPUT%20BLOCKER.md)
+
+###### [LICENSE AGREEMENT](26%20LicenseAgreement/LICENSE%20AGREEMENT.md)
 
 ###### [LOAD SCRIPT](28%20LoadScript/LOAD%20SCRIPT.md)
 

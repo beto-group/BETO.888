@@ -34,7 +34,7 @@ const useGit = useGitHook;
 
 let TerminalManagerClass;
 try {
-    const terminalModule = await dc.require(dc.headerLink("_RESOURCES/DATACORE/62 PluginDevPlayground/D.q.plugindevplayground.component.md", "TerminalManager"));
+    const terminalModule = await dc.require(dc.headerLink("_RESOURCES/DATACORE/62 PluginDevPlayground/D.q.plugindevsuite.component.md", "TerminalManager"));
     TerminalManagerClass = terminalModule.TerminalManager || terminalModule.default || terminalModule;
     if (typeof TerminalManagerClass !== 'function') {
         throw new Error("TerminalManager.component.v1.md did not export a valid constructor for TerminalManager.");

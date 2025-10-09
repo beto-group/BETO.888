@@ -24,1622 +24,1772 @@
         },
         {
           "type": "group",
-          "ctime": 1753888760600,
+          "ctime": 1759998697266,
           "items": [
             {
-              "type": "file",
-              "ctime": 1753889824297,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.md",
-              "title": "Datacore Flexilis"
+              "type": "group",
+              "ctime": 1753888760600,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753889824297,
+                  "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.md",
+                  "title": "Datacore Flexilis"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753889910213,
+                  "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.v1.md",
+                  "title": "Datacore Flexilis v1"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890090362,
+                  "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v1.viewer.md",
+                  "title": "Datacore Flexilis v1 Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753889963664,
+                  "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.v2.md",
+                  "title": "Datacore Flexilis v2"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890120045,
+                  "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v2.viewer.md",
+                  "title": "Datacore Flexilis v2 Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890177363,
+                  "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v2.component.md",
+                  "title": "Datacore Flexilis v2 Component"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753889986760,
+                  "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.v3.md",
+                  "title": "Datacore Flexilis v3"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890138796,
+                  "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v3.viewer.md",
+                  "title": "Datacore Flexilis v3 Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890190997,
+                  "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v3.component.md",
+                  "title": "Datacore Flexilis v3 Component"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890001545,
+                  "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.v4.md",
+                  "title": "Datacore Flexilis v4"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890157159,
+                  "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v4.viewer.md",
+                  "title": "Datacore Flexilis v4 Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890213179,
+                  "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v4.component.md",
+                  "title": "Datacore Flexilis v4 Component"
+                }
+              ],
+              "title": "0 DATACORE.flexilis"
             },
             {
-              "type": "file",
-              "ctime": 1753889910213,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.v1.md",
-              "title": "Datacore Flexilis v1"
+              "type": "group",
+              "ctime": 1753888779499,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753890247029,
+                  "path": "_RESOURCES/DATACORE/1 SearchQuery/SEARCH QUERY.md",
+                  "title": "Search Query"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890257331,
+                  "path": "_RESOURCES/DATACORE/1 SearchQuery/DATACORE.query.searchquery.md",
+                  "title": "Search Query Viewer"
+                }
+              ],
+              "title": "1 SearchQuery"
             },
             {
-              "type": "file",
-              "ctime": 1753890090362,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v1.viewer.md",
-              "title": "Datacore Flexilis v1 Viewer"
+              "type": "group",
+              "ctime": 1753888795696,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753890280263,
+                  "path": "_RESOURCES/DATACORE/2 BasicQuery/BASIC QUERY.md",
+                  "title": "Basic Query"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890287447,
+                  "path": "_RESOURCES/DATACORE/2 BasicQuery/DATACORE.query.basicquery.md",
+                  "title": "Basic Query Viewer"
+                }
+              ],
+              "title": "2 BasicQuery"
             },
             {
-              "type": "file",
-              "ctime": 1753889963664,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.v2.md",
-              "title": "Datacore Flexilis v2"
+              "type": "group",
+              "ctime": 1753888807474,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753890336945,
+                  "path": "_RESOURCES/DATACORE/3 BasicView/BASIC VIEW v1.md",
+                  "title": "Basic View v1"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890346251,
+                  "path": "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.viewer.v1.md",
+                  "title": "Basic View v1 Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890363447,
+                  "path": "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.component.v1.md",
+                  "title": "Basic View v1 Component"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1759172098075,
+                  "path": "_RESOURCES/DATACORE/3 BasicView/BASIC VIEW v2.md",
+                  "title": "Basic View v2"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1759172283727,
+                  "path": "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.viewer.v2.md",
+                  "title": "Basic View v2 Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1759172273841,
+                  "path": "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.component.v2.md",
+                  "title": "Basic View v2 Component"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1759172288642,
+                  "path": "_RESOURCES/DATACORE/3 BasicView/BASIC VIEW v3.md",
+                  "title": "Basic View v3"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1759172291758,
+                  "path": "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.viewer.v3.md",
+                  "title": "Basic View v3 Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1759172295891,
+                  "path": "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.component.v3.md",
+                  "title": "Basic View v3 Component"
+                }
+              ],
+              "title": "3 BasicView"
             },
             {
-              "type": "file",
-              "ctime": 1753890120045,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v2.viewer.md",
-              "title": "Datacore Flexilis v2 Viewer"
+              "type": "group",
+              "ctime": 1753888815550,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753890405552,
+                  "path": "_RESOURCES/DATACORE/4 TagViewer/TAG VIEWER.md",
+                  "title": "Tag Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890423812,
+                  "path": "_RESOURCES/DATACORE/4 TagViewer/D.q.tagviewer.viewer.md",
+                  "title": "Tag Viewer Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890435384,
+                  "path": "_RESOURCES/DATACORE/4 TagViewer/D.q.tagviewer.component.md",
+                  "title": "Tag Viewer Component"
+                }
+              ],
+              "title": "4 TagViewer"
             },
             {
-              "type": "file",
-              "ctime": 1753890177363,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v2.component.md",
-              "title": "Datacore Flexilis v2 Component"
+              "type": "group",
+              "ctime": 1753900553829,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753900572678,
+                  "path": "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/DATACORE QUERY BUILDER.md",
+                  "title": "Datacore Query Builder"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753900599447,
+                  "path": "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/D.q.datacorequerybuilder.viewer.md",
+                  "title": "Datacore Query Builder Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753900619295,
+                  "path": "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/D.q.datacorequerybuilder.component.md",
+                  "title": "Datacore Query Builder Component"
+                }
+              ],
+              "title": "37 DatacoreQueryBuilder"
             },
             {
-              "type": "file",
-              "ctime": 1753889986760,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.v3.md",
-              "title": "Datacore Flexilis v3"
+              "type": "group",
+              "ctime": 1757378494782,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1757378910686,
+                  "path": "_RESOURCES/DATACORE/47 RandomFileControls/RANDOM FILE CONTROLS v1.md",
+                  "title": "Random File Controls v1"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1757378915069,
+                  "path": "_RESOURCES/DATACORE/47 RandomFileControls/RANDOM FILE CONTROLS v2.md",
+                  "title": "Random File Controls v2"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1757378930902,
+                  "path": "_RESOURCES/DATACORE/47 RandomFileControls/D.q.randomfilecontrols.viewer.v1.md",
+                  "title": "Random File Control Viewer v1"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1757378942320,
+                  "path": "_RESOURCES/DATACORE/47 RandomFileControls/D.q.randomfilecontrols.viewer.v2.md",
+                  "title": "Random File Control Viewer v2"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1757378948569,
+                  "path": "_RESOURCES/DATACORE/47 RandomFileControls/D.q.randomfilecontrols.component.v1.md",
+                  "title": "Random File Control Component v1"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1757378952352,
+                  "path": "_RESOURCES/DATACORE/47 RandomFileControls/D.q.randomfilecontrols.component.v2.md",
+                  "title": "Random File Control Component v2"
+                }
+              ],
+              "title": "47 RandomFileControls"
             },
             {
-              "type": "file",
-              "ctime": 1753890138796,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v3.viewer.md",
-              "title": "Datacore Flexilis v3 Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753890190997,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v3.component.md",
-              "title": "Datacore Flexilis v3 Component"
-            },
-            {
-              "type": "file",
-              "ctime": 1753890001545,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.v4.md",
-              "title": "Datacore Flexilis v4"
-            },
-            {
-              "type": "file",
-              "ctime": 1753890157159,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v4.viewer.md",
-              "title": "Datacore Flexilis v4 Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753890213179,
-              "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v4.component.md",
-              "title": "Datacore Flexilis v4 Component"
+              "type": "group",
+              "ctime": 1757378652149,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1757378884588,
+                  "path": "_RESOURCES/DATACORE/49 MetadataEdit/METADATA EDIT.md",
+                  "title": "Metadata Edit"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1757378887570,
+                  "path": "_RESOURCES/DATACORE/49 MetadataEdit/D.q.metadataedit.viewer.md",
+                  "title": "Metadata Edit Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1757378889952,
+                  "path": "_RESOURCES/DATACORE/49 MetadataEdit/D.q.metadataedit.component.md",
+                  "title": "Metadata Edit Component"
+                }
+              ],
+              "title": "49 MetadataEdit"
             }
           ],
-          "title": "0 DATACORE.flexilis"
+          "title": "CORE QUERY & DATA HANDLING"
         },
         {
           "type": "group",
-          "ctime": 1753888779499,
+          "ctime": 1759998826930,
           "items": [
             {
-              "type": "file",
-              "ctime": 1753890247029,
-              "path": "_RESOURCES/DATACORE/1 SearchQuery/SEARCH QUERY.md",
-              "title": "Search Query"
+              "type": "group",
+              "ctime": 1753888827031,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753890453285,
+                  "path": "_RESOURCES/DATACORE/5 CustomFeed/CUSTOM FEED.md",
+                  "title": "Custom Feed"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890465719,
+                  "path": "_RESOURCES/DATACORE/5 CustomFeed/D.q.customfeed.viewer.md",
+                  "title": "Custom Feed Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890497598,
+                  "path": "_RESOURCES/DATACORE/5 CustomFeed/D.q.customfeed.component.md",
+                  "title": "Custom Feed Component"
+                }
+              ],
+              "title": "5 CustomFeed"
             },
             {
-              "type": "file",
-              "ctime": 1753890257331,
-              "path": "_RESOURCES/DATACORE/1 SearchQuery/DATACORE.query.searchquery.md",
-              "title": "Search Query Viewer"
+              "type": "group",
+              "ctime": 1753888854168,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753890626683,
+                  "path": "_RESOURCES/DATACORE/7 BountyView 🎅/BOUNTY VIEW 🎅.md",
+                  "title": "Bounty View 🎅"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890647131,
+                  "path": "_RESOURCES/DATACORE/7 BountyView 🎅/D.q.bountyview.viewer.md",
+                  "title": "Bounty View Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890657965,
+                  "path": "_RESOURCES/DATACORE/7 BountyView 🎅/D.q.bountyview.component.md",
+                  "title": "Bounty View Component"
+                }
+              ],
+              "title": "7 BountyView 🎅"
+            },
+            {
+              "type": "group",
+              "ctime": 1753888874213,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753890669798,
+                  "path": "_RESOURCES/DATACORE/8 FitnessExplorer/FITNESS EXPLORER.md",
+                  "title": "Fitness Explorer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890679434,
+                  "path": "_RESOURCES/DATACORE/8 FitnessExplorer/D.q.fitnessexplorer.viewer.md",
+                  "title": "Fitness Explorer Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890689683,
+                  "path": "_RESOURCES/DATACORE/8 FitnessExplorer/D.q.fitnessexplorer.component.md",
+                  "title": "Fitness Explorer Component"
+                }
+              ],
+              "title": "8 FitnessExplorer"
+            },
+            {
+              "type": "group",
+              "ctime": 1753888921349,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753890731466,
+                  "path": "_RESOURCES/DATACORE/9 ContentExplorer888/CONTENT EXPLORER 888.md",
+                  "title": "Content Explorer 888"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890741366,
+                  "path": "_RESOURCES/DATACORE/9 ContentExplorer888/D.q.contentexplorer888.viewer.md",
+                  "title": "Content Explorer 888 Viewer"
+                }
+              ],
+              "title": "9 ContentExplorer888"
+            },
+            {
+              "type": "group",
+              "ctime": 1753889275289,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753896449029,
+                  "path": "_RESOURCES/DATACORE/35 ActivityWatchDashboard/ACTIVITYWATCH DASHBOARD.md",
+                  "title": "ActivityWatch Dashboard"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896466627,
+                  "path": "_RESOURCES/DATACORE/35 ActivityWatchDashboard/D.q.activitywatchdashboard.viewer.md",
+                  "title": "ActivityWatch Dashboard Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896485610,
+                  "path": "_RESOURCES/DATACORE/35 ActivityWatchDashboard/D.q.activitywatchdashboard.component.md",
+                  "title": "ActivityWatch Dashboard Component"
+                }
+              ],
+              "title": "35 ActivityWatchDashboard"
+            },
+            {
+              "type": "group",
+              "ctime": 1757378697545,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1757378708925,
+                  "path": "_RESOURCES/DATACORE/53 Dashboard888/DASHBOARD 888.md",
+                  "title": "Dashboard 888"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1757378714506,
+                  "path": "_RESOURCES/DATACORE/53 Dashboard888/D.q.dashboard888.viewer.md",
+                  "title": "Dashboard 888 Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1757378727606,
+                  "path": "_RESOURCES/DATACORE/53 Dashboard888/D.q.dashboard888.component.md",
+                  "title": "Dashboard 888 Component"
+                }
+              ],
+              "title": "53 Dashboard888"
+            },
+            {
+              "type": "group",
+              "ctime": 1757378686114,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1757378768189,
+                  "path": "_RESOURCES/DATACORE/52 AssetsLibrary/ASSETS LIBRARY.md",
+                  "title": "Assets Library"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1757378793738,
+                  "path": "_RESOURCES/DATACORE/52 AssetsLibrary/D.q.assetslibrary.viewer.md",
+                  "title": "Assets Library Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1757378782356,
+                  "path": "_RESOURCES/DATACORE/52 AssetsLibrary/D.q.assetslibrary.component.md",
+                  "title": "Assets Library Componen"
+                }
+              ],
+              "title": "52 AssetsLibrary"
             }
           ],
-          "title": "1 SearchQuery"
+          "title": "CONTENT VIEWERS & EXPLORERS"
         },
         {
           "type": "group",
-          "ctime": 1753888795696,
+          "ctime": 1759998998185,
           "items": [
             {
-              "type": "file",
-              "ctime": 1753890280263,
-              "path": "_RESOURCES/DATACORE/2 BasicQuery/BASIC QUERY.md",
-              "title": "Basic Query"
+              "type": "group",
+              "ctime": 1753888841131,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753890554764,
+                  "path": "_RESOURCES/DATACORE/6 CustomIframeBuilder/CUSTOM IFRAME BUILDER.md",
+                  "title": "Custom Iframe Builder"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890571432,
+                  "path": "_RESOURCES/DATACORE/6 CustomIframeBuilder/D.q.customiframebuilder.viewer.md",
+                  "title": "Custom Iframe Builder Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890584017,
+                  "path": "_RESOURCES/DATACORE/6 CustomIframeBuilder/D.q.customiframebuilder.component.md",
+                  "title": "Custom Iframe Builder Component"
+                }
+              ],
+              "title": "6 CustomIframeBuilder"
             },
             {
-              "type": "file",
-              "ctime": 1753890287447,
-              "path": "_RESOURCES/DATACORE/2 BasicQuery/DATACORE.query.basicquery.md",
-              "title": "Basic Query Viewer"
+              "type": "group",
+              "ctime": 1753889049132,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753895740051,
+                  "path": "_RESOURCES/DATACORE/18 ViewsInceptions/VIEWS INCEPTIONS v1.md",
+                  "title": "Views Inceptions v1"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753895750317,
+                  "path": "_RESOURCES/DATACORE/18 ViewsInceptions/D.q.viewsinceptions.viewer.v1.md",
+                  "title": "Views Inceptions Viewer v1"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753895762349,
+                  "path": "_RESOURCES/DATACORE/18 ViewsInceptions/D.q.viewsinceptions.component.v1.md",
+                  "title": "Views Inceptions Component v1"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1757819676009,
+                  "path": "_RESOURCES/DATACORE/18 ViewsInceptions/VIEWS INCEPTIONS v2.md",
+                  "title": "Views Inceptions v2"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1757819585810,
+                  "path": "_RESOURCES/DATACORE/18 ViewsInceptions/D.q.viewsinceptions.viewer.v2.md",
+                  "title": "Views Inceptions Viewer v2"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1757819588828,
+                  "path": "_RESOURCES/DATACORE/18 ViewsInceptions/D.q.viewsinceptions.component.v2.md",
+                  "title": "Views Inceptions Component v2"
+                }
+              ],
+              "title": "18 ViewsInceptions"
+            },
+            {
+              "type": "group",
+              "ctime": 1753889082575,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753895817401,
+                  "path": "_RESOURCES/DATACORE/20 MarkdownEditor/MARKDOWN EDITOR.md",
+                  "title": "Markdown Editor"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753895828601,
+                  "path": "_RESOURCES/DATACORE/20 MarkdownEditor/D.q.markdowneditor.viewer.md",
+                  "title": "Markdown Editor Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753895838569,
+                  "path": "_RESOURCES/DATACORE/20 MarkdownEditor/D.q.markdowneditor.component.md",
+                  "title": "Markdown Editor Component"
+                }
+              ],
+              "title": "20 MarkdownEditor"
+            },
+            {
+              "type": "group",
+              "ctime": 1753889256214,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753896355181,
+                  "path": "_RESOURCES/DATACORE/33 CodeEditor/CODE EDITOR v1.md",
+                  "title": "Code Editor v1"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896363765,
+                  "path": "_RESOURCES/DATACORE/33 CodeEditor/CODE EDITOR v2.md",
+                  "title": "Code Editor v2"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896373880,
+                  "path": "_RESOURCES/DATACORE/33 CodeEditor/D.q.codeeditor.viewer.v1.md",
+                  "title": "Code Editor v1 Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896386531,
+                  "path": "_RESOURCES/DATACORE/33 CodeEditor/D.q.codeeditor.viewer.v2.md",
+                  "title": "Code Editor Viewer v2"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896395913,
+                  "path": "_RESOURCES/DATACORE/33 CodeEditor/D.q.codeeditor.component.v1.md",
+                  "title": "Code Editor Component v1"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896407280,
+                  "path": "_RESOURCES/DATACORE/33 CodeEditor/D.q.codeeditor.component.v2.md",
+                  "title": "Code Editor Component v2"
+                }
+              ],
+              "title": "33 CodeEditor"
+            },
+            {
+              "type": "group",
+              "ctime": 1754685214210,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1754685307639,
+                  "path": "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/DATACORE QUERY BUILDER.md",
+                  "title": "ChatBot"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1754685421876,
+                  "path": "_RESOURCES/DATACORE/38 Chatbot/D.q.chatbot.viewer.md",
+                  "title": "ChatBot Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1754685462087,
+                  "path": "_RESOURCES/DATACORE/38 Chatbot/D.q.chatbot.component.md",
+                  "title": "ChatBot Component"
+                }
+              ],
+              "title": "38 ChatBot"
+            },
+            {
+              "type": "group",
+              "ctime": 1754685231958,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1754685561483,
+                  "path": "_RESOURCES/DATACORE/41 OCRReader/OCRREADER.md",
+                  "title": "41 OCR Reader"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1754685575652,
+                  "path": "_RESOURCES/DATACORE/41 OCRReader/D.q.ocrreader.viewer.md",
+                  "title": "OCR Reader Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1754685586153,
+                  "path": "_RESOURCES/DATACORE/41 OCRReader/D.q.ocrreader.component.md",
+                  "title": "OCR Reader Component"
+                }
+              ],
+              "title": "41 OCRReader"
+            },
+            {
+              "type": "group",
+              "ctime": 1754685237063,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1754685603302,
+                  "path": "_RESOURCES/DATACORE/42 ChatLLM/CHATLLM.md",
+                  "title": "Chat LLM"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1754685611901,
+                  "path": "_RESOURCES/DATACORE/42 ChatLLM/D.q.chatllm.viewer.md",
+                  "title": "Chat LLM Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1754685619750,
+                  "path": "_RESOURCES/DATACORE/42 ChatLLM/D.q.chatllm.component.md",
+                  "title": "Chat LLM Component"
+                }
+              ],
+              "title": "42 ChatLLM"
+            },
+            {
+              "type": "group",
+              "ctime": 1757375801792,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1757379011219,
+                  "path": "_RESOURCES/DATACORE/44 MarkdownParser/MARKDOWN PARSER.md",
+                  "title": "Markdown Parser"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1757379026035,
+                  "path": "_RESOURCES/DATACORE/44 MarkdownParser/D.q.markdownparser.viewer.md",
+                  "title": "Markdown Parser Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1757379034419,
+                  "path": "_RESOURCES/DATACORE/44 MarkdownParser/D.q.markdownparser.component.md",
+                  "title": "Markdown Parser Component"
+                }
+              ],
+              "title": "44 MarkdownParser"
+            },
+            {
+              "type": "group",
+              "ctime": 1757378662698,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1757378878154,
+                  "path": "_RESOURCES/DATACORE/50 ActionsManager/ACTIONS MANAGER.md",
+                  "title": "Actions Manager"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1757378869253,
+                  "path": "_RESOURCES/DATACORE/50 ActionsManager/D.q.actionsmanager.viewer.md",
+                  "title": "Actions Manager Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1757378873969,
+                  "path": "_RESOURCES/DATACORE/50 ActionsManager/D.q.actionsmanager.component.md",
+                  "title": "Actions Manager Component"
+                }
+              ],
+              "title": "50 ActionsManager"
+            },
+            {
+              "type": "group",
+              "ctime": 1757378676242,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1757378843654,
+                  "path": "_RESOURCES/DATACORE/51 ActionsFlows/ACTIONS FLOW v1.md",
+                  "title": "Actions Flows v1"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1757378862653,
+                  "path": "_RESOURCES/DATACORE/51 ActionsFlows/D.q.actionsflows.viewer.v1.md",
+                  "title": "Actions Flows Viewer v1"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1757378865472,
+                  "path": "_RESOURCES/DATACORE/51 ActionsFlows/D.q.actionsflows.component.v1.md",
+                  "title": "Actions Flows Component v1"
+                }
+              ],
+              "title": "51 ActionsFlows"
+            },
+            {
+              "type": "group",
+              "ctime": 1758059598931,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1758059629156,
+                  "path": "_RESOURCES/DATACORE/54 DatacorePlayground/DATACORE PLAYGROUND.md",
+                  "title": "Datacore Playground"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1758059634155,
+                  "path": "_RESOURCES/DATACORE/54 DatacorePlayground/D.q.datacoreplayground.viewer.md",
+                  "title": "Datacore Playground Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1758059636975,
+                  "path": "_RESOURCES/DATACORE/54 DatacorePlayground/D.q.datacoreplayground.component.md",
+                  "title": "Datacore Playground Component"
+                }
+              ],
+              "title": "54 DatacorePlayground"
+            },
+            {
+              "type": "group",
+              "ctime": 1759171420657,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1759171584776,
+                  "path": "_RESOURCES/DATACORE/56 WorkspaceManager/WORKSPACE MANAGER.md",
+                  "title": "Workspace Manager"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1759171587776,
+                  "path": "_RESOURCES/DATACORE/56 WorkspaceManager/D.q.workspacemanager.viewer.md",
+                  "title": "Workspace Manager Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1759171590843,
+                  "path": "_RESOURCES/DATACORE/56 WorkspaceManager/D.q.workspacemanager.component.md",
+                  "title": "Workspace Manager Component"
+                }
+              ],
+              "title": "56 WorkspaceManager"
+            },
+            {
+              "type": "group",
+              "ctime": 1759171431363,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1759171675692,
+                  "path": "_RESOURCES/DATACORE/58 DatacoreCommandManager/DATACORE COMMAND MANAGER.md",
+                  "title": "Datacore Command Manager"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1759171682209,
+                  "path": "_RESOURCES/DATACORE/58 DatacoreCommandManager/D.q.datacorecommandmanager.viewer.md",
+                  "title": "Datacore Command Manager Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1759171685510,
+                  "path": "_RESOURCES/DATACORE/58 DatacoreCommandManager/D.q.datacorecommandmanager.component.md",
+                  "title": "Datacore Command Manager Component"
+                }
+              ],
+              "title": "58 DatacoreCommandManager"
+            },
+            {
+              "type": "group",
+              "ctime": 1759999324921,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1759999471705,
+                  "path": "_RESOURCES/DATACORE/61 IntegratedIDE/INTEGRATED IDE.md",
+                  "title": "Integrated IDE"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1759999479956,
+                  "path": "_RESOURCES/DATACORE/61 IntegratedIDE/D.q.integratedide.viewer.md",
+                  "title": "Integrated IDE Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1759999488039,
+                  "path": "_RESOURCES/DATACORE/61 IntegratedIDE/D.q.integratedide.component.md",
+                  "title": "Integrated IDE Component"
+                }
+              ],
+              "title": "61 IntegratedIDE"
+            },
+            {
+              "type": "group",
+              "ctime": 1759999334888,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1759999546822,
+                  "path": "_RESOURCES/DATACORE/62 PluginDevSuite/PLUGIN DEV SUITE.md",
+                  "title": "Plugin Dev Suite"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1759999549455,
+                  "path": "_RESOURCES/DATACORE/62 PluginDevSuite/D.q.plugindevsuite.viewer.md",
+                  "title": "Plugin Dev Suite Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1759999552590,
+                  "path": "_RESOURCES/DATACORE/62 PluginDevSuite/D.q.plugindevsuite.component.md",
+                  "title": "Plugin Dev Suite Component"
+                }
+              ],
+              "title": "62 PluginDevSuite"
             }
           ],
-          "title": "2 BasicQuery"
+          "title": "DEVELOPMENT & BUILDING TOOLS"
         },
         {
           "type": "group",
-          "ctime": 1753888807474,
+          "ctime": 1759999710259,
           "items": [
             {
-              "type": "file",
-              "ctime": 1753890336945,
-              "path": "_RESOURCES/DATACORE/3 BasicView/BASIC VIEW v1.md",
-              "title": "Basic View v1"
+              "type": "group",
+              "ctime": 1753888946948,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753890772149,
+                  "path": "_RESOURCES/DATACORE/10 Kanban/KANBAN v2.md",
+                  "title": "Kanban"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890781304,
+                  "path": "_RESOURCES/DATACORE/10 Kanban/D.q.kanban.viewer.md",
+                  "title": "Kanban Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890788150,
+                  "path": "_RESOURCES/DATACORE/10 Kanban/D.q.kanban.component.md",
+                  "title": "Kanban Component"
+                }
+              ],
+              "title": "10 Kanban"
             },
             {
-              "type": "file",
-              "ctime": 1753890346251,
-              "path": "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.viewer.v1.md",
-              "title": "Basic View v1 Viewer"
+              "type": "group",
+              "ctime": 1753888955183,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753890798271,
+                  "path": "_RESOURCES/DATACORE/11 ImageRender/IMAGE RENDER.md",
+                  "title": "Image Render"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890807902,
+                  "path": "_RESOURCES/DATACORE/11 ImageRender/d.q.imagerender.viewer.md",
+                  "title": "Image Render Viewer"
+                }
+              ],
+              "title": "11 ImageRender"
             },
             {
-              "type": "file",
-              "ctime": 1753890363447,
-              "path": "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.component.v1.md",
-              "title": "Basic View v1 Component"
+              "type": "group",
+              "ctime": 1753888969290,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753890819949,
+                  "path": "_RESOURCES/DATACORE/12 LottieExperiment/LOTTIE EXPERIMENT.md",
+                  "title": "Lottie Experiment"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890830970,
+                  "path": "_RESOURCES/DATACORE/12 LottieExperiment/D.q.lottieexperiment.viewer.md",
+                  "title": "Lottie Experiment Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890842952,
+                  "path": "_RESOURCES/DATACORE/12 LottieExperiment/D.q.lottieexperiment.component.md",
+                  "title": "Lottie Experiment Component"
+                }
+              ],
+              "title": "12 LottieExperiment"
             },
             {
-              "type": "file",
-              "ctime": 1759172098075,
-              "path": "_RESOURCES/DATACORE/3 BasicView/BASIC VIEW v2.md",
-              "title": "Basic View v2"
+              "type": "group",
+              "ctime": 1753889007099,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753895625938,
+                  "path": "_RESOURCES/DATACORE/15 D3JSTest/D3.JS TEST.md",
+                  "title": "D3 JS Test"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753895642219,
+                  "path": "_RESOURCES/DATACORE/15 D3JSTest/D.q.d3jstest.viewer.md",
+                  "title": "D3 JS Test Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753895652255,
+                  "path": "_RESOURCES/DATACORE/15 D3JSTest/D.q.d3jstest.component.md",
+                  "title": "D3 JS Test Component"
+                }
+              ],
+              "title": "15 D3JSTest"
             },
             {
-              "type": "file",
-              "ctime": 1759172283727,
-              "path": "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.viewer.v2.md",
-              "title": "Basic View v2 Viewer"
+              "type": "group",
+              "ctime": 1753889160101,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753895955483,
+                  "path": "_RESOURCES/DATACORE/23 Canvas/CANVAS v1.md",
+                  "title": "Canvas v1"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753895973733,
+                  "path": "_RESOURCES/DATACORE/23 Canvas/D.q.canvas.viewer.v1.md",
+                  "title": "Canvas v1 Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753895995700,
+                  "path": "_RESOURCES/DATACORE/23 Canvas/D.q.canvas.component.v1.md",
+                  "title": "Canvas v1 Component"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753895964601,
+                  "path": "_RESOURCES/DATACORE/23 Canvas/CANVAS v2.md",
+                  "title": "Canvas v2"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753895982930,
+                  "path": "_RESOURCES/DATACORE/23 Canvas/D.q.canvas.viewer.v2.md",
+                  "title": "Canvas v2 Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896005383,
+                  "path": "_RESOURCES/DATACORE/23 Canvas/D.q.canvas.component.v2.md",
+                  "title": "Canvas v2 Component"
+                }
+              ],
+              "title": "23 Canvas"
             },
             {
-              "type": "file",
-              "ctime": 1759172273841,
-              "path": "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.component.v2.md",
-              "title": "Basic View v2 Component"
+              "type": "group",
+              "ctime": 1753889168437,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753896016366,
+                  "path": "_RESOURCES/DATACORE/24 MapGlobe/MAP GLOBE.md",
+                  "title": "Map Globe"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896025165,
+                  "path": "_RESOURCES/DATACORE/24 MapGlobe/D.q.mapglobe.viewer.md",
+                  "title": "Map Globe Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896039817,
+                  "path": "_RESOURCES/DATACORE/24 MapGlobe/D.q.mapglobe.component.md",
+                  "title": "Map Globe Component"
+                }
+              ],
+              "title": "24 MapGlobe"
             },
             {
-              "type": "file",
-              "ctime": 1759172288642,
-              "path": "_RESOURCES/DATACORE/3 BasicView/BASIC VIEW v3.md",
-              "title": "Basic View v3"
+              "type": "group",
+              "ctime": 1753889179304,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753896057481,
+                  "path": "_RESOURCES/DATACORE/25 BabylonLocal/BABYLON LOCAL.md",
+                  "title": "Babylon Local"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896067514,
+                  "path": "_RESOURCES/DATACORE/25 BabylonLocal/D.q.babylonlocal.viewer.md",
+                  "title": "Babylon Local Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896083447,
+                  "path": "_RESOURCES/DATACORE/25 BabylonLocal/D.q.babylonlocal.component.md",
+                  "title": "Babylon Local Component"
+                }
+              ],
+              "title": "25 BabylonLocal"
             },
             {
-              "type": "file",
-              "ctime": 1759172291758,
-              "path": "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.viewer.v3.md",
-              "title": "Basic View v3 Viewer"
+              "type": "group",
+              "ctime": 1753889241105,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753896280103,
+                  "path": "_RESOURCES/DATACORE/31 LoadingLogo/LOADING LOGO.md",
+                  "title": "Loading Logo"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896288220,
+                  "path": "_RESOURCES/DATACORE/31 LoadingLogo/D.q.loadinglogo.viewer.md",
+                  "title": "Loading Logo Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896296519,
+                  "path": "_RESOURCES/DATACORE/31 LoadingLogo/D.q.loadinglogo.component.md",
+                  "title": "Loading Logo Component"
+                }
+              ],
+              "title": "31 LoadingLogo"
             },
             {
-              "type": "file",
-              "ctime": 1759172295891,
-              "path": "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.component.v3.md",
-              "title": "Basic View v3 Component"
+              "type": "group",
+              "ctime": 1757378208386,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1757378984277,
+                  "path": "_RESOURCES/DATACORE/45 SVGAnimations/SVG ANIMATIONS.md",
+                  "title": "SVG Animations"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1757378988144,
+                  "path": "_RESOURCES/DATACORE/45 SVGAnimations/D.q.svganimations.viewer.md",
+                  "title": "SVG Animations Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1757378991258,
+                  "path": "_RESOURCES/DATACORE/45 SVGAnimations/D.q.svganimations.component.md",
+                  "title": "SVG Animations Components"
+                }
+              ],
+              "title": "45 SVGAnimations"
+            },
+            {
+              "type": "group",
+              "ctime": 1757378636846,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1757378894553,
+                  "path": "_RESOURCES/DATACORE/48 SVGConverter/SVG CONVERTER.md",
+                  "title": "SVG Converter"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1757378897419,
+                  "path": "_RESOURCES/DATACORE/48 SVGConverter/D.q.svgconverter.viewer.md",
+                  "title": "SVG Converter Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1757378899736,
+                  "path": "_RESOURCES/DATACORE/48 SVGConverter/D.q.svgconverter.component.md",
+                  "title": "SVG Converter Component"
+                }
+              ],
+              "title": "48 SVGConverter"
             }
           ],
-          "title": "3 BasicView"
+          "title": "GRAPHICS, VISUALIZATION & UI"
         },
         {
           "type": "group",
-          "ctime": 1753888815550,
+          "ctime": 1759999727009,
           "items": [
             {
-              "type": "file",
-              "ctime": 1753890405552,
-              "path": "_RESOURCES/DATACORE/4 TagViewer/TAG VIEWER.md",
-              "title": "Tag Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753890423812,
-              "path": "_RESOURCES/DATACORE/4 TagViewer/D.q.tagviewer.viewer.md",
-              "title": "Tag Viewer Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753890435384,
-              "path": "_RESOURCES/DATACORE/4 TagViewer/D.q.tagviewer.component.md",
-              "title": "Tag Viewer Component"
+              "type": "group",
+              "ctime": 1754685631816,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1754685664353,
+                  "path": "_RESOURCES/DATACORE/43 ReceiptTracker/RECEIPTTRACKER.md",
+                  "title": "Receipt Tracker"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1754685673154,
+                  "path": "_RESOURCES/DATACORE/43 ReceiptTracker/D.q.receipttracker.viewer.md",
+                  "title": "Receipt Tracker Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1754685685168,
+                  "path": "_RESOURCES/DATACORE/43 ReceiptTracker/D.q.receipttracker.component.md",
+                  "title": "Receipt Tracker Component"
+                }
+              ],
+              "title": "43 ReceiptTracker"
             }
           ],
-          "title": "4 TagViewer"
+          "title": "FINANCE"
         },
         {
           "type": "group",
-          "ctime": 1753888827031,
+          "ctime": 1759999731858,
           "items": [
             {
-              "type": "file",
-              "ctime": 1753890453285,
-              "path": "_RESOURCES/DATACORE/5 CustomFeed/CUSTOM FEED.md",
-              "title": "Custom Feed"
+              "type": "group",
+              "ctime": 1753888985502,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753890855773,
+                  "path": "_RESOURCES/DATACORE/13 Aquarium {FireStormFrontier 🫡}/AQUARIUM.md",
+                  "title": "Aquarium"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890865036,
+                  "path": "_RESOURCES/DATACORE/13 Aquarium {FireStormFrontier 🫡}/D.q.Aquarium.viewer.md",
+                  "title": "Aquarium Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890874836,
+                  "path": "_RESOURCES/DATACORE/13 Aquarium {FireStormFrontier 🫡}/D.q.aquarium.component.md",
+                  "title": "Aquarium Component"
+                }
+              ],
+              "title": "13 Aquarium {FireStormFrontier 🫡}"
             },
             {
-              "type": "file",
-              "ctime": 1753890465719,
-              "path": "_RESOURCES/DATACORE/5 CustomFeed/D.q.customfeed.viewer.md",
-              "title": "Custom Feed Viewer"
+              "type": "group",
+              "ctime": 1753888996446,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753890921601,
+                  "path": "_RESOURCES/DATACORE/14 GameEngineBuild/GAME ENGINE BUILD.md",
+                  "title": "Game Engine Build"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753890935936,
+                  "path": "_RESOURCES/DATACORE/14 GameEngineBuild/D.q.gameenginebuild.viewer.md",
+                  "title": "Game Engine Build Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753895598351,
+                  "path": "_RESOURCES/DATACORE/14 GameEngineBuild/D.q.gameenginebuild.component.md",
+                  "title": "Game Engine Build Component"
+                }
+              ],
+              "title": "14 GameEngineBuild"
             },
             {
-              "type": "file",
-              "ctime": 1753890497598,
-              "path": "_RESOURCES/DATACORE/5 CustomFeed/D.q.customfeed.component.md",
-              "title": "Custom Feed Component"
+              "type": "group",
+              "ctime": 1753889151884,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753895900398,
+                  "path": "_RESOURCES/DATACORE/22 World888/WORLD 888.md",
+                  "title": "World 888"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753895908568,
+                  "path": "_RESOURCES/DATACORE/22 World888/D.q.world888.viewer.md",
+                  "title": "World 888 Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753895932101,
+                  "path": "_RESOURCES/DATACORE/22 World888/D.q.world888.component.md",
+                  "title": "World 888 Component"
+                }
+              ],
+              "title": "22 World888"
+            },
+            {
+              "type": "group",
+              "ctime": 1753889201922,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753896133131,
+                  "path": "_RESOURCES/DATACORE/27 MiniGame888/MINIGAME 888.md",
+                  "title": "MiniGame 888"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896143285,
+                  "path": "_RESOURCES/DATACORE/27 MiniGame888/D.q.minigame888.viewer.md",
+                  "title": "MiniGame 888 Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896159726,
+                  "path": "_RESOURCES/DATACORE/27 MiniGame888/D.q.minigame888.component.md",
+                  "title": "MiniGame 888 Component"
+                }
+              ],
+              "title": "27 MiniGame888"
+            },
+            {
+              "type": "group",
+              "ctime": 1753889266051,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753896419879,
+                  "path": "_RESOURCES/DATACORE/34 AnimatedCard/ANIMATED CARD.md",
+                  "title": "Animated Card"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896428629,
+                  "path": "_RESOURCES/DATACORE/34 AnimatedCard/D.q.animatedcard.viewer.md",
+                  "title": "Animated Card Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896436795,
+                  "path": "_RESOURCES/DATACORE/34 AnimatedCard/D.q.animatedcard.component.md",
+                  "title": "Animated Card Component"
+                }
+              ],
+              "title": "34 AnimatedCard"
+            },
+            {
+              "type": "group",
+              "ctime": 1754685224460,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1754685529783,
+                  "path": "_RESOURCES/DATACORE/40 CardPicker/CARD PICKER.md",
+                  "title": "Card Picker"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1754685539484,
+                  "path": "_RESOURCES/DATACORE/40 CardPicker/D.q.cardpicker.viewer.md",
+                  "title": "Card Picker Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1754685549850,
+                  "path": "_RESOURCES/DATACORE/40 CardPicker/D.q.cardpicker.component.md",
+                  "title": "Card Picker Component"
+                }
+              ],
+              "title": "40 CardPicker"
             }
           ],
-          "title": "5 CustomFeed"
+          "title": "GAMES & INTERACTIVE EXPERIENCES"
         },
         {
           "type": "group",
-          "ctime": 1753888841131,
+          "ctime": 1759999743277,
           "items": [
             {
-              "type": "file",
-              "ctime": 1753890554764,
-              "path": "_RESOURCES/DATACORE/6 CustomIframeBuilder/CUSTOM IFRAME BUILDER.md",
-              "title": "Custom Iframe Builder"
+              "type": "group",
+              "ctime": 1753889028078,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753895668837,
+                  "path": "_RESOURCES/DATACORE/16 MusicBuilder/MUSIC BUILDER.md",
+                  "title": "Music Builder"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753895676617,
+                  "path": "_RESOURCES/DATACORE/16 MusicBuilder/D.q.musicbuilder.viewer.md",
+                  "title": "Music Builder Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753895685600,
+                  "path": "_RESOURCES/DATACORE/16 MusicBuilder/D.q.musicbuilder.component.md",
+                  "title": "Music Builder Component"
+                }
+              ],
+              "title": "16 MusicBuilder"
             },
             {
-              "type": "file",
-              "ctime": 1753890571432,
-              "path": "_RESOURCES/DATACORE/6 CustomIframeBuilder/D.q.customiframebuilder.viewer.md",
-              "title": "Custom Iframe Builder Viewer"
+              "type": "group",
+              "ctime": 1753889059189,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753895776233,
+                  "path": "_RESOURCES/DATACORE/19 IframePlayer/IFRAME PLAYER.md",
+                  "title": "Iframe Player"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753895784588,
+                  "path": "_RESOURCES/DATACORE/19 IframePlayer/D.q.iframeplayer.viewer.md",
+                  "title": "Iframe Player Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753895804949,
+                  "path": "_RESOURCES/DATACORE/19 IframePlayer/D.q.iframeplayer.component.md",
+                  "title": "Iframe Player Component"
+                }
+              ],
+              "title": "19 IframePlayer"
             },
             {
-              "type": "file",
-              "ctime": 1753890584017,
-              "path": "_RESOURCES/DATACORE/6 CustomIframeBuilder/D.q.customiframebuilder.component.md",
-              "title": "Custom Iframe Builder Component"
+              "type": "group",
+              "ctime": 1753889248351,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753896307099,
+                  "path": "_RESOURCES/DATACORE/32 SoundPlayer/SOUND PLAYER.md",
+                  "title": "Sound Player"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896325967,
+                  "path": "_RESOURCES/DATACORE/32 SoundPlayer/D.q.soundplayer.viewer.md",
+                  "title": "Sound Player Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896343599,
+                  "path": "_RESOURCES/DATACORE/32 SoundPlayer/D.q.soundplayer.component.md",
+                  "title": "Sound Player Component"
+                }
+              ],
+              "title": "32 SoundPlayer"
+            },
+            {
+              "type": "group",
+              "ctime": 1753889288002,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753896501740,
+                  "path": "_RESOURCES/DATACORE/36 MusicPlayer/MUSIC PLAYER.md",
+                  "title": "Music Player"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896509656,
+                  "path": "_RESOURCES/DATACORE/36 MusicPlayer/D.q.musicplayer.viewer.md",
+                  "title": "Music Player Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896517558,
+                  "path": "_RESOURCES/DATACORE/36 MusicPlayer/D.q.musicplayer.component.md",
+                  "title": "Music Player Component"
+                }
+              ],
+              "title": "36 MusicPlayer"
+            },
+            {
+              "type": "group",
+              "ctime": 1754685219578,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1754685494019,
+                  "path": "_RESOURCES/DATACORE/39 MobileMusicPlayer/MOBILE MUSIC PLAYER.md",
+                  "title": "Mobile Music Player"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1754685506053,
+                  "path": "_RESOURCES/DATACORE/39 MobileMusicPlayer/D.q.mobilemusicplayer.viewer.md",
+                  "title": "Mobile Music Player Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1754685516416,
+                  "path": "_RESOURCES/DATACORE/39 MobileMusicPlayer/D.q.mobilemusicplayer.component.md",
+                  "title": "Mobile Music Player Component"
+                }
+              ],
+              "title": "39 MobileMusicPlayer"
             }
           ],
-          "title": "6 CustomIframeBuilder"
+          "title": "MEDIA PLAYERS"
         },
         {
           "type": "group",
-          "ctime": 1753888854168,
+          "ctime": 1759999750384,
           "items": [
             {
-              "type": "file",
-              "ctime": 1753890626683,
-              "path": "_RESOURCES/DATACORE/7 BountyView 🎅/BOUNTY VIEW 🎅.md",
-              "title": "Bounty View 🎅"
+              "type": "group",
+              "ctime": 1753889038957,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753895699519,
+                  "path": "_RESOURCES/DATACORE/17 ViewsControl/VIEWS CONTROL.md",
+                  "title": "Views Control"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753895708302,
+                  "path": "_RESOURCES/DATACORE/17 ViewsControl/D.q.viewscontrol.viewer.md",
+                  "title": "Views Control Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753895718784,
+                  "path": "_RESOURCES/DATACORE/17 ViewsControl/D.q.viewscontrol.component.md",
+                  "title": "Views Control Component"
+                }
+              ],
+              "title": "17 ViewsControl"
             },
             {
-              "type": "file",
-              "ctime": 1753890647131,
-              "path": "_RESOURCES/DATACORE/7 BountyView 🎅/D.q.bountyview.viewer.md",
-              "title": "Bounty View Viewer"
+              "type": "group",
+              "ctime": 1753889140600,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753895863853,
+                  "path": "_RESOURCES/DATACORE/21 ExternalInputBlocker/EXTERNAL INPUT BLOCKER.md",
+                  "title": "External Input Blocker"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753895875282,
+                  "path": "_RESOURCES/DATACORE/21 ExternalInputBlocker/D.q.externalinputblocker.viewer.md",
+                  "title": "External Input Blocker Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753895888183,
+                  "path": "_RESOURCES/DATACORE/21 ExternalInputBlocker/D.q.externalinputblocker.component.md",
+                  "title": "External Input Blocker Component"
+                }
+              ],
+              "title": "21 ExternalInputBlocker"
             },
             {
-              "type": "file",
-              "ctime": 1753890657965,
-              "path": "_RESOURCES/DATACORE/7 BountyView 🎅/D.q.bountyview.component.md",
-              "title": "Bounty View Component"
+              "type": "group",
+              "ctime": 1753889190974,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753896096019,
+                  "path": "_RESOURCES/DATACORE/26 LicenseAgreement/LICENSE AGREEMENT.md",
+                  "title": "License Agreement"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896104915,
+                  "path": "_RESOURCES/DATACORE/26 LicenseAgreement/D.q.licenseagreement.viewer.md",
+                  "title": "License Agreement Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896115180,
+                  "path": "_RESOURCES/DATACORE/26 LicenseAgreement/D.q.licenseagreement.component.md",
+                  "title": "License Agreement Component"
+                }
+              ],
+              "title": "26 LicenseAgreement"
+            },
+            {
+              "type": "group",
+              "ctime": 1753889210487,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753896169841,
+                  "path": "_RESOURCES/DATACORE/28 LoadScript/LOAD SCRIPT.md",
+                  "title": "Load Script"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896177540,
+                  "path": "_RESOURCES/DATACORE/28 LoadScript/D.q.loadscript.viewer.md",
+                  "title": "Load Script Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896188907,
+                  "path": "_RESOURCES/DATACORE/28 LoadScript/D.q.loadscript.component.md",
+                  "title": "Load Script Component"
+                }
+              ],
+              "title": "28 LoadScript"
+            },
+            {
+              "type": "group",
+              "ctime": 1753889219706,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753896200306,
+                  "path": "_RESOURCES/DATACORE/29 FuzzyText/FUZZY TEXT.md",
+                  "title": "Fuzzy Text"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896209020,
+                  "path": "_RESOURCES/DATACORE/29 FuzzyText/D.q.fuzzytext.viewer.md",
+                  "title": "Fuzzy Text Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896226738,
+                  "path": "_RESOURCES/DATACORE/29 FuzzyText/D.q.fuzzytext.component.md",
+                  "title": "Fuzzy Text Component"
+                }
+              ],
+              "title": "29 FuzzyText"
+            },
+            {
+              "type": "group",
+              "ctime": 1753889229787,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753896245605,
+                  "path": "_RESOURCES/DATACORE/30 MatrixGlitchWall/MATRIX GLITCH WALL.md",
+                  "title": "Matrix Glitch Wall"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896256217,
+                  "path": "_RESOURCES/DATACORE/30 MatrixGlitchWall/D.q.matrixglitchwall.viewer.md",
+                  "title": "Matrix Glitch Wall Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896269287,
+                  "path": "_RESOURCES/DATACORE/30 MatrixGlitchWall/D.q.matrixglitchwall.component.md",
+                  "title": "Matrix Glitch Wall Component"
+                }
+              ],
+              "title": "30 MatrixGlitchWall"
+            },
+            {
+              "type": "group",
+              "ctime": 1757378479850,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1757378968284,
+                  "path": "_RESOURCES/DATACORE/46 VaultUpdater/VAULT UPDATER.md",
+                  "title": "Vault Updater"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1757378971468,
+                  "path": "_RESOURCES/DATACORE/46 VaultUpdater/D.q.vaultupdater.viewer.md",
+                  "title": "Vault Updater Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1757378973885,
+                  "path": "_RESOURCES/DATACORE/46 VaultUpdater/D.q.vaultupdater.component.md",
+                  "title": "Vault Updater Component"
+                }
+              ],
+              "title": "46 VaultUpdater"
+            },
+            {
+              "type": "group",
+              "ctime": 1759171409365,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1759171523393,
+                  "path": "_RESOURCES/DATACORE/55 DatacoreLimitations/DATACORE LIMITATIONS.md",
+                  "title": "Datacore Limitations"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1759171530126,
+                  "path": "_RESOURCES/DATACORE/55 DatacoreLimitations/D.q.datacorelimitations.viewer.md",
+                  "title": "Datacore Limitations Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1759171533643,
+                  "path": "_RESOURCES/DATACORE/55 DatacoreLimitations/D.q.datacorelimitations.component.md",
+                  "title": "Datacore Limitations Component"
+                }
+              ],
+              "title": "55 DatacoreLimitations"
+            },
+            {
+              "type": "group",
+              "ctime": 1759171426434,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1759171640142,
+                  "path": "_RESOURCES/DATACORE/57 DatacoreTerminal/DATACORE TERMINAL.md",
+                  "title": "Datacore Terminal"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1759171643591,
+                  "path": "_RESOURCES/DATACORE/57 DatacoreTerminal/D.q.datacoreterminal.viewer.md",
+                  "title": "Datacore Terminal Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1759171646876,
+                  "path": "_RESOURCES/DATACORE/57 DatacoreTerminal/D.q.datacoreterminal.component.md",
+                  "title": "Datacore Terminal Component"
+                }
+              ],
+              "title": "57 DatacoreTerminal"
+            },
+            {
+              "type": "group",
+              "ctime": 1759592539648,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1759999377005,
+                  "path": "_RESOURCES/DATACORE/59 HotReloadFiles/HOT RELOAD FILES.md",
+                  "title": "Hot Reload Files"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1759999392089,
+                  "path": "_RESOURCES/DATACORE/59 HotReloadFiles/D.q.hotreloadfiles.viewer.md",
+                  "title": "Hot Reload Files Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1759999394773,
+                  "path": "_RESOURCES/DATACORE/59 HotReloadFiles/D.q.hotreloadfiles.component.md",
+                  "title": "Hot Reload Files Component"
+                }
+              ],
+              "title": "59 HotReloadFiles"
+            },
+            {
+              "type": "group",
+              "ctime": 1759998618654,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1759999420938,
+                  "path": "_RESOURCES/DATACORE/60 GitSuiteManager/GIT SUITE MANAGER.md",
+                  "title": "Git Suite Manager"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1759999434872,
+                  "path": "_RESOURCES/DATACORE/60 GitSuiteManager/D.q.gitsuitemanager.viewer.md",
+                  "title": "Git Suite Manager Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1759999443790,
+                  "path": "_RESOURCES/DATACORE/60 GitSuiteManager/D.q.gitsuitemanager.component.md",
+                  "title": "Git Suite Manager Component"
+                }
+              ],
+              "title": "60 GitSuiteManager"
             }
           ],
-          "title": "7 BountyView 🎅"
-        },
-        {
-          "type": "group",
-          "ctime": 1753888874213,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753890669798,
-              "path": "_RESOURCES/DATACORE/8 FitnessExplorer/FITNESS EXPLORER.md",
-              "title": "Fitness Explorer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753890679434,
-              "path": "_RESOURCES/DATACORE/8 FitnessExplorer/D.q.fitnessexplorer.viewer.md",
-              "title": "Fitness Explorer Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753890689683,
-              "path": "_RESOURCES/DATACORE/8 FitnessExplorer/D.q.fitnessexplorer.component.md",
-              "title": "Fitness Explorer Component"
-            }
-          ],
-          "title": "8 FitnessExplorer"
-        },
-        {
-          "type": "group",
-          "ctime": 1753888921349,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753890731466,
-              "path": "_RESOURCES/DATACORE/9 ContentExplorer888/CONTENT EXPLORER 888.md",
-              "title": "Content Explorer 888"
-            },
-            {
-              "type": "file",
-              "ctime": 1753890741366,
-              "path": "_RESOURCES/DATACORE/9 ContentExplorer888/D.q.contentexplorer888.viewer.md",
-              "title": "Content Explorer 888 Viewer"
-            }
-          ],
-          "title": "9 ContentExplorer888"
-        },
-        {
-          "type": "group",
-          "ctime": 1753888946948,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753890772149,
-              "path": "_RESOURCES/DATACORE/10 Kanban/KANBAN v2.md",
-              "title": "Kanban"
-            },
-            {
-              "type": "file",
-              "ctime": 1753890781304,
-              "path": "_RESOURCES/DATACORE/10 Kanban/D.q.kanban.viewer.md",
-              "title": "Kanban Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753890788150,
-              "path": "_RESOURCES/DATACORE/10 Kanban/D.q.kanban.component.md",
-              "title": "Kanban Component"
-            }
-          ],
-          "title": "10 Kanban"
-        },
-        {
-          "type": "group",
-          "ctime": 1753888955183,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753890798271,
-              "path": "_RESOURCES/DATACORE/11 ImageRender/IMAGE RENDER.md",
-              "title": "Image Render"
-            },
-            {
-              "type": "file",
-              "ctime": 1753890807902,
-              "path": "_RESOURCES/DATACORE/11 ImageRender/d.q.imagerender.viewer.md",
-              "title": "Image Render Viewer"
-            }
-          ],
-          "title": "11 ImageRender"
-        },
-        {
-          "type": "group",
-          "ctime": 1753888969290,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753890819949,
-              "path": "_RESOURCES/DATACORE/12 LottieExperiment/LOTTIE EXPERIMENT.md",
-              "title": "Lottie Experiment"
-            },
-            {
-              "type": "file",
-              "ctime": 1753890830970,
-              "path": "_RESOURCES/DATACORE/12 LottieExperiment/D.q.lottieexperiment.viewer.md",
-              "title": "Lottie Experiment Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753890842952,
-              "path": "_RESOURCES/DATACORE/12 LottieExperiment/D.q.lottieexperiment.component.md",
-              "title": "Lottie Experiment Component"
-            }
-          ],
-          "title": "12 LottieExperiment"
-        },
-        {
-          "type": "group",
-          "ctime": 1753888985502,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753890855773,
-              "path": "_RESOURCES/DATACORE/13 Aquarium {FireStormFrontier 🫡}/AQUARIUM.md",
-              "title": "Aquarium"
-            },
-            {
-              "type": "file",
-              "ctime": 1753890865036,
-              "path": "_RESOURCES/DATACORE/13 Aquarium {FireStormFrontier 🫡}/D.q.Aquarium.viewer.md",
-              "title": "Aquarium Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753890874836,
-              "path": "_RESOURCES/DATACORE/13 Aquarium {FireStormFrontier 🫡}/D.q.aquarium.component.md",
-              "title": "Aquarium Component"
-            }
-          ],
-          "title": "13 Aquarium {FireStormFrontier 🫡}"
-        },
-        {
-          "type": "group",
-          "ctime": 1753888996446,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753890921601,
-              "path": "_RESOURCES/DATACORE/14 GameEngineBuild/GAME ENGINE BUILD.md",
-              "title": "Game Engine Build"
-            },
-            {
-              "type": "file",
-              "ctime": 1753890935936,
-              "path": "_RESOURCES/DATACORE/14 GameEngineBuild/D.q.gameenginebuild.viewer.md",
-              "title": "Game Engine Build Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753895598351,
-              "path": "_RESOURCES/DATACORE/14 GameEngineBuild/D.q.gameenginebuild.component.md",
-              "title": "Game Engine Build Component"
-            }
-          ],
-          "title": "14 GameEngineBuild"
-        },
-        {
-          "type": "group",
-          "ctime": 1753889007099,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753895625938,
-              "path": "_RESOURCES/DATACORE/15 D3JSTest/D3.JS TEST.md",
-              "title": "D3 JS Test"
-            },
-            {
-              "type": "file",
-              "ctime": 1753895642219,
-              "path": "_RESOURCES/DATACORE/15 D3JSTest/D.q.d3jstest.viewer.md",
-              "title": "D3 JS Test Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753895652255,
-              "path": "_RESOURCES/DATACORE/15 D3JSTest/D.q.d3jstest.component.md",
-              "title": "D3 JS Test Component"
-            }
-          ],
-          "title": "15 D3JSTest"
-        },
-        {
-          "type": "group",
-          "ctime": 1753889028078,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753895668837,
-              "path": "_RESOURCES/DATACORE/16 MusicBuilder/MUSIC BUILDER.md",
-              "title": "Music Builder"
-            },
-            {
-              "type": "file",
-              "ctime": 1753895676617,
-              "path": "_RESOURCES/DATACORE/16 MusicBuilder/D.q.musicbuilder.viewer.md",
-              "title": "Music Builder Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753895685600,
-              "path": "_RESOURCES/DATACORE/16 MusicBuilder/D.q.musicbuilder.component.md",
-              "title": "Music Builder Component"
-            }
-          ],
-          "title": "16 MusicBuilder"
-        },
-        {
-          "type": "group",
-          "ctime": 1753889038957,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753895699519,
-              "path": "_RESOURCES/DATACORE/17 ViewsControl/VIEWS CONTROL.md",
-              "title": "Views Control"
-            },
-            {
-              "type": "file",
-              "ctime": 1753895708302,
-              "path": "_RESOURCES/DATACORE/17 ViewsControl/D.q.viewscontrol.viewer.md",
-              "title": "Views Control Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753895718784,
-              "path": "_RESOURCES/DATACORE/17 ViewsControl/D.q.viewscontrol.component.md",
-              "title": "Views Control Component"
-            }
-          ],
-          "title": "17 ViewsControl"
-        },
-        {
-          "type": "group",
-          "ctime": 1753889049132,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753895740051,
-              "path": "_RESOURCES/DATACORE/18 ViewsInceptions/VIEWS INCEPTIONS v1.md",
-              "title": "Views Inceptions v1"
-            },
-            {
-              "type": "file",
-              "ctime": 1753895750317,
-              "path": "_RESOURCES/DATACORE/18 ViewsInceptions/D.q.viewsinceptions.viewer.v1.md",
-              "title": "Views Inceptions Viewer v1"
-            },
-            {
-              "type": "file",
-              "ctime": 1753895762349,
-              "path": "_RESOURCES/DATACORE/18 ViewsInceptions/D.q.viewsinceptions.component.v1.md",
-              "title": "Views Inceptions Component v1"
-            },
-            {
-              "type": "file",
-              "ctime": 1757819676009,
-              "path": "_RESOURCES/DATACORE/18 ViewsInceptions/VIEWS INCEPTIONS v2.md",
-              "title": "Views Inceptions v2"
-            },
-            {
-              "type": "file",
-              "ctime": 1757819585810,
-              "path": "_RESOURCES/DATACORE/18 ViewsInceptions/D.q.viewsinceptions.viewer.v2.md",
-              "title": "Views Inceptions Viewer v2"
-            },
-            {
-              "type": "file",
-              "ctime": 1757819588828,
-              "path": "_RESOURCES/DATACORE/18 ViewsInceptions/D.q.viewsinceptions.component.v2.md",
-              "title": "Views Inceptions Component v2"
-            }
-          ],
-          "title": "18 ViewsInceptions"
-        },
-        {
-          "type": "group",
-          "ctime": 1753889059189,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753895776233,
-              "path": "_RESOURCES/DATACORE/19 IframePlayer/IFRAME PLAYER.md",
-              "title": "Iframe Player"
-            },
-            {
-              "type": "file",
-              "ctime": 1753895784588,
-              "path": "_RESOURCES/DATACORE/19 IframePlayer/D.q.iframeplayer.viewer.md",
-              "title": "Iframe Player Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753895804949,
-              "path": "_RESOURCES/DATACORE/19 IframePlayer/D.q.iframeplayer.component.md",
-              "title": "Iframe Player Component"
-            }
-          ],
-          "title": "19 IframePlayer"
-        },
-        {
-          "type": "group",
-          "ctime": 1753889082575,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753895817401,
-              "path": "_RESOURCES/DATACORE/20 MarkdownEditor/MARKDOWN EDITOR.md",
-              "title": "Markdown Editor"
-            },
-            {
-              "type": "file",
-              "ctime": 1753895828601,
-              "path": "_RESOURCES/DATACORE/20 MarkdownEditor/D.q.markdowneditor.viewer.md",
-              "title": "Markdown Editor Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753895838569,
-              "path": "_RESOURCES/DATACORE/20 MarkdownEditor/D.q.markdowneditor.component.md",
-              "title": "Markdown Editor Component"
-            }
-          ],
-          "title": "20 MarkdownEditor"
-        },
-        {
-          "type": "group",
-          "ctime": 1753889140600,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753895863853,
-              "path": "_RESOURCES/DATACORE/21 ExternalInputBlocker/EXTERNAL INPUT BLOCKER.md",
-              "title": "External Input Blocker"
-            },
-            {
-              "type": "file",
-              "ctime": 1753895875282,
-              "path": "_RESOURCES/DATACORE/21 ExternalInputBlocker/D.q.externalinputblocker.viewer.md",
-              "title": "External Input Blocker Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753895888183,
-              "path": "_RESOURCES/DATACORE/21 ExternalInputBlocker/D.q.externalinputblocker.component.md",
-              "title": "External Input Blocker Component"
-            }
-          ],
-          "title": "21 ExternalInputBlocker"
-        },
-        {
-          "type": "group",
-          "ctime": 1753889151884,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753895900398,
-              "path": "_RESOURCES/DATACORE/22 World888/WORLD 888.md",
-              "title": "World 888"
-            },
-            {
-              "type": "file",
-              "ctime": 1753895908568,
-              "path": "_RESOURCES/DATACORE/22 World888/D.q.world888.viewer.md",
-              "title": "World 888 Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753895932101,
-              "path": "_RESOURCES/DATACORE/22 World888/D.q.world888.component.md",
-              "title": "World 888 Component"
-            }
-          ],
-          "title": "22 World888"
-        },
-        {
-          "type": "group",
-          "ctime": 1753889160101,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753895955483,
-              "path": "_RESOURCES/DATACORE/23 Canvas/CANVAS v1.md",
-              "title": "Canvas v1"
-            },
-            {
-              "type": "file",
-              "ctime": 1753895973733,
-              "path": "_RESOURCES/DATACORE/23 Canvas/D.q.canvas.viewer.v1.md",
-              "title": "Canvas v1 Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753895995700,
-              "path": "_RESOURCES/DATACORE/23 Canvas/D.q.canvas.component.v1.md",
-              "title": "Canvas v1 Component"
-            },
-            {
-              "type": "file",
-              "ctime": 1753895964601,
-              "path": "_RESOURCES/DATACORE/23 Canvas/CANVAS v2.md",
-              "title": "Canvas v2"
-            },
-            {
-              "type": "file",
-              "ctime": 1753895982930,
-              "path": "_RESOURCES/DATACORE/23 Canvas/D.q.canvas.viewer.v2.md",
-              "title": "Canvas v2 Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896005383,
-              "path": "_RESOURCES/DATACORE/23 Canvas/D.q.canvas.component.v2.md",
-              "title": "Canvas v2 Component"
-            }
-          ],
-          "title": "23 Canvas"
-        },
-        {
-          "type": "group",
-          "ctime": 1753889168437,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753896016366,
-              "path": "_RESOURCES/DATACORE/24 MapGlobe/MAP GLOBE.md",
-              "title": "Map Globe"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896025165,
-              "path": "_RESOURCES/DATACORE/24 MapGlobe/D.q.mapglobe.viewer.md",
-              "title": "Map Globe Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896039817,
-              "path": "_RESOURCES/DATACORE/24 MapGlobe/D.q.mapglobe.component.md",
-              "title": "Map Globe Component"
-            }
-          ],
-          "title": "24 MapGlobe"
-        },
-        {
-          "type": "group",
-          "ctime": 1753889179304,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753896057481,
-              "path": "_RESOURCES/DATACORE/25 BabylonLocal/BABYLON LOCAL.md",
-              "title": "Babylon Local"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896067514,
-              "path": "_RESOURCES/DATACORE/25 BabylonLocal/D.q.babylonlocal.viewer.md",
-              "title": "Babylon Local Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896083447,
-              "path": "_RESOURCES/DATACORE/25 BabylonLocal/D.q.babylonlocal.component.md",
-              "title": "Babylon Local Component"
-            }
-          ],
-          "title": "25 BabylonLocal"
-        },
-        {
-          "type": "group",
-          "ctime": 1753889190974,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753896096019,
-              "path": "_RESOURCES/DATACORE/26 LicenseAgreement/LICENSE AGREEMENT.md",
-              "title": "License Agreement"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896104915,
-              "path": "_RESOURCES/DATACORE/26 LicenseAgreement/D.q.licenseagreement.viewer.md",
-              "title": "License Agreement Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896115180,
-              "path": "_RESOURCES/DATACORE/26 LicenseAgreement/D.q.licenseagreement.component.md",
-              "title": "License Agreement Component"
-            }
-          ],
-          "title": "26 LicenseAgreement"
-        },
-        {
-          "type": "group",
-          "ctime": 1753889201922,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753896133131,
-              "path": "_RESOURCES/DATACORE/27 MiniGame888/MINIGAME 888.md",
-              "title": "MiniGame 888"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896143285,
-              "path": "_RESOURCES/DATACORE/27 MiniGame888/D.q.minigame888.viewer.md",
-              "title": "MiniGame 888 Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896159726,
-              "path": "_RESOURCES/DATACORE/27 MiniGame888/D.q.minigame888.component.md",
-              "title": "MiniGame 888 Component"
-            }
-          ],
-          "title": "27 MiniGame888"
-        },
-        {
-          "type": "group",
-          "ctime": 1753889210487,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753896169841,
-              "path": "_RESOURCES/DATACORE/28 LoadScript/LOAD SCRIPT.md",
-              "title": "Load Script"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896177540,
-              "path": "_RESOURCES/DATACORE/28 LoadScript/D.q.loadscript.viewer.md",
-              "title": "Load Script Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896188907,
-              "path": "_RESOURCES/DATACORE/28 LoadScript/D.q.loadscript.component.md",
-              "title": "Load Script Component"
-            }
-          ],
-          "title": "28 LoadScript"
-        },
-        {
-          "type": "group",
-          "ctime": 1753889219706,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753896200306,
-              "path": "_RESOURCES/DATACORE/29 FuzzyText/FUZZY TEXT.md",
-              "title": "Fuzzy Text"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896209020,
-              "path": "_RESOURCES/DATACORE/29 FuzzyText/D.q.fuzzytext.viewer.md",
-              "title": "Fuzzy Text Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896226738,
-              "path": "_RESOURCES/DATACORE/29 FuzzyText/D.q.fuzzytext.component.md",
-              "title": "Fuzzy Text Component"
-            }
-          ],
-          "title": "29 FuzzyText"
-        },
-        {
-          "type": "group",
-          "ctime": 1753889229787,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753896245605,
-              "path": "_RESOURCES/DATACORE/30 MatrixGlitchWall/MATRIX GLITCH WALL.md",
-              "title": "Matrix Glitch Wall"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896256217,
-              "path": "_RESOURCES/DATACORE/30 MatrixGlitchWall/D.q.matrixglitchwall.viewer.md",
-              "title": "Matrix Glitch Wall Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896269287,
-              "path": "_RESOURCES/DATACORE/30 MatrixGlitchWall/D.q.matrixglitchwall.component.md",
-              "title": "Matrix Glitch Wall Component"
-            }
-          ],
-          "title": "30 MatrixGlitchWall"
-        },
-        {
-          "type": "group",
-          "ctime": 1753889241105,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753896280103,
-              "path": "_RESOURCES/DATACORE/31 LoadingLogo/LOADING LOGO.md",
-              "title": "Loading Logo"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896288220,
-              "path": "_RESOURCES/DATACORE/31 LoadingLogo/D.q.loadinglogo.viewer.md",
-              "title": "Loading Logo Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896296519,
-              "path": "_RESOURCES/DATACORE/31 LoadingLogo/D.q.loadinglogo.component.md",
-              "title": "Loading Logo Component"
-            }
-          ],
-          "title": "31 LoadingLogo"
-        },
-        {
-          "type": "group",
-          "ctime": 1753889248351,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753896307099,
-              "path": "_RESOURCES/DATACORE/32 SoundPlayer/SOUND PLAYER.md",
-              "title": "Sound Player"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896325967,
-              "path": "_RESOURCES/DATACORE/32 SoundPlayer/D.q.soundplayer.viewer.md",
-              "title": "Sound Player Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896343599,
-              "path": "_RESOURCES/DATACORE/32 SoundPlayer/D.q.soundplayer.component.md",
-              "title": "Sound Player Component"
-            }
-          ],
-          "title": "32 SoundPlayer"
-        },
-        {
-          "type": "group",
-          "ctime": 1753889256214,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753896355181,
-              "path": "_RESOURCES/DATACORE/33 CodeEditor/CODE EDITOR v1.md",
-              "title": "Code Editor v1"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896363765,
-              "path": "_RESOURCES/DATACORE/33 CodeEditor/CODE EDITOR v2.md",
-              "title": "Code Editor v2"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896373880,
-              "path": "_RESOURCES/DATACORE/33 CodeEditor/D.q.codeeditor.viewer.v1.md",
-              "title": "Code Editor v1 Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896386531,
-              "path": "_RESOURCES/DATACORE/33 CodeEditor/D.q.codeeditor.viewer.v2.md",
-              "title": "Code Editor Viewer v2"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896395913,
-              "path": "_RESOURCES/DATACORE/33 CodeEditor/D.q.codeeditor.component.v1.md",
-              "title": "Code Editor Component v1"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896407280,
-              "path": "_RESOURCES/DATACORE/33 CodeEditor/D.q.codeeditor.component.v2.md",
-              "title": "Code Editor Component v2"
-            }
-          ],
-          "title": "33 CodeEditor"
-        },
-        {
-          "type": "group",
-          "ctime": 1753889266051,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753896419879,
-              "path": "_RESOURCES/DATACORE/34 AnimatedCard/ANIMATED CARD.md",
-              "title": "Animated Card"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896428629,
-              "path": "_RESOURCES/DATACORE/34 AnimatedCard/D.q.animatedcard.viewer.md",
-              "title": "Animated Card Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896436795,
-              "path": "_RESOURCES/DATACORE/34 AnimatedCard/D.q.animatedcard.component.md",
-              "title": "Animated Card Component"
-            }
-          ],
-          "title": "34 AnimatedCard"
-        },
-        {
-          "type": "group",
-          "ctime": 1753889275289,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753896449029,
-              "path": "_RESOURCES/DATACORE/35 ActivityWatchDashboard/ACTIVITYWATCH DASHBOARD.md",
-              "title": "ActivityWatch Dashboard"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896466627,
-              "path": "_RESOURCES/DATACORE/35 ActivityWatchDashboard/D.q.activitywatchdashboard.viewer.md",
-              "title": "ActivityWatch Dashboard Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896485610,
-              "path": "_RESOURCES/DATACORE/35 ActivityWatchDashboard/D.q.activitywatchdashboard.component.md",
-              "title": "ActivityWatch Dashboard Component"
-            }
-          ],
-          "title": "35 ActivityWatchDashboard"
-        },
-        {
-          "type": "group",
-          "ctime": 1753889288002,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753896501740,
-              "path": "_RESOURCES/DATACORE/36 MusicPlayer/MUSIC PLAYER.md",
-              "title": "Music Player"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896509656,
-              "path": "_RESOURCES/DATACORE/36 MusicPlayer/D.q.musicplayer.viewer.md",
-              "title": "Music Player Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753896517558,
-              "path": "_RESOURCES/DATACORE/36 MusicPlayer/D.q.musicplayer.component.md",
-              "title": "Music Player Component"
-            }
-          ],
-          "title": "36 MusicPlayer"
-        },
-        {
-          "type": "group",
-          "ctime": 1753900553829,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1753900572678,
-              "path": "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/DATACORE QUERY BUILDER.md",
-              "title": "Datacore Query Builder"
-            },
-            {
-              "type": "file",
-              "ctime": 1753900599447,
-              "path": "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/D.q.datacorequerybuilder.viewer.md",
-              "title": "Datacore Query Builder Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1753900619295,
-              "path": "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/D.q.datacorequerybuilder.component.md",
-              "title": "Datacore Query Builder Component"
-            }
-          ],
-          "title": "37 DatacoreQueryBuilder"
-        },
-        {
-          "type": "group",
-          "ctime": 1754685214210,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1754685307639,
-              "path": "_RESOURCES/DATACORE/37 DatacoreQueryBuilder/DATACORE QUERY BUILDER.md",
-              "title": "ChatBot"
-            },
-            {
-              "type": "file",
-              "ctime": 1754685421876,
-              "path": "_RESOURCES/DATACORE/38 Chatbot/D.q.chatbot.viewer.md",
-              "title": "ChatBot Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1754685462087,
-              "path": "_RESOURCES/DATACORE/38 Chatbot/D.q.chatbot.component.md",
-              "title": "ChatBot Component"
-            }
-          ],
-          "title": "38 ChatBot"
-        },
-        {
-          "type": "group",
-          "ctime": 1754685219578,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1754685494019,
-              "path": "_RESOURCES/DATACORE/39 MobileMusicPlayer/MOBILE MUSIC PLAYER.md",
-              "title": "Mobile Music Player"
-            },
-            {
-              "type": "file",
-              "ctime": 1754685506053,
-              "path": "_RESOURCES/DATACORE/39 MobileMusicPlayer/D.q.mobilemusicplayer.viewer.md",
-              "title": "Mobile Music Player Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1754685516416,
-              "path": "_RESOURCES/DATACORE/39 MobileMusicPlayer/D.q.mobilemusicplayer.component.md",
-              "title": "Mobile Music Player Component"
-            }
-          ],
-          "title": "39 MobileMusicPlayer"
-        },
-        {
-          "type": "group",
-          "ctime": 1754685224460,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1754685529783,
-              "path": "_RESOURCES/DATACORE/40 CardPicker/CARD PICKER.md",
-              "title": "Card Picker"
-            },
-            {
-              "type": "file",
-              "ctime": 1754685539484,
-              "path": "_RESOURCES/DATACORE/40 CardPicker/D.q.cardpicker.viewer.md",
-              "title": "Card Picker Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1754685549850,
-              "path": "_RESOURCES/DATACORE/40 CardPicker/D.q.cardpicker.component.md",
-              "title": "Card Picker Component"
-            }
-          ],
-          "title": "40 CardPicker"
-        },
-        {
-          "type": "group",
-          "ctime": 1754685231958,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1754685561483,
-              "path": "_RESOURCES/DATACORE/41 OCRReader/OCRREADER.md",
-              "title": "41 OCR Reader"
-            },
-            {
-              "type": "file",
-              "ctime": 1754685575652,
-              "path": "_RESOURCES/DATACORE/41 OCRReader/D.q.ocrreader.viewer.md",
-              "title": "OCR Reader Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1754685586153,
-              "path": "_RESOURCES/DATACORE/41 OCRReader/D.q.ocrreader.component.md",
-              "title": "OCR Reader Component"
-            }
-          ],
-          "title": "41 OCRReader"
-        },
-        {
-          "type": "group",
-          "ctime": 1754685237063,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1754685603302,
-              "path": "_RESOURCES/DATACORE/42 ChatLLM/CHATLLM.md",
-              "title": "Chat LLM"
-            },
-            {
-              "type": "file",
-              "ctime": 1754685611901,
-              "path": "_RESOURCES/DATACORE/42 ChatLLM/D.q.chatllm.viewer.md",
-              "title": "Chat LLM Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1754685619750,
-              "path": "_RESOURCES/DATACORE/42 ChatLLM/D.q.chatllm.component.md",
-              "title": "Chat LLM Component"
-            }
-          ],
-          "title": "42 ChatLLM"
-        },
-        {
-          "type": "group",
-          "ctime": 1754685631816,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1754685664353,
-              "path": "_RESOURCES/DATACORE/43 ReceiptTracker/RECEIPTTRACKER.md",
-              "title": "Receipt Tracker"
-            },
-            {
-              "type": "file",
-              "ctime": 1754685673154,
-              "path": "_RESOURCES/DATACORE/43 ReceiptTracker/D.q.receipttracker.viewer.md",
-              "title": "Receipt Tracker Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1754685685168,
-              "path": "_RESOURCES/DATACORE/43 ReceiptTracker/D.q.receipttracker.component.md",
-              "title": "Receipt Tracker Component"
-            }
-          ],
-          "title": "43 ReceiptTracker"
-        },
-        {
-          "type": "group",
-          "ctime": 1757375801792,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1757379011219,
-              "path": "_RESOURCES/DATACORE/44 MarkdownParser/MARKDOWN PARSER.md",
-              "title": "Markdown Parser"
-            },
-            {
-              "type": "file",
-              "ctime": 1757379026035,
-              "path": "_RESOURCES/DATACORE/44 MarkdownParser/D.q.markdownparser.viewer.md",
-              "title": "Markdown Parser Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1757379034419,
-              "path": "_RESOURCES/DATACORE/44 MarkdownParser/D.q.markdownparser.component.md",
-              "title": "Markdown Parser Component"
-            }
-          ],
-          "title": "44 MarkdownParser"
-        },
-        {
-          "type": "group",
-          "ctime": 1757378208386,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1757378984277,
-              "path": "_RESOURCES/DATACORE/45 SVGAnimations/SVG ANIMATIONS.md",
-              "title": "SVG Animations"
-            },
-            {
-              "type": "file",
-              "ctime": 1757378988144,
-              "path": "_RESOURCES/DATACORE/45 SVGAnimations/D.q.svganimations.viewer.md",
-              "title": "SVG Animations Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1757378991258,
-              "path": "_RESOURCES/DATACORE/45 SVGAnimations/D.q.svganimations.component.md",
-              "title": "SVG Animations Components"
-            }
-          ],
-          "title": "45 SVGAnimations"
-        },
-        {
-          "type": "group",
-          "ctime": 1757378479850,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1757378968284,
-              "path": "_RESOURCES/DATACORE/46 VaultUpdater/VAULT UPDATER.md",
-              "title": "Vault Updater"
-            },
-            {
-              "type": "file",
-              "ctime": 1757378971468,
-              "path": "_RESOURCES/DATACORE/46 VaultUpdater/D.q.vaultupdater.viewer.md",
-              "title": "Vault Updater Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1757378973885,
-              "path": "_RESOURCES/DATACORE/46 VaultUpdater/D.q.vaultupdater.component.md",
-              "title": "Vault Updater Component"
-            }
-          ],
-          "title": "46 VaultUpdater"
-        },
-        {
-          "type": "group",
-          "ctime": 1757378494782,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1757378910686,
-              "path": "_RESOURCES/DATACORE/47 RandomFileControls/RANDOM FILE CONTROLS v1.md",
-              "title": "Random File Controls v1"
-            },
-            {
-              "type": "file",
-              "ctime": 1757378915069,
-              "path": "_RESOURCES/DATACORE/47 RandomFileControls/RANDOM FILE CONTROLS v2.md",
-              "title": "Random File Controls v2"
-            },
-            {
-              "type": "file",
-              "ctime": 1757378930902,
-              "path": "_RESOURCES/DATACORE/47 RandomFileControls/D.q.randomfilecontrols.viewer.v1.md",
-              "title": "Random File Control Viewer v1"
-            },
-            {
-              "type": "file",
-              "ctime": 1757378942320,
-              "path": "_RESOURCES/DATACORE/47 RandomFileControls/D.q.randomfilecontrols.viewer.v2.md",
-              "title": "Random File Control Viewer v2"
-            },
-            {
-              "type": "file",
-              "ctime": 1757378948569,
-              "path": "_RESOURCES/DATACORE/47 RandomFileControls/D.q.randomfilecontrols.component.v1.md",
-              "title": "Random File Control Component v1"
-            },
-            {
-              "type": "file",
-              "ctime": 1757378952352,
-              "path": "_RESOURCES/DATACORE/47 RandomFileControls/D.q.randomfilecontrols.component.v2.md",
-              "title": "Random File Control Component v2"
-            }
-          ],
-          "title": "47 RandomFileControls"
-        },
-        {
-          "type": "group",
-          "ctime": 1757378636846,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1757378894553,
-              "path": "_RESOURCES/DATACORE/48 SVGConverter/SVG CONVERTER.md",
-              "title": "SVG Converter"
-            },
-            {
-              "type": "file",
-              "ctime": 1757378897419,
-              "path": "_RESOURCES/DATACORE/48 SVGConverter/D.q.svgconverter.viewer.md",
-              "title": "SVG Converter Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1757378899736,
-              "path": "_RESOURCES/DATACORE/48 SVGConverter/D.q.svgconverter.component.md",
-              "title": "SVG Converter Component"
-            }
-          ],
-          "title": "48 SVGConverter"
-        },
-        {
-          "type": "group",
-          "ctime": 1757378652149,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1757378884588,
-              "path": "_RESOURCES/DATACORE/49 MetadataEdit/METADATA EDIT.md",
-              "title": "Metadata Edit"
-            },
-            {
-              "type": "file",
-              "ctime": 1757378887570,
-              "path": "_RESOURCES/DATACORE/49 MetadataEdit/D.q.metadataedit.viewer.md",
-              "title": "Metadata Edit Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1757378889952,
-              "path": "_RESOURCES/DATACORE/49 MetadataEdit/D.q.metadataedit.component.md",
-              "title": "Metadata Edit Component"
-            }
-          ],
-          "title": "49 MetadataEdit"
-        },
-        {
-          "type": "group",
-          "ctime": 1757378662698,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1757378878154,
-              "path": "_RESOURCES/DATACORE/50 ActionsManager/ACTIONS MANAGER.md",
-              "title": "Actions Manager"
-            },
-            {
-              "type": "file",
-              "ctime": 1757378869253,
-              "path": "_RESOURCES/DATACORE/50 ActionsManager/D.q.actionsmanager.viewer.md",
-              "title": "Actions Manager Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1757378873969,
-              "path": "_RESOURCES/DATACORE/50 ActionsManager/D.q.actionsmanager.component.md",
-              "title": "Actions Manager Component"
-            }
-          ],
-          "title": "50 ActionsManager"
-        },
-        {
-          "type": "group",
-          "ctime": 1757378676242,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1757378843654,
-              "path": "_RESOURCES/DATACORE/51 ActionsFlows/ACTIONS FLOW v1.md",
-              "title": "Actions Flows v1"
-            },
-            {
-              "type": "file",
-              "ctime": 1757378862653,
-              "path": "_RESOURCES/DATACORE/51 ActionsFlows/D.q.actionsflows.viewer.v1.md",
-              "title": "Actions Flows Viewer v1"
-            },
-            {
-              "type": "file",
-              "ctime": 1757378865472,
-              "path": "_RESOURCES/DATACORE/51 ActionsFlows/D.q.actionsflows.component.v1.md",
-              "title": "Actions Flows Component v1"
-            }
-          ],
-          "title": "51 ActionsFlows"
-        },
-        {
-          "type": "group",
-          "ctime": 1757378686114,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1757378768189,
-              "path": "_RESOURCES/DATACORE/52 AssetsLibrary/ASSETS LIBRARY.md",
-              "title": "Assets Library"
-            },
-            {
-              "type": "file",
-              "ctime": 1757378793738,
-              "path": "_RESOURCES/DATACORE/52 AssetsLibrary/D.q.assetslibrary.viewer.md",
-              "title": "Assets Library Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1757378782356,
-              "path": "_RESOURCES/DATACORE/52 AssetsLibrary/D.q.assetslibrary.component.md",
-              "title": "Assets Library Componen"
-            }
-          ],
-          "title": "52 AssetsLibrary"
-        },
-        {
-          "type": "group",
-          "ctime": 1757378697545,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1757378708925,
-              "path": "_RESOURCES/DATACORE/53 Dashboard888/DASHBOARD 888.md",
-              "title": "Dashboard 888"
-            },
-            {
-              "type": "file",
-              "ctime": 1757378714506,
-              "path": "_RESOURCES/DATACORE/53 Dashboard888/D.q.dashboard888.viewer.md",
-              "title": "Dashboard 888 Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1757378727606,
-              "path": "_RESOURCES/DATACORE/53 Dashboard888/D.q.dashboard888.component.md",
-              "title": "Dashboard 888 Component"
-            }
-          ],
-          "title": "53 Dashboard888"
-        },
-        {
-          "type": "group",
-          "ctime": 1758059598931,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1758059629156,
-              "path": "_RESOURCES/DATACORE/54 DatacorePlayground/DATACORE PLAYGROUND.md",
-              "title": "Datacore Playground"
-            },
-            {
-              "type": "file",
-              "ctime": 1758059634155,
-              "path": "_RESOURCES/DATACORE/54 DatacorePlayground/D.q.datacoreplayground.viewer.md",
-              "title": "Datacore Playground Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1758059636975,
-              "path": "_RESOURCES/DATACORE/54 DatacorePlayground/D.q.datacoreplayground.component.md",
-              "title": "Datacore Playground Component"
-            }
-          ],
-          "title": "54 DatacorePlayground"
-        },
-        {
-          "type": "group",
-          "ctime": 1759171409365,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1759171523393,
-              "path": "_RESOURCES/DATACORE/55 DatacoreLimitations/DATACORE LIMITATIONS.md",
-              "title": "Datacore Limitations"
-            },
-            {
-              "type": "file",
-              "ctime": 1759171530126,
-              "path": "_RESOURCES/DATACORE/55 DatacoreLimitations/D.q.datacorelimitations.viewer.md",
-              "title": "Datacore Limitations Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1759171533643,
-              "path": "_RESOURCES/DATACORE/55 DatacoreLimitations/D.q.datacorelimitations.component.md",
-              "title": "Datacore Limitations Component"
-            }
-          ],
-          "title": "55 DatacoreLimitations"
-        },
-        {
-          "type": "group",
-          "ctime": 1759171420657,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1759171584776,
-              "path": "_RESOURCES/DATACORE/56 WorkspaceManager/WORKSPACE MANAGER.md",
-              "title": "Workspace Manager"
-            },
-            {
-              "type": "file",
-              "ctime": 1759171587776,
-              "path": "_RESOURCES/DATACORE/56 WorkspaceManager/D.q.workspacemanager.viewer.md",
-              "title": "Workspace Manager Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1759171590843,
-              "path": "_RESOURCES/DATACORE/56 WorkspaceManager/D.q.workspacemanager.component.md",
-              "title": "Workspace Manager Component"
-            }
-          ],
-          "title": "56 WorkspaceManager"
-        },
-        {
-          "type": "group",
-          "ctime": 1759171426434,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1759171640142,
-              "path": "_RESOURCES/DATACORE/57 DatacoreTerminal/DATACORE TERMINAL.md",
-              "title": "Datacore Terminal"
-            },
-            {
-              "type": "file",
-              "ctime": 1759171643591,
-              "path": "_RESOURCES/DATACORE/57 DatacoreTerminal/D.q.datacoreterminal.viewer.md",
-              "title": "Datacore Terminal Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1759171646876,
-              "path": "_RESOURCES/DATACORE/57 DatacoreTerminal/D.q.datacoreterminal.component.md",
-              "title": "Datacore Terminal Component"
-            }
-          ],
-          "title": "57 DatacoreTerminal"
-        },
-        {
-          "type": "group",
-          "ctime": 1759171431363,
-          "items": [
-            {
-              "type": "file",
-              "ctime": 1759171675692,
-              "path": "_RESOURCES/DATACORE/58 DatacoreCommandManager/DATACORE COMMAND MANAGER.md",
-              "title": "Datacore Command Manager"
-            },
-            {
-              "type": "file",
-              "ctime": 1759171682209,
-              "path": "_RESOURCES/DATACORE/58 DatacoreCommandManager/D.q.datacorecommandmanager.viewer.md",
-              "title": "Datacore Command Manager Viewer"
-            },
-            {
-              "type": "file",
-              "ctime": 1759171685510,
-              "path": "_RESOURCES/DATACORE/58 DatacoreCommandManager/D.q.datacorecommandmanager.component.md",
-              "title": "Datacore Command Manager Component"
-            }
-          ],
-          "title": "58 DatacoreCommandManager"
-        },
-        {
-          "type": "group",
-          "ctime": 1759592539648,
-          "items": [],
-          "title": "59 HotReloadFiles"
+          "title": "SYSTEM & UTILITY COMPONENTS"
         }
       ],
       "title": "DATACORE"

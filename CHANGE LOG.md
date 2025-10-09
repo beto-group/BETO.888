@@ -1,6 +1,6 @@
 ---
 permalink: change_log
-version: 1.3.6
+version: 1.4.0
 ---
 
 >[!info]- [[DEVLOG]]
@@ -9,8 +9,46 @@ version: 1.3.6
 ----
 ----
 
-## YELLOW-3.patch-1
-DATE**: 2025.15.09  
+## GREEN-4
+
+**DATE**: 2025.10.09  
+**LICENSE**: MIT  
+**AVAILABILITY**: GITHUB
+
+**I. SUMMARY**  
+The GREEN-4 release marks a major milestone: the culmination of our deep dive into the Obsidian environment. The theme of this update is **Mastery**—pushing beyond the application's boundaries to unlock true system-level power. We have successfully broken out of the traditional application sandbox, providing direct access to your computer's underlying shell and file system. This transforms the vault from a self-contained app into a genuine command center for developers. This release completes a significant chapter
+
+**II. A New Development Paradigm: The Integrated Development Environment**  
+This update finalizes our vision for a professional-grade development workflow that lives entirely within Obsidian. We are moving beyond simple tools to provide a complete, integrated suite that handles the entire lifecycle of creation, from coding and automation to version control.
+
+**This is powered by our new Developer & Automation Suite components:**
+- **Plugin Development Suite:** The centerpiece of this release. An all-in-one command center to build, test, deploy, and manage full Obsidian plugins without ever leaving the vault.
+- **Datacore Terminal:** A powerful bridge to your system's shell, allowing you to run any command-line process directly from a note.
+- **Git Suite Manager:** A complete, standalone Git client with a full graphical UI for managing repositories inside Obsidian.
+    
+
+**III. Full Component Changelog**
+- **New Core Systems:**
+    - **Plugin Development Suite:** An all-in-one environment for building, deploying, and managing Obsidian plugins.
+    - **Git Suite Manager:** A complete, standalone Git client UI for source control within the vault.
+    - **Datacore Terminal:** A bridge to the system's shell for running any command-line process from Obsidian.
+        
+- **New Developer & Automation Tools:**
+    - **Datacore Command Manager:** A UI to create and manage custom Obsidian commands without writing a full plugin.
+    - **Workspace Manager (Experimental):** A visual, drag-and-drop editor for building and managing Obsidian workspace layouts.
+        
+- **New Diagnostic & Utility Components:**
+    - **Datacore Limitations:** An interactive security audit tool to test and demonstrate the capabilities of the Datacore environment.
+    - **Hot Reload Files:** A diagnostic tool for monitoring a folder for real-time file changes.
+        
+- **Upgraded Components:**
+    - **Datacore Playground:** Formally integrated and upgraded, providing a robust, live environment for rapid component prototyping.
+    - **Basic View v3:** added reload capabilities directly within component, speeding up prototyping further.
+
+
+------
+## YELLOW-3.patches
+DATE**: 2025.*.09  
 
 
 **I.** This patch delivers a major new tool and key infrastructure upgrades.
@@ -23,6 +61,7 @@ DATE**: 2025.15.09
     - **Views Inceptions v2:** Component development is now finalized.
 - **Fixes:**
     - Addressed key updater bugs and minor UI polish for a better experience.
+    - And many small tweaks / feedback from community . Thank you
 
 -----
 

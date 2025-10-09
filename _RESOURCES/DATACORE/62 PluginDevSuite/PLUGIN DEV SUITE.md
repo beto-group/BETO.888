@@ -1,5 +1,5 @@
 
-### Tab : Plugin Development Playground
+### Tab : Plugin Development Suite
 
 - **Description**: An all-in-one command center for Obsidian plugin development that operates directly inside your vault. This suite streamlines the entire plugin lifecycle by integrating a project manager, an automated build system, and a version control interface into a single, cohesive view. It fundamentally changes the development workflow by leveraging other powerful components: it hosts the **Integrated IDE** for a complete in-Obsidian coding experience and embeds the **GitSuite**'s logic for seamless source control management, effectively eliminating the need to constantly switch between Obsidian and external tools.
 
@@ -29,8 +29,9 @@
         - Provides one-click shortcuts to open projects in an external code editor or the system's file explorer.
 
 - **Can’t**:    
+	- Windows OS not tested, most likely wont work (but who knows) and need further refinement but feel no need to design something I dont need. Unless you all truly desire and make it apparent I aint gonna bother {and add some incentives otherwise I leave it to you all to configure that}.
     - **Function Without System Dependencies**: It is a powerful orchestrator, but it cannot create plugins without git or build them without node.js. It does not install these tools for you.
-	    - Help Install Tools :
+	    - Help to Install Tools :
 		    - [NODE.JS](https://nodejs.org/en/download)
 		    - [GIT](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
     - **Manage Plugins Not in its Source Folder**: The suite can only build and manage plugins whose source code resides in its designated .datacore/plugins directory. It can view other installed plugins but cannot modify them.
@@ -40,20 +41,20 @@
 
 
 
-![alt text](/_RESOURCES/IMAGES/plugin_dev_playground_1.webp)
+![alt text](plugin_dev_suite_1.webp)
 
 
-![alt text](/_RESOURCES/IMAGES/plugin_dev_playground_2.webp)
+![alt text](plugin_dev_suite_2.webp)
 
 
-![alt text](/_RESOURCES/IMAGES/plugin_dev_playground_3.webp)
+![alt text](plugin_dev_suite_3.webp)
 
 
 
 
 ### COMPONENTS
 
-###### [Plugin Dev Playground Viewer](D.q.plugindevplayground.viewer.md)
+###### [Plugin Dev Playground Viewer](D.q.plugindevsuite.viewer.md)
 
-###### [Plugin Dev Playground Component](D.q.plugindevplayground.component.md)
+###### [Plugin Dev Playground Component](D.q.plugindevsuite.component.md)
 

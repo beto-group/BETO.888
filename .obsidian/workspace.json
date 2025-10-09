@@ -4,7 +4,7 @@
     "type": "split",
     "children": [
       {
-        "id": "8280429d25b783bc",
+        "id": "420e98ad78f2158a",
         "type": "tabs",
         "children": [
           {
@@ -29,40 +29,6 @@
               },
               "icon": "lucide-file",
               "title": "HOME"
-            }
-          },
-          {
-            "id": "911d574691a55fd1",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "README.md",
-                "mode": "source",
-                "source": false,
-                "backlinks": true,
-                "backlinkOpts": {
-                  "collapseAll": false,
-                  "extraContext": false,
-                  "sortOrder": "alphabetical",
-                  "showSearch": false,
-                  "searchQuery": "",
-                  "backlinkCollapsed": false,
-                  "unlinkedCollapsed": true
-                }
-              },
-              "icon": "lucide-file",
-              "title": "README"
-            }
-          },
-          {
-            "id": "bbe50c450ff2c3e1",
-            "type": "leaf",
-            "state": {
-              "type": "empty",
-              "state": {},
-              "icon": "lucide-file",
-              "title": "New tab"
             }
           }
         ]
@@ -118,12 +84,12 @@
               "title": "Files"
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "horizontal",
-    "width": 342.5
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "fe80ed10167d38ae",
@@ -139,10 +105,10 @@
             "state": {
               "type": "file-properties",
               "state": {
-                "file": "README.md"
+                "file": "_RESOURCES/DATACORE/DATACORE.showcase.md"
               },
               "icon": "lucide-info",
-              "title": "File properties for README"
+              "title": "File properties for DATACORE.showcase"
             }
           },
           {
@@ -281,43 +247,43 @@
   },
   "active": "c19be7cf1625a3a5",
   "lastOpenFiles": [
-    "README.md",
-    "HOME.md",
-    "_OPERATION/PUBLIC/DEVLOG/DEVLOG.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/WAIFU_v03_.A.md",
-    "_OPERATION/PUBLIC/DEVLOG/ITI/DEVLOG.green-4.md",
-    "_RESOURCES/DATACORE/9 ContentExplorer888/D.q.contentexplorer888.viewer.md",
-    "_RESOURCES/DATACORE/62 PluginDevPlayground/D.q.plugindevplayground.viewer.md",
-    "_RESOURCES/DATACORE/62 PluginDevPlayground/PLUGIN DEV PLAYGROUND.md",
+    "_RESOURCES/DATACORE/8 FitnessExplorer/FITNESS EXPLORER.md",
     "_RESOURCES/DATACORE/DATACORE.showcase.md",
+    "_RESOURCES/DATACORE/62 PluginDevSuite/PLUGIN DEV SUITE.md",
+    "_RESOURCES/IMAGES/plugin_dev_suite_1.webp",
+    "_RESOURCES/DATACORE/54 DatacorePlayground/DATACORE PLAYGROUND.md",
+    "HOME.md",
+    "_RESOURCES/DATACORE/57 DatacoreTerminal/D.q.datacoreterminal.component.md",
+    "_RESOURCES/DATACORE/61 IntegratedIDE/D.q.integratedide.component.md",
+    "_RESOURCES/DATACORE/57 DatacoreTerminal/D.q.datacoreterminal.viewer.md",
+    "CHANGE LOG.md",
+    "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.viewer.v3.md",
+    "_RESOURCES/DATACORE/62 PluginDevSuite/D.q.plugindevsuite.viewer.md",
+    "_RESOURCES/DATACORE/62 PluginDevSuite/D.q.plugindevsuite.component.md",
+    "KNOWLEDGE/EXPERIENCES/_clean/_public/obsidian/OBSIDIAN.ai.enigmas..md",
+    "_RESOURCES/DATACORE/52 AssetsLibrary/D.q.assetslibrary.component.md",
+    "_RESOURCES/IMAGES/plugin_dev_suite_2.webp",
+    "_RESOURCES/IMAGES/plugin_dev_suite_3.webp",
+    "_RESOURCES/DATACORE/60 GitSuiteManager/GIT SUITE MANAGER.md",
+    "_OPERATION/PUBLIC/DEVLOG/ITI/DEVLOG.green-4.md",
+    "_OPERATION/PUBLIC/DEVLOG/DEVLOG.md",
+    "_RESOURCES/DATACORE/59 HotReloadFiles/HOT RELOAD FILES.md",
+    "_RESOURCES/DATACORE/57 DatacoreTerminal/DATACORE TERMINAL.md",
+    "_RESOURCES/DATACORE/56 WorkspaceManager/WORKSPACE MANAGER.md",
+    "_RESOURCES/DATACORE/55 DatacoreLimitations/DATACORE LIMITATIONS.md",
+    "_RESOURCES/DATACORE/58 DatacoreCommandManager/DATACORE COMMAND MANAGER.md",
+    "KNOWLEDGE/EXPERIENCES/_clean/_public/obsidian/OBSIDIAN.ai.md",
+    "KNOWLEDGE/WEALTH/TAXES.enigmas..md",
+    "KNOWLEDGE/EXPERIENCES/_clean/MILITARY.enigmas..md",
     "_RESOURCES/IMAGES/DEVLOG_5.webp",
     "_RESOURCES/IMAGES/devlog_5.png",
     "_RESOURCES/VIDS/DEVLOG_5.webm",
     "_RESOURCES/IMAGES/DEVLOG_3.webp",
     "_RESOURCES/IMAGES/DEVLOG_1.webp",
     "_RESOURCES/IMAGES/DEVLOG_4.webp",
-    "_OPERATION/PUBLIC/DEVLOG/ITI/DEVLOG.yellow-3.md",
-    "_RESOURCES/DATACORE/53 Dashboard888/D.q.dashboard888.viewer.md",
-    "_RESOURCES/DATACORE/53 Dashboard888/D.q.dashboard888.component.md",
-    "_RESOURCES/DATACORE/10 Kanban/KANBAN v2.md",
-    "KNOWLEDGE/EXPERIENCES/_clean/POLICE.enigmas..md",
-    "KNOWLEDGE/EXPERIENCES/_clean/CAT.enigmas..md",
-    "KNOWLEDGE/EXPERIENCES/_clean/DONALD TRUMP.enigmas..md",
-    "KNOWLEDGE/EXPERIENCES/_clean/HISTORY.enigmas..md",
-    "KNOWLEDGE/EXPERIENCES/_clean/FRUITS.enigmas..md",
-    "KNOWLEDGE/HEALTH/ALCOHOL.enigmas..md",
-    "KNOWLEDGE/EXPERIENCES/_clean/EGYPT.enigmas..md",
-    "KNOWLEDGE/EXPERIENCES/_clean/COUNTRIES.enigmas..md",
-    "KNOWLEDGE/EXPERIENCES/_clean/COUNTRIES.md",
-    "KNOWLEDGE/HEALTH/ALCOHOL.md",
-    "KNOWLEDGE/EXPERIENCES/_clean/FRUITS.md",
-    "KNOWLEDGE/EXPERIENCES/_clean/HISTORY.md",
-    "_RESOURCES/IMAGES/plugin_dev_playground_2.webp",
-    "_RESOURCES/IMAGES/plugin_dev_playground_3.webp",
-    "_RESOURCES/IMAGES/plugin_dev_playground_1.webp",
     "_RESOURCES/IMAGES/integrated_ide.webp",
     "_RESOURCES/IMAGES/git_suite_manager.webp",
-    "_RESOURCES/DATACORE/62 PluginDevPlayground",
+    "_RESOURCES/DATACORE/62 PluginDevSuite",
     "_RESOURCES/DATACORE/61 IntegratedIDE",
     "61 IntegratedIDE",
     "60 GitSuiteManager",

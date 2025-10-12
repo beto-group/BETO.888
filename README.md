@@ -52,7 +52,7 @@ At its heart, BETO.888 provides the foundational building blocks to transform yo
 	- Unzip. Rename the folder to `BETO.888` (optional).
 
 2. **Open in Obsidian**
-	- Open Obsidian → **Open another vault** → **Open folder as vault** → select `BETO.888`.
+	- Open Obsidian → **Open another vault** → **Open folder as vault** → select `BETO.888` → `BETO.888-main`.
 
 ----
 ##### Path B — Git (Full Version, recommended)

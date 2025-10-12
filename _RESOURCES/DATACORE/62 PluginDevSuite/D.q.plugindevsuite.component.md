@@ -34,7 +34,7 @@ const useGit = useGitHook;
 
 let TerminalManagerClass;
 try {
-    const terminalModule = await dc.require(dc.headerLink("_RESOURCES/DATACORE/62 PluginDevPlayground/D.q.plugindevsuite.component.md", "TerminalManager"));
+    const terminalModule = await dc.require(dc.headerLink("_RESOURCES/DATACORE/62 PluginDevSuite/D.q.plugindevsuite.component.md", "TerminalManager"));
     TerminalManagerClass = terminalModule.TerminalManager || terminalModule.default || terminalModule;
     if (typeof TerminalManagerClass !== 'function') {
         throw new Error("TerminalManager.component.v1.md did not export a valid constructor for TerminalManager.");
@@ -794,6 +794,7 @@ function PluginDevSuite() {
         return 'NOT_DEPLOYED';
     }, [nodeManager, obsidianPluginsDir, pdsPluginsDir, getTruePluginId]);
 
+
     // Defined as a useCallback to ensure stable reference for managers
     const scanPlugins = useCallback(async () => {
         const debug = debugNoticeManager.current || { error: console.error, log: () => { } };
@@ -802,9 +803,15 @@ function PluginDevSuite() {
         const allPluginIds = new Set();
 
         try {
+            // Ensure the .obsidian/plugins directory exists (usually does, but good practice)
+            nodeManager.makeDir(obsidianPluginsDir);
             nodeManager.readDir(obsidianPluginsDir, { withFileTypes: true }).filter(d => d.isDirectory()).forEach(d => allPluginIds.add(d.name));
         } catch (e) { debug.error("Could not read .obsidian/plugins directory:", "PDS", e); }
+
         try {
+            // --- FIX ---
+            // Ensure the .datacore/plugins directory exists before trying to read it.
+            nodeManager.makeDir(pdsPluginsDir);
             nodeManager.readDir(pdsPluginsDir, { withFileTypes: true }).filter(d => d.isDirectory() && !d.name.startsWith('.')).forEach(d => allPluginIds.add(d.name));
         } catch (e) { debug.error("Could not read .datacore/plugins directory:", "PDS", e); }
 
@@ -830,6 +837,7 @@ function PluginDevSuite() {
         setIsLoading(false);
         debug.log("Full plugin scan finished.", "PDS");
     }, [nodeManager, obsidianPluginsDir, pdsPluginsDir, getPluginStatus, debugNoticeManager]);
+
 
     const detectPackageManager = (pluginPath) => {
         // Check for Deno config files first, as it's a distinct runtime
@@ -1361,12 +1369,64 @@ function PluginDevSuite() {
     }, [nodeManager, pdsPluginsDir, debugNoticeManager]);
 
     const handleOpenInExplorer = useCallback((pluginId) => {
-        const debug = debugNoticeManager.current || { showNotice: new Notice };
+        const debug = debugNoticeManager.current || { showNotice: new Notice, error: console.error, log: console.log };
         const pluginPath = nodeManager.join(pdsPluginsDir, pluginId);
-        if (!nodeManager.exists(pluginPath)) { debug.showNotice("Plugin source directory not found."); return; }
-        const command = nodeManager.platform === 'win32' ? 'explorer' : (nodeManager.platform === 'darwin' ? 'open' : 'xdg-open');
-        nodeManager.spawnProcess(command, [pluginPath], { shell: true });
-        debug.showNotice(`Opening ${pluginId} in file explorer...`);
+
+        if (!nodeManager.exists(pluginPath)) {
+            debug.showNotice("Plugin source directory not found.");
+            return;
+        }
+
+        const platform = nodeManager.platform;
+        let command;
+        let args;
+
+        // --- THE FIX ---
+        // The path must be wrapped in double quotes to handle spaces in folder names.
+        // We pass the path as a single argument that includes the quotes.
+        const quotedPath = `"${pluginPath}"`;
+
+        if (platform === 'win32') {
+            // Windows Explorer is a bit strange. It works best when the command and
+            // the quoted path are passed directly.
+            command = 'explorer';
+            args = [quotedPath];
+        } else if (platform === 'darwin') {
+            // On macOS, `open` handles the quoted path correctly.
+            command = 'open';
+            args = [quotedPath];
+        } else {
+            // On Linux, `xdg-open` also handles the quoted path.
+            command = 'xdg-open';
+            args = [quotedPath];
+        }
+
+        debug.log(`Executing command: ${command} with args: ${args.join(' ')}`);
+
+        // Using shell:true is crucial here because it allows the shell
+        // to correctly interpret the quotes around the path.
+        const proc = nodeManager.spawnProcess(command, args, { shell: true });
+        let errorOutput = '';
+
+        proc.stderr.on('data', (data) => {
+            errorOutput += data.toString();
+        });
+
+        proc.on('error', (err) => {
+            debug.error(`Process failed to spawn for command: '${command}'`, "PDS", err);
+            debug.showNotice(`Error: Failed to start file explorer.`, 8000);
+        });
+
+        proc.on('close', (code) => {
+            if (code !== 0) {
+                debug.error(`Process for opening explorer exited with code: ${code}.`, "PDS");
+                debug.error(`Error Details from shell:\n${errorOutput}`, "PDS");
+                debug.showNotice(`Could not open folder. See developer console for details.`, 10000);
+            } else {
+                debug.showNotice(`Opening "${pluginId}" in file explorer...`);
+            }
+        });
+
     }, [nodeManager, pdsPluginsDir, debugNoticeManager]);
 
     const handleNavigateToCodeEditor = useCallback((pluginId) => { setView('code_editor'); }, []);

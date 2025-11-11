@@ -45,14 +45,19 @@ _OPERATION/DASHBOARDS/
 PROJECTS/
 
 
+
+
 #999 for now
 
 999/
 
 
-#removing big data files
+#removing big data files + assets {now}
 
-*.svg
+_OPERATION/PUBLIC/888/*.svg
+_RESOURCES/ASSETS/888/ASSETS_.A/
+
+_RESOURCES/ASSETS/888/*.svg
 
 !_RESOURCES/beto.logo/v8/*.svg
 !_RESOURCES/SVGS/*.svg
@@ -64,3 +69,7 @@ _OPERATION/_CLEAN/
 _RESOURCES/ASSETS/EXCALIDRAW/
 
 PROJECTS/
+
+# old logo stuff no more needed
+
+_RESOURCES/beto.logo/v7/

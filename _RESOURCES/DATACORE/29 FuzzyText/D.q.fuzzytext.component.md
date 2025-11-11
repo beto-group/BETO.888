@@ -1,7 +1,4 @@
 
-
-
-
 # ViewComponent
 
 ```jsx
@@ -9,13 +6,14 @@ const { useEffect, useRef } = dc;
 
 const FuzzyText = ({
   children,
+  text: textProp = "404",
   fontSize = "clamp(2rem, 10vw, 10rem)",
   fontWeight = 900,
   fontFamily = "inherit",
   color = "#fff",
   enableHover = true,
-  baseIntensity = 0.18,
-  hoverIntensity = 0.5,
+  baseIntensity = 0.2,
+  hoverIntensity = 0.55,
 }) => {
   const canvasRef = useRef(null);
 
@@ -53,7 +51,8 @@ const FuzzyText = ({
         document.body.removeChild(temp);
       }
 
-      const text = React.Children.toArray(children).join("");
+      // Use textProp if provided, otherwise fall back to children
+      const text = textProp || React.Children.toArray(children).join("");
 
       const offscreen = document.createElement("canvas");
       const offCtx = offscreen.getContext("2d");
@@ -192,6 +191,7 @@ const FuzzyText = ({
     };
   }, [
     children,
+    textProp,
     fontSize,
     fontWeight,
     fontFamily,
@@ -205,5 +205,6 @@ const FuzzyText = ({
 };
 
 return {FuzzyText};
-
 ```
+
+

@@ -1,24 +1,32 @@
 
-### Tab: FuzzyText
+### Tab: Fuzzy Text
 
-- **Description**: A highly stylized text rendering component that uses an HTML canvas to create a "fuzzy" or "glitchy" analog distortion effect. The intensity of the effect can be configured to change on mouse hover.
-   
-- **Does**:
+- **Description**: A highly stylized and performant component that renders text with a dynamic, "fuzzy" horizontal glitch effect. It uses the HTML5 Canvas API to create an animated, shimmering text block that can be configured to react to user interaction, making it an excellent tool for creating eye-catching headers and titles. Redesign from [ReactBits](https://www.reactbits.dev/)
 
-    - Renders any given text onto an HTML canvas element.
-    - Applies a per-scanline horizontal displacement effect to the text, creating a noisy, analog, "fuzzy" appearance.
-    - Can be configured to increase the intensity of the fuzz effect when the user hovers their mouse over the text.
-    - Dynamically calculates the text size and bounding box to ensure the effect is applied correctly, regardless of the font or content.
-    - Is customizable via props for font size, weight, color, and the intensity of the fuzz effect for both its base and hover states.
+- **Does**:   
+
+    - **Dynamic Text Rendering**: Takes any string as input and renders it to a `<canvas>` element.
+    - **Fuzzy Glitch Animation**: Applies a continuous, randomized horizontal distortion to the text, creating a shimmering or "fuzzy" visual effect. The animation runs efficiently using requestAnimationFrame.
+    - **Interactive Hover Effect**: When enabled, the intensity of the fuzz effect increases as the user hovers their mouse over the text, creating a responsive and engaging interaction.
+    - **Highly Customizable Appearance**: The visual style of the text can be fully customized through props, including:
+        - fontSize (supports responsive values like clamp())
+        - fontWeight
+        - fontFamily
+        - color
+    - **Configurable Animation Intensity**: The strength of the base animation and the hover effect can be fine-tuned using the baseIntensity and hoverIntensity props.
+    - **Intelligent Font & Size Handling**: It waits for document fonts to be ready before rendering to ensure custom fonts are displayed correctly. It also precisely measures the text to create a tightly fitting canvas that adapts to the content.
 
 - **Can’t**:
    
-    - Render complex layouts with mixed formatting (like bold and italic within the same block). It applies one style to all of its text content.
-    - Be selected or copied like standard HTML text, as it is rendered on a canvas.
-    - Wrap text automatically; it's designed for single-line or pre-formatted text blocks.
+    - **Render Multi-Line Text**: The component joins all child elements into a single line of text. It does not support line breaks or paragraph rendering.
+    - **Render Complex Content**: It is designed to render plain text only. It cannot render HTML elements, links, or other components as its children.
+    - **Be Selected as Standard Text**: Because the text is rendered on a canvas, it cannot be selected, copied, or interacted with like normal DOM text.
+    - **Provide Animation Controls**: The animation is hard-coded to run continuously. It does not offer props to pause, stop, or change the speed of the animation.
 
 
-![fuzzytext.webp](/_RESOURCES/IMAGES/fuzzytext.webp)
+-----
+
+![fuzzytext.webp](_resources/images/fuzzy_text.webp)
 
 
 

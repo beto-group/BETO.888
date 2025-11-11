@@ -1,0 +1,80 @@
+{
+  "canvasState": {
+    "position": {
+      "x": 309.07839538594646,
+      "y": 240.17432423078992
+    },
+    "zoom": 0.6599718334307441,
+    "isDarkMode": true,
+    "isCanvasLocked": false
+  },
+  "boxes": [
+    {
+      "id": "box-1753844269874-e7ijo",
+      "x": -282.04904363995087,
+      "y": -168.06135010219208,
+      "width": 780.1519779961418,
+      "height": 631.2719963315385,
+      "baseColor": "white",
+      "backgroundColor": "rgba(50, 50, 50, 0.7)",
+      "opacity": 1,
+      "border": "1px dashed #888",
+      "label": "Datacore Component (Edit to Configure)",
+      "type": "datacore-component",
+      "filePath": "_RESOURCES/DATACORE/12 LottieExperiment/D.q.lottieexperiment.component.md",
+      "header": "ViewComponent",
+      "functionName": "View",
+      "autoReload": false,
+      "props": {},
+      "componentName": "D.q.d3jstest.component"
+    },
+    {
+      "id": "box-1762416901808-c10n04",
+      "x": 520.6431291934821,
+      "y": 20.291391424269023,
+      "width": 624.6414682148276,
+      "height": 504.858660575003,
+      "baseColor": "white",
+      "backgroundColor": "rgba(50, 50, 50, 0.7)",
+      "opacity": 1,
+      "border": "1px dashed #888",
+      "label": "Datacore Component (Edit to Configure)",
+      "type": "datacore-component",
+      "componentName": "D.q.cardpicker.component",
+      "autoReload": false,
+      "props": {}
+    },
+    {
+      "id": "box-1762416927007-ypn2q7",
+      "x": -163.10457355259584,
+      "y": 490.7660151455905,
+      "width": 661.764264611518,
+      "height": 601.832496060235,
+      "baseColor": "white",
+      "backgroundColor": "rgba(50, 50, 50, 0.7)",
+      "opacity": 1,
+      "border": "1px dashed #888",
+      "label": "Datacore Component (Edit to Configure)",
+      "type": "datacore-component",
+      "componentName": "D.q.animatedcard.component",
+      "autoReload": false,
+      "props": {}
+    },
+    {
+      "id": "box-1762417001048-h1zrq",
+      "x": 522.9159534626672,
+      "y": 549.8594461444039,
+      "width": 561.002388677644,
+      "height": 463.9478237296707,
+      "baseColor": "white",
+      "backgroundColor": "rgba(50, 50, 50, 0.7)",
+      "opacity": 1,
+      "border": "1px dashed #888",
+      "label": "Datacore Component (Edit to Configure)",
+      "type": "datacore-component",
+      "componentName": "D.q.world888.component",
+      "autoReload": false,
+      "props": {}
+    }
+  ]
+}

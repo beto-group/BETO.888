@@ -1,6 +1,6 @@
 
 
-### Tab : CodeEditor
+### Tab: Code Editor v1
 
 - **Description**: Code editor for DATACORE components using Ace Editor.
 - **Does**:
@@ -14,10 +14,9 @@
     - No file save/load integration for edited code.
 
 
-![code_editor_1.webp](/_RESOURCES/IMAGES/code_editor_1.webp)
+----
 
-
-
+![code_editor_1.webp](_resources/images/code_editor_1.webp)
 
 
 ### Components

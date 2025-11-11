@@ -86,6 +86,16 @@ function FileSearchPanel({ allFiles, searchTerm, setSearchTerm, onFileDragStart,
     const ITEM_HEIGHT = 34;
     const containerRef = useRef(null);
     const [containerHeight, setContainerHeight] = useState(300);
+    
+    const THEME = {
+        background: '#000000',
+        backgroundAlt: '#0A0A0A',
+        backgroundAlt2: '#121212',
+        foreground: '#FFFFFF',
+        foregroundMuted: '#999999',
+        accent: '#9370DB',
+        accentBorder: 'rgba(147, 112, 219, 0.3)',
+    };
 
     useEffect(() => {
         const resizeObserver = new ResizeObserver(entries => {
@@ -101,10 +111,10 @@ function FileSearchPanel({ allFiles, searchTerm, setSearchTerm, onFileDragStart,
     }, []);
 
     const STYLES = {
-        panel: { display: 'flex', flexDirection: 'column', gap: '10px', padding: '10px', backgroundColor: '#2a2a2a', borderRadius: '8px', borderLeft: '1px solid #444', width: '250px', flexShrink: 0 },
-        searchInput: { width: '100%', padding: '8px', backgroundColor: '#333', color: '#e0e0e0', border: '1px solid #555', borderRadius: '4px', boxSizing: 'border-box' },
+        panel: { display: 'flex', flexDirection: 'column', gap: '10px', padding: '10px', backgroundColor: THEME.backgroundAlt, borderRadius: '8px', border: '1px solid ' + THEME.accentBorder, width: '250px', flexShrink: 0 },
+        searchInput: { width: '100%', padding: '8px', backgroundColor: THEME.backgroundAlt2, color: THEME.foreground, border: '1px solid ' + THEME.accentBorder, borderRadius: '4px', boxSizing: 'border-box' },
         fileListContainer: { flex: 1, minHeight: 0 },
-        fileItem: { padding: '8px', fontSize: '13px', backgroundColor: '#3c3c3c', borderRadius: '4px', cursor: 'grab', userSelect: 'none', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: '1.5', height: `${ITEM_HEIGHT}px`, boxSizing: 'border-box' },
+        fileItem: { padding: '8px', fontSize: '13px', backgroundColor: THEME.backgroundAlt2, borderRadius: '4px', cursor: 'grab', userSelect: 'none', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: '1.5', height: `${ITEM_HEIGHT}px`, boxSizing: 'border-box', color: THEME.foreground, border: '1px solid transparent', transition: 'border-color 0.2s' },
     };
 
     const filteredFiles = useMemo(() => {
@@ -133,20 +143,33 @@ function FileSearchPanel({ allFiles, searchTerm, setSearchTerm, onFileDragStart,
 function LayoutNode({ node, isDebugVisible, depth = 0, onDelete, onDrop, onAddNode, onSplit, dragOverId, setDragOverId }) {
     if (!node || typeof node !== 'object') return null;
     
+    const THEME = {
+        background: '#000000',
+        backgroundAlt: '#0A0A0A',
+        backgroundAlt2: '#121212',
+        foreground: '#FFFFFF',
+        foregroundMuted: '#999999',
+        accent: '#9370DB',
+        accentBorder: 'rgba(147, 112, 219, 0.3)',
+        danger: '#FF4444',
+        success: '#44FF88',
+        info: '#4488FF',
+    };
+    
     const isDroppableContainer = node.type === 'split' || node.type === 'tabs';
     const STYLES = {
-        split: { display: 'flex', flex: '1 1 0%', margin: '2px', padding: '4px', border: '1px solid #555', borderRadius: '8px', minWidth: 0, minHeight: 0, position: 'relative', transition: 'border-color 0.2s ease, border-width 0.2s ease' },
-        tabs: { display: 'flex', flexDirection: 'column', flex: 1, border: '1px solid #444', borderRadius: '8px', padding: '8px', margin: '4px', backgroundColor: 'rgba(20,20,20,0.3)', position: 'relative', transition: 'border-color 0.2s ease, border-width 0.2s ease' },
-        leaf: { display: 'flex', flex: 1, backgroundColor: '#3a3a3a', justifyContent: 'center', alignItems: 'center', textAlign: 'center', padding: '12px', margin: '4px', border: '1px solid #555', borderRadius: '12px', boxShadow: 'inset 0 0 10px rgba(0,0,0,0.4)', minHeight: '40px', position: 'relative' },
-        header: { fontSize: '12px', color: '#888', marginBottom: '8px', paddingBottom: '4px', borderBottom: '1px solid #555', flexShrink: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
-        fileInfo: { fontSize: '13px', color: '#b0bec5', fontStyle: 'italic', wordBreak: 'break-all' },
-        typeInfo: { fontSize: '13px', color: '#b0bec5', fontStyle: 'italic' },
-        debugInfo: { position: 'absolute', top: '2px', left: '4px', fontSize: '9px', fontFamily: 'monospace', color: 'rgb(255, 121, 121)', backgroundColor: 'rgba(0,0,0,0.6)', padding: '1px 3px', borderRadius: '2px', zIndex: 10 },
-        actionButton: { position: 'absolute', top: '2px', right: '4px', cursor: 'pointer', zIndex: 11, fontSize: '14px', userSelect: 'none', display: 'flex', gap: '4px', backgroundColor: 'rgba(0,0,0,0.6)', padding: '1px 3px', borderRadius: '3px' },
-        icon: { color: 'rgb(255, 121, 121)', lineHeight: '1' },
-        addIcon: { color: '#76e076', fontWeight: 'bold', lineHeight: '1' },
-        splitIcon: { color: '#6ab0f3', fontWeight: 'bold', lineHeight: '1', fontSize: '12px' },
-        dragOver: { borderColor: '#8A2BE2', borderWidth: '2px' }
+        split: { display: 'flex', flex: '1 1 0%', margin: '2px', padding: '4px', border: '1px solid ' + THEME.accentBorder, borderRadius: '8px', minWidth: 0, minHeight: 0, position: 'relative', transition: 'border-color 0.2s ease, border-width 0.2s ease', backgroundColor: THEME.backgroundAlt },
+        tabs: { display: 'flex', flexDirection: 'column', flex: 1, border: '1px solid ' + THEME.accentBorder, borderRadius: '8px', padding: '8px', margin: '4px', backgroundColor: THEME.backgroundAlt2, position: 'relative', transition: 'border-color 0.2s ease, border-width 0.2s ease' },
+        leaf: { display: 'flex', flex: 1, backgroundColor: THEME.backgroundAlt2, justifyContent: 'center', alignItems: 'center', textAlign: 'center', padding: '12px', margin: '4px', border: '1px solid ' + THEME.accentBorder, borderRadius: '12px', minHeight: '40px', position: 'relative', color: THEME.foreground },
+        header: { fontSize: '12px', color: THEME.foregroundMuted, marginBottom: '8px', paddingBottom: '4px', borderBottom: '1px solid ' + THEME.accentBorder, flexShrink: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
+        fileInfo: { fontSize: '13px', color: THEME.foreground, fontStyle: 'italic', wordBreak: 'break-all' },
+        typeInfo: { fontSize: '13px', color: THEME.foregroundMuted, fontStyle: 'italic' },
+        debugInfo: { position: 'absolute', top: '2px', left: '4px', fontSize: '9px', fontFamily: 'monospace', color: THEME.danger, backgroundColor: 'rgba(0,0,0,0.8)', padding: '1px 3px', borderRadius: '2px', zIndex: 10 },
+        actionButton: { position: 'absolute', top: '2px', right: '4px', cursor: 'pointer', zIndex: 11, fontSize: '14px', userSelect: 'none', display: 'flex', gap: '4px', backgroundColor: 'rgba(0,0,0,0.8)', padding: '2px 4px', borderRadius: '3px', border: '1px solid ' + THEME.accentBorder },
+        icon: { color: THEME.danger, lineHeight: '1' },
+        addIcon: { color: THEME.success, fontWeight: 'bold', lineHeight: '1' },
+        splitIcon: { color: THEME.info, fontWeight: 'bold', lineHeight: '1', fontSize: '12px' },
+        dragOver: { borderColor: THEME.accent, borderWidth: '2px' }
     };
 
     const { type, children, state, direction, id } = node;
@@ -164,13 +187,13 @@ function LayoutNode({ node, isDebugVisible, depth = 0, onDelete, onDrop, onAddNo
     switch (type) {
         case 'split':
             const splitStyle = { ...STYLES.split, flexDirection: direction === 'horizontal' ? 'column' : 'row', ...(dragOverId === id ? STYLES.dragOver : {}) };
-            return <div style={splitStyle} {...wrapperProps} draggable="true" onDragStart={handleDragStart}>{isDebugVisible && <div style={STYLES.debugInfo}>{`type: ${type}, dir: ${direction}`}</div>}<div style={STYLES.actionButton}><span style={STYLES.addIcon} onClick={handleAdd} title="Add New Pane Here">+</span><span style={STYLES.icon} onClick={handleDelete} title="Delete Split">&times;</span></div>{(children || []).map((child) => <LayoutNode key={child.id} {...{node: child, isDebugVisible, depth: depth + 1, onDelete, onDrop, onAddNode, onSplit, dragOverId, setDragOverId}} />)}</div>;
+            return <div style={splitStyle} {...wrapperProps} draggable="true" onDragStart={handleDragStart}>{isDebugVisible && <div style={STYLES.debugInfo}>{`type: ${type}, dir: ${direction}`}</div>}<div style={STYLES.actionButton}><span style={STYLES.addIcon} onClick={handleAdd} title="Add New Pane Here"><dc.Icon icon="plus" style={{ width: '12px', height: '12px' }} /></span><span style={STYLES.icon} onClick={handleDelete} title="Delete Split"><dc.Icon icon="x" style={{ width: '12px', height: '12px' }} /></span></div>{(children || []).map((child) => <LayoutNode key={child.id} {...{node: child, isDebugVisible, depth: depth + 1, onDelete, onDrop, onAddNode, onSplit, dragOverId, setDragOverId}} />)}</div>;
         case 'tabs':
             const tabStyle = { ...STYLES.tabs, ...(dragOverId === id ? STYLES.dragOver : {}) };
-            return <div style={tabStyle} {...wrapperProps} draggable="true" onDragStart={handleDragStart}>{isDebugVisible && <div style={STYLES.debugInfo}>{`type: ${type}`}</div>}<div style={STYLES.header}><span>Tab Group</span><div style={{display:'flex', gap: '8px', alignItems: 'center'}}><span style={STYLES.splitIcon} onClick={(e) => handleSplit(e, 'vertical')} title="Split Vertical">↔</span><span style={STYLES.splitIcon} onClick={(e) => handleSplit(e, 'horizontal')} title="Split Horizontal">↕</span><span style={STYLES.addIcon} onClick={handleAdd} title="Add New Pane Here">+</span><span style={STYLES.icon} onClick={handleDelete} title="Delete Tab Group">&times;</span></div></div>{(children || []).map((leaf) => <LayoutNode key={leaf.id} {...{node: leaf, isDebugVisible, depth: depth + 1, onDelete, onDrop, onAddNode, onSplit, dragOverId, setDragOverId}} />)}</div>;
+            return <div style={tabStyle} {...wrapperProps} draggable="true" onDragStart={handleDragStart}>{isDebugVisible && <div style={STYLES.debugInfo}>{`type: ${type}`}</div>}<div style={STYLES.header}><span>Tab Group</span><div style={{display:'flex', gap: '8px', alignItems: 'center'}}><span style={STYLES.splitIcon} onClick={(e) => handleSplit(e, 'vertical')} title="Split Vertical"><dc.Icon icon="separator-vertical" style={{ width: '12px', height: '12px' }} /></span><span style={STYLES.splitIcon} onClick={(e) => handleSplit(e, 'horizontal')} title="Split Horizontal"><dc.Icon icon="separator-horizontal" style={{ width: '12px', height: '12px' }} /></span><span style={STYLES.addIcon} onClick={handleAdd} title="Add New Pane Here"><dc.Icon icon="plus" style={{ width: '12px', height: '12px' }} /></span><span style={STYLES.icon} onClick={handleDelete} title="Delete Tab Group"><dc.Icon icon="x" style={{ width: '12px', height: '12px' }} /></span></div></div>{(children || []).map((leaf) => <LayoutNode key={leaf.id} {...{node: leaf, isDebugVisible, depth: depth + 1, onDelete, onDrop, onAddNode, onSplit, dragOverId, setDragOverId}} />)}</div>;
         case 'leaf':
             const leafContent = state?.state?.file ? <span style={STYLES.fileInfo}>{state.state.file.split('/').pop()}</span> : <span style={STYLES.typeInfo}>{state?.type || 'Empty Pane'}</span>;
-            return <div style={STYLES.leaf} title={state?.state?.file || state?.type} draggable="true" onDragStart={handleDragStart}>{isDebugVisible && <div style={STYLES.debugInfo}>{`type: ${type}`}</div>}<div style={STYLES.actionButton}><span style={STYLES.icon} onClick={handleDelete} title="Delete Pane">&times;</span></div>{leafContent}</div>;
+            return <div style={STYLES.leaf} title={state?.state?.file || state?.type} draggable="true" onDragStart={handleDragStart}>{isDebugVisible && <div style={STYLES.debugInfo}>{`type: ${type}`}</div>}<div style={STYLES.actionButton}><span style={STYLES.icon} onClick={handleDelete} title="Delete Pane"><dc.Icon icon="x" style={{ width: '12px', height: '12px' }} /></span></div>{leafContent}</div>;
         default:
              if (children && Array.isArray(children)) return children.map((child) => <LayoutNode key={child.id} {...{node: child, isDebugVisible, depth: depth + 1, onDelete, onDrop, onAddNode, onSplit, dragOverId, setDragOverId}} />);
              return null;
@@ -180,30 +203,44 @@ function LayoutNode({ node, isDebugVisible, depth = 0, onDelete, onDrop, onAddNo
 // --- MAIN WORKSPACE EDITOR COMPONENT ---
 function WorkspaceLayoutViewer() {
   const uniqueWrapperClass = "interactive-wrapper-" + useRef(Math.random().toString(36).substr(2, 9)).current;
+  
+  const THEME = {
+    background: '#000000',
+    backgroundAlt: '#0A0A0A',
+    backgroundAlt2: '#121212',
+    foreground: '#FFFFFF',
+    foregroundMuted: '#999999',
+    accent: '#9370DB',
+    accentDim: 'rgba(147, 112, 219, 0.15)',
+    accentBorder: 'rgba(147, 112, 219, 0.3)',
+    success: '#44FF88',
+    danger: '#FF4444',
+  };
+  
   const STYLES = {
     hoverEffectStyle: `.${uniqueWrapperClass}:hover .subtle-icon { opacity: 0.7; transform: scale(1); }`,
-    fullTabWrapper: { position: 'relative', height: "100%", width: "100%", padding: "20px", boxSizing: "border-box", display: "flex", flexDirection: "column", gap: "15px", backgroundColor: "var(--background-secondary)", color: "var(--text-normal)" },
-    exitIcon: { position: "absolute", top: "15px", right: "20px", fontFamily: "monospace", fontSize: "14px", color: "var(--text-faint)", userSelect: "none", cursor: "pointer", opacity: 0, transform: "scale(0.9)", transition: "opacity 0.2s ease-in-out, transform 0.2s ease-in-out", zIndex: 10, },
-    compactWrapper: { padding: "16px", boxSizing: "border-box", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "12px", border: "1px dashed var(--background-modifier-border)", borderRadius: "8px", backgroundColor: "var(--background-primary-alt)" },
-    compactText: { margin: 0, color: "var(--text-muted)", fontSize: "14px" },
+    fullTabWrapper: { position: 'relative', height: "100%", width: "100%", padding: "20px", boxSizing: "border-box", display: "flex", flexDirection: "column", gap: "15px", backgroundColor: THEME.background, color: THEME.foreground },
+    exitIcon: { position: "absolute", top: "15px", right: "20px", fontFamily: "monospace", fontSize: "14px", color: THEME.foregroundMuted, userSelect: "none", cursor: "pointer", opacity: 0, transform: "scale(0.9)", transition: "opacity 0.2s ease-in-out, transform 0.2s ease-in-out", zIndex: 10, },
+    compactWrapper: { padding: "16px", boxSizing: "border-box", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "12px", border: "1px dashed " + THEME.accentBorder, borderRadius: "8px", backgroundColor: THEME.backgroundAlt },
+    compactText: { margin: 0, color: THEME.foregroundMuted, fontSize: "14px" },
     buttonGroup: { display: "flex", gap: "10px" },
-    button: { padding: "8px 16px", fontSize: "12px", fontWeight: "500", color: "var(--text-on-accent)", backgroundColor: "var(--interactive-accent)", border: "none", borderRadius: "6px", cursor: "pointer" },
-    secondaryButton: { backgroundColor: "var(--background-modifier-hover)", color: "var(--text-muted)" },
-    header: { fontSize: '24px', fontWeight: 'bold', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 },
-    controls: { display: 'flex', gap: '10px', alignItems: 'center', padding: '10px', backgroundColor: '#2a2a2a', borderRadius: '8px', flexShrink: 0, flexWrap: 'wrap' },
-    select: { flex: '1 1 180px', padding: '8px', backgroundColor: '#333', color: '#e0e0e0', border: '1px solid #555', borderRadius: '4px' },
+    button: { padding: "8px 16px", fontSize: "12px", fontWeight: "500", color: THEME.background, backgroundColor: THEME.accent, border: "none", borderRadius: "6px", cursor: "pointer", display: "flex", alignItems: "center", gap: "6px" },
+    secondaryButton: { backgroundColor: THEME.backgroundAlt2, color: THEME.foreground, border: "1px solid " + THEME.accentBorder },
+    header: { fontSize: '24px', fontWeight: 'bold', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0, color: THEME.foreground },
+    controls: { display: 'flex', gap: '10px', alignItems: 'center', padding: '10px', backgroundColor: THEME.backgroundAlt, borderRadius: '8px', flexShrink: 0, flexWrap: 'wrap', border: '1px solid ' + THEME.accentBorder },
+    select: { flex: '1 1 180px', padding: '8px 12px', backgroundColor: THEME.backgroundAlt2, color: THEME.foreground, border: '1px solid ' + THEME.accentBorder, borderRadius: '4px', fontSize: '13px', lineHeight: '1.5', minHeight: '36px', boxSizing: 'border-box' },
     layoutContainerWrapper: { flex: 1, display: 'flex', gap: '10px', overflow: 'hidden' },
-    layoutContainer: { flex: 1, display: 'flex', flexDirection: 'column', overflow: 'auto', border: '2px dashed #8A2BE2', padding: '10px', borderRadius: '8px', minHeight: '200px' },
+    layoutContainer: { flex: 1, display: 'flex', flexDirection: 'column', overflow: 'auto', border: '2px dashed ' + THEME.accent, padding: '10px', borderRadius: '8px', minHeight: '200px', backgroundColor: THEME.backgroundAlt },
     sidebarContainer: { display: 'flex', gap: '10px', flex: 1, minHeight: 0 },
     mainArea: { flex: 3, display: 'flex', flexDirection: 'column', minWidth: 0 },
     sidebar: { flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 },
-    areaTitle: { textAlign: 'center', padding: '5px', color: '#aaa', fontSize: '12px', backgroundColor: '#2f2f2f', borderBottom: '1px solid #666', borderRadius: '4px 4px 0 0' },
-    debugContainer: { marginTop: '15px', border: '1px solid #444', borderRadius: '4px', flexShrink: 0 },
-    debugPre: { backgroundColor: '#222', color: '#d0d0d0', padding: '15px', margin: 0, fontSize: '12px', whiteSpace: 'pre-wrap', maxHeight: '300px', overflowY: 'auto' },
-    iconButton: { padding: '6px', cursor: 'pointer', backgroundColor: '#333', color: 'white', border: '1px solid #555', borderRadius: '4px' },
-    error: { color: '#ff5555', backgroundColor: '#2d1c1c', border: '1px solid #c53030', borderRadius: '4px', padding: '15px' },
-    managementButton: { padding: '8px 12px', fontSize: '12px', border: 'none', borderRadius: '6px', cursor: 'pointer', flexShrink: 0 },
-    saveButton: { fontWeight: 'bold', color: 'var(--text-on-accent)', backgroundColor: 'var(--interactive-success)' }
+    areaTitle: { textAlign: 'center', padding: '5px', color: THEME.accent, fontSize: '12px', backgroundColor: THEME.backgroundAlt2, borderBottom: '1px solid ' + THEME.accentBorder, borderRadius: '4px 4px 0 0', fontWeight: '600' },
+    debugContainer: { marginTop: '15px', border: '1px solid ' + THEME.accentBorder, borderRadius: '4px', flexShrink: 0, backgroundColor: THEME.backgroundAlt },
+    debugPre: { backgroundColor: THEME.background, color: THEME.foregroundMuted, padding: '15px', margin: 0, fontSize: '12px', whiteSpace: 'pre-wrap', maxHeight: '300px', overflowY: 'auto' },
+    iconButton: { padding: '6px', cursor: 'pointer', backgroundColor: THEME.backgroundAlt2, color: THEME.foreground, border: '1px solid ' + THEME.accentBorder, borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center' },
+    error: { color: THEME.danger, backgroundColor: THEME.backgroundAlt, border: '1px solid ' + THEME.danger, borderRadius: '4px', padding: '15px' },
+    managementButton: { padding: '8px 12px', fontSize: '12px', border: 'none', borderRadius: '6px', cursor: 'pointer', flexShrink: 0, backgroundColor: THEME.backgroundAlt2, color: THEME.foreground, border: '1px solid ' + THEME.accentBorder, display: 'flex', alignItems: 'center', gap: '6px' },
+    saveButton: { fontWeight: 'bold', color: THEME.background, backgroundColor: THEME.success, border: 'none' }
   };
 
   const [isFullTab, setIsFullTab] = useState(true);
@@ -414,7 +451,6 @@ function WorkspaceLayoutViewer() {
   const handleCopyPath = () => { try { const activeFile = dc.app.workspace.getActiveFile(); if (activeFile) { navigator.clipboard.writeText(activeFile.path); window.alert(`Path copied: ${activeFile.path}`); } else { window.alert("Could not find active file."); } } catch (e) { window.alert("Error copying path."); } };
   const DebugIcon = () => (<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v3"/><path d="M2 16.1A5 5 0 0 1 5.9 20h.2a5 5 0 0 1 5.9-3.9h0a5 5 0 0 1 5.9 3.9h.2a5 5 0 0 1 3.9-3.9"/><line x1="8" x2="8" y1="4" y2="9"/><line x1="16" x2="16" y1="4" y2="9"/><line x1="12" x2="12" y1="20" y2="9"/></svg>);
   const ReloadIcon = () => (<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21.5 4.5V9.5H16.5" stroke="currentColor" strokeWidth="2"/><path d="M3.5 19.5V14.5H8.5" stroke="currentColor" strokeWidth="2"/><path d="M21.16 12.55a10 10 0 1 1-1.33-4.55" stroke="currentColor" strokeWidth="2"/></svg>);
-  
   return (
     <div ref={containerRef}>
       <style>{STYLES.hoverEffectStyle}</style>
@@ -424,9 +460,9 @@ function WorkspaceLayoutViewer() {
           <div style={STYLES.header}>
               <span>Workspace Editor</span>
               <div style={{display: 'flex', gap: '8px'}}>
-                  <button style={STYLES.iconButton} onClick={() => setIsFilePanelVisible(p => !p)} title="Toggle File Search"><SearchIcon /></button>
-                  <button style={STYLES.iconButton} onClick={loadWorkspaceList} title="Reload Workspaces"><ReloadIcon /></button>
-                  <button style={STYLES.iconButton} onClick={() => setIsDebugVisible(p => !p)} title="Toggle Debug View"><DebugIcon /></button>
+                  <button style={STYLES.iconButton} onClick={() => setIsFilePanelVisible(p => !p)} title="Toggle File Search"><dc.Icon icon="search" style={{ width: '16px', height: '16px' }} /></button>
+                  <button style={STYLES.iconButton} onClick={loadWorkspaceList} title="Reload Workspaces"><dc.Icon icon="refresh-cw" style={{ width: '16px', height: '16px' }} /></button>
+                  <button style={STYLES.iconButton} onClick={() => setIsDebugVisible(p => !p)} title="Toggle Debug View"><dc.Icon icon="bug" style={{ width: '16px', height: '16px' }} /></button>
               </div>
           </div>
           {error && <p style={STYLES.error}><strong>Error:</strong> {error}</p>}
@@ -435,11 +471,11 @@ function WorkspaceLayoutViewer() {
                   <option value="">-- Select a Workspace --</option>
                   {savedWorkspaces.map(ws => <option key={ws.id} value={ws.id}>{ws.name}</option>)}
               </select>
-              <button style={STYLES.managementButton} onClick={handleDeleteWorkspace} disabled={!selectedWorkspaceId}>Delete</button>
-              <button style={STYLES.managementButton} onClick={handleAddNewWorkspace}>New</button>
-              {!layout?.left && <button style={STYLES.managementButton} onClick={() => handleAddSidebar('left')} disabled={!selectedWorkspaceId}>Add Left Sidebar</button>}
-              {!layout?.right && <button style={STYLES.managementButton} onClick={() => handleAddSidebar('right')} disabled={!selectedWorkspaceId}>Add Right Sidebar</button>}
-              <button style={{...STYLES.managementButton, ...STYLES.saveButton, marginLeft: 'auto'}} onClick={handleSaveWorkspace} disabled={!selectedWorkspaceId}>Save Changes</button>
+              <button style={STYLES.managementButton} onClick={handleDeleteWorkspace} disabled={!selectedWorkspaceId}><dc.Icon icon="trash-2" style={{ width: '14px', height: '14px' }} />Delete</button>
+              <button style={STYLES.managementButton} onClick={handleAddNewWorkspace}><dc.Icon icon="plus" style={{ width: '14px', height: '14px' }} />New</button>
+              {!layout?.left && <button style={STYLES.managementButton} onClick={() => handleAddSidebar('left')} disabled={!selectedWorkspaceId}><dc.Icon icon="panel-left" style={{ width: '14px', height: '14px' }} />Add Left Sidebar</button>}
+              {!layout?.right && <button style={STYLES.managementButton} onClick={() => handleAddSidebar('right')} disabled={!selectedWorkspaceId}><dc.Icon icon="panel-right" style={{ width: '14px', height: '14px' }} />Add Right Sidebar</button>}
+              <button style={{...STYLES.managementButton, ...STYLES.saveButton, marginLeft: 'auto'}} onClick={handleSaveWorkspace} disabled={!selectedWorkspaceId}><dc.Icon icon="save" style={{ width: '14px', height: '14px' }} />Save Changes</button>
           </div>
           <div style={STYLES.layoutContainerWrapper}>
               <div style={STYLES.layoutContainer}>
@@ -459,8 +495,8 @@ function WorkspaceLayoutViewer() {
         <div style={STYLES.compactWrapper}>
             <p style={STYLES.compactText}>Workspace Layout Editor is collapsed.</p>
             <div style={STYLES.buttonGroup}>
-                <button style={STYLES.button} onClick={handleEnterFullTab}>Show Editor</button>
-                <button style={{...STYLES.button, ...STYLES.secondaryButton}} onClick={handleCopyPath}>Find Codeblock</button>
+                <button style={STYLES.button} onClick={handleEnterFullTab}><dc.Icon icon="maximize-2" style={{ width: '14px', height: '14px' }} />Show Editor</button>
+                <button style={{...STYLES.button, ...STYLES.secondaryButton}} onClick={handleCopyPath}><dc.Icon icon="search" style={{ width: '14px', height: '14px' }} />Find Codeblock</button>
             </div>
         </div>
       )}

@@ -40,7 +40,7 @@
         "startupType": "disabled"
       },
       "dataview": {
-        "startupType": "short"
+        "startupType": "disabled"
       },
       "cm-editor-syntax-highlight-obsidian": {
         "startupType": "disabled"
@@ -52,7 +52,7 @@
         "startupType": "disabled"
       },
       "obsidian-excalidraw-plugin": {
-        "startupType": "instant"
+        "startupType": "long"
       },
       "fantasy-calendar": {
         "startupType": "disabled"
@@ -97,7 +97,7 @@
         "startupType": "long"
       },
       "templater-obsidian": {
-        "startupType": "long"
+        "startupType": "disabled"
       },
       "terminal": {
         "startupType": "disabled"
@@ -106,7 +106,7 @@
         "startupType": "disabled"
       },
       "code-files": {
-        "startupType": "instant"
+        "startupType": "long"
       },
       "dataview-publisher": {
         "startupType": "instant"
@@ -181,10 +181,10 @@
         "startupType": "instant"
       },
       "text-extractor": {
-        "startupType": "instant"
+        "startupType": "disabled"
       },
       "obsidian-advanced-uri": {
-        "startupType": "instant"
+        "startupType": "long"
       },
       "advanced-debug-mode": {
         "startupType": "instant"
@@ -193,7 +193,10 @@
         "startupType": "disabled"
       },
       "test-plugin": {
-        "startupType": "instant"
+        "startupType": "disabled"
+      },
+      "fix-require-modules": {
+        "startupType": "short"
       }
     },
     "loadOrder": []

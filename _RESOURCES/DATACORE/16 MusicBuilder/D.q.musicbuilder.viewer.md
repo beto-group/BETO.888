@@ -1,9 +1,13 @@
 
 
 
-Burger menu doesnt really work
+
 
 ```datacorejsx
-const { View } = await dc.require(dc.headerLink("_RESOURCES/DATACORE/16 MusicBuilder/D.q.musicbuilder.component.md", "ViewComponent"));
+////////////////////////////////////////////////////
+///             Viewer Entry Point               ///
+////////////////////////////////////////////////////
+const componentPath = dc.resolvePath("D.q.musicbuilder.component");
+const { View } = await dc.require(dc.headerLink(componentPath, "ViewComponent"));
 return <View />;
 ```

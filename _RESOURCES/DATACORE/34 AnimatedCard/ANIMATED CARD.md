@@ -1,31 +1,35 @@
 
 ### Tab: AnimatedCard
 
-- **Description**: A highly polished 3D component that renders a single, interactive card. The card's front face plays a sequence of videos from a weighted playlist, creating a dynamic, "living" texture.
+- **Description**: A visually stunning component that renders a 3D model of a card with interactive, animated video textures. Built with Babylon.js, it provides an immersive, full-pane viewing experience where users can rotate the 3D card and trigger different video playback sequences by clicking on its surface. It intelligently preloads and swaps video textures for seamless, on-demand playback.
 
 - **Does**:
    
-    - Renders a 3D card model using Babylon.js with distinct textures for the front, back, and edges.
-    - Uses a local video file as a "live" texture for the card's front face.
-    - Implements a weighted playlist system to randomly select the next video to play, with an override to force a "rare" video by holding Shift while clicking.
-    - Pre-loads the next video in the background while the current one is playing for a seamless transition.
-    - Features idle-state auto-rotation that stops upon user interaction and resumes after a period of inactivity.
-    - Includes a refresh button to restart the video playlist from the beginning.
+    - **Live 3D Card Rendering**:    
+        - Renders a 3D model of a card with distinct front, back, and edge materials.
+        - The back and edges of the card use static image textures.
+        - The front of the card is a dynamic video texture that can play animated content.
+    - **Interactive Video Playback & Playlist**:
+        - The component manages a weighted playlist of video files, allowing for both common and rare videos to be played.
+        - Clicking on the front face of the 3D card triggers the next video in the sequence.
+        - Includes a "cheat code" to force a rare video to play by holding Shift while clicking.
+    - **Seamless Video Buffering**: To ensure smooth transitions, the component employs a double-buffering system. While one video is playing, the next video in the sequence is preloaded in the background on a second, hidden video texture.
+    - **Idle Auto-Rotation**: The 3D card gently auto-rotates to showcase its design. This rotation automatically pauses when the user interacts with the camera (panning or zooming) and resumes after a period of inactivity.
+    - **Dynamic Dependency Loading**: Automatically checks for and loads the Babylon.js library from a CDN if it's not already available in the current session.
+    - **Configurable & Reusable**: The component is designed to be highly reusable, accepting props to change the front and back images, the depth of the card, the edge color, and camera constraints.
+    - **Immersive Full-Tab UI**: Designed to run in a full-pane mode that takes over the entire Obsidian view, with a compact fallback option.
 
 - **Can’t**:
-   
-    - Display more than one card at a time.
-    - Use anything other than a video as the animated texture (e.g., GIFs, Lottie animations).
-    - Save its state; the video sequence and rotation reset on every view load.
-    - Have its content (video files, card textures) or behavior (rotation speed, weights) configured without editing the code.
+  
+    - **Visualize Vault Data**: This component is a visual media player. It does not read, parse, or display any data from the vault beyond the specified image and video files.    
+    - **Provide Custom Video Controls**: All video playback is controlled by clicking the 3D object. There are no on-screen UI controls to pause, rewind, scrub, or change the volume of the videos.
+    - **Function Offline on First Run**: It requires an internet connection for its initial run to download the Babylon.js library.
+    - **Persist Playback State**: The video playlist and current playback position are not saved. The component will always restart from the beginning when the note is reloaded.
 
 
-<iframe allowfullscreen src="https://www.youtube.com/embed/fcnKYyVMmCc" width="100%" height="555" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ></iframe>
+----
 
-
-
-
-![animated_card.webp](/_RESOURCES/IMAGES/animated_card.webp)
+![animated_card.webp](_resources/images/animated_card.webp)
 
 
 ### Components

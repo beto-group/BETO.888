@@ -6,10 +6,10 @@
 
 ```jsx
 // WorldView.js
-const fileName = "_RESOURCES/DATACORE/22 World888/D.q.world888.component.md"
+const fileName = dc.resolvePath("D.q.world888.component.md");
 
 // Import React/Preact hooks.
-const { useState, useEffect, useRef } = dc;
+const { useState, useEffect, useRef, useMemo } = dc;
 const { WorldLogic } = await dc.require(
   dc.headerLink(fileName, "WorldLogic")
 );
@@ -18,6 +18,9 @@ const { ScreenModeHelper } = await dc.require(
 );
 const { preventDefaultInputs } = await dc.require(
   dc.headerLink(fileName, "PreventDefaultInputs")
+);
+const { LoadingConfirmation } = await dc.require(
+  dc.headerLink(fileName, "LoadingConfirmation")
 );
 
 function WorldView() {
@@ -28,29 +31,168 @@ function WorldView() {
   const originalParentRefForPiP = useRef(null);
   const [worldResources, setWorldResources] = useState(null);
   const worldResourcesRef = useRef(null); // Ref to hold resources specifically for cleanup access
+  const [isFullTab, setIsFullTab] = useState(true); // Start in full-tab mode
+  const [showLoadingConfirm, setShowLoadingConfirm] = useState(true); // Show confirmation popup
+  const [isLoadingWorld, setIsLoadingWorld] = useState(false); // Track loading state
+  const stateRefs = useRef({}).current;
+
+  // Get current file path to construct relative GLB path (memoized to prevent re-renders)
+  const currentFilePath = dc.resolvePath("D.q.world888.component");
+  
+  // Memoize glbBasePath to prevent unnecessary re-renders
+  const glbBasePath = useMemo(() => {
+    // Extract the directory path and construct the path to _resources/glb
+    // Current path is like: "_RESOURCES/DATACORE/22 World888/D.q.world888.component.md"
+    // We want: "_RESOURCES/DATACORE/22 World888/_resources/glb/"
+    const componentDir = currentFilePath ? currentFilePath.substring(0, currentFilePath.lastIndexOf('/')) : '_RESOURCES/DATACORE/22 World888';
+    const path = `${componentDir}/_resources/glb/`;
+    
+   // console.log('[WorldView] Current file path:', currentFilePath);
+   // console.log('[WorldView] Component directory:', componentDir);
+   // console.log('[WorldView] GLB base path:', path);
+    
+    return path;
+  }, [currentFilePath]);
 
   // Initialize preventDefaultInputs to block all commands
   const { handleFocus, handleBlur, handleKeyDown } = preventDefaultInputs({
     viewRef: containerRef
   });
 
+  // Helper functions for full-tab mode
+  function findNearestAncestorWithClass(element, className) {
+    if (!element) return null;
+    let current = element.parentNode;
+    while (current) {
+      if (current.classList && current.classList.contains(className)) {
+        return current;
+      }
+      current = current.parentNode;
+    }
+    return null;
+  }
+
+  function findDirectChildByClass(parent, className) {
+    if (!parent) return null;
+    for (const child of parent.children) {
+      if (child.classList && child.classList.contains(className)) {
+        return child;
+      }
+    }
+    return null;
+  }
+
+  // Full-tab mode setup
   useEffect(() => {
+    if (!isFullTab || !containerRef.current) return;
+
+    const container = containerRef.current;
+    const targetPaneContent = findNearestAncestorWithClass(
+      container,
+      "workspace-leaf-content"
+    );
+
+    if (!targetPaneContent) {
+      console.warn('WorldView: No workspace-leaf-content found');
+      return;
+    }
+
+    const contentWrapper =
+      findDirectChildByClass(targetPaneContent, "view-content") ||
+      targetPaneContent;
+
+    // Save original state
+    stateRefs.originalParent = container.parentNode;
+    stateRefs.placeholder = document.createElement("div");
+    stateRefs.placeholder.style.display = "none";
+    container.parentNode.insertBefore(stateRefs.placeholder, container);
+
+    stateRefs.parentPositionInfo = {
+      element: contentWrapper,
+      original: window.getComputedStyle(contentWrapper).position,
+    };
+
+    if (stateRefs.parentPositionInfo.original === "static") {
+      contentWrapper.style.position = "relative";
+    }
+
+    // Move container to full-tab
+    contentWrapper.appendChild(container);
+
+    Object.assign(container.style, {
+      position: "absolute",
+      top: "0",
+      left: "0",
+      width: "100%",
+      height: "100%",
+      zIndex: "9998",
+      overflow: "auto",
+    });
+
+    //console.log('WorldView: Full-tab mode activated');
+
+    // Cleanup on unmount or when exiting full-tab
+    return () => {
+      // Don't cleanup if we're in browser fullscreen mode
+      if (document.fullscreenElement === container) {
+       // console.log('WorldView: Skipping full-tab cleanup - container is in fullscreen');
+        return;
+      }
+      
+      // Don't cleanup if container has been moved to document.body by another mode (window, pip, character)
+      if (container.parentNode === document.body) {
+       // console.log('WorldView: Skipping full-tab cleanup - container moved to body by another mode');
+        return;
+      }
+      
+      if (stateRefs.placeholder?.parentNode) {
+        stateRefs.placeholder.parentNode.replaceChild(
+          container,
+          stateRefs.placeholder
+        );
+        stateRefs.placeholder = null;
+      }
+
+      if (stateRefs.parentPositionInfo?.element) {
+        if (stateRefs.parentPositionInfo.original === "static") {
+          stateRefs.parentPositionInfo.element.style.position = "";
+        }
+        stateRefs.parentPositionInfo = null;
+      }
+
+      container.style.cssText = "";
+     // console.log('WorldView: Full-tab mode deactivated');
+    };
+  }, [isFullTab]);
+
+  // Handle world loading after user confirmation
+  const handleLoadWorld = () => {
+    setShowLoadingConfirm(false);
+    setIsLoadingWorld(true);
+  };
+
+  useEffect(() => {
+    // Don't start loading until user confirms
+    if (showLoadingConfirm || !isLoadingWorld) {
+      return;
+    }
+
     let isMounted = true; // Flag to prevent state updates on unmounted component
 
-    console.log("WorldView: Mounting and initializing WorldLogic...");
+    //console.log("WorldView: Mounting and initializing WorldLogic...");
 
     // Ensure canvasRef is populated before calling WorldLogic
     if (!canvasRef.current) {
       console.warn("WorldView: canvasRef is null initially in useEffect.");
     }
 
-    WorldLogic({ canvasRef }) // Pass the ref object itself
+    WorldLogic({ canvasRef, glbBasePath }) // Pass the ref object and GLB base path
       .then((resources) => {
         if (isMounted) {
           console.log("WorldView: World resources initialized.", resources);
           if (resources.multiplayerResources) {
             if (resources.multiplayerResources.isBroadcastChannel) {
-              console.log("WorldView: Multiplayer (BroadcastChannel) is active. Instance ID:", resources.multiplayerResources.instanceId);
+             // console.log("WorldView: Multiplayer (BroadcastChannel) is active. Instance ID:", resources.multiplayerResources.instanceId);
             } else {
               console.log("WorldView: Multiplayer (Unknown Type) is active.");
             }
@@ -60,7 +202,7 @@ function WorldView() {
           setWorldResources(resources);
           worldResourcesRef.current = resources; // Store in ref for cleanup access
         } else {
-          console.log("WorldView: Component unmounted before WorldLogic resolved. Cleaning up resources early.");
+         // console.log("WorldView: Component unmounted before WorldLogic resolved. Cleaning up resources early.");
           resources?.cleanup(); // Use optional chaining
         }
       })
@@ -74,11 +216,11 @@ function WorldView() {
     // Cleanup function for when the WorldView component unmounts
     return () => {
       isMounted = false;
-      console.log("WorldView: Unmounting component. Triggering cleanup...");
+    //   console.log("WorldView: Unmounting component. Triggering cleanup...");
 
       // Cleanup WorldLogic resources
       if (worldResourcesRef.current && typeof worldResourcesRef.current.cleanup === 'function') {
-        console.log("WorldView: Calling cleanup function from worldResourcesRef.");
+        // console.log("WorldView: Calling cleanup function from worldResourcesRef.");
         worldResourcesRef.current.cleanup();
       } else {
         console.warn("WorldView: Cleanup function not found on unmount via worldResourcesRef.");
@@ -93,7 +235,7 @@ function WorldView() {
       handleBlur();
       //console.log("WorldView: preventDefaultInputs cleanup completed.");
     };
-  }, []); // Empty dependency array ensures this runs only once on mount
+  }, [glbBasePath, isLoadingWorld, showLoadingConfirm]); // Re-run if GLB base path changes or loading state changes
 
   // Render logic
   return (
@@ -103,12 +245,22 @@ function WorldView() {
       style={{
         position: "relative",
         width: "100%",
-        height: "400px",
+        height: "100%",
         outline: "none",
+        background: "#000",
+        cursor: "crosshair", // Subtle crosshair cursor on the container
       }}
     >
+      {/* Show loading confirmation popup */}
+      {showLoadingConfirm && (
+        <LoadingConfirmation 
+          onConfirm={handleLoadWorld}
+          onCancel={() => setShowLoadingConfirm(false)}
+        />
+      )}
+
       {/* Ensure canvas has a ref */}
-      <canvas ref={canvasRef} style={{ width: "100%", height: "100%", display: "block" }} />
+  <canvas ref={canvasRef} style={{ width: "100%", height: "100%", display: "block" }} />
 
       {/* Conditional rendering based on worldResources */}
       {worldResources ? (
@@ -126,23 +278,166 @@ function WorldView() {
               defaultStyle="position: relative; width: 100%; height: 400px;"
               originalParentRefForWindow={originalParentRefForWindow}
               originalParentRefForPiP={originalParentRefForPiP}
-              allowedScreenModes={["browser", "window", "pip", "character"]}
+              allowedScreenModes={["browser", "window", "character"]}
               engine={worldResources.engine}
+              onModeChange={(mode) => {
+                // When ScreenModeHelper switches modes, inform WorldView so it can
+                // ensure the container returns to full-tab mode on exit and keep state.
+                // Browser mode (fullscreen) should KEEP fullTab active since it doesn't move the DOM
+                // Only exit fullTab for modes that actually reparent the container (window, pip, character)
+                // console.log("[WorldView] onModeChange called with mode:", mode);
+                if (mode === 'default') {
+                  setIsFullTab(true); // Return to fullTab
+                } else if (mode === 'browser') {
+                  // Browser mode (fullscreen) - KEEP fullTab active, don't move the container
+                  setIsFullTab(true);
+                } else {
+                  // Other modes (window, pip, character) - exit fullTab
+                  setIsFullTab(false);
+                }
+              }}
             />
           )}
 
           {/* Display multiplayer status */}
-          <div style={{ position: 'absolute', bottom: '10px', left: '10px', color: 'white', backgroundColor: 'rgba(0,0,0,0.6)', padding: '5px 8px', borderRadius: '4px', fontSize: '12px', zIndex: 10 }}>
-            Multiplayer: {worldResources.multiplayerResources ?
-              (worldResources.multiplayerResources.isBroadcastChannel ? `Local Active (ID: ...${worldResources.multiplayerResources.instanceId.slice(-6)})` : 'Active (Unknown)') :
-              'Inactive'}
+          <div style={{ 
+            position: 'absolute', 
+            bottom: '16px', 
+            left: '16px', 
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            color: 'white', 
+            backgroundColor: 'rgba(0, 0, 0, 0.6)', 
+            padding: '10px 16px', 
+            borderRadius: '8px', 
+            fontSize: '13px', 
+            zIndex: 10,
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+          }}>
+            <dc.Icon 
+              icon={worldResources.multiplayerResources ? "users" : "user-x"} 
+              style={{ 
+                fontSize: "16px", 
+                color: worldResources.multiplayerResources ? "rgba(16, 185, 129, 0.8)" : "rgba(255, 255, 255, 0.5)" 
+              }} 
+            />
+            <span style={{ fontWeight: '500' }}>
+              {worldResources.multiplayerResources ?
+                (worldResources.multiplayerResources.isBroadcastChannel ? `Multiplayer Active (${worldResources.multiplayerResources.instanceId.slice(-6)})` : 'Multiplayer Active') :
+                'Single Player'}
+            </span>
           </div>
         </>
-      ) : (
-        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', color: 'white' }}>
-          Loading World...
+      ) : isLoadingWorld && !showLoadingConfirm ? (
+        <div style={{ 
+          position: 'absolute', 
+          top: '50%', 
+          left: '50%', 
+          transform: 'translate(-50%, -50%)', 
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '24px',
+          color: 'white',
+          background: '#0a0a0a',
+          padding: '48px 64px',
+          borderRadius: '16px',
+          border: '1px solid rgba(139, 92, 246, 0.15)',
+          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(139, 92, 246, 0.1)',
+          minWidth: '320px',
+          textAlign: 'center'
+        }}>
+          {/* Animated Icon */}
+          <div style={{
+            width: '80px',
+            height: '80px',
+            borderRadius: '50%',
+            backgroundColor: '#000000',
+            border: '2px solid rgba(139, 92, 246, 0.2)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 0 30px rgba(139, 92, 246, 0.15)'
+          }}>
+            <dc.Icon 
+              icon="loader" 
+              style={{ 
+                width: '40px', 
+                height: '40px', 
+                color: '#8b5cf6',
+                animation: 'spin 2s linear infinite'
+              }} 
+            />
+          </div>
+          
+          {/* Title */}
+          <div style={{ 
+            fontSize: '24px', 
+            fontWeight: '700',
+            letterSpacing: '-0.5px',
+            color: '#ffffff',
+            fontFamily: 'system-ui, -apple-system, sans-serif'
+          }}>
+            Initializing World 888
+          </div>
+          
+          {/* Bouncing Dots */}
+          <div style={{
+            display: 'flex',
+            gap: '8px',
+            marginTop: '4px'
+          }}>
+            <div style={{
+              width: '6px',
+              height: '6px',
+              borderRadius: '50%',
+              background: '#8b5cf6',
+              animation: 'bounce 1.4s infinite ease-in-out both',
+              animationDelay: '-0.32s'
+            }}></div>
+            <div style={{
+              width: '6px',
+              height: '6px',
+              borderRadius: '50%',
+              background: '#8b5cf6',
+              animation: 'bounce 1.4s infinite ease-in-out both',
+              animationDelay: '-0.16s'
+            }}></div>
+            <div style={{
+              width: '6px',
+              height: '6px',
+              borderRadius: '50%',
+              background: '#8b5cf6',
+              animation: 'bounce 1.4s infinite ease-in-out both'
+            }}></div>
+          </div>
+          
+          {/* Status Text */}
+          <span style={{ 
+            fontSize: '13px', 
+            color: 'rgba(255, 255, 255, 0.4)',
+            marginTop: '8px',
+            fontFamily: 'system-ui, -apple-system, sans-serif'
+          }}>
+            Building environment and loading assets...
+          </span>
+          
+          {/* Animations */}
+          <style>{`
+            @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+            
+            @keyframes bounce {
+              0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+              40% { transform: scale(1); opacity: 1; }
+            }
+          `}</style>
         </div>
-      )}
+      ) : null}
     </div>
   );
 }
@@ -150,10 +445,454 @@ function WorldView() {
 return { WorldView };
 ```
 
+# LoadingConfirmation
+
+```jsx
+const { useState, useEffect } = dc;
+
+function LoadingConfirmation({ onConfirm, onCancel }) {
+  const [status, setStatus] = useState('checking'); // checking, ready, downloading
+  const [assetsExist, setAssetsExist] = useState(false);
+
+  // Check if assets already exist
+  useEffect(() => {
+    const checkAssets = async () => {
+      try {
+        const fileName = dc.resolvePath("D.q.world888.component.md");
+        const componentDir = fileName.substring(0, fileName.lastIndexOf('/'));
+        const glbFilePath = `${componentDir}/_resources/glb/scene888.glb`;
+        
+        const adapter = dc.app.vault.adapter;
+        const exists = await adapter.exists(glbFilePath);
+        
+        setAssetsExist(exists);
+        
+        if (exists) {
+          // Assets exist, automatically load the world
+          console.log('[LoadingConfirmation] Assets found in cache, loading automatically...');
+          setStatus('downloading');
+          onConfirm();
+        } else {
+          // No assets, show the download prompt
+          setStatus('ready');
+        }
+      } catch (error) {
+        console.error('[LoadingConfirmation] Error checking assets:', error);
+        setStatus('ready');
+      }
+    };
+    
+    checkAssets();
+  }, []);
+
+  const handleConfirm = async () => {
+    setStatus('downloading');
+    // Start the actual world loading
+    onConfirm();
+  };
+
+  // If assets exist and we're auto-loading, show a simple loading message
+  if (assetsExist && status === 'downloading') {
+    return (
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#000000',
+        zIndex: 10000
+      }}>
+        <div style={{
+          background: '#0a0a0a',
+          padding: '48px',
+          borderRadius: '16px',
+          textAlign: 'center',
+          border: '1px solid rgba(139, 92, 246, 0.15)',
+          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.8)'
+        }}>
+          <div style={{
+            width: '80px',
+            height: '80px',
+            margin: '0 auto 24px',
+            borderRadius: '50%',
+            backgroundColor: '#000000',
+            border: '2px solid rgba(139, 92, 246, 0.2)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 0 30px rgba(139, 92, 246, 0.15)'
+          }}>
+            <dc.Icon 
+              icon="loader" 
+              style={{ 
+                width: '40px', 
+                height: '40px', 
+                color: '#8b5cf6',
+                animation: 'spin 2s linear infinite'
+              }} 
+            />
+          </div>
+          <div style={{ 
+            color: '#ffffff',
+            fontSize: '24px',
+            fontWeight: '700',
+            marginBottom: '12px'
+          }}>
+            Loading World 888
+          </div>
+          <div style={{ 
+            color: 'rgba(255, 255, 255, 0.4)',
+            fontSize: '13px'
+          }}>
+            Initializing environment...
+          </div>
+          <style>{`
+            @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+          `}</style>
+        </div>
+      </div>
+    );
+  }
+
+  // If still checking, show checking state
+  if (status === 'checking') {
+    return (
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#000000',
+        zIndex: 10000
+      }}>
+        <div style={{
+          background: '#0a0a0a',
+          padding: '48px',
+          borderRadius: '16px',
+          textAlign: 'center',
+          border: '1px solid rgba(139, 92, 246, 0.15)',
+          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.8)'
+        }}>
+          <div style={{
+            width: '80px',
+            height: '80px',
+            margin: '0 auto 24px',
+            borderRadius: '50%',
+            backgroundColor: '#000000',
+            border: '2px solid rgba(139, 92, 246, 0.2)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <dc.Icon 
+              icon="search" 
+              style={{ 
+                width: '40px', 
+                height: '40px', 
+                color: '#8b5cf6'
+              }} 
+            />
+          </div>
+          <div style={{ 
+            color: '#ffffff',
+            fontSize: '24px',
+            fontWeight: '700',
+            marginBottom: '12px'
+          }}>
+            Checking Assets
+          </div>
+          <div style={{ 
+            color: 'rgba(255, 255, 255, 0.4)',
+            fontSize: '13px'
+          }}>
+            Verifying local cache...
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#000000',
+      zIndex: 10000
+    }}>
+      <div style={{
+        background: '#0a0a0a',
+        padding: '48px',
+        borderRadius: '16px',
+        maxWidth: '560px',
+        width: '90%',
+        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(139, 92, 246, 0.1)',
+        border: '1px solid rgba(139, 92, 246, 0.15)',
+        textAlign: 'center'
+      }}>
+        {/* Icon Section */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginBottom: '24px',
+          position: 'relative'
+        }}>
+          <div style={{
+            width: '80px',
+            height: '80px',
+            borderRadius: '50%',
+            backgroundColor: '#000000',
+            border: '2px solid rgba(139, 92, 246, 0.2)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'relative',
+            boxShadow: '0 0 30px rgba(139, 92, 246, 0.15)'
+          }}>
+            <dc.Icon 
+              icon={status === 'ready' ? 'globe' : status === 'checking' ? 'search' : 'loader'} 
+              style={{ 
+                width: '40px', 
+                height: '40px', 
+                color: '#8b5cf6',
+                animation: status === 'downloading' ? 'spin 2s linear infinite' : status === 'ready' ? 'pulse 2s ease-in-out infinite' : 'none'
+              }} 
+            />
+          </div>
+        </div>
+        
+        {/* Title */}
+        <h2 style={{
+          color: '#ffffff',
+          fontSize: '32px',
+          fontWeight: '700',
+          marginBottom: '16px',
+          letterSpacing: '-0.5px',
+          fontFamily: 'system-ui, -apple-system, sans-serif'
+        }}>
+          {status === 'ready' && 'World 888'}
+          {status === 'checking' && 'Verifying Assets'}
+          {status === 'downloading' && 'Loading World'}
+        </h2>
+        
+        {/* Description */}
+        <p style={{
+          color: 'rgba(255, 255, 255, 0.5)',
+          fontSize: '15px',
+          lineHeight: '1.7',
+          marginBottom: '32px',
+          fontFamily: 'system-ui, -apple-system, sans-serif',
+          maxWidth: '420px',
+          margin: '0 auto 32px'
+        }}>
+          {status === 'ready' && 'Download and cache 3D assets for the immersive experience. Assets are stored locally for faster loading.'}
+          {status === 'checking' && 'Checking asset availability and local cache...'}
+          {status === 'downloading' && 'Downloading components and initializing environment...'}
+        </p>
+
+        {/* Info Box */}
+        {status === 'ready' && (
+          <div style={{
+            backgroundColor: '#000000',
+            border: '1px solid rgba(139, 92, 246, 0.15)',
+            borderRadius: '12px',
+            padding: '16px 20px',
+            marginBottom: '32px',
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '12px',
+            textAlign: 'left'
+          }}>
+            <dc.Icon 
+              icon="info" 
+              style={{ 
+                width: '18px', 
+                height: '18px', 
+                color: '#8b5cf6',
+                flexShrink: 0,
+                marginTop: '2px'
+              }} 
+            />
+            <div style={{ flex: 1 }}>
+              <div style={{
+                color: '#8b5cf6',
+                fontSize: '13px',
+                fontWeight: '600',
+                marginBottom: '6px',
+                fontFamily: 'system-ui, -apple-system, sans-serif'
+              }}>
+                Asset Details
+              </div>
+              <div style={{
+                color: 'rgba(255, 255, 255, 0.4)',
+                fontSize: '13px',
+                lineHeight: '1.6',
+                fontFamily: 'system-ui, -apple-system, sans-serif'
+              }}>
+                Source: <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>beto.assets/DATACORE/WORLD888</span><br/>
+                Cache: <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>_resources/glb/</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Buttons */}
+        {status === 'ready' && (
+          <div style={{
+            display: 'flex',
+            gap: '12px',
+            justifyContent: 'center'
+          }}>
+            <button
+              onClick={onCancel}
+              style={{
+                padding: '14px 28px',
+                fontSize: '15px',
+                borderRadius: '10px',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                background: 'transparent',
+                color: 'rgba(255, 255, 255, 0.6)',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                fontWeight: '600',
+                fontFamily: 'system-ui, -apple-system, sans-serif',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}
+              onMouseOver={(e) => {
+                e.target.style.background = 'rgba(255, 255, 255, 0.05)';
+                e.target.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                e.target.style.color = 'rgba(255, 255, 255, 0.9)';
+              }}
+              onMouseOut={(e) => {
+                e.target.style.background = 'transparent';
+                e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                e.target.style.color = 'rgba(255, 255, 255, 0.6)';
+              }}
+            >
+              <dc.Icon icon="x" style={{ width: '16px', height: '16px' }} />
+              Cancel
+            </button>
+            
+            <button
+              onClick={handleConfirm}
+              style={{
+                padding: '14px 32px',
+                fontSize: '15px',
+                borderRadius: '10px',
+                border: '1px solid rgba(139, 92, 246, 0.3)',
+                background: 'rgba(139, 92, 246, 0.15)',
+                color: '#ffffff',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                fontWeight: '600',
+                fontFamily: 'system-ui, -apple-system, sans-serif',
+                boxShadow: '0 0 20px rgba(139, 92, 246, 0.2)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}
+              onMouseOver={(e) => {
+                e.target.style.background = 'rgba(139, 92, 246, 0.25)';
+                e.target.style.borderColor = 'rgba(139, 92, 246, 0.5)';
+                e.target.style.boxShadow = '0 0 30px rgba(139, 92, 246, 0.3)';
+                e.target.style.transform = 'translateY(-1px)';
+              }}
+              onMouseOut={(e) => {
+                e.target.style.background = 'rgba(139, 92, 246, 0.15)';
+                e.target.style.borderColor = 'rgba(139, 92, 246, 0.3)';
+                e.target.style.boxShadow = '0 0 20px rgba(139, 92, 246, 0.2)';
+                e.target.style.transform = 'translateY(0)';
+              }}
+            >
+              <dc.Icon icon="download" style={{ width: '16px', height: '16px' }} />
+              Load World
+            </button>
+          </div>
+        )}
+
+        {/* Loading State */}
+        {(status === 'checking' || status === 'downloading') && (
+          <div style={{
+            marginTop: '8px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: '8px'
+          }}>
+            <div style={{
+              width: '6px',
+              height: '6px',
+              borderRadius: '50%',
+              background: '#8b5cf6',
+              animation: 'bounce 1.4s infinite ease-in-out both',
+              animationDelay: '-0.32s'
+            }}></div>
+            <div style={{
+              width: '6px',
+              height: '6px',
+              borderRadius: '50%',
+              background: '#8b5cf6',
+              animation: 'bounce 1.4s infinite ease-in-out both',
+              animationDelay: '-0.16s'
+            }}></div>
+            <div style={{
+              width: '6px',
+              height: '6px',
+              borderRadius: '50%',
+              background: '#8b5cf6',
+              animation: 'bounce 1.4s infinite ease-in-out both'
+            }}></div>
+          </div>
+        )}
+
+        {/* Animations */}
+        <style>{`
+          @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.9; }
+          }
+          
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+          
+          @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+            40% { transform: scale(1); opacity: 1; }
+          }
+        `}</style>
+      </div>
+    </div>
+  );
+}
+
+return { LoadingConfirmation };
+```
+
 # WorldLogic
 
 ```jsx
-const fileName = "_RESOURCES/DATACORE/22 World888/D.q.world888.component.md";
+const fileName = dc.resolvePath("D.q.world888.component.md");
 
 // Keep all imports from your original overhead code
 const { loadScript } = await dc.require(dc.headerLink(fileName, "LoadScript"));
@@ -183,7 +922,7 @@ function initBabylonEngineAndScene(canvasRef) {
     });
 
     engine.uniqueId = engine.uniqueId || (Math.random() * 1000).toFixed(0);
-    console.log(`SceneLoader.init: Engine created (ID: ${engine.uniqueId}).`);
+    // console.log(`SceneLoader.init: Engine created (ID: ${engine.uniqueId}).`);
 
     if (!engine._gl) {
         console.error(`SceneLoader.init: Engine (ID: ${engine.uniqueId}) creation failed (no WebGL context?). Disposing.`);
@@ -199,7 +938,7 @@ function initBabylonEngineAndScene(canvasRef) {
         }
     };
     const contextRestoredHandler = () => {
-        console.log(`SceneLoader: WebGL context RESTORED for engine (ID: ${engine.uniqueId}).`);
+        // console.log(`SceneLoader: WebGL context RESTORED for engine (ID: ${engine.uniqueId}).`);
         if (!engine.isDisposed) {
             engine._onContextRestored();
         }
@@ -214,12 +953,12 @@ function initBabylonEngineAndScene(canvasRef) {
     canvas._previousContextLostHandler = contextLostHandler;
     canvas._previousContextRestoredHandler = contextRestoredHandler;
 
-    console.log(`SceneLoader.init: Creating new BABYLON.Scene for engine (ID: ${engine.uniqueId})...`);
+    // console.log(`SceneLoader.init: Creating new BABYLON.Scene for engine (ID: ${engine.uniqueId})...`);
     const scene = new window.BABYLON.Scene(engine);
     scene.clearColor = new window.BABYLON.Color4(0.1, 0.1, 0.1, 1);
     scene.autoClear = true;
     scene.autoClearDepthAndStencil = true;
-    console.log(`SceneLoader.init: Scene created for engine (ID: ${engine.uniqueId}).`);
+    // console.log(`SceneLoader.init: Scene created for engine (ID: ${engine.uniqueId}).`);
 
     return { engine, scene, canvas };
 }
@@ -232,19 +971,76 @@ async function loadSceneObjects(scene, glbConfig) {
     const allImportedNodes = [];
     let glbRootNode = null;
 
-    console.log(`SceneLoader.loadObjects: Attempting to load GLB: ${url}${path}${file} into scene associated with engine ID: ${scene.getEngine().uniqueId}`);
+    // Construct paths
+    const fullRemotePath = `${url}${path}${file}`;
+    const isRemoteFile = fullRemotePath.startsWith('http');
+    
+    let glbUrl = fullRemotePath;
+    
+    // If it's a remote file, try to cache it locally first
+    if (isRemoteFile) {
+        // Get component file path to determine local cache location
+        // Use dc.resolvePath to get the actual component file location, not the current file
+        const componentFilePath = dc.resolvePath("D.q.world888.component.md");
+        const componentDir = componentFilePath.substring(0, componentFilePath.lastIndexOf('/'));
+        const localCachePath = `${componentDir}/_resources/glb/${file}`;
+        
+        // console.log(`SceneLoader.loadObjects: Remote file detected. Cache path: ${localCachePath}`);
+        
+        // Check if file exists locally
+        const adapter = dc.app.vault.adapter;
+        const localExists = await adapter.exists(localCachePath);
+        
+        if (localExists) {
+            // console.log(`SceneLoader.loadObjects: Using cached local file: ${localCachePath}`);
+            glbUrl = adapter.getResourcePath(localCachePath);
+        } else {
+            // console.log(`SceneLoader.loadObjects: File not cached. Downloading from: ${fullRemotePath}`);
+            try {
+                // Download the file
+                const response = await fetch(fullRemotePath);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                const arrayBuffer = await response.arrayBuffer();
+                
+                // Ensure directory exists
+                const cacheDir = `${componentDir}/_resources/glb`;
+                if (!(await adapter.exists(cacheDir))) {
+                    // console.log(`SceneLoader.loadObjects: Creating cache directory: ${cacheDir}`);
+                    await adapter.mkdir(cacheDir);
+                }
+                
+                // Save to vault (convert ArrayBuffer to binary string for Obsidian)
+                const uint8Array = new Uint8Array(arrayBuffer);
+                await adapter.writeBinary(localCachePath, uint8Array);
+                // console.log(`SceneLoader.loadObjects: File cached successfully to: ${localCachePath}`);
+                
+                // Now use the cached file
+                glbUrl = adapter.getResourcePath(localCachePath);
+            } catch (downloadError) {
+                console.warn(`SceneLoader.loadObjects: Failed to cache file. Falling back to direct URL load.`, downloadError);
+                glbUrl = fullRemotePath; // Fall back to direct URL
+            }
+        }
+    } else {
+        // Local file - use vault adapter
+        glbUrl = dc.app.vault.adapter.getResourcePath(fullRemotePath);
+    }
+
+    // console.log(`SceneLoader.loadObjects: Loading GLB from: ${glbUrl}`);
     try {
-        const result = await window.BABYLON.SceneLoader.ImportMeshAsync("", url, file, scene);
-        console.log(`SceneLoader.loadObjects: GLB loaded. Processing ${result.meshes.length} meshes/nodes...`);
+        const result = await window.BABYLON.SceneLoader.ImportMeshAsync("", "", glbUrl, scene);
+        // console.log(`SceneLoader.loadObjects: GLB loaded. Processing ${result.meshes.length} meshes/nodes...`);
 
         for (const node of result.meshes) {
             if (!node || node.isDisposed()) {
-                console.log(`SceneLoader.loadObjects: Skipping null/disposed node.`);
+                // console.log(`SceneLoader.loadObjects: Skipping null/disposed node.`);
                 continue;
             };
             if (node.name === "__root__") {
                 glbRootNode = node;
-                console.log(`SceneLoader.loadObjects: Identified root node: ${node.name}.`);
+                // console.log(`SceneLoader.loadObjects: Identified root node: ${node.name}.`);
                 allImportedNodes.push(node);
                 continue;
             }
@@ -266,7 +1062,7 @@ async function loadSceneObjects(scene, glbConfig) {
                     allImportedNodes.push(node);
                 }
             } else if (node instanceof window.BABYLON.TransformNode) {
-                console.log(`SceneLoader.loadObjects: Added TransformNode "${node.name}".`);
+                // console.log(`SceneLoader.loadObjects: Added TransformNode "${node.name}".`);
                 allImportedNodes.push(node);
             } else {
                 console.warn(`SceneLoader.loadObjects: Unknown node type for "${node.name}". Skipping.`);
@@ -284,7 +1080,7 @@ async function loadSceneObjects(scene, glbConfig) {
 // Main sceneLoader Export function
 async function sceneLoader({ canvasRef, glbConfig = {
   url: "https://raw.githubusercontent.com/beto-group/beto.assets/main/",
-  path: "",
+  path: "DATACORE/WORLD888/",
   file: "scene888.glb",
   groundOptions: {
     enable: true,
@@ -303,7 +1099,7 @@ async function sceneLoader({ canvasRef, glbConfig = {
     const animatedVisualMeshes = []; 
 
     try {
-        console.log("--- sceneLoader function started ---");
+        // console.log("--- sceneLoader function started ---");
 
         const engineAndScene = initBabylonEngineAndScene(canvasRef);
         if (!engineAndScene || !engineAndScene.engine || !engineAndScene.scene) {
@@ -316,15 +1112,15 @@ async function sceneLoader({ canvasRef, glbConfig = {
         const camera = new window.BABYLON.ArcRotateCamera("camera", Math.PI / 2, Math.PI / 2.5, 1000, window.BABYLON.Vector3.Zero(), scene);
         if (canvas) camera.attachControl(canvas, true);
         camera.wheelPrecision = 50;
-        console.log("Camera setup complete.");
+        // console.log("Camera setup complete.");
 
         const light = new window.BABYLON.HemisphericLight("light", new window.BABYLON.Vector3(0, 1, 0), scene);
         light.intensity = 0.7;
-        console.log("Light setup complete.");
+        // console.log("Light setup complete.");
 
         let groundMesh = null;
         if (glbConfig.groundOptions && glbConfig.groundOptions.enable) {
-            console.log("SceneLoader: Creating ground mesh...");
+            // console.log("SceneLoader: Creating ground mesh...");
             groundMesh = window.BABYLON.MeshBuilder.CreateGround("sceneGround", {
                 width: glbConfig.groundOptions.size || 1000,
                 height: glbConfig.groundOptions.size || 1000,
@@ -336,7 +1132,7 @@ async function sceneLoader({ canvasRef, glbConfig = {
             // --- MODIFICATION: Make ground invisible if option is set ---
             if (glbConfig.groundOptions.makeInvisible) {
                 groundMesh.isVisible = false;
-                console.log("SceneLoader: Ground mesh set to invisible.");
+                // console.log("SceneLoader: Ground mesh set to invisible.");
             } else {
                  // Only create and assign material if it's visible
                 const groundMaterial = new window.BABYLON.StandardMaterial("groundMaterial", scene);
@@ -351,11 +1147,11 @@ async function sceneLoader({ canvasRef, glbConfig = {
             // --- END MODIFICATION ---
             
             groundMesh.isPickable = false; 
-            console.log(`SceneLoader: Ground mesh created at Y: ${groundMesh.position.y}, Size: ${glbConfig.groundOptions.size || 1000}x${glbConfig.groundOptions.size || 1000}. Visible: ${groundMesh.isVisible}`);
+            // console.log(`SceneLoader: Ground mesh created at Y: ${groundMesh.position.y}, Size: ${glbConfig.groundOptions.size || 1000}x${glbConfig.groundOptions.size || 1000}. Visible: ${groundMesh.isVisible}`);
         }
 
         const { glbRootNode, allImportedMeshes } = await loadSceneObjects(scene, glbConfig);
-        console.log(`After loadSceneObjects: glbRootNode found: ${!!glbRootNode}, total imported meshes/nodes: ${allImportedMeshes.length}`);
+        // console.log(`After loadSceneObjects: glbRootNode found: ${!!glbRootNode}, total imported meshes/nodes: ${allImportedMeshes.length}`);
 
         const environmentMeshesForPhysics = [...allImportedMeshes];
         if (groundMesh) {
@@ -370,7 +1166,7 @@ async function sceneLoader({ canvasRef, glbConfig = {
             glbRootNode.position = window.BABYLON.Vector3.Zero();
             glbRootNode.scaling = new window.BABYLON.Vector3(SCENE_SCALE, SCENE_SCALE, SCENE_SCALE);
             camera.target = glbRootNode.absolutePosition;
-            console.log(`GLB Root Node ("${glbRootNode.name}") set to be static at origin and scaled by ${SCENE_SCALE}x. Camera target set.`);
+            // console.log(`GLB Root Node ("${glbRootNode.name}") set to be static at origin and scaled by ${SCENE_SCALE}x. Camera target set.`);
         } else {
             console.warn("No __root__ node found in GLB. Camera target defaulted to Zero.");
             camera.target = window.BABYLON.Vector3.Zero();
@@ -387,33 +1183,33 @@ async function sceneLoader({ canvasRef, glbConfig = {
         const minSpeed = 0.001;
         const maxSpeed = 0.01;
 
-        console.log(`--- Starting mesh selection for rotation ---`);
+        // console.log(`--- Starting mesh selection for rotation ---`);
         let meshesProcessedForAnimation = 0;
 
         allImportedMeshes.forEach((node) => { 
             if (node instanceof window.BABYLON.Mesh && node.parent === glbRootNode) {
-                console.log(`    -> Selected mesh "${node.name}" (Parent: ${node.parent?.name}) for orbital rotation.`);
+                // console.log(`    -> Selected mesh "${node.name}" (Parent: ${node.parent?.name}) for orbital rotation.`);
 
                 const randomSpeed = minSpeed + (Math.random() * (maxSpeed - minSpeed));
                 rotatingMeshesWithSpeeds.push({ mesh: node, speed: randomSpeed });
                 animatedVisualMeshes.push(node); 
-                console.log(`    -> Added "${node.name}" to rotation list with speed: ${randomSpeed.toFixed(4)}. Also added to animatedVisualMeshes.`);
+                // console.log(`    -> Added "${node.name}" to rotation list with speed: ${randomSpeed.toFixed(4)}. Also added to animatedVisualMeshes.`);
                 meshesProcessedForAnimation++;
 
                 if (node.name === "obelisk") {
                     obeliskMesh = node;
                     obeliskOriginalY = node.position.y; 
-                    console.log(`    -> Identified "obelisk" mesh for hovering. Original LOCAL Y (relative to glbRootNode): ${obeliskOriginalY.toFixed(4)}`);
+                    // console.log(`    -> Identified "obelisk" mesh for hovering. Original LOCAL Y (relative to glbRootNode): ${obeliskOriginalY.toFixed(4)}`);
                 }
             } else {
                 const parentName = node.parent ? node.parent.name : "none";
                 if (node !== groundMesh) { 
-                    console.log(`    -> SKIPPING "${node.name}" for rotation. (Is BABYLON.Mesh: ${node instanceof window.BABYLON.Mesh}. Is Root Node: ${node.name === "__root__"}. Parent: ${parentName}).`);
+                    // console.log(`    -> SKIPPING "${node.name}" for rotation. (Is BABYLON.Mesh: ${node instanceof window.BABYLON.Mesh}. Is Root Node: ${node.name === "__root__"}. Parent: ${parentName}).`);
                 }
             }
         });
 
-        console.log(`--- Finished node selection. Processed ${meshesProcessedForAnimation} meshes for animation. ---`);
+        // console.log(`--- Finished node selection. Processed ${meshesProcessedForAnimation} meshes for animation. ---`);
         if (meshesProcessedForAnimation === 0 && allImportedMeshes.some(m => m instanceof window.BABYLON.Mesh && m.parent === glbRootNode)) {
             console.warn("No actual BABYLON.Mesh instances that are direct children of '__root__' were selected for animation. Verify GLB hierarchy.");
         }
@@ -446,7 +1242,7 @@ async function sceneLoader({ canvasRef, glbConfig = {
             }
         });
 
-        console.log("--- sceneLoader function completed. Animation logic set up. ---");
+        // console.log("--- sceneLoader function completed. Animation logic set up. ---");
 
         return {
             engine: engine,
@@ -455,25 +1251,25 @@ async function sceneLoader({ canvasRef, glbConfig = {
             glbRootNode: glbRootNode,
             animatedVisualMeshes: animatedVisualMeshes,
             cleanup: () => {
-                console.log("--- Initiating SceneLoader cleanup ---");
+                // console.log("--- Initiating SceneLoader cleanup ---");
                 if (onBeforeRenderObserver) {
                     scene?.onBeforeRenderObservable.remove(onBeforeRenderObserver);
                     onBeforeRenderObserver = null;
-                    console.log("Removed onBeforeRenderObservable observer.");
+                    // console.log("Removed onBeforeRenderObservable observer.");
                 }
                 if (scene && !scene.isDisposed) {
                     scene.dispose();
-                    console.log("Scene disposed by SceneLoader cleanup.");
+                    // console.log("Scene disposed by SceneLoader cleanup.");
                 }
                 if (engine && !engine.isDisposed) {
                     engine.dispose();
-                    console.log(`Engine (ID: ${engine.uniqueId}) disposed by SceneLoader cleanup.`);
+                    // console.log(`Engine (ID: ${engine.uniqueId}) disposed by SceneLoader cleanup.`);
                 } else {
-                    console.log("Engine already disposed or not initialized during SceneLoader cleanup.");
+                    // console.log("Engine already disposed or not initialized during SceneLoader cleanup.");
                 }
                 engine = null;
                 scene = null;
-                console.log("--- SceneLoader cleanup complete ---");
+                // console.log("--- SceneLoader cleanup complete ---");
             }
         };
     } catch (err) {
@@ -495,11 +1291,11 @@ async function sceneLoader({ canvasRef, glbConfig = {
 }
 
 // --- Main WorldLogic Function ---
-function WorldLogic({ canvasRef }) {
+function WorldLogic({ canvasRef, glbBasePath = '_resources/glb/' }) {
   const logicInstanceId = (Math.random() * 1000).toFixed(0);
   const logPrefix = `WorldLogic [${logicInstanceId}]:`;
 
-  console.log(`${logPrefix} Starting...`);
+//   console.log(`${logPrefix} Starting with GLB base path: ${glbBasePath}`);
 
   return new Promise(async (resolveWorldLogic, rejectWorldLogic) => {
     let engine = null;
@@ -513,7 +1309,7 @@ function WorldLogic({ canvasRef }) {
 
     let worldCleanup = () => {
         const cleanupPrefix = `${logPrefix} Preliminary Cleanup:`;
-        console.log(`${cleanupPrefix} Running preliminary cleanup...`);
+        // console.log(`${cleanupPrefix} Running preliminary cleanup...`);
 
         if (engine && typeof engine.stopRenderLoop === 'function') {
             try { engine.stopRenderLoop(); } catch (e) { console.warn(`${cleanupPrefix} Error stopping render loop:`, e); }
@@ -525,20 +1321,22 @@ function WorldLogic({ canvasRef }) {
               if (currentCanvas && currentCanvas._attachedKeydownHandler) { currentCanvas.removeEventListener("keydown", currentCanvas._attachedKeydownHandler); delete currentCanvas._attachedKeydownHandler; console.log(`${cleanupPrefix} Removed keydown listener.`); }
          } catch (e) { console.warn(`${cleanupPrefix} Error removing canvas listeners:`, e); }
 
-        if (sceneLoaderCleanupFn) { try { sceneLoaderCleanupFn(); } catch (e) { console.warn(`${cleanupPrefix} Error during sceneLoader cleanup:`, e); } }
+        if (sceneLoaderCleanupFn && typeof sceneLoaderCleanupFn === 'function') { try { sceneLoaderCleanupFn(); } catch (e) { console.warn(`${cleanupPrefix} Error during sceneLoader cleanup:`, e); } }
 
-        try { characterComponents?.cleanup(); } catch(e) { console.warn(`${cleanupPrefix} Error during character cleanup:`, e); }
-        try { scene?.onKeyboardObservable.remove(keyboardObserver); } catch(e) { console.warn(`${cleanupPrefix} Error removing keyboard observer:`, e); }
-        try { scene?.onDisposeObservable.remove(sceneDisposeObserver); } catch(e) { console.warn(`${cleanupPrefix} Error removing scene dispose observer:`, e); }
+        if (characterComponents && typeof characterComponents.cleanup === 'function') { try { characterComponents.cleanup(); } catch(e) { console.warn(`${cleanupPrefix} Error during character cleanup:`, e); } }
+        try { if (scene && keyboardObserver) scene.onKeyboardObservable.remove(keyboardObserver); } catch(e) { console.warn(`${cleanupPrefix} Error removing keyboard observer:`, e); }
+        try { if (scene && sceneDisposeObserver) scene.onDisposeObservable.remove(sceneDisposeObserver); } catch(e) { console.warn(`${cleanupPrefix} Error removing scene dispose observer:`, e); }
 
         if (engine && typeof engine.dispose === 'function' && !engine.isDisposed) {
-             console.log(`${cleanupPrefix} Disposing engine...`);
+            //  console.log(`${cleanupPrefix} Disposing engine...`);
              try { engine.dispose(); } catch (e) { console.warn(`${cleanupPrefix} Error during engine disposal:`, e); }
-        } else { console.log(`${cleanupPrefix} Engine already null, disposed, or invalid.`); }
+        } else { 
+            // console.log(`${cleanupPrefix} Engine already null, disposed, or invalid.`);
+            }
 
         engine = null; scene = null; characterComponents = null; keyboardObserver = null;
         sceneDisposeObserver = null; multiplayerResources = null; sceneLoaderCleanupFn = null;
-        console.log(`${cleanupPrefix} Preliminary cleanup finished.`);
+        // console.log(`${cleanupPrefix} Preliminary cleanup finished.`);
     };
 
     try {
@@ -555,13 +1353,24 @@ function WorldLogic({ canvasRef }) {
       if (typeof window.HavokPhysics !== 'function') throw new Error("Stage 0 Failed - window.HavokPhysics not found.");
       const havokModule = await window.HavokPhysics({ wasmBinary: havokWasmBuffer });
       window.HK = havokModule;
-      console.log(`${logPrefix} Stage 0: Babylon.js and Havok Physics loaded.`);
+    //   console.log(`${logPrefix} Stage 0: Babylon.js and Havok Physics loaded.`);
 
-      console.log(`${logPrefix} Stage 1: Initializing scene and loading GLB...`);
-      // You can pass a custom glbConfig here if needed, e.g., to make ground visible:
-      // const customGlbConfig = { groundOptions: { enable: true, makeInvisible: false, yPosition: -1 } };
-      // const sceneResources = await sceneLoader({ canvasRef, glbConfig: customGlbConfig });
-      const sceneResources = await sceneLoader({ canvasRef }); // Uses default glbConfig with invisible ground
+    //   console.log(`${logPrefix} Stage 1: Initializing scene and loading GLB...`);
+      // Create custom glbConfig with the remote URL (will be cached locally by loadSceneObjects)
+      const customGlbConfig = {
+        url: "https://raw.githubusercontent.com/beto-group/beto.assets/main/",
+        path: "DATACORE/WORLD888/",
+        file: "scene888.glb",
+        groundOptions: {
+          enable: true,
+          size: 2000,
+          yPosition: 4,
+          color: [0.4, 0.4, 0.4],
+          subdivisions: 10,
+          makeInvisible: true
+        }
+      };
+      const sceneResources = await sceneLoader({ canvasRef, glbConfig: customGlbConfig });
       engine = sceneResources.engine;
       scene = sceneResources.scene;
       const environmentMeshes = sceneResources.environmentMeshes; 
@@ -570,9 +1379,9 @@ function WorldLogic({ canvasRef }) {
 
       if (!engine || engine.isDisposed) throw new Error("Stage 1 Failed - Engine invalid after sceneLoader.");
       if (!scene || scene.isDisposed) throw new Error("Stage 1 Failed - Scene invalid after sceneLoader.");
-      console.log(`${logPrefix} Stage 1: Scene and GLB (and potentially ground) loaded.`);
+    //   console.log(`${logPrefix} Stage 1: Scene and GLB (and potentially ground) loaded.`);
 
-      console.log(`${logPrefix} Stage 2: Initializing Havok Physics...`);
+    //   console.log(`${logPrefix} Stage 2: Initializing Havok Physics...`);
        await initializeHavokPhysics(scene).catch(err => { throw new Error(`Stage 2 Failed - initializeHavokPhysics: ${err.message}`); });
        await new Promise(resolve => setTimeout(resolve, 10)); 
        if (!scene.isPhysicsEnabled()) {
@@ -581,9 +1390,9 @@ function WorldLogic({ canvasRef }) {
              console.error(`${logPrefix} Current physics engine plugin:`, physicsEnginePlugin);
             throw new Error("Stage 2 Failed - Verification: Physics not enabled after initialization.");
        }
-       console.log(`${logPrefix} Stage 2: Havok Physics initialized.`);
+    //    console.log(`${logPrefix} Stage 2: Havok Physics initialized.`);
 
-      console.log(`${logPrefix} Stage 3: Applying physics to environment meshes...`);
+    //   console.log(`${logPrefix} Stage 3: Applying physics to environment meshes...`);
       let physicsAppliedCount = 0;
       if (!Array.isArray(environmentMeshes)) {
            console.warn(`${logPrefix} environmentMeshes is not an array. Skipping physics application.`);
@@ -594,7 +1403,7 @@ function WorldLogic({ canvasRef }) {
               if (!node || node.isDisposed()) { console.log(`${logPrefix} Skipping physics for null/disposed node ${node?.name}.`); continue; }
               
               if (!(node instanceof window.BABYLON.Mesh)) {
-                  console.log(`${logPrefix} Skipping physics for non-mesh node ${node.name}.`);
+                //   console.log(`${logPrefix} Skipping physics for non-mesh node ${node.name}.`);
                   continue;
               }
               if (!scene.isPhysicsEnabled()) { console.error(`${logPrefix} Physics became disabled before mesh ${node.name}! Aborting.`); break; }
@@ -611,7 +1420,7 @@ function WorldLogic({ canvasRef }) {
                         if (physicsAggregate) {
                             node.physicsAggregate = physicsAggregate; 
                             physicsAppliedCount++;
-                            console.log(`${logPrefix} OK - Physics applied to KINEMATIC mesh ${node.name}.`);
+                            // console.log(`${logPrefix} OK - Physics applied to KINEMATIC mesh ${node.name}.`);
                         } else {
                             console.error(`${logPrefix} FAILED - applyPhysicsToMesh (kinematic) returned null for ${node.name}.`);
                         }
@@ -625,7 +1434,7 @@ function WorldLogic({ canvasRef }) {
                         if (physicsAggregate) {
                             physicsAppliedCount++;
                             node.freezeWorldMatrix(); 
-                            console.log(`${logPrefix} OK - Physics applied to STATIC mesh ${node.name}. World matrix frozen.`);
+                            // console.log(`${logPrefix} OK - Physics applied to STATIC mesh ${node.name}. World matrix frozen.`);
                         } else {
                             console.error(`${logPrefix} FAILED - applyPhysicsToMesh (static) returned null for ${node.name}.`);
                         }
@@ -639,9 +1448,9 @@ function WorldLogic({ canvasRef }) {
                console.warn(`${logPrefix} WARNING: No physics aggregates successfully applied to any meshes! Collisions WILL fail.`);
           }
       }
-      console.log(`${logPrefix} Stage 3: Physics applied to environment meshes.`);
+    //   console.log(`${logPrefix} Stage 3: Physics applied to environment meshes.`);
 
-      console.log(`${logPrefix} Stage 4: Initializing Character Logic...`);
+    //   console.log(`${logPrefix} Stage 4: Initializing Character Logic...`);
       try {
           characterComponents = CharacterLogic.initialize(scene, canvasRef);
           if (!characterComponents) throw new Error("CharacterLogic.initialize returned null/undefined.");
@@ -649,9 +1458,9 @@ function WorldLogic({ canvasRef }) {
            console.error(`${logPrefix} Error during CharacterLogic.initialize:`, charError);
            throw new Error(`Stage 4 Failed - Character init: ${charError.message}`);
       }
-      console.log(`${logPrefix} Stage 4: Character Logic initialized.`);
+    //   console.log(`${logPrefix} Stage 4: Character Logic initialized.`);
 
-      console.log(`${logPrefix} Stage 5: Setting up input listeners and observers...`);
+    //   console.log(`${logPrefix} Stage 5: Setting up input listeners and observers...`);
       const currentCanvas = canvasRef.current;
       if (!currentCanvas) { throw new Error("Stage 5 Failed - canvasRef is null."); }
       currentCanvas.tabIndex = 0; 
@@ -675,41 +1484,41 @@ function WorldLogic({ canvasRef }) {
   
       sceneDisposeObserver = scene.onDisposeObservable.add(() => {
         const disposePrefix = `${logPrefix} SceneDispose:`;
-        console.log(`${disposePrefix} Cleaning up observers/components during scene dispose...`);
+        // console.log(`${disposePrefix} Cleaning up observers/components during scene dispose...`);
         try { scene?.onKeyboardObservable.remove(keyboardObserver); keyboardObserver = null;} catch(e) { console.warn(`${disposePrefix} Error removing keyboard observer:`, e); }
         try { characterComponents?.cleanup(); } catch(e) { console.warn(`${disposePrefix} Error during character cleanup:`, e); }
-        console.log(`${disposePrefix} Scene dispose cleanup finished.`);
+        // console.log(`${disposePrefix} Scene dispose cleanup finished.`);
       });
-      console.log(`${logPrefix} Stage 5: Input listeners and observers set up.`);
+    //   console.log(`${logPrefix} Stage 5: Input listeners and observers set up.`);
 
-      console.log(`${logPrefix} Stage 6: Initializing Multiplayer...`);
+    //   console.log(`${logPrefix} Stage 6: Initializing Multiplayer...`);
       try {
         multiplayerResources = await Multiplayer.initialize({ scene, canvasRef, characterComponents });
-        console.log(`${logPrefix} Stage 6: Multiplayer initialized successfully.`);
+        // console.log(`${logPrefix} Stage 6: Multiplayer initialized successfully.`);
 
         engine.runRenderLoop(() => { if (scene?.isReady() && !engine?.isDisposed) scene.render(); });
         resizeHandler = () => { if (engine && !engine.isDisposed) engine.resize(); };
         window.addEventListener("resize", resizeHandler);
-        console.log(`${logPrefix} Stage 6: Render loop started.`);
+        // console.log(`${logPrefix} Stage 6: Render loop started.`);
 
         worldCleanup = () => {
              const finalCleanupPrefix = `${logPrefix} FinalCleanup [Multiplayer]:`;
-             console.log(`${finalCleanupPrefix} Running...`);
-             engine?.stopRenderLoop();
-             if(resizeHandler) window.removeEventListener("resize", resizeHandler);
+            //  console.log(`${finalCleanupPrefix} Running...`);
+             try { if (engine && typeof engine.stopRenderLoop === 'function') engine.stopRenderLoop(); } catch(e) { console.warn(`${finalCleanupPrefix} Error stopping render loop:`, e); }
+             if(resizeHandler) { try { window.removeEventListener("resize", resizeHandler); } catch(e) { console.warn(`${finalCleanupPrefix} Error removing resize:`, e); } }
               try {
                   const currentCanvas = canvasRef?.current;
                   if (currentCanvas && currentCanvas._attachedWheelHandler) { currentCanvas.removeEventListener("wheel", currentCanvas._attachedWheelHandler); delete currentCanvas._attachedWheelHandler; }
                   if (currentCanvas && currentCanvas._attachedKeydownHandler) { currentCanvas.removeEventListener("keydown", currentCanvas._attachedKeydownHandler); delete currentCanvas._attachedKeydownHandler; }
               } catch (e) { console.warn(`${finalCleanupPrefix} Error removing canvas listeners:`, e); }
-             if (sceneLoaderCleanupFn) { sceneLoaderCleanupFn(); sceneLoaderCleanupFn = null; }
-             scene?.onDisposeObservable.remove(sceneDisposeObserver);
-             scene?.onKeyboardObservable.remove(keyboardObserver);
-             characterComponents?.cleanup();
-             if (multiplayerResources && typeof multiplayerResources.cleanup === 'function') { multiplayerResources.cleanup(); } 
-             if (engine && !engine.isDisposed) engine.dispose();
+             if (sceneLoaderCleanupFn && typeof sceneLoaderCleanupFn === 'function') { try { sceneLoaderCleanupFn(); } catch(e) { console.warn(`${finalCleanupPrefix} Error in sceneLoader cleanup:`, e); } sceneLoaderCleanupFn = null; }
+             try { if (scene && sceneDisposeObserver) scene.onDisposeObservable.remove(sceneDisposeObserver); } catch(e) { console.warn(`${finalCleanupPrefix} Error removing dispose observer:`, e); }
+             try { if (scene && keyboardObserver) scene.onKeyboardObservable.remove(keyboardObserver); } catch(e) { console.warn(`${finalCleanupPrefix} Error removing keyboard observer:`, e); }
+             if (characterComponents && typeof characterComponents.cleanup === 'function') { try { characterComponents.cleanup(); } catch(e) { console.warn(`${finalCleanupPrefix} Error in character cleanup:`, e); } }
+             if (multiplayerResources && typeof multiplayerResources.cleanup === 'function') { try { multiplayerResources.cleanup(); } catch(e) { console.warn(`${finalCleanupPrefix} Error in multiplayer cleanup:`, e); } }
+             if (engine && !engine.isDisposed) { try { engine.dispose(); } catch(e) { console.warn(`${finalCleanupPrefix} Error disposing engine:`, e); } }
              engine = null; scene = null; multiplayerResources = null; resizeHandler = null; characterComponents = null; keyboardObserver = null; sceneDisposeObserver = null;
-             console.log(`${finalCleanupPrefix} Finished.`);
+            //  console.log(`${finalCleanupPrefix} Finished.`);
         };
       } catch (multiplayerErr) {
         console.warn(`${logPrefix} Failed to initialize multiplayer: ${multiplayerErr.message}. Proceeding without multiplayer functionality.`);
@@ -718,29 +1527,29 @@ function WorldLogic({ canvasRef }) {
         engine.runRenderLoop(() => { if (scene?.isReady() && !engine?.isDisposed) scene.render(); });
         resizeHandler = () => { if (engine && !engine.isDisposed) engine.resize(); };
         window.addEventListener("resize", resizeHandler);
-        console.log(`${logPrefix} Stage 6: Render loop started (without multiplayer).`);
+        // console.log(`${logPrefix} Stage 6: Render loop started (without multiplayer).`);
 
         worldCleanup = () => {
             const finalCleanupPrefix = `${logPrefix} FinalCleanup [No Multiplayer]:`;
-             console.log(`${finalCleanupPrefix} Running...`);
-             engine?.stopRenderLoop();
-             if(resizeHandler) window.removeEventListener("resize", resizeHandler);
+            //  console.log(`${finalCleanupPrefix} Running...`);
+             try { if (engine && typeof engine.stopRenderLoop === 'function') engine.stopRenderLoop(); } catch(e) { console.warn(`${finalCleanupPrefix} Error stopping render loop:`, e); }
+             if(resizeHandler) { try { window.removeEventListener("resize", resizeHandler); } catch(e) { console.warn(`${finalCleanupPrefix} Error removing resize:`, e); } }
               try {
                   const currentCanvas = canvasRef?.current;
                   if (currentCanvas && currentCanvas._attachedWheelHandler) { currentCanvas.removeEventListener("wheel", currentCanvas._attachedWheelHandler); delete currentCanvas._attachedWheelHandler; }
                   if (currentCanvas && currentCanvas._attachedKeydownHandler) { currentCanvas.removeEventListener("keydown", currentCanvas._attachedKeydownHandler); delete currentCanvas._attachedKeydownHandler; }
               } catch (e) { console.warn(`${finalCleanupPrefix} Error removing canvas listeners:`, e); }
-             if (sceneLoaderCleanupFn) { sceneLoaderCleanupFn(); sceneLoaderCleanupFn = null; }
-             scene?.onDisposeObservable.remove(sceneDisposeObserver);
-             scene?.onKeyboardObservable.remove(keyboardObserver);
-             characterComponents?.cleanup();
-             if (engine && !engine.is_disposed) engine.dispose();
+             if (sceneLoaderCleanupFn && typeof sceneLoaderCleanupFn === 'function') { try { sceneLoaderCleanupFn(); } catch(e) { console.warn(`${finalCleanupPrefix} Error in sceneLoader cleanup:`, e); } sceneLoaderCleanupFn = null; }
+             try { if (scene && sceneDisposeObserver) scene.onDisposeObservable.remove(sceneDisposeObserver); } catch(e) { console.warn(`${finalCleanupPrefix} Error removing dispose observer:`, e); }
+             try { if (scene && keyboardObserver) scene.onKeyboardObservable.remove(keyboardObserver); } catch(e) { console.warn(`${finalCleanupPrefix} Error removing keyboard observer:`, e); }
+             if (characterComponents && typeof characterComponents.cleanup === 'function') { try { characterComponents.cleanup(); } catch(e) { console.warn(`${finalCleanupPrefix} Error in character cleanup:`, e); } }
+             if (engine && !engine.isDisposed) { try { engine.dispose(); } catch(e) { console.warn(`${finalCleanupPrefix} Error disposing engine:`, e); } }
              engine = null; scene = null; resizeHandler = null; characterComponents = null; keyboardObserver = null; sceneDisposeObserver = null;
-             console.log(`${finalCleanupPrefix} Finished.`);
+            //  console.log(`${finalCleanupPrefix} Finished.`);
         };
       }
       
-      console.log(`${logPrefix} All stages completed. Resolving WorldLogic.`);
+    //   console.log(`${logPrefix} All stages completed. Resolving WorldLogic.`);
       resolveWorldLogic({
         engine: engine,
         scene: scene,
@@ -769,7 +1578,7 @@ return { WorldLogic };
 # HavokPhysics
 
 ```jsx
-const fileName = "_RESOURCES/DATACORE/22 World888/D.q.world888.component.md";
+const fileName = dc.resolvePath("D.q.world888.component.md");
 
 async function initializeHavokPhysics(scene) {
    return new Promise((resolve, reject) => {
@@ -777,7 +1586,7 @@ async function initializeHavokPhysics(scene) {
     if (!window.HK) { return reject(new Error("HavokPhysics: Havok module (window.HK) not initialized.")); }
     if (!scene || scene.isDisposed) { return reject(new Error("HavokPhysics: Scene is invalid or disposed.")); }
     try {
-        console.log("HavokPhysics: Enabling physics plugin for the scene...");
+        // console.log("HavokPhysics: Enabling physics plugin for the scene...");
         if (scene.getPhysicsEngine() && !(scene.getPhysicsEngine().getPlugin() instanceof window.BABYLON.HavokPlugin)) {
             console.warn("HavokPhysics: Disabling existing physics engine before enabling Havok.");
             scene.disablePhysicsEngine();
@@ -786,9 +1595,9 @@ async function initializeHavokPhysics(scene) {
             const gravity = new window.BABYLON.Vector3(0, -9.81, 0);
             const hkPlugin = new window.BABYLON.HavokPlugin(true, window.HK);
             scene.enablePhysics(gravity, hkPlugin);
-            console.log("HavokPhysics: Havok physics enabled successfully.");
+            // console.log("HavokPhysics: Havok physics enabled successfully.");
         } else {
-            console.log("HavokPhysics: Havok physics already enabled on this scene.");
+            // console.log("HavokPhysics: Havok physics already enabled on this scene.");
         }
         resolve();
     } catch (error) {
@@ -811,7 +1620,7 @@ function applyHavokPhysicsInternal(mesh, scene, shapeType = window.BABYLON.Physi
         mesh.refreshBoundingInfo(true);
 
         // *** ADDED CLEAR LOGGING ON FAILURE ***
-        console.log(`ApplyPhysicsInternal: Creating Aggregate for ${mesh.name}, Shape: ${Object.keys(window.BABYLON.PhysicsShapeType).find(key => window.BABYLON.PhysicsShapeType[key] === shapeType) || 'Unknown'}, Options:`, JSON.stringify(options));
+        // console.log(`ApplyPhysicsInternal: Creating Aggregate for ${mesh.name}, Shape: ${Object.keys(window.BABYLON.PhysicsShapeType).find(key => window.BABYLON.PhysicsShapeType[key] === shapeType) || 'Unknown'}, Options:`, JSON.stringify(options));
         const aggregate = new window.BABYLON.PhysicsAggregate(mesh, shapeType, options, scene);
 
         // *** Check if aggregate was actually created ***
@@ -823,7 +1632,7 @@ function applyHavokPhysicsInternal(mesh, scene, shapeType = window.BABYLON.Physi
         }
 
         mesh.physicsAggregate = aggregate;
-        console.log(`ApplyPhysicsInternal: PhysicsAggregate created successfully for ${mesh.name}.`);
+        // console.log(`ApplyPhysicsInternal: PhysicsAggregate created successfully for ${mesh.name}.`);
         return aggregate; // Return the aggregate on success
 
     } catch (error) {
@@ -851,7 +1660,7 @@ return { initializeHavokPhysics, applyPhysicsToMesh };
 # SceneLoader
 
 ```jsx
-const fileName = "_RESOURCES/DATACORE/22 World888/D.q.world888.component.md";
+const fileName = dc.resolvePath("D.q.world888.component.md");
 
 // --- Babylon Engine & Scene Initialization ---
 function initBabylonEngineAndScene(canvasRef) {
@@ -867,7 +1676,7 @@ function initBabylonEngineAndScene(canvasRef) {
     });
 
     engine.uniqueId = engine.uniqueId || (Math.random() * 1000).toFixed(0);
-    console.log(`SceneLoader.init: Engine created (ID: ${engine.uniqueId}).`);
+    // console.log(`SceneLoader.init: Engine created (ID: ${engine.uniqueId}).`);
 
     if (!engine._gl) {
         console.error(`SceneLoader.init: Engine (ID: ${engine.uniqueId}) creation failed (no WebGL context?). Disposing.`);
@@ -883,7 +1692,7 @@ function initBabylonEngineAndScene(canvasRef) {
         }
     };
     const contextRestoredHandler = () => {
-        console.log(`SceneLoader: WebGL context RESTORED for engine (ID: ${engine.uniqueId}).`);
+        // console.log(`SceneLoader: WebGL context RESTORED for engine (ID: ${engine.uniqueId}).`);
         if (!engine.isDisposed) {
             engine._onContextRestored();
         }
@@ -900,12 +1709,12 @@ function initBabylonEngineAndScene(canvasRef) {
     canvas._previousContextLostHandler = contextLostHandler;
     canvas._previousContextRestoredHandler = contextRestoredHandler;
 
-    console.log(`SceneLoader.init: Creating new BABYLON.Scene for engine (ID: ${engine.uniqueId})...`);
+    // console.log(`SceneLoader.init: Creating new BABYLON.Scene for engine (ID: ${engine.uniqueId})...`);
     const scene = new window.BABYLON.Scene(engine);
     scene.clearColor = new window.BABYLON.Color4(0.1, 0.1, 0.1, 1);
     scene.autoClear = true;
     scene.autoClearDepthAndStencil = true;
-    console.log(`SceneLoader.init: Scene created for engine (ID: ${engine.uniqueId}).`);
+    // console.log(`SceneLoader.init: Scene created for engine (ID: ${engine.uniqueId}).`);
 
     return { engine, scene, canvas };
 }
@@ -925,19 +1734,19 @@ async function loadSceneObjects(scene, glbConfig) {
     const allImportedMeshes = [];
     let glbRootNode = null;
 
-    console.log(`SceneLoader.loadObjects: Attempting to load GLB: ${url}${path}${file} into scene associated with engine ID: ${scene.getEngine().uniqueId}`);
+    // console.log(`SceneLoader.loadObjects: Attempting to load GLB: ${url}${path}${file} into scene associated with engine ID: ${scene.getEngine().uniqueId}`);
     try {
         const result = await window.BABYLON.SceneLoader.ImportMeshAsync("", url, file, scene);
-        console.log(`SceneLoader.loadObjects: GLB loaded. Processing ${result.meshes.length} meshes/nodes...`);
+        // console.log(`SceneLoader.loadObjects: GLB loaded. Processing ${result.meshes.length} meshes/nodes...`);
 
         for (const mesh of result.meshes) {
             if (!mesh || mesh.isDisposed()) {
-                console.log(`SceneLoader.loadObjects: Skipping null/disposed mesh.`);
+                // console.log(`SceneLoader.loadObjects: Skipping null/disposed mesh.`);
                 continue;
             };
             if (mesh.name === "__root__") {
                 glbRootNode = mesh;
-                console.log(`SceneLoader.loadObjects: Identified root mesh: ${mesh.name}`);
+                // console.log(`SceneLoader.loadObjects: Identified root mesh: ${mesh.name}`);
                 if (mesh instanceof window.BABYLON.Mesh || mesh instanceof window.BABYLON.TransformNode) {
                     allImportedMeshes.push(mesh);
                 }
@@ -945,7 +1754,7 @@ async function loadSceneObjects(scene, glbConfig) {
             }
 
             if (!(mesh instanceof window.BABYLON.Mesh)) {
-                console.log(`SceneLoader.loadObjects: Skipping non-mesh node "${mesh.name}" for position/index validation (likely a TransformNode).`);
+                // console.log(`SceneLoader.loadObjects: Skipping non-mesh node "${mesh.name}" for position/index validation (likely a TransformNode).`);
                 allImportedMeshes.push(mesh);
                 continue;
             }
@@ -991,7 +1800,7 @@ async function sceneLoader({ canvasRef, glbConfig = {
     let onBeforeRenderObserver = null;
 
     try {
-        console.log("--- sceneLoader function started ---");
+        // console.log("--- sceneLoader function started ---");
 
         const engineAndScene = initBabylonEngineAndScene(canvasRef);
         if (!engineAndScene || !engineAndScene.engine || !engineAndScene.scene) {
@@ -1008,21 +1817,21 @@ async function sceneLoader({ canvasRef, glbConfig = {
             console.warn("Canvas not available, camera control not attached.");
         }
         camera.wheelPrecision = 50;
-        console.log("Camera setup complete.");
+        // console.log("Camera setup complete.");
 
         const light = new window.BABYLON.HemisphericLight("light", new window.BABYLON.Vector3(0, 1, 0), scene);
         light.intensity = 0.7;
-        console.log("Light setup complete.");
+        // console.log("Light setup complete.");
 
         const { glbRootNode, allImportedMeshes } = await loadSceneObjects(scene, glbConfig);
-        console.log(`After loadSceneObjects: glbRootNode found: ${!!glbRootNode}, total imported meshes/nodes: ${allImportedMeshes.length}`);
+        // console.log(`After loadSceneObjects: glbRootNode found: ${!!glbRootNode}, total imported meshes/nodes: ${allImportedMeshes.length}`);
 
         if (glbRootNode) {
             glbRootNode.rotation = window.BABYLON.Vector3.Zero();
             glbRootNode.position = window.BABYLON.Vector3.Zero();
             glbRootNode.scaling = new window.BABYLON.Vector3(44, 44, 44);
             camera.target = glbRootNode.absolutePosition;
-            console.log(`GLB Root Node ("${glbRootNode.name}") set to be static at origin and scaled by 44x. Camera target set.`);
+            // console.log(`GLB Root Node ("${glbRootNode.name}") set to be static at origin and scaled by 44x. Camera target set.`);
         } else {
             console.warn("No __root__ node found in GLB. Camera target defaulted to Zero.");
             camera.target = window.BABYLON.Vector3.Zero();
@@ -1039,12 +1848,12 @@ async function sceneLoader({ canvasRef, glbConfig = {
         const minSpeed = 0.001;
         const maxSpeed = 0.01;
 
-        console.log(`--- Starting mesh selection for rotation and TransformNode creation ---`);
+        // console.log(`--- Starting mesh selection for rotation and TransformNode creation ---`);
         let meshesFoundForRotation = 0;
 
         allImportedMeshes.forEach((mesh) => {
             if (mesh instanceof window.BABYLON.Mesh && mesh.name !== "__root__" && glbRootNode) {
-                console.log(`    -> Processing mesh "${mesh.name}" for orbital rotation.`);
+                // console.log(`    -> Processing mesh "${mesh.name}" for orbital rotation.`);
 
                 const rotator = new window.BABYLON.TransformNode(`rotator_${mesh.name}`, scene);
                 rotator.position = window.BABYLON.Vector3.Zero();
@@ -1054,25 +1863,25 @@ async function sceneLoader({ canvasRef, glbConfig = {
                 // Reparent the actual mesh to this new rotator node.
                 // setParent will attempt to maintain the mesh's world position.
                 mesh.setParent(rotator);
-                console.log(`    -> Reparented mesh "${mesh.name}" to new rotator "${rotator.name}".`);
+                // console.log(`    -> Reparented mesh "${mesh.name}" to new rotator "${rotator.name}".`);
 
                 const randomSpeed = minSpeed + (Math.random() * (maxSpeed - minSpeed));
                 rotatingNodesWithSpeeds.push({ node: rotator, speed: randomSpeed });
-                console.log(`    -> Added "${rotator.name}" to rotation list with speed: ${randomSpeed.toFixed(4)}`);
+                // console.log(`    -> Added "${rotator.name}" to rotation list with speed: ${randomSpeed.toFixed(4)}`);
                 meshesFoundForRotation++;
 
                 if (mesh.name === "obelisk") {
                     obeliskMesh = mesh;
                     obeliskOriginalY = mesh.position.y;
-                    console.log(`    -> Identified "obelisk" mesh for hovering. Original LOCAL Y (relative to rotator): ${obeliskOriginalY.toFixed(4)}`);
+                    // console.log(`    -> Identified "obelisk" mesh for hovering. Original LOCAL Y (relative to rotator): ${obeliskOriginalY.toFixed(4)}`);
                 }
             } else {
                 const parentName = mesh.parent ? mesh.parent.name : "none";
-                console.log(`    -> SKIPPING "${mesh.name}" for rotation. (Is BABYLON.Mesh: ${mesh instanceof window.BABYLON.Mesh}. Is Root Node: ${mesh.name === "__root__"}. Parent: ${parentName}).`);
+                // console.log(`    -> SKIPPING "${mesh.name}" for rotation. (Is BABYLON.Mesh: ${mesh instanceof window.BABYLON.Mesh}. Is Root Node: ${mesh.name === "__root__"}. Parent: ${parentName}).`);
             }
         });
 
-        console.log(`--- Finished mesh selection. Found ${meshesFoundForRotation} meshes and created ${rotatingNodesWithSpeeds.length} dedicated rotators. ---`);
+        // console.log(`--- Finished mesh selection. Found ${meshesFoundForRotation} meshes and created ${rotatingNodesWithSpeeds.length} dedicated rotators. ---`);
         if (meshesFoundForRotation === 0) {
             console.warn("No meshes found for rotation! The GLB structure might be different than expected, or meshes are not actual BABYLON.Mesh instances or not properly linked.");
             console.warn("Consider inspecting your GLB file's hierarchy using a tool like https://gltf.report/ or https://sandbox.babylonjs.com/ to understand its structure.");
@@ -1103,7 +1912,7 @@ async function sceneLoader({ canvasRef, glbConfig = {
             }
         });
 
-        console.log("--- sceneLoader function completed. Animation logic set up. ---");
+        // console.log("--- sceneLoader function completed. Animation logic set up. ---");
 
         return {
             engine: engine,
@@ -1111,32 +1920,32 @@ async function sceneLoader({ canvasRef, glbConfig = {
             environmentMeshes: allImportedMeshes,
             glbRootNode: glbRootNode,
             cleanup: () => {
-                console.log("--- Initiating SceneLoader cleanup ---");
+                // console.log("--- Initiating SceneLoader cleanup ---");
                 // Remove the onBeforeRenderObservable observer
                 if (onBeforeRenderObserver) {
                     scene?.onBeforeRenderObservable.remove(onBeforeRenderObserver);
                     onBeforeRenderObserver = null;
-                    console.log("Removed onBeforeRenderObservable observer.");
+                    // console.log("Removed onBeforeRenderObservable observer.");
                 }
 
                 // Dispose the scene and engine if they exist and are not already disposed.
                 // WorldLogic's cleanup function will also attempt this, but it's good to be safe.
                 if (scene && !scene.isDisposed) {
                     scene.dispose();
-                    console.log("Scene disposed by SceneLoader cleanup.");
+                    // console.log("Scene disposed by SceneLoader cleanup.");
                 }
                 if (engine && !engine.isDisposed) {
                     // Important: Do NOT stop render loop or remove resize listener here,
                     // as WorldLogic manages that. Just dispose the engine.
                     engine.dispose();
-                    console.log(`Engine (ID: ${engine.uniqueId}) disposed by SceneLoader cleanup.`);
+                    // console.log(`Engine (ID: ${engine.uniqueId}) disposed by SceneLoader cleanup.`);
                 } else {
-                    console.log("Engine already disposed or not initialized during SceneLoader cleanup.");
+                    // console.log("Engine already disposed or not initialized during SceneLoader cleanup.");
                 }
                 // Nullify references that are local to sceneLoader
                 engine = null;
                 scene = null;
-                console.log("--- SceneLoader cleanup complete ---");
+                // console.log("--- SceneLoader cleanup complete ---");
             }
         };
     } catch (err) {
@@ -1237,7 +2046,7 @@ return { createConstants };
 # CharacterLogic
 
 ```jsx
-const fileName = "_RESOURCES/DATACORE/22 World888/D.q.world888.component.md";
+const fileName = dc.resolvePath("D.q.world888.component.md");
 const { CameraLogic } = await dc.require(dc.headerLink(fileName, "CameraLogic"));
 const { createConstants } = await dc.require(dc.headerLink(fileName, "CharacterConstants"));
 const { _calculateDesiredVelocity } = await dc.require(dc.headerLink(fileName, "CharacterVelocity"));
@@ -1668,9 +2477,12 @@ const CharacterLogic = (() => {
                 inputDirection: () => stateVariables.inputDirection.clone(), getVelocity: () => characterController.getVelocity().clone()
             },
             cleanup: () => {
-                 logDebug("[CharLogic:Movement]", "Cleanup..."); inputHandler?.cleanup?.();
-                 scene?.onAfterPhysicsObservable.remove(physicsObserver); scene?.onBeforeRenderObservable.remove(renderObserver);
-                 stateVariables.pressedKeys.clear(); logDebug("[CharLogic:Movement]", "Cleanup finished.");
+                 logDebug("[CharLogic:Movement]", "Cleanup...");
+                 if (inputHandler && typeof inputHandler.cleanup === 'function') { try { inputHandler.cleanup(); } catch(e) { console.warn("[CharLogic:Movement] Error in input cleanup:", e); } }
+                 try { if (scene && physicsObserver) scene.onAfterPhysicsObservable.remove(physicsObserver); } catch(e) { console.warn("[CharLogic:Movement] Error removing physics observer:", e); }
+                 try { if (scene && renderObserver) scene.onBeforeRenderObservable.remove(renderObserver); } catch(e) { console.warn("[CharLogic:Movement] Error removing render observer:", e); }
+                 stateVariables.pressedKeys.clear();
+                 logDebug("[CharLogic:Movement]", "Cleanup finished.");
             },
         };
         logDebug("[CharLogic:Movement]", "Setup complete.");
@@ -1682,29 +2494,33 @@ const CharacterLogic = (() => {
         if (!scene || !canvasRef) { console.error("[CharacterLogic] Init failed: Scene or CanvasRef missing."); return null; }
 
         const env = setupEnvironment(scene, canvasRef);
-        if (!env?.displayCapsule || !env?.characterController) { console.error("[CharacterLogic] Env setup failed."); env?.light?.dispose(); return null; }
+        if (!env?.displayCapsule || !env?.characterController) { console.error("[CharacterLogic] Env setup failed."); if (env?.light && typeof env.light.dispose === 'function') env.light.dispose(); return null; }
 
         const constants = createConstants(env.normalCharacterHeight, env.crouchCharacterHeight, env.characterRadius);
-        if(!constants) { console.error("[CharacterLogic] Failed to create constants."); env.characterController?.dispose(); env.displayCapsule?.dispose(); env.light?.dispose(); return null; }
+        if(!constants) { console.error("[CharacterLogic] Failed to create constants."); if (env.characterController && typeof env.characterController.dispose === 'function') env.characterController.dispose(); if (env.displayCapsule && typeof env.displayCapsule.dispose === 'function') env.displayCapsule.dispose(); if (env.light && typeof env.light.dispose === 'function') env.light.dispose(); return null; }
 
         let cameraLogic = null;
         try { cameraLogic = CameraLogic.initialize(scene, canvasRef, env.displayCapsule, env.charStartPos); }
-        catch (error) { console.error("[CharacterLogic] Error CameraLogic.initialize:", error); env.characterController?.dispose(); env.displayCapsule?.dispose(); env.light?.dispose(); return null; }
+        catch (error) { console.error("[CharacterLogic] Error CameraLogic.initialize:", error); if (env.characterController && typeof env.characterController.dispose === 'function') env.characterController.dispose(); if (env.displayCapsule && typeof env.displayCapsule.dispose === 'function') env.displayCapsule.dispose(); if (env.light && typeof env.light.dispose === 'function') env.light.dispose(); return null; }
 
-        if (!cameraLogic?.camera || !cameraLogic?.cameraControls) { console.error("[CharacterLogic] CRITICAL: CameraLogic init failed."); cameraLogic?.cleanup?.(); env.characterController?.dispose(); env.displayCapsule?.dispose(); env.light?.dispose(); return null; }
+        if (!cameraLogic?.camera || !cameraLogic?.cameraControls) { console.error("[CharacterLogic] CRITICAL: CameraLogic init failed."); if (cameraLogic && typeof cameraLogic.cleanup === 'function') cameraLogic.cleanup(); if (env.characterController && typeof env.characterController.dispose === 'function') env.characterController.dispose(); if (env.displayCapsule && typeof env.displayCapsule.dispose === 'function') env.displayCapsule.dispose(); if (env.light && typeof env.light.dispose === 'function') env.light.dispose(); return null; }
         //console.log("[CharacterLogic] CameraLogic initialized.");
         if (scene.activeCamera !== cameraLogic.camera) scene.activeCamera = cameraLogic.camera;
 
         const movementComponents = setupMovementAndPhysicsUpdates(scene, cameraLogic.camera, env.displayCapsule, env.characterController, cameraLogic.cameraControls, canvasRef, constants);
-        if (!movementComponents) { console.error("[CharacterLogic] Movement setup failed."); cameraLogic?.cleanup?.(); env.characterController?.dispose(); env.displayCapsule?.dispose(); env.light?.dispose(); return null; }
+        if (!movementComponents) { console.error("[CharacterLogic] Movement setup failed."); if (cameraLogic && typeof cameraLogic.cleanup === 'function') cameraLogic.cleanup(); if (env.characterController && typeof env.characterController.dispose === 'function') env.characterController.dispose(); if (env.displayCapsule && typeof env.displayCapsule.dispose === 'function') env.displayCapsule.dispose(); if (env.light && typeof env.light.dispose === 'function') env.light.dispose(); return null; }
 
         //console.log("[CharacterLogic] Initialization complete.");
         return {
             camera: cameraLogic.camera, displayCapsule: env.displayCapsule, characterController: env.characterController,
             cameraControls: cameraLogic.cameraControls, ...movementComponents,
             cleanup: () => {
-                //console.log("[CharacterLogic] Cleanup..."); movementComponents?.cleanup?.(); cameraLogic?.cleanup?.();
-                env.characterController?.dispose(); env.displayCapsule?.dispose(); env.light?.dispose();
+                //console.log("[CharacterLogic] Cleanup...");
+                if (movementComponents && typeof movementComponents.cleanup === 'function') { try { movementComponents.cleanup(); } catch(e) { console.warn("[CharacterLogic] Error in movement cleanup:", e); } }
+                if (cameraLogic && typeof cameraLogic.cleanup === 'function') { try { cameraLogic.cleanup(); } catch(e) { console.warn("[CharacterLogic] Error in camera cleanup:", e); } }
+                if (env.characterController && typeof env.characterController.dispose === 'function') { try { env.characterController.dispose(); } catch(e) { console.warn("[CharacterLogic] Error disposing controller:", e); } }
+                if (env.displayCapsule && typeof env.displayCapsule.dispose === 'function') { try { env.displayCapsule.dispose(); } catch(e) { console.warn("[CharacterLogic] Error disposing capsule:", e); } }
+                if (env.light && typeof env.light.dispose === 'function') { try { env.light.dispose(); } catch(e) { console.warn("[CharacterLogic] Error disposing light:", e); } }
                 //console.log("[CharacterLogic] Cleanup finished.");
             },
         };
@@ -1956,7 +2772,7 @@ function _calculateDesiredVelocity(
 
         default: {
             // Fallback for unknown states
-            console.warn("[CharacterLogic: Velocity] Reached fallback in _calculateDesiredVelocity. State:", currentFrameState);
+            // console.warn("[CharacterLogic: Velocity] Reached fallback in _calculateDesiredVelocity. State:", currentFrameState);
             return currentVelocity.add(constants.characterGravity.scale(deltaTime)); // Apply gravity at least
         } // End default case
     } // End switch (currentFrameState)
@@ -2138,7 +2954,7 @@ const CameraLogic = (() => {
     const cameraControlsManager = setupCameraControls(scene, canvasRef, camera, displayCapsule);
     if (canvasRef.current) {
       canvasRef.current.focus();
-      console.log("CameraLogic: Canvas focused. Click canvas to lock pointer.");
+    //   console.log("CameraLogic: Canvas focused. Click canvas to lock pointer.");
     }
     return {
       camera,
@@ -2163,7 +2979,7 @@ return { CameraLogic };
 # SpherePipSpawner
 
 ```jsx
-const fileName = "_RESOURCES/DATACORE/22 World888/D.q.world888.component.md"
+const fileName = dc.resolvePath("D.q.world888.component.md");
 
 const { useEffect } = dc;
  
@@ -2171,11 +2987,11 @@ function SpherePipSpawner({ scene, helperRef }) {
   useEffect(() => {
 	if (!scene) return;
  
-	// Define positions for each sphere – adjust these as needed.
+	// Define positions for each sphere – enigmatic black orbs above ground
 	const sphereConfigs = [
 	  {
 		name: "interactiveSphere_0",
-		position: new window.BABYLON.Vector3(10, 1, -10),
+		position: new window.BABYLON.Vector3(10, 8, -10), // Raised above ground
 		pip: {
 		  filePath: fileName,
 		  header: "ViewComponent",
@@ -2190,7 +3006,7 @@ function SpherePipSpawner({ scene, helperRef }) {
 	  },
 	  {
 		name: "interactiveSphere_1",
-		position: new window.BABYLON.Vector3(13, 2, -12),
+		position: new window.BABYLON.Vector3(13, 10, -12), // Raised above ground
 		pip: {
 		  filePath: fileName,
 		  header: "ViewComponent",
@@ -2205,7 +3021,7 @@ function SpherePipSpawner({ scene, helperRef }) {
 	  },
 	  {
 		name: "interactiveSphere_2",
-		position: new window.BABYLON.Vector3(15, 2, -9),
+		position: new window.BABYLON.Vector3(15, 9, -9), // Raised above ground
 		pip: {
 		  filePath: fileName,
 		  header: "ViewComponent",
@@ -2220,60 +3036,103 @@ function SpherePipSpawner({ scene, helperRef }) {
 	  }
 	];
  
-	const spheres = [];
- 
-	// Helper to spawn the pip view when a sphere is clicked.
-	function spawnPipForSphere(pipConfig) {
-	  // Use the helperRef passed down from WorldView.
-	  if (helperRef && helperRef.current && typeof helperRef.current.spawnCustomPiP === "function") {
-		helperRef.current.spawnCustomPiP(
-		  pipConfig.filePath,
-		  pipConfig.header,
-		  pipConfig.functionName,
-		  pipConfig.options
-		);
-	  } else {
-		console.warn("ScreenModeHelper.spawnCustomPiP is not available via helperRef.");
-	  }
-	}
- 
-	// Create each sphere and set up an action to spawn the pip upon picking.
-	sphereConfigs.forEach((config, index) => {
-	  const sphere = window.BABYLON.MeshBuilder.CreateSphere(config.name, { diameter: 1.5 }, scene);
-	  sphere.position = config.position;
- 
-		const mat = new window.BABYLON.StandardMaterial(`${config.name}_mat`, scene);
-		// Set the diffuse color to red (to match the pane color)
-		mat.diffuseColor = new window.BABYLON.Color3(1, 0, 0);
-		// Keep the bluish emissive glow as before
-		mat.emissiveColor = new window.BABYLON.Color3(0.2, 0.5, 1);
-		sphere.material = mat;
+    const spheres = [];
+    const observers = [];
 
- 
-	  // Enable hover animation: make the sphere bob up and down.
-	  sphere._baseY = sphere.position.y;
-	  scene.onBeforeRenderObservable.add(function animateSphere() {
-		const deltaTime = scene.getEngine().getDeltaTime() * 0.001; 
-		sphere.position.y = sphere._baseY + Math.sin(performance.now() * 0.002 + index) * 0.3;
-	  });
- 
-	  // Set up the ActionManager for click interactions.
-	  sphere.actionManager = new window.BABYLON.ActionManager(scene);
-	  sphere.actionManager.registerAction(
-		new window.BABYLON.ExecuteCodeAction(window.BABYLON.ActionManager.OnPickTrigger, () => {
-		  spawnPipForSphere(config.pip);
-		})
-	  );
- 
-	  spheres.push(sphere);
-	});
- 
-	// Clean up: on component unmount, dispose of all created spheres.
-	return () => {
-	  spheres.forEach((s) => {
-		if (s) s.dispose();
-	  });
-	};
+    // Ensure there's a subtle glow layer for the purple emissive aura (create once per scene)
+    if (!scene._betoGlowLayer && window.BABYLON?.GlowLayer) {
+      try {
+        scene._betoGlowLayer = new window.BABYLON.GlowLayer('betoGlow', scene, { mainTextureSamples: 0 });
+        scene._betoGlowLayer.intensity = 0.55;
+        // Small tweak for a softer purple halo
+        scene._betoGlowLayer.customEmissiveColorSelector = (mesh, subMesh, material, result) => {
+          if (material && material.emissiveColor) {
+            result.set(material.emissiveColor.r, material.emissiveColor.g, material.emissiveColor.b, 1.0);
+            return true;
+          }
+          return false;
+        };
+      } catch (e) {
+        console.warn('SpherePipSpawner: Failed to create GlowLayer:', e);
+      }
+    }
+
+    // Helper to spawn the pip view when a sphere is clicked.
+    function spawnPipForSphere(pipConfig) {
+      // Use the helperRef passed down from WorldView.
+      if (helperRef && helperRef.current && typeof helperRef.current.spawnCustomPiP === "function") {
+        helperRef.current.spawnCustomPiP(
+          pipConfig.filePath,
+          pipConfig.header,
+          pipConfig.functionName,
+          pipConfig.options
+        );
+      } else {
+        console.warn("ScreenModeHelper.spawnCustomPiP is not available via helperRef.");
+      }
+    }
+
+    // Create each sphere and set up an action to spawn the pip upon picking.
+    sphereConfigs.forEach((config, index) => {
+      const sphere = window.BABYLON.MeshBuilder.CreateSphere(config.name, { diameter: 2.2, segments: 32 }, scene);
+      sphere.position = config.position;
+      sphere.isPickable = true;
+
+      // PBR material for deeper black and better emissive response
+      const mat = new window.BABYLON.PBRMaterial(`${config.name}_pbr`, scene);
+      // Very dark base (nearly black) with tiny purple tint
+      mat.albedoColor = new window.BABYLON.Color3(0.03, 0.02, 0.04);
+      mat.metallic = 0.12;
+      mat.roughness = 0.45;
+      // Strong emissive purple for glow layer to pick up
+      mat.emissiveColor = new window.BABYLON.Color3(0.38, 0.12, 0.65);
+      // Slight micro-surface for subtle sheen
+      if (mat.microSurface !== undefined) mat.microSurface = 0.9;
+      // Slight transparency for depth (but keep visually solid)
+      mat.alpha = 0.96;
+      sphere.material = mat;
+
+      // Bobbing animation - keep a handle to the observer so we can remove it on cleanup
+      sphere._baseY = sphere.position.y;
+      const obs = scene.onBeforeRenderObservable.add(() => {
+        const t = performance.now() * 0.001 + index * 0.3;
+        sphere.position.y = sphere._baseY + Math.sin(t * 1.6) * 0.35;
+      });
+      observers.push(obs);
+
+      // ActionManager for interactions: click to spawn PiP, hover to change cursor
+      sphere.actionManager = new window.BABYLON.ActionManager(scene);
+      // Click -> spawn
+      sphere.actionManager.registerAction(
+        new window.BABYLON.ExecuteCodeAction(window.BABYLON.ActionManager.OnPickTrigger, () => {
+          spawnPipForSphere(config.pip);
+        })
+      );
+
+      // Pointer over/out to update cursor (use canvas if available)
+      sphere.actionManager.registerAction(
+        new window.BABYLON.ExecuteCodeAction(window.BABYLON.ActionManager.OnPointerOverTrigger, (evt) => {
+          try { const canvas = scene.getEngine().getRenderingCanvas(); if (canvas) canvas.style.cursor = 'pointer'; } catch (e) {}
+        })
+      );
+      sphere.actionManager.registerAction(
+        new window.BABYLON.ExecuteCodeAction(window.BABYLON.ActionManager.OnPointerOutTrigger, (evt) => {
+          try { const canvas = scene.getEngine().getRenderingCanvas(); if (canvas) canvas.style.cursor = 'crosshair'; } catch (e) {}
+        })
+      );
+
+      spheres.push(sphere);
+    });
+
+    // Clean up: on component unmount, dispose of all created spheres and observers.
+    return () => {
+      observers.forEach((o) => { try { scene.onBeforeRenderObservable.remove(o); } catch (e) {} });
+      spheres.forEach((s) => {
+        try { if (s) s.dispose(); } catch (e) {}
+      });
+      // Reset canvas cursor to default
+      try { const canvas = scene.getEngine().getRenderingCanvas(); if (canvas) canvas.style.cursor = ''; } catch (e) {}
+    };
   }, [scene, helperRef]);
  
   // This component renders no DOM elements.
@@ -2288,7 +3147,7 @@ return { SpherePipSpawner };
 # PaneLogic
 
 ```jsx
-const fileName = "_RESOURCES/DATACORE/22 World888/D.q.world888.component.md";
+const fileName = dc.resolvePath("D.q.world888.component.md");
 
 // Import loadScript from the separate module.
 const { loadScript } = await dc.require(
@@ -2401,7 +3260,7 @@ PaneLogic.createPane = async function({ scene, filePath, position = new window.B
       return pane;
     }
   } catch (err) {
-    console.error("PaneLogic.createPane encountered an error:", err);
+    // console.error("PaneLogic.createPane encountered an error:", err);
     throw err;
   }
 };
@@ -2619,13 +3478,19 @@ function resetScreenMode(container, defaultStyle, originalParentRefForWindow, or
 
 function applyBrowserMode(container) {
   if (!document.fullscreenElement) {
-    //console.log("[applyBrowserMode] Requesting fullscreen for container.");
-    container.requestFullscreen?.() ||
+    // console.log("[applyBrowserMode] Requesting fullscreen for container.");
+    const fullscreenPromise = container.requestFullscreen?.() ||
       container.webkitRequestFullscreen?.() ||
       container.mozRequestFullScreen?.() ||
       container.msRequestFullscreen?.();
+    
+    if (fullscreenPromise && fullscreenPromise.then) {
+      fullscreenPromise
+        .then(() => console.log("[applyBrowserMode] Fullscreen entered successfully"))
+        .catch(err => console.error("[applyBrowserMode] Fullscreen request failed:", err));
+    }
   } else {
-    //console.log("[applyBrowserMode] Exiting fullscreen mode.");
+    // console.log("[applyBrowserMode] Exiting fullscreen mode.");
     document.exitFullscreen?.();
   }
 }
@@ -2676,13 +3541,14 @@ function applyPipStyle(container) {
 
 function applyScreenMode(mode, container, originalParentRefForWindow, originalParentRefForPiP, defaultStyle) {
   if (!container) return;
-  //console.log("[applyScreenMode] Mode requested:", mode, "for container:", container);
+//   console.log("[applyScreenMode] Mode requested:", mode, "for container:", container);
   const tokens = mode.trim().split(/\s+/);
   if (tokens.includes("reset")) {
     resetScreenMode(container, defaultStyle, originalParentRefForWindow, originalParentRefForPiP);
     return;
   }
   if (tokens.includes("browser")) {
+    // console.log("[applyScreenMode] Applying browser mode");
     applyBrowserMode(container);
     return;
   }
@@ -2961,46 +3827,80 @@ const ScreenModeHelper = ({
   defaultStyle,
   originalParentRefForWindow,
   originalParentRefForPiP,
-  allowedScreenModes = ["browser", "window", "pip", "character"],
+  allowedScreenModes = ["browser", "window", "character"],
   engine,
-  characterFile = "ScreenResizing.component.v8.md",
-  characterComponent = "ViewComponent"
+  onModeChange // optional callback to inform parent (WorldView) about mode changes
 }) => {
   const [activeMode, setActiveMode] = useState(allowedScreenModes.includes(initialMode) ? initialMode : "default");
+  const previousModeRef = useRef("default"); // Track the previous mode before entering browser fullscreen
+  const activeModeRef = useRef(activeMode); // Track activeMode in a ref for event handlers
+  const isEnteringFullscreenRef = useRef(false); // Flag to prevent race conditions
+
+  // Keep ref in sync with state
+  useEffect(() => {
+    activeModeRef.current = activeMode;
+  }, [activeMode]);
 
   const toggleMode = (mode) => {
-    //console.log("[ScreenModeHelper] Toggling mode. Current mode:", activeMode, "Requested mode:", mode);
+    // console.log("[ScreenModeHelper] Toggling mode. Current mode:", activeMode, "Requested mode:", mode);
     let newMode = activeMode;
+    
     if (mode === "pip") {
       if (activeMode === "pip") {
         newMode = "default";
+        activeModeRef.current = "default"; // Update ref immediately
         resetScreenMode(containerRef.current, defaultStyle, originalParentRefForWindow, originalParentRefForPiP);
       } else {
         newMode = "pip";
+        activeModeRef.current = "pip"; // Update ref immediately
         applyScreenMode("pip", containerRef.current, originalParentRefForWindow, originalParentRefForPiP, defaultStyle);
       }
     } else if (mode === "character") {
-      spawnCustomPiP(characterFile, "ViewComponent", characterComponent);
-      return;
+      // Spawn a new WorldView instance in a floating PiP window
+      const fileName = dc.resolvePath("D.q.world888.component.md");
+      const pipOptions = {
+        width: "555px",
+        height: "388px",
+        top: "calc(100% - 388px - 20px)",
+        left: "calc(100% - 555px - 20px)"
+      };
+      spawnCustomPiP(fileName, "ViewComponent", "WorldView", pipOptions);
+      return; // Don't change activeMode, just spawn and return
     } else if (mode === "browser") {
       if (activeMode === "browser") {
-        newMode = "default";
-        resetScreenMode(containerRef.current, defaultStyle, originalParentRefForWindow, originalParentRefForPiP);
+        // Exiting browser fullscreen - call applyBrowserMode again to exit fullscreen
+        newMode = "default"; // This will trigger onModeChange to restore fullTab
+        isEnteringFullscreenRef.current = false; // Clear the flag
+        activeModeRef.current = "default"; // Update ref immediately
+        // console.log("[ScreenModeHelper] Exiting browser mode, calling applyBrowserMode to exit fullscreen");
+        applyScreenMode("browser", containerRef.current, originalParentRefForWindow, originalParentRefForPiP, defaultStyle);
       } else {
+        // Entering browser fullscreen
+        previousModeRef.current = activeMode; // Remember where we came from
         newMode = "browser";
+        activeModeRef.current = "browser"; // Update ref immediately BEFORE setting flag and requesting fullscreen
+        isEnteringFullscreenRef.current = true; // Set flag BEFORE applying mode
+        // console.log("[ScreenModeHelper] Setting flag and entering browser fullscreen mode, activeModeRef now:", activeModeRef.current);
         applyScreenMode("browser", containerRef.current, originalParentRefForWindow, originalParentRefForPiP, defaultStyle);
       }
     } else if (mode === "window") {
       if (activeMode === "window") {
         newMode = "default";
+        activeModeRef.current = "default"; // Update ref immediately
+        // console.log("[ScreenModeHelper] Exiting window mode, resetting to default");
         resetScreenMode(containerRef.current, defaultStyle, originalParentRefForWindow, originalParentRefForPiP);
       } else {
         newMode = "window";
+        activeModeRef.current = "window"; // Update ref immediately
+        // console.log("[ScreenModeHelper] Entering window mode");
         applyScreenMode("window", containerRef.current, originalParentRefForWindow, originalParentRefForPiP, defaultStyle);
       }
     }
     setActiveMode(newMode);
-    //console.log("[ScreenModeHelper] Mode toggled. New mode:", newMode);
+    // Note: activeModeRef is updated immediately above for all modes now
+    // Inform parent that the mode changed (WorldView will restore full-tab when newMode === 'default')
+    try { if (typeof onModeChange === 'function') onModeChange(newMode); } catch (e) { console.warn('[ScreenModeHelper] onModeChange callback threw:', e); }
+    // console.log("[ScreenModeHelper] Mode toggled. New mode:", newMode);
   };
 
   useEffect(() => {
@@ -3041,53 +3941,79 @@ const ScreenModeHelper = ({
     };
   }, [containerRef, engine, activeMode]);
 
+  // Listen for fullscreen changes to auto-exit browser mode when user presses ESC
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      const currentMode = activeModeRef.current;
+      const isEntering = isEnteringFullscreenRef.current;
+      const inFullscreen = !!document.fullscreenElement;
+      
+    //   console.log("[ScreenModeHelper] Fullscreen change detected. activeMode:", currentMode, "fullscreenElement:", inFullscreen, "isEntering flag:", isEntering);
+      
+      // If we just entered fullscreen, clear the entering flag
+      if (isEntering && inFullscreen) {
+        // console.log("[ScreenModeHelper] Fullscreen successfully entered, clearing flag");
+        isEnteringFullscreenRef.current = false;
+        return; // Don't process further, this is expected
+      }
+      
+      // If we exited fullscreen and we're in browser mode, update state to default
+      if (currentMode === "browser" && !inFullscreen && !isEntering) {
+        // console.log("[ScreenModeHelper] Fullscreen exited, updating mode to default");
+        // Directly update the state without calling toggleMode to avoid double-toggling
+        setActiveMode("default");
+        // Inform parent
+        try { 
+          if (typeof onModeChange === 'function') {
+            onModeChange("default"); 
+          }
+        } catch (e) { 
+          console.warn('[ScreenModeHelper] onModeChange callback threw:', e); 
+        }
+      }
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
+    document.addEventListener("mozfullscreenchange", handleFullscreenChange);
+    
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+      document.removeEventListener("webkitfullscreenchange", handleFullscreenChange);
+      document.removeEventListener("mozfullscreenchange", handleFullscreenChange);
+    };
+  }, [onModeChange]); // Only depend on onModeChange, use refs for everything else
+
   const iconStyle = { width: "24px", height: "24px" };
-  const browserIcon = (
-    <svg style={iconStyle} viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M8 3H5a2 2 0 0 0-2 2v3" />
-      <path d="M16 3h3a2 2 0 0 1 2 2v3" />
-      <path d="M8 21H5a2 2 0 0 1-2-2v-3" />
-      <path d="M16 21h3a2 2 0 0 0 2-2v-3" />
-    </svg>
-  );
-  const windowIcon = (
-    <svg style={iconStyle} viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="3" width="18" height="14" rx="2" ry="2" />
-      <path d="M3 17h18" />
-    </svg>
-  );
-  const pipIcon = (
-    <svg style={iconStyle} viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="2" y="5" width="20" height="14" rx="2" ry="2" />
-      <rect x="8" y="9" width="8" height="5" rx="1" ry="1" />
-    </svg>
-  );
-  const defaultIcon = (
-    <svg style={iconStyle} viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="10" />
-    </svg>
-  );
+  
   const modeIcons = {
-    browser: browserIcon,
-    window: windowIcon,
-    pip: pipIcon,
-    default: defaultIcon,
-    character: defaultIcon
+    browser: activeMode === "browser" ? "minimize" : "maximize-2", // Show minimize when active, maximize when inactive
+    window: "square",
+    pip: "picture-in-picture-2",
+    default: "circle",
+    character: "user"
   };
 
-  const buttonStyle = {
-    width: "42px",
-    height: "42px",
-    marginRight: "10px",
+  const buttonStyle = (isActive) => ({
+    width: "44px",
+    height: "44px",
+    marginRight: "8px",
     cursor: "pointer",
-    backgroundColor: "#4a4a4a",
-    border: "none",
-    borderRadius: "6px",
+    backgroundColor: isActive ? "rgba(139, 92, 246, 0.3)" : "rgba(0, 0, 0, 0.6)",
+    border: isActive ? "1px solid rgba(139, 92, 246, 0.5)" : "1px solid rgba(255, 255, 255, 0.1)",
+    borderRadius: "8px",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    padding: "0"
-  };
+    padding: "0",
+    transition: "all 0.2s ease",
+    backdropFilter: "blur(10px)",
+    pointerEvents: "auto", // Ensure buttons can receive clicks
+    userSelect: "none", // Prevent text selection
+    WebkitUserSelect: "none",
+    MozUserSelect: "none",
+    outline: "none", // Remove focus outline
+  });
 
   const modesToDisplay = allowedScreenModes.filter((mode) => mode !== "none");
 
@@ -3150,24 +4076,83 @@ const ScreenModeHelper = ({
   }
   
   return (
-    <div style={{ position: "absolute", top: "10px", right: "10px", zIndex: 10, display: "flex" }}>
-      {modesToDisplay.map((mode) => (
-        <button
-          key={mode}
-          onClick={() => toggleMode(mode)}
-          style={buttonStyle}
-          title={mode.charAt(0).toUpperCase() + mode.slice(1) + " Mode"}
-        >
-          {modeIcons[mode] || null}
-        </button>
-      ))}
+    <div 
+      onClickCapture={(e) => {
+        // Capture phase - runs before bubble phase
+        // console.log("[ScreenModeHelper] Container click CAPTURE phase, target:", e.target.tagName);
+      }}
+      onMouseDownCapture={(e) => {
+        // Prevent parent container from stealing focus
+        if (e.target.tagName === 'BUTTON') {
+        //   console.log("[ScreenModeHelper] Button mousedown in capture phase, preventing parent focus");
+        }
+      }}
+      style={{ 
+        position: "absolute", 
+        top: "16px", 
+        right: "16px", 
+        zIndex: 10, 
+        display: "flex",
+        gap: "8px",
+        padding: "8px",
+        background: "rgba(0, 0, 0, 0.3)",
+        borderRadius: "12px",
+        backdropFilter: "blur(10px)",
+        border: "1px solid rgba(255, 255, 255, 0.1)",
+        pointerEvents: "auto", // Ensure pointer events work
+        userSelect: "none", // Prevent text selection
+      }}>
+      {modesToDisplay.map((mode) => {
+        // Create better tooltip text
+        let tooltipText = mode.charAt(0).toUpperCase() + mode.slice(1) + " Mode";
+        if (mode === "browser") {
+          tooltipText = activeMode === "browser" ? "Exit Fullscreen (ESC)" : "Enter Fullscreen";
+        }
+        
+        return (
+          <button
+            key={mode}
+            type="button"
+            onMouseDown={(e) => {
+              e.preventDefault(); // Prevent default (focus behavior)
+              e.stopPropagation();
+              console.log("[ScreenModeHelper] Button mousedown for mode:", mode);
+              toggleMode(mode); // Trigger immediately on mousedown
+            }}
+            style={buttonStyle(activeMode === mode)}
+            title={tooltipText}
+          >
+            <dc.Icon 
+              icon={modeIcons[mode]} 
+              style={{ 
+                fontSize: "20px", 
+                color: activeMode === mode ? "#8b5cf6" : "rgba(255, 255, 255, 0.7)",
+                pointerEvents: "none", // Let clicks pass through icon to button
+              }} 
+            />
+          </button>
+        );
+      })}
       {activeMode === "pip" && (
         <button
-          onClick={() => toggleMode("pip")}
-          style={buttonStyle}
+          type="button"
+          onMouseDown={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            // console.log("[ScreenModeHelper] Close PiP button clicked");
+            toggleMode("pip"); // Trigger immediately on mousedown
+          }}
+          style={buttonStyle(false)}
           title="Close Pip"
         >
-          X
+          <dc.Icon 
+            icon="x" 
+            style={{ 
+              fontSize: "20px", 
+              color: "rgba(255, 255, 255, 0.7)",
+              pointerEvents: "none",
+            }} 
+          />
         </button>
       )}
     </div>
@@ -3205,7 +4190,7 @@ async function loadScript(src, onload, onerror) {
     try {
       scriptElement.textContent = scriptContent;
       document.body.appendChild(scriptElement);
-      console.log(`Script executed from ${isUrl ? 'cache/network' : 'local path'}: ${src}`);
+    //   console.log(`Script executed from ${isUrl ? 'cache/network' : 'local path'}: ${src}`);
       if (onload) {
         onload(); // Call the original onload callback
       }
@@ -3242,7 +4227,7 @@ async function loadScript(src, onload, onerror) {
 
         if (cachedExists) {
           // 2a. Load from cache
-          console.log(`Loading script from cache: ${cachePath}`);
+        //   console.log(`Loading script from cache: ${cachePath}`);
           try {
             scriptText = await adapter.read(cachePath);
           } catch (readError) {
@@ -3253,7 +4238,7 @@ async function loadScript(src, onload, onerror) {
 
         // 2b. Fetch from network if not cached or cache read failed
         if (scriptText === null) {
-          console.log(`Fetching script from network: ${src}`);
+        //   console.log(`Fetching script from network: ${src}`);
           const response = await fetch(src);
 
           if (!response.ok) {
@@ -3265,10 +4250,10 @@ async function loadScript(src, onload, onerror) {
           try {
             // Ensure cache directory exists
             if (!(await adapter.exists(cacheDir))) {
-              console.log(`Creating script cache directory: ${cacheDir}`);
+            //   console.log(`Creating script cache directory: ${cacheDir}`);
               await adapter.mkdir(cacheDir);
             }
-            console.log(`Writing script to cache: ${cachePath}`);
+            // console.log(`Writing script to cache: ${cachePath}`);
             await adapter.write(cachePath, scriptText);
           } catch (writeError) {
             // Log warning but proceed, as we have the script content anyway
@@ -3281,7 +4266,7 @@ async function loadScript(src, onload, onerror) {
 
       } else {
         // --- Local Vault Path Handling ---
-        console.log(`Loading script from local vault path: ${src}`);
+        // console.log(`Loading script from local vault path: ${src}`);
         const adapter = app.vault.adapter;
         const localFileExists = await adapter.exists(src);
 
@@ -3315,8 +4300,6 @@ return { loadScript };
 # Multiplayer
 
 ```jsx
-// Multiplayer.js (BroadcastChannel Version - Fixed Cleanup Order)
-const fileName = "WorldBuilder.component.v4.1.md";
 
 const Multiplayer = (() => {
   const CHANNEL_NAME = "obsidian-world-builder-sync";
@@ -3398,16 +4381,16 @@ const Multiplayer = (() => {
              if (beforeRenderObserver) {
                  scene.onBeforeRenderObservable.remove(beforeRenderObserver);
                  beforeRenderObserver = null;
-                 console.log(`${logPrefix} BeforeRender observer removed.`);
+                //  console.log(`${logPrefix} BeforeRender observer removed.`);
              }
              // Remove the specific observer added by *this* initialize function
              if (sceneDisposeObserver) {
                  scene.onDisposeObservable.remove(sceneDisposeObserver);
                  sceneDisposeObserver = null;
-                 console.log(`${logPrefix} Internal SceneDispose observer removed.`);
+                //  console.log(`${logPrefix} Internal SceneDispose observer removed.`);
              }
          } else {
-             console.log(`${logPrefix} Scene already disposed or null, skipping observer removal.`);
+            //  console.log(`${logPrefix} Scene already disposed or null, skipping observer removal.`);
          }
          // Clear local observer variables regardless
          beforeRenderObserver = null;
@@ -3427,7 +4410,7 @@ const Multiplayer = (() => {
          } finally {
              // --- Close channel definitively here ---
              if (channel) {
-                 console.log(`${logPrefix} Closing BroadcastChannel.`);
+                //  console.log(`${logPrefix} Closing BroadcastChannel.`);
                  channel.close();
                  channel = null; // Nullify reference
              }
@@ -3443,7 +4426,7 @@ const Multiplayer = (() => {
               }
          });
          remotePlayers.clear(); // Clear the map
-         console.log(`${logPrefix} Remote players map cleared.`);
+        //  console.log(`${logPrefix} Remote players map cleared.`);
 
          // Nullify other potential references if needed (though component unmount handles scope)
          // scene = null; // Scene reference comes from outside
@@ -3557,10 +4540,19 @@ const Multiplayer = (() => {
         }
 
         const message = event.data;
+        
+        // Debug logging to track message source
+        if (message && message.senderId) {
+        //   console.log(`${logPrefix} Received message from ${message.senderId.slice(-6)}. My ID: ${instanceId.slice(-6)}. Same? ${message.senderId === instanceId}`);
+        }
+        
         // Ignore messages without senderId or from self
-        if (!message || !message.senderId || message.senderId === instanceId) return;
+        if (!message || !message.senderId || message.senderId === instanceId) {
+        //   console.log(`${logPrefix} Ignoring message (self or invalid)`);
+          return;
+        }
 
-        // console.log(`${logPrefix} Received message type "${message.type}" from ${message.senderId.slice(-6)}`); // Reduce noise
+        // console.log(`${logPrefix} Processing message type "${message.type}" from ${message.senderId.slice(-6)}`);
 
         const now = Date.now();
         const senderId = message.senderId;
@@ -3693,7 +4685,7 @@ const Multiplayer = (() => {
       if (scene && !scene.isDisposed) {
           // Store the observer reference locally so we can remove it in cleanup
           sceneDisposeObserver = scene.onDisposeObservable.addOnce(() => {
-              console.log(`${logPrefix} Scene dispose triggered internal cleanup.`);
+            //   console.log(`${logPrefix} Scene dispose triggered internal cleanup.`);
               cleanup(); // Call the main cleanup function
               sceneDisposeObserver = null; // Clear the local ref after it fires
           });

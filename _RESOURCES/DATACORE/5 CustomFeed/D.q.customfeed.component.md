@@ -6,14 +6,12 @@
 # ViewComponent
 
 ```jsx
-const componentFile = "_RESOURCES/DATACORE/5 CustomFeed/D.q.customfeed.component.md";
-
-// Import the guidelines and required modules
+// Import the guidelines and required modules using dc.resolvePath
 const { getIframesGuidelines } = await dc.require(
-  dc.headerLink(componentFile, "IframesGuidelines")
+  dc.headerLink(dc.resolvePath("D.q.customfeed.component"), "IframesGuidelines")
 );
 const { FileSectionsProvider } = await dc.require(
-  dc.headerLink(componentFile, "FileSectionsProvider")
+  dc.headerLink(dc.resolvePath("D.q.customfeed.component"), "FileSectionsProvider")
 );
 const {
   transformUrl,
@@ -22,7 +20,7 @@ const {
   useWindowResize,
   IframeControls,
   IframeContainer,
-} = await dc.require(dc.headerLink(componentFile, "UtilityFunctions"));
+} = await dc.require(dc.headerLink(dc.resolvePath("D.q.customfeed.component"), "UtilityFunctions"));
 
 /**
  * Main View Component
@@ -30,8 +28,20 @@ const {
  * Combines the iFrame viewer with navigation controls and a hamburger
  * drawer for inline editing.
  */
-function View({ title = "PHYSICAL.enigmas" }) {
+function View({ title = "PHYSICAL.enigmas", spawnType = "fullTab" }) {
   const { useState, useEffect, useMemo, useRef } = dc;
+  
+  // Parse spawnType to determine initial mode and toggle visibility (case-insensitive)
+  const lowerSpawnType = (spawnType || "").toLowerCase();
+  const isDisabled = lowerSpawnType === "disabled" || lowerSpawnType === "disable";
+  const isLocked = lowerSpawnType.includes(".locked");
+  const baseSpawnType = lowerSpawnType.replace(".locked", "");
+  const showFullTabToggle = !isLocked && !isDisabled;
+  const initialFullTab = !isDisabled && baseSpawnType === "fulltab";
+  
+  //console.log("View component initialized with spawnType:", spawnType, "initialFullTab:", initialFullTab, "showFullTabToggle:", showFullTabToggle);
+  
+  // Use the title prop to load the content file
   const fileName = `${title}..md`;
 
   // ------------------------------
@@ -62,11 +72,45 @@ function View({ title = "PHYSICAL.enigmas" }) {
   // Fine controls visibility toggle (edit component)
   const [showFineControls, setShowFineControls] = useState(false);
 
+  // Touch/swipe detection
+  const touchStartY = useRef(0);
+  const touchEndY = useRef(0);
+  
+  // ------------------------------
+  // Full-Tab Mode State & Utilities
+  // ------------------------------
+  const [isFullTab, setIsFullTab] = useState(initialFullTab);
+  
+  // Utility to find nearest ancestor with specific class
+  function findNearestAncestorWithClass(element, className) {
+    let current = element;
+    while (current && current !== document.body) {
+      if (current.classList && current.classList.contains(className)) {
+        return current;
+      }
+      current = current.parentElement;
+    }
+    return null;
+  }
+
+  // Utility to find direct child with specific class
+  function findDirectChildByClass(parent, className) {
+    if (!parent) return null;
+    for (let i = 0; i < parent.children.length; i++) {
+      const child = parent.children[i];
+      if (child.classList && child.classList.contains(className)) {
+        return child;
+      }
+    }
+    return null;
+  }
+
   // ------------------------------
   // File Sections & Navigation Logic
   // ------------------------------
   const [sections, setSections] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [loadedFilePath, setLoadedFilePath] = useState("");
 
   // State for the numeric input (1-indexed)
   const [entryInput, setEntryInput] = useState("1");
@@ -80,11 +124,19 @@ function View({ title = "PHYSICAL.enigmas" }) {
   // Title ref and header click simulation with press delay
   // ------------------------------
   const titleRef = useRef(null);
-  // Compute header text from fileName
+  // Compute header text from loaded file path
   const headerText = useMemo(() => {
+    if (loadedFilePath) {
+      // Extract filename from path
+      const segments = loadedFilePath.split("/");
+      const filename = segments[segments.length - 1];
+      // Remove the ..md extension and return
+      return filename.replace(/\.\.md$/, "").replace(/\.md$/, "");
+    }
+    // Fallback to fileName prop
     const parts = fileName.split("..md");
     return parts[0] || fileName.replace(/\.[^/.]+$/, "");
-  }, [fileName]);
+  }, [loadedFilePath, fileName]);
 
   /**
    * simulateTitleClickWithPressDelay simulates a header click by:
@@ -93,30 +145,35 @@ function View({ title = "PHYSICAL.enigmas" }) {
    * 3. Dispatching mouseup and click events.
    */
   function simulateTitleClickWithPressDelay(pressDelay = 10000) {
-    if (titleRef.current) {
-      const mouseDownEvent = new MouseEvent("mousedown", {
+    if (!titleRef.current) {
+      console.warn("titleRef.current is null, skipping simulated click");
+      return;
+    }
+    
+    const mouseDownEvent = new MouseEvent("mousedown", {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+    });
+    titleRef.current.dispatchEvent(mouseDownEvent);
+
+    setTimeout(() => {
+      if (!titleRef.current) return;
+      
+      const mouseUpEvent = new MouseEvent("mouseup", {
         bubbles: true,
         cancelable: true,
         view: window,
       });
-      titleRef.current.dispatchEvent(mouseDownEvent);
+      titleRef.current.dispatchEvent(mouseUpEvent);
 
-      setTimeout(() => {
-        const mouseUpEvent = new MouseEvent("mouseup", {
-          bubbles: true,
-          cancelable: true,
-          view: window,
-        });
-        titleRef.current.dispatchEvent(mouseUpEvent);
-
-        const clickEvent = new MouseEvent("click", {
-          bubbles: true,
-          cancelable: true,
-          view: window,
-        });
-        titleRef.current.dispatchEvent(clickEvent);
-      }, pressDelay);
-    }
+      const clickEvent = new MouseEvent("click", {
+        bubbles: true,
+        cancelable: true,
+        view: window,
+      });
+      titleRef.current.dispatchEvent(clickEvent);
+    }, pressDelay);
   }
 
   /**
@@ -190,6 +247,9 @@ function View({ title = "PHYSICAL.enigmas" }) {
       const tag = document.activeElement.tagName.toLowerCase();
       if (tag === "input" || tag === "textarea") return;
 
+      // Require Option (Alt) key for all shortcuts
+      if (!e.altKey) return;
+
       if (showFineControls && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key)) {
         e.preventDefault();
         return;
@@ -213,6 +273,9 @@ function View({ title = "PHYSICAL.enigmas" }) {
           e.preventDefault();
         } else if (e.key === "v") {
           openCurrentLink();
+          e.preventDefault();
+        } else if (e.key === "c") {
+          // Option+C for additional controls if needed
           e.preventDefault();
         }
       }
@@ -282,6 +345,184 @@ function View({ title = "PHYSICAL.enigmas" }) {
       window.open(iframeSrc, "_blank");
     }
   }
+
+  // ------------------------------
+  // Touch/Swipe Handling
+  // ------------------------------
+  const handleTouchStart = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    touchStartY.current = e.touches[0].clientY;
+   // console.log("Touch Start Y:", touchStartY.current);
+  };
+
+  const handleTouchMove = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    touchEndY.current = e.touches[0].clientY;
+    //console.log("Touch Move Y:", touchEndY.current);
+  };
+
+  const handleTouchEnd = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    
+    const swipeDistance = touchStartY.current - touchEndY.current;
+    const minSwipeDistance = 50; // minimum distance for a swipe
+    
+    //console.log("Touch End - Start Y:", touchStartY.current, "End Y:", touchEndY.current, "Distance:", swipeDistance);
+
+    if (swipeDistance > minSwipeDistance) {
+      // Swiped up (go to next)
+      //console.log("Swiped UP - Going to NEXT");
+      goNext();
+    } else if (swipeDistance < -minSwipeDistance) {
+      // Swiped down (go to previous)
+      //console.log("Swiped DOWN - Going to PREVIOUS");
+      goPrev();
+    } else {
+      //console.log("Swipe distance too small:", swipeDistance);
+    }
+
+    // Reset values
+    touchStartY.current = 0;
+    touchEndY.current = 0;
+  };
+
+  // Add touch event listeners with capture phase
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    container.addEventListener('touchstart', handleTouchStart, { capture: true, passive: false });
+    container.addEventListener('touchmove', handleTouchMove, { capture: true, passive: false });
+    container.addEventListener('touchend', handleTouchEnd, { capture: true, passive: false });
+
+    return () => {
+      container.removeEventListener('touchstart', handleTouchStart, { capture: true });
+      container.removeEventListener('touchmove', handleTouchMove, { capture: true });
+      container.removeEventListener('touchend', handleTouchEnd, { capture: true });
+    };
+  }, [goNext, goPrev]);
+
+  // ------------------------------
+  // Full-Tab Mode DOM Manipulation
+  // ------------------------------
+  useEffect(() => {
+    const container = containerRef.current;
+    //console.log("Full-tab effect triggered. isFullTab:", isFullTab, "container:", container);
+    
+    if (!container) {
+      console.warn("Container ref not available yet");
+      return;
+    }
+    
+    if (!isFullTab) {
+      //console.log("Not in full-tab mode, skipping DOM manipulation");
+      return;
+    }
+
+    // Small delay to ensure DOM is ready
+    const timer = setTimeout(() => {
+      // Find the workspace-leaf-content ancestor
+      const workspaceLeaf = findNearestAncestorWithClass(container, "workspace-leaf-content");
+      if (!workspaceLeaf) {
+        console.warn("Could not find workspace-leaf-content ancestor");
+        //console.log("Container parent chain:", container.parentElement);
+        return;
+      }
+      //console.log("Found workspace-leaf-content:", workspaceLeaf);
+
+      // Find view-content (like BasicView v2 does) or fallback to workspace-leaf-content
+      const contentWrapper = findDirectChildByClass(workspaceLeaf, "view-content") || workspaceLeaf;
+      //console.log("Found content wrapper:", contentWrapper);
+
+      // Save original parent and position
+      const originalParent = container.parentElement;
+      const originalPosition = container.style.position;
+      const originalTop = container.style.top;
+      const originalLeft = container.style.left;
+      const originalWidth = container.style.width;
+      const originalHeight = container.style.height;
+      const originalZIndex = container.style.zIndex;
+      const originalBackground = container.style.backgroundColor;
+      const originalOverflow = container.style.overflow;
+
+      // Set parent position if static (like BasicView v2)
+      const parentOriginalPosition = window.getComputedStyle(contentWrapper).position;
+      if (parentOriginalPosition === "static") {
+        contentWrapper.style.position = "relative";
+      }
+
+      // Create placeholder
+      const placeholder = document.createElement("div");
+      placeholder.style.display = "none";
+      originalParent.insertBefore(placeholder, container);
+
+      // Move to content wrapper
+      contentWrapper.appendChild(container);
+      //console.log("Container moved to content wrapper");
+
+      // Apply full-tab styles (like BasicView v2)
+      container.style.position = "absolute";
+      container.style.top = "0";
+      container.style.left = "0";
+      container.style.width = "100%";
+      container.style.height = "100%";
+      container.style.zIndex = "9998";
+      container.style.backgroundColor = "var(--background-primary)";
+      container.style.overflow = "auto";
+      //console.log("Full-tab styles applied");
+
+      // Store cleanup data
+      container._cleanupData = {
+        placeholder,
+        originalParent,
+        originalPosition,
+        originalTop,
+        originalLeft,
+        originalWidth,
+        originalHeight,
+        originalZIndex,
+        originalBackground,
+        originalOverflow,
+        contentWrapper,
+        parentOriginalPosition
+      };
+    }, 100);
+
+    // Cleanup function
+    return () => {
+      clearTimeout(timer);
+      const cleanupData = container._cleanupData;
+      if (cleanupData) {
+        const { placeholder, originalParent, originalPosition, originalTop, originalLeft, originalWidth, originalHeight, originalZIndex, originalBackground, originalOverflow, contentWrapper, parentOriginalPosition } = cleanupData;
+        
+        if (placeholder && placeholder.parentElement) {
+          placeholder.parentElement.insertBefore(container, placeholder);
+          placeholder.remove();
+        }
+        
+        // Restore parent position
+        if (contentWrapper && parentOriginalPosition === "static") {
+          contentWrapper.style.position = "";
+        }
+        
+        // Restore original styles
+        container.style.position = originalPosition;
+        container.style.top = originalTop;
+        container.style.left = originalLeft;
+        container.style.width = originalWidth;
+        container.style.height = originalHeight;
+        container.style.zIndex = originalZIndex;
+        container.style.backgroundColor = originalBackground;
+        container.style.overflow = originalOverflow;
+        
+        delete container._cleanupData;
+       // console.log("Full-tab mode cleaned up");
+      }
+    };
+  }, [isFullTab]);
 
   // ------------------------------
   // Resize Handling
@@ -384,107 +625,222 @@ function View({ title = "PHYSICAL.enigmas" }) {
       <div
         ref={containerRef}
         onClick={handleContainerClick}
-        style={{ flex: "1 1 auto", overflow: "hidden", position: "relative" }}
+        style={{ flex: "1 1 auto", overflow: "hidden", position: "relative", touchAction: "none" }}
       >
-        <dc.Stack style={{ padding: "10px" }}>
-          <div>
-            <p></p>
-          </div>
+        {/* Compact Header */}
+        <dc.Stack style={{ 
+          padding: "12px 16px",
+          backgroundColor: "#0a0a0a",
+          borderBottom: "1px solid #1a1a1a"
+        }}>
           <div
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
               width: "100%",
+              gap: "12px"
             }}
           >
-            {/* Title element with ref for simulating mouse press */}
-            <h1 ref={titleRef} style={{ margin: 0, fontSize: "1.2em" }}>
+            {/* Left: Title */}
+            <h1 ref={titleRef} style={{ 
+              margin: 0, 
+              fontSize: "1em",
+              color: "#e0e0e0",
+              fontWeight: "500",
+              flex: "0 0 auto"
+            }}>
               {headerText}
             </h1>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            
+            {/* Center: Navigation Controls */}
+            <div style={{ display: "flex", alignItems: "center", gap: "6px", flex: "0 0 auto" }}>
               <button
                 disabled={showFineControls}
                 style={{
-                  fontSize: "1em",
-                  cursor: showFineControls ? "not-allowed" : "pointer",
+                  background: "#1a1a1a",
+                  color: currentIndex > 0 ? "#a0a0a0" : "#444",
+                  border: "1px solid #2a2a2a",
+                  borderRadius: "4px",
                   padding: "4px 8px",
+                  cursor: showFineControls ? "not-allowed" : (currentIndex > 0 ? "pointer" : "default"),
                   opacity: showFineControls ? 0.5 : 1,
                   visibility: currentIndex > 0 ? "visible" : "hidden",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "all 0.2s ease",
                 }}
                 onClick={!showFineControls ? goPrev : undefined}
               >
-                ↑
+                <dc.Icon icon="chevron-up" style={{ fontSize: "14px" }} />
               </button>
-              <button
-                disabled={showFineControls}
-                style={{
-                  fontSize: "1em",
-                  cursor: showFineControls ? "not-allowed" : "pointer",
-                  padding: "4px 8px",
-                  opacity: showFineControls ? 0.5 : 1,
-                  visibility:
-                    currentIndex < sections.length - 1 ? "visible" : "hidden",
-                }}
-                onClick={!showFineControls ? goNext : undefined}
-              >
-                ↓
-              </button>
+              
               {sections.length > 0 && (
-                <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                <div style={{ 
+                  display: "flex", 
+                  alignItems: "center", 
+                  gap: "4px",
+                  color: "#a0a0a0",
+                  fontSize: "12px"
+                }}>
                   <input
                     type="number"
                     value={entryInput}
                     onChange={(e) => setEntryInput(e.target.value)}
                     onKeyDown={handleEntryInputKeyDown}
                     onBlur={handleEntryInputBlur}
-                    style={{ width: "50px", textAlign: "center" }}
+                    style={{ 
+                      width: "40px", 
+                      textAlign: "center",
+                      background: "#141414",
+                      color: "#e0e0e0",
+                      border: "1px solid #2a2a2a",
+                      borderRadius: "4px",
+                      padding: "3px",
+                      fontSize: "12px"
+                    }}
                   />
-                  <span>of {sections.length}</span>
+                  <span style={{ whiteSpace: "nowrap" }}>/{sections.length}</span>
                 </div>
               )}
+              
+              <button
+                disabled={showFineControls}
+                style={{
+                  background: "#1a1a1a",
+                  color: currentIndex < sections.length - 1 ? "#a0a0a0" : "#444",
+                  border: "1px solid #2a2a2a",
+                  borderRadius: "4px",
+                  padding: "4px 8px",
+                  cursor: showFineControls ? "not-allowed" : (currentIndex < sections.length - 1 ? "pointer" : "default"),
+                  opacity: showFineControls ? 0.5 : 1,
+                  visibility: currentIndex < sections.length - 1 ? "visible" : "hidden",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "all 0.2s ease",
+                }}
+                onClick={!showFineControls ? goNext : undefined}
+              >
+                <dc.Icon icon="chevron-down" style={{ fontSize: "14px" }} />
+              </button>
+            </div>
+            
+            {/* Right: Action Buttons */}
+            <div style={{ display: "flex", alignItems: "center", gap: "4px", flex: "0 0 auto" }}>
               <button
                 style={{
-                  fontSize: "1em",
-                  cursor: "pointer",
+                  background: disableIframeInteraction ? "#1a1a1a" : "#8b5cf6",
+                  color: disableIframeInteraction ? "#a0a0a0" : "#ffffff",
+                  border: "1px solid " + (disableIframeInteraction ? "#2a2a2a" : "#8b5cf6"),
+                  borderRadius: "4px",
                   padding: "4px 8px",
+                  cursor: "pointer",
+                  fontSize: "11px",
+                  fontWeight: "500",
+                  transition: "all 0.2s ease",
+                  whiteSpace: "nowrap"
                 }}
-                onClick={() =>
-                  setDisableIframeInteraction(!disableIframeInteraction)
-                }
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setDisableIframeInteraction(!disableIframeInteraction);
+                }}
+                title={disableIframeInteraction ? "Enable iframe interaction" : "Disable iframe interaction"}
               >
-                {disableIframeInteraction ? "ENABLE" : "DISABLE"}
+                {disableIframeInteraction ? "EN" : "DIS"}
               </button>
+              
               <button
                 style={{
-                  fontSize: "1em",
-                  cursor: "pointer",
+                  background: "#1a1a1a",
+                  color: "#a0a0a0",
+                  border: "1px solid #2a2a2a",
+                  borderRadius: "4px",
                   padding: "4px 8px",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "all 0.2s ease",
                 }}
-                onClick={openCurrentLink}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openCurrentLink();
+                }}
+                title="Open in new tab"
               >
-                🔗
+                <dc.Icon icon="external-link" style={{ fontSize: "14px" }} />
               </button>
+              
               <button
                 style={{
-                  fontSize: "1em",
-                  cursor: "pointer",
+                  background: menuOpen ? "#8b5cf6" : "#1a1a1a",
+                  color: menuOpen ? "#ffffff" : "#a0a0a0",
+                  border: "1px solid " + (menuOpen ? "#8b5cf6" : "#2a2a2a"),
+                  borderRadius: "4px",
                   padding: "4px 8px",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "all 0.2s ease",
                 }}
-                onClick={() => setMenuOpen(!menuOpen)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setMenuOpen(!menuOpen);
+                }}
+                title="Toggle menu"
               >
-                ☰
+                <dc.Icon icon="menu" style={{ fontSize: "14px" }} />
               </button>
+              
               <button
                 style={{
-                  fontSize: "1em",
-                  cursor: "pointer",
+                  background: showFineControls ? "#8b5cf6" : "#1a1a1a",
+                  color: showFineControls ? "#ffffff" : "#a0a0a0",
+                  border: "1px solid " + (showFineControls ? "#8b5cf6" : "#2a2a2a"),
+                  borderRadius: "4px",
                   padding: "4px 8px",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "all 0.2s ease",
                 }}
-                onClick={() => setShowFineControls((prev) => !prev)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowFineControls((prev) => !prev);
+                }}
+                title="Toggle fine controls"
               >
-                EDIT
+                <dc.Icon icon="settings" style={{ fontSize: "14px" }} />
               </button>
+              
+              {/* Full-Tab Toggle Button - Only show if enabled */}
+              {showFullTabToggle && (
+                <button
+                  style={{
+                    background: isFullTab ? "#8b5cf6" : "#1a1a1a",
+                    color: isFullTab ? "#ffffff" : "#a0a0a0",
+                    border: "1px solid " + (isFullTab ? "#8b5cf6" : "#2a2a2a"),
+                    borderRadius: "4px",
+                    padding: "4px 8px",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    transition: "all 0.2s ease",
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsFullTab(!isFullTab);
+                  }}
+                  title={isFullTab ? "Exit full-tab mode" : "Enter full-tab mode"}
+                >
+                  <dc.Icon icon={isFullTab ? "minimize-2" : "maximize-2"} style={{ fontSize: "14px" }} />
+                </button>
+              )}
             </div>
           </div>
           {/* Fine controls row */}
@@ -493,11 +849,15 @@ function View({ title = "PHYSICAL.enigmas" }) {
               style={{
                 display: "flex",
                 gap: "10px",
-                marginTop: "10px",
+                marginTop: "15px",
+                padding: "15px",
+                backgroundColor: "#141414",
+                borderRadius: "8px",
+                border: "1px solid #2a2a2a",
                 alignItems: "center",
               }}
             >
-              <label>
+              <label style={{ color: "#a0a0a0", fontSize: "13px", display: "flex", alignItems: "center", gap: "6px" }}>
                 C.W
                 <input
                   type="number"
@@ -505,10 +865,18 @@ function View({ title = "PHYSICAL.enigmas" }) {
                   onChange={(e) =>
                     setWidth(parseFloat(e.target.value) || 0)
                   }
-                  style={{ width: "60px", marginLeft: "4px" }}
+                  style={{ 
+                    width: "60px",
+                    background: "#0a0a0a",
+                    color: "#e0e0e0",
+                    border: "1px solid #2a2a2a",
+                    borderRadius: "4px",
+                    padding: "4px 8px",
+                    fontSize: "13px"
+                  }}
                 />
               </label>
-              <label>
+              <label style={{ color: "#a0a0a0", fontSize: "13px", display: "flex", alignItems: "center", gap: "6px" }}>
                 C.H
                 <input
                   type="number"
@@ -516,10 +884,18 @@ function View({ title = "PHYSICAL.enigmas" }) {
                   onChange={(e) =>
                     setHeight(parseFloat(e.target.value) || 0)
                   }
-                  style={{ width: "60px", marginLeft: "4px" }}
+                  style={{ 
+                    width: "60px",
+                    background: "#0a0a0a",
+                    color: "#e0e0e0",
+                    border: "1px solid #2a2a2a",
+                    borderRadius: "4px",
+                    padding: "4px 8px",
+                    fontSize: "13px"
+                  }}
                 />
               </label>
-              <label>
+              <label style={{ color: "#a0a0a0", fontSize: "13px", display: "flex", alignItems: "center", gap: "6px" }}>
                 I.W
                 <input
                   type="number"
@@ -527,10 +903,18 @@ function View({ title = "PHYSICAL.enigmas" }) {
                   onChange={(e) =>
                     setIframeWidth(parseFloat(e.target.value) || 0)
                   }
-                  style={{ width: "60px", marginLeft: "4px" }}
+                  style={{ 
+                    width: "60px",
+                    background: "#0a0a0a",
+                    color: "#e0e0e0",
+                    border: "1px solid #2a2a2a",
+                    borderRadius: "4px",
+                    padding: "4px 8px",
+                    fontSize: "13px"
+                  }}
                 />
               </label>
-              <label>
+              <label style={{ color: "#a0a0a0", fontSize: "13px", display: "flex", alignItems: "center", gap: "6px" }}>
                 I.H
                 <input
                   type="number"
@@ -538,10 +922,18 @@ function View({ title = "PHYSICAL.enigmas" }) {
                   onChange={(e) =>
                     setIframeHeight(parseFloat(e.target.value) || 0)
                   }
-                  style={{ width: "60px", marginLeft: "4px" }}
+                  style={{ 
+                    width: "60px",
+                    background: "#0a0a0a",
+                    color: "#e0e0e0",
+                    border: "1px solid #2a2a2a",
+                    borderRadius: "4px",
+                    padding: "4px 8px",
+                    fontSize: "13px"
+                  }}
                 />
               </label>
-              <label>
+              <label style={{ color: "#a0a0a0", fontSize: "13px", display: "flex", alignItems: "center", gap: "6px" }}>
                 I.S
                 <input
                   type="number"
@@ -550,10 +942,18 @@ function View({ title = "PHYSICAL.enigmas" }) {
                   onChange={(e) =>
                     setIframeScale(parseFloat(e.target.value) || 1)
                   }
-                  style={{ width: "60px", marginLeft: "4px" }}
+                  style={{ 
+                    width: "60px",
+                    background: "#0a0a0a",
+                    color: "#e0e0e0",
+                    border: "1px solid #2a2a2a",
+                    borderRadius: "4px",
+                    padding: "4px 8px",
+                    fontSize: "13px"
+                  }}
                 />
               </label>
-              <label>
+              <label style={{ color: "#a0a0a0", fontSize: "13px", display: "flex", alignItems: "center", gap: "6px" }}>
                 I.L
                 <input
                   type="number"
@@ -561,10 +961,18 @@ function View({ title = "PHYSICAL.enigmas" }) {
                   onChange={(e) =>
                     setIframeLeft(parseFloat(e.target.value) || 0)
                   }
-                  style={{ width: "60px", marginLeft: "4px" }}
+                  style={{ 
+                    width: "60px",
+                    background: "#0a0a0a",
+                    color: "#e0e0e0",
+                    border: "1px solid #2a2a2a",
+                    borderRadius: "4px",
+                    padding: "4px 8px",
+                    fontSize: "13px"
+                  }}
                 />
               </label>
-              <label>
+              <label style={{ color: "#a0a0a0", fontSize: "13px", display: "flex", alignItems: "center", gap: "6px" }}>
                 I.T
                 <input
                   type="number"
@@ -572,7 +980,15 @@ function View({ title = "PHYSICAL.enigmas" }) {
                   onChange={(e) =>
                     setIframeTop(parseFloat(e.target.value) || 0)
                   }
-                  style={{ width: "60px", marginLeft: "4px" }}
+                  style={{ 
+                    width: "60px",
+                    background: "#0a0a0a",
+                    color: "#e0e0e0",
+                    border: "1px solid #2a2a2a",
+                    borderRadius: "4px",
+                    padding: "4px 8px",
+                    fontSize: "13px"
+                  }}
                 />
               </label>
             </div>
@@ -596,77 +1012,63 @@ function View({ title = "PHYSICAL.enigmas" }) {
           </dc.Stack>
         )}
 
-        {/* Hidden preloading container for next video */}
-        {sections[currentIndex + 1] && (
+        {/* Hamburger drawer for inline editing - inside containerRef so it moves with full-tab */}
+        {menuOpen && (
           <div
             style={{
-              position: "absolute",
-              left: "-9999px",
-              width: "1px",
-              height: "1px",
-              overflow: "hidden"
+              position: "fixed",
+              top: 0,
+              right: 0,
+              width: "300px",
+              height: "100%",
+              background: "#0a0a0a",
+              borderLeft: "1px solid #2a2a2a",
+              padding: "20px",
+              overflowY: "auto",
+              zIndex: 9999,
             }}
           >
-            <iframe
-              src={transformUrl(sections[currentIndex + 1].iframeSrc)}
-              title="Preloading next video"
-              width={1}
-              height={1}
-              style={{ border: "none" }}
-              loading="lazy"
-            ></iframe>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: "20px",
+              }}
+            >
+              <h2 style={{ margin: 0, color: "#e0e0e0", fontSize: "16px" }}>Edit Section</h2>
+              <button
+                onClick={() => setMenuOpen(false)}
+                style={{ 
+                  fontSize: "14px", 
+                  cursor: "pointer", 
+                  padding: "6px 12px",
+                  background: "#1a1a1a",
+                  color: "#a0a0a0",
+                  border: "1px solid #2a2a2a",
+                  borderRadius: "4px"
+                }}
+              >
+                <dc.Icon icon="x" style={{ fontSize: "14px" }} />
+              </button>
+            </div>
+            <FileSectionsProvider
+              fileName={fileName}
+              editable={true}
+              currentSectionIndex={currentIndex}
+              onSectionUpdate={(newText) => {
+                const newSections = [...sections];
+                newSections[currentIndex].text = newText;
+                setSections(newSections);
+              }}
+            />
           </div>
         )}
+
       </div>
 
       {/* FileSectionsProvider loads sections based on the dynamic fileName */}
-      <FileSectionsProvider fileName={fileName} onSectionsLoaded={setSections} />
-
-      {/* Hamburger drawer for inline editing */}
-      {menuOpen && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            right: 0,
-            width: "300px",
-            height: "100%",
-            background: "rgba(0, 0, 0, 0.4)",
-            backdropFilter: "blur(5px)",
-            borderLeft: "1px solid var(--background-modifier-border)",
-            padding: "20px",
-            overflowY: "auto",
-            zIndex: 999999,
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: "10px",
-            }}
-          >
-            <h2 style={{ margin: 0 }}></h2>
-            <button
-              onClick={() => setMenuOpen(false)}
-              style={{ fontSize: "1.5em", cursor: "pointer", padding: "6px 12px" }}
-            >
-              X
-            </button>
-          </div>
-          <FileSectionsProvider
-            fileName={fileName}
-            editable={true}
-            currentSectionIndex={currentIndex}
-            onSectionUpdate={(newText) => {
-              const newSections = [...sections];
-              newSections[currentIndex].text = newText;
-              setSections(newSections);
-            }}
-          />
-        </div>
-      )}
+      <FileSectionsProvider fileName={fileName} onSectionsLoaded={setSections} onFilePathLoaded={setLoadedFilePath} />
     </div>
   );
 }
@@ -822,48 +1224,75 @@ function EditableSectionUI({ sectionText, filePath, onSectionUpdate }) {
 function FileSectionsProvider({
   fileName,
   onSectionsLoaded,
+  onFilePathLoaded,
   editable = false,
   currentSectionIndex = 0,
   onSectionUpdate,
 }) {
   const { useMemo, useEffect, useState } = dc;
 
+  // Query for the requested file
   const queryString = useMemo(
     () => `@page and endswith($path, "${fileName}")`,
     [fileName]
   );
   const pages = dc.useQuery(queryString);
 
-  // Filter for an exact match by comparing the file name from the path
+  // Fallback query - find file with "EXPERIENCES.enigmas" in the name
+  const fallbackQueryString = useMemo(
+    () => `@page and $name.contains("EXPERIENCES.enigmas")`,
+    []
+  );
+  const fallbackPages = dc.useQuery(fallbackQueryString);
+
+  // Find the target page
   const targetPage = useMemo(() => {
-    if (!pages || pages.length === 0) return null;
-    const exactMatch = pages.find((page) => {
-      const segments = page.$path.split("/");
-      const currentFileName = segments[segments.length - 1];
-      return currentFileName === fileName;
-    });
-    return exactMatch || pages[0];
-  }, [pages, fileName]);
+    // First, try to find the requested file
+    if (pages && pages.length > 0) {
+      const exactMatch = pages.find((page) => {
+        const segments = page.$path.split("/");
+        const currentFileName = segments[segments.length - 1];
+        return currentFileName === fileName;
+      });
+      if (exactMatch) {
+        //console.log("Found requested file:", exactMatch.$path);
+        return exactMatch;
+      }
+      //console.log("Using first match from pages:", pages[0].$path);
+      return pages[0];
+    }
+    
+    // If not found, use ANY file with "enigmas" in the name as fallback
+    if (fallbackPages && fallbackPages.length > 0) {
+      console.warn(`File "${fileName}" not found. Using fallback file:`, fallbackPages[0].$path);
+      return fallbackPages[0];
+    }
+    
+    console.error("No files found matching criteria");
+    return null;
+  }, [pages, fallbackPages, fileName]);
 
   const [filePath, setFilePath] = useState("");
   const [sections, setSections] = useState([]);
 
   useEffect(() => {
     if (targetPage) {
-      setFilePath(targetPage.$path);
-      const file = app.vault.getAbstractFileByPath(targetPage.$path);
+      const loadedPath = targetPage.$path;
+      setFilePath(loadedPath);
+      if (onFilePathLoaded) onFilePathLoaded(loadedPath);
+      const file = app.vault.getAbstractFileByPath(loadedPath);
       if (file) {
         app.vault.read(file).then((content) => {
           let fullText = content || "";
 
           // Optional: remove up to a marker
-          const headerMarker = "#### [[ENIGMAS]]";
+          const headerMarker = "#### AENIGMAS";
           const markerIndex = fullText.indexOf(headerMarker);
           if (markerIndex !== -1) {
             fullText = fullText.substring(markerIndex + headerMarker.length);
           }
 
-          // Split into sections by lines of dashes (preserving newlines)
+          // Split into sections by lines of 3 or more dashes (preserving newlines)
           const rawSections = fullText
             .split(/^\s*-{3,}\s*$/m)
             .filter((section) => section.replace(/\s+/g, "") !== "");
@@ -978,10 +1407,10 @@ return { EditableSectionUI, FileSectionsProvider };
 
 
 ```jsx
-const componentFile = "_RESOURCES/DATACORE/5 CustomFeed/D.q.customfeed.component.md";
-
-// Import the guidelines (remains unchanged)
-const { getIframesGuidelines } = await dc.require(dc.headerLink(componentFile, "IframesGuidelines"));
+// Import the guidelines using dc.resolvePath
+const { getIframesGuidelines } = await dc.require(
+  dc.headerLink(dc.resolvePath("D.q.customfeed.component"), "IframesGuidelines")
+);
 
 /** Utility Functions **/
 
@@ -1069,10 +1498,7 @@ function useResizeObserver(containerRef, isContainerManualRef, updateDimensions)
       containerRef.current &&
       typeof ResizeObserver !== "undefined"
     ) {
-      console.log(
-        "Attaching ResizeObserver. isContainerManual:",
-        isContainerManualRef.current
-      );
+      //console.log("Attaching ResizeObserver. isContainerManual:",isContainerManualRef.current);
       const observer = new ResizeObserver((entries) => {
         for (let entry of entries) {
           const newWidth = entry.contentRect.width;
@@ -1086,22 +1512,19 @@ function useResizeObserver(containerRef, isContainerManualRef, updateDimensions)
           if (!isContainerManualRef.current) {
             updateDimensions(newWidth);
           } else {
-            console.log("Skipped ResizeObserver update because container is manual.");
+            //console.log("Skipped ResizeObserver update because container is manual.");
           }
         }
       });
       observer.observe(containerRef.current);
       observerRef.current = observer;
       return () => {
-        console.log("Disconnecting ResizeObserver.");
+        //console.log("Disconnecting ResizeObserver.");
         observer.disconnect();
         observerRef.current = null;
       };
     } else {
-      console.log(
-        "ResizeObserver not attached. isContainerManual:",
-        isContainerManualRef.current
-      );
+      //console.log( "ResizeObserver not attached. isContainerManual:", isContainerManualRef.current );
     }
   }, [isContainerManualRef.current, containerRef.current]);
 
@@ -1113,19 +1536,19 @@ function useWindowResize(isContainerManual, updateDimensions) {
   const { useEffect } = dc;
   useEffect(() => {
     if (!isContainerManual) {
-      console.log("Attaching window resize listener. isContainerManual:", isContainerManual);
+      //console.log("Attaching window resize listener. isContainerManual:", isContainerManual);
       const handleResize = () => {
         const newWidth = window.innerWidth;
-        console.log("Window resize: new width =", newWidth, "(isContainerManual:", isContainerManual, ")");
+        //console.log("Window resize: new width =", newWidth, "(isContainerManual:", isContainerManual, ")");
         updateDimensions(newWidth);
       };
       window.addEventListener("resize", handleResize);
       return () => {
-        console.log("Removing window resize listener.");
+        //console.log("Removing window resize listener.");
         window.removeEventListener("resize", handleResize);
       };
     } else {
-      console.log("Window resize listener not attached. isContainerManual:", isContainerManual);
+      //console.log("Window resize listener not attached. isContainerManual:", isContainerManual);
     }
   }, [isContainerManual]);
 }

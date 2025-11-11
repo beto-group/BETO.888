@@ -9,7 +9,7 @@
 
 // Ensure dc is available in the scope for loadScript
 // (It's already available from the initial dc.require)
-const { loadScript } = await dc.require(dc.headerLink("_RESOURCES/DATACORE/33 CodeEditor/D.q.codeeditor.component.v1.md", "LoadScript"));
+const { loadScript } = await dc.require(dc.headerLink(dc.resolvePath("D.q.codeeditor.component.v1.md"), "LoadScript"));
 
 
 const { useRef, useEffect } = dc;

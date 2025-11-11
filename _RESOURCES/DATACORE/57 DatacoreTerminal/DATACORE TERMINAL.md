@@ -2,36 +2,40 @@
 
 ### Tab : Datacore Terminal
 
-- **Description**: A powerful, standalone bridge that exposes the computer's underlying system shell, allowing you to run, monitor, and manage any command-line process directly from within Obsidian. It is designed for both interactive use and deep automation via URI commands, effectively turning Obsidian into a control center for external scripts and tools.
+- **Description**: A full-featured, standalone terminal emulator that runs directly within Obsidian, providing native shell access to your file system. It leverages Node.js's child_process module to spawn a real shell (zsh, bash, powershell, etc.), allowing users to run almost any command-line tool, manage background processes, and interact with their system without ever leaving Obsidian.
 
-- **Does**:    
-    - **Full System Shell Access**:
-        - Leverages Node.js's child_process module to spawn processes in the user's default shell (e.g., Bash, Zsh, PowerShell).
-        - Can execute any command that the user has permission to run on their operating system, from simple file listings (ls -la) to complex scripts (python my_script.py).
+- **Does**:
+   
+    - **Native Shell Integration**: Spawns a real user shell process, inheriting the system's PATH and environment. This allows it to run standard commands like ls, git, npm, python, and more.    
+    - **Full Command-Line Interface**:
+        - Provides a familiar terminal interface with a command prompt, input history (navigable with arrow keys), and tab-based autocompletion for common commands.
+        - Supports essential keyboard shortcuts like Ctrl+C to interrupt a running process and Ctrl+L to clear the screen.
+    - **Advanced Process Management**:
+        - **Background Processes**: Automatically detects long-running commands (like npm run dev or a local server) and runs them as background processes, allowing the user to continue using the terminal.
+        - **Process Panel**: Features a dedicated panel to view all currently running background processes, showing their Process ID (PID), command, and runtime. Users can terminate any process directly from this UI.
+    - **Customizable Environment**:
+        - **Aliases**: Supports creating and using command aliases (e.g., alias gs='git status') for faster workflow.
+        - **Environment Variables**: Allows users to set session-specific environment variables using the export command.
+    - **Remote Execution via URI**:
+        - Exposes a global window.startSystemProcess() function, which can be called via the Obsidian Advanced URI plugin. This allows other notes, plugins, or external tools to remotely execute shell commands in the terminal.
+    - **Self-Contained & Dependency-Free**: Uniquely, this component has **no external web dependencies**. It uses only the APIs provided by Node.js and Preact (via Datacore), making it fast, reliable, and fully offline-capable from the first run.
+    - **Immersive Full-Tab UI**: Designed to run in a full-pane mode that takes over the entire Obsidian view, creating a dedicated, IDE-like terminal experience.
 
-    - **Interactive Process Management**:        
-        - Provides a UI to view all processes started from the component, displaying their command, Process ID (PID), and live status (running/stopped).
-        - Streams stdout and stderr directly into a live-updating log for each process, allowing real-time monitoring.
-        - Includes a "Kill Process" button to forcefully terminate any misbehaving or long-running tasks.
+- **Can’t**:
 
-    - **Dual Execution Modes**:        
-        - **Interactive Mode**: A user-facing modal prompts for a command, which then executes and displays its full output in a separate results modal for easy viewing and copying.
-        - **Silent URI Mode**: Exposes a global window.startSystemProcess() function, designed to be called by the "Advanced URI" plugin. This mode automatically hides the Obsidian window, runs the command in the background, copies the output to the clipboard, and displays a summary notice upon completion.
+    - **Run Interactive REPLs**: It is designed for executing commands and viewing their output. It does not support interactive Read-Eval-Print Loops (REPLs) like a standalone python or node shell.        
+    - **Provide a True TTY Experience**: It is a powerful command runner but not a full terminal emulator. It does not support advanced TTY features like cursor positioning, which are required for complex terminal applications like vim or htop.
+    - **Persist State Across Sessions**: All command history, aliases, and environment variables are for the current session only and will be lost when the component is reloaded.
+    - **Elevate Privileges**: All commands are run with the same permissions as the Obsidian application itself. It cannot be used to run commands that require administrator or sudo privileges.
 
-    - **Standalone, Dependency-Free UI**:        
-        - Implements its own custom Modal and Notice components from scratch, removing any reliance on the obsidian API for its user interface. This makes the component more robust and self-contained.
+- **Disclaimer**:
 
-    - **Seamless Obsidian Integration**:        
-        - Registers a command in the Obsidian command palette ("Process Manager: Start a new process...") for quick, keyboard-driven access to its functionality.
-
-- **Can’t**:    
-    - **Run on Mobile or in Restricted Mode**: Its core functionality is built on Node.js modules that are only available on the desktop version of Obsidian with plugin execution enabled.
-    - **Provide an Interactive Shell (stdin)**: It is designed for firing off commands and viewing their output. It does not provide an interactive TTY, so you cannot pipe input to a running process or respond to prompts.
-    - **Guarantee Security (It's a Feature, Not a Bug)**: This component intentionally breaks the sandbox. It executes commands with the same permissions as your user account. It cannot prevent a malicious command from reading, modifying, or deleting files anywhere on your system. **It should only be used to run trusted commands.**
-    - **Persist Process State**: The list of managed processes is held in component state and will be cleared if Obsidian is reloaded or closed, even if the underlying detached processes continue to run on the operating system.
+    - This is a highly advanced developer tool that provides **direct, unsandboxed access to your computer's shell**. It can execute any command that your user account has permission to run, including file modifications and deletions. **Use this component with extreme caution.** It is a powerful proof-of-concept for deep system integration and should only be used if you fully understand the commands you are running.
 
 
-![datacore_terminal.webp](/_RESOURCES/IMAGES/datacore_terminal.webp)
+----
+
+![datacore_terminal.webp](_resources/images/datacore_terminal.webp)
 
 
 

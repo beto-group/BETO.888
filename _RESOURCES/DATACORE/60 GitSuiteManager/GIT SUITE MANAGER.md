@@ -35,7 +35,9 @@
     - **Customize UI or Workflows**: The component provides a fixed interface and feature set. It cannot be extended with custom actions, buttons, or different view layouts.
 
 
-![alt text](/_RESOURCES/IMAGES/git_suite_manager.webp)
+----
+
+![git_suite_manager.webp](_resources/images/git_suite_manager.webp)
 
 
 

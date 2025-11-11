@@ -2,41 +2,52 @@
 
 ### Tab: Assets Library
 
-- **Description**: An all-in-one, high-performance application for managing, browsing, and interacting with a large library of visual assets (primarily SVGs from Excalidraw) directly within Obsidian. It features an automated pipeline that converts Excalidraw .md files into .svg assets, and presents them in a fluid, interactive canvas-based UI with both grid and graph-based layouts. Designed for performance and scale, it's the definitive tool for users with extensive visual libraries.
-    
+- **Description**: A comprehensive, self-managing asset library that automatically synchronizes Excalidraw .md files from a remote GitHub repository, converts them into optimized .svg assets in the background, and displays them in a high-performance, interactive infinite canvas. It features multiple viewing modes, powerful search and filtering tools, and a robust, performance-first architecture designed to handle thousands of assets with a smooth user experience.
+
 - **Does**:
-    - **Automated Excalidraw Pipeline**:
-        - Scans a predefined folder for Excalidraw drawings (.md files) and intelligently converts them into high-quality .svg assets.
-        - Automatically updates an SVG if its corresponding .md file is modified, ensuring the library is always synchronized.
+   
+    - **Automated GitHub Synchronization**:    
+        - On first run, it requests user consent to download assets. Consent is saved locally to streamline future sessions.
+        - **Smart Syncing**: Performs an initial sync and then intelligently re-syncs only on a weekly basis, unless the local asset folder is empty, in which case it syncs immediately. This balances freshness with performance.
+    - **Background SVG Conversion Pipeline**:
+        - Automatically detects .md files that are missing a corresponding .svg file or have been updated.
+        - **Dependency-Aware**: Intelligently analyzes `[wikilink]` references between Excalidraw files and reorders the conversion queue to process dependent files last.
+        - Generates optimized .svg files with embedded fonts for consistent rendering and saves them locally.
+    - **High-Performance Rendering Engine**:
+        - **Parallel & Progressive Loading**: Uses a multi-threaded approach where GitHub sync, SVG conversion, and canvas rendering all run in parallel. It progressively loads and displays assets that are currently in the viewport first.
+        - **Web Worker Rasterization**: Offloads the intensive task of converting SVGs into bitmaps to a background web worker, preventing UI freezes and ensuring a smooth experience.
+        - **Advanced Caching**: Caches rasterized images in memory and cleans up high-resolution versions when they are off-screen to conserve memory.
+        - **Optimized Animations**: Uses staggered spawn delays and batching limits to create a silky-smooth cascade effect when loading assets, preventing frame rate drops.
+    - **Dual Interactive Views**:
+        - **Grid View**: An infinite canvas displaying assets in a clean, organized grid with smooth panning and zooming.
+        - **Graph View**: A physics-based, force-directed graph where assets are represented as nodes that repel each other. Users can click and drag nodes to interact with the simulation.
+    - **Rich UI & Asset Management Tools**:
+        - **Floating Control Panel**: A draggable UI panel with tools for searching, sorting, switching views, and managing selections.
+        - **Search & Filtering**: Allows users to filter assets by filename or by tags extracted from the frontmatter of the source .md files.
+        - **Selection & Mass Editing**: A "Selection Mode" allows for selecting multiple assets. A "Mass Edit Panel" then appears, enabling users to apply or update frontmatter properties (like tags) to all selected assets at once.
+        - **Detailed Asset View**: Clicking an asset opens a modal with a zoomable, high-resolution view and provides quick actions like copying the markdown link, copying the raw SVG content, or temporarily hiding the asset.
 
-    - **High-Performance Canvas Rendering**:        
-        - Renders the entire asset collection on a single HTML canvas for an exceptionally smooth experience, even with thousands of images.
-        - Utilizes a Web Worker to rasterize SVGs in the background, preventing UI freezes and ensuring fluid panning, zooming, and animations.
+- **Can’t**:
+   
+    - **Edit Excalidraw Files**: It is a viewer and asset manager, not an editor. It cannot be used to create or modify the content of the Excalidraw drawings.    
+    - **Handle Other Asset Types**: The entire pipeline is purpose-built for processing .md files containing Excalidraw data and generating .svg files from them. It cannot manage or display other image types like PNGs or JPEGs.
+    - **Function Without Initial Consent**: The component is gated by a consent screen. It will not perform any file operations (downloading, creating, or writing files) until the user explicitly agrees.
+    - **Function Offline on First Run**: It requires an internet connection for its initial run to download dependencies (like the Excalidraw library) and to perform the first asset sync from GitHub.
+    - **Customize the GitHub Source**: The component is hard-coded to sync from a specific GitHub repository (beto-group/beto.assets).
 
-    - **Dual Interactive Views**:        
-        - **Grid View**: A traditional, orderly grid of assets that is fully pannable and zoomable with intuitive mouse and touch controls. Features a "push-away" animation on hover.
-        - **Graph View**: A dynamic, physics-based simulation where assets are "nodes" that float, repel each other, and cluster organically, offering a unique way to explore and discover connections.
-
-    - **Advanced User Interface**:        
-        - **Floating Control Panel**: A draggable UI with controls for searching, sorting (by name, date, size), switching views, and toggling selection mode.
-        - **Mass Metadata Editing**: Allows users to select multiple assets and apply or update frontmatter properties (like A888a or data-aaa-tags) to their corresponding .md files in a single bulk action.
-        - **Detailed Asset Viewer**: Clicking an asset opens a modal with a zoomable image viewer, metadata display (including tags), and quick-action buttons (e.g., Copy Markdown Link, Hide Image).
-
-- **Can’t**:    
-    - Manage assets outside of the predefined folder (_RESOURCES/ASSETS/888/ASSETS_.A).
-    - Edit the Excalidraw files directly; it is a viewer and metadata manager, not a drawing editor.
-    - Function without an active internet connection on the first run to download the required Excalidraw libraries.
-    - Display assets that are not in .svg format.
+- **Disclaimer**:
+   
+    - This component is a highly experimental and advanced proof-of-concept. Its primary purpose is to **showcase the absolute limits of Datacore's capabilities**, demonstrating background processing, web workers, file system I/O, and complex, performance-oriented UI rendering. It is not intended to be a perfectly polished or bug-free application. Given that it performs a large number of background file operations, users may encounter unexpected behavior. It serves as a powerful demonstration of what is possible rather than a finished, stable tool.
 
 -----
 
-
-![alt text](/_RESOURCES/IMAGES/assets_library_1.webp)
-
+![assetslibrary_1.webp](_resources/images/assetslibrary_1.webp)
 
 
-![alt text](/_RESOURCES/IMAGES/assets_library_2.webp)
+![assetslibrary_2.webp](_resources/images/assetslibrary_2.webp)
 
+
+![assetslibrary_3.webp](_resources/images/assetslibrary_3.webp)
 
 
 

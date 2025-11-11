@@ -7,9 +7,60 @@
 const { useEffect, useRef, useState, useMemo } = dc;
 
 // Assumes `ICONS` is available from the require statement in the environment.
-const { ICONS } = await dc.require(dc.headerLink("_RESOURCES/DATACORE/45 SVGAnimations/D.q.svganimations.component.md", "ICONS"));
+const { ICONS } = await dc.require(dc.headerLink(dc.resolvePath("D.q.svganimations.component.md"), "ICONS"));
 
+// =================================================================================
+// THEME COLORS
+// =================================================================================
+const THEME = {
+  bg: {
+    primary: '#0a0a0a',
+    secondary: '#1a1a1a',
+    tertiary: '#2a2a2a',
+  },
+  text: {
+    primary: '#ffffff',
+    secondary: '#cccccc',
+    muted: '#888888',
+  },
+  accent: {
+    purple: 'rgba(155, 135, 245, 0.8)',
+    purpleHover: 'rgba(155, 135, 245, 1)',
+    purpleDark: 'rgba(155, 135, 245, 0.3)',
+  },
+  border: '#2a2a2a',
+  success: '#10b981',
+  error: '#ef4444',
+};
+
+// =================================================================================
+// --- DOM TRAVERSAL UTILITIES ---
+// =================================================================================
+function findNearestAncestorWithClass(element, className) {
+    if (!element) return null;
+    let current = element.parentNode;
+    while (current) {
+        if (current.classList && current.classList.contains(className)) {
+            return current;
+        }
+        current = current.parentNode;
+    }
+    return null;
+}
+
+function findDirectChildByClass(parent, className) {
+    if (!parent) return null;
+    for (const child of parent.children) {
+        if (child.classList && child.classList.contains(className)) {
+            return child;
+        }
+    }
+    return null;
+}
+
+// =================================================================================
 // --- UTILITY FUNCTIONS & HOOKS ---
+// =================================================================================
 function useInView(options) {
     const [isInView, setIsInView] = useState(false);
     const ref = useRef(null);
@@ -21,7 +72,7 @@ function useInView(options) {
                     setIsInView(true);
                     if (ref.current) {
                         observer.unobserve(ref.current);
-                    }a
+                    }
                 }
             },
             { ...options }
@@ -187,44 +238,151 @@ const AnimatedIcon = ({ svgString, isActive, isInView }) => {
 };
 
 // =================================================================================
-// --- IconTileView Component (No Changes) ---
+// --- IconTileView Component ---
 // =================================================================================
 const IconTileView = ({ iconConfig, index, onTileClick, isEnlarged, onClose }) => {
     const STYLES = {
-        fullTabWrapper: { position: 'relative', height: "120px", width: "120px", padding: "10px", boxSizing: "border-box", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "5px", backgroundColor: "var(--background-secondary)", border: "1px solid var(--background-modifier-border)", borderRadius: "8px", color: "var(--text-normal)", transition: "all 0.2s ease", cursor: "pointer" },
-        mainSvgContainer: { width: "60px", height: "60px", display: "flex", alignItems: "center", justifyContent: "center" },
-        enlargedWrapper: { position: 'relative', width: '500px', height: '500px', padding: "20px", boxSizing: "border-box", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "15px", backgroundColor: "var(--background-secondary)", border: "1px solid var(--background-modifier-border)", borderRadius: "12px", color: "var(--text-normal)", cursor: 'default' },
-        enlargedSvgContainer: { width: "300px", height: "300px", display: "flex", alignItems: "center", justifyContent: "center" },
-        closeButton: { position: 'absolute', top: '15px', right: '15px', fontFamily: 'monospace', fontSize: '24px', color: 'var(--text-faint)', cursor: 'pointer', zIndex: 10 },
-        compactText: { margin: 0, color: "var(--text-muted)", fontSize: "14px", textAlign: 'center' },
+        fullTabWrapper: { 
+            position: 'relative', height: "140px", width: "140px", padding: "16px", 
+            boxSizing: "border-box", display: "flex", flexDirection: "column", 
+            alignItems: "center", justifyContent: "center", gap: "8px", 
+            backgroundColor: THEME.bg.secondary, 
+            border: `1px solid ${THEME.border}`, 
+            borderRadius: "8px", 
+            color: THEME.text.primary, 
+            transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)", 
+            cursor: "pointer" 
+        },
+        mainSvgContainer: { 
+            width: "70px", height: "70px", 
+            display: "flex", alignItems: "center", justifyContent: "center",
+            transition: "transform 0.3s ease"
+        },
+        enlargedWrapper: { 
+            position: 'relative', width: '600px', height: '600px', padding: "32px", 
+            boxSizing: "border-box", display: "flex", flexDirection: "column", 
+            alignItems: "center", justifyContent: "center", gap: "20px", 
+            backgroundColor: THEME.bg.secondary, 
+            border: `2px solid ${THEME.accent.purple}`, 
+            borderRadius: "16px", 
+            color: THEME.text.primary, 
+            cursor: 'default',
+            boxShadow: '0 0 40px rgba(155, 135, 245, 0.3)'
+        },
+        enlargedSvgContainer: { 
+            width: "400px", height: "400px", 
+            display: "flex", alignItems: "center", justifyContent: "center" 
+        },
+        closeButton: { 
+            position: 'absolute', top: '20px', right: '20px', 
+            background: 'none', border: 'none',
+            cursor: 'pointer', zIndex: 10,
+            padding: '8px',
+            borderRadius: '6px',
+            transition: 'all 0.2s ease'
+        },
+        compactText: { 
+            margin: 0, 
+            color: THEME.text.secondary, 
+            fontSize: "13px", 
+            textAlign: 'center',
+            fontWeight: '500'
+        },
     };
     const [isHovering, setIsHovering] = useState(false);
     const [tileRef, isInView] = useInView({ threshold: 0.1 });
     const isActive = isEnlarged || isHovering;
-    const wrapperStyle = isEnlarged ? STYLES.enlargedWrapper : STYLES.fullTabWrapper;
-    const svgContainerStyle = isEnlarged ? STYLES.enlargedSvgContainer : STYLES.mainSvgContainer;
+    
+    const wrapperStyle = isEnlarged ? STYLES.enlargedWrapper : {
+        ...STYLES.fullTabWrapper,
+        ...(isHovering ? {
+            transform: 'translateY(-4px)',
+            boxShadow: `0 8px 20px rgba(155, 135, 245, 0.2)`,
+            borderColor: THEME.accent.purple
+        } : {})
+    };
+    
+    const svgContainerStyle = {
+        ...(isEnlarged ? STYLES.enlargedSvgContainer : STYLES.mainSvgContainer),
+        ...(isHovering && !isEnlarged ? { transform: 'scale(1.1)' } : {})
+    };
 
     return (
-        <div ref={tileRef} style={wrapperStyle} onMouseEnter={() => !isEnlarged && setIsHovering(true)} onMouseLeave={() => !isEnlarged && setIsHovering(false)} onClick={() => !isEnlarged && onTileClick && onTileClick(index)}>
-            {isEnlarged && <span style={STYLES.closeButton} onClick={onClose} title="Close">&times;</span>}
+        <div 
+            ref={tileRef} 
+            style={wrapperStyle} 
+            onMouseEnter={() => !isEnlarged && setIsHovering(true)} 
+            onMouseLeave={() => !isEnlarged && setIsHovering(false)} 
+            onClick={() => !isEnlarged && onTileClick && onTileClick(index)}
+        >
+            {isEnlarged && (
+                <button 
+                    style={{
+                        ...STYLES.closeButton,
+                        backgroundColor: isHovering ? THEME.bg.tertiary : 'transparent'
+                    }}
+                    onClick={onClose} 
+                    title="Close"
+                    onMouseEnter={(e) => { e.target.style.backgroundColor = THEME.bg.tertiary; }}
+                    onMouseLeave={(e) => { e.target.style.backgroundColor = 'transparent'; }}
+                >
+                    <dc.Icon icon="x" style={{ fontSize: '24px', color: THEME.text.secondary }} />
+                </button>
+            )}
             <div style={svgContainerStyle}>
                 <AnimatedIcon svgString={iconConfig.svg} isActive={isActive} isInView={isEnlarged || isInView} />
             </div>
-            <p style={isEnlarged ? {...STYLES.compactText, fontSize: '18px', color: 'var(--text-normal)'} : {...STYLES.compactText, fontSize: '14px'}}>{iconConfig.name}</p>
+            <p style={isEnlarged ? {...STYLES.compactText, fontSize: '18px', color: THEME.text.primary} : STYLES.compactText}>
+                {iconConfig.name}
+            </p>
         </div>
     );
 };
 
 // =================================================================================
-// --- BasicView Component (No Changes) ---
+// --- BasicView Component ---
 // =================================================================================
 function BasicView() {
-    // ... (This component is unchanged)
     const [enlargedIndex, setEnlargedIndex] = useState(null);
     const STYLES = {
-        gridContainer: { display: 'flex', flexWrap: 'wrap', gap: '16px', padding: '16px', justifyContent: 'center', transition: 'filter 0.3s ease-in-out' },
-        modalOverlay: { position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', backgroundColor: 'rgba(0, 0, 0, 0.7)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000, cursor: 'pointer' },
-        modalContent: { cursor: 'default' },
+        gridContainer: { 
+            display: 'flex', 
+            flexWrap: 'wrap', 
+            gap: '20px', 
+            padding: '24px', 
+            justifyContent: 'center', 
+            transition: 'filter 0.3s ease-in-out',
+            backgroundColor: THEME.bg.primary,
+            minHeight: '400px'
+        },
+        modalOverlay: { 
+            position: 'fixed', 
+            top: 0, 
+            left: 0, 
+            right: 0,
+            bottom: 0,
+            width: '100%', 
+            height: '100%', 
+            backgroundColor: 'rgba(10, 10, 10, 0.95)', 
+            display: 'flex', 
+            justifyContent: 'center', 
+            alignItems: 'center', 
+            zIndex: 10000, 
+            cursor: 'pointer',
+            backdropFilter: 'blur(8px)',
+            padding: '20px',
+            boxSizing: 'border-box',
+            overflow: 'auto'
+        },
+        modalContent: { 
+            cursor: 'default',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            margin: 'auto',
+            maxWidth: '100%',
+            maxHeight: '100%'
+        },
     };
     const handleCloseEnlarged = (e) => { if (e) e.stopPropagation(); setEnlargedIndex(null); };
     useEffect(() => { document.body.style.overflow = enlargedIndex !== null ? 'hidden' : 'auto'; return () => { document.body.style.overflow = 'auto'; }; }, [enlargedIndex]);
@@ -235,7 +393,7 @@ function BasicView() {
                 {ICONS.map((icon, index) => <IconTileView key={icon.name || index} iconConfig={icon} onTileClick={setEnlargedIndex} index={index} isEnlarged={false} />)}
             </div>
             {enlargedIndex !== null && (
-                <div style={STYYLES.modalOverlay} onClick={handleCloseEnlarged}>
+                <div style={STYLES.modalOverlay} onClick={handleCloseEnlarged}>
                     <div style={STYLES.modalContent} onClick={(e) => e.stopPropagation()}>
                         <IconTileView key={`enlarged-${ICONS[enlargedIndex].name}`} iconConfig={ICONS[enlargedIndex]} isEnlarged={true} onClose={handleCloseEnlarged} index={enlargedIndex} />
                     </div>
@@ -477,56 +635,397 @@ function LiveInputView() {
     };
 
     const STYLES = {
-        container: { padding: '20px', maxWidth: '900px', margin: '0 auto' },
-        title: { textAlign: 'center', color: 'var(--text-normal)', marginBottom: '20px' },
-        inputWrapper: { display: 'flex', gap: '20px', marginBottom: '20px' },
-        textareaContainer: { flex: 1 },
-        label: { display: 'block', marginBottom: '5px', color: 'var(--text-muted)' },
-        textarea: { width: '100%', height: '250px', boxSizing: 'border-box', backgroundColor: 'var(--background-primary)', border: '1px solid var(--background-modifier-border)', color: 'var(--text-normal)', borderRadius: '8px', padding: '10px', fontFamily: 'monospace' },
-        buttonContainer: { display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '20px', flexWrap: 'wrap' },
-        button: { flex: '1 1 200px', maxWidth: '220px', padding: '12px 20px', cursor: 'pointer', fontSize: '16px', fontWeight: 'bold', backgroundColor: 'var(--interactive-accent)', color: 'white', border: 'none', borderRadius: '8px', textAlign: 'center', transition: 'background-color 0.2s' },
-        preview: { marginTop: '20px', display: 'flex', justifyContent: 'center' },
-        select: { padding: '10px', borderRadius: '8px', border: '1px solid var(--background-modifier-border)', backgroundColor: 'var(--background-primary)', color: 'var(--text-normal)' }
+        container: { 
+            padding: '24px', 
+            maxWidth: '100%', 
+            margin: '0 auto',
+            backgroundColor: THEME.bg.primary,
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden'
+        },
+        header: {
+            marginBottom: '24px',
+            textAlign: 'center',
+            flexShrink: 0
+        },
+        title: { 
+            fontSize: '28px', 
+            color: THEME.text.primary, 
+            marginBottom: '12px',
+            fontWeight: '600',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '12px'
+        },
+        subtitle: {
+            fontSize: '14px',
+            color: THEME.text.muted,
+            marginBottom: '8px'
+        },
+        tipBox: {
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '8px 16px',
+            backgroundColor: THEME.bg.tertiary,
+            border: `1px solid ${THEME.accent.purple}`,
+            borderRadius: '6px',
+            fontSize: '13px',
+            color: THEME.text.secondary,
+            marginTop: '12px'
+        },
+        tipLink: {
+            color: THEME.accent.purple,
+            textDecoration: 'none',
+            fontWeight: '600',
+            transition: 'color 0.2s ease'
+        },
+        mainContent: {
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '20px',
+            overflow: 'hidden',
+            minHeight: 0
+        },
+        editorSection: {
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '20px',
+            flexShrink: 0
+        },
+        textareaContainer: { 
+            display: 'flex', 
+            flexDirection: 'column',
+            backgroundColor: THEME.bg.secondary,
+            padding: '16px',
+            borderRadius: '12px',
+            border: `1px solid ${THEME.border}`,
+            boxShadow: `0 4px 6px ${THEME.accent.purpleDark}`,
+            minHeight: 0,
+            overflow: 'hidden'
+        },
+        labelRow: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: '12px',
+            flexShrink: 0
+        },
+        label: { 
+            color: THEME.text.primary,
+            fontSize: '14px',
+            fontWeight: '600',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
+        },
+        labelIcon: {
+            fontSize: '18px',
+            color: THEME.accent.purple
+        },
+        textarea: { 
+            width: '100%', 
+            flex: 1,
+            minHeight: '300px',
+            boxSizing: 'border-box', 
+            backgroundColor: THEME.bg.primary, 
+            border: `2px solid ${THEME.border}`, 
+            color: THEME.text.primary, 
+            borderRadius: '8px', 
+            padding: '16px', 
+            fontFamily: "'Fira Code', 'Monaco', 'Consolas', monospace",
+            fontSize: '13px',
+            lineHeight: '1.6',
+            resize: 'none',
+            transition: 'all 0.3s ease',
+            outline: 'none',
+            overflow: 'auto'
+        },
+        actionsSection: {
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '16px',
+            padding: '20px',
+            backgroundColor: THEME.bg.secondary,
+            borderRadius: '12px',
+            border: `1px solid ${THEME.border}`,
+            flexShrink: 0
+        },
+        actionsHeader: {
+            fontSize: '16px',
+            fontWeight: '600',
+            color: THEME.text.primary,
+            marginBottom: '4px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
+        },
+        buttonGrid: { 
+            display: 'flex',
+            gap: '12px',
+            flexWrap: 'wrap',
+            alignItems: 'center'
+        },
+        button: { 
+            padding: '16px 20px', 
+            cursor: 'pointer', 
+            fontSize: '14px', 
+            fontWeight: '600', 
+            backgroundColor: THEME.accent.purple, 
+            color: THEME.text.primary, 
+            border: 'none', 
+            borderRadius: '8px', 
+            textAlign: 'center', 
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '10px',
+            boxShadow: `0 2px 8px ${THEME.accent.purpleDark}`
+        },
+        buttonDisabled: {
+            backgroundColor: THEME.bg.tertiary,
+            cursor: 'not-allowed',
+            opacity: 0.5,
+            boxShadow: 'none'
+        },
+        previewSection: {
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            minHeight: 0,
+            overflow: 'auto'
+        },
+        previewHeader: {
+            fontSize: '16px',
+            fontWeight: '600',
+            color: THEME.text.primary,
+            marginBottom: '12px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            flexShrink: 0
+        },
+        preview: { 
+            flex: 1,
+            display: 'flex', 
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '40px',
+            backgroundColor: THEME.bg.secondary,
+            borderRadius: '12px',
+            border: `2px dashed ${THEME.border}`,
+            minHeight: '250px'
+        },
+        previewPlaceholder: {
+            color: THEME.text.muted,
+            fontSize: '15px',
+            textAlign: 'center',
+            lineHeight: '1.8'
+        },
+        select: { 
+            padding: '16px 40px 16px 16px', 
+            borderRadius: '8px', 
+            border: `2px solid ${THEME.border}`, 
+            backgroundColor: THEME.bg.primary, 
+            color: THEME.text.primary,
+            fontSize: '14px',
+            fontWeight: '600',
+            cursor: 'pointer',
+            outline: 'none',
+            transition: 'all 0.3s ease',
+            appearance: 'none',
+            WebkitAppearance: 'none',
+            MozAppearance: 'none',
+            backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(155, 135, 245, 0.8)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'right 12px center',
+            backgroundSize: '20px',
+            minWidth: '150px',
+            height: '54px',
+            boxSizing: 'border-box',
+            lineHeight: '1.4'
+        }
     };
 
     return (
         <div style={STYLES.container}>
             <style>{cssInput}</style>
-            <h2 style={STYLES.title}>Live SVG & CSS Animator</h2>
-            <div style={STYLES.inputWrapper}>
-                <div style={STYLES.textareaContainer}>
-                    <label style={STYLES.label} htmlFor="svg-input">SVG Code</label>
-                    <textarea id="svg-input" style={STYLES.textarea} placeholder="Paste SVG code here..." value={svgInput} onChange={(e) => setSvgInput(e.target.value)} />
-                </div>
-                <div style={STYLES.textareaContainer}>
-                    <label style={STYLES.label} htmlFor="css-input">Additional CSS (e.g., hover effects)</label>
-                    <textarea id="css-input" style={STYLES.textarea} placeholder="Paste custom CSS here..." value={cssInput} onChange={(e) => setCssInput(e.target.value)} />
+            
+            {/* Header Section */}
+            <div style={STYLES.header}>
+                <h2 style={STYLES.title}>
+                    <dc.Icon icon="code-2" style={{ fontSize: '28px', color: THEME.accent.purple }} />
+                    Live SVG & CSS Animator
+                </h2>
+                <p style={STYLES.subtitle}>
+                    Create and animate SVG graphics with custom CSS styling
+                </p>
+                <div style={STYLES.tipBox}>
+                    <dc.Icon icon="lightbulb" style={{ fontSize: '16px', color: THEME.accent.purple }} />
+                    <span>
+                        Utilize{' '}
+                        <a 
+                            href="https://svgartista.net/" 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            style={STYLES.tipLink}
+                            onMouseOver={(e) => e.target.style.color = THEME.accent.purpleHover}
+                            onMouseOut={(e) => e.target.style.color = THEME.accent.purple}
+                        >
+                            SVG Artista
+                        </a>
+                        {' '}to create quick animations (for now ;)
+                    </span>
                 </div>
             </div>
-            <div style={STYLES.buttonContainer}>
-                <button style={STYLES.button} onClick={handleAnimate}>Animate Preview</button>
-                <button style={STYLES.button} onClick={handleDownloadSVG}>Download SVG</button>
-                <button style={{...STYLES.button, backgroundColor: exportStatus === 'rendering' || !isLibLoaded ? '#555' : 'var(--interactive-accent)'}} onClick={handleExportVideo} disabled={!isLibLoaded || exportStatus === 'rendering'}>
-                    {!isLibLoaded && (libError ? 'Export Error' : 'Loading Lib...')}
-                    {isLibLoaded && exportStatus === 'idle' && `Export as Video (${exportResolution}p WebM)`}
-                    {isLibLoaded && exportStatus === 'rendering' && 'Rendering...'}
-                    {isLibLoaded && exportStatus === 'done' && 'Done!'}
-                </button>
-                <select style={STYLES.select} value={exportResolution} onChange={(e) => setExportResolution(parseInt(e.target.value))}>
-                    <option value={720}>720p</option>
-                    <option value={1080}>1080p</option>
-                    <option value={1440}>1440p</option>
-                </select>
-            </div>
-            <div style={STYLES.preview}>
-                {liveIcon ? (
-                    <IconTileView 
-                        key={animationKey}
-                        iconConfig={liveIcon} 
-                        isEnlarged={false} 
-                        index={0}
-                    />
-                ) : <p>Paste SVG code and click "Animate Preview" to see the result.</p>}
+
+            <div style={STYLES.mainContent}>
+                {/* Code Editors */}
+                <div style={STYLES.editorSection}>
+                    <div style={STYLES.textareaContainer}>
+                        <div style={STYLES.labelRow}>
+                            <label style={STYLES.label} htmlFor="svg-input">
+                                <dc.Icon icon="code" style={STYLES.labelIcon} />
+                                SVG Code
+                            </label>
+                        </div>
+                        <textarea 
+                            id="svg-input" 
+                            style={STYLES.textarea} 
+                            placeholder="Paste your SVG code here..."
+                            value={svgInput} 
+                            onChange={(e) => setSvgInput(e.target.value)}
+                            onFocus={(e) => e.target.style.borderColor = THEME.accent.purple}
+                            onBlur={(e) => e.target.style.borderColor = THEME.border}
+                        />
+                    </div>
+                    <div style={STYLES.textareaContainer}>
+                        <div style={STYLES.labelRow}>
+                            <label style={STYLES.label} htmlFor="css-input">
+                                <dc.Icon icon="palette" style={STYLES.labelIcon} />
+                                Additional CSS
+                            </label>
+                        </div>
+                        <textarea 
+                            id="css-input" 
+                            style={STYLES.textarea} 
+                            placeholder="Add custom CSS animations, hover effects, etc..."
+                            value={cssInput} 
+                            onChange={(e) => setCssInput(e.target.value)}
+                            onFocus={(e) => e.target.style.borderColor = THEME.accent.purple}
+                            onBlur={(e) => e.target.style.borderColor = THEME.border}
+                        />
+                    </div>
+                </div>
+
+                {/* Actions Section */}
+                <div style={STYLES.actionsSection}>
+                    <div style={STYLES.actionsHeader}>
+                        <dc.Icon icon="settings" style={{ fontSize: '18px', color: THEME.accent.purple }} />
+                        Actions & Export
+                    </div>
+                    <div style={STYLES.buttonGrid}>
+                        <button 
+                            style={STYLES.button} 
+                            onClick={handleAnimate}
+                            onMouseOver={(e) => {
+                                e.currentTarget.style.backgroundColor = THEME.accent.purpleHover;
+                                e.currentTarget.style.transform = 'translateY(-2px)';
+                            }}
+                            onMouseOut={(e) => {
+                                e.currentTarget.style.backgroundColor = THEME.accent.purple;
+                                e.currentTarget.style.transform = 'translateY(0)';
+                            }}
+                        >
+                            <dc.Icon icon="play" style={{ fontSize: '18px' }} />
+                            Animate Preview
+                        </button>
+                        <button 
+                            style={STYLES.button} 
+                            onClick={handleDownloadSVG}
+                            onMouseOver={(e) => {
+                                e.currentTarget.style.backgroundColor = THEME.accent.purpleHover;
+                                e.currentTarget.style.transform = 'translateY(-2px)';
+                            }}
+                            onMouseOut={(e) => {
+                                e.currentTarget.style.backgroundColor = THEME.accent.purple;
+                                e.currentTarget.style.transform = 'translateY(0)';
+                            }}
+                        >
+                            <dc.Icon icon="download" style={{ fontSize: '18px' }} />
+                            Download SVG
+                        </button>
+                        <button 
+                            style={
+                                exportStatus === 'rendering' || !isLibLoaded 
+                                    ? {...STYLES.button, ...STYLES.buttonDisabled} 
+                                    : STYLES.button
+                            } 
+                            onClick={handleExportVideo} 
+                            disabled={!isLibLoaded || exportStatus === 'rendering'}
+                            onMouseOver={(e) => {
+                                if (!e.currentTarget.disabled) {
+                                    e.currentTarget.style.backgroundColor = THEME.accent.purpleHover;
+                                    e.currentTarget.style.transform = 'translateY(-2px)';
+                                }
+                            }}
+                            onMouseOut={(e) => {
+                                if (!e.currentTarget.disabled) {
+                                    e.currentTarget.style.backgroundColor = THEME.accent.purple;
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                }
+                            }}
+                        >
+                            <dc.Icon icon="video" style={{ fontSize: '18px' }} />
+                            {!isLibLoaded && (libError ? 'Export Error' : 'Loading...')}
+                            {isLibLoaded && exportStatus === 'idle' && 'Export Video'}
+                            {isLibLoaded && exportStatus === 'rendering' && 'Rendering...'}
+                            {isLibLoaded && exportStatus === 'done' && 'Done!'}
+                        </button>
+                        <select 
+                            style={STYLES.select} 
+                            value={exportResolution} 
+                            onChange={(e) => setExportResolution(parseInt(e.target.value))}
+                            onFocus={(e) => e.target.style.borderColor = THEME.accent.purple}
+                            onBlur={(e) => e.target.style.borderColor = THEME.border}
+                        >
+                            <option value={720}>720p WebM</option>
+                            <option value={1080}>1080p WebM</option>
+                            <option value={1440}>1440p WebM</option>
+                        </select>
+                    </div>
+                </div>
+
+                {/* Preview Section */}
+                <div style={STYLES.previewSection}>
+                    <div style={STYLES.previewHeader}>
+                        <dc.Icon icon="eye" style={{ fontSize: '18px', color: THEME.accent.purple }} />
+                        Live Preview
+                    </div>
+                    <div style={STYLES.preview}>
+                        {liveIcon ? (
+                            <IconTileView 
+                                key={animationKey}
+                                iconConfig={liveIcon} 
+                                isEnlarged={false} 
+                                index={0}
+                            />
+                        ) : (
+                            <div style={STYLES.previewPlaceholder}>
+                                <dc.Icon icon="image" style={{ fontSize: '48px', color: THEME.text.muted, marginBottom: '16px' }} />
+                                <p>Paste SVG code and click "Animate Preview" to see the result</p>
+                                <p style={{ fontSize: '13px', marginTop: '8px', opacity: 0.7 }}>
+                                    Your animation will appear here
+                                </p>
+                            </div>
+                        )}
+                    </div>
+                </div>
             </div>
         </div>
     );
@@ -534,28 +1033,288 @@ function LiveInputView() {
 // =================================================================================
 // --- Main App Component (No Changes) ---
 // =================================================================================
+// --- Main App Component ---
+// =================================================================================
 function App() {
-    // ... (This component is unchanged)
+    const instanceId = useRef(Math.random().toString(36).substr(2, 5)).current;
+    const uniqueWrapperClass = `interactive-wrapper-${instanceId}`;
     const [view, setView] = useState('basic');
+    const [isFullTab, setIsFullTab] = useState(true);
+    const containerRef = useRef(null);
+    const stateRefs = useRef({}).current;
 
     const STYLES = {
-        nav: { display: 'flex', justifyContent: 'center', gap: '10px', padding: '20px', borderBottom: '1px solid var(--background-modifier-border)', marginBottom: '20px' },
-        navButton: { padding: '8px 16px', cursor: 'pointer', backgroundColor: 'var(--background-secondary)', border: '1px solid var(--background-modifier-border)', color: 'var(--text-muted)', borderRadius: '8px', transition: 'all 0.2s ease' },
-        activeButton: { color: 'var(--text-normal)', backgroundColor: 'var(--background-modifier-hover)', borderColor: 'var(--interactive-accent)' }
+        hoverEffectStyle: `
+            .${uniqueWrapperClass} .subtle-icon {
+                opacity: 0;
+                transform: scale(0.9);
+                transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+            }
+            .${uniqueWrapperClass}:hover .subtle-icon {
+                opacity: 0.7;
+                transform: scale(1);
+            }
+            .${uniqueWrapperClass} .subtle-icon:hover {
+                opacity: 1;
+            }
+            .${uniqueWrapperClass} .subtle-icon:hover .exit-tooltip {
+                visibility: visible;
+                opacity: 1;
+            }
+        `,
+        iconContainer: {
+            position: 'absolute',
+            top: '20px',
+            right: '24px',
+            fontFamily: 'monospace',
+            fontSize: '16px',
+            color: THEME.text.muted,
+            userSelect: 'none',
+            cursor: 'pointer',
+            zIndex: 10,
+        },
+        tooltip: {
+            visibility: 'hidden',
+            opacity: 0,
+            backgroundColor: THEME.bg.secondary,
+            color: THEME.text.primary,
+            textAlign: 'center',
+            borderRadius: '6px',
+            padding: '6px 12px',
+            position: 'absolute',
+            zIndex: 1,
+            top: '50%',
+            right: '120%',
+            transform: 'translateY(-50%)',
+            fontSize: '12px',
+            whiteSpace: 'nowrap',
+            pointerEvents: 'none',
+            border: `1px solid ${THEME.border}`,
+        },
+        container: {
+            backgroundColor: THEME.bg.primary,
+            height: '100%',
+            minHeight: '100vh',
+            borderRadius: '0',
+            overflow: 'auto',
+            position: 'relative',
+            display: 'flex',
+            flexDirection: 'column'
+        },
+        header: {
+            padding: '24px',
+            borderBottom: `2px solid ${THEME.border}`,
+            backgroundColor: THEME.bg.secondary,
+            flexShrink: 0
+        },
+        title: {
+            margin: 0,
+            fontSize: '28px',
+            fontWeight: '600',
+            color: THEME.text.primary,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px'
+        },
+        subtitle: {
+            margin: '8px 0 0 0',
+            fontSize: '14px',
+            color: THEME.text.muted
+        },
+        nav: { 
+            display: 'flex', 
+            justifyContent: 'center', 
+            gap: '12px', 
+            padding: '20px',
+            backgroundColor: THEME.bg.primary,
+            flexShrink: 0
+        },
+        contentArea: {
+            flex: 1,
+            overflow: 'auto',
+            display: 'flex',
+            flexDirection: 'column'
+        },
+        navButton: { 
+            padding: '12px 24px', 
+            cursor: 'pointer', 
+            backgroundColor: THEME.bg.secondary, 
+            border: `1px solid ${THEME.border}`, 
+            color: THEME.text.secondary, 
+            borderRadius: '8px', 
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            fontSize: '14px',
+            fontWeight: '500',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
+        },
+        activeButton: { 
+            color: THEME.text.primary, 
+            backgroundColor: THEME.bg.tertiary, 
+            borderColor: THEME.accent.purple,
+            boxShadow: `0 0 20px ${THEME.accent.purpleDark}`
+        },
+        compactWrapper: {
+            padding: '24px',
+            boxSizing: 'border-box',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '16px',
+            border: `2px dashed ${THEME.border}`,
+            borderRadius: '8px',
+            backgroundColor: THEME.bg.secondary,
+        },
+        compactText: { 
+            margin: 0, 
+            color: THEME.text.muted, 
+            fontSize: '14px' 
+        },
+        buttonGroup: { 
+            display: 'flex', 
+            gap: '12px' 
+        },
+        button: {
+            padding: '10px 20px',
+            fontSize: '14px',
+            fontWeight: '600',
+            color: THEME.text.primary,
+            backgroundColor: THEME.accent.purple,
+            border: 'none',
+            borderRadius: '6px',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease',
+        }
     };
 
-    return (
-        <div>
-            <nav style={STYLES.nav}>
-                <button style={view === 'basic' ? {...STYLES.navButton, ...STYLES.activeButton} : STYLES.navButton} onClick={() => setView('basic')}>
-                    Icon Grid
-                </button>
-                <button style={view === 'live' ? {...STYLES.navButton, ...STYLES.activeButton} : STYLES.navButton} onClick={() => setView('live')}>
-                    Build Your Own SVG
-                </button>
-            </nav>
+    // Full-tab mode effect
+    useEffect(() => {
+        const container = containerRef.current;
+        if (!container || !isFullTab) return;
+        
+        const targetPaneContent = findNearestAncestorWithClass(
+            container,
+            'workspace-leaf-content'
+        );
+        
+        if (!targetPaneContent) {
+            setIsFullTab(false);
+            return;
+        }
+        
+        const contentWrapper =
+            findDirectChildByClass(targetPaneContent, 'view-content') ||
+            targetPaneContent;
+        
+        stateRefs.originalParent = container.parentNode;
+        stateRefs.placeholder = document.createElement('div');
+        stateRefs.placeholder.style.display = 'none';
+        container.parentNode.insertBefore(stateRefs.placeholder, container);
+        
+        stateRefs.parentPositionInfo = {
+            element: contentWrapper,
+            original: window.getComputedStyle(contentWrapper).position,
+        };
+        
+        if (stateRefs.parentPositionInfo.original === 'static') {
+            contentWrapper.style.position = 'relative';
+        }
+        
+        contentWrapper.appendChild(container);
+        
+        Object.assign(container.style, {
+            position: 'absolute',
+            top: '0',
+            left: '0',
+            width: '100%',
+            height: '100%',
+            zIndex: '9998',
+            overflow: 'auto',
+        });
+        
+        return () => {
+            if (stateRefs.placeholder?.parentNode) {
+                stateRefs.placeholder.parentNode.replaceChild(
+                    container,
+                    stateRefs.placeholder
+                );
+            }
+            if (stateRefs.parentPositionInfo?.element) {
+                stateRefs.parentPositionInfo.element.style.position =
+                    stateRefs.parentPositionInfo.original === 'static'
+                        ? ''
+                        : stateRefs.parentPositionInfo.original;
+            }
+            container.removeAttribute('style');
+            Object.keys(stateRefs).forEach((key) => (stateRefs[key] = null));
+        };
+    }, [isFullTab]);
 
-            {view === 'basic' ? <BasicView /> : <LiveInputView />}
+    const handleExitFullTab = (e) => {
+        e.stopPropagation();
+        setIsFullTab(false);
+    };
+    
+    const handleEnterFullTab = () => setIsFullTab(true);
+
+    // Compact mode view
+    if (!isFullTab) {
+        return (
+            <div ref={containerRef} style={STYLES.compactWrapper}>
+                <p style={STYLES.compactText}>SVG Animations component is in compact mode.</p>
+                <div style={STYLES.buttonGroup}>
+                    <button style={STYLES.button} onClick={handleEnterFullTab}>
+                        Enter Full Tab Mode
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div ref={containerRef}>
+            <style>{STYLES.hoverEffectStyle}</style>
+            <div style={STYLES.container} className={uniqueWrapperClass}>
+                <div
+                    style={STYLES.iconContainer}
+                    className="subtle-icon"
+                    onClick={handleExitFullTab}
+                >
+                    &lt;/&gt;
+                    <span className="exit-tooltip" style={STYLES.tooltip}>
+                        Close Full Mode
+                    </span>
+                </div>
+                <div style={STYLES.header}>
+                    <h1 style={STYLES.title}>
+                        <dc.Icon icon="sparkles" style={{ fontSize: '32px', color: THEME.accent.purple }} />
+                        SVG Animations
+                    </h1>
+                    <p style={STYLES.subtitle}>Animate and export beautiful SVG graphics</p>
+                </div>
+                <nav style={STYLES.nav}>
+                    <button 
+                        style={view === 'basic' ? {...STYLES.navButton, ...STYLES.activeButton} : STYLES.navButton} 
+                        onClick={() => setView('basic')}
+                    >
+                        <dc.Icon icon="grid-3x3" style={{ fontSize: '16px' }} />
+                        Icon Grid
+                    </button>
+                    <button 
+                        style={view === 'live' ? {...STYLES.navButton, ...STYLES.activeButton} : STYLES.navButton} 
+                        onClick={() => setView('live')}
+                    >
+                        <dc.Icon icon="code-2" style={{ fontSize: '16px' }} />
+                        Build Your Own SVG
+                    </button>
+                </nav>
+
+                <div style={STYLES.contentArea}>
+                    {view === 'basic' ? <BasicView /> : <LiveInputView />}
+                </div>
+            </div>
         </div>
     );
 };
@@ -2806,3 +3565,4 @@ svg.active .svg-elem-7 {
 
 return { ICONS };
 ```
+

@@ -4,23 +4,10 @@ permalink: obsidian.plugins.datacore.showcase
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 ## **Core Query & Data Handling**
 
 
-
-###### [DATACORE.flexilis](0%20DATACORE.flexilis/DATACORE.flexilis.md)
+###### [DATACORE.flexilis v4](0%20DATACORE.flexilis/DATACORE.flexilis.v4.md)
 
 ###### [SEARCH QUERY](1%20SearchQuery/SEARCH%20QUERY.md)
 
@@ -36,9 +23,7 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [DATACORE QUERY BUILDER](37%20DatacoreQueryBuilder/DATACORE%20QUERY%20BUILDER.md) 
 
-###### [RANDOM FILE CONTROLS v2](47%20RandomFileControls/RANDOM%20FILE%20CONTROLS%20v2.md) 
-
-###### [RANDOM FILE CONTROLS v1](47%20RandomFileControls/RANDOM%20FILE%20CONTROLS%20v1.md)
+###### [RANDOM FILE CONTROLS](47%20RandomFileControls/RANDOM%20FILE%20CONTROLS.md)
 
 ###### [METADATA EDIT](49%20MetadataEdit/METADATA%20EDIT.md)
 
@@ -69,9 +54,7 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [CUSTOM IFRAME BUILDER](6%20CustomIframeBuilder/CUSTOM%20IFRAME%20BUILDER.md)
 
-###### [VIEWS INCEPTIONS v1](18%20ViewsInceptions/VIEWS%20INCEPTIONS%20v1.md)
-
-###### [VIEWS INCEPTIONS v2](18%20ViewsInceptions/VIEWS%20INCEPTIONS%20v2.md) 
+###### [VIEWS INCEPTIONS](18%20ViewsInceptions/VIEWS%20INCEPTIONS.md)
 
 ###### [MARKDOWN EDITOR](20%20MarkdownEditor/MARKDOWN%20EDITOR.md)
 
@@ -79,33 +62,43 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [CODE EDITOR v2](33%20CodeEditor/CODE%20EDITOR%20v2.md) 
 
+###### [CODE EDITOR v3](33%20CodeEditor/CODE%20EDITOR%20v3.md) 
+
+###### [LOAD SCRIPT](28%20LoadScript/LOAD%20SCRIPT.md) { NEW } { UPGRADE }
+
 ###### [CHATBOT](38%20Chatbot/CHATBOT.md)  telegram
 
 ###### [OCR READER](41%20OCRReader/OCR%20READER.md) 
 
 ###### [CHAT LLM](42%20ChatLLM/CHATLLM.md) 
 
+###### [RECEIPT TRACKER](43%20ReceiptTracker/RECEIPT%20TRACKER.md) 
+
 ###### [MARKDOWN PARSER](44%20MarkdownParser/MARKDOWN%20PARSER.md)
 
 ###### [ACTIONS MANAGER](50%20ActionsManager/ACTIONS%20MANAGER.md) { PROTOTYPE } 
 
-###### [ACTIONS FLOW v1](51%20ActionsFlows/ACTIONS%20FLOW%20v1.md) 
+###### [ACTIONS FLOW](51%20ActionsFlows/ACTIONS%20FLOW.md) 
 
 ###### [DATACORE PLAYGROUND](54%20DatacorePlayground/DATACORE%20PLAYGROUND.md)
 
-###### [WORKSPACE MANAGER](56%20WorkspaceManager/WORKSPACE%20MANAGER.md) { NEW }
+###### [WORKSPACE MANAGER](56%20WorkspaceManager/WORKSPACE%20MANAGER.md)
 
-###### [DATACORE COMAND MANAGER](58%20DatacoreCommandManager/DATACORE%20COMMAND%20MANAGER.md) { NEW }
+###### [DATACORE COMAND MANAGER](58%20DatacoreCommandManager/DATACORE%20COMMAND%20MANAGER.md)
 
-###### [INTEGRATED IDE](61%20IntegratedIDE/INTEGRATED%20IDE.md) { NEW }
+###### [PLUGIN DEV SUITE](62%20PluginDevSuite/PLUGIN%20DEV%20SUITE.md)  { FEATURED }
 
-###### [PLUGIN DEV SUITE](62%20PluginDevSuite/PLUGIN%20DEV%20SUITE.md) { NEW }  { FEATURED }
+###### [ICONS PACK](63%20IconsPack/ICONS%20PACK.md) { NEW } 
+
+######  [OBSIDIAN SUITE KIT](64%20ObsidianSuiteKit/OBSIDIAN%20SUITE%20KIT.md) { NEW } 
+
 
 
 
 ## **Graphics, Visualization & UI**
 
-###### [KANBAN v2](10%20Kanban/KANBAN%20v2.md)
+
+###### [KANBAN](10%20Kanban/KANBAN.md) { UPGRADE }
 
 ###### [IMAGE RENDER](11%20ImageRender/IMAGE%20RENDER.md)
 
@@ -115,7 +108,7 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [CANVAS v1](23%20Canvas/CANVAS%20v1.md)
 
-###### [CANVAS v2](23%20Canvas/CANVAS%20v2.md)
+###### [CANVAS v2](23%20Canvas/CANVAS%20v2.md) { NEW } 
 
 ###### [MAP GLOBE](24%20MapGlobe/MAP%20GLOBE.md)
 
@@ -127,11 +120,8 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [SVG CONVERTER](48%20SVGConverter/SVG%20CONVERTER.md) 
 
+###### [ANIMATED SPHERE](65%20AnimatedSphere/ANIMATED%20SPHERE.md)  { NEW }
 
-
-## Finance
-
-###### [RECEIPT TRACKER](43%20ReceiptTracker/RECEIPT%20TRACKER.md) 
 
 
 
@@ -164,30 +154,32 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [MUSIC PLAYER](36%20MusicPlayer/MUSIC%20PLAYER.md) 
 
-###### [MOBILE MUSIC PLAYER](39%20MobileMusicPlayer/MOBILE%20MUSIC%20PLAYER.md) 
 
 
 ## **System & Utility Components**
 
 
-###### [VIEWS CONTROL](17%20ViewsControl/VIEWS%20CONTROL.md)  
+###### [VIEWS CONTROL](17%20ViewsControl/VIEWS%20CONTROL.md)  { UPGRADE }
 
 ###### [EXTERNAL INPUT BLOCKER](21%20ExternalInputBlocker/EXTERNAL%20INPUT%20BLOCKER.md)
 
 ###### [LICENSE AGREEMENT](26%20LicenseAgreement/LICENSE%20AGREEMENT.md)
 
-###### [LOAD SCRIPT](28%20LoadScript/LOAD%20SCRIPT.md)
-
 ###### [FUZZY TEXT](29%20FuzzyText/FUZZY%20TEXT.md) 
 
 ###### [MATRIX GLITCH WALL](30%20MatrixGlitchWall/MATRIX%20GLITCH%20WALL.md)  
 
+###### [DATACORE IMPORTER](39%20DatacoreImporter/DATACORE%20IMPORTER.md)  { NEW } { FEATURED }
+
 ###### [VAULT UPDATER](46%20VaultUpdater/VAULT%20UPDATER.md) 
 
-###### [DATACORE LIMITATIONS](55%20DatacoreLimitations/DATACORE%20LIMITATIONS.md) { NEW }
+###### [DATACORE LIMITATIONS](55%20DatacoreLimitations/DATACORE%20LIMITATIONS.md) { UPGRADE }
 
 ###### [DATACORE TERMINAL](57%20DatacoreTerminal/DATACORE%20TERMINAL.md) { NEW }
 
 ###### [HOT RELOAD FILES](59%20HotReloadFiles/HOT%20RELOAD%20FILES.md) { NEW }
 
 ###### [GIT SUITE MANAGER](60%20GitSuiteManager/GIT%20SUITE%20MANAGER.md) { NEW }
+
+###### [OPEN IDE](61%20OpenIDE/OPEN%20IDE.md) { NEW } 
+

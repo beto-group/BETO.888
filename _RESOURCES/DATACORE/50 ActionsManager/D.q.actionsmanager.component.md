@@ -1,7 +1,5 @@
 
 
-==
-
 # ViewComponent
 
 ```jsx
@@ -9,7 +7,7 @@
 //  SETUP: Destructure React/Datacore dependencies
 // =================================================================================
 const { useState, useRef, useEffect, useMemo, useCallback } = dc;
-const filename = "_RESOURCES/DATACORE/50 ActionsManager/D.q.actionsmanager.component.md";
+const filename = dc.resolvePath("D.q.actionsmanager.component.md");
 
 // =================================================================================
 //  MODULE IMPORTS
@@ -116,7 +114,7 @@ const Components = {};
 // =================================================================================
 //  CORE APPLICATION: FlowBuilder
 // =================================================================================
-const FlowBuilder = ({ screenHelperRef, showLeft, setShowLeft, showRight, setShowRight, hostRef }) => {
+const FlowBuilder = ({ screenHelperRef, showLeft, setShowLeft, showRight, setShowRight, hostRef, dragging, setDragging }) => {
   const [searchRaw, setSearchRaw] = useState("");
   const [search, setSearch] = useState({ text: "", tokens: [] });
   const searchRef = useRef(null);
@@ -142,6 +140,7 @@ const FlowBuilder = ({ screenHelperRef, showLeft, setShowLeft, showRight, setSho
   const [selectedNodeIds, setSelectedNodeIds] = useState([]);
   const selectedSet = useMemo(() => new Set(selectedNodeIds), [selectedNodeIds]);
   const [connecting, setConnecting] = useState(null);
+  const [connectionDrag, setConnectionDrag] = useState(null);
   const [pan, setPan] = Hooks.usePersistentState("fb.canvas.pan", { x: 0, y: 0 });
   const [scale, setScale] = Hooks.usePersistentState("fb.canvas.scale", 1);
   const [snap, setSnap] = Hooks.usePersistentState("fb.canvas.snap", true);
@@ -161,10 +160,29 @@ const FlowBuilder = ({ screenHelperRef, showLeft, setShowLeft, showRight, setSho
   const saveDebounceTimer = useRef(null);
   const [nodeRunStatus, setNodeRunStatus] = useState({});
   const [promptState, setPromptState] = useState({ isOpen: false });
+  const [connectionMenu, setConnectionMenu] = useState(null);
+  const [ghostNode, setGhostNode] = useState(null);
   const [nodeOutputData, setNodeOutputData] = useState({});
   const [flowGeneration, setFlowGeneration] = useState(0);
+  const [leftPanelTab, setLeftPanelTab] = Hooks.usePersistentState("fb.ui.left.tab", 'flows');
 
   const isInitialized = useRef(false);
+
+  // Hide status bar at bottom right
+  useEffect(() => {
+    const statusBar = document.querySelector('body > .app-container .status-bar');
+    if (statusBar) {
+      const originalDisplay = statusBar.style.display;
+      statusBar.style.display = 'none';
+      
+      return () => {
+        const statusBarToRestore = document.querySelector('body > .app-container .status-bar');
+        if (statusBarToRestore) {
+          statusBarToRestore.style.display = originalDisplay;
+        }
+      };
+    }
+  }, []);
 
   const pushHistory = useCallback(snap => { history.current.past.push(snap); history.current.future = []; }, []);
   const snapshot = useCallback(() => ({ nodes: JSON.parse(JSON.stringify(nodes, jsonReplacer)), edges: JSON.parse(JSON.stringify(edges, jsonReplacer)) }), [nodes, edges]);
@@ -212,7 +230,46 @@ const FlowBuilder = ({ screenHelperRef, showLeft, setShowLeft, showRight, setSho
         return;
     }
     try {
-      const flowData = { nodes: flowNodes ?? nodes, edges: flowEdges ?? edges, savedAt: new Date().toISOString() };
+      const nodesToSave = flowNodes ?? nodes;
+      const edgesToSave = flowEdges ?? edges;
+      
+      // Create runtime-ready format
+      const flowData = {
+        // Editor metadata
+        savedAt: new Date().toISOString(),
+        version: "1.0",
+        
+        // Runtime execution data
+        nodes: nodesToSave.map(n => ({
+          id: n.id,
+          type: n.type,
+          params: n.params || [],
+          inputs: n.inputs || [],
+          outputs: n.outputs || [],
+          // Keep position for editor
+          x: n.x,
+          y: n.y,
+          w: n.w,
+          height: n.height,
+          // Include persisted output for resuming
+          persistedOutput: n.persistedOutput
+        })),
+        
+        edges: edgesToSave.map(e => ({
+          from: typeof e.from === 'string' ? { id: e.from } : e.from,
+          to: typeof e.to === 'string' ? { id: e.to } : e.to,
+          id: e.id
+        })),
+        
+        // Runtime metadata
+        runtime: {
+          canExecute: nodesToSave.length > 0,
+          nodeCount: nodesToSave.length,
+          edgeCount: edgesToSave.length,
+          nodeTypes: [...new Set(nodesToSave.map(n => n.type))]
+        }
+      };
+      
       await app.vault.adapter.write(Constants.BASE_FLOW_DIR + flowId, JSON.stringify(flowData, jsonReplacer, 2));
     } catch (e) {
       console.error(`Failed to save flow ${flowId}:`, e);
@@ -590,7 +647,7 @@ const FlowBuilder = ({ screenHelperRef, showLeft, setShowLeft, showRight, setSho
     "0": () => { setScale(1); setPan({ x: 0, y: 0 }); },
     "Ctrl+a": () => { setSelectedNodeIds(nodes.map(n => n.id)); if (nodes[0]) setSelected({ type: "node", id: nodes[0].id }); },
     "enter": () => { if (selected.type === "node") { runFromNode(selected.id); } },
-    "Escape": () => { setConnecting(null); setMarquee(null); },
+    "Escape": () => { setConnecting(null); setMarquee(null); setConnectionDrag(null); setConnectionMenu(null); },
     "Ctrl+s": (e) => { e.preventDefault(); handleSaveFlow(); },
     "Ctrl+o": importJSON,
     "Ctrl+Alt+l": () => setShowLeft(v => !v),
@@ -948,6 +1005,118 @@ const FlowBuilder = ({ screenHelperRef, showLeft, setShowLeft, showRight, setSho
                     }
                 };
             }
+            case 'data.json': {
+                const rawData = p('data', '{}');
+                return Logic.tryJson(rawData);
+            }
+            case 'fs.read': {
+                const path = p('path', ctx.last);
+                if (!path) throw new Error("Path parameter is required for Read File node.");
+                const content = await app.vault.adapter.read(path);
+                return content;
+            }
+            case 'obsidian.getActiveFile': {
+                const file = app.workspace.getActiveFile();
+                if (!file) {
+                    log("No active file open.", { kind: "warning", nodeId: node.id });
+                    return null;
+                }
+                return dc.api.page(file.path);
+            }
+            case 'data.select': {
+                const data = ctx.last;
+                const fieldsStr = p('fields', '');
+                const fields = fieldsStr.split(',').map(f => f.trim()).filter(f => f);
+                
+                if (fields.length === 0) {
+                    log("Select Fields: no fields specified, passing data through.", { kind: "warning", nodeId: node.id });
+                    return data;
+                }
+                
+                const pick = (obj) => fields.reduce((acc, key) => {
+                    acc[key] = Utils.getDeepValue(obj, key);
+                    return acc;
+                }, {});
+                
+                if (Array.isArray(data)) return data.map(pick);
+                return pick(data);
+            }
+            case 'array.sort': {
+                const data = ctx.last;
+                if (!Array.isArray(data)) {
+                    log("Sort Array expects an array input.", { kind: "warning", nodeId: node.id });
+                    return data;
+                }
+                const field = p('field');
+                const direction = p('direction', 'asc');
+                const multiplier = direction === 'asc' ? 1 : -1;
+                
+                return [...data].sort((a, b) => {
+                    const valA = Utils.getDeepValue(a, field);
+                    const valB = Utils.getDeepValue(b, field);
+                    if (valA < valB) return -1 * multiplier;
+                    if (valA > valB) return 1 * multiplier;
+                    return 0;
+                });
+            }
+            case 'flow.merge': {
+                return ctx.last;
+            }
+            case 'flow.stop': {
+                throw new Error('_STOP_EXECUTION_');
+            }
+            case 'fs.write': {
+                const path = p('path');
+                if (!path) throw new Error("Path parameter is required for Write File node.");
+                const content = p('content', ctx.last);
+                const overwrite = p('overwrite', false);
+                
+                const fileExists = await app.vault.adapter.exists(path);
+                if (fileExists && !overwrite) {
+                    throw new Error(`File ${path} already exists. Set 'overwrite' to true to replace it.`);
+                }
+                
+                await app.vault.adapter.write(path, String(content));
+                log(`File written: ${path}`, { kind: "success", nodeId: node.id });
+                return ctx.last;
+            }
+            case 'fs.append': {
+                const path = p('path');
+                if (!path) throw new Error("Path parameter is required for Append to File node.");
+                const content = p('content', ctx.last);
+                const addNewline = p('addNewline', true);
+                
+                const fileExists = await app.vault.adapter.exists(path);
+                if (!fileExists) {
+                    throw new Error(`File ${path} does not exist. Use Write File node to create it first.`);
+                }
+                
+                const existing = await app.vault.adapter.read(path);
+                const newContent = existing + (addNewline ? '\n' : '') + String(content);
+                await app.vault.adapter.write(path, newContent);
+                log(`Content appended to: ${path}`, { kind: "success", nodeId: node.id });
+                return ctx.last;
+            }
+            case 'obsidian.notice': {
+                const message = p('message', ctx.last);
+                new Notice(String(message));
+                return ctx.last;
+            }
+            case 'obsidian.prompt': {
+                const title = p('title', 'Enter value');
+                const placeholder = p('placeholder', '');
+                
+                return new Promise((resolve, reject) => {
+                    const modal = new PromptModal(app, title, placeholder, (result) => {
+                        if (result !== null) {
+                            resolve(result);
+                        } else {
+                            reject(new Error('User cancelled prompt'));
+                        }
+                    });
+                    modal.open();
+                });
+            }
             case 'output.display':
             case 'output.viewer':
                 return ctx.last;
@@ -979,8 +1148,13 @@ const FlowBuilder = ({ screenHelperRef, showLeft, setShowLeft, showRight, setSho
             log(`✔ Node '${node.label}' finished successfully.`, { kind: "success" });
             setNodeRunStatus({ [nodeId]: { status: 'success' } });
         } catch (e) {
-            log(`❌ Error in node '${node.label}': ${e.message}`, { kind: "error" });
-            setNodeRunStatus({ [nodeId]: { status: 'error' } });
+            if (e.message === '_STOP_EXECUTION_') {
+                log(`⏹ Node '${node.label}' stopped execution`, { kind: 'info' });
+                setNodeRunStatus({ [nodeId]: { status: 'success' } });
+            } else {
+                log(`❌ Error in node '${node.label}': ${e.message}`, { kind: "error" });
+                setNodeRunStatus({ [nodeId]: { status: 'error' } });
+            }
         } finally {
             setIsRunning(false);
         }
@@ -1068,6 +1242,11 @@ const FlowBuilder = ({ screenHelperRef, showLeft, setShowLeft, showRight, setSho
             }
 
         } catch (e) {
+            if (e.message === '_STOP_EXECUTION_') {
+                log(`⏹ Node '${node.label}' stopped execution`, { kind: 'info', nodeId: nodeId });
+                setNodeRunStatus(s => ({ ...s, [nodeId]: { status: 'success' } }));
+                return;
+            }
             log(`❌ Error in node '${node.label}': ${e.message}`, { kind: "error", nodeId: nodeId });
             setNodeRunStatus(s => ({ ...s, [nodeId]: { status: 'error' } }));
         }
@@ -1143,7 +1322,13 @@ const FlowBuilder = ({ screenHelperRef, showLeft, setShowLeft, showRight, setSho
     // =================== END: CORE EXECUTION LOGIC =========================== //
     // ========================================================================= //
 
-    function openNodeMenu(e, id) { e.preventDefault(); e.stopPropagation(); const { clientX, clientY } = e; setCtxMenu({ left: clientX, top: clientY, nodeId: id, opening: true }); setTimeout(() => setCtxMenu(m => m ? ({ ...m, opening: false }) : m), 0); }
+    function openNodeMenu(e, id) { 
+        e.preventDefault?.(); 
+        e.stopPropagation?.(); 
+        const { clientX, clientY } = e; 
+        setCtxMenu({ left: clientX, top: clientY, nodeId: id, opening: true }); 
+        setTimeout(() => setCtxMenu(m => m ? ({ ...m, opening: false }) : m), 0); 
+    }
     function duplicateNode(id) { const n = nodes.find(n => n.id === id); if (!n) return; pushHistory(snapshot()); const id_new = Utils.uid("n"); const r = rect(n); const n_new = { ...n, id: id_new, x: n.x + 20, y: n.y + 20, w: r.w, height: r.h }; setNodes(v => [...v, n_new]); }
     
     function deleteNodeById(id) {
@@ -1161,12 +1346,37 @@ const FlowBuilder = ({ screenHelperRef, showLeft, setShowLeft, showRight, setSho
     function addNode(a, x, y) {
         pushHistory(snapshot());
         const id = Utils.uid("n");
-        const finalX = isFinite(x) ? x : 0;
-        const finalY = isFinite(y) ? y : 0;
-        const newNode = { id, ...a, x: finalX, y: finalY };
+        let finalX = isFinite(x) ? x : 0;
+        let finalY = isFinite(y) ? y : 0;
+        
+        // Check if there's a ghost node
+        if (ghostNode) {
+            finalX = ghostNode.x;
+            finalY = ghostNode.y;
+        }
+        
+        const newNode = { id, ...a, x: finalX, y: finalY, _justSpawned: true };
         setNodes(v => [...v, newNode]);
         setSelected({ type: 'node', id });
         setSelectedNodeIds([id]);
+        
+        // Remove the spawn flag after animation completes
+        setTimeout(() => {
+            setNodes(v => v.map(n => n.id === id ? { ...n, _justSpawned: false } : n));
+        }, 400);
+        
+        // If ghost node exists, create edge and clear ghost
+        if (ghostNode) {
+            setEdges(currentEdges => [
+                ...currentEdges, 
+                { 
+                    id: Utils.uid("e"), 
+                    from: { id: ghostNode.fromNodeId }, 
+                    to: { id: id } 
+                }
+            ]);
+            setGhostNode(null);
+        }
     }
 
     const exportJSON = useCallback(() => { const data = JSON.stringify({ nodes, edges }, jsonReplacer, 2); const blob = new Blob([data], { type: 'application/json' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'flow.json'; a.click(); URL.revokeObjectURL(url); }, [nodes, edges]);
@@ -1193,13 +1403,32 @@ const FlowBuilder = ({ screenHelperRef, showLeft, setShowLeft, showRight, setSho
         };
     }, []);
 
+    useEffect(() => {
+        if (!connectionMenu) return;
+        const handleKeyDown = (e) => {
+            if (e.key === 'Escape') setConnectionMenu(null);
+        };
+        const handleClick = (e) => {
+            if (!e.target.closest('.ctxmenu')) setConnectionMenu(null);
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        window.addEventListener('mousedown', handleClick);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener('mousedown', handleClick);
+        };
+    }, [connectionMenu]);
+
     const leftPanelWidth = showLeft ? panelSizes.left : 0;
     const rightPanelWidth = showRight ? panelSizes.right : 0;
     const cols = `${leftPanelWidth}px 10px 1fr 10px ${rightPanelWidth}px`;
 
     const paletteAllMemo = paletteAll;
-    const searchState = { raw: searchRaw, parsed: search, ref: searchRef, dragging: null };
-    const setSearchState = (fn) => { const next = typeof fn === 'function' ? fn({ raw: searchRaw, parsed: search, ref: searchRef, dragging: null }) : fn; setSearchRaw(next.raw); };
+    const searchState = { raw: searchRaw, parsed: search, ref: searchRef, dragging };
+    const setSearchState = (fn) => { 
+        const next = typeof fn === 'function' ? fn({ raw: searchRaw, parsed: search, ref: searchRef, dragging }) : fn; 
+        if (next.raw !== undefined && next.raw !== searchRaw) setSearchRaw(next.raw);
+    };
 
     const leftPanelProps = {
         canvasRef, paletteAll: paletteAllMemo, openGroups, setOpenGroups, pinnedGroups, setPinnedGroups,
@@ -1207,13 +1436,23 @@ const FlowBuilder = ({ screenHelperRef, showLeft, setShowLeft, showRight, setSho
         viewToWorld: viewToWorldMemo, savedFlows, currentFlowId, onLoadFlow: handleLoadFlow, onNewFlow: handleNewFlow,
         onDeleteFlow: handleDeleteFlow, onSaveFlow: handleSaveFlow, isFlowsLoading, nodes,
         onRenameFlow: handleRenameFlow,
+        activeTab: leftPanelTab, setActiveTab: setLeftPanelTab,
+        ghostNode, setGhostNode,
+        setDragging,
     };
 
     return (
         <div ref={rootRef} tabIndex={-1} onMouseDown={() => rootRef.current?.focus()} style={{ height: "100%", width: "100%", display: "grid", gridTemplateColumns: cols, background: '#1c1c1c', padding: 10, boxSizing: 'border-box', overflow: "hidden", position: "relative" }}>
-        <style>{`.grid-bg { background-image: radial-gradient(#333 1px, transparent 0); background-size: 16px 16px; background-position: -8px -8px; } .node { position:absolute; background:#111; border:1px solid #2a2a2a; border-radius:12px; font-size:13px; color:#eaeaea; cursor:grab; } .node.selected { border-color:#2a66ff; box-shadow:0 0 16px #2a66ff44; } .node.running { border-color:#ebcb8b; } .node.success { border-color:#81C784; } .node.error { border-color:#E57373; } .node-header { display:flex; justify-content:space-between; align-items:center; padding:8px 10px; background:#181818; border-bottom:1px solid #2a2a2a; border-radius:11px 11px 0 0; } .node-b { padding:8px 10px; } .node-resize { position:absolute; right:-2px; bottom:-2px; width:14px; height:14px; background:#151515; border:1px solid #2a2a2a; cursor:nwse-resize; border-radius:0 0 10px 4px; } .port { width:16px; height:16px; background:#121212; border:1px solid #2a2a2a; border-radius:999px; } .port.in { } .port.out { cursor:crosshair; } .marquee { position:absolute; border:1px dashed #6ec1ff; background:rgba(110,193,255,0.1); } .btn { height:30px; padding:0 12px; border-radius:6px; border:1px solid #2a2a2a; background:#1a1a1a; color:#eaeaea; cursor:pointer; } .btn:hover { background:#222; } .suggest { position:absolute; top:100%; left:0; right:0; max-height:400px; overflow-y:auto; background:#0f0f0f; border:1px solid #2a2a2a; border-top:none; border-radius:0 0 8px 8px; z-index:100; } .suggest-item { display:flex; justify-content:space-between; padding:8px 10px; cursor:pointer; } .suggest-item[aria-selected=true] { background:#1e3a5f; } .ctxmenu { position:fixed; z-index:2000; background:#101010; border:1px solid #2a2a2a; border-radius:8px; padding:6px; min-width:180px; box-shadow:0 8px 24px rgba(0,0,0,0.5); transition:transform 80ms ease, opacity 80ms ease; } .ctx-item { padding:8px 12px; border-radius:5px; cursor:pointer; } .ctx-item:hover { background:#1e3a5f; } .loop-container { border: 2px dashed rgba(129, 199, 132, 0.4); border-radius: 20px; position: absolute; pointer-events: none; z-index: 1; } .minimap { position:absolute; right:12px; bottom:12px; z-index:20; background:rgba(12,12,12,0.7); border:1px solid #2a2a2a; border-radius:10px; padding:6px; backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); } .node-viewer-content { height: 100%; display: flex; flex-direction: column; gap: 4px; font-size: 11px; } .canvas-viewer-header { display: flex; flex-shrink: 0; background-color: #00000022; border-radius: 6px; padding: 2px; } .canvas-viewer-btn { flex: 1; background: transparent; border: none; color: #999; padding: 2px 4px; font-size: 10px; border-radius: 4px; cursor: pointer; } .canvas-viewer-btn.active { background-color: #333; color: #eee; font-weight: bold; } .canvas-viewer-body { flex: 1; overflow: auto; padding: 4px; background-color: #00000022; border-radius: 6px; } .canvas-viewer-message { color: #888; text-align: center; padding-top: 8px; } .cv-value-null { color: #ff99cc; } .cv-value-true { color: #81C784; } .cv-value-false { color: #E57373; } .summary-list-item { border-bottom: 1px solid #282828; padding: 4px 0; } .summary-list-item:last-child { border-bottom: none; } .summary-list-header { display: flex; align-items: center; cursor: pointer; padding: 3px 0; } .summary-list-icon { margin-right: 4px; width: 12px; } .summary-list-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .summary-list-details { background-color: #00000044; border-radius: 4px; margin: 4px 0; padding: 4px; }
+        <style>{`.grid-bg { background-image: radial-gradient(#333 1px, transparent 0); background-size: 16px 16px; background-position: -8px -8px; } .node { position:absolute; background:#111; border:1px solid #2a2a2a; border-radius:12px; font-size:13px; color:#eaeaea; cursor:grab; } .node.selected { border-color:#8b5cf6; box-shadow:0 0 16px #8b5cf644; } .node.running { border-color:#ebcb8b; } .node.success { border-color:#81C784; } .node.error { border-color:#E57373; } .node-header { display:flex; justify-content:space-between; align-items:center; padding:8px 10px; background:#181818; border-bottom:1px solid #2a2a2a; border-radius:11px 11px 0 0; } .node-b { padding:8px 10px; } .node-resize { position:absolute; right:-2px; bottom:-2px; width:14px; height:14px; background:#151515; border:1px solid #2a2a2a; cursor:nwse-resize; border-radius:0 0 10px 4px; } .port { width:16px; height:16px; background:#121212; border:1px solid #2a2a2a; border-radius:999px; } .port.in { } .port.out { cursor:crosshair; } .marquee { position:absolute; border:1px dashed #8b5cf6; background:rgba(139,92,246,0.1); } .btn { height:30px; padding:0 12px; border-radius:6px; border:1px solid #2a2a2a; background:#1a1a1a; color:#eaeaea; cursor:pointer; } .btn:hover { background:#222; } .suggest { position:absolute; top:100%; left:0; right:0; max-height:400px; overflow-y:auto; background:#0f0f0f; border:1px solid #2a2a2a; border-top:none; border-radius:0 0 8px 8px; z-index:100; } .suggest-item { display:flex; justify-content:space-between; padding:8px 10px; cursor:pointer; } .suggest-item[aria-selected=true] { background:#8b5cf6; } .ctxmenu { position:fixed; z-index:2000; background:#101010; border:1px solid #2a2a2a; border-radius:8px; padding:6px; min-width:180px; box-shadow:0 8px 24px rgba(0,0,0,0.5); transition:transform 80ms ease, opacity 80ms ease; } .ctx-item { padding:8px 12px; border-radius:5px; cursor:pointer; } .ctx-item:hover { background:#8b5cf6; } .loop-container { border: 2px dashed rgba(129, 199, 132, 0.4); border-radius: 20px; position: absolute; pointer-events: none; z-index: 1; } .minimap { position:absolute; right:12px; bottom:20px; z-index:20; background:rgba(12,12,12,0.7); border:1px solid #2a2a2a; border-radius:10px; padding:6px; backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); } .node-viewer-content { height: 100%; display: flex; flex-direction: column; gap: 4px; font-size: 11px; } .canvas-viewer-header { display: flex; flex-shrink: 0; background-color: #00000022; border-radius: 6px; padding: 2px; } .canvas-viewer-btn { flex: 1; background: transparent; border: none; color: #999; padding: 2px 4px; font-size: 10px; border-radius: 4px; cursor: pointer; } .canvas-viewer-btn.active { background-color: #8b5cf6; color: #eee; font-weight: bold; } .canvas-viewer-body { flex: 1; overflow: auto; padding: 4px; background-color: #00000022; border-radius: 6px; } .canvas-viewer-message { color: #888; text-align: center; padding-top: 8px; } .cv-value-null { color: #ff99cc; } .cv-value-true { color: #81C784; } .cv-value-false { color: #E57373; } .summary-list-item { border-bottom: 1px solid #282828; padding: 4px 0; } .summary-list-item:last-child { border-bottom: none; } .summary-list-header { display: flex; align-items: center; cursor: pointer; padding: 3px 0; } .summary-list-icon { margin-right: 4px; width: 12px; } .summary-list-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .summary-list-details { background-color: #00000044; border-radius: 4px; margin: 4px 0; padding: 4px; }
         .inspector-resizer { height: 10px; cursor: row-resize; background: #0d0d0d; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .inspector-resizer-bar { width: 40px; height: 2px; background: #3a3a3a; border-radius: 2px; }
+        @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+        @keyframes nodeSpawn { 
+          0% { opacity: 0; transform: scale(0.3) translateY(-20px); } 
+          60% { transform: scale(1.05); }
+          100% { opacity: 1; transform: scale(1) translateY(0); } 
+        }
+        .node.spawning { animation: nodeSpawn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
         .node.comment { font-family: 'Comic Sans MS', 'Chalkduster', 'cursive'; color: #333; box-shadow: 5px 5px 10px rgba(0,0,0,0.2); z-index: 4; }
         .node.comment.color-yellow { --c-bg: #fff9c4; --c-border: #fbc02d; background: var(--c-bg); border-color: var(--c-border); }
         .node.comment.color-blue   { --c-bg: #b3e5fc; --c-border: #0288d1; background: var(--c-bg); border-color: var(--c-border); }
@@ -1224,7 +1463,35 @@ const FlowBuilder = ({ screenHelperRef, showLeft, setShowLeft, showRight, setSho
         .comment-textarea { width: 100%; height: 100%; border: none; background: transparent; padding: 8px; box-sizing: border-box; resize: none; outline: none; font-family: inherit; color: inherit; font-size: 14px; }
         `}</style>
 
-        <div style={{ minWidth: 0, minHeight: 0, overflow: 'hidden' }}>
+        <div style={{ minWidth: 0, minHeight: 0, overflow: 'hidden', position: 'relative' }}>
+            {!showLeft && (
+                <button 
+                    onClick={() => setShowLeft(true)}
+                    style={{ 
+                        position: 'absolute', 
+                        left: 0, 
+                        top: '50%', 
+                        transform: 'translateY(-50%)', 
+                        zIndex: 100, 
+                        width: '32px', 
+                        height: '80px', 
+                        background: 'linear-gradient(90deg, #8b5cf6 0%, #7c3aed 100%)', 
+                        border: '1px solid #9d71f6', 
+                        borderLeft: 'none',
+                        borderRadius: '0 8px 8px 0', 
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        boxShadow: '2px 0 8px rgba(139, 92, 246, 0.3)',
+                        transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.width = '36px'}
+                    onMouseLeave={e => e.currentTarget.style.width = '32px'}
+                >
+                    <dc.Icon icon="panel-left-open" style={{ width: '16px', height: '16px', color: '#ffffff' }} />
+                </button>
+            )}
             {showLeft && <LeftPanel {...leftPanelProps} />}
         </div>
 
@@ -1237,17 +1504,49 @@ const FlowBuilder = ({ screenHelperRef, showLeft, setShowLeft, showRight, setSho
             setSelectedNodeIds={setSelectedNodeIds} snap={snap} GRID={GRID}
             canvasRef={canvasRef} contentRef={contentRef} pan={pan} setPan={setPan}
             scale={scale} setScale={setScale} connecting={connecting} setConnecting={setConnecting}
+            connectionDrag={connectionDrag} setConnectionDrag={setConnectionDrag}
+            connectionMenu={connectionMenu} setConnectionMenu={setConnectionMenu}
+            ghostNode={ghostNode} setGhostNode={setGhostNode}
             marquee={marquee} setMarquee={setMarquee} mouseWorld={mouseWorld}
             setMouseWorld={setMouseWorld} zoomToFit={zoomToFit} centerOnSelection={centerOnSelection}
             openNodeMenu={openNodeMenu} viewToWorld={viewToWorldMemo}
             onSummonOrb={() => setOrbPos({ x: 20, y: 20 })}
             nodeRunStatus={nodeRunStatus} nodeOutputData={nodeOutputData}
             pushHistory={pushHistory} snapshot={snapshot}
+            setShowLeft={setShowLeft} setLeftPanelTab={setLeftPanelTab}
         />
 
         <ResizeHandle onDragStart={handleRightDragStart} onDragMove={handleRightDragMove} />
 
-        <div style={{ minWidth: 0, minHeight: 0, overflow: 'hidden' }}>
+        <div style={{ minWidth: 0, minHeight: 0, overflow: 'hidden', position: 'relative' }}>
+            {!showRight && (
+                <button 
+                    onClick={() => setShowRight(true)}
+                    style={{ 
+                        position: 'absolute', 
+                        right: 0, 
+                        top: '50%', 
+                        transform: 'translateY(-50%)', 
+                        zIndex: 100, 
+                        width: '32px', 
+                        height: '80px', 
+                        background: 'linear-gradient(270deg, #8b5cf6 0%, #7c3aed 100%)', 
+                        border: '1px solid #9d71f6', 
+                        borderRight: 'none',
+                        borderRadius: '8px 0 0 8px', 
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        boxShadow: '-2px 0 8px rgba(139, 92, 246, 0.3)',
+                        transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.width = '36px'}
+                    onMouseLeave={e => e.currentTarget.style.width = '32px'}
+                >
+                    <dc.Icon icon="panel-right-open" style={{ width: '16px', height: '16px', color: '#ffffff' }} />
+                </button>
+            )}
             {showRight && <InspectorPanel selected={selected} nodes={nodes} setNodes={setNodes} runLog={runLog} setRunLog={setRunLog} jsonReplacer={jsonReplacer} />}
         </div>
         
@@ -1268,16 +1567,90 @@ const FlowBuilder = ({ screenHelperRef, showLeft, setShowLeft, showRight, setSho
             setShowLeft={setShowLeft}
             showRight={showRight}
             setShowRight={setShowRight}
+            openNodeMenu={openNodeMenu}
+            selectedNodeIds={selectedNodeIds}
+            runFromNode={runFromNode}
+            duplicateNode={duplicateNode}
+            bringToFront={bringToFront}
+            sendToBack={sendToBack}
+            copyNodeJSON={copyNodeJSON}
+            deleteNodeById={deleteNodeById}
         />
 
-        {ctxMenu && (
-            <div className="ctxmenu" style={{ left:ctxMenu.left, top:ctxMenu.top, transform:ctxMenu.opening?"scale(0.96)":"scale(1)", opacity:ctxMenu.opening?0:1 }}>
-            <div className="ctx-item" onClick={()=>{ runFromNode(ctxMenu.nodeId); setCtxMenu(null); }}>▶ Run From Here</div>
-            <div className="ctx-item" onClick={()=>{ duplicateNode(ctxMenu.nodeId); setCtxMenu(null); }}>⧉ Duplicate</div>
-            <div className="ctx-item" onClick={()=>{ bringToFront(ctxMenu.nodeId); setCtxMenu(null); }}>⬆ Bring To Front</div>
-            <div className="ctx-item" onClick={()=>{ sendToBack(ctxMenu.nodeId); setCtxMenu(null); }}>⬇ Send To Back</div>
-            <div className="ctx-item" onClick={()=>{ copyNodeJSON(ctxMenu.nodeId); setCtxMenu(null); }}>📋 Copy JSON</div>
-            <div className="ctx-item" onClick={()=>{ deleteNodeById(ctxMenu.nodeId); setCtxMenu(null); }} style={{color:"#E57373"}}>✖ Delete</div>
+        
+        {connectionMenu && (
+            <div 
+                className="ctxmenu" 
+                style={{ 
+                    left: connectionMenu.left, 
+                    top: connectionMenu.top, 
+                    maxHeight: '400px', 
+                    overflowY: 'auto',
+                    minWidth: '280px'
+                }}
+                onMouseDown={e => e.stopPropagation()}
+            >
+                <div style={{ padding: '8px', borderBottom: '1px solid #2a2a2a', fontSize: 13, fontWeight: 600, color: '#9a9a9a' }}>
+                    Select node to connect
+                </div>
+                {[
+                    { type: 'datacore.query', label: 'Datacore Query', icon: 'database', group: 'Input' },
+                    { type: 'data.json', label: 'Manual Data', icon: 'file-text', group: 'Input' },
+                    { type: 'fs.read', label: 'Read File', icon: 'file', group: 'Input' },
+                    { type: 'expr', label: 'Expression', icon: 'zap', group: 'Process' },
+                    { type: 'json.filter', label: 'Filter', icon: 'filter', group: 'Process' },
+                    { type: 'data.editFields', label: 'Edit Fields', icon: 'edit-3', group: 'Process' },
+                    { type: 'array.sort', label: 'Sort', icon: 'arrow-up-down', group: 'Process' },
+                    { type: 'if', label: 'If', icon: 'git-branch', group: 'Control' },
+                    { type: 'loop.forEach', label: 'For Each', icon: 'repeat', group: 'Control' },
+                    { type: 'flow.merge', label: 'Merge', icon: 'git-merge', group: 'Control' },
+                    { type: 'fs.write', label: 'Write File', icon: 'save', group: 'Actions' },
+                    { type: 'obsidian', label: 'Open File', icon: 'external-link', group: 'Actions' },
+                    { type: 'var.set', label: 'Set Var', icon: 'download', group: 'Variables' },
+                    { type: 'var.get', label: 'Get Var', icon: 'upload', group: 'Variables' },
+                    { type: 'output.display', label: 'Display', icon: 'eye', group: 'Debug' },
+                    { type: 'debug.log', label: 'Log', icon: 'bug', group: 'Debug' },
+                    { type: 'comment', label: 'Comment', icon: 'message-square', group: 'Debug' }
+                ].map((nodeType, idx) => (
+                    <div 
+                        key={idx}
+                        className="ctx-item" 
+                        onClick={() => {
+                            pushHistory(snapshot());
+                            const pos = connectionMenu.releasePos;
+                            const newNodeId = Utils.uid("n");
+                            const finalX = pos.x - 110;
+                            const finalY = pos.y - 48;
+                            const newNode = { id: newNodeId, ...nodeType, x: finalX, y: finalY };
+                            
+                            // Add node and edge together
+                            setNodes(v => [...v, newNode]);
+                            setEdges(currentEdges => [
+                                ...currentEdges, 
+                                { 
+                                    id: Utils.uid("e"), 
+                                    from: { id: connectionMenu.fromNodeId }, 
+                                    to: { id: newNodeId } 
+                                }
+                            ]);
+                            setSelected({ type: 'node', id: newNodeId });
+                            setSelectedNodeIds([newNodeId]);
+                            
+                            setConnectionMenu(null);
+                        }}
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '10px'
+                        }}
+                    >
+                        <dc.Icon icon={nodeType.icon} style={{ width: '16px', height: '16px', color: '#8b5cf6' }} />
+                        <div style={{ flex: 1 }}>
+                            <div style={{ fontSize: 13, fontWeight: 500 }}>{nodeType.label}</div>
+                            <div style={{ fontSize: 11, color: '#666' }}>{nodeType.group}</div>
+                        </div>
+                    </div>
+                ))}
             </div>
         )}
         
@@ -1295,9 +1668,9 @@ const FlowBuilder = ({ screenHelperRef, showLeft, setShowLeft, showRight, setSho
                 setPromptState({ isOpen: false });
             }}
         />
-        </div>
+      </div>
     );
-};
+  };
 
 
 Components.FlowBuilder = FlowBuilder;
@@ -1312,10 +1685,57 @@ const FlowBuilderHost = () => {
   const originalParentRefForPiP = useRef(null);
   const [showLeft, setShowLeft] = Hooks.usePersistentState("fb.ui.left.visible", true);
   const [showRight, setShowRight] = Hooks.usePersistentState("fb.ui.right.visible", true);
+  const [dragging, setDragging] = useState(null);
   useEffect(() => { const vc = containerRef.current?.closest('.view-content'); let prev; if (vc) { prev = vc.style.overflow; vc.style.overflow = 'hidden'; } const parent = containerRef.current?.parentElement; let prevP; if (parent) { prevP = parent.style.overflow; parent.style.overflow = 'hidden'; } return () => { if (vc) vc.style.overflow = prev || ''; if (parent) parent.style.overflow = prevP || ''; }; }, []);
   useEffect(() => { const t = setTimeout(() => { screenHelperRef.current?.toggleMode?.("fullTab"); }, 100); return () => clearTimeout(t); }, []);
   Hooks.useScreenModeHelper({ helperRef: screenHelperRef, containerRef, originalParentRefForWindow, originalParentRefForPiP });
-  return (<div ref={containerRef} style={{ position: 'relative', width: '100%', height: '100dvh', maxHeight: '100dvh', minHeight: '400px', backgroundColor: '#1c1c1c', overflow: 'hidden' }}><Components.FlowBuilder hostRef={containerRef} screenHelperRef={screenHelperRef} showLeft={showLeft} setShowLeft={setShowLeft} showRight={showRight} setShowRight={setShowRight} /></div>);
+  
+  // Calculate container-relative position for drag preview
+  const dragPreviewPos = useMemo(() => {
+    if (!dragging || !containerRef.current) return null;
+    const rect = containerRef.current.getBoundingClientRect();
+    return {
+      x: dragging.x - rect.left,
+      y: dragging.y - rect.top
+    };
+  }, [dragging]);
+  
+  return (
+    <div ref={containerRef} style={{ position: 'relative', width: '100%', height: '100dvh', maxHeight: '100dvh', minHeight: '400px', backgroundColor: '#1c1c1c', overflow: 'hidden' }}>
+      <Components.FlowBuilder hostRef={containerRef} screenHelperRef={screenHelperRef} showLeft={showLeft} setShowLeft={setShowLeft} showRight={showRight} setShowRight={setShowRight} dragging={dragging} setDragging={setDragging} />
+      
+      {dragPreviewPos && (
+        <div style={{ 
+          position: "absolute", 
+          left: dragPreviewPos.x - 24,
+          top: dragPreviewPos.y - 24,
+          pointerEvents: "none", 
+          zIndex: 99999
+        }}>
+          <div style={{ 
+            width: 48,
+            height: 48,
+            borderRadius: "50%",
+            background: "linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)",
+            border: "3px solid #a78bfa",
+            boxShadow: "0 4px 16px rgba(139, 92, 246, 0.6), 0 0 0 8px rgba(139, 92, 246, 0.2)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            animation: "pulse 1.5s ease-in-out infinite"
+          }}>
+            <div style={{
+              width: 24,
+              height: 24,
+              borderRadius: "50%",
+              background: "#fff",
+              opacity: 0.9
+            }} />
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
 Components.FlowBuilderHost = FlowBuilderHost;
 
@@ -1326,7 +1746,7 @@ return { FlowBuilder: Components.FlowBuilderHost };
 
 ```jsx
 const { useState, useRef, useEffect, useMemo } = dc;
-const filename = "_RESOURCES/DATACORE/50 ActionsManager/D.q.actionsmanager.component.md";
+const filename = dc.resolvePath("D.q.actionsmanager.component.md");
 const { Utils } = await dc.require(dc.headerLink(filename, "Logic"));
 const { CanvasViewerContent } = await dc.require(dc.headerLink(filename, "NodeComponents"));
 
@@ -1448,9 +1868,10 @@ function findInnermostParentLoop(nodeId, nodes, edges) {
 const CanvasView = ({
   nodes, setNodes, edges, setEdges, selected, setSelected, selectedNodeIds, setSelectedNodeIds,
   snap, GRID, canvasRef, contentRef, pan, setPan, scale, setScale, connecting,
-  setConnecting, marquee, setMarquee, mouseWorld, setMouseWorld, zoomToFit,
+  setConnecting, connectionDrag, setConnectionDrag, connectionMenu, setConnectionMenu,
+  ghostNode, setGhostNode, marquee, setMarquee, mouseWorld, setMouseWorld, zoomToFit,
   centerOnSelection, openNodeMenu, viewToWorld, onSummonOrb, nodeRunStatus, nodeOutputData,
-  pushHistory, snapshot
+  pushHistory, snapshot, setShowLeft, setLeftPanelTab
 }) => {
   const rafMove = useRef(null);
   const [debugMode, setDebugMode] = useState(false);
@@ -1531,20 +1952,30 @@ const CanvasView = ({
     if (e.target.closest("[data-node]") || e.target.closest('.port') || e.target.closest('[data-edge-hitbox]')) return;
     const start = viewToWorld(e.clientX, e.clientY);
     setMarquee({ start, end: start });
-    const move = (ev) => setMarquee(m => m ? ({ ...m, end: viewToWorld(ev.clientX, ev.clientY) }) : m);
+    let hasMoved = false;
+    
+    const move = (ev) => {
+      hasMoved = true;
+      const end = viewToWorld(ev.clientX, ev.clientY);
+      setMarquee(m => m ? ({ ...m, end }) : m);
+      
+      // Update selection in real-time as marquee changes
+      const selRect = Utils.rectFromPoints(start, end);
+      const picked = nodes
+        .filter(n => {
+          const r = getNodeRect(n);
+          return Utils.rectIntersects({ x: r.x, y: r.y, w: r.w, h: r.h }, selRect);
+        })
+        .map(n => n.id);
+      setSelectedNodeIds(picked);
+      if (picked[0]) setSelected({ type: "node", id: picked[0] });
+    };
     const up = () => {
-      const m = marquee;
       setMarquee(null);
-      if (m) {
-        const selRect = Utils.rectFromPoints(m.start, m.end);
-        const picked = nodes
-          .filter(n => {
-            const r = getNodeRect(n);
-            return Utils.rectIntersects({ x: r.x, y: r.y, w: r.w, h: r.h }, selRect);
-          })
-          .map(n => n.id);
-        setSelectedNodeIds(picked);
-        if (picked[0]) setSelected({ type: "node", id: picked[0] });
+      // If no movement, it was just a click - deselect all
+      if (!hasMoved) {
+        setSelectedNodeIds([]);
+        setSelected({ type: null, id: null });
       }
       window.removeEventListener("pointermove", move);
       window.removeEventListener("pointerup", up);
@@ -1556,34 +1987,6 @@ const CanvasView = ({
   function onNodePointerDown(e, id) {
     if (e.target.closest(".port") || e.target.closest(".comment-textarea")) return;
     e.stopPropagation();
-
-    const handle = e.target.closest(".node-resize");
-    if (handle) {
-      const n = nodes.find(n => n.id === id); if (!n) return;
-      const start = viewToWorld(e.clientX, e.clientY);
-      const r0 = getNodeRect(n);
-      const move = (ev) => {
-        if (!interactionHistoryPushed.current) {
-            pushHistory(snapshot());
-            interactionHistoryPushed.current = true;
-        }
-        const cur = viewToWorld(ev.clientX, ev.clientY);
-        const dx = cur.x - start.x, dy = cur.y - start.y;
-        setNodes(v => v.map(nn => nn.id === id ? {
-          ...nn,
-          w: Utils.clamp(r0.w + dx, 140, 600),
-          height: Utils.clamp((nn.height ?? nn.h ?? r0.h) + dy, 70, 420)
-        } : nn));
-      };
-      const up = () => {
-          window.removeEventListener("pointermove", move);
-          window.removeEventListener("pointerup", up);
-          interactionHistoryPushed.current = false;
-      };
-      window.addEventListener("pointermove", move);
-      window.addEventListener("pointerup", up);
-      return;
-    }
 
     const currentSelection = new Set(selectedNodeIds);
     const isSelected = currentSelection.has(id);
@@ -1597,16 +2000,14 @@ const CanvasView = ({
             nextSelectedNodeIds.push(id);
         }
         selectionChanged = true;
-    } else {
-        if (!isSelected || currentSelection.size > 1) {
-            nextSelectedNodeIds = [id];
-            selectionChanged = true;
-        }
-    }
-
-    if (selectionChanged) {
+        setSelectedNodeIds(nextSelectedNodeIds);
+    } else if (!isSelected) {
+        // Only change selection if clicking on an unselected node
+        nextSelectedNodeIds = [id];
+        selectionChanged = true;
         setSelectedNodeIds(nextSelectedNodeIds);
     }
+    // If clicking on an already-selected node, keep all selections for dragging
 
     setSelected({ type: "node", id });
     if (e.button !== 0) return;
@@ -1614,8 +2015,10 @@ const CanvasView = ({
     const startDrag = viewToWorld(e.clientX, e.clientY);
     const startPos = new Map(nodes.map(n => [n.id, { x: n.x, y: n.y }]));
     const selSet = new Set(nextSelectedNodeIds);
+    let hasMoved = false;
 
     const move = (ev) => {
+      hasMoved = true;
       if (!interactionHistoryPushed.current) {
         pushHistory(snapshot());
         interactionHistoryPushed.current = true;
@@ -1633,6 +2036,10 @@ const CanvasView = ({
       }));
     };
     const up = () => {
+        // If no movement occurred and multiple nodes were selected, select only this one
+        if (!hasMoved && isSelected && currentSelection.size > 1 && !e.shiftKey) {
+            setSelectedNodeIds([id]);
+        }
         window.removeEventListener("pointermove", move);
         window.removeEventListener("pointerup", up);
         interactionHistoryPushed.current = false;
@@ -1700,6 +2107,70 @@ const CanvasView = ({
     window.addEventListener('pointerup', handlePointerUp);
   }
 
+  function handleConnectionDragStart(e, fromNodeId) {
+    e.stopPropagation();
+    const fromNode = nodes.find(n => n.id === fromNodeId);
+    if (!fromNode) return;
+    
+    const rect = canvasRef.current.getBoundingClientRect();
+    const startWorld = viewToWorld(e.clientX, e.clientY);
+    
+    setConnectionDrag({
+      fromNodeId,
+      startPos: startWorld,
+      currentPos: startWorld
+    });
+
+    const handlePointerMove = (moveEvent) => {
+      const currentWorld = viewToWorld(moveEvent.clientX, moveEvent.clientY);
+      setConnectionDrag(prev => prev ? { ...prev, currentPos: currentWorld } : null);
+    };
+
+    const handlePointerUp = (upEvent) => {
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointerup', handlePointerUp);
+      
+      const releaseWorld = viewToWorld(upEvent.clientX, upEvent.clientY);
+      
+      // Check if released on an existing node
+      const targetEl = document.elementFromPoint(upEvent.clientX, upEvent.clientY);
+      const targetNodeEl = targetEl?.closest('[data-node-id]');
+      
+      if (targetNodeEl) {
+        const toNodeId = targetNodeEl.getAttribute('data-node-id');
+        if (toNodeId && toNodeId !== fromNodeId) {
+          // Connect to existing node
+          pushHistory(snapshot());
+          setEdges(currentEdges => {
+            const exists = currentEdges.some(edge => edgeEndId(edge.from) === fromNodeId && edgeEndId(edge.to) === toNodeId);
+            if (exists) return currentEdges;
+            return [...currentEdges, { id: Utils.uid("e"), from: { id: fromNodeId }, to: { id: toNodeId } }];
+          });
+          setConnectionDrag(null);
+          return;
+        }
+      }
+      
+      // Create ghost node at release position
+      const ghostId = Utils.uid("ghost");
+      setGhostNode({
+        id: ghostId,
+        fromNodeId: fromNodeId,
+        x: releaseWorld.x - 110,
+        y: releaseWorld.y - 48
+      });
+      
+      // Open left panel to palette
+      setShowLeft(true);
+      setLeftPanelTab('palette');
+      
+      setConnectionDrag(null);
+    };
+
+    window.addEventListener('pointermove', handlePointerMove);
+    window.addEventListener('pointerup', handlePointerUp);
+  }
+
   return (
     <div
       ref={canvasRef}
@@ -1710,11 +2181,22 @@ const CanvasView = ({
       style={{ height: "100%", border: "1px solid #2a2a2a", borderRadius: 12, position: "relative", overflow: "hidden" }}
     >
       <div style={{ position: "absolute", top: 10, left: 10, display: "flex", gap: 6, zIndex: 20 }}>
-        <button className="btn" onClick={() => { setScale(1); setPan({ x: 0, y: 0 }); }}>Reset</button>
-        <button className="btn" onClick={zoomToFit}>Fit</button>
-        <button className="btn" onClick={centerOnSelection}>Center</button>
-        <button className="btn" onClick={onSummonOrb} style={{background: "#2a3a2a"}}>Summon Orb</button>
-        <button className="btn" onClick={() => setDebugMode(d => !d)} style={{background: debugMode ? "#6a2a3a" : "#2a2a2a"}}>Debug {debugMode ? 'On' : 'Off'}</button>
+        <button className="btn" onClick={() => { setShowLeft(true); setLeftPanelTab('palette'); }} style={{background: "linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)", border: '1px solid #9d71f6', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', padding: '0 14px', boxShadow: '0 2px 8px rgba(139, 92, 246, 0.3)'}}>
+          <dc.Icon icon="plus-circle" style={{ width: '18px', height: '18px' }} />
+          Add Node
+        </button>
+        <button className="btn" onClick={zoomToFit} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <dc.Icon icon="maximize-2" style={{ width: '16px', height: '16px' }} />
+          View All
+        </button>
+        <button className="btn" onClick={onSummonOrb} style={{background: "#5b21b6", display: 'flex', alignItems: 'center', gap: '6px'}}>
+          <dc.Icon icon="sparkles" style={{ width: '16px', height: '16px' }} />
+          Summon Orb
+        </button>
+        <button className="btn" onClick={() => setDebugMode(d => !d)} style={{background: debugMode ? "#8b5cf6" : "#2a2a2a", display: 'flex', alignItems: 'center', gap: '6px'}}>
+          <dc.Icon icon={debugMode ? "bug" : "bug-off"} style={{ width: '16px', height: '16px' }} />
+          Debug {debugMode ? 'On' : 'Off'}
+        </button>
       </div>
 
       <div
@@ -1747,17 +2229,17 @@ const CanvasView = ({
 
             const p1 = portPoint(visualFromNode, "out");
             const p2 = portPoint(toNode, "in");
-            let stroke = "#4a94ff", strokeWidth = 2, strokeDasharray = "none";
+            let stroke = "#a78bfa", strokeWidth = 2, strokeDasharray = "none";
             
             const isFromLoopNode = logicalFromNode.type === 'loop.forEach' || logicalFromNode.type === 'while' || logicalFromNode.type === 'loop.for';
 
             if (isFromLoopNode) {
                 const outgoing = edges.filter(e => edgeEndId(e.from) === logicalFromId);
                 if (outgoing[0]?.id === ed.id) {
-                    stroke = "#81C784"; // Body
+                    stroke = "#c4b5fd"; // Body (lighter purple)
                     strokeDasharray = "8 4";
                 } else {
-                    stroke = "#E57373"; // Done
+                    stroke = "#7c3aed"; // Done (darker purple)
                 }
             }
 
@@ -1841,7 +2323,15 @@ const CanvasView = ({
             const a = nodes.find(x => x.id === connecting.from);
             if (!a) return null;
             const p1 = portPoint(a, "out");
-            return ( <path d={pathBetween(p1, mouseWorld)} stroke="#9aa7ff" strokeWidth={2} fill="none" opacity={0.6} strokeDasharray="6 4" vectorEffect="non-scaling-stroke" /> );
+            return ( <path d={pathBetween(p1, mouseWorld)} stroke="#c4b5fd" strokeWidth={2} fill="none" opacity={0.6} strokeDasharray="6 4" vectorEffect="non-scaling-stroke" /> );
+          })()}
+          {connectionDrag && (() => {
+            const fromNode = nodes.find(x => x.id === connectionDrag.fromNodeId);
+            if (!fromNode) return null;
+            const r = getNodeRect(fromNode);
+            const startPoint = { x: r.x + r.w + 8, y: r.y + r.h / 2 };
+            const endPoint = connectionDrag.currentPos;
+            return ( <path d={pathBetween(startPoint, endPoint)} stroke="#a78bfa" strokeWidth={3} fill="none" opacity={0.8} vectorEffect="non-scaling-stroke" /> );
           })()}
         </svg>
 
@@ -1875,8 +2365,7 @@ const CanvasView = ({
                       data-node
                       data-node-id={n.id}
                       onPointerDown={(e) => onNodePointerDown(e, n.id)}
-                      onContextMenu={(e) => openNodeMenu(e, n.id)}
-                      className={`node comment color-${color}` + (isSel ? " selected" : "")}
+                      className={`node comment color-${color}` + (isSel ? " selected" : "") + (n._justSpawned ? " spawning" : "")}
                       style={{ left: r.x, top: r.y, width: r.w, height: r.h, position: "absolute" }}
                   >
                       <textarea
@@ -1886,7 +2375,6 @@ const CanvasView = ({
                           className="comment-textarea"
                           placeholder="Type your comment..."
                       />
-                      <div className="node-resize" />
                   </div>
               );
           }
@@ -1898,8 +2386,7 @@ const CanvasView = ({
               data-node-id={n.id}
               onPointerDown={(e) => onNodePointerDown(e, n.id)}
               onDoubleClick={() => setSelected({ type: "node", id: n.id })}
-              onContextMenu={(e) => openNodeMenu(e, n.id)}
-              className={"node shadow-soft" + (isSel ? " selected" : "") + statusClass}
+              className={"node shadow-soft" + (isSel ? " selected" : "") + statusClass + (n._justSpawned ? " spawning" : "")}
               style={{
                 left: r.x, top: r.y, width: r.w, height: r.h,
                 display: 'flex', flexDirection: 'column', zIndex: 5,
@@ -1932,10 +2419,63 @@ const CanvasView = ({
                   />
                 }
               </div>
-              <div className="node-resize" />
+              {isSel && (
+                <div
+                  onPointerDown={(e) => handleConnectionDragStart(e, n.id)}
+                  style={{
+                    position: 'absolute',
+                    right: -8,
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    width: 16,
+                    height: 16,
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+                    border: '2px solid #1c1c1c',
+                    cursor: 'pointer',
+                    zIndex: 10,
+                    boxShadow: '0 2px 8px rgba(139, 92, 246, 0.5)',
+                    transition: 'transform 0.2s ease, box-shadow 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-50%) scale(1.2)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(139, 92, 246, 0.7)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(139, 92, 246, 0.5)';
+                  }}
+                />
+              )}
             </div>
           );
         })}
+
+        {ghostNode && (
+          <div
+            style={{
+              position: 'absolute',
+              left: ghostNode.x,
+              top: ghostNode.y,
+              width: 240,
+              height: 100,
+              border: '2px dashed #8b5cf6',
+              borderRadius: 12,
+              background: 'rgba(139, 92, 246, 0.05)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#8b5cf6',
+              fontSize: 14,
+              fontWeight: 600,
+              zIndex: 10,
+              pointerEvents: 'none',
+              animation: 'pulse 2s ease-in-out infinite'
+            }}
+          >
+            Select node type from palette →
+          </div>
+        )}
 
         {marquee && (() => {
           const r = Utils.rectFromPoints(marquee.start, marquee.end);
@@ -1949,39 +2489,121 @@ const CanvasView = ({
         onClick={(e) => {
           e.stopPropagation();
           const rect = e.currentTarget.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          const ms = 0.1;
-          const worldX = x / ms;
-          const worldY = y / ms;
+          const x = e.clientX - rect.left - 6; // Account for padding
+          const y = e.clientY - rect.top - 6;
+          
+          // Calculate bounds of all nodes
+          if (nodes.length === 0) return;
+          const bounds = nodes.reduce((acc, n) => {
+            const r = getNodeRect(n);
+            return {
+              minX: Math.min(acc.minX, r.x),
+              minY: Math.min(acc.minY, r.y),
+              maxX: Math.max(acc.maxX, r.x + r.w),
+              maxY: Math.max(acc.maxY, r.y + r.h)
+            };
+          }, { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity });
+          
+          // Add padding around bounds for context
+          const padding = 400;
+          const boundsWidth = (bounds.maxX - bounds.minX) + padding * 2;
+          const boundsHeight = (bounds.maxY - bounds.minY) + padding * 2;
+          const boundsMinX = bounds.minX - padding;
+          const boundsMinY = bounds.minY - padding;
+          
+          const minimapWidth = 200;
+          const minimapHeight = 140;
+          const scaleX = minimapWidth / boundsWidth;
+          const scaleY = minimapHeight / boundsHeight;
+          const ms = Math.min(scaleX, scaleY);
+          
+          const worldX = boundsMinX + (x / ms);
+          const worldY = boundsMinY + (y / ms);
           setPan({ x: (canvasRef.current.clientWidth / 2) - worldX * scale, y: (canvasRef.current.clientHeight / 2) - worldY * scale });
         }}
       >
-        <div style={{ width: 200, height: 140, position: "relative", background: "#0b0b0b", border: "1px solid #1f1f1f", borderRadius: 8 }}>
-          {nodes.map(n => {
-            const ms = 0.1;
-            const r = getNodeRect(n);
-            let minimapBg = "#2a2a2a";
-            if (n.type === 'comment') {
-                const colorName = n.params.find(p => p.key === 'color')?.value || 'yellow';
-                minimapBg = commentColorMap[colorName] || commentColorMap.yellow;
-            }
-            return (
+        <div style={{ width: 200, height: 140, position: "relative", background: "#0b0b0b", border: "1px solid #1f1f1f", borderRadius: 8, overflow: "hidden" }}>
+          {(() => {
+            if (nodes.length === 0) return null;
+            
+            // Calculate bounds of all nodes
+            const bounds = nodes.reduce((acc, n) => {
+              const r = getNodeRect(n);
+              return {
+                minX: Math.min(acc.minX, r.x),
+                minY: Math.min(acc.minY, r.y),
+                maxX: Math.max(acc.maxX, r.x + r.w),
+                maxY: Math.max(acc.maxY, r.y + r.h)
+              };
+            }, { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity });
+            
+            // Add padding around bounds for context
+            const padding = 400;
+            const boundsWidth = (bounds.maxX - bounds.minX) + padding * 2;
+            const boundsHeight = (bounds.maxY - bounds.minY) + padding * 2;
+            const boundsMinX = bounds.minX - padding;
+            const boundsMinY = bounds.minY - padding;
+            
+            const minimapWidth = 200;
+            const minimapHeight = 140;
+            
+            // Calculate scale to fit all nodes in minimap - much smaller now
+            const scaleX = minimapWidth / boundsWidth;
+            const scaleY = minimapHeight / boundsHeight;
+            const ms = Math.min(scaleX, scaleY); // No cap, let it scale down as needed
+            
+            // Calculate viewport rectangle
+            const canvasWidth = canvasRef.current?.clientWidth || 800;
+            const canvasHeight = canvasRef.current?.clientHeight || 600;
+            const viewportWorldX = -pan.x / scale;
+            const viewportWorldY = -pan.y / scale;
+            const viewportWorldWidth = canvasWidth / scale;
+            const viewportWorldHeight = canvasHeight / scale;
+            
+            const viewportMinimapX = (viewportWorldX - boundsMinX) * ms;
+            const viewportMinimapY = (viewportWorldY - boundsMinY) * ms;
+            const viewportMinimapW = viewportWorldWidth * ms;
+            const viewportMinimapH = viewportWorldHeight * ms;
+            
+            return (<>
+              {nodes.map(n => {
+                const r = getNodeRect(n);
+                let minimapBg = "#2a2a2a";
+                if (n.type === 'comment') {
+                    const colorName = n.params.find(p => p.key === 'color')?.value || 'yellow';
+                    minimapBg = commentColorMap[colorName] || commentColorMap.yellow;
+                }
+                return (
+                  <div
+                    key={n.id}
+                    style={{
+                      position: "absolute",
+                      left: (r.x - boundsMinX) * ms,
+                      top: (r.y - boundsMinY) * ms,
+                      width: r.w * ms,
+                      height: r.h * ms,
+                      background: minimapBg,
+                      borderRadius: 1,
+                      opacity: new Set(selectedNodeIds).has(n.id) ? 1 : 0.5
+                    }}
+                  />
+                );
+              })}
               <div
-                key={n.id}
                 style={{
                   position: "absolute",
-                  left: r.x * ms,
-                  top: r.y * ms,
-                  width: r.w * ms,
-                  height: r.h * ms,
-                  background: minimapBg,
-                  borderRadius: 2,
-                  opacity: new Set(selectedNodeIds).has(n.id) ? 1 : 0.7
+                  left: viewportMinimapX,
+                  top: viewportMinimapY,
+                  width: viewportMinimapW,
+                  height: viewportMinimapH,
+                  border: "2px solid #a78bfa",
+                  borderRadius: 4,
+                  pointerEvents: "none",
+                  boxShadow: "0 0 8px rgba(167, 139, 250, 0.5)"
                 }}
               />
-            );
-          })}
+            </>);
+          })()}
         </div>
       </div>
     </div>
@@ -1999,7 +2621,7 @@ return { CanvasView };
 //  Desc:   Contains components rendered within canvas nodes (Editors, Viewers).
 // =================================================================================
 const { useState, useRef, useEffect, useMemo } = dc;
-const filename = "_RESOURCES/DATACORE/50 ActionsManager/D.q.actionsmanager.component.md";
+const filename = dc.resolvePath("D.q.actionsmanager.component.md");
 
 // Import necessary dependencies from other modules
 const { 
@@ -2050,7 +2672,7 @@ const DatacoreQueryEditor = function DatacoreQueryEditor({ node, setNodes }) {
   const handleFilterWizardStep = (selectedValue) => { const { step, startIndex } = helperState; if (step === 'select_property') { const propertyText = selectedValue.includes(' ') ? `row["${selectedValue}"]` : selectedValue; const textBefore = inputValue.substring(0, startIndex); const textAfter = inputValue.substring(startIndex + helperState.searchTerm.length); const newQuery = textBefore + propertyText + textAfter; setInputValue(newQuery); setHelperState(s => ({ ...s, step: 'select_operator', context: { ...s.context, property: propertyText }, startIndex: (textBefore + propertyText).length })); } else if (step === 'select_operator') { let textToInsert; let newCursorOffset = 0; if (selectedValue === '.contains') { textToInsert = '.contains()'; newCursorOffset = -1; } else { textToInsert = ` ${selectedValue} `; } const newQuery = inputValue + textToInsert; setInputValue(newQuery); setHelperState({ type: null }); setTimeout(() => { const newCursorPos = newQuery.length + newCursorOffset; textareaRef.current?.focus(); textareaRef.current?.setSelectionRange(newCursorPos, newCursorPos); }, 0); } };
   const setBaseType = (bt) => { if (!bt) return; const q = inputValue; const rx = /@[\w-]+(?:-list)?/i; if (rx.test(q)) setInputValue(tidy(q.replace(rx, bt))); else setInputValue(tidy(bt + (q.trim() ? ' AND ' + q.trim() : ''))); };
   const handleRunAndSave = async () => { const query = inputValue.trim(); const path = outputFilePath.trim(); if (!query) { setStatusMessage({ text: 'Query is empty.', type: 'error' }); return; } if (!path) { setStatusMessage({ text: 'Output file path is empty.', type: 'error' }); return; } if (!path.endsWith('.json')) { setStatusMessage({ text: 'Output file path must end with .json', type: 'error'}); return; } setStatusMessage({ text: 'Running query...', type: 'info' }); try { const lastSlashIndex = path.lastIndexOf('/'); if (lastSlashIndex > -1) { const dirPath = path.substring(0, lastSlashIndex); if (dirPath && !(await app.vault.adapter.exists(dirPath))) { setStatusMessage({ text: `Creating directory '${dirPath}'...`, type: 'info' }); await app.vault.adapter.mkdir(dirPath); } } const queryResult = dc.api.query(query); const newContent = JSON.stringify(queryResult, jsonReplacer, 2); let oldContent = null; if (await app.vault.adapter.exists(path)) oldContent = await app.vault.adapter.read(path); if (newContent === oldContent) { setStatusMessage({ text: `No changes detected. File '${path}' not updated.`, type: 'info' }); } else { await app.vault.adapter.write(path, newContent); setStatusMessage({ text: `Successfully saved ${queryResult.length} items to '${path}'.`, type: 'success' }); } } catch (e) { setStatusMessage({ text: `Error: ${e.message}`, type: 'error' }); console.error("Datacore Node Save Error:", e); } };
-  const styles = { container: { display: 'flex', flexDirection: 'column', gap: 8, color: '#ddd', height: '100%' }, label: { display: 'block', marginBottom: 6, fontWeight: 700 }, inputWrapper: { position: 'relative' }, textarea: { width: '100%', minHeight: 92, padding: 10, background: '#111', border: '1px solid #222', borderRadius: 8, fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace', color: '#eaeaea', fontSize: 13, resize: 'vertical', outline: 'none' }, helperContainer: { position: 'absolute', width: '100%', left: 0, zIndex: 20, marginTop: 6 }, bar: { display: 'flex', gap: 8, alignItems: 'center', background: '#0e0e0e', border: '1px solid #1e1e1e', borderRadius: 8, padding: 8 }, select: { appearance: 'none', background: '#121212', border: '1px solid #222', color: '#eaeaea', borderRadius: 6, padding: '6px 10px', fontSize: 12 }, addBtn: { height: 28, padding: '0 10px', background: '#121212', border: '1px solid #222', color: '#eaeaea', borderRadius: 6, cursor: 'pointer' }, pop: { position: 'absolute', top: '100%', right: 0, marginTop: 6, minWidth: 280, background: '#0d0d0d', border: '1px solid #1e1e1e', borderRadius: 10, padding: 8, boxShadow: '0 10px 30px rgba(0,0,0,0.45)', zIndex: 40 }, popRow: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }, pill: { display: 'inline-flex', alignItems: 'center', gap: 6, height: 28, padding: '0 10px', background: '#141414', border: '1px solid #222', color: '#cfcfcf', borderRadius: 999, fontSize: 12 }, pillX: { border: 'none', background: 'transparent', color: '#999', cursor: 'pointer', padding: 0, fontSize: 14, lineHeight: 1 }, chipWrap: { display: 'flex', flexWrap: 'wrap', gap: 6, flex: 1 }, outputContainer: { marginTop: 6, padding: 10, border: '1px solid #222', borderRadius: 8, background: '#0e0e0e', display: 'flex', flexDirection: 'column', gap: 8 }, outputInput: { width: '100%', padding: '6px 8px', backgroundColor: '#121212', border: '1px solid #222', borderRadius: '6px', color: '#eee', fontFamily: 'monospace' }, primary: { padding: '6px 12px', backgroundColor: '#2a66ff', border: 'none', borderRadius: '6px', color: 'white', cursor: 'pointer', fontWeight: 600 }, statusMessage: { fontSize: 12, margin: 0, padding: '4px 0', minHeight: '1.2em' }, listWrap: { flex: 1, display: 'flex', flexDirection: 'column', border: '1px solid #222', borderRadius: 8, overflow: 'hidden', minHeight: 0 }, list: { flex: 1, overflowY: 'auto' }, pagination: { display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 10, borderTop: '1px solid #222', background: '#0e0e0e' }, pageBtn: { padding: '4px 12px', margin: '0 10px', background: '#121212', border: '1px solid #222', borderRadius: 6, color: '#eee', cursor: 'pointer' }, pageBtnDis: { background: '#0c0c0c', color: '#666', cursor: 'not-allowed' }, };
+  const styles = { container: { display: 'flex', flexDirection: 'column', gap: 8, color: '#ddd', height: '100%' }, label: { display: 'block', marginBottom: 6, fontWeight: 700 }, inputWrapper: { position: 'relative' }, textarea: { width: '100%', minHeight: 92, padding: 10, background: '#111', border: '1px solid #222', borderRadius: 8, fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace', color: '#eaeaea', fontSize: 13, resize: 'vertical', outline: 'none' }, helperContainer: { position: 'absolute', width: '100%', left: 0, zIndex: 20, marginTop: 6 }, bar: { display: 'flex', gap: 8, alignItems: 'center', background: '#0e0e0e', border: '1px solid #1e1e1e', borderRadius: 8, padding: 8 }, select: { appearance: 'none', background: '#121212', border: '1px solid #222', color: '#eaeaea', borderRadius: 6, padding: '6px 10px', fontSize: 12 }, addBtn: { height: 28, padding: '0 10px', background: '#121212', border: '1px solid #222', color: '#eaeaea', borderRadius: 6, cursor: 'pointer' }, pop: { position: 'absolute', top: '100%', right: 0, marginTop: 6, minWidth: 280, background: '#0d0d0d', border: '1px solid #1e1e1e', borderRadius: 10, padding: 8, boxShadow: '0 10px 30px rgba(0,0,0,0.45)', zIndex: 40 }, popRow: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }, pill: { display: 'inline-flex', alignItems: 'center', gap: 6, height: 28, padding: '0 10px', background: '#141414', border: '1px solid #222', color: '#cfcfcf', borderRadius: 999, fontSize: 12 }, pillX: { border: 'none', background: 'transparent', color: '#999', cursor: 'pointer', padding: 0, fontSize: 14, lineHeight: 1 }, chipWrap: { display: 'flex', flexWrap: 'wrap', gap: 6, flex: 1 }, outputContainer: { marginTop: 6, padding: 10, border: '1px solid #222', borderRadius: 8, background: '#0e0e0e', display: 'flex', flexDirection: 'column', gap: 8 }, outputInput: { width: '100%', padding: '6px 8px', backgroundColor: '#121212', border: '1px solid #222', borderRadius: '6px', color: '#eee', fontFamily: 'monospace' }, primary: { padding: '6px 12px', backgroundColor: '#8b5cf6', border: 'none', borderRadius: '6px', color: 'white', cursor: 'pointer', fontWeight: 600 }, statusMessage: { fontSize: 12, margin: 0, padding: '4px 0', minHeight: '1.2em' }, listWrap: { flex: 1, display: 'flex', flexDirection: 'column', border: '1px solid #222', borderRadius: 8, overflow: 'hidden', minHeight: 0 }, list: { flex: 1, overflowY: 'auto' }, pagination: { display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 10, borderTop: '1px solid #222', background: '#0e0e0e' }, pageBtn: { padding: '4px 12px', margin: '0 10px', background: '#121212', border: '1px solid #222', borderRadius: 6, color: '#eee', cursor: 'pointer' }, pageBtnDis: { background: '#0c0c0c', color: '#666', cursor: 'not-allowed' }, };
   const statusColors = { info: '#888', success: '#4CAF50', error: '#F44336' };
   const openAddons = () => { clearTimeout(addonTimer.current); setAddonOpen(true); };
   const closeAddonsSoon = () => { addonTimer.current = setTimeout(() => setAddonOpen(false), 120); };
@@ -2349,7 +2971,7 @@ return {
 //  Desc:   Contains major UI panels like the Left Panel and Inspector.
 // =================================================================================
 const { useState, useRef, useEffect } = dc;
-const filename = "_RESOURCES/DATACORE/50 ActionsManager/D.q.actionsmanager.component.md";
+const filename = dc.resolvePath("D.q.actionsmanager.component.md");
 
 const { Utils } = await dc.require(dc.headerLink(filename, "Logic"));
 const { Hooks } = await dc.require(dc.headerLink(filename, "Hooks"));
@@ -2358,7 +2980,7 @@ const {
 } = await dc.require(dc.headerLink(filename, "NodeComponents"));
 
 
-const PalettePanel = ({ canvasRef, paletteAll, openGroups, setOpenGroups, pinnedGroups, setPinnedGroups, addNode, searchState, setSearchState, setShowSuggest, showSuggest, activeSuggest, setActiveSuggest, viewToWorld }) => { const isPinned = (g) => pinnedGroups.includes(g); const setPinned = (g, val) => setPinnedGroups(prev => val ? [g, ...prev.filter(x => x !== g)].slice(0, 10) : prev.filter(x => x !== g)); const toggleGroup = (g) => setOpenGroups(s => ({ ...s, [g]: !s[g] })); const setAllGroups = (state) => { const next = {}; const all = (paletteAll.order?.length ? paletteAll.order : Object.keys(paletteAll.groups || {})); for (const g of all) next[g] = state; setOpenGroups(next); }; const pd = (e) => e.stopPropagation(); return (<div style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column", gap: 8 }}> <div style={{ flexShrink: 0 }}> <div style={{ display: "flex", gap: 8 }}> <div style={{ position: "relative", flex: 1 }}> <input ref={searchState.ref} value={searchState.raw} onChange={e => setSearchState(s => ({ ...s, raw: e.target.value }))} onPointerDown={pd} onMouseDown={pd} onFocus={() => setShowSuggest(true)} onBlur={() => setTimeout(() => setShowSuggest(false), 120)} onKeyDown={(e) => { if (!showSuggest) return; if (["ArrowDown", "Tab"].includes(e.key)) { e.preventDefault(); setActiveSuggest(i => Math.min(i + 1, (paletteAll.searchList?.length || 1) - 1)); } if (e.key === "ArrowUp") { e.preventDefault(); setActiveSuggest(i => Math.max(i - 1, 0)); } if (e.key === "Enter") { e.preventDefault(); if (paletteAll.searchList?.length) { const a = paletteAll.searchList[activeSuggest] || paletteAll.searchList[0]; const rect = canvasRef.current?.getBoundingClientRect(); const cx = (rect?.width || 0) / 2, cy = (rect?.height || 0) / 2; const c = viewToWorld((canvasRef.current?.getBoundingClientRect().left || 0) + cx, (canvasRef.current?.getBoundingClientRect().top || 0) + cy); addNode(a, c.x - 110, c.y - 48); setShowSuggest(false); setSearchState(s => ({ ...s, raw: "" })); searchState.ref.current?.focus(); } } e.stopPropagation(); }} placeholder="Search (tokens: type:expr)" style={{ width: "100%", height: 34, borderRadius: showSuggest ? "8px 8px 0 0" : 8, border: "1px solid #2a2a2a", background: "#111", color: "#eaeaea", padding: "0 34px 0 10px" }} /> {searchState.raw && (<button className="btn" onMouseDown={(e) => e.preventDefault()} onClick={() => { setSearchState(s => ({ ...s, raw: "" })); setActiveSuggest(0); searchState.ref.current?.focus(); }} style={{ position: "absolute", right: 4, top: 4, height: 26, padding: "0 8px" }}>Clear</button>)} {showSuggest && (paletteAll.searchList?.length || 0) > 0 && (<div className="suggest" onMouseDown={pd}> {paletteAll.searchList.map((it, idx) => (<div key={`${it.type}:${it.label}:${idx}`} className="suggest-item" aria-selected={idx === activeSuggest} onMouseEnter={() => setActiveSuggest(idx)} onMouseDown={(e) => { e.preventDefault(); const rect = canvasRef.current?.getBoundingClientRect(); const cx = (rect?.width || 0) / 2, cy = (rect?.height || 0) / 2; const c = viewToWorld((canvasRef.current?.getBoundingClientRect().left || 0) + cx, (canvasRef.current?.getBoundingClientRect().top || 0) + cy); addNode(it, c.x - 110, c.y - 48); }}> <div className="markwrap" style={{ color: "#eaeaea" }} dangerouslySetInnerHTML={{ __html: Utils.highlightMatch(it.label, searchState.parsed.text) }} /> <div style={{ fontSize: 11, color: "#9a9a9a", flexShrink: 0 }}>{it.group}</div> </div>))} </div>)} </div> <button className="btn" onClick={() => setAllGroups(true)}>Open</button> <button className="btn" onClick={() => setAllGroups(false)}>Close</button> </div> </div> <div style={{ flex: "1 1 0", minHeight: 0, overflowY: "auto", paddingRight: '4px' }}> <div style={{ display: "grid", gridAutoRows: 'min-content', gap: 8 }}> {((paletteAll.order?.length ? paletteAll.order : Object.keys(paletteAll.groups || {}))).map(g => { const items = (paletteAll.groups && paletteAll.groups[g]) || []; const open = !!openGroups[g]; return (<div key={g}> <div role="button" tabIndex={0} onClick={() => toggleGroup(g)} onKeyDown={(e) => { if (["Enter", " ", "ArrowRight", "ArrowLeft"].includes(e.key)) { e.preventDefault(); toggleGroup(g); } }} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "#121212", border: "1px solid #242424", borderRadius: 8, padding: "8px 10px", cursor: "pointer", marginBottom: open ? 8 : 0 }}> <div style={{ display: "flex", alignItems: "center", gap: 8 }}><div style={{ width: 18, height: 18, display: "grid", placeItems: "center", border: "1px solid #2a2a2a", borderRadius: 4, background: "#0f0f0f" }}>{open ? "▾" : "▸"}</div><div style={{ fontWeight: 700 }}>{g}</div><div style={{ fontSize: 11, color: "#9a9a9a" }}>({items.length})</div></div> <button className="btn" style={{ height: 24, padding: "0 8px" }} onClick={(e) => { e.stopPropagation(); setPinned(g, !isPinned(g)); }}>{isPinned(g) ? "Unpin" : "Pin"}</button> </div> {open && (<div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 8 }}> {items.map((a, idx) => (<div key={`${a.type}:${a.label}:${idx}`} onPointerDown={e => { e.stopPropagation(); const start = { x: e.clientX, y: e.clientY }; setSearchState(s => ({ ...s, dragging: { a, x: start.x, y: start.y } })); const mm = (ev) => setSearchState(s => s ? ({ ...s, dragging: s.dragging ? ({ ...s.dragging, x: ev.clientX, y: ev.clientY }) : null }) : s); const up = (ev) => { const world = viewToWorld(ev.clientX, ev.clientY); if (canvasRef.current.contains(document.elementFromPoint(ev.clientX, ev.clientY))) { addNode(a, world.x - 110, world.y - 48); } setSearchState(s => ({ ...s, dragging: null })); window.removeEventListener("pointermove", mm); window.removeEventListener("pointerup", up); }; window.addEventListener("pointermove", mm); window.addEventListener("pointerup", up); }} onDoubleClick={() => { const rect = canvasRef.current?.getBoundingClientRect(); const cx = (rect?.width || 0) / 2, cy = (rect?.height || 0) / 2; const c = viewToWorld((canvasRef.current?.getBoundingClientRect().left || 0) + cx, (canvasRef.current?.getBoundingClientRect().top || 0) + cy); addNode(a, c.x - 110, c.y - 48); }} style={{ border: "1px solid #242424", borderRadius: 10, padding: 10, background: "#121212", cursor: "grab", display: "flex", alignItems: "center", justifyContent: "space-between" }}> <div style={{ display: "flex", flexDirection: "column" }}><div style={{ fontWeight: 600 }}>{a.label}</div><div style={{ fontSize: 12, color: "#9a9a9a" }}>{a.type}</div></div> <div style={{ fontSize: 12, color: "#7a7a7a" }}>Drag</div> </div>))} {items.length === 0 && <div style={{ fontSize: 12, color: "#8a8a8a", padding: "8px 4px" }}>No items</div>} </div>)} </div>); })} </div> </div> {searchState.dragging && (<div style={{ position: "fixed", left: searchState.dragging.x + 12, top: searchState.dragging.y + 12, pointerEvents: "none", opacity: 0.9, transform: "translate(-50%,-50%)" }}><div style={{ width: 200, height: 64, borderRadius: 12, background: "#141414", border: "1px solid #2a2a2a", display: "flex", alignItems: "center", justifyContent: "center", color: "#eaeaea" }}>{searchState.dragging.a.label}</div></div>)} </div>); };
+const PalettePanel = ({ canvasRef, paletteAll, openGroups, setOpenGroups, pinnedGroups, setPinnedGroups, addNode, searchState, setSearchState, setShowSuggest, showSuggest, activeSuggest, setActiveSuggest, viewToWorld, ghostNode, setDragging }) => { const isPinned = (g) => pinnedGroups.includes(g); const setPinned = (g, val) => setPinnedGroups(prev => val ? [g, ...prev.filter(x => x !== g)].slice(0, 10) : prev.filter(x => x !== g)); const toggleGroup = (g) => setOpenGroups(s => ({ ...s, [g]: !s[g] })); const setAllGroups = (state) => { const next = {}; const all = (paletteAll.order?.length ? paletteAll.order : Object.keys(paletteAll.groups || {})); for (const g of all) next[g] = state; setOpenGroups(next); }; const pd = (e) => e.stopPropagation(); return (<div style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column", gap: 8 }}> <div style={{ flexShrink: 0 }}> <div style={{ display: "flex", gap: 8 }}> <div style={{ position: "relative", flex: 1 }}> <input ref={searchState.ref} value={searchState.raw} onChange={e => setSearchState(s => ({ ...s, raw: e.target.value }))} onPointerDown={pd} onMouseDown={pd} onFocus={() => setShowSuggest(true)} onBlur={() => setTimeout(() => setShowSuggest(false), 120)} onKeyDown={(e) => { if (!showSuggest) return; if (["ArrowDown", "Tab"].includes(e.key)) { e.preventDefault(); setActiveSuggest(i => Math.min(i + 1, (paletteAll.searchList?.length || 1) - 1)); } if (e.key === "ArrowUp") { e.preventDefault(); setActiveSuggest(i => Math.max(i - 1, 0)); } if (e.key === "Enter") { e.preventDefault(); if (paletteAll.searchList?.length) { const a = paletteAll.searchList[activeSuggest] || paletteAll.searchList[0]; const rect = canvasRef.current?.getBoundingClientRect(); const cx = (rect?.width || 0) / 2, cy = (rect?.height || 0) / 2; const c = viewToWorld((canvasRef.current?.getBoundingClientRect().left || 0) + cx, (canvasRef.current?.getBoundingClientRect().top || 0) + cy); addNode(a, c.x - 110, c.y - 48); setShowSuggest(false); setSearchState(s => ({ ...s, raw: "" })); searchState.ref.current?.focus(); } } e.stopPropagation(); }} placeholder="Search (tokens: type:expr)" style={{ width: "100%", height: 34, borderRadius: showSuggest ? "8px 8px 0 0" : 8, border: "1px solid #2a2a2a", background: "#111", color: "#eaeaea", padding: "0 34px 0 10px" }} /> {searchState.raw && (<button className="btn" onMouseDown={(e) => e.preventDefault()} onClick={() => { setSearchState(s => ({ ...s, raw: "" })); setActiveSuggest(0); searchState.ref.current?.focus(); }} style={{ position: "absolute", right: 4, top: 4, height: 26, padding: "0 8px" }}>Clear</button>)} {showSuggest && (paletteAll.searchList?.length || 0) > 0 && (<div className="suggest" onMouseDown={pd}> {paletteAll.searchList.map((it, idx) => (<div key={`${it.type}:${it.label}:${idx}`} className="suggest-item" aria-selected={idx === activeSuggest} onMouseEnter={() => setActiveSuggest(idx)} onMouseDown={(e) => { e.preventDefault(); const rect = canvasRef.current?.getBoundingClientRect(); const cx = (rect?.width || 0) / 2, cy = (rect?.height || 0) / 2; const c = viewToWorld((canvasRef.current?.getBoundingClientRect().left || 0) + cx, (canvasRef.current?.getBoundingClientRect().top || 0) + cy); addNode(it, c.x - 110, c.y - 48); }}> <div className="markwrap" style={{ color: "#eaeaea" }} dangerouslySetInnerHTML={{ __html: Utils.highlightMatch(it.label, searchState.parsed.text) }} /> <div style={{ fontSize: 11, color: "#9a9a9a", flexShrink: 0 }}>{it.group}</div> </div>))} </div>)} </div> <button className="btn" onClick={() => setAllGroups(true)} style={{ width: 32, padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="Expand All"><dc.Icon icon="chevrons-down" style={{ width: '16px', height: '16px' }} /></button> <button className="btn" onClick={() => setAllGroups(false)} style={{ width: 32, padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="Collapse All"><dc.Icon icon="chevrons-up" style={{ width: '16px', height: '16px' }} /></button> </div> </div> <div style={{ flex: "1 1 0", minHeight: 0, overflowY: "auto", paddingRight: '4px' }}> <div style={{ display: "grid", gridAutoRows: 'min-content', gap: 8 }}> {((paletteAll.order?.length ? paletteAll.order : Object.keys(paletteAll.groups || {}))).map(g => { const items = (paletteAll.groups && paletteAll.groups[g]) || []; const open = !!openGroups[g]; return (<div key={g}> <div role="button" tabIndex={0} onClick={() => toggleGroup(g)} onKeyDown={(e) => { if (["Enter", " ", "ArrowRight", "ArrowLeft"].includes(e.key)) { e.preventDefault(); toggleGroup(g); } }} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "#121212", border: "1px solid #242424", borderRadius: 8, padding: "8px 10px", cursor: "pointer", marginBottom: open ? 8 : 0 }}> <div style={{ display: "flex", alignItems: "center", gap: 8 }}><div style={{ width: 18, height: 18, display: "grid", placeItems: "center", border: "1px solid #2a2a2a", borderRadius: 4, background: "#0f0f0f" }}>{open ? "▾" : "▸"}</div><div style={{ fontWeight: 700 }}>{g}</div><div style={{ fontSize: 11, color: "#9a9a9a" }}>({items.length})</div></div> <button className="btn" style={{ height: 24, width: 24, padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={(e) => { e.stopPropagation(); setPinned(g, !isPinned(g)); }} title={isPinned(g) ? "Unpin" : "Pin"}><dc.Icon icon={isPinned(g) ? "pin-off" : "pin"} style={{ width: '14px', height: '14px' }} /></button> </div> {open && (<div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 8, paddingLeft: '40px' }}> {items.map((a, idx) => (<div key={`${a.type}:${a.label}:${idx}`} onPointerDown={e => { e.stopPropagation(); if (ghostNode) { addNode(a, ghostNode.x, ghostNode.y); return; } const start = { x: e.clientX, y: e.clientY }; setDragging({ a, x: start.x, y: start.y }); const mm = (ev) => { setDragging(prev => prev ? { ...prev, x: ev.clientX, y: ev.clientY } : null); }; const up = (ev) => { const world = viewToWorld(ev.clientX, ev.clientY); if (canvasRef.current.contains(document.elementFromPoint(ev.clientX, ev.clientY))) { addNode(a, world.x - 110, world.y - 48); } setDragging(null); window.removeEventListener("pointermove", mm); window.removeEventListener("pointerup", up); }; window.addEventListener("pointermove", mm); window.addEventListener("pointerup", up); }} onDoubleClick={() => { const rect = canvasRef.current?.getBoundingClientRect(); const cx = (rect?.width || 0) / 2, cy = (rect?.height || 0) / 2; const c = viewToWorld((canvasRef.current?.getBoundingClientRect().left || 0) + cx, (canvasRef.current?.getBoundingClientRect().top || 0) + cy); addNode(a, c.x - 110, c.y - 48); }} style={{ border: "1px solid #242424", borderRadius: 10, padding: 10, background: "#121212", cursor: "grab", display: "flex", alignItems: "center", justifyContent: "space-between" }}> <div style={{ display: "flex", flexDirection: "column", gap: 2 }}><div style={{ fontWeight: 600 }}>{a.label}</div><div style={{ fontSize: 11, color: "#666", fontFamily: 'monospace', paddingLeft: '4px' }}>{a.type}</div></div> <div style={{ fontSize: 12, color: "#7a7a7a" }}>Drag</div> </div>))} {items.length === 0 && <div style={{ fontSize: 12, color: "#8a8a8a", padding: "8px 4px" }}>No items</div>} </div>)} </div>); })} </div> </div> </div>); };
 
 const FsListFilesInspector = ({ node, setNodes }) => {
     const path = node.params.find(p => p.key === 'path')?.value || '';
@@ -2778,7 +3400,7 @@ const InspectorPanel = ({ selected, nodes, setNodes, runLog, setRunLog, jsonRepl
             timestamp: { color: '#666', marginRight: '8px', flexShrink: 0, userSelect: 'none' },
             icon: { marginRight: '6px', flexShrink: 0, userSelect: 'none' },
             message: { flexGrow: 1, wordBreak: 'break-word', whiteSpace: 'pre-wrap' },
-            expander: { cursor: 'pointer', marginLeft: '8px', color: '#6ec1ff', userSelect: 'none' },
+            expander: { cursor: 'pointer', marginLeft: '8px', color: '#8b5cf6', userSelect: 'none' },
             details: { marginTop: '4px', backgroundColor: '#00000044', padding: '8px', borderRadius: '6px', whiteSpace: 'pre-wrap', wordBreak: 'break-all', fontSize: '11px', color: '#ccc', maxHeight: '300px', overflow: 'auto', border: '1px solid #282828' }
         };
         return (
@@ -2818,9 +3440,13 @@ const InspectorPanel = ({ selected, nodes, setNodes, runLog, setRunLog, jsonRepl
     const RENDER_BUFFER = 10;
 
     return (
-        <div onKeyDown={e => e.stopPropagation()} style={{ height: "100%", border: "1px solid #2a2a2a", borderRadius: 12, background: "#0d0d0d", display: "flex", flexDirection: "column", minWidth: 0 }}>
-            <div ref={panelRef} style={{ height: inspectorHeight, minHeight: 100, padding: 10, display: 'flex', flexDirection: 'column' }}>
-                <div style={{ flex: '1 1 0', minHeight: 0, overflowY: 'auto', border: "1px solid #222", borderRadius: 10, padding: 10, background: "#0f0f0f" }}>
+        <div onKeyDown={e => e.stopPropagation()} style={{ height: "100%", border: "1px solid #2a2a2a", borderRadius: 8, background: "linear-gradient(180deg, #0f0f0f 0%, #0a0a0a 100%)", display: "flex", flexDirection: "column", minWidth: 0, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,0.3)' }}>
+            <div ref={panelRef} style={{ height: inspectorHeight, minHeight: 100, padding: 12, display: 'flex', flexDirection: 'column' }}>
+                <div style={{ fontWeight: 600, fontSize: 13, marginBottom: 10, color: '#aaa', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <dc.Icon icon="settings" style={{ width: '16px', height: '16px' }} />
+                    Node Inspector
+                </div>
+                <div style={{ flex: '1 1 0', minHeight: 0, overflowY: 'auto', border: "1px solid #1a1a1a", borderRadius: 8, padding: 12, background: "#080808" }}>
                     {selected.type === "node" ? (() => {
                         const n = nodes.find(x => x.id === selected.id);
                         if (!n) return <div style={{ color: "#888" }}>No selection</div>;
@@ -2840,16 +3466,25 @@ const InspectorPanel = ({ selected, nodes, setNodes, runLog, setRunLog, jsonRepl
                 </div>
             </div>
             <div className="inspector-resizer" onPointerDown={handleResizerPointerDown}><div className="inspector-resizer-bar" /></div>
-            <div style={{ flex: '1 1 0', minHeight: 0, padding: '0 10px 10px 10px', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ flex: 1, minHeight: 0, border: "1px solid #222", borderRadius: 10, background: "#0f0f0f", display: 'flex', flexDirection: 'column' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: 700, fontSize: 12, padding: '8px 10px 6px 10px', color: "#cfcfcf", flexShrink: 0 }}>
-                        <span>Run Console</span>
-                        <div style={{ display: 'flex', gap: '8px' }}>
-                            <button className="btn" onClick={handleCopyLog} style={{height: 22, padding: '0 8px', fontSize: 11}}>Copy</button>
-                            <button className="btn" onClick={() => setRunLog([])} style={{height: 22, padding: '0 8px', fontSize: 11}}>Clear</button>
+            <div style={{ flex: '1 1 0', minHeight: 0, padding: '0 12px 12px 12px', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ flex: 1, minHeight: 0, border: "1px solid #1a1a1a", borderRadius: 8, background: "#080808", display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: 600, fontSize: 13, padding: '10px 12px', color: "#aaa", flexShrink: 0, borderBottom: '1px solid #1a1a1a' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <dc.Icon icon="terminal" style={{ width: '16px', height: '16px' }} />
+                            <span>Run Console</span>
+                        </div>
+                        <div style={{ display: 'flex', gap: '6px' }}>
+                            <button className="btn" onClick={handleCopyLog} style={{height: 24, padding: '0 10px', fontSize: 11, display: 'flex', alignItems: 'center', gap: '4px'}}>
+                                <dc.Icon icon="copy" style={{ width: '12px', height: '12px' }} />
+                                Copy
+                            </button>
+                            <button className="btn" onClick={() => setRunLog([])} style={{height: 24, padding: '0 10px', fontSize: 11, display: 'flex', alignItems: 'center', gap: '4px'}}>
+                                <dc.Icon icon="trash-2" style={{ width: '12px', height: '12px' }} />
+                                Clear
+                            </button>
                         </div>
                     </div>
-                    <div ref={consoleLogRef} onScroll={handleScroll} style={{ flex: 1, minHeight: 0, overflowY: "auto", background: "#131313", borderTop: "1px solid #242424", borderBottomLeftRadius: 8, borderBottomRightRadius: 8, position: 'relative', fontFamily:'monospace', fontSize:12, lineHeight:1.5 }}>
+                    <div ref={consoleLogRef} onScroll={handleScroll} style={{ flex: 1, minHeight: 0, overflowY: "auto", background: "#050505", position: 'relative', fontFamily:'monospace', fontSize:12, lineHeight:1.5 }}>
                         {runLog.length > 0 ? (
                             <div style={{ height: runLog.length * ITEM_HEIGHT_ESTIMATE, position: 'relative' }}>
                                 {(() => {
@@ -2931,15 +3566,39 @@ const SavedFlowsPanel = ({ savedFlows, currentFlowId, onLoadFlow, onNewFlow, onS
 
     return (
         <div style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column" }}>
-            <div style={{ padding: '10px 0', borderBottom: '1px solid #2a2a2a', flexShrink: 0, display: 'flex', gap: '8px' }}>
-                <button className="btn" onClick={onNewFlow} style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                    New
-                </button>
-                <button className="btn" onClick={onSaveFlow} style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-                    Save
-                </button>
+            <div style={{ padding: '10px 0', borderBottom: '1px solid #2a2a2a', flexShrink: 0 }}>
+                {currentFlowId && (
+                    <div style={{ 
+                        padding: '8px 12px', 
+                        marginBottom: '12px', 
+                        background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(124, 58, 237, 0.15) 100%)', 
+                        border: '1px solid rgba(139, 92, 246, 0.3)',
+                        borderRadius: '8px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px'
+                    }}>
+                        <dc.Icon icon="file-text" style={{ width: '14px', height: '14px', color: '#8b5cf6' }} />
+                        <div style={{ flex: 1, fontSize: '12px' }}>
+                            <div style={{ color: '#9a9a9a', fontSize: '10px', marginBottom: '2px' }}>Current Workflow</div>
+                            <div style={{ color: '#eaeaea', fontWeight: 500 }}>
+                                {currentFlowId.replace('.json', '').startsWith('Untitled-') 
+                                    ? 'Untitled Flow' 
+                                    : currentFlowId.replace('.json', '')}
+                            </div>
+                        </div>
+                    </div>
+                )}
+                <div style={{ display: 'flex', gap: '8px' }}>
+                    <button className="btn" onClick={onNewFlow} style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                        <dc.Icon icon="plus" style={{ width: '16px', height: '16px' }} />
+                        New
+                    </button>
+                    <button className="btn" onClick={onSaveFlow} style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                        <dc.Icon icon="save" style={{ width: '16px', height: '16px' }} />
+                        Save
+                    </button>
+                </div>
             </div>
             <div style={{ flex: '1 1 0', overflowY: 'auto', minHeight: 0, paddingTop: '8px' }}>
                 {isFlowsLoading ? <div style={{ padding: '10px', color: '#888', textAlign: 'center' }}>Loading flows...</div> 
@@ -2962,7 +3621,7 @@ const SavedFlowsPanel = ({ savedFlows, currentFlowId, onLoadFlow, onNewFlow, onS
                                     style={{ 
                                         display: 'flex', alignItems: 'center', justifyContent: 'space-between', 
                                         padding: '8px 10px', borderRadius: '6px', cursor: 'pointer', 
-                                        background: currentFlowId === flow.id ? '#1e3a5f' : 'transparent', 
+                                        background: currentFlowId === flow.id ? '#8b5cf6' : 'transparent', 
                                         marginBottom: '4px',
                                         outline: 'none',
                                     }} 
@@ -2991,8 +3650,8 @@ const SavedFlowsPanel = ({ savedFlows, currentFlowId, onLoadFlow, onNewFlow, onS
                                             }}
                                             style={{
                                                 width: '100%',
-                                                background: '#2a66ff',
-                                                border: '1px solid #6ec1ff',
+                                                background: '#8b5cf6',
+                                                border: '1px solid #a78bfa',
                                                 color: 'white',
                                                 borderRadius: '4px',
                                                 padding: '2px 6px',
@@ -3028,26 +3687,41 @@ const SavedFlowsPanel = ({ savedFlows, currentFlowId, onLoadFlow, onNewFlow, onS
 };
 
 const LeftPanel = (props) => { 
-    const [activeTab, setActiveTab] = useState('flows'); 
-    const tabStyle = (tabName) => ({ flex: 1, padding: '8px 12px', border: 'none', borderBottom: activeTab === tabName ? '2px solid #6ec1ff' : '2px solid transparent', background: activeTab === tabName ? '#1a1a1a' : '#0d0d0d', color: activeTab === tabName ? '#eaeaea' : '#888', cursor: 'pointer', fontWeight: '600' }); 
+    const { activeTab = 'flows', setActiveTab } = props;
+    const tabStyle = (tabName) => ({ flex: 1, padding: '10px 12px', border: 'none', borderBottom: activeTab === tabName ? '2px solid #8b5cf6' : '2px solid transparent', background: activeTab === tabName ? '#1a1a1a' : 'transparent', color: activeTab === tabName ? '#ffffff' : '#888', cursor: 'pointer', fontWeight: '500', fontSize: '13px', transition: 'all 0.2s ease' }); 
     
     return (
-        <div style={{ height: "100%", border: "1px solid #2a2a2a", borderRadius: 12, padding: 10, background: "#0d0d0d", display: "flex", flexDirection: "column", gap: 8 }}> 
-            <div style={{ display: 'flex', borderBottom: '1px solid #2a2a2a', flexShrink: 0 }}> 
-                <button style={tabStyle('flows')} onClick={() => setActiveTab('flows')}>Flows</button> 
-                <button style={tabStyle('palette')} onClick={() => setActiveTab('palette')}>Palette</button> 
-                <button style={tabStyle('llm')} onClick={() => setActiveTab('llm')} disabled>LLM</button> 
-                <button style={tabStyle('blocks')} onClick={() => setActiveTab('blocks')} disabled>Blocks</button> 
+        <div style={{ height: "100%", border: "1px solid #2a2a2a", borderRadius: 8, background: "linear-gradient(180deg, #0f0f0f 0%, #0a0a0a 100%)", display: "flex", flexDirection: "column", overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,0.3)' }}> 
+            <div style={{ display: 'flex', borderBottom: '1px solid #2a2a2a', flexShrink: 0, background: '#0d0d0d' }}> 
+                <button style={tabStyle('flows')} onClick={() => setActiveTab('flows')}>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <dc.Icon icon="workflow" style={{ width: '14px', height: '14px' }} />
+                        <span>Flows</span>
+                    </span>
+                </button> 
+                <button style={tabStyle('palette')} onClick={() => setActiveTab('palette')}>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <dc.Icon icon="package" style={{ width: '14px', height: '14px' }} />
+                        <span>Palette</span>
+                    </span>
+                </button> 
+                <button style={{...tabStyle('llm'), opacity: 0.5, cursor: 'not-allowed'}} disabled>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <dc.Icon icon="sparkles" style={{ width: '14px', height: '14px' }} />
+                        <span>LLM</span>
+                    </span>
+                </button> 
             </div> 
-            <div style={{ flex: '1 1 0', minHeight: 0, position: 'relative' }}> 
-                <div style={{ position: 'absolute', inset: 0, visibility: activeTab === 'palette' ? 'visible' : 'hidden' }}> 
+            <div style={{ flex: '1 1 0', minHeight: 0, position: 'relative', padding: '12px' }}> 
+                <div style={{ position: 'absolute', inset: '12px', visibility: activeTab === 'palette' ? 'visible' : 'hidden' }}> 
                     <PalettePanel {...props} /> 
                 </div> 
-                <div style={{ position: 'absolute', inset: 0, visibility: activeTab === 'flows' ? 'visible' : 'hidden' }}> 
+                <div style={{ position: 'absolute', inset: '12px', visibility: activeTab === 'flows' ? 'visible' : 'hidden' }}> 
                     <SavedFlowsPanel {...props} /> 
                 </div> 
-                <div style={{ position: 'absolute', inset: 0, display: activeTab === 'llm' || activeTab === 'blocks' ? 'flex' : 'none', alignItems: 'center', justifyContent: 'center', color: '#888' }}> 
-                    Coming Soon... 
+                <div style={{ position: 'absolute', inset: '12px', display: activeTab === 'llm' ? 'flex' : 'none', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', color: '#666', gap: '8px' }}> 
+                    <dc.Icon icon="sparkles" style={{ width: '32px', height: '32px', opacity: 0.4 }} />
+                    <span style={{ fontSize: '14px' }}>Coming Soon...</span> 
                 </div> 
             </div> 
         </div>
@@ -3071,7 +3745,7 @@ return {
 // =================================================================================
 const { useState, useRef, useEffect, useMemo, useCallback } = dc;
 const { createPortal } = ReactDOM; 
-const filename = "_RESOURCES/DATACORE/50 ActionsManager/D.q.actionsmanager.component.md";
+const filename = dc.resolvePath("D.q.actionsmanager.component.md");
 
 const { Utils } = await dc.require(dc.headerLink(filename, "Logic"));
 
@@ -3176,8 +3850,165 @@ const PromptModal = function PromptModal({ isOpen, title, placeholder, initialVa
         </div>, document.body 
     ); 
 };
-const ResizeHandle = ({ onDragStart, onDragMove }) => { const onDown = (e) => { e.preventDefault(); e.stopPropagation(); const startX = e.clientX; onDragStart?.(); const move = (me) => { me.preventDefault(); const dx = me.clientX - startX; onDragMove?.(dx); }; const up = () => { window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); document.body.style.cursor = ''; document.body.style.userSelect = ''; }; window.addEventListener('pointermove', move); window.addEventListener('pointerup', up); document.body.style.cursor = 'col-resize'; document.body.style.userSelect = 'none'; }; return ( <div style={{ width: '10px', cursor: 'col-resize', background: '#1c1c1c', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onPointerDown={onDown}> <div style={{ width: '2px', height: '40px', background: '#3a3a3a', borderRadius: '2px' }} /> </div> );};
-const FloatingOrb = ({ pos, setPos, hostRef, onRunAll, onRunSelection, onRunSingle, onStop, onFit, onCenter, onSnapToggle, snap, screenHelperRef, setShowLeft, setShowRight, showLeft, showRight }) => { const [open, setOpen] = useState(false); const orbRef = useRef(null); const menuRef = useRef(null); const [menuPos, setMenuPos] = useState({ left: pos.x + 52, top: pos.y, origin: "left" }); const [anim, setAnim] = useState(false); const stateRef = useRef({ dragging: false, moved: false, pointerId: null, startX: 0, startY: 0, originX: 0, originY: 0 }); const DRAG = 4; function hostBounds() { const el = hostRef?.current || orbRef.current?.parentElement; if (!el) return { w: window.innerWidth, h: window.innerHeight }; const r = el.getBoundingClientRect(); return { w: r.width, h: r.height }; } useEffect(() => { if (!open) return; const pad = 8, orbW = 44; const bounds = hostBounds(); requestAnimationFrame(() => requestAnimationFrame(() => { const mw = menuRef.current?.offsetWidth || 240, mh = menuRef.current?.offsetHeight || 140; let left = pos.x + orbW + 8, top = pos.y, origin = "left"; if (left + mw + pad > bounds.w) { left = pos.x - mw - 8; origin = "right"; } if (left < pad) left = pad; if (left + mw > bounds.w - pad) left = bounds.w - mw - pad; if (top + mh + pad > bounds.h) top = bounds.h - mh - pad; if (top < pad) top = pad; setMenuPos({ left, top, origin }); setAnim(true); setTimeout(() => setAnim(false), 160); })); }, [open, pos.x, pos.y]); const pd = (e) => { e.stopPropagation(); e.preventDefault(); }; const onDown = (e) => { pd(e); const s = stateRef.current; s.dragging = true; s.moved = false; s.pointerId = e.pointerId; s.startX = e.clientX; s.startY = e.clientY; s.originX = pos.x; s.originY = pos.y; orbRef.current?.setPointerCapture?.(e.pointerId); }; const onMove = (e) => { const s = stateRef.current; if (!s.dragging) return; const dx = e.clientX - s.startX, dy = e.clientY - s.startY; if (!s.moved && (Math.abs(dx) > DRAG || Math.abs(dy) > DRAG)) s.moved = true; if (s.moved) { const b = hostBounds(); setPos({ x: Utils.clamp(s.originX + dx, 6, b.w - 50), y: Utils.clamp(s.originY + dy, 6, b.h - 50) }); } }; const onUp = (e) => { const s = stateRef.current; if (!s.dragging) return; orbRef.current?.releasePointerCapture?.(s.pointerId); const moved = s.moved; s.dragging = false; s.moved = false; s.pointerId = null; if (!moved) setOpen(o => !o); }; const Item = ({ label, onClick }) => (<button className="btn" onMouseDown={pd} onClick={(e) => { pd(e); onClick?.(); setOpen(false); }} style={{ height: 28, textAlign: "left", width: "100%" }}>{label}</button>); return (<> <div ref={orbRef} style={{ position: "fixed", left: pos.x, top: pos.y, zIndex: 3000, width: 44, height: 44, borderRadius: 9999, border: "1px solid #2a2a2a", background: "linear-gradient(135deg,#222,#161616)", boxShadow: "0 8px 20px rgba(0,0,0,0.45)", display: "grid", placeItems: "center", cursor: "grab" }} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onContextMenu={pd}><div style={{ width: 12, height: 12, borderRadius: 999, background: snap ? "#25d366" : "#888" }} /></div> {open && ( <div ref={menuRef} onMouseDown={pd} onClick={pd} style={{ position: "fixed", left: menuPos.left, top: menuPos.top, zIndex: 3001, background: "#101010", border: "1px solid #2a2a2a", borderRadius: 10, padding: 8, display: "flex", flexDirection: "column", gap: 6, minWidth: 220, boxShadow: "0 12px 28px rgba(0,0,0,0.5)", transformOrigin: menuPos.origin === "right" ? "top right" : "top left", transform: anim ? "scale(0.96)" : "scale(1)", opacity: anim ? 0.0 : 1, transition: "transform 160ms ease, opacity 160ms ease" }}> <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}> <Item label="Run All" onClick={onRunAll} /> <Item label="Run From Sel." onClick={onRunSelection} /> <Item label="Run Selected Only" onClick={onRunSingle} /> <Item label="Stop" onClick={onStop} /> <Item label="Fit" onClick={onFit} /> <Item label={snap ? "Snap: On" : "Snap: Off"} onClick={onSnapToggle} /> </div> <div style={{ height: 1, background: "#2a2a2a", margin: "4px 0" }} /> <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}> <Item label={showLeft ? "Hide Left" : "Show Left"} onClick={() => setShowLeft(v => !v)} /> <Item label={showRight ? "Hide Right" : "Show Right"} onClick={() => setShowRight(v => !v)} /> </div> <div style={{ height: 1, background: "#2a2a2a", margin: "4px 0" }} /> <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}> <Item label="Tab Mode" onClick={() => screenHelperRef.current?.toggleMode("fullTab")} /> <Item label="Window" onClick={() => screenHelperRef.current?.toggleMode("window")} /> <Item label="Fullscreen" onClick={() => screenHelperRef.current?.toggleMode("browser")} /> <Item label="Float" onClick={() => screenHelperRef.current?.toggleMode("character")} /> </div> <div style={{ height: 1, background: "#2a2a2a", margin: "4px 0" }} /> <Item label="Reset Orb Position" onClick={() => setPos({ x: 20, y: 20 })} /> </div> )} </>);};
+const ResizeHandle = ({ onDragStart, onDragMove }) => { 
+    const [isHovered, setIsHovered] = useState(false);
+    const onDown = (e) => { 
+        e.preventDefault(); 
+        e.stopPropagation(); 
+        const startX = e.clientX; 
+        onDragStart?.(); 
+        const move = (me) => { 
+            me.preventDefault(); 
+            const dx = me.clientX - startX; 
+            onDragMove?.(dx); 
+        }; 
+        const up = () => { 
+            window.removeEventListener('pointermove', move); 
+            window.removeEventListener('pointerup', up); 
+            document.body.style.cursor = ''; 
+            document.body.style.userSelect = ''; 
+        }; 
+        window.addEventListener('pointermove', move); 
+        window.addEventListener('pointerup', up); 
+        document.body.style.cursor = 'col-resize'; 
+        document.body.style.userSelect = 'none'; 
+    }; 
+    return ( 
+        <div 
+            style={{ 
+                width: '10px', 
+                cursor: 'col-resize', 
+                background: isHovered ? '#2a2a2a' : '#1c1c1c', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                position: 'relative',
+                transition: 'background 0.2s ease'
+            }} 
+            onPointerDown={onDown}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+        > 
+            <div style={{ 
+                width: '3px', 
+                height: isHovered ? '60px' : '40px', 
+                background: isHovered ? '#8b5cf6' : '#3a3a3a', 
+                borderRadius: '4px',
+                transition: 'all 0.2s ease',
+                boxShadow: isHovered ? '0 0 8px rgba(139, 92, 246, 0.5)' : 'none'
+            }} />
+            {isHovered && (
+                <div style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    pointerEvents: 'none',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '2px'
+                }}>
+                    <div style={{ width: '3px', height: '3px', background: '#8b5cf6', borderRadius: '50%' }} />
+                    <div style={{ width: '3px', height: '3px', background: '#8b5cf6', borderRadius: '50%' }} />
+                    <div style={{ width: '3px', height: '3px', background: '#8b5cf6', borderRadius: '50%' }} />
+                </div>
+            )}
+        </div> 
+    );
+};
+const FloatingOrb = ({ pos, setPos, hostRef, onRunAll, onRunSelection, onRunSingle, onStop, onFit, onCenter, onSnapToggle, snap, screenHelperRef, setShowLeft, setShowRight, showLeft, showRight, openNodeMenu, selectedNodeIds, runFromNode, duplicateNode, bringToFront, sendToBack, copyNodeJSON, deleteNodeById }) => { const [open, setOpen] = useState(false); const [showQuickAdd, setShowQuickAdd] = useState(false); const orbRef = useRef(null); const menuRef = useRef(null); const quickAddRef = useRef(null); const [menuPos, setMenuPos] = useState({ left: 0, top: 0, origin: "left" }); const stateRef = useRef({ dragging: false, moved: false, pointerId: null, startX: 0, startY: 0, originX: 0, originY: 0 }); const DRAG = 4; function hostBounds() { const el = hostRef?.current || orbRef.current?.parentElement; if (!el) return { w: window.innerWidth, h: window.innerHeight }; const r = el.getBoundingClientRect(); return { w: r.width, h: r.height }; } function calcMenuPos() { if (!open) return; const pad = 8, orbW = 44; const bounds = hostBounds(); const mw = menuRef.current?.offsetWidth || 240, mh = menuRef.current?.offsetHeight || 140; let left = pos.x + orbW + 8, top = pos.y, origin = "left"; if (left + mw + pad > bounds.w) { left = pos.x - mw - 8; origin = "right"; } if (left < pad) left = pad; if (left + mw > bounds.w - pad) left = bounds.w - mw - pad; if (top + mh + pad > bounds.h) top = bounds.h - mh - pad; if (top < pad) top = pad; setMenuPos({ left, top, origin }); } useEffect(() => { if (open) { requestAnimationFrame(() => requestAnimationFrame(calcMenuPos)); } }, [open]); const pd = (e) => { e.stopPropagation(); e.preventDefault(); }; const onDown = (e) => { pd(e); const s = stateRef.current; s.dragging = true; s.moved = false; s.pointerId = e.pointerId; s.startX = e.clientX; s.startY = e.clientY; s.originX = pos.x; s.originY = pos.y; orbRef.current?.setPointerCapture?.(e.pointerId); }; const onMove = (e) => { const s = stateRef.current; if (!s.dragging) return; const dx = e.clientX - s.startX, dy = e.clientY - s.startY; if (!s.moved && (Math.abs(dx) > DRAG || Math.abs(dy) > DRAG)) s.moved = true; if (s.moved) { const b = hostBounds(); setPos({ x: Utils.clamp(s.originX + dx, 6, b.w - 50), y: Utils.clamp(s.originY + dy, 6, b.h - 50) }); if (open) requestAnimationFrame(calcMenuPos); } }; const onUp = (e) => { const s = stateRef.current; if (!s.dragging) return; orbRef.current?.releasePointerCapture?.(s.pointerId); const moved = s.moved; s.dragging = false; s.moved = false; s.pointerId = null; if (!moved) setOpen(o => !o); }; 
+    
+    const hasSelection = selectedNodeIds && selectedNodeIds.length > 0;
+    const firstSelectedId = selectedNodeIds?.[0];
+    
+    const quickAddNodes = [
+        { type: 'datacore.query', label: 'Datacore Query', icon: 'database', group: 'Input & Data' },
+        { type: 'data.json', label: 'Manual Data', icon: 'file-text', group: 'Input & Data' },
+        { type: 'expr', label: 'Expression', icon: 'zap', group: 'Data Processing' },
+        { type: 'json.filter', label: 'Filter Array', icon: 'filter', group: 'Data Processing' },
+        { type: 'loop.forEach', label: 'For Each', icon: 'repeat', group: 'Control Flow' },
+        { type: 'if', label: 'If Condition', icon: 'git-branch', group: 'Control Flow' },
+        { type: 'output.display', label: 'Display', icon: 'eye', group: 'Debug' },
+        { type: 'debug.log', label: 'Debug Log', icon: 'bug', group: 'Debug' },
+        { type: 'comment', label: 'Comment', icon: 'message-square', group: 'Debug' }
+    ];
+    
+    const handleQuickAdd = (nodeType) => {
+        const bounds = hostBounds();
+        const centerX = bounds.w / 2;
+        const centerY = bounds.h / 2;
+        openNodeMenu?.({ clientX: centerX, clientY: centerY }, nodeType);
+        setShowQuickAdd(false);
+        setOpen(false);
+    };
+    
+    const Item = useMemo(() => ({ label, onClick, icon, isPrimary }) => (<button className="btn" onMouseDown={pd} onClick={(e) => { pd(e); onClick?.(); setOpen(false); }} style={{ height: 28, textAlign: "left", width: "100%", display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: isPrimary ? '#8b5cf6' : '#1a1a1a', color: isPrimary ? '#ffffff' : '#eaeaea' }}>{icon && <dc.Icon icon={icon} style={{ width: '14px', height: '14px', flexShrink: 0 }} />}{label}</button>), []); const transformOrigin = menuPos.origin === "right" ? "top right" : "top left"; return (<> <div ref={orbRef} style={{ position: "fixed", left: pos.x, top: pos.y, zIndex: 3000, width: 44, height: 44, borderRadius: 9999, border: "1px solid #4a4a4a", background: "linear-gradient(135deg,#2a2a3a,#1a1a28)", boxShadow: "0 8px 20px rgba(0,0,0,0.45)", display: "grid", placeItems: "center", cursor: "grab" }} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onContextMenu={pd}><div style={{ width: 12, height: 12, borderRadius: 999, background: snap ? "#a78bfa" : "#6b6b7b" }} /></div> {open && ( <div ref={menuRef} onMouseDown={pd} onClick={pd} style={{ position: "fixed", left: menuPos.left, top: menuPos.top, zIndex: 3001, background: "#101010", border: "1px solid #2a2a2a", borderRadius: 10, padding: 8, display: "flex", flexDirection: "column", gap: 6, minWidth: 220, boxShadow: "0 12px 28px rgba(0,0,0,0.5)", transformOrigin }}> 
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}> 
+            <Item label="Quick Add Node" onClick={() => { setShowQuickAdd(!showQuickAdd); }} icon="plus-circle" isPrimary={showQuickAdd} /> 
+            <Item label="Run All" onClick={onRunAll} icon="play-circle" isPrimary /> 
+            <Item label="Run From Sel." onClick={onRunSelection} icon="play" isPrimary /> 
+            <Item label="Stop" onClick={onStop} icon="square" isPrimary /> 
+            <Item label="Fit" onClick={onFit} icon="maximize-2" /> 
+            <Item label={snap ? "Snap: On" : "Snap: Off"} onClick={onSnapToggle} icon="grid-3x3" /> 
+        </div> 
+        {showQuickAdd && (
+            <>
+                <div style={{ height: 1, background: "#2a2a2a", margin: "4px 0" }} />
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxHeight: '200px', overflowY: 'auto' }}>
+                    {quickAddNodes.map(node => (
+                        <button 
+                            key={node.type}
+                            className="btn" 
+                            onMouseDown={pd}
+                            onClick={(e) => { pd(e); handleQuickAdd(node.type); }}
+                            style={{ 
+                                height: 32, 
+                                textAlign: "left", 
+                                width: "100%", 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                gap: '8px',
+                                backgroundColor: '#1a1a1a',
+                                color: '#eaeaea',
+                                padding: '0 10px'
+                            }}
+                        >
+                            <dc.Icon icon={node.icon} style={{ width: '16px', height: '16px', flexShrink: 0 }} />
+                            {node.label}
+                        </button>
+                    ))}
+                </div>
+            </>
+        )}
+        {hasSelection && (
+            <>
+                <div style={{ height: 1, background: "#2a2a2a", margin: "4px 0" }} />
+                <div style={{ fontSize: 11, color: '#666', padding: '4px 0' }}>Selected Node Actions</div>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}> 
+                    <Item label="Run From" onClick={() => { firstSelectedId && runFromNode?.(firstSelectedId); setOpen(false); }} icon="play" isPrimary />
+                    <Item label="Duplicate" onClick={() => { firstSelectedId && duplicateNode?.(firstSelectedId); setOpen(false); }} icon="copy" />
+                    <Item label="To Front" onClick={() => { firstSelectedId && bringToFront?.(firstSelectedId); setOpen(false); }} icon="bring-to-front" />
+                    <Item label="To Back" onClick={() => { firstSelectedId && sendToBack?.(firstSelectedId); setOpen(false); }} icon="send-to-back" />
+                    <Item label="Copy JSON" onClick={() => { firstSelectedId && copyNodeJSON?.(firstSelectedId); setOpen(false); }} icon="clipboard" />
+                    <Item label="Delete" onClick={() => { firstSelectedId && deleteNodeById?.(firstSelectedId); setOpen(false); }} icon="trash-2" />
+                </div>
+            </>
+        )}
+        <div style={{ height: 1, background: "#2a2a2a", margin: "4px 0" }} /> 
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}> 
+            <Item label={showLeft ? "Hide Left" : "Show Left"} onClick={() => setShowLeft(v => !v)} icon={showLeft ? "panel-left-close" : "panel-left-open"} /> 
+            <Item label={showRight ? "Hide Right" : "Show Right"} onClick={() => setShowRight(v => !v)} icon={showRight ? "panel-right-close" : "panel-right-open"} /> 
+        </div> 
+        <div style={{ height: 1, background: "#2a2a2a", margin: "4px 0" }} /> 
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}> 
+            <Item label="Tab Mode" onClick={() => screenHelperRef.current?.toggleMode("fullTab")} icon="columns-2" /> 
+            <Item label="Window" onClick={() => screenHelperRef.current?.toggleMode("window")} icon="rectangle-horizontal" /> 
+            <Item label="Fullscreen" onClick={() => screenHelperRef.current?.toggleMode("browser")} icon="maximize" /> 
+            <Item label="Float" onClick={() => screenHelperRef.current?.toggleMode("character")} icon="move" /> 
+        </div> 
+        <div style={{ height: 1, background: "#2a2a2a", margin: "4px 0" }} /> 
+        <Item label="Reset Orb Position" onClick={() => setPos({ x: 20, y: 20 })} icon="rotate-ccw" /> 
+    </div> )} </>);};
 
 return {
     jsonReplacer, ResultItem, TagHelper, FolderHelper, FileHelper,
@@ -3318,50 +4149,76 @@ return { Hooks };
 const Constants = {
     BASE_FLOW_DIR: ".datacore/flows/",
     ACTIONS_PRESET: [
-        // ANNOTATION
-        { type: "comment", label: "Comment", params: [{ key: "text", value: "This is a comment." }, { key: "color", value: "yellow" }], group: "Annotation", w: 200, height: 120, inputs: [], outputs: [] },
-
-        // CORE & UTILITIES
-        { type: "command", label: "Run Command", params: [{ key: "commandId", value: "" }], group: "Core App", inputs: ["flow"], outputs: [{ name: "flow" }] },
-        { type: "hotkey", label: "Send Hotkey", params: [{ key: "combo", value: "Ctrl+P" }], group: "Hotkeys", inputs: ["flow"], outputs: [{ name: "flow" }] },
-        { type: "setting", label: "Toggle Setting", params: [{ key: "key", value: "" }, { key: "value", value: "on" }], group: "Settings", inputs: ["flow"], outputs: [{ name: "flow" }] },
-        { type: "wait", label: "Wait", params: [{ key: "ms", value: "1000" }], group: "Utilities", inputs: ["flow"], outputs: [{ name: "flow" }] },
-        { type: "script", label: "Script", params: [{ key: "code", value: "" }], group: "Scripts", inputs: ["flow"], outputs: [{ name: "flow" }, { name: "data" }] },
-        { type: "output.viewer", label: "Viewer (File)", params: [{ key: "filePath", value: "" }], group: "Utilities", inputs: ["data"], outputs: [] },
-        { type: "output.display", label: "Display Data", params: [], group: "Utilities", inputs: ["data"], outputs: [] },
-        { type: "http", label: "HTTP Request", params: [{ key: "method", value: "GET" }, { key: "url", value: "" }], group: "Network", inputs: ["flow"], outputs: [{ name: "flow" }, { name: "data" }] },
-        { type: "debug.log", label: "Debug: Log Message", params: [ { key: "message", value: "Log message" }, { key: "data", value: "=last" }, { key: "level", value: "info" }, { key: "target", value: "console" }, { key: "logContext", value: false } ], group: "Utilities", inputs: ["flow"], outputs: [{ name: "flow" }] },
-
-        // OBSIDIAN NODES
-        { type: "obsidian", label: "Open File", params: [ { key: "path", value: "" }, { key: "openMode", value: "tab-fg" } ], group: "Obsidian", inputs: ["flow"], outputs: [{ name: "flow" }] },
-        { type: "fs.listFiles", label: "List Files in Folder", params: [{ key: "path", value: "" }], group: "Obsidian", inputs: ["flow"], outputs: [{ name: "data" }] },
-        { type: "command", label: "Save Active File", params: [{ key: "commandId", value: "editor:save-file" }], group: "Obsidian", inputs: ["flow"], outputs: [{ name: "flow" }] },
-        { type: "command", label: "Close Active File", params: [{ key: "commandId", value: "workbench:close-active-editor" }], group: "Obsidian", inputs: ["flow"], outputs: [{ name: "flow" }] },
-
-        // DATA MANIPULATION
-        { type: "datacore.query", label: "Datacore Query", params: [{ key: "query", value: "@page" }], group: "Data", inputs: [], outputs: [{ name: "data" }] },
-        { type: "data.format", label: "Format Data", params: [{ key: "expression", value: "=last" }], group: "Data", inputs: ["data"], outputs: [{ name: "data" }] },
-        { type: "data.editFields", label: "Edit Fields", params: [{ key: "operations", value: "[]" }], group: "Data", inputs: ["data"], outputs: [{ name: "data" }] },
-        { type: "json.filter", label: "Filter Data", params: [{ key: "field", value: "" }, { key: "op", value: "==" }, { key: "value", value: "" }], group: "Data", inputs: ["data"], outputs: [{ name: "data" }] },
-        { type: "var.set", label: "Set Variable", params: [{ key: "name", value: "foo" }, { key: "value", value: "=1" }], group: "Data", inputs: ["flow"], outputs: [{ name: "flow" }] },
-        { type: "var.get", label: "Get Variable", params: [{ key: "name", value: "foo" }, { key: "default", value: "" }], group: "Data", inputs: ["flow"], outputs: [{ name: "data" }] },
-        { type: "expr", label: "Evaluate Expr", params: [{ key: "expr", value: "=vars.foo + 2" }], group: "Data", inputs: ["flow"], outputs: [{ name: "data" }] },
-
-        // ARRAYS & LOGIC
-        { type: "array.new", label: "Array: New", params: [{ key: "name", value: "arr" }, { key: "items", value: "=[1,2,3]" }], group: "Arrays", inputs: ["flow"], outputs: [{ name: "data" }] },
-        { type: "array.push", label: "Array: Push", params: [{ key: "name", value: "arr" }, { key: "value", value: "=last" }], group: "Arrays", inputs: ["flow"], outputs: [{ name: "flow" }] },
-        { type: "array.get", label: "Array: Get", params: [{ key: "name", value: "arr" }, { key: "index", value: "=0" }], group: "Arrays", inputs: ["flow"], outputs: [{ name: "data" }] },
-        { type: "array.set", label: "Array: Set", params: [{ key: "name", value: "arr" }, { key: "index", value: "=0" }, { key: "value", value: "=123" }], group: "Arrays", inputs: ["flow"], outputs: [{ name: "flow" }] },
-        { type: "array.length", label: "Array: Length", params: [{ key: "name", value: "arr" }], group: "Arrays", inputs: ["flow"], outputs: [{ name: "data" }] },
-        { type: "array.flatten", label: "Array: Flatten", params: [{ key: "list", value: "=last" }], group: "Arrays", inputs: ["data"], outputs: [{ name: "data" }] },
-        { type: "array.group", label: "Array: Group", params: [ { key: "list", value: "=last" }, { key: "mode", value: "fixedSize" }, { key: "value", value: "10" } ], group: "Arrays", inputs: ["data"], outputs: [{ name: "data" }] },
-        { type: "compare", label: "Compare", params: [{ key: "op", value: "==" }, { key: "lhs", value: "=vars.foo" }, { key: "rhs", value: "=3" }], group: "Logic", inputs: ["flow"], outputs: [{ name: "data" }] },
+        // ═══════════════════════════════════════════════════════════════════
+        // INPUT & DATA SOURCES - Entry points for workflows
+        // ═══════════════════════════════════════════════════════════════════
+        { type: "data.json", label: "Manual Data", icon: "file-text", params: [{ key: "data", value: '{"example": "data"}' }], group: "Input & Data", inputs: [], outputs: [{ name: "data" }], description: "Manually input JSON or text data for testing" },
+        { type: "datacore.query", label: "Datacore Query", icon: "database", params: [{ key: "query", value: "@page" }], group: "Input & Data", inputs: [], outputs: [{ name: "data" }], description: "Fetch data from Datacore index with DQL queries" },
+        { type: "fs.read", label: "Read File", icon: "file", params: [{ key: "path", value: "" }], group: "Input & Data", inputs: ["flow"], outputs: [{ name: "data" }], description: "Read the contents of a specific file" },
+        { type: "fs.listFiles", label: "List Files", icon: "folder", params: [{ key: "path", value: "" }], group: "Input & Data", inputs: ["flow"], outputs: [{ name: "data" }], description: "Get list of all files in a folder" },
+        { type: "obsidian.getActiveFile", label: "Get Active File", icon: "target", params: [], group: "Input & Data", inputs: [], outputs: [{ name: "data" }], description: "Get information about the currently open file" },
         
-        // CONTROL FLOW
-        { type: "if", label: "If", params: [{ key: "cond", value: "=vars.foo > 2" }], group: "Control Flow", inputs: ["flow"], outputs: [{ name: "true" }, { name: "false" }] },
-        { type: "while", label: "While", params: [{ key: "cond", value: "=vars.i < 5" }, { key: "counterName", value: "i" }], group: "Control Flow", inputs: ["flow"], outputs: [{ name: "body" }, { name: "done" }] },
-        { type: "loop.forEach", label: "For Each", params: [{ key: "list", value: "=last" }, { key: "itemName", value: "item" }, { key: "indexName", value: "index" }], group: "Control Flow", inputs: ["flow"], outputs: [{ name: "body" }, { name: "done" }] },
-        { type: "loop.for", label: "For Loop", params: [{ key: "count", value: "10" }, { key: "indexName", value: "index" }], group: "Control Flow", inputs: ["flow"], outputs: [{ name: "body" }, { name: "done" }] },
+        // ═══════════════════════════════════════════════════════════════════
+        // DATA PROCESSING - Transform and manipulate data
+        // ═══════════════════════════════════════════════════════════════════
+        { type: "expr", label: "Expression", icon: "zap", params: [{ key: "expr", value: "=last" }], group: "Data Processing", inputs: ["flow"], outputs: [{ name: "data" }], description: "Evaluate any JavaScript expression (Swiss Army knife)" },
+        { type: "json.filter", label: "Filter Array", icon: "filter", params: [{ key: "field", value: "" }, { key: "op", value: "==" }, { key: "value", value: "" }], group: "Data Processing", inputs: ["data"], outputs: [{ name: "data" }], description: "Filter array of objects by field condition" },
+        { type: "data.editFields", label: "Edit Fields", icon: "edit-3", params: [{ key: "operations", value: "[]" }], group: "Data Processing", inputs: ["data"], outputs: [{ name: "data" }], description: "Set, remove, or rename fields on objects" },
+        { type: "data.select", label: "Select Fields", icon: "check-square", params: [{ key: "fields", value: "file.name, status" }], group: "Data Processing", inputs: ["data"], outputs: [{ name: "data" }], description: "Pick only specific fields from objects" },
+        { type: "array.sort", label: "Sort Array", icon: "arrow-up-down", params: [{ key: "field", value: "file.name" }, { key: "direction", value: "asc" }], group: "Data Processing", inputs: ["data"], outputs: [{ name: "data" }], description: "Sort array of objects by field" },
+        { type: "array.flatten", label: "Flatten Array", icon: "list", params: [{ key: "list", value: "=last" }], group: "Data Processing", inputs: ["data"], outputs: [{ name: "data" }], description: "Flatten nested arrays into single level" },
+        { type: "array.group", label: "Group Array", icon: "package", params: [ { key: "list", value: "=last" }, { key: "mode", value: "fixedSize" }, { key: "value", value: "10" } ], group: "Data Processing", inputs: ["data"], outputs: [{ name: "data" }], description: "Split array into groups (chunks)" },
+        { type: "data.format", label: "Format Data", icon: "paintbrush", params: [{ key: "expression", value: "=last" }], group: "Data Processing", inputs: ["data"], outputs: [{ name: "data" }], description: "Transform data with custom formatting" },
+        
+        // ═══════════════════════════════════════════════════════════════════
+        // CONTROL FLOW - Direct execution paths
+        // ═══════════════════════════════════════════════════════════════════
+        { type: "if", label: "If Condition", icon: "git-branch", params: [{ key: "cond", value: "=vars.count > 5" }], group: "Control Flow", inputs: ["flow"], outputs: [{ name: "true" }, { name: "false" }], description: "Branch execution based on true/false condition" },
+        { type: "loop.forEach", label: "For Each Loop", icon: "repeat", params: [{ key: "list", value: "=last" }, { key: "itemName", value: "item" }, { key: "indexName", value: "index" }], group: "Control Flow", inputs: ["flow"], outputs: [{ name: "body" }, { name: "done" }], description: "Iterate over array, run sub-flow for each item" },
+        { type: "loop.for", label: "For Loop", icon: "hash", params: [{ key: "count", value: "10" }, { key: "indexName", value: "index" }], group: "Control Flow", inputs: ["flow"], outputs: [{ name: "body" }, { name: "done" }], description: "Run sub-flow N times with counter" },
+        { type: "while", label: "While Loop", icon: "rotate-cw", params: [{ key: "cond", value: "=vars.i < 5" }, { key: "counterName", value: "i" }], group: "Control Flow", inputs: ["flow"], outputs: [{ name: "body" }, { name: "done" }], description: "Loop while condition is true (be careful!)" },
+        { type: "flow.merge", label: "Merge Paths", icon: "git-merge", params: [], group: "Control Flow", inputs: ["flow"], outputs: [{ name: "flow" }], description: "Join multiple execution paths into one stream" },
+        { type: "flow.stop", label: "Stop Execution", icon: "square", params: [], group: "Control Flow", inputs: ["flow"], outputs: [], description: "Terminate current branch" },
+        
+        // ═══════════════════════════════════════════════════════════════════
+        // ACTIONS & SIDE EFFECTS - Interact with Obsidian/files
+        // ═══════════════════════════════════════════════════════════════════
+        { type: "fs.write", label: "Write File", icon: "save", params: [{ key: "path", value: "" }, { key: "content", value: "=last" }, { key: "overwrite", value: "false" }], group: "Actions", inputs: ["data"], outputs: [{ name: "data" }], description: "Create new file or overwrite existing one" },
+        { type: "fs.append", label: "Append to File", icon: "file-plus", params: [{ key: "path", value: "" }, { key: "content", value: "=last" }, { key: "addNewline", value: "true" }], group: "Actions", inputs: ["data"], outputs: [{ name: "data" }], description: "Add content to end of existing file" },
+        { type: "obsidian.notice", label: "Show Notice", icon: "message-circle", params: [{ key: "message", value: "=last" }], group: "Actions", inputs: ["data"], outputs: [{ name: "data" }], description: "Display popup notification in Obsidian" },
+        { type: "obsidian", label: "Open File", icon: "external-link", params: [ { key: "path", value: "" }, { key: "openMode", value: "tab-fg" } ], group: "Actions", inputs: ["flow"], outputs: [{ name: "flow" }], description: "Open file in Obsidian editor" },
+        { type: "obsidian.prompt", label: "Prompt Input", icon: "edit", params: [{ key: "title", value: "Enter value" }, { key: "placeholder", value: "" }], group: "Actions", inputs: ["flow"], outputs: [{ name: "data" }], description: "Show modal to get user input mid-flow" },
+        { type: "command", label: "Run Command", icon: "terminal", params: [{ key: "commandId", value: "" }], group: "Actions", inputs: ["flow"], outputs: [{ name: "flow" }], description: "Execute any Obsidian command" },
+        
+        // ═══════════════════════════════════════════════════════════════════
+        // VARIABLES & STATE - Manage workflow state
+        // ═══════════════════════════════════════════════════════════════════
+        { type: "var.set", label: "Set Variable", icon: "download", params: [{ key: "name", value: "myVar" }, { key: "value", value: "=last" }], group: "Variables", inputs: ["flow"], outputs: [{ name: "flow" }], description: "Store data in workflow variable (global state)" },
+        { type: "var.get", label: "Get Variable", icon: "upload", params: [{ key: "name", value: "myVar" }, { key: "default", value: "" }], group: "Variables", inputs: ["flow"], outputs: [{ name: "data" }], description: "Retrieve stored variable value" },
+        { type: "array.new", label: "New Array", icon: "layers", params: [{ key: "name", value: "arr" }, { key: "items", value: "=[1,2,3]" }], group: "Variables", inputs: ["flow"], outputs: [{ name: "data" }], description: "Create new array variable" },
+        { type: "array.push", label: "Array Push", icon: "corner-down-right", params: [{ key: "name", value: "arr" }, { key: "value", value: "=last" }], group: "Variables", inputs: ["flow"], outputs: [{ name: "flow" }], description: "Add item to end of array variable" },
+        { type: "array.get", label: "Array Get", icon: "search", params: [{ key: "name", value: "arr" }, { key: "index", value: "=0" }], group: "Variables", inputs: ["flow"], outputs: [{ name: "data" }], description: "Get item from array by index" },
+        { type: "array.set", label: "Array Set", icon: "edit-2", params: [{ key: "name", value: "arr" }, { key: "index", value: "=0" }, { key: "value", value: "=123" }], group: "Variables", inputs: ["flow"], outputs: [{ name: "flow" }], description: "Update item in array at index" },
+        { type: "array.length", label: "Array Length", icon: "ruler", params: [{ key: "name", value: "arr" }], group: "Variables", inputs: ["flow"], outputs: [{ name: "data" }], description: "Get number of items in array" },
+        { type: "compare", label: "Compare", icon: "git-compare", params: [{ key: "op", value: "==" }, { key: "lhs", value: "=vars.foo" }, { key: "rhs", value: "=3" }], group: "Variables", inputs: ["flow"], outputs: [{ name: "data" }], description: "Compare two values (returns true/false)" },
+        
+        // ═══════════════════════════════════════════════════════════════════
+        // DEBUG & OUTPUT - Inspect and display data
+        // ═══════════════════════════════════════════════════════════════════
+        { type: "debug.log", label: "Debug Log", icon: "bug", params: [ { key: "message", value: "Log message" }, { key: "data", value: "=last" }, { key: "level", value: "info" }, { key: "target", value: "console" }, { key: "logContext", value: false } ], group: "Debug", inputs: ["flow"], outputs: [{ name: "flow" }], description: "Print data to console panel for inspection" },
+        { type: "output.display", label: "Display Output", icon: "eye", params: [], group: "Debug", inputs: ["data"], outputs: [], description: "Show data directly on canvas (final output)" },
+        { type: "comment", label: "Comment", icon: "message-square", params: [{ key: "text", value: "Add notes here..." }, { key: "color", value: "yellow" }], group: "Debug", w: 200, height: 120, inputs: [], outputs: [], description: "Add sticky note to canvas (documentation)" },
+        { type: "conditional", label: "Condition Check", icon: "help-circle", params: [{ key: "field", value: "status" }, { key: "op", value: "==" }, { key: "value", value: "done" }], group: "Debug", inputs: ["data"], outputs: [{ name: "data" }], description: "Test condition and pass data through" },
+        { type: "output.viewer", label: "Viewer (File)", icon: "book-open", params: [{ key: "filePath", value: "" }], group: "Debug", inputs: ["data"], outputs: [], description: "Display file content in viewer" },
+        
+        // ═══════════════════════════════════════════════════════════════════
+        // ADVANCED & UTILITIES
+        // ═══════════════════════════════════════════════════════════════════
+        { type: "wait", label: "Wait", icon: "clock", params: [{ key: "ms", value: "1000" }], group: "Utilities", inputs: ["flow"], outputs: [{ name: "flow" }], description: "Pause execution for specified milliseconds" },
+        { type: "script", label: "Custom Script", icon: "code", params: [{ key: "code", value: "" }], group: "Utilities", inputs: ["flow"], outputs: [{ name: "flow" }, { name: "data" }], description: "Execute custom JavaScript code" },
+        { type: "http", label: "HTTP Request", icon: "globe", params: [{ key: "method", value: "GET" }, { key: "url", value: "" }], group: "Utilities", inputs: ["flow"], outputs: [{ name: "flow" }, { name: "data" }], description: "Make HTTP request to external API" },
+        { type: "hotkey", label: "Send Hotkey", icon: "keyboard", params: [{ key: "combo", value: "Ctrl+P" }], group: "Utilities", inputs: ["flow"], outputs: [{ name: "flow" }], description: "Simulate keyboard shortcut" },
+        { type: "setting", label: "Toggle Setting", icon: "settings", params: [{ key: "key", value: "" }, { key: "value", value: "on" }], group: "Utilities", inputs: ["flow"], outputs: [{ name: "flow" }], description: "Change Obsidian setting programmatically" },
     ],
 };
 

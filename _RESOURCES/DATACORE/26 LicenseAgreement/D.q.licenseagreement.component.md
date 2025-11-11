@@ -1,18 +1,47 @@
-
+		
 
 # ViewComponent
 
 ```jsx
 // ViewComponent.jsx
+// 
+// Props:
+// - config: object
+//   - targetFileName: string (default: "TERMS OF SERVICE.example.approval.md") - The name of the TOS approval file to search for in the vault
+//   - debug: boolean (default: false) - Shows debug bypass button in fullscreen mode
 
-const { useRef, useMemo, useState, useEffect, useCallback } = dc; // Added useCallback
+const { useRef, useMemo, useState, useEffect, useCallback, createPortal } = dc; // Added createPortal
 
+// --- DOM Traversal Utilities for Full-Tab Mode ---
+function findNearestAncestorWithClass(element, className) {
+  if (!element) return null;
+  let current = element.parentNode;
+  while (current) {
+    if (current.classList && current.classList.contains(className)) {
+      return current;
+    }
+    current = current.parentNode;
+  }
+  return null;
+}
 
-const { ScreenModeHelper } = await dc.require(
-  dc.headerLink("_RESOURCES/DATACORE/26 LicenseAgreement/D.q.licenseagreement.component.md", "ScreenModeHelper")
-);
+function findDirectChildByClass(parent, className) {
+  if (!parent) return null;
+  for (const child of parent.children) {
+    if (child.classList && child.classList.contains(className)) {
+      return child;
+    }
+  }
+  return null;
+}
 
-function LicenseAgreement() {
+// Note: ScreenModeHelper is defined later in this same codeblock
+
+function LicenseAgreement({ config = {} }) {
+  const {
+    targetFileName = "TERMS OF SERVICE.approval.md",
+    debug = false
+  } = config;
   const containerRef = useRef(null);
   const originalParentRefForWindow = useRef(null);
   const originalParentRefForPiP = useRef(null);
@@ -24,7 +53,7 @@ function LicenseAgreement() {
 
   const [agreementSatisfiedOnce, setAgreementSatisfiedOnce] = useState(false);
 
-  const targetFileNameOnly = "TERMS OF SERVICE.approval.md";
+  const targetFileNameOnly = targetFileName;
   const iframeSrc = "https://www.beto.group/terms_of_service";
 
   let obsidianApp;
@@ -40,10 +69,10 @@ function LicenseAgreement() {
   const [isIframeLoaded, setIsIframeLoaded] = useState(false);
   const [iframeRefreshKey, setIframeRefreshKey] = useState(0);
 
-  const colorCompleted = '#9370DB';
-  const colorIncomplete = '#AAAAAA';
+  const colorCompleted = 'oklch(0.8 0.2 300)';
+  const colorIncomplete = 'rgba(255,255,255,.25)';
   const colorCompletedBg = 'rgba(147, 112, 219, 0.15)';
-  const colorIncompleteBg = 'rgba(170, 170, 170, 0.1)';
+  const colorIncompleteBg = 'rgba(16,10,24,0.74)';
   const colorButtonDisabledBg = '#777777';
   const colorButtonDisabledText = '#bbbbbb';
   const colorButtonDisabledOpacity = 0.6;
@@ -58,10 +87,14 @@ function LicenseAgreement() {
   }
 
   const contentWrapperStyle = {
-    width: "clamp(300px, 90%, 800px)", height: "clamp(450px, 90%, 700px)", padding: "20px",
-    border: "2px solid #ccc", borderRadius: "12px", backgroundColor: "rgba(40, 40, 40, 0.95)",
-    boxSizing: "border-box", display: "flex", flexDirection: "column", color: "white",
-    overflow: "hidden", boxShadow: "0 10px 30px rgba(0, 0, 0, 0.5)",
+    width: "min(100%, 960px)",
+    border: "1px solid var(--glow-faint)",
+    background: "rgba(16,10,24,0.82)",
+    boxShadow: "0 30px 120px rgba(0,0,0,.55)",
+    borderRadius: "16px",
+    overflow: "hidden",
+    display: "flex",
+    flexDirection: "column",
   };
   const defaultModeOuterContainerStyle = {
     position: "relative", width: "100%", height: "80vh", display: "flex",
@@ -71,7 +104,9 @@ function LicenseAgreement() {
   const windowModeOuterContainerStyle = {
     position: "fixed", top: "0px", left: "0px", width: "100vw", height: "100vh",
     display: "flex", justifyContent: "center", alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.75)", padding: "0px", margin: "0px",
+    backdropFilter: "blur(20px) saturate(1.4)",
+    background: "rgba(0,0,0,.45)",
+    padding: "clamp(16px,3vw,32px)", margin: "0px",
     boxSizing: "border-box", overflow: "hidden", zIndex: 10000,
   };
   const windowModeOuterContainerStyleString = styleObjectToCssString(windowModeOuterContainerStyle);
@@ -79,60 +114,215 @@ function LicenseAgreement() {
   const iframeContainerStyle = { 
     width: "100%", 
     height: "515px", 
-    minHeight: "250px", 
-    border: "1px solid var(--background-modifier-border, #444)", 
+    minHeight: "280px", 
+    border: "1px solid var(--glow-faint)", 
     borderRadius: "8px", 
     overflow: "hidden", 
-    margin: "0 0 15px 0", 
-    flexShrink: 0 
+    position: "relative"
   };
-  const taskListOuterContainerStyle = { flexGrow: 1, overflowY: "auto", padding: "0 10px", minHeight: "80px", scrollbarWidth: "thin", scrollbarColor: "#666 #333" };
+  const taskListOuterContainerStyle = { 
+    flexGrow: 1, 
+    overflowY: "auto", 
+    padding: "10px 18px", 
+    minHeight: "80px", 
+    maxHeight: "28vh"
+  };
 
   const initialScreenMode = "window";
   const allowedScreenModes = ["window"];
   const engine = null;
-  const escapedTargetFileNameOnly = targetFileNameOnly.replace(/"/g, '\\"');
-  const taskQueryString = `@task and ($file = "${escapedTargetFileNameOnly}" or $file.contains("/${escapedTargetFileNameOnly}"))`;
 
-  const queryResult = dc.useQuery(taskQueryString);
+  // State to hold tasks parsed directly from file
+  const [tasks, setTasks] = useState([]);
+  const [totalTasks, setTotalTasks] = useState(0);
+  const [completedTasks, setCompletedTasks] = useState(0);
 
-  const tasks = useMemo(() => {
-    if (!Array.isArray(queryResult)) {
-      return [];
+  // Function to find the TOS approval file (always searches full vault)
+  const findTosFile = useCallback(async () => {
+    const files = obsidianApp.vault.getFiles().filter((f) => /\.md$/i.test(f.path));
+    
+    // Try exact match
+    let hit = files.find((f) => {
+      const basename = f.path.split('/').pop() || '';
+      return basename.toLowerCase() === targetFileNameOnly.toLowerCase();
+    });
+    
+    if (hit) {
+      return hit;
     }
-    return queryResult;
-  }, [queryResult]);
+    
+    // Try fuzzy match
+    hit = files.find((f) => {
+      const basename = f.path.split('/').pop() || '';
+      return basename.toLowerCase().includes('terms') && 
+             basename.toLowerCase().includes('service') &&
+             basename.toLowerCase().includes('approval');
+    });
+    
+    if (!hit) {
+      console.error('[LicenseAgreement] No TOS file found in vault!');
+    }
+    
+    return hit || null;
+  }, [obsidianApp, targetFileNameOnly]);
 
-  const totalTasks = useMemo(() => tasks.length, [tasks]);
-  const completedTasks = useMemo(() => {
-    return tasks.filter(task => task && task.$completed).length;
-  }, [tasks]);
+  // Debug: Bypass all checks and mark all tasks as complete
+  const handleDebugBypass = useCallback(async () => {
+    if (!debug) return;
+    
+    try {
+      const file = await findTosFile();
+      if (!file) {
+        if (obsidianApp?.Notice) new obsidianApp.Notice("Cannot bypass: TOS file not found.", 5000);
+        return;
+      }
+      
+      const currentContent = await obsidianApp.vault.read(file);
+      const lines = currentContent.split('\n');
+      
+      // Check all unchecked tasks
+      const modifiedLines = lines.map(line => {
+        const taskMatch = line.match(/^(\s*-\s*\[)([xX\s])(\]\s*.*)$/);
+        if (taskMatch && taskMatch[2] === ' ') {
+          return `${taskMatch[1]}x${taskMatch[3]}`;
+        }
+        return line;
+      });
+      
+      await obsidianApp.vault.modify(file, modifiedLines.join('\n'));
+      if (obsidianApp?.Notice) new obsidianApp.Notice("DEBUG: All tasks checked!", 3000);
+      
+      setTimeout(() => loadTasks(), 100);
+    } catch (error) {
+      console.error('[LicenseAgreement] DEBUG bypass error:', error);
+      if (obsidianApp?.Notice) new obsidianApp.Notice(`DEBUG bypass failed: ${error.message}`, 5000);
+    }
+  }, [debug, findTosFile, obsidianApp]);
+
+  // Parse tasks from file content
+  const parseTasksFromContent = useCallback((content, filePath) => {
+    const lines = content.split('\n');
+    const parsedTasks = [];
+    
+    lines.forEach((line, index) => {
+      // Match task lines: - [ ] or - [x] or - [X]
+      const taskMatch = line.match(/^\s*-\s*\[([xX\s])\]\s*(.*)$/);
+      if (taskMatch) {
+        const statusChar = taskMatch[1];
+        const isCompleted = statusChar.toLowerCase() === 'x';
+        const taskText = taskMatch[2].trim();
+        
+        parsedTasks.push({
+          $line: index,
+          $file: filePath,
+          $completed: isCompleted,
+          $text: taskText,
+          $id: `${filePath}-${index}`,
+        });
+      }
+    });
+    
+    return parsedTasks;
+  }, []);
+
+  // Load tasks from file
+  const loadTasks = useCallback(async () => {
+    try {
+      const file = await findTosFile();
+      if (!file) {
+        console.warn('[LicenseAgreement] No TOS file found');
+        setTasks([]);
+        setTotalTasks(0);
+        setCompletedTasks(0);
+        return;
+      }
+      
+      const content = await obsidianApp.vault.read(file);
+      const parsedTasks = parseTasksFromContent(content, file.path);
+      
+      const completed = parsedTasks.filter(t => t.$completed).length;
+      
+      setTasks(parsedTasks);
+      setTotalTasks(parsedTasks.length);
+      setCompletedTasks(completed);
+    } catch (error) {
+      console.error('[LicenseAgreement] Error loading tasks:', error);
+      setTasks([]);
+      setTotalTasks(0);
+      setCompletedTasks(0);
+    }
+  }, [findTosFile, obsidianApp, parseTasksFromContent]);
+
+  // Load tasks on mount and when file changes
+  useEffect(() => {
+    loadTasks();
+    
+    // Set up file watcher
+    const vault = obsidianApp?.vault;
+    if (!vault) return;
+    
+    const onFileChange = (file) => {
+      const basename = file.path.split('/').pop() || '';
+      if (basename.toLowerCase().includes('terms') && 
+          basename.toLowerCase().includes('service') &&
+          basename.toLowerCase().includes('approval')) {
+        loadTasks();
+      }
+    };
+    
+    const modifyRef = vault.on('modify', onFileChange);
+    const createRef = vault.on('create', onFileChange);
+    const deleteRef = vault.on('delete', onFileChange);
+    
+    return () => {
+      vault.offref(modifyRef);
+      vault.offref(createRef);
+      vault.offref(deleteRef);
+    };
+  }, [loadTasks, obsidianApp]);
 
   const sortedTasks = useMemo(() => {
     return [...tasks].sort((a, b) => {
-        const ctimeA = (a && a.$ctime) ? new Date(a.$ctime).getTime() : Infinity;
-        const ctimeB = (b && b.$ctime) ? new Date(b.$ctime).getTime() : Infinity;
-        return ctimeA - ctimeB;
+      const lineA = a.$line ?? Infinity;
+      const lineB = b.$line ?? Infinity;
+      return lineA - lineB;
     });
   }, [tasks]);
 
   useEffect(() => {
-    if (queryResult !== undefined && initialCheckStatus === "pending") {
-      if (totalTasks > 0 && completedTasks === totalTasks) {
+    // Only check after tasks have been loaded (when we have actual task data)
+    // Don't run on initial mount when tasks array is empty - wait for loadTasks to complete
+    if (initialCheckStatus === "pending" && totalTasks > 0) {
+      if (completedTasks === totalTasks) {
         setInitialCheckStatus("preCompleted");
         setAgreementSatisfiedOnce(true);
         setIsVisible(false);
-        //console.log(`ViewComponent: All tasks matching query criteria for "${targetFileNameOnly}" are initially complete. No UI pop-up.`);
       } else {
         setInitialCheckStatus("needsAction");
         setIsVisible(true);
+        setProceedButtonEnabled(false);
       }
     }
-  }, [queryResult, totalTasks, completedTasks, initialCheckStatus]);
+  }, [tasks, totalTasks, completedTasks, initialCheckStatus, targetFileNameOnly]);
 
   useEffect(() => {
-    setProceedButtonEnabled(totalTasks > 0 && completedTasks === totalTasks);
-  }, [totalTasks, completedTasks]);
+    // Only enable button if we're actively showing the UI and all tasks are completed
+    if (isVisible && initialCheckStatus === "needsAction") {
+      setProceedButtonEnabled(totalTasks > 0 && completedTasks === totalTasks);
+    }
+  }, [totalTasks, completedTasks, isVisible, initialCheckStatus]);
+
+  // Monitor for tasks being unchecked after agreement was satisfied
+  useEffect(() => {
+    if (agreementSatisfiedOnce && !isVisible && totalTasks > 0 && completedTasks < totalTasks) {
+      if (typeof Notice === 'function') {
+        new Notice("Please re-confirm your agreement. A task has been unchecked.", 7000);
+      }
+      setInitialCheckStatus("needsAction");
+      setIsVisible(true);
+      setAgreementSatisfiedOnce(false);
+    }
+  }, [completedTasks, totalTasks, agreementSatisfiedOnce, isVisible]);
 
   const handleToggleTask = async (taskToToggle) => {
     if (!isIframeLoaded) {
@@ -141,40 +331,76 @@ function LicenseAgreement() {
       return;
     }
     if (!obsidianApp || !obsidianApp.vault?.read || !obsidianApp.vault?.modify || !obsidianApp.vault?.getAbstractFileByPath) {
-      if (typeof Notice === 'function') new Notice("Error: Cannot modify task. Obsidian integration is missing.", 5000); else alert("Error: Cannot modify task. Obsidian integration is missing."); return;
+      if (typeof Notice === 'function') new Notice("Error: Cannot modify task. Obsidian integration is missing.", 5000); 
+      else alert("Error: Cannot modify task. Obsidian integration is missing."); 
+      return;
     }
-    const filePathFromTask = taskToToggle.$file; const lineNumber = taskToToggle.$line;
+    
+    const filePathFromTask = taskToToggle.$file; 
+    const lineNumber = taskToToggle.$line;
+    
     if (filePathFromTask === undefined || lineNumber === undefined) {
-      if (typeof Notice === 'function') new Notice("Error: Task data is incomplete.", 5000); else alert("Error: Task data is incomplete. Cannot update."); return;
+      if (typeof Notice === 'function') new Notice("Error: Task data is incomplete.", 5000); 
+      else alert("Error: Task data is incomplete. Cannot update."); 
+      return;
     }
+    
     if (typeof filePathFromTask !== 'string') {
-      if (typeof Notice === 'function') new Notice("Error: Invalid task file path.", 5000); else alert("Error: Invalid task file path."); return;
+      if (typeof Notice === 'function') new Notice("Error: Invalid task file path.", 5000); 
+      else alert("Error: Invalid task file path."); 
+      return;
     }
+    
     const fileObject = obsidianApp.vault.getAbstractFileByPath(filePathFromTask);
+    
     if (!fileObject || fileObject.path !== filePathFromTask || typeof fileObject.basename !== 'string') {
-      if (typeof Notice === 'function') new Notice(`Error: File "${filePathFromTask}" not found.`, 7000); else alert(`Error: File "${filePathFromTask}" not found or could not be confirmed.`); return;
+      if (typeof Notice === 'function') new Notice(`Error: File "${filePathFromTask}" not found.`, 7000); 
+      else alert(`Error: File "${filePathFromTask}" not found or could not be confirmed.`); 
+      return;
     }
+    
     try {
       const currentFileContentString = await obsidianApp.vault.read(fileObject);
       if (typeof currentFileContentString !== 'string') {
-        if (typeof Notice === 'function') new Notice(`Error: Could not read content of "${filePathFromTask}".`, 7000); else alert(`Error: Could not read content of "${filePathFromTask}".`); return;
+        if (typeof Notice === 'function') new Notice(`Error: Could not read content of "${filePathFromTask}".`, 7000); 
+        else alert(`Error: Could not read content of "${filePathFromTask}".`); 
+        return;
       }
+      
       const lines = currentFileContentString.split('\n');
       if (lineNumber >= lines.length) {
-        if (typeof Notice === 'function') new Notice(`Error: Task line out of sync.`, 7000); else alert(`Error: Task line number is out of sync with file content. Please refresh or check the file.`); return;
+        if (typeof Notice === 'function') new Notice(`Error: Task line out of sync.`, 7000); 
+        else alert(`Error: Task line number is out of sync with file content. Please refresh or check the file.`); 
+        return;
       }
-      let targetLine = lines[lineNumber]; const taskLineRegex = /^(\s*-\s*\[)([^\]])(\]\s*.*)$/; const match = targetLine.match(taskLineRegex);
+      
+      let targetLine = lines[lineNumber];
+      
+      const taskLineRegex = /^(\s*-\s*\[)([xX\s])(\]\s*.*)$/;
+      const match = targetLine.match(taskLineRegex);
+      
       if (match) {
-        const prefix = match[1]; const currentStatus = match[2]; const suffix = match[3];
-        let newStatus = (currentStatus === ' ' || currentStatus === '?') ? 'x' : ' ';
+        const prefix = match[1]; 
+        const currentStatus = match[2]; 
+        const suffix = match[3];
+        // Toggle: if it's a space, make it 'x', otherwise make it a space
+        let newStatus = (currentStatus === ' ') ? 'x' : ' ';
         lines[lineNumber] = `${prefix}${newStatus}${suffix}`;
+        
         await obsidianApp.vault.modify(fileObject, lines.join('\n'));
+        
+        // Reload tasks after modification
+        setTimeout(() => loadTasks(), 100);
       } else {
-        if (typeof Notice === 'function') new Notice(`Could not update task: Incorrect format. Task: "${targetLine.trim()}"`, 7000); else alert(`Could not update task: The line format seems incorrect. Task: "${targetLine.trim()}"`); return;
+        console.error(`[LicenseAgreement] Regex match failed for line: "${targetLine}"`);
+        if (typeof Notice === 'function') new Notice(`Could not update task: Incorrect format. Task: "${targetLine.trim()}"`, 7000); 
+        else alert(`Could not update task: The line format seems incorrect. Task: "${targetLine.trim()}"`); 
+        return;
       }
     } catch (error) {
-      console.error("Error toggling task:", error);
-      if (typeof Notice === 'function') new Notice(`Error updating task: ${error.message}`, 7000); else alert(`An unexpected error occurred while updating the task: ${error.message}`);
+      console.error("[LicenseAgreement] Error toggling task:", error);
+      if (typeof Notice === 'function') new Notice(`Error updating task: ${error.message}`, 7000); 
+      else alert(`An unexpected error occurred while updating the task: ${error.message}`);
     }
   };
 
@@ -354,7 +580,6 @@ function LicenseAgreement() {
 
   useEffect(() => {
       if (agreementSatisfiedOnce && !isVisible && totalTasks > 0 && completedTasks < totalTasks) {
-          //console.log("LicenseAgreement: Tasks became uncompleted after agreement was satisfied. Re-popping up.");
           if (typeof Notice === 'function') {
               new Notice("Please re-confirm your agreement. A task has been unchecked.", 7000);
           }
@@ -362,22 +587,18 @@ function LicenseAgreement() {
           setIsVisible(true);
           setAgreementSatisfiedOnce(false);
       }
-  }, [completedTasks, totalTasks, agreementSatisfiedOnce, isVisible, initialCheckStatus]);
+  }, [completedTasks, totalTasks, agreementSatisfiedOnce, isVisible]);
 
-
-  // SVG Home Icon Component
-  const HomeIcon = ({ color = 'currentColor', size = '20px' }) => (
-    <svg viewBox="0 0 24 24" fill={color} width={size} height={size} style={{ display: 'block', margin: 'auto' }}>
-      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path>
-    </svg>
-  );
 
   if (!obsidianApp || !obsidianApp.vault?.read || !obsidianApp.vault?.modify || !obsidianApp.vault?.getAbstractFileByPath) {
     return ( <div style={{ padding: "20px", border: "1px solid #ff6b6b", borderRadius: "8px", backgroundColor: "#2c1d1d", color: "#ffcccc", fontFamily: "sans-serif" }}> <h3 style={{color: "#ff8080", marginTop: 0}}>Critical Error: Obsidian Integration Missing</h3> <p>Component requires `app.vault` methods.</p> </div> );
   }
   
   if (initialCheckStatus === "pending") { return null; } 
-  if (!isVisible) { return null; }
+  if (!isVisible) { 
+    // Don't return null - return empty div so wrapper stays mounted
+    return <div style={{display: 'none'}} data-license-hidden="true" />;
+  }
 
   return (
     <div
@@ -388,99 +609,240 @@ function LicenseAgreement() {
       }}
     >
       <div style={contentWrapperStyle}>
-        <div style={{...iframeContainerStyle, position: 'relative' }}>
-          <button
-            onClick={handleRefreshIframe}
+        {/* Header Section */}
+        <div
+          style={{
+            padding: "16px 18px",
+            borderBottom: "1px solid var(--glow-faint)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <h2
             style={{
-              position: 'absolute',
-              top: '8px',
-              right: '8px',
-              zIndex: 2, 
-              background: '#383838', // Dark grey
-              color: '#E0E0E0',     // Light grey/off-white for icon
-              border: '1px solid #555',
-              borderRadius: '50%',
-              width: '32px',
-              height: '32px',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '0',
-              boxShadow: '0 1px 4px rgba(0,0,0,0.4)',
-              transition: 'background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease',
+              fontSize: "20px",
+              fontWeight: 900,
+              color: "var(--glow)",
+              margin: 0,
+              fontVariant: "small-caps",
+              letterSpacing: "0.5px",
             }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.backgroundColor = colorCompleted; // Dark purple
-              e.currentTarget.style.borderColor = '#7a5fb5'; // Complementary border for purple
-              e.currentTarget.style.color = 'white'; // Icon to white
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.backgroundColor = '#383838'; // Back to dark grey
-              e.currentTarget.style.borderColor = '#555';
-              e.currentTarget.style.color = '#E0E0E0'; // Icon back to light grey
-            }}
-            title="Go back home" 
           >
-            <HomeIcon size="20px" />
-          </button>
-          <iframe
-            key={iframeRefreshKey} 
-            src={iframeSrc}
-            style={{ width: "100%", height: "100%", border: "none" }}
-            title="Terms of Use"
-            sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-            onLoad={handleIframeLoad}
-          />
+            Terms of Service
+          </h2>
+          <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>
+            {isIframeLoaded
+              ? "Review and check the box to proceed"
+              : "Loading…"}
+          </span>
+        </div>
+
+        {/* Iframe Container with Background */}
+        <div style={{ position: "relative", background: "#0b0713" }}>
+          <div
+            style={{
+              maxHeight: "55vh",
+              minHeight: "280px",
+              overflow: "hidden",
+              padding: "18px 18px 6px 18px",
+            }}
+          >
+            <div style={iframeContainerStyle}>
+              {debug && (
+                <button
+                  onClick={handleDebugBypass}
+                  style={{
+                    position: 'absolute',
+                    top: '8px',
+                    left: '8px',
+                    zIndex: 3,
+                    background: 'rgba(255, 0, 0, 0.8)',
+                    color: 'white',
+                    border: '1px solid rgba(255, 0, 0, 0.6)',
+                    borderRadius: '6px',
+                    padding: '6px 12px',
+                    cursor: 'pointer',
+                    fontSize: '12px',
+                    fontWeight: '600',
+                    transition: 'all 0.2s ease',
+                    boxShadow: '0 2px 8px rgba(255, 0, 0, 0.3)',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.background = 'rgba(255, 0, 0, 1)';
+                    e.target.style.transform = 'scale(1.05)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.background = 'rgba(255, 0, 0, 0.8)';
+                    e.target.style.transform = 'scale(1)';
+                  }}
+                >
+                  🔧 DEBUG BYPASS
+                </button>
+              )}
+              <button
+                onClick={handleRefreshIframe}
+                style={{
+                  position: 'absolute',
+                  top: '8px',
+                  right: '8px',
+                  zIndex: 2, 
+                  background: 'rgba(10,6,16,0.6)', 
+                  color: 'var(--glow)',
+                  border: '1px solid var(--glow)',
+                  borderRadius: '6px',
+                  padding: '6px 10px',
+                  cursor: 'pointer',
+                  fontSize: '12px',
+                  transition: 'all 0.2s ease',
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.backgroundColor = 'var(--glow)';
+                  e.currentTarget.style.color = '#0b0713';
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(10,6,16,0.6)';
+                  e.currentTarget.style.color = 'var(--glow)';
+                }}
+                title="Refresh" 
+              >
+                ↻
+              </button>
+              <iframe
+                key={iframeRefreshKey} 
+                src={iframeSrc}
+                style={{ width: "100%", height: "100%", border: "none" }}
+                title="Terms of Use"
+                sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                onLoad={handleIframeLoad}
+              />
+            </div>
+          </div>
         </div>
 
         {!isIframeLoaded && (
-          <p style={{textAlign: 'center', color: 'orange', fontStyle: 'italic', padding: '5px 0', margin: '0 0 10px 0', borderBottom: '1px solid #555'}}>
-            Loading terms... Please wait to interact with tasks.
+          <p style={{
+            textAlign: 'center', 
+            color: 'orange', 
+            fontStyle: 'italic', 
+            padding: '10px 18px', 
+            margin: '0',
+          }}>
+            Loading terms… Please wait to interact.
           </p>
         )}
 
-        <div style={taskListOuterContainerStyle} className="custom-scrollbar-target">
+        <div style={taskListOuterContainerStyle}>
           {tasks.length > 0 ? (
-            <ul style={{ listStyleType: "none", paddingLeft: "0", margin: "0", opacity: isIframeLoaded ? 1 : 0.6 }}>
+            <ul style={{ listStyleType: "none", paddingLeft: "0", margin: "0", opacity: isIframeLoaded ? 1 : 0.7 }}>
               {sortedTasks.map((task, index) => {
-                const isCompleted = task.$completed; const taskKey = task.$id || `task-${index}-${task.$line}-${task.$file || 'unknownfile'}`;
-                const uniqueId = `task-checkbox-${taskKey.replace(/[^a-zA-Z0-9-_]/g, '')}`; const taskFilePathDisplay = task.$file || "Unknown file";
+                const isCompleted = task.$completed; 
+                const taskKey = task.$id || `task-${index}-${task.$line}-${task.$file || 'unknownfile'}`;
+                const uniqueId = `task-checkbox-${taskKey.replace(/[^a-zA-Z0-9-_]/g, '')}`; 
+                const taskFilePathDisplay = task.$file || "Unknown file";
                 return (
                   <li key={taskKey} style={{
-                    display: 'flex', alignItems: 'center', marginBottom: '10px',
-                    paddingTop: '10px', paddingBottom: '10px', paddingRight: '12px', paddingLeft: '4px',
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    marginBottom: '8px',
+                    padding: '8px 10px',
                     borderLeft: isCompleted ? `4px solid ${colorCompleted}` : `4px solid ${colorIncomplete}`,
                     backgroundColor: isCompleted ? colorCompletedBg : colorIncompleteBg,
-                    borderRadius: '4px', transition: 'background-color 0.3s ease, border-left-color 0.3s ease',
+                    border: `1px solid var(--glow-faint)`,
+                    borderLeft: isCompleted ? `4px solid ${colorCompleted}` : `4px solid ${colorIncomplete}`,
+                    borderRadius: '6px', 
+                    transition: 'background-color 0.3s ease, border-left-color 0.3s ease',
+                    opacity: isIframeLoaded ? 1 : 0.7
                   }}>
                     <input
-                      type="checkbox" id={uniqueId} checked={!!isCompleted}
-                      onChange={() => { handleToggleTask(task); }}
+                      type="checkbox" 
+                      id={uniqueId} 
+                      checked={!!isCompleted}
+                      onChange={(e) => { 
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleToggleTask(task);
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
                       disabled={!isIframeLoaded}
                       style={{
-                        margin: '0 12px 0 0', cursor: isIframeLoaded ? 'pointer' : 'not-allowed', transform: 'scale(1.2)',
+                        margin: '0 12px 0 0', 
+                        cursor: isIframeLoaded ? 'pointer' : 'not-allowed', 
+                        transform: 'scale(1.2)',
                         accentColor: isCompleted ? colorCompleted : colorIncomplete,
                         flexShrink: 0
                       }}
-                      title={isIframeLoaded ? `Toggle task status (from ${taskFilePathDisplay})` : "Wait for terms to load"} />
+                      title={isIframeLoaded ? `Toggle task status (from ${taskFilePathDisplay})` : "Wait for terms to load"} 
+                    />
                     <label
                       htmlFor={uniqueId}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (isIframeLoaded) {
+                          handleToggleTask(task);
+                        }
+                      }}
                       style={{
-                        flexGrow: 1, cursor: isIframeLoaded ? 'pointer' : 'default',
-                        color: isCompleted ? 'darkgray' : 'lightgray',
-                        textDecoration: 'none', whiteSpace: 'pre-wrap', wordBreak: 'break-word',
-                        opacity: isIframeLoaded ? 1 : 0.7
+                        flexGrow: 1, 
+                        cursor: isIframeLoaded ? 'pointer' : 'default',
+                        color: isCompleted ? 'var(--text-muted)' : 'var(--text-normal)',
+                        textDecoration: 'none', 
+                        whiteSpace: 'pre-wrap', 
+                        wordBreak: 'break-word',
                       }}>
                         {task.$text}
                     </label>
-                  </li>);
+                  </li>
+                );
               })}
             </ul>
-          ) : ( <p style={{color: "gray", fontStyle: "italic", textAlign: "center", marginTop: "20px" }}> No tasks found for "{targetFileNameOnly}". <br/> <small>Ensure the file exists and contains Markdown tasks (e.g., "- [ ] Task").</small> </p> )}
+          ) : ( 
+            <p style={{
+              color: "var(--text-muted)", 
+              fontStyle: "italic", 
+              textAlign: "center", 
+              marginTop: "20px" 
+            }}> 
+              No tasks found for "{targetFileNameOnly}". <br/> 
+              <small>Ensure the file exists and contains Markdown tasks (e.g., "- [ ] Task").</small> 
+            </p> 
+          )}
         </div>
 
-        <div style={{ marginTop: 'auto', paddingTop: '15px', textAlign: 'right', flexShrink: 0, borderTop: "1px solid #444" }}>
+        <div style={{ 
+          marginTop: 'auto', 
+          paddingTop: '14px',
+          padding: '14px 18px', 
+          textAlign: 'right', 
+          flexShrink: 0, 
+          borderTop: "1px solid var(--glow-faint)",
+          display: 'flex',
+          gap: '10px',
+          justifyContent: 'flex-end'
+        }}>
+          <button
+            className="btn"
+            style={{
+              padding: '10px 14px',
+              borderRadius: '8px',
+              border: '1px solid var(--glow)',
+              background: 'rgba(10,6,16,0.4)',
+              color: 'var(--glow)',
+              fontSize: '12px',
+              fontWeight: 700,
+              cursor: 'pointer',
+              fontVariant: 'small-caps',
+            }}
+            onClick={() => {
+              const u = iframeSrc;
+              const w = window.open(u, "_blank", "noopener,noreferrer");
+              if (!w) navigator.clipboard?.writeText(u);
+            }}
+          >
+            [ Open Full Page ]
+          </button>
           <button
             onClick={() => {
               if (proceedButtonEnabled) {
@@ -491,16 +853,33 @@ function LicenseAgreement() {
             }}
             disabled={!proceedButtonEnabled}
             style={{
-              padding: '12px 25px', fontSize: '1.1em', fontWeight: 'bold',
+              padding: '10px 14px',
+              borderRadius: '8px',
+              border: proceedButtonEnabled ? '1px solid #8a2be2' : '1px solid rgba(255,255,255,0.2)',
               cursor: proceedButtonEnabled ? 'pointer' : 'not-allowed',
-              backgroundColor: proceedButtonEnabled ? colorCompleted : colorButtonDisabledBg,
-              color: proceedButtonEnabled ? 'white' : colorButtonDisabledText,
-              border: 'none', borderRadius: '5px',
+              backgroundColor: proceedButtonEnabled ? '#8a2be2' : colorButtonDisabledBg,
+              color: proceedButtonEnabled ? '#ffffff' : colorButtonDisabledText,
+              fontSize: '12px',
+              fontWeight: 700,
               opacity: proceedButtonEnabled ? 1 : colorButtonDisabledOpacity,
-              transition: 'background-color 0.3s ease, opacity 0.3s ease, color 0.3s ease'
+              transition: 'all 0.3s ease',
+              fontVariant: 'small-caps',
+              boxShadow: proceedButtonEnabled ? '0 0 20px rgba(138,43,226,0.4)' : 'none',
+            }}
+            onMouseOver={(e) => {
+              if (proceedButtonEnabled) {
+                e.currentTarget.style.boxShadow = '0 0 30px rgba(138,43,226,0.6)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }
+            }}
+            onMouseOut={(e) => {
+              if (proceedButtonEnabled) {
+                e.currentTarget.style.boxShadow = '0 0 20px rgba(138,43,226,0.4)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }
             }}
             title={proceedButtonEnabled ? "Proceed to the next step" : "Complete all tasks to enable"}>
-            Proceed
+            [ I Agree & Continue ]
           </button>
         </div>
       </div>
@@ -515,17 +894,628 @@ function LicenseAgreement() {
   );
 }
 
-return { LicenseAgreement };
-```
+// Debug Full-Tab Component - Shows debug reset controls in full-tab mode
+function DebugResetFullTab({ config, obsidianApp }) {
+  const instanceId = useRef(Math.random().toString(36).substr(2, 5)).current;
+  const containerRef = useRef(null);
+  const stateRefs = useRef({}).current;
+  const [isFullTab, setIsFullTab] = useState(false);
+  
+  const {
+    targetFileName = "TERMS OF SERVICE.approval.md"
+  } = config;
+  
+  // Set up full-tab mode
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container || !isFullTab) return;
+    
+    const targetPaneContent = findNearestAncestorWithClass(container, "workspace-leaf-content");
+    if (!targetPaneContent) {
+      setIsFullTab(false);
+      return;
+    }
+    
+    const contentWrapper = findDirectChildByClass(targetPaneContent, "view-content") || targetPaneContent;
+    stateRefs.originalParent = container.parentNode;
+    stateRefs.placeholder = document.createElement("div");
+    stateRefs.placeholder.style.display = "none";
+    container.parentNode.insertBefore(stateRefs.placeholder, container);
+    
+    stateRefs.parentPositionInfo = {
+      element: contentWrapper,
+      original: window.getComputedStyle(contentWrapper).position,
+    };
+    
+    if (stateRefs.parentPositionInfo.original === "static") {
+      contentWrapper.style.position = "relative";
+    }
+    
+    contentWrapper.appendChild(container);
+    Object.assign(container.style, {
+      position: "absolute",
+      top: "0",
+      left: "0",
+      width: "100%",
+      height: "100%",
+      zIndex: "9998",
+      overflow: "auto",
+    });
+    
+    return () => {
+      if (stateRefs.placeholder?.parentNode) {
+        stateRefs.placeholder.parentNode.replaceChild(container, stateRefs.placeholder);
+      }
+      if (stateRefs.parentPositionInfo?.element) {
+        stateRefs.parentPositionInfo.element.style.position =
+          stateRefs.parentPositionInfo.original === "static" ? "" : stateRefs.parentPositionInfo.original;
+      }
+      container.removeAttribute("style");
+      Object.keys(stateRefs).forEach((key) => (stateRefs[key] = null));
+    };
+  }, [isFullTab]);
+  
+  const handleReset = async () => {
+    const files = obsidianApp.vault.getFiles().filter((f) => /\.md$/i.test(f.path));
+    let hit = files.find((f) => {
+      const basename = f.path.split('/').pop() || '';
+      return basename.toLowerCase() === targetFileName.toLowerCase();
+    });
+    
+    if (!hit) {
+      hit = files.find((f) => {
+        const basename = f.path.split('/').pop() || '';
+        return basename.toLowerCase().includes('terms') && 
+               basename.toLowerCase().includes('service') &&
+               basename.toLowerCase().includes('approval');
+      });
+    }
+    
+    if (!hit) {
+      if (obsidianApp?.Notice) new obsidianApp.Notice("Cannot reset: TOS file not found.", 5000);
+      return;
+    }
+    
+    try {
+      const currentContent = await obsidianApp.vault.read(hit);
+      const lines = currentContent.split('\n');
+      const modifiedLines = lines.map(line => {
+        const taskMatch = line.match(/^(\s*-\s*\[)([xX\s])(\]\s*.*)$/);
+        if (taskMatch && (taskMatch[2] === 'x' || taskMatch[2] === 'X')) {
+          return `${taskMatch[1]} ${taskMatch[3]}`;
+        }
+        return line;
+      });
+      await obsidianApp.vault.modify(hit, modifiedLines.join('\n'));
+      if (obsidianApp?.Notice) new obsidianApp.Notice("✅ All TOS tasks have been reset!", 3000);
+      setIsFullTab(false);
+    } catch (error) {
+      console.error('[DebugResetFullTab] Error resetting:', error);
+      if (obsidianApp?.Notice) new obsidianApp.Notice(`Reset failed: ${error.message}`, 5000);
+    }
+  };
+  
+  const handleOpenFullTab = () => setIsFullTab(true);
+  const handleCloseFullTab = () => setIsFullTab(false);
+  
+  // Compact button view
+  if (!isFullTab) {
+    return (
+      <div ref={containerRef} style={{
+        position: 'fixed',
+        top: '24px',
+        right: '24px',
+        padding: '12px 18px',
+        backgroundColor: 'rgba(255, 77, 77, 0.95)',
+        color: '#ffffff',
+        borderRadius: '8px',
+        zIndex: 999999,
+        cursor: 'pointer',
+        fontWeight: 700,
+        boxShadow: '0 4px 20px rgba(255, 77, 77, 0.6)',
+        border: '2px solid rgba(255, 255, 255, 0.3)',
+        fontSize: '13px',
+      }} onClick={handleOpenFullTab}>
+        🔧 Debug Mode
+      </div>
+    );
+  }
+  
+  // Full-tab view
+  return (
+    <div ref={containerRef}>
+      <div style={{
+        position: 'relative',
+        height: '100%',
+        width: '100%',
+        padding: '40px',
+        boxSizing: 'border-box',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '24px',
+        backgroundColor: 'var(--background-secondary)',
+        border: '1px solid var(--background-modifier-border)',
+        borderRadius: '8px',
+        color: 'var(--text-normal)',
+      }}>
+        <div style={{
+          position: 'absolute',
+          top: '20px',
+          right: '24px',
+          fontSize: '24px',
+          cursor: 'pointer',
+          opacity: 0.6,
+          transition: 'opacity 0.2s',
+        }} onClick={handleCloseFullTab} onMouseEnter={(e) => e.target.style.opacity = 1} onMouseLeave={(e) => e.target.style.opacity = 0.6}>
+          ×
+        </div>
+        
+        <h2 style={{ fontSize: '2em', fontWeight: '600', color: 'var(--text-normal)', margin: 0 }}>
+          🔧 Debug Mode
+        </h2>
+        
+        <p style={{ fontSize: '1em', color: 'var(--text-muted)', maxWidth: '500px', textAlign: 'center', margin: 0 }}>
+          Reset TOS approval status for testing purposes. This will uncheck all tasks in the TOS file.
+        </p>
+        
+        <div style={{ display: 'flex', gap: '12px', marginTop: '20px' }}>
+          <button onClick={handleReset} style={{
+            padding: '12px 24px',
+            fontSize: '14px',
+            fontWeight: '600',
+            color: '#ffffff',
+            backgroundColor: '#ff4d4d',
+            border: 'none',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            boxShadow: '0 4px 12px rgba(255, 77, 77, 0.3)',
+          }}>
+            Reset TOS Tasks
+          </button>
+          
+          <button onClick={handleCloseFullTab} style={{
+            padding: '12px 24px',
+            fontSize: '14px',
+            fontWeight: '500',
+            color: 'var(--text-muted)',
+            backgroundColor: 'var(--background-modifier-hover)',
+            border: 'none',
+            borderRadius: '8px',
+            cursor: 'pointer',
+          }}>
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
+// Internal Reset Component - Shows after agreement is satisfied
+function InternalResetComponent({ config, obsidianApp }) {
+  const {
+    targetFileName = "TERMS OF SERVICE.approval.md"
+  } = config;
+  
+  const [isVisible, setIsVisible] = useState(false);
+  const [tosFilePath, setTosFilePath] = useState(null);
+  
+  // Function to find TOS file (same logic as main component)
+  const findTosFileForReset = useCallback(async () => {
+    const files = obsidianApp.vault.getFiles().filter((f) => /\.md$/i.test(f.path));
+    
+    // Try exact match
+    let hit = files.find((f) => {
+      const basename = f.path.split('/').pop() || '';
+      return basename.toLowerCase() === targetFileName.toLowerCase();
+    });
+    
+    if (hit) return hit;
+    
+    // Try fuzzy match
+    hit = files.find((f) => {
+      const basename = f.path.split('/').pop() || '';
+      return basename.toLowerCase().includes('terms') && 
+             basename.toLowerCase().includes('service') &&
+             basename.toLowerCase().includes('approval');
+    });
+    
+    return hit || null;
+  }, [obsidianApp, targetFileName]);
+  
+  // Check if agreement is satisfied
+  useEffect(() => {
+    const checkAgreementStatus = async () => {
+      const file = await findTosFileForReset();
+      if (!file) return;
+      
+      setTosFilePath(file.path);
+      
+      try {
+        const content = await obsidianApp.vault.read(file);
+        const lines = content.split('\n');
+        
+        let total = 0;
+        let completed = 0;
+        
+        for (const line of lines) {
+          const taskMatch = line.match(/^\s*-\s*\[([xX\s])\]\s*(.*)$/);
+          if (taskMatch) {
+            total++;
+            if (taskMatch[1] === 'x' || taskMatch[1] === 'X') {
+              completed++;
+            }
+          }
+        }
+        
+        // Show reset button if all tasks are completed
+        const shouldShow = total > 0 && completed === total;
+        setIsVisible(shouldShow);
+      } catch (error) {
+        console.error('[LicenseAgreementReset] Error checking status:', error);
+      }
+    };
+    
+    checkAgreementStatus();
+    
+    // Watch for file changes
+    const eventRef = obsidianApp?.vault?.on('modify', (file) => {
+      if (file.path && file.path.includes(targetFileName)) {
+        checkAgreementStatus();
+      }
+    });
+    
+    return () => {
+      if (eventRef && obsidianApp?.vault?.offref) {
+        obsidianApp.vault.offref(eventRef);
+      }
+    };
+  }, [targetFileName, findTosFileForReset, obsidianApp]);
+  
+  const handleReset = async () => {
+    const file = await findTosFileForReset();
+    if (!file) {
+      if (obsidianApp?.Notice) new obsidianApp.Notice("Cannot reset: TOS file not found.", 5000);
+      return;
+    }
+    
+    try {
+      const currentContent = await obsidianApp.vault.read(file);
+      const lines = currentContent.split('\n');
+      
+      // Uncheck all checked tasks
+      const modifiedLines = lines.map(line => {
+        const taskMatch = line.match(/^(\s*-\s*\[)([xX\s])(\]\s*.*)$/);
+        if (taskMatch && (taskMatch[2] === 'x' || taskMatch[2] === 'X')) {
+          return `${taskMatch[1]} ${taskMatch[3]}`;
+        }
+        return line;
+      });
+      
+      await obsidianApp.vault.modify(file, modifiedLines.join('\n'));
+      if (obsidianApp?.Notice) new obsidianApp.Notice("✅ All TOS tasks have been reset!", 3000);
+    } catch (error) {
+      console.error('[LicenseAgreementReset] Error resetting tasks:', error);
+      if (obsidianApp?.Notice) new obsidianApp.Notice(`Reset failed: ${error.message}`, 5000);
+    }
+  };
 
+  // If not visible and not in debug mode, bail out early
+  if (!isVisible && !config?.debug) return null;
 
-# ScreenModeHelper
+  // If we're in debug mode but not visible yet, render a small debug toggle immediately
+  if (!isVisible && config?.debug) {
+    const debugToggle = (
+      <div
+        style={{
+          position: 'fixed',
+          bottom: '24px',
+          right: '24px',
+          padding: '8px 12px',
+          backgroundColor: '#ff4d4d',
+          color: '#ffffff',
+          borderRadius: '8px',
+          zIndex: 999999,
+          cursor: 'pointer',
+          fontWeight: 700,
+          boxShadow: '0 4px 20px rgba(0,0,0,0.4)'
+        }}
+        onClick={() => setIsVisible(true)}
+        title="Show Reset TOS (debug)"
+      >
+        🔧 Reset TOS (debug)
+      </div>
+    );
 
-```jsx
-// ScreenModeHelper.jsx
+    if (typeof createPortal === 'function') {
+      return createPortal(debugToggle, document.body);
+    }
 
-const { useState, useRef, useEffect, useCallback } = dc;
+    return debugToggle;
+  }
+  
+  try {
+    const resetUI = (
+      <div style={{
+        position: 'fixed',
+        bottom: '24px',
+        right: '24px',
+        padding: '20px',
+        backgroundColor: 'red',
+        color: 'white',
+        fontSize: '20px',
+        fontWeight: 'bold',
+        border: '5px solid yellow',
+        borderRadius: '12px',
+        boxShadow: '0 0 50px rgba(255, 0, 0, 0.9)',
+        zIndex: 999999,
+        display: 'flex',
+        flexDirection: 'column',
+      gap: '12px',
+      minWidth: '280px'
+    }}>
+      <div style={{
+        color: 'var(--text-normal)',
+        fontSize: '13px',
+        fontWeight: '500'
+      }}>
+        🔄 TOS Agreement Complete
+      </div>
+      <button
+        onClick={handleReset}
+        style={{
+          padding: '10px 20px',
+          backgroundColor: 'rgba(255, 150, 0, 0.2)',
+          color: 'rgb(255, 180, 80)',
+          border: '1px solid rgba(255, 150, 0, 0.4)',
+          borderRadius: '8px',
+          cursor: 'pointer',
+          fontSize: '13px',
+          fontWeight: '600',
+          transition: 'all 0.2s ease',
+          textAlign: 'center'
+        }}
+        onMouseEnter={(e) => {
+          e.target.style.backgroundColor = 'rgba(255, 150, 0, 0.3)';
+          e.target.style.borderColor = 'rgba(255, 150, 0, 0.6)';
+        }}
+        onMouseLeave={(e) => {
+          e.target.style.backgroundColor = 'rgba(255, 150, 0, 0.2)';
+          e.target.style.borderColor = 'rgba(255, 150, 0, 0.4)';
+        }}
+      >
+        Reset All Tasks (Testing)
+      </button>
+    </div>
+    );
+    
+    // Use createPortal to render directly to document.body, bypassing Datacore's rendering system
+    if (typeof createPortal === 'function') {
+      return createPortal(resetUI, document.body);
+    }
+    
+    return resetUI;
+  } catch (error) {
+    console.error('[InternalResetComponent] ERROR RENDERING:', error);
+    return <div style={{position: 'fixed', top: '50%', left: '50%', background: 'red', color: 'white', padding: '20px', zIndex: 999999}}>ERROR: {error.message}</div>;
+  }
+}
+function LicenseAgreementWithReset({ config = {} }) {
+  const obsidianApp = dc?.app || app;
+  const { useEffect } = dc;
+  
+  // Debug reset button via direct DOM manipulation
+  useEffect(() => {
+    if (!config?.debug) return;
+    
+    let layoutChangeHandler; // Declare in outer scope
+    let observer; // Declare observer in outer scope
+    
+    const findTosFile = async () => {
+      const files = obsidianApp.vault.getFiles().filter((f) => /\.md$/i.test(f.path));
+      let hit = files.find((f) => {
+        const basename = f.path.split('/').pop() || '';
+        return basename.toLowerCase() === config.targetFileName?.toLowerCase();
+      });
+      if (hit) return hit;
+      hit = files.find((f) => {
+        const basename = f.path.split('/').pop() || '';
+        return basename.toLowerCase().includes('terms') && 
+               basename.toLowerCase().includes('service') &&
+               basename.toLowerCase().includes('approval');
+      });
+      return hit || null;
+    };
+    
+    const checkAndRender = async () => {
+      const file = await findTosFile();
+      if (!file) return;
+      
+      // Check if already rendered
+      let container = document.getElementById('debug-reset-button-container');
+      if (container) {
+        // Just update visibility if already exists
+        const checkVisibility = () => {
+          const workspaceLeaf = document.querySelector('.workspace-leaf.mod-active');
+          if (!workspaceLeaf) {
+            container.style.display = 'none';
+            return;
+          }
+          
+          const viewContent = workspaceLeaf.querySelector('.view-content');
+          const datacoreBlocks = viewContent?.querySelectorAll('.block-language-datacorejsx');
+          let isInActiveTab = false;
+          
+          if (datacoreBlocks) {
+            datacoreBlocks.forEach(block => {
+              if (block.textContent.includes('LicenseAgreement') || 
+                  block.querySelector('[data-license-hidden]') ||
+                  block.querySelector('.workspace-leaf-content')) {
+                isInActiveTab = true;
+              }
+            });
+          }
+          
+          container.style.display = isInActiveTab ? 'flex' : 'none';
+        };
+        checkVisibility();
+        return;
+      }
+      
+      // Create container
+      container = document.createElement('div');
+      container.id = 'debug-reset-button-container';
+      container.style.cssText = `
+        position: fixed;
+        top: 50px;
+        right: 24px;
+        padding: 16px 20px;
+        background-color: rgba(255, 77, 77, 0.95);
+        color: #ffffff;
+        border-radius: 12px;
+        z-index: 999999;
+        font-weight: 700;
+        box-shadow: 0 4px 20px rgba(255, 77, 77, 0.6);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        font-size: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        min-width: 200px;
+      `;
+      
+      const title = document.createElement('div');
+      title.textContent = '🔧 Debug Mode';
+      title.style.cssText = 'font-size: 12px; opacity: 0.9;';
+      container.appendChild(title);
+      
+      const button = document.createElement('button');
+      button.textContent = 'Reset TOS Tasks';
+      button.style.cssText = `
+        padding: 8px 16px;
+        background-color: rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 600;
+      `;
+      
+      button.onclick = async () => {
+        const tosFile = await findTosFile();
+        if (!tosFile) {
+          if (obsidianApp?.Notice) new obsidianApp.Notice("Cannot reset: TOS file not found.", 5000);
+          return;
+        }
+        
+        try {
+          const currentContent = await obsidianApp.vault.read(tosFile);
+          const lines = currentContent.split('\n');
+          const modifiedLines = lines.map(line => {
+            const taskMatch = line.match(/^(\s*-\s*\[)([xX\s])(\]\s*.*)$/);
+            if (taskMatch && (taskMatch[2] === 'x' || taskMatch[2] === 'X')) {
+              return `${taskMatch[1]} ${taskMatch[3]}`;
+            }
+            return line;
+          });
+          await obsidianApp.vault.modify(tosFile, modifiedLines.join('\n'));
+          if (obsidianApp?.Notice) new obsidianApp.Notice("✅ All TOS tasks have been reset!", 3000);
+        } catch (error) {
+          console.error('[DebugResetButton] Error resetting:', error);
+          if (obsidianApp?.Notice) new obsidianApp.Notice(`Reset failed: ${error.message}`, 5000);
+        }
+      };
+      
+      container.appendChild(button);
+      document.body.appendChild(container);
+      
+      // Hide button when tab is not active (detect workspace leaf changes)
+      const checkVisibility = () => {
+        // Find the workspace leaf that contains this component
+        const workspaceLeaf = document.querySelector('.workspace-leaf.mod-active');
+        if (!workspaceLeaf) {
+          container.style.display = 'none';
+          return;
+        }
+        
+        // Check if our viewer is in the active leaf
+        const viewContent = workspaceLeaf.querySelector('.view-content');
+        const datacoreBlocks = viewContent?.querySelectorAll('.block-language-datacorejsx');
+        let isInActiveTab = false;
+        
+        if (datacoreBlocks) {
+          datacoreBlocks.forEach(block => {
+            // Check if this block contains our component by looking for specific elements
+            if (block.textContent.includes('LicenseAgreement') || 
+                block.querySelector('[data-license-hidden]') ||
+                block.querySelector('.workspace-leaf-content')) {
+              isInActiveTab = true;
+            }
+          });
+        }
+        
+        container.style.display = isInActiveTab ? 'flex' : 'none';
+      };
+      
+      // Initial check
+      checkVisibility();
+      
+      // Watch for tab/leaf changes
+      observer = new MutationObserver(checkVisibility);
+      observer.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class'],
+        subtree: true,
+      });
+      
+      // Also watch for workspace events
+      layoutChangeHandler = () => checkVisibility();
+      obsidianApp.workspace.on('layout-change', layoutChangeHandler);
+      obsidianApp.workspace.on('active-leaf-change', layoutChangeHandler);
+    };
+    
+    // Initial render
+    checkAndRender();
+    
+    // Also check after a short delay to ensure DOM is ready
+    setTimeout(() => checkAndRender(), 100);
+    
+    // Watch for file changes
+    const eventRef = obsidianApp?.vault?.on('modify', (file) => {
+      if (file.path && config.targetFileName && file.path.includes(config.targetFileName)) {
+        checkAndRender();
+      }
+    });
+    
+    return () => {
+      const container = document.getElementById('debug-reset-button-container');
+      if (container) container.remove();
+      if (eventRef && obsidianApp?.vault?.offref) {
+        obsidianApp.vault.offref(eventRef);
+      }
+      // Clean up workspace event listeners
+      if (layoutChangeHandler && obsidianApp?.workspace) {
+        obsidianApp.workspace.off('layout-change', layoutChangeHandler);
+        obsidianApp.workspace.off('active-leaf-change', layoutChangeHandler);
+      }
+      // Clean up mutation observer
+      if (observer) {
+        observer.disconnect();
+      }
+    };
+  }, [config?.debug, config?.targetFileName, obsidianApp]);
+  
+  return <LicenseAgreement config={config} />;
+}
+
+// Export will be at the end after ScreenModeHelper
+
+// ============================================
+// ScreenModeHelper Component
+// ============================================
 
 // Helper to apply a CSS string to an element's style
 function applyCssText(element, cssText) {
@@ -558,7 +1548,6 @@ function reparentToOriginal(container, originalParentRef) {
 
 
   if (container.parentNode === document.body) {
-    console.log("[ScreenModeHelper] Reparenting container from body to:", originalParentRef.current);
     try {
       // It's possible document.body.removeChild(container) fails if container was already removed by other means.
       // So, only append if it was successfully removed or not in body to begin with.
@@ -604,7 +1593,6 @@ const ScreenModeHelper = ({
     const container = containerRef.current;
     if (!container || initialStylesAppliedRef.current) return;
 
-    console.log(`[ScreenModeHelper] Applying initial styles for mode: ${activeMode}`);
     if (activeMode === "default") {
       if (defaultStyle) {
         applyCssText(container, defaultStyle);
@@ -617,7 +1605,6 @@ const ScreenModeHelper = ({
                                activeMode === 'pip' ? originalParentRefForPiP : null;
 
       if (parentRefForMode && !parentRefForMode.current && container.parentNode && container.parentNode !== document.body) {
-        console.log("[ScreenModeHelper] Storing initial original parent:", container.parentNode, "for mode", activeMode);
         parentRefForMode.current = container.parentNode;
       } else if (parentRefForMode && !parentRefForMode.current && container.parentNode === document.body) {
         // This case is unlikely if it starts elsewhere, but good to log
@@ -631,7 +1618,6 @@ const ScreenModeHelper = ({
              catch(e) { console.error("[ScreenModeHelper] Error removing container from initial parent:", e, container.parentNode); }
         }
         document.body.appendChild(container);
-        console.log("[ScreenModeHelper] Moved container to document.body for initial mode:", activeMode);
       }
       applyCssText(container, stylesByMode[activeMode]);
     }
@@ -645,7 +1631,6 @@ const ScreenModeHelper = ({
   const toggleMode = useCallback((requestedMode) => {
     // This function will likely not be called if hideToggleButtons is true,
     // but keeping it for completeness or future use.
-    console.log(`[ScreenModeHelper] toggleMode. Current: '${activeMode}', Requested: '${requestedMode}'`);
     const container = containerRef.current;
     if (!container) {
       console.error("[ScreenModeHelper] Container ref is not set.");
@@ -664,16 +1649,12 @@ const ScreenModeHelper = ({
     if (currentActualActiveMode === requestedMode && requestedMode !== "default") {
       newEffectiveMode = "default";
     } else if (currentActualActiveMode === requestedMode && requestedMode === "default") {
-      console.log("[ScreenModeHelper] Already in default mode and default requested. Re-applying default style.");
       if (defaultStyle) applyCssText(container, defaultStyle);
       else applyCssText(container, 'display: block; position: relative;');
       return;
     }
 
-    console.log(`[ScreenModeHelper] Transitioning from '${currentActualActiveMode}' to '${newEffectiveMode}'`);
-
     if (currentActualActiveMode !== "default") {
-      console.log(`[ScreenModeHelper] Resetting from current mode: ${currentActualActiveMode}`);
       const parentRefToUseForReset = currentActualActiveMode === 'window' ? originalParentRefForWindow :
                                      currentActualActiveMode === 'pip' ? originalParentRefForPiP : null;
       if (parentRefToUseForReset) {
@@ -687,7 +1668,6 @@ const ScreenModeHelper = ({
 
     if (newEffectiveMode === "default") {
       if (defaultStyle) {
-        console.log("[ScreenModeHelper] Applying defaultStyle for 'default' mode.");
         applyCssText(container, defaultStyle);
       } else {
         console.warn("[ScreenModeHelper] No defaultStyle provided for 'default' mode. Applying fallback.");
@@ -700,12 +1680,10 @@ const ScreenModeHelper = ({
         }
       }
     } else if (stylesByMode && stylesByMode[newEffectiveMode]) {
-      console.log(`[ScreenModeHelper] Applying styles for '${newEffectiveMode}' mode.`);
       const parentRefForNewMode = newEffectiveMode === 'window' ? originalParentRefForWindow :
                                  newEffectiveMode === 'pip' ? originalParentRefForPiP : null;
 
       if (parentRefForNewMode && !parentRefForNewMode.current && container.parentNode && container.parentNode !== document.body) {
-        console.log("[ScreenModeHelper] Storing original parent:", container.parentNode, "for mode", newEffectiveMode);
         parentRefForNewMode.current = container.parentNode;
       }
 
@@ -715,7 +1693,6 @@ const ScreenModeHelper = ({
           catch (e) { console.error("[ScreenModeHelper] Error removing container from its current parent:", container.parentNode, e); }
         }
         document.body.appendChild(container);
-        console.log("[ScreenModeHelper] Moved container to document.body for mode:", newEffectiveMode);
       }
       applyCssText(container, stylesByMode[newEffectiveMode]);
     } else {
@@ -758,22 +1735,17 @@ const ScreenModeHelper = ({
 
 
     return () => {
-      console.log(`[ScreenModeHelper] Unmount cleanup. Mode was: ${modeAtUnmountSetup}`);
       if (currentContainer && modeAtUnmountSetup !== 'default') {
         const modesRequiringReset = ["window", "pip"];
         if (modesRequiringReset.includes(modeAtUnmountSetup)) {
-          console.log(`[ScreenModeHelper] Unmounting: Attempting to reset from ${modeAtUnmountSetup}.`);
-          
           const parentRefToUseForReset = modeAtUnmountSetup === 'window' ? originalParentRefForWindow :
                                          modeAtUnmountSetup === 'pip' ? originalParentRefForPiP : null;
 
           if (parentRefToUseForReset && parentRefToUseForReset.current) {
-             console.log("[ScreenModeHelper] Unmounting: Original parent ref found:", parentRefToUseForReset.current);
              reparentToOriginal(currentContainer, parentRefToUseForReset);
              // After reparenting, apply default styles
              if (defaultStyle) {
                 applyCssText(currentContainer, defaultStyle);
-                console.log("[ScreenModeHelper] Unmounting: Applied default style after reparenting.");
              } else {
                 applyCssText(currentContainer, 'display: block; position: relative;');
                 console.warn("[ScreenModeHelper] Unmounting: Applied fallback style (no defaultStyle) after reparenting.");
@@ -782,7 +1754,6 @@ const ScreenModeHelper = ({
              console.warn("[ScreenModeHelper] Unmounting from body, but no original parent ref to return to. Attempting to remove from body.");
              try {
                 document.body.removeChild(currentContainer);
-                console.log("[ScreenModeHelper] Unmounting: Removed container from document.body.");
              } catch (e) {
                 console.error("[ScreenModeHelper] Unmounting: Error removing container from document.body:", e);
              }
@@ -790,8 +1761,6 @@ const ScreenModeHelper = ({
             console.warn("[ScreenModeHelper] Unmounting: Container not in body and no original parent ref. State:", currentContainer.parentNode);
           }
         }
-      } else if (currentContainer && modeAtUnmountSetup === 'default') {
-          console.log("[ScreenModeHelper] Unmounting: Was in default mode. No special DOM cleanup needed by ScreenModeHelper besides what React/Preact does.");
       } else if (!currentContainer) {
           console.warn("[ScreenModeHelper] Unmounting: ContainerRef was null. Cannot perform cleanup.");
       }
@@ -855,7 +1824,7 @@ const ScreenModeHelper = ({
   );
 };
 
-return { ScreenModeHelper };
+return { ScreenModeHelper, LicenseAgreement: LicenseAgreementWithReset };
 ```
 
 

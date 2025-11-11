@@ -29,13 +29,14 @@
     - Execute datacorejsx code blocks that rely on external libraries not globally available in the Datacore environment.
     - Automatically generate documentation for components; the content must be manually written in the specified Markdown format.
     - Edit the documentation files directly; it is a read-only interface.
-        
-
-![alt text](/_RESOURCES/IMAGES/markdown_parser_1.webp)
 
 
+-----
 
-![alt text](/_RESOURCES/IMAGES/markdown_parser_2.webp)
+![markdown_parser_1.webp](_resources/images/markdown_parser_1.webp)
+
+
+![markdown_parser_2.webp](_resources/images/markdown_parser_2.webp)
 
 
 

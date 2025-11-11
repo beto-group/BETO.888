@@ -2,7 +2,7 @@
 
 
 ```datacorejsx
-const { BasicView } = await dc.require(dc.headerLink("_RESOURCES/DATACORE/41 OCRReader/D.q.ocrreader.component.md", "ViewComponent"));
-return <BasicView />;
+const { View } = await dc.require(dc.headerLink(dc.resolvePath("D.q.ocrreader.component.md"), "ViewComponent"));
+return <View />;
 ```
 

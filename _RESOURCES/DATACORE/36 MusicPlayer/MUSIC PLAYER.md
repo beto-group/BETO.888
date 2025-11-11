@@ -1,30 +1,41 @@
 
 ### Tab: MusicPlayer
 
-- **Description**: A fully-featured music streaming client that aggregates search results from multiple public APIs (like Audius and Jamendo) and provides a unified player interface, a playlist, a favorites list, and a detachable picture-in-picture (PiP) mode.
+- **Description**: A complete, self-contained music streaming application that runs directly inside Obsidian. It connects to multiple free music APIs to search for and stream audio, providing a rich user experience with a full suite of playback controls, playlist and library management, and a detachable, fully functional mini-player.
 
 - **Does**:
-
-    - Simultaneously searches multiple configured music APIs for a given query.
-    - Displays aggregated search results with source tags (e.g., Audius, Jamendo).
-    - Allows users to add tracks to a persistent queue, which is managed in the main player.
-    - Features a "like" system that saves favorite tracks to a local JSON file in the vault for persistence between sessions.
-    - Provides a complete player UI with play/pause, next/previous, volume control, and a custom, interactive progress bar.
-    - Includes a detachable Picture-in-Picture (PiP) window that offers full playback controls in a compact, floating overlay.
+  
+    - **Multi-Source Music Streaming**:    
+        - Integrates with multiple royalty-free music APIs, including **Audius** and **Jamendo**, to search for and stream a vast catalog of music.
+        - Provides a provider selection UI to enable or disable different music sources.
+    - **Comprehensive Music Library & Playlist Management**:
+        - **Search**: A powerful search bar to find tracks across all enabled providers.
+        - **Favorites**: Allows users to "like" tracks, which saves them to a persistent liked-songs.json file in the vault for long-term storage.
+        - **Queue**: A fully functional playback queue where users can add tracks from search results or their favorites. Tracks can be reordered (in a future version) and removed from the queue.
+    - **Advanced Player UI & Controls**:
+        - A polished main player interface with controls for play/pause, next/previous track, volume, and a custom, seekable progress bar.
+        - Includes advanced playback features like **shuffle**, and multiple **loop modes** (none, loop all, loop one).
+    - **Detachable, Fully-Featured Mini-Player (PiP)**:
+        - Features a "Picture-in-Picture" mode that launches the player in a separate, floating, and draggable window.
+        - The mini-player is **fully interactive** and includes two states:
+            - **Compact**: A minimal view showing track info, progress, and essential playback controls.
+            - **Expanded**: Can be expanded to reveal the full search, queue, and favorites tabs directly within the floating window.
+    - **Mobile-Friendly Launcher**: Includes a special mobile mode that renders as a floating action button (FAB) in the corner of the screen. Tapping the button launches the music player, providing an accessible, mobile-app-like experience.
 
 - **Can’t**:
-
-    - Search disabled providers like YouTube or Napster.
-    - Download songs locally; it only streams them from their respective sources.
-    - Import local audio files from the vault into the playlist.
-    - Create or manage multiple user-defined playlists.
-
-
-<iframe allowfullscreen src="https://www.youtube.com/embed/KS_PlZXM7uo" width="100%" height="555" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ></iframe>
+   
+    - **Play Local Files**: The player is designed to stream audio from the integrated APIs. It does not have functionality to browse or play local audio files (e.g., .mp3, .wav) stored in the vault.    
+    - **Function Offline**: It requires an active internet connection to search for and stream music from the online APIs. While liked songs are saved locally, their audio still needs to be streamed.
+    - **Integrate with Mainstream Services**: By design, it only connects to royalty-free or open music APIs. It cannot connect to services like Spotify, Apple Music, or YouTube Music due to API and DRM restrictions.
+    - **Download or Save Audio**: It is a streaming-only player and does not include any functionality to download or permanently save audio files to the user's device.
 
 
-![music_player.webp](/_RESOURCES/IMAGES/music_player.webp)
+-----
 
+![music_player_1.webp](_resources/images/music_player_1.webp)
+
+
+![music_player_2.webp](_resources/images/music_player_2.webp)
 
 
 

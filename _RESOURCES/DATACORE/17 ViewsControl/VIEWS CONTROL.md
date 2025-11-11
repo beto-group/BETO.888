@@ -1,48 +1,57 @@
 
+
 ### Tab: ViewsControl
 
-- **Description**: A powerful meta-component that provides a set of controls to change the display mode of its container. It can transform a standard component into an interactive floating panel, a native Picture-in-Picture window, a fullscreen element, or make it occupy an entire Obsidian tab.
-    
+- **Description**: A sophisticated component that renders an interactive 3D world using Babylon.js and pairs it with an advanced set of screen mode controls. This system can transform the 3D canvas from a simple inline element into various immersive views, including a true, separate OS-level window for a native multi-display experience.
+   
 - **Does**:
-    
-    - Adds a set of control buttons (e.g., "Full", "Win", "Tab", "PiP", "Float") to its container.
-    - **Fullscreen Mode**: Uses the browser's native Fullscreen API to expand the component to fill the entire screen.        
-    - **Window Mode**: Detaches the component from its original location and moves it to a fixed, full-viewport overlay with a high z-index.
-    - **Tab Mode**: Dynamically reparents the component's DOM element to fill the entire active workspace tab, creating an immersive, native-app feel.
-    - **Native PiP Mode**: Uses the browser's native Picture-in-Picture API to create a **view-only** floating window from the component's canvas. This window **can be moved outside the main application** and stays on top of other applications.
-    - **Float Mode**: Renders the component as a smaller, **fully interactive** floating panel that stays inside the main application window. This panel is draggable from its header and resizable from its corners.
-    - Intelligently manages and restores the component's original position in the DOM when exiting any special mode.
 
-- **Can’t**:    
-    - The "Tab Mode" is highly dependent on Obsidian's specific DOM structure (.workspace-leaf-content) and may break if that structure changes in future updates.
-    - The **Native PiP mode is view-only**; you cannot interact with the component's content (e.g., keyboard or mouse controls) inside the PiP window.
-    - The **Float mode is confined to the main application window** and cannot be moved outside of it, unlike the native PiP window.
-    - Native PiP functionality relies on modern browser support for the Picture-in-Picture and Canvas Capture Stream APIs and may not work in all browsers/ mobile wip
+    - **Interactive 3D Sandbox**: Renders a live Babylon.js scene featuring a player character that can be moved with keyboard controls (WASD or arrow keys). The scene includes dynamic lighting, a ground plane, and an orbit-style camera.  
+    - **Advanced Multi-Window & Display Modes**: Provides a comprehensive suite of viewing options:
+        - **External Window Mode**: Its most powerful feature, which uses Electron's BrowserWindow API to launch the 3D scene in a **completely separate, native OS-level window**. This new window can be moved to another monitor and contains its own set of mode controls.
+        - **Native PiP Mode**: Uses the browser's native Picture-in-Picture API to create a **view-only** floating window from the 3D canvas. This window can be moved outside the main Obsidian application and stays on top of other programs.
+        - **Float Mode (formerly "character")**: Renders the component as a smaller, **fully interactive** floating panel that stays inside the main application window. The panel is draggable from its header and resizable from its corners.
+        - **Standard Modes**: Includes conventional Browser Fullscreen, Full Tab (fills the Obsidian pane), and Windowed Overlay (fills the viewport).
+    - **Robust DOM & Resize Management**:
+        - Intelligently manages and restores the component's original position in the DOM when exiting any special mode, ensuring a clean and stable layout.
+        - Includes a debounced ResizeObserver to reliably resize the Babylon.js canvas during window or container size changes, preventing common rendering errors.
+    - **Inter-Window Communication**: When in External Window mode, clicking a mode button within the new window sends a signal back to the main application, allowing the user to seamlessly switch to another mode upon closing the external window.
+
+- **Can’t**:
+
+    - **Share State with External Window**: The "External Window" runs in a separate process and re-initializes its own Babylon.js scene. It does not share live state (like player position) with the original component in Obsidian.       
+    - **Provide Full Functionality in All Environments**:
+        - The **External Window** mode is entirely dependent on running within an Electron environment (like the Obsidian desktop app) with the remote module enabled. It will not work in a standard web browser.
+        - The **Native PiP** mode depends on modern browser support for the Picture-in-Picture API and Canvas Capture Streams.
+    - **Allow Interaction in Native PiP**: The native Picture-in-Picture mode is strictly **view-only**; you cannot control the player or interact with the scene from within the PiP window.
 
 
-
-<iframe allowfullscreen src="https://www.youtube.com/embed/vUMrIv1M3RE" width="100%" height="555" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ></iframe>
-
+----
 
 ##### NORMAL
-![views_control_normal.webp](/_RESOURCES/IMAGES/views_control_normal.webp)
+![views_control_1.webp](_resources/images/views_control_1.webp)
 
 ##### TAB
-![views_control_tab.webp](/_RESOURCES/IMAGES/views_control_tab.webp)
+![views_control_5.webp](_resources/images/views_control_5.webp)
+
+
+##### EXTERNAL
+![views_control_7.webp](_resources/images/views_control_7.webp)
 
 
 ##### PIP
-![views_control_pip.webp](/_RESOURCES/IMAGES/views_control_pip.webp)
+![views_control_4.webp](_resources/images/views_control_4.webp)
 
 ##### FLOAT
-![views_control_float.webp](/_RESOURCES/IMAGES/views_control_float.webp)
+![views_control_6.webp](_resources/images/views_control_6.webp)
 
 
 ##### WINDOW
-![views_control_window.webp](/_RESOURCES/IMAGES/views_control_window.webp)
+![views_control_3.webp](_resources/images/views_control_3.webp)
+
 
 ##### FULLSCREEN
-![views_control_full.webp](/_RESOURCES/IMAGES/views_control_full.webp)
+![views_control_2.webp](_resources/images/views_control_2.webp)
 
 
 

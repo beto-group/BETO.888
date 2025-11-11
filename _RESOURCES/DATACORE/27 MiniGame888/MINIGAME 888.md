@@ -1,34 +1,39 @@
 
-### Tab: MiniGame888
+### Tab: MiniGame 888
 
-- **Description**: A complete, interactive mini-game where the player sorts 3D "Enigma" cards into their correct categories. It uses a dynamic system of draggable pop-up windows (PIPs) for all UI elements, culminating in a score-based message and a link to claim an NFT.
+- **Description**: An elegant and immersive component designed to showcase a single "Enigma"—a combination of a 3D model and descriptive text—in a stylized, animated view. It seamlessly integrates a live-rendered Babylon.js scene with dynamically animated text to create a focused, high-impact presentation. The component is entirely self-contained and manages its own dependencies and assets.
 
 - **Does**:
    
-    - Renders a 3D scene of scattered, clickable cards using Babylon.js.
-    - When a card is clicked, it opens in a dedicated "Enigma" viewer window.
-    - The core gameplay involves dragging the Enigma window and dropping it onto the correct category window (Health, Wealth, or Experience).
-    - Provides immediate feedback on whether the categorization was a success or failure.
-    - Tracks the player's progress and total attempts, which determines the final outcome.
-    - When all cards are sorted, it displays a unique, congratulatory message based on the player's final score (total attempts).
-    - Includes a final "Claim Your NFT & Exit" button that links to an external Crossmint page.
-    - Features a background music player and a loading screen for a complete game-like experience.
+    - **Live 3D Model Rendering**:    
+        - Renders a 3D model (passed in as a sourceMesh prop) within a dedicated Babylon.js scene.
+        - The scene features a default environment, studio lighting, and an ArcRotateCamera that allows the user to inspect the model from all angles.
+    - **Cinematic Introduction Animation**:
+        - On load, the component plays a cinematic intro sequence: the 3D model rises from below the screen while rapidly spinning, and the camera simultaneously zooms and pans into its final viewing position.
+        - After the intro, the model continues to rotate gently on its Y-axis and hover subtly, creating a constant sense of motion.
+    - **Animated "Hacker-Style" Text**:
+        - Displays a title and a multi-line description, both of which are fully animatable.
+        - The description text uses a "character-by-character" reveal with a color-shifting animation, creating a futuristic, "hacker terminal" effect.
+    - **Dynamic Content & Reusability**: The title and description are passed in as props (titleText, descriptionText), making the component fully reusable for displaying different "Enigmas."
+    - **Self-Contained & Optimized**:
+        - Dynamically loads its own dependencies (Babylon.js) on demand, ensuring it doesn't slow down the initial page load.
+        - Includes a "Refresh" button to re-trigger the entire intro animation sequence.
+    - **Component-in-Component Capability**: Designed to be loaded and rendered inside other components (like the InfiniteCanvas), demonstrating a powerful "component-in-component" architecture.
 
 - **Can’t**:
    
-    - Use dynamic data; all card definitions, categories, and final messages are hardcoded in the component's source files.
-    - Save game progress; if the view is reloaded, the game resets.
-    - Directly interact with a crypto wallet; the "Claim NFT" button simply opens a webpage.
-    - Be customized by the user (the layout of the UI windows is fixed).
+    - **Load its Own 3D Models**: The component requires a pre-loaded Babylon.js mesh to be passed in via the sourceMesh prop. It does not contain logic to load .glb or other model files itself.    
+    - **Provide Advanced Playback Controls**: The animations for the 3D model and the text are hard-coded to autoplay and loop. There are no UI controls to pause, rewind, or modify the animations.
+    - **Be Used for General-Purpose Markdown**: The text rendering is highly stylized and specifically designed for the "Enigma" theme. It is not a general-purpose markdown previewer.
+    - **Function Offline on First Run**: It requires an internet connection for its initial run to download the Babylon.js library. Subsequent uses will be faster, though the component does not implement caching for the script itself.
 
 
-<iframe allowfullscreen src="https://www.youtube.com/embed/TSVHwDIE8Dg" width="100%" height="555" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ></iframe>
+-----
+
+![minigame_888_1.webp](_resources/images/minigame_888_1.webp)
 
 
-
-![minigame888.webp](/_RESOURCES/IMAGES/minigame888.webp)
-
-
+![minigame_888_2.webp](_resources/images/minigame_888_2.webp)
 
 ### Components 
 

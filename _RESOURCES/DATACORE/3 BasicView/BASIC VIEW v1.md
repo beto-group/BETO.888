@@ -15,7 +15,7 @@
     - Limited to static styling without additional customization.
 
 
-![basic_view.webp](/_RESOURCES/IMAGES/basic_view.webp)
+![basic_view_v1.webp](_resources/images/basic_view_v1.webp)
 
 ### Components
 

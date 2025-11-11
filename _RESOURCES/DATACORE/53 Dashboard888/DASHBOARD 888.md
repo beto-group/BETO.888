@@ -1,7 +1,4 @@
 
-
-
-
 ### Tab: Dashboard 888
 
 - **Description**: A rich, interactive documentation browser designed for exploring a structured knowledge base of components and concepts. It dynamically scans and parses a master DOCS.bet8.md file to build a multi-category, multi-module interface. Users can browse components in a visually engaging grid, then dive into a detailed view with a sticky navigation header, animated icons, collapsible sections, and a floating "on this page" outline that tracks scroll position. It also includes a live renderer for datacorejsx code blocks, allowing for interactive examples directly within the documentation.
@@ -21,7 +18,7 @@
         - Features a datacorejsx renderer that uses Babel (loaded from the vault) to transpile and execute live React/JSX code blocks directly within the documentation, enabling interactive demos and examples.
 
     - **Advanced Markdown Rendering**:        
-        - Supports extended markdown features like callouts (e.g., >[!note]), tables, and nested lists.
+        - Supports extended markdown features like callouts (e.g., >`[!note]`), tables, and nested lists.
         - Automatically finds and renders embedded media (images and videos) using Obsidian's  syntax.
         - Includes a sophisticated code block component with syntax highlighting (via Shiki), a language label, and a one-click "copy code" button.
 
@@ -32,26 +29,29 @@
     - Display icons for modules that are not correctly named or aliased in the component's configuration.
 
 
+-----
+
+![dashboard_888_1.webp](_resources/images/dashboard_888_1.webp)
 
 
-![alt text](/_RESOURCES/IMAGES/dashboard_888_1.webp)
+![dashboard_888_2.webp](_resources/images/dashboard_888_2.webp)
 
 
-![alt text](/_RESOURCES/IMAGES/dashboard_888_2.webp)
-
-![[dashboard_888_6.webp]]
-
-![[dashboard_888_3.webp]]
-
-![[dashboard_888_4.webp]]
+![dashboard_888_6.webp](_resources/images/dashboard_888_6.webp)
 
 
-![[dashboard_888_5.webp]]
+![dashboard_888_3.webp](_resources/images/dashboard_888_3.webp)
 
+
+![dashboard_888_4.webp](_resources/images/dashboard_888_4.webp)
+
+
+![dashboard_888_5.webp](_resources/images/dashboard_888_5.webp)
 
 
 
 ### COMPONENTS
+
 ###### [Dashboard 888 Viewer](D.q.dashboard888.viewer.md)
 
 ###### [Dashboard 888 Components](D.q.dashboard888.component.md)

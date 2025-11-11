@@ -7,7 +7,7 @@
 ```jsx
 // FILE: ViewComponent.jsx
 // (Using the last known good version from our previous exchanges)
-const componentFile = "_RESOURCES/DATACORE/19 IframePlayer/D.q.iframeplayer.component.md"; // Or v2.md if you named the file that
+const componentFile = dc.resolvePath("D.q.iframeplayer.component.md")
 
 const { getIframesGuidelines } = await dc.require(
   dc.headerLink(componentFile, "IframesGuidelines")
@@ -22,7 +22,7 @@ const {
 /**
  * Main View Component
  */
-function View({ initialUrl = "https://www.youtube.com/watch?v=KHh5dXmaBmw" }) { // <--- initialUrl is a prop
+function View({ initialUrl = "https://vimeo.com/333965228" }) { // <--- initialUrl is a prop
   const { useState, useEffect, useRef, useCallback } = dc;
 
   // ... (rest of the component logic remains the same)
@@ -467,7 +467,7 @@ return { EditableSectionUI, FileSectionsProvider };
 
 
 ```jsx
-const componentFile = "_RESOURCES/DATACORE/19 IframePlayer/D.q.iframeplayer.component.md";
+const componentFile = dc.resolvePath("D.q.iframeplayer.component.md");
 
 // Import the guidelines (remains unchanged)
 // Renamed for clarity if used locally, or use original name if preferred
@@ -477,20 +477,41 @@ const { getIframesGuidelines: getIframesGuidelinesImport } = await dc.require(dc
 
 function transformUrl(url) {
   if (!url) return "";
+  
   const lower = url.toLowerCase();
-  try {
-    if (lower.includes("youtube.com/watch")) {
-      const urlObj = new URL(url);
-      const videoId = urlObj.searchParams.get("v");
-      if (videoId) return "https://www.youtube.com/embed/" + videoId;
-    } else if (lower.includes("youtu.be/")) {
-      const parts = url.split("/");
-      const videoId = parts[parts.length - 1];
-      if (videoId) return "https://www.youtube.com/embed/" + videoId;
+  
+  // For YouTube URLs, convert to youtube-nocookie.com embed format
+  if (lower.includes("youtube.com") || lower.includes("youtu.be")) {
+    try {
+      let videoId = null;
+      
+      // Extract video ID from various YouTube URL formats
+      if (lower.includes("youtube.com/watch")) {
+        const urlObj = new URL(url);
+        videoId = urlObj.searchParams.get("v");
+      } else if (lower.includes("youtu.be/")) {
+        const parts = url.split("/");
+        videoId = parts[parts.length - 1].split("?")[0];
+      } else if (lower.includes("youtube.com/shorts/")) {
+        const parts = url.split("/shorts/");
+        if (parts[1]) {
+          videoId = parts[1].split("?")[0];
+        }
+      } else if (lower.includes("youtube.com/embed/")) {
+        const urlObj = new URL(url);
+        const pathParts = urlObj.pathname.split('/');
+        videoId = pathParts[pathParts.length - 1];
+      }
+      
+      // Convert to youtube-nocookie.com embed URL
+      if (videoId) {
+        return `https://www.youtube-nocookie.com/embed/${videoId}`;
+      }
+    } catch (e) {
+      console.error("[IframePlayer] URL transformation error:", e);
     }
-  } catch (e) {
-    console.error("URL transformation error:", e);
   }
+  
   return url;
 }
 
@@ -595,6 +616,39 @@ function IframeContainer({
   // disableIframeInteraction prop is not used for pointer-events logic here
   iframeWrapperRef
 }) {
+  const { useState, useEffect } = dc;
+  const [hasError, setHasError] = useState(false);
+  const [showFallback, setShowFallback] = useState(false);
+  
+  // Check if URL is YouTube
+  const isYouTube = iframeSrc && (
+    iframeSrc.toLowerCase().includes("youtube.com") || 
+    iframeSrc.toLowerCase().includes("youtu.be")
+  );
+  
+  // Open in external browser
+  const openExternal = () => {
+    if (iframeSrc) {
+      // Use Obsidian's app.openExternal if available, otherwise window.open
+      if (typeof app !== 'undefined' && app.openExternal) {
+        app.openExternal(iframeSrc);
+      } else {
+        window.open(iframeSrc, '_blank');
+      }
+    }
+  };
+  
+  // Show fallback for YouTube after a brief delay (to catch Error 153)
+  useEffect(() => {
+    if (isYouTube) {
+      const timer = setTimeout(() => {
+        setShowFallback(true);
+      }, 2000); // Show fallback option after 2 seconds
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isYouTube, iframeSrc]);
+  
   return (
     <div
       style={{
@@ -610,6 +664,31 @@ function IframeContainer({
         margin: "0 auto" // Centers the IframeContainer if its parent is wider
       }}
     >
+      {showFallback && isYouTube && (
+        <div
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: "10px",
+            zIndex: 1000,
+            backgroundColor: "rgba(0, 0, 0, 0.8)",
+            color: "white",
+            padding: "8px 12px",
+            borderRadius: "4px",
+            fontSize: "12px",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            gap: "6px"
+          }}
+          onClick={openExternal}
+          title="Open in external browser to bypass app:// protocol restrictions"
+        >
+          <span>🚀</span>
+          <span>Open in Browser</span>
+        </div>
+      )}
+      
       <div
         ref={iframeWrapperRef}
         style={{
@@ -626,21 +705,22 @@ function IframeContainer({
         {transformUrl(iframeSrc) ? (
           <iframe
             src={transformUrl(iframeSrc)}
-            title="Controlled iFrame"
-            // These width/height attributes set the iframe document's viewport size.
-            // For responsive scaling via CSS transform, these often match the `iframeWidth` and `iframeHeight` above.
+            title="YouTube video player"
             width={iframeWidth} 
             height={iframeHeight}
+            frameBorder="0"
             loading="lazy"
             allowFullScreen
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            referrerPolicy="strict-origin-when-cross-origin"
+            sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-presentation"
             style={{
               border: "none",
-              // The iframe should fill its wrapper, which is being scaled.
-              display: "block", // Good practice for iframes
+              display: "block",
               width: "100%", 
               height: "100%",
             }}
+            onError={() => setHasError(true)}
           ></iframe>
         ) : null}
       </div>

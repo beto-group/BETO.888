@@ -4,7 +4,30 @@
 # ViewComponent
 
 ```jsx
-const { useState, useEffect, useMemo } = dc;
+const { useState, useEffect, useMemo, useRef } = dc;
+
+// --- DOM Traversal Utilities ---
+function findNearestAncestorWithClass(element, className) {
+    if (!element) return null;
+    let current = element.parentNode;
+    while (current) {
+        if (current.classList && current.classList.contains(className)) {
+            return current;
+        }
+        current = current.parentNode;
+    }
+    return null;
+}
+
+function findDirectChildByClass(parent, className) {
+    if (!parent) return null;
+    for (const child of parent.children) {
+        if (child.classList && child.classList.contains(className)) {
+            return child;
+        }
+    }
+    return null;
+}
 
 const PROPERTY_TYPES_CONFIG = {
   text: { display: 'Text', placeholder: 'Enter any text...' },
@@ -134,7 +157,9 @@ function ListEditorCell({ items, onAddItem, onRemoveItem, placeholder = "New lis
           {items.map((item, index) => (
             <div key={index} className="datacore-list-item">
               <span>{String(item)}</span>
-              <button onClick={() => onRemoveItem(index)} className="datacore-icon-button" title="Remove item">🗑️</button>
+              <button onClick={() => onRemoveItem(index)} className="datacore-icon-button" title="Remove item">
+                <dc.Icon icon="x" />
+              </button>
             </div>
           ))}
         </div>
@@ -148,7 +173,9 @@ function ListEditorCell({ items, onAddItem, onRemoveItem, placeholder = "New lis
           placeholder={placeholder}
           className="datacore-input"
         />
-        <button onClick={handleAdd} className="datacore-button">＋</button>
+        <button onClick={handleAdd} className="datacore-button">
+          <dc.Icon icon="plus" />
+        </button>
       </div>
     </div>
   );
@@ -242,7 +269,26 @@ function BasicView() {
   else if (typeof app !== 'undefined') obsidianApp = app;
   if (!obsidianApp?.vault) return <h2>Waiting for Obsidian API...</h2>;
 
-  const [fileInputs, setFileInputs] = useState([{ id: Date.now(), path: "" }]);
+  // Get current file path and construct relative path to example file
+  const currentPath = dc.resolvePath("D.q.metadataedit.component");
+  console.log(currentPath)
+  const exampleFilePath = currentPath 
+    ? currentPath.substring(0, currentPath.lastIndexOf('/')) + '/_resources/example/Greek Sheet Pan Chicken Dinner.md'
+    : null;
+
+  // Full-tab state and refs
+  const instanceId = useRef(Math.random().toString(36).substr(2, 5)).current;
+  const uniqueWrapperClass = `metadata-edit-wrapper-${instanceId}`;
+  const [isFullTab, setIsFullTab] = useState(true);
+  const containerRef = useRef(null);
+  const stateRefs = useRef({}).current;
+
+  // Initialize with example file path
+  const [fileInputs, setFileInputs] = useState(() => {
+    return exampleFilePath 
+      ? [{ id: Date.now(), path: exampleFilePath }]
+      : [{ id: Date.now(), path: "" }];
+  });
   const [validFiles, setValidFiles] = useState([]);
   const [propertyTypes, setPropertyTypes] = useState({});
   const [status, setStatus] = useState({ message: "Ready.", type: "info" });
@@ -263,6 +309,75 @@ function BasicView() {
   const [newPropValue, setNewPropValue] = useState('');
   const [newPropList, setNewPropList] = useState([]);
   const [refreshKey, setRefreshKey] = useState(0);
+
+  // Full-tab effect
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container || !isFullTab) return;
+    const targetPaneContent = findNearestAncestorWithClass(
+      container,
+      "workspace-leaf-content"
+    );
+    if (!targetPaneContent) {
+      setIsFullTab(false);
+      return;
+    }
+    const contentWrapper =
+      findDirectChildByClass(targetPaneContent, "view-content") ||
+      targetPaneContent;
+    stateRefs.originalParent = container.parentNode;
+    stateRefs.placeholder = document.createElement("div");
+    stateRefs.placeholder.style.display = "none";
+    container.parentNode.insertBefore(stateRefs.placeholder, container);
+    stateRefs.parentPositionInfo = {
+      element: contentWrapper,
+      original: window.getComputedStyle(contentWrapper).position,
+    };
+    if (stateRefs.parentPositionInfo.original === "static") {
+      contentWrapper.style.position = "relative";
+    }
+    contentWrapper.appendChild(container);
+    Object.assign(container.style, {
+      position: "absolute",
+      top: "0",
+      left: "0",
+      width: "100%",
+      height: "100%",
+      zIndex: "9998",
+      overflow: "auto",
+    });
+    return () => {
+      if (stateRefs.placeholder?.parentNode) {
+        stateRefs.placeholder.parentNode.replaceChild(
+          container,
+          stateRefs.placeholder
+        );
+      }
+      if (stateRefs.parentPositionInfo?.element) {
+        stateRefs.parentPositionInfo.element.style.position =
+          stateRefs.parentPositionInfo.original === "static"
+            ? ""
+            : stateRefs.parentPositionInfo.original;
+      }
+      container.removeAttribute("style");
+      Object.keys(stateRefs).forEach((key) => (stateRefs[key] = null));
+    };
+  }, [isFullTab]);
+
+  const handleExitFullTab = (e) => {
+    e.stopPropagation();
+    setIsFullTab(false);
+  };
+
+  const handleEnterFullTab = () => setIsFullTab(true);
+
+  // Update file inputs when current path changes
+  useEffect(() => {
+    if (currentPath && fileInputs.length === 1 && !fileInputs[0].path) {
+      const newExamplePath = currentPath.substring(0, currentPath.lastIndexOf('/')) + '/_resources/example/Greek Sheet Pan Chicken Dinner.md';
+      setFileInputs([{ id: Date.now(), path: newExamplePath }]);
+    }
+  }, [currentPath]);
 
   const allUniqueKeys = useMemo(() => {
     const keys = new Set();
@@ -379,10 +494,109 @@ function BasicView() {
     setNewPropList([]);
   };
 
+  // Compact mode view
+  if (!isFullTab) {
+    return (
+      <div ref={containerRef} style={{
+        padding: "16px",
+        boxSizing: "border-box",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "12px",
+        border: "1px dashed #333",
+        borderRadius: "8px",
+        backgroundColor: "#0a0a0a",
+      }}>
+        <p style={{ margin: 0, color: "#888", fontSize: "14px" }}>
+          Metadata Editor is in compact mode.
+        </p>
+        <button
+          style={{
+            padding: "8px 16px",
+            fontSize: "12px",
+            fontWeight: "500",
+            color: "#ffffff",
+            backgroundColor: "#8b5cf6",
+            border: "none",
+            borderRadius: "6px",
+            cursor: "pointer",
+          }}
+          onClick={handleEnterFullTab}
+        >
+          Enter Full Tab
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <div className="datacore-container">
+    <div ref={containerRef} className={uniqueWrapperClass}>
+      <style>{`
+        .${uniqueWrapperClass} .metadata-exit-icon {
+          opacity: 0;
+          transform: scale(0.9);
+          transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+        }
+        .${uniqueWrapperClass}:hover .metadata-exit-icon {
+          opacity: 0.7;
+          transform: scale(1);
+        }
+        .${uniqueWrapperClass} .metadata-exit-icon:hover {
+          opacity: 1;
+        }
+        .${uniqueWrapperClass} .metadata-exit-icon:hover .exit-tooltip {
+          visibility: visible;
+          opacity: 1;
+        }
+      `}</style>
+      <div className="datacore-container">
+        <div
+          className="metadata-exit-icon"
+          onClick={handleExitFullTab}
+          style={{
+            position: "absolute",
+            top: "20px",
+            right: "20px",
+            fontFamily: "monospace",
+            fontSize: "14px",
+            color: "#666",
+            userSelect: "none",
+            cursor: "pointer",
+            zIndex: 100,
+          }}
+        >
+          &lt;/&gt;
+          <span
+            className="exit-tooltip"
+            style={{
+              visibility: "hidden",
+              opacity: 0,
+              backgroundColor: "#1a1a1a",
+              color: "#ffffff",
+              textAlign: "center",
+              borderRadius: "4px",
+              padding: "5px 10px",
+              position: "absolute",
+              zIndex: 1,
+              top: "50%",
+              right: "120%",
+              transform: "translateY(-50%)",
+              fontSize: "12px",
+              whiteSpace: "nowrap",
+              pointerEvents: "none",
+              border: "1px solid #333",
+            }}
+          >
+            Close Full Mode
+          </span>
+        </div>
       <div className="datacore-panel datacore-file-panel">
-        <h3>File Selection</h3>
+        <h3 style={{ margin: "0 0 12px 0", color: "#ffffff", display: "flex", alignItems: "center", gap: "8px" }}>
+          <dc.Icon icon="files" style={{ color: "#8b5cf6" }} />
+          File Selection
+        </h3>
         <div className="datacore-file-list">
           {fileInputs.map((input) => {
             const file = obsidianApp.vault.getAbstractFileByPath(input.path.trim());
@@ -396,12 +610,17 @@ function BasicView() {
                   placeholder="Path/to/file.md"
                   className={`datacore-input ${input.path.trim() && (isValid ? 'is-valid' : 'is-invalid')}`}
                 />
-                {fileInputs.length > 1 && <button onClick={() => removeFileInput(input.id)} className="datacore-remove-button" title="Remove">×</button>}
+                {fileInputs.length > 1 && <button onClick={() => removeFileInput(input.id)} className="datacore-remove-button" title="Remove">
+                  <dc.Icon icon="x" />
+                </button>}
               </div>
             );
           })}
         </div>
-        <button onClick={addFileInput} className="datacore-add-path-button">＋ Add File Path</button>
+        <button onClick={addFileInput} className="datacore-add-path-button">
+          <dc.Icon icon="plus" style={{ marginRight: "6px" }} />
+          Add File Path
+        </button>
       </div>
 
       <div className="datacore-panel datacore-editor-panel">
@@ -410,9 +629,14 @@ function BasicView() {
           <>
             <div className="datacore-toolbar">
               <div className="datacore-bulk-edit-group">
-                <select className="datacore-select" value={bulkEditKey} onChange={e => { setBulkEditKey(e.target.value); setBulkEditValue(''); }}>
-                  <option value="">Bulk Edit a Property...</option>
-                  {allUniqueKeys.map(key => <option key={key} value={key}>{key}</option>)}
+                <select 
+                  className="datacore-select" 
+                  value={bulkEditKey} 
+                  onChange={e => { setBulkEditKey(e.target.value); setBulkEditValue(''); }}
+                  style={{ color: '#ffffff', backgroundColor: '#1a1a1a', padding: '8px', minHeight: '36px' }}
+                >
+                  <option value="" style={{ color: '#ffffff', backgroundColor: '#1a1a1a' }}>Bulk Edit a Property...</option>
+                  {allUniqueKeys.map(key => <option key={key} value={key} style={{ color: '#ffffff', backgroundColor: '#1a1a1a' }}>{key}</option>)}
                 </select>
                 {bulkEditKey && (
                   <>
@@ -476,8 +700,14 @@ function BasicView() {
                 )}
               </div>
               <div className="datacore-bulk-actions">
-                <button onClick={() => setBulkMode(bulkMode === 'add' ? null : 'add')} className="datacore-button">＋ Bulk Add</button>
-                <button onClick={() => setBulkMode(bulkMode === 'delete' ? null : 'delete')} className="datacore-button-danger">🗑️ Bulk Delete</button>
+                <button onClick={() => setBulkMode(bulkMode === 'add' ? null : 'add')} className="datacore-button">
+                  <dc.Icon icon="plus" style={{ marginRight: "4px" }} />
+                  Bulk Add
+                </button>
+                <button onClick={() => setBulkMode(bulkMode === 'delete' ? null : 'delete')} className="datacore-button-danger">
+                  <dc.Icon icon="trash-2" style={{ marginRight: "4px" }} />
+                  Bulk Delete
+                </button>
               </div>
             </div>
 
@@ -486,8 +716,13 @@ function BasicView() {
                 <div className="datacore-modal" onClick={e => e.stopPropagation()}>
                   <h3>Add Property to {validFiles.length} Files</h3>
                   <input type="text" value={bulkAddKey} onChange={e => setBulkAddKey(e.target.value)} placeholder="New Property Key" className="datacore-input" />
-                  <select value={bulkAddType} onChange={e => { setBulkAddType(e.target.value); setBulkAddValue(''); setBulkAddList([]); }} className="datacore-select">
-                    {Object.entries(PROPERTY_TYPES_CONFIG).map(([id, config]) => <option key={id} value={id}>{config.display}</option>)}
+                  <select 
+                    value={bulkAddType} 
+                    onChange={e => { setBulkAddType(e.target.value); setBulkAddValue(''); setBulkAddList([]); }} 
+                    className="datacore-select"
+                    style={{ color: '#ffffff', backgroundColor: '#1a1a1a', padding: '8px', minHeight: '36px' }}
+                  >
+                    {Object.entries(PROPERTY_TYPES_CONFIG).map(([id, config]) => <option key={id} value={id} style={{ color: '#ffffff', backgroundColor: '#1a1a1a' }}>{config.display}</option>)}
                   </select>
                   {bulkAddType === 'list' ? (
                     <>
@@ -533,9 +768,14 @@ function BasicView() {
               <div className="datacore-modal-backdrop" onClick={() => setBulkMode(null)}>
                 <div className="datacore-modal" onClick={e => e.stopPropagation()}>
                   <h3>Delete Property from {validFiles.length} Files</h3>
-                  <select className="datacore-select" value={bulkEditKey} onChange={e => setBulkEditKey(e.target.value)}>
-                    <option value="">Select property to delete...</option>
-                    {allUniqueKeys.map(key => <option key={key} value={key}>{key}</option>)}
+                  <select 
+                    className="datacore-select" 
+                    value={bulkEditKey} 
+                    onChange={e => setBulkEditKey(e.target.value)}
+                    style={{ color: '#ffffff', backgroundColor: '#1a1a1a', padding: '8px', minHeight: '36px' }}
+                  >
+                    <option value="" style={{ color: '#ffffff', backgroundColor: '#1a1a1a' }}>Select property to delete...</option>
+                    {allUniqueKeys.map(key => <option key={key} value={key} style={{ color: '#ffffff', backgroundColor: '#1a1a1a' }}>{key}</option>)}
                   </select>
                   <div className="datacore-modal-actions">
                     <button onClick={() => setBulkMode(null)} className="datacore-button-secondary">Cancel</button>
@@ -562,8 +802,13 @@ function BasicView() {
                       <tr key={key}>
                         <td><code>{key}</code></td>
                         <td>
-                          <select value={currentType} disabled className="datacore-select">
-                            {Object.entries(PROPERTY_TYPES_CONFIG).map(([id, config]) => <option key={id} value={id}>{config.display}</option>)}
+                          <select 
+                            value={currentType} 
+                            disabled 
+                            className="datacore-select"
+                            style={{ color: '#ffffff', backgroundColor: '#1a1a1a', padding: '8px', minHeight: '36px' }}
+                          >
+                            {Object.entries(PROPERTY_TYPES_CONFIG).map(([id, config]) => <option key={id} value={id} style={{ color: '#ffffff', backgroundColor: '#1a1a1a' }}>{config.display}</option>)}
                           </select>
                         </td>
                         <td>
@@ -575,7 +820,11 @@ function BasicView() {
                             onRemoveItem={(index) => handleRemoveItemFromList(activeFile, key, index)}
                           />
                         </td>
-                        <td><button onClick={() => handleDeleteProperty(activeFile, key)} className="datacore-icon-button" title={`Delete '${key}'`}>🗑️</button></td>
+                        <td>
+                          <button onClick={() => handleDeleteProperty(activeFile, key)} className="datacore-icon-button" title={`Delete '${key}'`}>
+                            <dc.Icon icon="trash-2" />
+                          </button>
+                        </td>
                       </tr>
                     );
                   })}
@@ -591,8 +840,8 @@ function BasicView() {
                 <h4>Add Property to This File</h4>
                 <div className="datacore-add-grid">
                   <input type="text" value={newPropKey} onChange={e => setNewPropKey(e.target.value)} placeholder="Property key" className="datacore-input" />
-                  <select value={newPropType} onChange={e => { setNewPropType(e.target.value); setNewPropValue(''); setNewPropList([]); }} className="datacore-select">
-                    {Object.entries(PROPERTY_TYPES_CONFIG).map(([id, config]) => <option key={id} value={id}>{config.display}</option>)}
+                  <select value={newPropType} onChange={e => { setNewPropType(e.target.value); setNewPropValue(''); setNewPropList([]); }} className="datacore-select" style={{ color: '#ffffff', backgroundColor: '#1a1a1a', padding: '8px', minHeight: '36px' }}>
+                    {Object.entries(PROPERTY_TYPES_CONFIG).map(([id, config]) => <option key={id} value={id} style={{ color: '#ffffff', backgroundColor: '#1a1a1a' }}>{config.display}</option>)}
                   </select>
                   {newPropType === 'list' ? (
                     <div className="datacore-add-list">
@@ -637,64 +886,105 @@ function BasicView() {
 
       <div className={`datacore-status-bar status-${status.type}`}><b>Status:</b> {status.message}</div>
       <style>{`
-        .datacore-container { display: flex; flex-direction: column; gap: 16px; height: 90vh; width: 100%; padding: 16px; background-color: var(--background-secondary); border-radius: 12px; }
-        .datacore-panel { background-color: var(--background-primary); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; min-height: 0; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+        .datacore-container { display: flex; flex-direction: column; gap: 16px; height: 90vh; width: 100%; padding: 16px; background-color: #000000; border-radius: 12px; }
+        .datacore-panel { background-color: #0a0a0a; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; min-height: 0; box-shadow: 0 2px 10px rgba(0,0,0,0.5); border: 1px solid #1a1a1a; }
         .datacore-file-panel { min-height: 150px; flex-shrink: 0; gap: 10px; }
         .datacore-editor-panel { flex-grow: 1; position: relative; gap: 12px; }
         .datacore-file-list { flex: 1; overflow-y: auto; margin-bottom: 10px; }
-        .datacore-input, .datacore-select, .datacore-container textarea { width: 100%; padding: 10px 12px; box-sizing: border-box; background-color: var(--background-secondary); border: 1px solid var(--background-modifier-border); border-radius: 10px; color: var(--text-normal); font-family: inherit; font-size: 14px; transition: border 120ms ease, box-shadow 120ms ease; }
-        .datacore-input:focus, .datacore-select:focus { outline: none; border-color: var(--interactive-accent); box-shadow: 0 0 0 3px color-mix(in oklab, var(--interactive-accent) 25%, transparent); }
-        .datacore-input.is-valid { border-left: 3px solid var(--background-modifier-success); }
-        .datacore-input.is-invalid { border-left: 3px solid var(--background-modifier-error); }
+        .datacore-input, .datacore-select, .datacore-container textarea { 
+          width: 100%; 
+          padding: 10px 12px; 
+          box-sizing: border-box; 
+          background-color: #1a1a1a; 
+          border: 1px solid #333; 
+          border-radius: 10px; 
+          color: #ffffff !important; 
+          font-family: inherit; 
+          font-size: 14px; 
+          transition: border 120ms ease, box-shadow 120ms ease; 
+        }
+        .datacore-input::placeholder { color: #666; }
+        .datacore-select { 
+          appearance: none; 
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="%23888" d="M6 9L1 4h10z"/></svg>');
+          background-repeat: no-repeat;
+          background-position: right 12px center;
+          padding-right: 36px;
+          cursor: pointer;
+          color: #ffffff !important;
+        }
+        .datacore-select:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+        .datacore-select option { 
+          background-color: #1a1a1a !important; 
+          color: #ffffff !important; 
+          padding: 10px 12px;
+          font-size: 14px;
+        }
+        .datacore-input:focus, .datacore-select:focus { outline: none; border-color: #8b5cf6; box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25); }
+        .datacore-input.is-valid { border-left: 3px solid #10b981; }
+        .datacore-input.is-invalid { border-left: 3px solid #ef4444; }
         .datacore-path-input-group { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-        .datacore-remove-button { background-color: var(--background-modifier-error); color: white; border: none; border-radius: 50%; width: 26px; height: 26px; cursor: pointer; display: grid; place-items: center; flex-shrink: 0; }
-        .datacore-add-path-button { background: linear-gradient(180deg, var(--interactive-accent), color-mix(in oklab, var(--interactive-accent) 80%, black)); color: var(--text-on-accent); border: none; padding: 12px; width: 100%; margin-top: 5px; border-radius: 10px; cursor: pointer; font-weight: 700; }
+        .datacore-remove-button { background-color: #ef4444; color: white; border: none; border-radius: 50%; width: 26px; height: 26px; cursor: pointer; display: grid; place-items: center; flex-shrink: 0; }
+        .datacore-add-path-button { background: linear-gradient(180deg, #8b5cf6, #7c3aed); color: #ffffff; border: none; padding: 12px; width: 100%; margin-top: 5px; border-radius: 10px; cursor: pointer; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+        .datacore-add-path-button:hover { background: linear-gradient(180deg, #7c3aed, #6d28d9); }
         .datacore-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 6px; flex-wrap: wrap; }
         .datacore-bulk-edit-group { display: flex; align-items: flex-start; gap: 10px; flex-grow: 1; min-width: 320px; }
         .datacore-bulk-actions { display: flex; gap: 8px; }
-        .datacore-tabs { display: flex; flex-wrap: wrap; border-bottom: 1px solid var(--background-modifier-border); gap: 6px; padding-bottom: 6px; }
-        .datacore-tab { background: var(--background-secondary); border: 1px solid var(--background-modifier-border); padding: 8px 12px; cursor: pointer; color: var(--text-muted); border-radius: 999px; }
-        .datacore-tab.is-active { color: var(--text-normal); font-weight: 700; border-color: var(--interactive-accent); background: color-mix(in oklab, var(--interactive-accent) 15%, var(--background-secondary)); }
-        .datacore-table-container { flex: 1; overflow-y: auto; border: 1px solid var(--background-modifier-border); border-radius: 10px; margin-top: 8px; }
+        .datacore-tabs { display: flex; flex-wrap: wrap; border-bottom: 1px solid #333; gap: 6px; padding-bottom: 6px; }
+        .datacore-tab { background: #1a1a1a; border: 1px solid #333; padding: 8px 12px; cursor: pointer; color: #888; border-radius: 999px; transition: all 0.2s ease; }
+        .datacore-tab:hover { color: #ffffff; border-color: #8b5cf6; }
+        .datacore-tab.is-active { color: #ffffff; font-weight: 700; border-color: #8b5cf6; background: rgba(139, 92, 246, 0.15); }
+        .datacore-table-container { flex: 1; overflow-y: auto; border: 1px solid #333; border-radius: 10px; margin-top: 8px; background-color: #0a0a0a; }
         .datacore-table { width: 100%; border-collapse: collapse; }
-        .datacore-table th, .datacore-table td { padding: 12px; border-bottom: 1px solid var(--background-modifier-border); text-align: left; vertical-align: middle; }
-        .datacore-table th { background-color: var(--background-secondary-alt); font-weight: 700; color: var(--text-muted); position: sticky; top: 0; z-index: 1; }
+        .datacore-table th, .datacore-table td { padding: 12px; border-bottom: 1px solid #1a1a1a; text-align: left; vertical-align: middle; color: #ffffff; }
+        .datacore-table th { background-color: #000000; font-weight: 700; color: #888; position: sticky; top: 0; z-index: 1; }
+        .datacore-table tr:hover { background-color: #0f0f0f; }
         .datacore-table tr:last-child td { border-bottom: none; }
-        .datacore-table code { background-color: var(--background-modifier-code-block); padding: 4px 8px; border-radius: 6px; }
-        .datacore-checkbox { transform: scale(1.2); cursor: pointer; }
-        .datacore-button, .datacore-icon-button { padding: 10px 16px; background-color: var(--interactive-accent); color: var(--text-on-accent); border: none; border-radius: 10px; font-weight: 700; cursor: pointer; transition: filter 120ms ease, transform 60ms ease; }
-        .datacore-button:hover { filter: brightness(1.05); }
+        .datacore-table code { background-color: #1a1a1a; padding: 4px 8px; border-radius: 6px; color: #8b5cf6; }
+        .datacore-checkbox { transform: scale(1.2); cursor: pointer; accent-color: #8b5cf6; }
+        .datacore-button, .datacore-icon-button { padding: 10px 16px; background-color: #8b5cf6; color: #ffffff; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; transition: filter 120ms ease, transform 60ms ease; display: inline-flex; align-items: center; justify-content: center; }
+        .datacore-button:hover { filter: brightness(1.15); }
         .datacore-button:active { transform: translateY(1px); }
-        .datacore-button-danger { background-color: var(--background-modifier-error); color: white; }
-        .datacore-button-secondary { background-color: var(--background-modifier-border); color: var(--text-normal); }
-        .datacore-icon-button { background: none; color: var(--text-muted); font-size: 18px; padding: 4px; border-radius: 8px; }
-        .datacore-icon-button:hover { color: var(--text-error); background: var(--background-secondary); }
-        .datacore-empty-state { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; height: 100%; color: var(--text-muted); gap: 6px; }
-        .datacore-status-bar { flex-shrink: 0; border-top: 1px solid var(--background-modifier-border); padding-top: 12px; font-size: 13px; color: var(--text-muted); }
-        .status-success { color: var(--text-success); } .status-error { color: var(--text-error); }
-        .datacore-modal-backdrop { position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 100; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(4px); padding: 16px; }
-        .datacore-modal { background-color: var(--background-primary); padding: 24px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.35); display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 560px; }
+        .datacore-button-danger { background-color: #ef4444; color: white; }
+        .datacore-button-danger:hover { filter: brightness(1.15); }
+        .datacore-button-secondary { background-color: #333; color: #ffffff; }
+        .datacore-button-secondary:hover { background-color: #444; }
+        .datacore-icon-button { background: none; color: #888; font-size: 18px; padding: 4px; border-radius: 8px; }
+        .datacore-icon-button:hover { color: #ef4444; background: #1a1a1a; }
+        .datacore-empty-state { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; height: 100%; color: #666; gap: 6px; }
+        .datacore-status-bar { flex-shrink: 0; border-top: 1px solid #333; padding-top: 12px; font-size: 13px; color: #888; }
+        .status-success { color: #10b981; } .status-error { color: #ef4444; }
+        .datacore-modal-backdrop { position: fixed; inset: 0; background-color: rgba(0,0,0,0.8); z-index: 100; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(4px); padding: 16px; }
+        .datacore-modal { background-color: #0a0a0a; padding: 24px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 560px; border: 1px solid #1a1a1a; }
+        .datacore-modal h3 { color: #ffffff; margin: 0 0 8px 0; }
         .datacore-modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 8px; }
-        .datacore-loading-overlay { position: absolute; inset: 0; background-color: rgba(0,0,0,0.45); z-index: 10; display: flex; justify-content: center; align-items: center; border-radius: 12px; }
-        .datacore-spinner { width: 44px; height: 44px; border: 4px solid var(--background-modifier-border); border-top-color: var(--interactive-accent); border-radius: 50%; animation: spin 1s linear infinite; }
+        .datacore-loading-overlay { position: absolute; inset: 0; background-color: rgba(0,0,0,0.8); z-index: 10; display: flex; justify-content: center; align-items: center; border-radius: 12px; }
+        .datacore-spinner { width: 44px; height: 44px; border: 4px solid #333; border-top-color: #8b5cf6; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .datacore-list-editor { display: flex; flex-direction: column; gap: 8px; }
         .datacore-list-items { display: flex; flex-direction: column; gap: 6px; max-height: 200px; overflow-y: auto; }
-        .datacore-list-item { display: flex; justify-content: space-between; align-items: center; background-color: var(--background-secondary); padding: 8px 10px; border-radius: 8px; }
-        .datacore-empty-list-text { color: var(--text-faint); font-style: italic; padding: 6px 10px; }
+        .datacore-list-item { display: flex; justify-content: space-between; align-items: center; background-color: #1a1a1a; padding: 8px 10px; border-radius: 8px; color: #ffffff; }
+        .datacore-empty-list-text { color: #666; font-style: italic; padding: 6px 10px; }
         .datacore-list-add { display: flex; gap: 8px; }
         .datacore-list-add .datacore-button { padding: 8px 12px; }
         .datacore-bulk-list-wrap { flex: 1; min-width: 320px; }
         .datacore-checkbox-row { display: flex; align-items: center; gap: 10px; }
-        .datacore-checkbox-label { color: var(--text-muted); }
-        .datacore-add-single { margin-top: 12px; padding: 12px; border: 1px dashed var(--background-modifier-border); border-radius: 12px; background: color-mix(in oklab, var(--background-secondary) 80%, transparent); }
+        .datacore-checkbox-label { color: #888; }
+        .datacore-add-single { margin-top: 12px; padding: 12px; border: 1px dashed #333; border-radius: 12px; background: #0a0a0a; }
+        .datacore-add-single h4 { color: #ffffff; margin: 0 0 12px 0; }
         .datacore-add-grid { display: grid; grid-template-columns: 1.2fr 0.8fr 2fr auto; gap: 10px; align-items: start; }
         .datacore-add-list { grid-column: span 2; }
         .datacore-add-single-btn { white-space: nowrap; }
-        .datacore-segment { display: inline-flex; background: var(--background-secondary); border: 1px solid var(--background-modifier-border); border-radius: 999px; overflow: hidden; margin-bottom: 8px; }
-        .datacore-segment .seg { padding: 6px 10px; cursor: pointer; color: var(--text-muted); }
-        .datacore-segment .seg.active { background: color-mix(in oklab, var(--interactive-accent) 20%, var(--background-secondary)); color: var(--text-normal); font-weight: 700; }
+        .datacore-segment { display: inline-flex; background: #1a1a1a; border: 1px solid #333; border-radius: 999px; overflow: hidden; margin-bottom: 8px; }
+        .datacore-segment .seg { padding: 6px 10px; cursor: pointer; color: #888; }
+        .datacore-segment .seg.active { background: rgba(139, 92, 246, 0.2); color: #ffffff; font-weight: 700; }
       `}</style>
+      </div>
     </div>
   );
 }

@@ -4,7 +4,7 @@
 
 ```jsx
 const { useState, useMemo, useEffect, useRef } = dc;
-const { getStyles } = await dc.require(dc.headerLink("_RESOURCES/DATACORE/4 TagViewer/D.q.tagviewer.component.md", "ViewerStyles"));
+const { getStyles } = await dc.require(dc.headerLink(dc.resolvePath("D.q.tagviewer.component.md"), "ViewerStyles"));
 const tagStyles = getStyles();
 
 function TagBrowser({ config = { queryPath: "@page" } }) {
@@ -237,12 +237,13 @@ function TagBrowser({ config = { queryPath: "@page" } }) {
       <div style={tagStyles.header}>
         <div style={tagStyles.headerLeft}>
           <button onClick={navigateToHome} style={tagStyles.homeButton}>
-            🏠
+            <dc.Icon icon="home" style={{ fontSize: "16px" }} />
           </button>
           <button
             onClick={() => setShowingNoteTags(s => !s)}
             style={tagStyles.syncButton}
           >
+            <dc.Icon icon={showingNoteTags ? "link" : "unlink"} style={{ fontSize: "14px" }} />
             {showingNoteTags ? "Sync ON" : "Sync"}
           </button>
           {untaggedNotes.length > 0 && (
@@ -402,20 +403,22 @@ function TagBrowser({ config = { queryPath: "@page" } }) {
                   }}
                 >
                   <span style={{ 
-                    marginRight: "6px", 
+                    marginRight: "8px", 
                     fontSize: "14px",
                     color: isDragging 
-                      ? "var(--text-on-accent)" 
-                      : item.type === 'tag' ? "var(--text-accent)" : "var(--text-normal)",
+                      ? "#ffffff" 
+                      : item.type === 'tag' ? "#8b5cf6" : "#a0a0a0",
+                    display: "flex",
+                    alignItems: "center",
                   }}>
-                    {item.type === 'tag' ? '📁' : '🔗'}
+                    <dc.Icon icon={item.type === 'tag' ? 'folder' : 'file-text'} style={{ fontSize: "16px" }} />
                   </span>
                   <span 
                     style={{ 
                       flexGrow: 1,
                       color: isDragging 
-                        ? "var(--text-on-accent)" 
-                        : item.type === 'tag' ? "var(--text-accent)" : "var(--text-normal)",
+                        ? "#ffffff" 
+                        : "#e0e0e0",
                       fontWeight: isDragging ? "bold" : "normal",
                       fontSize: "14px",
                     }}
@@ -459,53 +462,59 @@ function getStyles() {
   return {
     // Container wrapping the entire TagBrowser view
     container: {
-      padding: "10px",
-      backgroundColor: "var(--background-primary)",
-      borderRadius: "5px",
+      padding: "20px",
+      backgroundColor: "#0a0a0a",
+      borderRadius: "0",
+      minHeight: "100vh",
     },
     // Header area containing navigation and search controls
     header: {
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
-      marginBottom: "10px",
+      marginBottom: "20px",
+      paddingBottom: "15px",
+      borderBottom: "1px solid #1a1a1a",
     },
     // New left header section for grouped controls
     headerLeft: {
       display: "flex",
       alignItems: "center",
-      gap: "10px",
+      gap: "8px",
     },
     // Right header section (can be used for other controls)
     headerRight: {
       display: "flex",
       alignItems: "center",
-      gap: "10px",
+      gap: "8px",
     },
     // Home button style (e.g. 🏠)
     homeButton: {
       cursor: "pointer",
-      background: "var(--interactive-accent)",
-      color: "var(--text-on-accent)",
-      border: "none",
-      borderRadius: "4px",
-      padding: "5px 10px",
+      background: "#1a1a1a",
+      color: "#a0a0a0",
+      border: "1px solid #2a2a2a",
+      borderRadius: "6px",
+      padding: "6px 12px",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
+      transition: "all 0.2s ease",
     },
     // Sync button style (toggles tag syncing)
     syncButton: {
       cursor: "pointer",
-      background: "var(--interactive-accent)",
-      color: "var(--text-on-accent)",
-      border: "none",
-      borderRadius: "4px",
-      padding: "5px 10px",
+      background: "#1a1a1a",
+      color: "#a0a0a0",
+      border: "1px solid #2a2a2a",
+      borderRadius: "6px",
+      padding: "6px 12px",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      fontSize: "14px",
+      fontSize: "13px",
+      transition: "all 0.2s ease",
+      gap: "6px",
     },
     // Container for the search input and clear button
     searchContainer: {
@@ -513,61 +522,74 @@ function getStyles() {
     },
     // Search input style
     searchInput: {
-      padding: "5px 25px 5px 10px",
-      borderRadius: "4px",
-      border: "1px solid var(--background-modifier-border)",
-      backgroundColor: "var(--background-primary)",
-      color: "var(--text-normal)",
-      width: "180px",
+      padding: "6px 30px 6px 12px",
+      borderRadius: "6px",
+      border: "1px solid #2a2a2a",
+      backgroundColor: "#141414",
+      color: "#e0e0e0",
+      width: "200px",
+      fontSize: "13px",
+      transition: "border-color 0.2s ease",
     },
     // Clear search button style (the "×" button)
     clearButton: {
       position: "absolute",
-      right: "5px",
+      right: "8px",
+      top: "50%",
+      transform: "translateY(-50%)",
       background: "none",
       border: "none",
       cursor: "pointer",
-      color: "var(--text-muted)",
-      padding: "0 5px",
+      color: "#666",
+      padding: "0",
+      fontSize: "18px",
+      lineHeight: "1",
     },
     // Style for the untagged notes button (circular counter)
     untaggedButton: {
       cursor: "pointer",
-      background: "var(--text-error)",
-      color: "white",
-      border: "none",
+      background: "#1a1a1a",
+      color: "#ef4444",
+      border: "1px solid #2a2a2a",
       borderRadius: "50%",
-      width: "24px",
-      height: "24px",
+      width: "28px",
+      height: "28px",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
       fontWeight: "bold",
+      fontSize: "12px",
+      transition: "all 0.2s ease",
     },
     // New style for active state of untagged button
     untaggedButtonActive: {
       cursor: "pointer",
-      background: "#004494", // Blue color when active
-      color: "var(--text-on-accent)",
-      border: "none",
+      background: "#8b5cf6",
+      color: "#ffffff",
+      border: "1px solid #8b5cf6",
       borderRadius: "50%",
-      width: "24px",
-      height: "24px",
+      width: "28px",
+      height: "28px",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
       fontWeight: "bold",
+      fontSize: "12px",
+      transition: "all 0.2s ease",
     },
     // Container for showing note tags (sync mode)
     noteTagContainer: {
-      padding: "10px",
-      backgroundColor: "var(--background-secondary)",
-      borderRadius: "5px",
-      marginBottom: "10px",
-      border: "1px solid var(--background-modifier-border)",
+      padding: "15px",
+      backgroundColor: "#141414",
+      borderRadius: "8px",
+      marginBottom: "20px",
+      border: "1px solid #2a2a2a",
     },
     noteTagTitle: {
-      margin: "0 0 10px 0",
+      margin: "0 0 12px 0",
+      color: "#e0e0e0",
+      fontSize: "14px",
+      fontWeight: "500",
     },
     // List style for tags within the note tag container
     tagList: {
@@ -576,18 +598,19 @@ function getStyles() {
       margin: 0,
       display: "flex",
       flexWrap: "wrap",
-      gap: "5px",
+      gap: "6px",
     },
     // Style for each tag button in the tag list
     tagButton: {
       cursor: "pointer",
-      background: "var(--interactive-normal)",
-      color: "var(--text-accent)",
-      border: "none",
-      borderRadius: "4px",
-      padding: "3px 8px",
-      fontWeight: "bold",
-      fontSize: "0.9em",
+      background: "#1a1a1a",
+      color: "#e0e0e0",
+      border: "1px solid #2a2a2a",
+      borderRadius: "6px",
+      padding: "4px 10px",
+      fontWeight: "500",
+      fontSize: "12px",
+      transition: "all 0.2s ease",
     },
     // Breadcrumb path styles
     breadcrumb: {
@@ -595,29 +618,34 @@ function getStyles() {
     },
     breadcrumbButton: {
       cursor: "pointer",
-      color: "var(--text-accent)",
-      fontWeight: "bold",
+      color: "#e0e0e0",
+      fontWeight: "500",
       background: "none",
       border: "none",
-      padding: "2px 4px",
+      padding: "2px 6px",
       marginRight: "2px",
-      textDecoration: "underline",
-      fontSize: "0.95em",
-      borderRadius: "3px",
+      textDecoration: "none",
+      fontSize: "13px",
+      borderRadius: "4px",
       lineHeight: "1.4",
+      transition: "background-color 0.2s ease",
     },
     breadcrumbCurrent: {
-      color: "var(--text-normal)",
-      fontWeight: "bold",
-      padding: "2px 4px",
+      color: "#e0e0e0",
+      fontWeight: "500",
+      padding: "2px 6px",
+      fontSize: "13px",
     },
     // Back button styles
     backButton: {
-      padding: "3px 10px",
-      background: "var(--interactive-normal)",
-      border: "none",
-      borderRadius: "4px",
+      padding: "6px 12px",
+      background: "#1a1a1a",
+      border: "1px solid #2a2a2a",
+      borderRadius: "6px",
       cursor: "pointer",
+      color: "#a0a0a0",
+      fontSize: "13px",
+      transition: "all 0.2s ease",
     },
     // List container for displaying tags and notes
     list: {
@@ -631,29 +659,32 @@ function getStyles() {
       alignItems: "center",
       marginBottom: 0,
       justifyContent: "space-between",
-      borderRadius: "2px",
-      transition: "background-color 0.2s ease-in-out, transform 0.15s ease-in-out",
+      borderRadius: "6px",
+      transition: "background-color 0.2s ease, transform 0.15s ease",
       cursor: "pointer",
+      border: "1px solid transparent",
     },
     // Style to apply when an item is hovered
     listItemHover: {
-      backgroundColor: "var(--background-modifier-hover)",
+      backgroundColor: "#1a1a1a",
+      borderColor: "#2a2a2a",
     },
     // Style for move-up/move-down buttons next to list items
     moveButton: {
       cursor: "pointer",
-      background: "none",
-      border: "1px solid var(--background-modifier-border)",
-      borderRadius: "3px",
+      background: "#1a1a1a",
+      border: "1px solid #2a2a2a",
+      borderRadius: "6px",
       padding: "2px 8px",
       marginRight: "3px",
-      color: "var(--text-normal)",
-      fontSize: "16px",
+      color: "#a0a0a0",
+      fontSize: "14px",
       width: "30px",
       height: "30px",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
+      transition: "all 0.2s ease",
     },
   };
 }

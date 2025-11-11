@@ -1,911 +1,1528 @@
 
 
-
-
 # ViewComponent
 
 ```jsx
-// ViewComponent
+const { useEffect, useRef, useState } = dc;
 
-// --- The Definitive Multimodal Gemini Chat View with Full Settings Panel ---
-
-// --- HELPER COMPONENTS & ICONS ---
-function HistoryIcon() { return <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 9h10"/><path d="M7 13h10"/><path d="M7 17h10"/></svg>; }
-function SettingsIcon() { return <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l-.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>; }
-function PlusIcon() { return <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>; }
-function EditIcon() { return <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>; }
-function RerunIcon() { return <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>; }
-function TrashIcon() { return <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>; }
-function ChevronDownIcon() { return <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>; }
-function CloseIcon() { return <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>; }
-
-
-// --- HELPER & UI COMPONENTS ---
-function AIMessage({ content }) {
-    const [isMarkedLoaded, setIsMarkedLoaded] = dc.useState(false);
-    const messageRef = dc.useRef(null);
-    dc.useEffect(() => {
-        if (!window.marked) {
-            const script = document.createElement('script');
-            script.src = 'https://cdn.jsdelivr.net/npm/marked/marked.min.js';
-            script.onload = () => setIsMarkedLoaded(true);
-            document.body.appendChild(script);
-            return () => { if (script.parentNode) script.parentNode.removeChild(script); };
-        } else { setIsMarkedLoaded(true); }
-    }, []);
-    dc.useEffect(() => {
-        if (!isMarkedLoaded || !messageRef.current) return;
-        messageRef.current.querySelectorAll('pre').forEach(pre => {
-            if (pre.parentNode.classList.contains('code-block-wrapper')) return;
-            const wrapper = document.createElement('div'); wrapper.className = 'code-block-wrapper'; pre.parentNode.insertBefore(wrapper, pre); wrapper.appendChild(pre);
-            const button = document.createElement('button'); button.innerText = 'Copy'; button.className = 'copy-button'; const code = pre.querySelector('code');
-            if (code) { button.onclick = () => navigator.clipboard.writeText(code.innerText).then(() => { button.innerText = 'Copied!'; setTimeout(() => { button.innerText = 'Copy'; }, 2000); }); } else { button.disabled = true; }
-            wrapper.appendChild(button);
-        });
-    }, [content, isMarkedLoaded]);
-    if (!isMarkedLoaded) return <div className="ai-message-bubble">Loading Markdown...</div>;
-    return <div ref={messageRef} className="ai-message-bubble" dangerouslySetInnerHTML={{ __html: window.marked.parse(content || '') }} />;
+// --- DOM Traversal Utilities ---
+function findNearestAncestorWithClass(element, className) {
+    if (!element) return null;
+    let current = element.parentNode;
+    while (current) {
+        if (current.classList && current.classList.contains(className)) {
+            return current;
+        }
+        current = current.parentNode;
+    }
+    return null;
+}
+function findDirectChildByClass(parent, className) {
+    if (!parent) return null;
+    for (const child of parent.children) {
+        if (child.classList && child.classList.contains(className)) {
+            return child;
+        }
+    }
+    return null;
 }
 
-function ToggleSwitch({ label, isEnabled, onToggle, isDisabled = false, title = "" }) {
-    const id = `toggle-${label.replace(/\s+/g, '-')}`;
-    return (
-        <div className="setting-row" title={title}>
-            <label htmlFor={id} className={isDisabled ? "disabled-label" : ""}>{label}</label>
-            <label className="toggle-switch">
-                <input id={id} type="checkbox" checked={isEnabled} onChange={onToggle} disabled={isDisabled} />
-                <span className="slider"></span>
-            </label>
-        </div>
-    );
-}
+// =================================================================================
+//  CHAT LLM COMPONENT (OpenAI-Style UI & Full-Tab Logic)
+// =================================================================================
+function ChatLLM() {
+    const instanceId = useRef(Math.random().toString(36).substr(2, 5)).current;
+    const uniqueWrapperClass = `chat-wrapper-${instanceId}`;
 
-function ApiKeyManager({ providerConfig, currentApiKey, onSave, onReset }) {
-    const [inputValue, setInputValue] = dc.useState('');
-    const isHost = providerConfig.id === 'ollama';
-    const placeholderText = currentApiKey 
-        ? (isHost ? currentApiKey : `sk-...${currentApiKey.slice(-4)}`)
-        : `Enter ${providerConfig.displayName} ${isHost ? 'Host' : 'Key'}`;
+    // Full-tab state
+    const [isFullTab, setIsFullTab] = useState(true);
+    const containerRef = useRef(null);
+    const stateRefs = useRef({}).current;
+
+    // Chat state
+    const [messages, setMessages] = useState([]);
+    const [input, setInput] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [apiKeys, setApiKeys] = useState({});
+    const [showSettings, setShowSettings] = useState(false);
+    const [showSidebar, setShowSidebar] = useState(false);
+    const [provider, setProvider] = useState('openai');
+    const [model, setModel] = useState('gpt-4o');
+    const [chatHistory, setChatHistory] = useState([]);
+    const [currentChatId, setCurrentChatId] = useState(null);
+    const [isHistoryLoading, setIsHistoryLoading] = useState(false);
+    const [attachedImages, setAttachedImages] = useState([]);
+    const [isDragging, setIsDragging] = useState(false);
     
-    return (
-        <div className="api-key-manager">
-            <label>{providerConfig.displayName} {isHost ? 'Host' : 'API Key'}</label>
-            <div className="api-key-controls">
-                <input 
-                    type={isHost ? 'text' : 'password'}
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    placeholder={placeholderText}
-                    className="api-key-input"
-                />
-                <button onClick={() => { onSave(providerConfig.id, inputValue); setInputValue(''); }} disabled={!inputValue.trim()}>Save</button>
-                <button onClick={() => onReset(providerConfig.id)} disabled={!currentApiKey}>Reset</button>
-            </div>
-        </div>
-    );
-}
+    const chatContainerRef = useRef(null);
+    const textareaRef = useRef(null);
+    const fileInputRef = useRef(null);
+    const inputAreaRef = useRef(null);
 
-function ModelFetcher({ providerConfig, settings, apiKey, onUpdateModels }) {
-    const [isFetching, setIsFetching] = dc.useState(false);
-    const [fetchError, setFetchError] = dc.useState(null);
+    const SECRET_DIR = ".datacore/chatllm/.secret/";
+    const CHAT_HISTORY_DIR = ".datacore/chatllm/history/";
 
-    const handleFetchModels = async () => {
-        if (!apiKey && providerConfig.id !== 'ollama') {
-            setFetchError('API key is required to fetch models.');
-            return;
-        }
-        setIsFetching(true);
-        setFetchError(null);
-
-        const { endpoint, parser, getHeaders } = providerConfig.modelFetchConfig;
-        const endpointPath = typeof endpoint === 'function' ? endpoint(apiKey) : endpoint;
-        const baseUrl = settings.baseUrl.endsWith('/') ? settings.baseUrl.slice(0, -1) : settings.baseUrl;
-        const url = `${baseUrl}${endpointPath}`;
-        const headers = getHeaders(apiKey);
-
-        try {
-            let responseData;
-            if (window.app && window.app.requestUrl) {
-                const response = await window.app.requestUrl({ url, headers, throw: false });
-                responseData = response.json;
-                if (response.status >= 400) throw new Error(responseData?.error?.message || responseData?.detail || `Server returned status ${response.status}`);
-            } else {
-                const response = await fetch(url, { headers });
-                responseData = await response.json();
-                if (!response.ok) throw new Error(responseData?.error?.message || 'Failed to fetch models.');
-            }
-
-            if (!responseData) throw new Error("Received empty response from server.");
-
-            const fetchedModels = parser(responseData);
-            const modelMap = new Map(settings.models.map(m => [m.id, m]));
-            fetchedModels.forEach(m => modelMap.set(m.id, m));
-            const newModelList = Array.from(modelMap.values()).sort((a, b) => a.name.localeCompare(b.name));
-            onUpdateModels(newModelList);
-        } catch (e) {
-            setFetchError(e.message);
-        } finally {
-            setIsFetching(false);
-        }
+    // Provider configurations
+    const PROVIDERS = {
+        openai: {
+            id: 'openai',
+            name: 'OpenAI',
+            apiKeyFile: SECRET_DIR + 'openai_api_key.txt',
+            baseUrl: 'https://api.openai.com/v1',
+            models: ['gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo', 'gpt-3.5-turbo'],
+            defaultModel: 'gpt-4o',
+        },
+        gemini: {
+            id: 'gemini',
+            name: 'Google Gemini',
+            apiKeyFile: SECRET_DIR + 'gemini_api_key.txt',
+            baseUrl: 'https://generativelanguage.googleapis.com',
+            models: ['gemini-1.5-pro-latest', 'gemini-1.5-flash-latest', 'gemini-pro'],
+            defaultModel: 'gemini-1.5-flash-latest',
+        },
+        anthropic: {
+            id: 'anthropic',
+            name: 'Anthropic Claude',
+            apiKeyFile: SECRET_DIR + 'anthropic_api_key.txt',
+            baseUrl: 'https://api.anthropic.com',
+            models: ['claude-3-5-sonnet-20241022', 'claude-3-opus-20240229', 'claude-3-sonnet-20240229', 'claude-3-haiku-20240307'],
+            defaultModel: 'claude-3-5-sonnet-20241022',
+        },
+        groq: {
+            id: 'groq',
+            name: 'Groq',
+            apiKeyFile: SECRET_DIR + 'groq_api_key.txt',
+            baseUrl: 'https://api.groq.com/openai/v1',
+            models: ['llama-3.3-70b-versatile', 'llama-3.1-70b-versatile', 'mixtral-8x7b-32768'],
+            defaultModel: 'llama-3.3-70b-versatile',
+        },
+        ollama: {
+            id: 'ollama',
+            name: 'Ollama (Local)',
+            apiKeyFile: SECRET_DIR + 'ollama_host.txt',
+            baseUrl: 'http://localhost:11434',
+            models: ['llama3', 'mistral', 'codellama'],
+            defaultModel: 'llama3',
+        },
+        openrouter: {
+            id: 'openrouter',
+            name: 'OpenRouter',
+            apiKeyFile: SECRET_DIR + 'openrouter_api_key.txt',
+            baseUrl: 'https://openrouter.ai/api/v1',
+            models: ['google/gemini-pro', 'anthropic/claude-3-opus', 'meta-llama/llama-3-70b'],
+            defaultModel: 'google/gemini-pro',
+        },
+        cerebrium: {
+            id: 'cerebrium',
+            name: 'Cerebrium',
+            apiKeyFile: SECRET_DIR + 'cerebrium_api_key.txt',
+            baseUrl: 'https://api.cortex.cerebrium.ai/v4',
+            models: ['custom-model'],
+            defaultModel: 'custom-model',
+        },
     };
 
-    return (
-        <div className="model-fetcher">
-            <button onClick={handleFetchModels} disabled={isFetching}>
-                {isFetching ? 'Fetching...' : 'Fetch Available Models'}
-            </button>
-            {fetchError && <p className="fetch-error">Error: {fetchError}</p>}
-        </div>
-    );
-}
-
-function ModelManager({ models, onUpdateModels }) {
-    const [newModelId, setNewModelId] = dc.useState('');
-    const [newModelName, setNewModelName] = dc.useState('');
-    
-    const handleAddModel = () => {
-        if (!newModelId.trim() || !newModelName.trim()) return;
-        onUpdateModels([...models, { id: newModelId.trim(), name: newModelName.trim() }]);
-        setNewModelId(''); setNewModelName('');
-    };
-
-    const handleRemoveModel = (idToRemove) => {
-        if (models.length <= 1) { alert("Cannot remove the last model."); return; }
-        onUpdateModels(models.filter(m => m.id !== idToRemove));
-    };
-
-    return (
-        <div className="model-manager">
-            {models.map(model => (
-                <div key={model.id} className="model-entry">
-                    <span>{model.name} ({model.id})</span>
-                    <button onClick={() => handleRemoveModel(model.id)} title="Remove Model"><TrashIcon/></button>
-                </div>
-            ))}
-            <div className="model-add-form">
-                <input value={newModelName} onChange={e => setNewModelName(e.target.value)} placeholder="Display Name (e.g., Llama 3 8B)" />
-                <input value={newModelId} onChange={e => setNewModelId(e.target.value)} placeholder="Model ID (e.g., llama3)" />
-                <button onClick={handleAddModel}>Add Model</button>
-            </div>
-        </div>
-    );
-}
-
-function ProviderSettingsEditor({ providerConfig, settings, apiKey, updateSetting, handleSaveKey, handleResetKey }) {
-    return (
-        <>
-            <ApiKeyManager 
-                providerConfig={providerConfig} 
-                currentApiKey={apiKey} 
-                onSave={handleSaveKey} 
-                onReset={handleResetKey}
-            />
-            {providerConfig.id !== 'ollama' && (
-                <div className="setting-group">
-                    <label>Base URL</label>
-                    <input 
-                        type="text" 
-                        value={settings.baseUrl} 
-                        onChange={e => updateSetting('baseUrl', e.target.value)} 
-                    />
-                </div>
-            )}
-            {providerConfig.settingsComponents(settings, (k, v) => updateSetting(k, v))}
-            <details className="model-manager-details">
-                <summary>Manage Models</summary>
-                {providerConfig.modelFetchConfig && (
-                     <ModelFetcher 
-                        providerConfig={providerConfig} 
-                        settings={settings}
-                        apiKey={apiKey}
-                        onUpdateModels={(newModels) => updateSetting('models', newModels)}
-                     />
-                )}
-                <ModelManager 
-                    models={settings.models} 
-                    onUpdateModels={(newModels) => {
-                        if (!newModels.some(m => m.id === settings.model)) {
-                            updateSetting('model', newModels[0]?.id || '');
-                        }
-                        updateSetting('models', newModels);
-                    }}
-                />
-            </details>
-        </>
-    );
-}
-
-// --- MAIN CHAT COMPONENT ---
-function GeminiChatView() {
-  const BASE_CHAT_HISTORY_DIR = ".datacore/chatllm/";
-  const SECRET_DIR = ".datacore/chatllm/.secret/";
-  const PROVIDER_SETTINGS_FILE = ".datacore/chatllm/provider_settings.json";
-
-  const DEFAULT_PROVIDER_CONFIG = {
-      gemini: {
-          id: 'gemini', displayName: 'Google Gemini', apiKeyFile: SECRET_DIR + "gemini_api_key.txt",
-          getHeaders: (apiKey) => ({ "Content-Type": "application/json" }),
-          toProviderMessages: (history) => history,
-          parseResponse: (data) => {
-              if (!data.candidates || data.candidates.length === 0) throw new Error("No response candidates from Gemini API.");
-              return { content: data.candidates[0].content.parts[0].text, usage: data.usageMetadata ? { totalTokens: data.usageMetadata.totalTokens } : null, rawResponse: data.candidates[0].content };
-          },
-          settingsComponents: (currentSettings, updateSetting) => (<div className="setting-group"><h5>Tools</h5><ToggleSwitch label="Code execution" isEnabled={currentSettings.isCodeExecutionEnabled} onToggle={() => updateSetting('isCodeExecutionEnabled', !currentSettings.isCodeExecutionEnabled)} /><ToggleSwitch label="Grounding with Google Search" isEnabled={currentSettings.isGoogleSearchEnabled} onToggle={() => updateSetting('isGoogleSearchEnabled', !currentSettings.isGoogleSearchEnabled)} /></div>),
-          modelFetchConfig: {
-              endpoint: (apiKey) => `/v1beta/models?key=${apiKey}`,
-              getHeaders: () => ({}),
-              parser: (data) => data.models.map(m => ({ id: m.name.split('/')[1], name: m.displayName }))
-          },
-          supportsVision: true, supportsYoutube: true,
-      },
-      openai: {
-          id: 'openai', displayName: 'OpenAI', apiKeyFile: SECRET_DIR + "openai_api_key.txt",
-          getHeaders: (apiKey) => ({ "Content-Type": "application/json", "Authorization": `Bearer ${apiKey}` }),
-          toProviderMessages: (history) => history.map(msg => msg.role === 'user' ? { role: 'user', content: msg.parts.map(p => p.text ? {type: 'text', text: p.text} : {type: 'image_url', image_url: {url: `data:${p.inlineData.mimeType};base64,${p.inlineData.data}`}}) } : { role: 'assistant', content: msg.parts[0].text }).filter(Boolean),
-          parseResponse: (data) => {
-              if (!data.choices || data.choices.length === 0) throw new Error("No response choices from OpenAI API.");
-              return { content: data.choices[0].message.content, usage: data.usage ? { totalTokens: data.usage.total_tokens } : null, rawResponse: { role: 'model', parts: [{ text: data.choices[0].message.content }] } };
-          },
-          settingsComponents: (currentSettings, updateSetting) => (<div className="setting-group"><div><label>Presence Penalty: {currentSettings.presencePenalty}</label><input type="range" min="-2" max="2" step="0.1" value={currentSettings.presencePenalty} onChange={e => updateSetting('presencePenalty', e.target.value)} /></div><div><label>Frequency Penalty: {currentSettings.frequencyPenalty}</label><input type="range" min="-2" max="2" step="0.1" value={currentSettings.frequencyPenalty} onChange={e => updateSetting('frequencyPenalty', e.target.value)} /></div><div className="setting-row"><span>Response Format</span><select value={currentSettings.responseFormat} onChange={e => updateSetting('responseFormat', e.target.value)}><option value="text">Text</option><option value="json_object">JSON Object</option></select></div></div>),
-          modelFetchConfig: {
-              endpoint: '/models',
-              getHeaders: (apiKey) => ({ "Authorization": `Bearer ${apiKey}` }),
-              parser: (data) => data.data.map(m => ({ id: m.id, name: m.id })).sort((a,b) => a.name.localeCompare(b.name))
-          },
-          supportsVision: true, supportsYoutube: false,
-      },
-      anthropic: {
-          id: 'anthropic', displayName: 'Anthropic Claude', apiKeyFile: SECRET_DIR + "anthropic_api_key.txt",
-          getHeaders: (apiKey) => ({ "Content-Type": "application/json", "x-api-key": apiKey, "anthropic-version": "2023-06-01" }),
-          toProviderMessages: (history) => history.map(msg => msg.role === 'user' ? { role: 'user', content: msg.parts.map(p => p.text ? {type: 'text', text: p.text} : {type: 'image', source: { type: 'base64', media_type: p.inlineData.mimeType, data: p.inlineData.data }}) } : { role: 'assistant', content: [{ type: 'text', text: msg.parts[0].text }] }),
-          parseResponse: (data) => {
-              if (!data.content || data.content.length === 0) throw new Error("No response content from Anthropic API.");
-              return { content: data.content[0].text, usage: data.usage ? { totalTokens: data.usage.input_tokens + data.usage.output_tokens } : null, rawResponse: { role: 'model', parts: [{ text: data.content[0].text }] } };
-          },
-          settingsComponents: (currentSettings, updateSetting) => (<div className="setting-group"><label>Max Tokens (Required): {currentSettings.maxTokens}</label><input type="range" min="1" max="8192" step="1" value={currentSettings.maxTokens} onChange={e => updateSetting('maxTokens', e.target.value)} /></div>),
-          modelFetchConfig: {
-              endpoint: '/v1/models',
-              getHeaders: (apiKey) => ({ "x-api-key": apiKey, "anthropic-version": "2023-06-01" }),
-              parser: (data) => data.data.map(m => ({ id: m.id, name: m.name }))
-          },
-          supportsVision: true, supportsYoutube: false,
-      },
-      ollama: {
-          id: 'ollama', displayName: 'Ollama (Local)', apiKeyFile: SECRET_DIR + "ollama_host.txt",
-          getHeaders: () => ({ "Content-Type": "application/json" }),
-          toProviderMessages: (history) => history.map(msg => ({ role: msg.role === 'model' ? 'assistant' : msg.role, content: msg.parts.find(p => p.text)?.text || '[File content not supported by Ollama]' })),
-          parseResponse: (data) => {
-              if (!data.message?.content) throw new Error("No response content from Ollama API.");
-              return { content: data.message.content, usage: { totalTokens: (data.prompt_eval_count || 0) + (data.eval_count || 0) }, rawResponse: { role: 'model', parts: [{ text: data.message.content }] } };
-          },
-          settingsComponents: (currentSettings, updateSetting) => (<div className="setting-group"><label>Context Window (num_ctx): {currentSettings.numCtx}</label><input type="range" min="512" max="32768" step="512" value={currentSettings.numCtx} onChange={e => updateSetting('numCtx', e.target.value)} /></div>),
-          modelFetchConfig: {
-              endpoint: '/api/tags',
-              getHeaders: () => ({}),
-              parser: (data) => data.models.map(m => ({ id: m.name, name: m.name.split(':')[0] }))
-          },
-          supportsVision: false, supportsYoutube: false,
-      },
-      groq: {
-          id: 'groq', displayName: 'GROQ', apiKeyFile: SECRET_DIR + "groq_api_key.txt",
-          getHeaders: (apiKey) => ({ "Content-Type": "application/json", "Authorization": `Bearer ${apiKey}` }),
-          toProviderMessages: (history) => DEFAULT_PROVIDER_CONFIG.openai.toProviderMessages(history),
-          parseResponse: (data) => DEFAULT_PROVIDER_CONFIG.openai.parseResponse(data),
-          settingsComponents: () => null, 
-          modelFetchConfig: {
-              endpoint: '/models',
-              getHeaders: (apiKey) => ({ 
-                  "Authorization": `Bearer ${apiKey}`,
-                  "Content-Type": "application/json" 
-              }),
-              parser: (data) => data.data.map(m => ({ id: m.id, name: m.id })).sort((a, b) => a.name.localeCompare(b.name))
-          },
-          supportsVision: false, supportsYoutube: false,
-      },
-      openrouter: {
-          id: 'openrouter', displayName: 'OpenRouter', apiKeyFile: SECRET_DIR + "openrouter_api_key.txt",
-          getHeaders: (apiKey) => ({ "Content-Type": "application/json", "Authorization": `Bearer ${apiKey}`, "HTTP-Referer": "https://obsidian.md" }),
-          toProviderMessages: (history) => DEFAULT_PROVIDER_CONFIG.openai.toProviderMessages(history),
-          parseResponse: (data) => DEFAULT_PROVIDER_CONFIG.openai.parseResponse(data),
-          settingsComponents: () => null,
-          modelFetchConfig: {
-              endpoint: '/models',
-              getHeaders: () => ({}),
-              parser: (data) => data.data.map(m => ({ id: m.id, name: m.name || m.id }))
-          },
-          supportsVision: true, supportsYoutube: false,
-      },
-      cerebrium: {
-          id: 'cerebrium', displayName: 'Cerebrium', apiKeyFile: SECRET_DIR + "cerebrium_api_key.txt",
-          getHeaders: (apiKey) => ({ "Content-Type": "application/json", "Authorization": `Bearer ${apiKey}` }),
-          toProviderMessages: (history) => DEFAULT_PROVIDER_CONFIG.openai.toProviderMessages(history),
-          parseResponse: (data) => DEFAULT_PROVIDER_CONFIG.openai.parseResponse(data),
-          settingsComponents: () => (<div className="settings-info-box warning"><p><strong>CORS Notice:</strong> This component uses Obsidian's native request function to avoid common CORS errors when calling external APIs.</p><p>Ensure your <strong>Base URL</strong> is the full endpoint for your app, e.g.,<br/><code>https://api.cortex.cerebrium.ai/v4/p-ID/app-name</code></p></div>),
-          supportsVision: false, supportsYoutube: false,
-      },
-  };
-    
-  const DEFAULT_SETTINGS = {
-      gemini: { baseUrl: 'https://generativelanguage.googleapis.com/', models: [{ id: "gemini-1.5-pro-latest", name: "1.5 Pro" }], model: "gemini-1.5-flash-latest", temperature: 1, stopSequence: "", isCodeExecutionEnabled: false, isGoogleSearchEnabled: false, },
-      openai: { baseUrl: 'https://api.openai.com/v1/', models: [{ id: "gpt-4o", name: "GPT-4o" }], model: "gpt-4o", temperature: 0.7, stopSequence: "", presencePenalty: 0, frequencyPenalty: 0, responseFormat: "text" },
-      anthropic: { baseUrl: 'https://api.anthropic.com/v1/', models: [{ id: "claude-3-opus-20240229", name: "Claude 3 Opus" }], model: "claude-3-opus-20240229", temperature: 0.7, stopSequence: "", maxTokens: 4096, },
-      ollama: { baseUrl: 'http://localhost:11434/', models: [{ id: "llama3", name: "Llama 3" }], model: "llama3", temperature: 0.7, stopSequence: "", numCtx: 4096, },
-      groq: { baseUrl: 'https://api.groq.com/openai/v1/', models: [{ id: "llama3-8b-8192", name: "Llama 3 8B" }], model: "llama3-8b-8192", temperature: 0.7, stopSequence: "" },
-      openrouter: { baseUrl: 'https://openrouter.ai/api/v1', models: [{ id: "google/gemini-pro", name: "Gemini Pro" }], model: "google/gemini-pro", temperature: 0.7, stopSequence: "" },
-      cerebrium: { baseUrl: 'https://api.cortex.cerebrium.ai/v4/', models: [{ id: "your-model", name: "Your Deployed Model" }], model: "your-model", temperature: 0.7, stopSequence: "" },
-  };
-  
-  const [apiKeys, setApiKeys] = dc.useState({});
-  const [providerSettings, setProviderSettings] = dc.useState(null);
-  const [isAppLoading, setIsAppLoading] = dc.useState(true);
-  const [activeProvider, setActiveProvider] = dc.useState('gemini');
-  const [messages, setMessages] = dc.useState([]);
-  const [currentInput, setCurrentInput] = dc.useState("");
-  const [isLoading, setIsLoading] = dc.useState(false);
-  const [error, setError] = dc.useState(null);
-  const [attachedFiles, setAttachedFiles] = dc.useState([]);
-  const [youtubeUrl, setYoutubeUrl] = dc.useState(null);
-  const [showAssetMenu, setShowAssetMenu] = dc.useState(false);
-  const [showYoutubeModal, setShowYoutubeModal] = dc.useState(false);
-  const [youtubeInput, setYoutubeInput] = dc.useState("");
-  const [editingMessageIndex, setEditingMessageIndex] = dc.useState(null);
-  const [editingText, setEditingText] = dc.useState("");
-  const [chatHistory, setChatHistory] = dc.useState([]);
-  const [currentChatId, setCurrentChatId] = dc.useState(null);
-  const [isHistoryLoading, setIsHistoryLoading] = dc.useState(true);
-  const [showHistory, setShowHistory] = dc.useState(true);
-  const [showSettings, setShowSettings] = dc.useState(false);
-  const [lastTokenCount, setLastTokenCount] = dc.useState(null);
-  const [openSettingsAccordion, setOpenSettingsAccordion] = dc.useState(null);
-
-  const activeProviderConfig = DEFAULT_PROVIDER_CONFIG[activeProvider];
-  const currentSettings = providerSettings ? providerSettings[activeProvider] : null;
-
-  const chatContainerRef = dc.useRef(null);
-  const viewContainerRef = dc.useRef(null);
-  const textareaRef = dc.useRef(null);
-  const fileInputRef = dc.useRef(null);
-  const editingTextareaRef = dc.useRef(null);
-  const debounceTimer = dc.useRef(null);
-
-  dc.useEffect(() => {
-    const loadApp = async () => {
-        const loadedKeys = {};
-        for (const providerId in DEFAULT_PROVIDER_CONFIG) {
-            const filePath = DEFAULT_PROVIDER_CONFIG[providerId].apiKeyFile;
-            if (await app.vault.adapter.exists(filePath)) {
-                const key = (await app.vault.adapter.read(filePath)).trim();
-                if (key) loadedKeys[providerId] = key;
-            }
-        }
-        setApiKeys(loadedKeys);
-        
-        let loadedSettings;
-        if (await app.vault.adapter.exists(PROVIDER_SETTINGS_FILE)) {
+    // Load API keys and chat history on mount
+    useEffect(() => {
+        const loadKeys = async () => {
             try {
-                loadedSettings = JSON.parse(await app.vault.adapter.read(PROVIDER_SETTINGS_FILE));
-                for (const providerId in DEFAULT_SETTINGS) {
-                    if (!loadedSettings[providerId]) {
-                        loadedSettings[providerId] = DEFAULT_SETTINGS[providerId];
+                const loadedKeys = {};
+                for (const [id, config] of Object.entries(PROVIDERS)) {
+                    if (await app.vault.adapter.exists(config.apiKeyFile)) {
+                        const key = await app.vault.adapter.read(config.apiKeyFile);
+                        loadedKeys[id] = key.trim();
                     }
                 }
-            } catch (e) { loadedSettings = DEFAULT_SETTINGS; }
-        } else { loadedSettings = DEFAULT_SETTINGS; }
-        setProviderSettings(loadedSettings);
-        setIsAppLoading(false);
-    };
-    loadApp();
-  }, []);
-
-  dc.useEffect(() => {
-    if (!providerSettings || isAppLoading) return;
-    if (debounceTimer.current) clearTimeout(debounceTimer.current);
-    debounceTimer.current = setTimeout(async () => {
-        try {
-            if (!await app.vault.adapter.exists(BASE_CHAT_HISTORY_DIR)) await app.vault.adapter.mkdir(BASE_CHAT_HISTORY_DIR);
-            await app.vault.adapter.write(PROVIDER_SETTINGS_FILE, JSON.stringify(providerSettings, null, 2));
-        } catch(e) { console.error("Failed to save provider settings:", e); }
-    }, 1000);
-  }, [providerSettings, isAppLoading]);
-  
-  // Proactively fetch models when the provider changes or the app loads
-  dc.useEffect(() => {
-      if (isAppLoading) return;
-      if (apiKeys[activeProvider] || activeProvider === 'ollama') { 
-          loadChatHistory(); 
-          fetchModelsForProvider(activeProvider);
-      } 
-      else { 
-          setMessages([]); 
-          setChatHistory([]); 
-          setCurrentChatId(null); 
-      }
-  }, [apiKeys, activeProvider, isAppLoading]);
-  
-  dc.useEffect(() => {
-      const handleEscape = (event) => {
-          if (event.key === 'Escape') {
-              if (showSettings) setShowSettings(false);
-              if (showHistory) setShowHistory(false);
-          }
-      };
-      document.addEventListener('keydown', handleEscape);
-      return () => document.removeEventListener('keydown', handleEscape);
-  }, [showSettings, showHistory]);
-
-  dc.useEffect(() => { if (chatContainerRef.current) chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight; }, [messages, isLoading]);
-  dc.useEffect(() => {
-    const handlePaste = (event) => {
-      if (!activeProviderConfig.supportsVision) return;
-      const item = Array.from(event.clipboardData.items).find(i => i.type.startsWith("image/"));
-      if (item) { event.preventDefault(); clearAssets(false); setAttachedFiles(prev => [...prev, { file: item.getAsFile(), previewUrl: URL.createObjectURL(item.getAsFile()) }]); }
-    };
-    const container = viewContainerRef.current;
-    if (container) container.addEventListener('paste', handlePaste);
-    return () => { if (container) container.removeEventListener('paste', handlePaste); };
-  }, [viewContainerRef.current, activeProviderConfig.supportsVision]);
-  dc.useEffect(() => { const textarea = textareaRef.current; if (textarea) { textarea.style.height = 'auto'; textarea.style.height = `${textarea.scrollHeight}px`; } }, [currentInput]);
-  dc.useEffect(() => { const textarea = editingTextareaRef.current; if (textarea) { textarea.style.height = 'auto'; textarea.style.height = `${textarea.scrollHeight}px`; textarea.focus(); textarea.select(); } }, [editingMessageIndex]);
-  
-  const updateProviderSetting = (providerId, key, value) => {
-    setProviderSettings(prev => ({ ...prev, [providerId]: { ...prev[providerId], [key]: value } }));
-  };
-
-  const getChatHistoryDir = () => `${BASE_CHAT_HISTORY_DIR}${activeProvider}/`;
-
-  const loadChatHistory = async () => {
-    setIsHistoryLoading(true);
-    const currentHistoryDir = getChatHistoryDir();
-    if (!await app.vault.adapter.exists(currentHistoryDir)) await app.vault.adapter.mkdir(currentHistoryDir);
-    const { files } = await app.vault.adapter.list(currentHistoryDir);
-    const historyItems = await Promise.all(files.map(async (file) => {
-        try {
-            const conversation = JSON.parse(await app.vault.adapter.read(file));
-            const firstUserMessage = conversation.find(m => m.role === 'user');
-            let title = "Untitled Chat";
-            if (firstUserMessage) {
-                const textPart = firstUserMessage.parts?.find(p => p.text);
-                if (textPart?.text) title = textPart.text.substring(0, 50) + (textPart.text.length > 50 ? '...' : '');
-                else if (firstUserMessage.parts?.some(p => p.inlineData || p.fileData)) title = "[Multimodal Input]...";
+                setApiKeys(loadedKeys);
+            } catch (e) {
+                console.error('Failed to load API keys:', e);
             }
-            return { id: file.split('/').pop(), title };
-        } catch (e) { return null; }
-    }));
-    setChatHistory(historyItems.filter(Boolean).sort((a, b) => parseInt(b.id) - parseInt(a.id)));
-    setIsHistoryLoading(false);
-  };
-  
-  const fetchModelsForProvider = async (providerId) => {
-      if (!providerSettings) return;
+        };
+        loadKeys();
+        loadChatHistory();
+    }, []);
 
-      const providerConfig = DEFAULT_PROVIDER_CONFIG[providerId];
-      const settings = providerSettings[providerId];
-      const apiKey = apiKeys[providerId];
-
-      if (!providerConfig.modelFetchConfig) return; // Can't fetch if no config
-      if (!apiKey && providerConfig.id !== 'ollama') return; // No key, no fetch
-
-      const { endpoint, parser, getHeaders } = providerConfig.modelFetchConfig;
-      const endpointPath = typeof endpoint === 'function' ? endpoint(apiKey) : endpoint;
-      const baseUrl = settings.baseUrl.endsWith('/') ? settings.baseUrl.slice(0, -1) : settings.baseUrl;
-      const url = `${baseUrl}${endpointPath}`;
-      const headers = getHeaders(apiKey);
-
-      try {
-          let responseData;
-          if (window.app && window.app.requestUrl) {
-              const response = await window.app.requestUrl({ url, headers, throw: false });
-              responseData = response.json;
-              if (response.status >= 400) throw new Error(responseData?.error?.message || `Server returned status ${response.status}`);
-          } else {
-              const response = await fetch(url, { headers });
-              responseData = await response.json();
-              if (!response.ok) throw new Error(responseData?.error?.message || 'Failed to fetch models.');
-          }
-
-          if (!responseData) throw new Error("Received empty response from server.");
-
-          const fetchedModels = parser(responseData);
-          const modelMap = new Map(settings.models.map(m => [m.id, m]));
-          fetchedModels.forEach(m => modelMap.set(m.id, m));
-          const newModelList = Array.from(modelMap.values()).sort((a, b) => a.name.localeCompare(b.name));
-
-          // Only update if the models list is different
-          if (JSON.stringify(settings.models) !== JSON.stringify(newModelList)) {
-              updateProviderSetting(providerId, 'models', newModelList);
-          }
-
-      } catch (e) {
-          console.error(`Failed to automatically fetch models for ${providerId}:`, e.message);
-          // Don't pop an error to the user for a background fetch
-      }
-  };
-
-  const handleSaveKeyOrHost = async (providerId, valueToSave) => {
-    if (!valueToSave) return;
-    const filePath = DEFAULT_PROVIDER_CONFIG[providerId].apiKeyFile;
-    try {
-        if (!await app.vault.adapter.exists(SECRET_DIR)) await app.vault.adapter.mkdir(SECRET_DIR);
-        await app.vault.adapter.write(filePath, valueToSave);
-        setApiKeys(prev => ({ ...prev, [providerId]: valueToSave }));
-        if (providerId === 'ollama') {
-            updateProviderSetting('ollama', 'baseUrl', valueToSave);
-        }
-        setError(null);
-    } catch (e) { setError(`Could not save key/host for ${providerId}.`); }
-  };
-
-  const handleResetKeyOrHost = async (providerId) => {
-      const filePath = DEFAULT_PROVIDER_CONFIG[providerId].apiKeyFile;
-      try {
-          if (await app.vault.adapter.exists(filePath)) await app.vault.adapter.delete(filePath);
-          setApiKeys(prev => { const newKeys = { ...prev }; delete newKeys[providerId]; return newKeys; });
-          if (providerId === 'ollama') {
-              updateProviderSetting('ollama', 'baseUrl', DEFAULT_SETTINGS.ollama.baseUrl);
-          }
-          setError(null);
-      } catch(e) { setError(`Could not delete key/host file for ${providerId}.`); }
-  };
-  
-  const getFilePart = (file) => new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve({ inlineData: { mimeType: file.type, data: reader.result.split(',')[1] } }); reader.onerror = reject; reader.readAsDataURL(file); });
-  const clearAssets = (all = true) => { attachedFiles.forEach(f => URL.revokeObjectURL(f.previewUrl)); setAttachedFiles([]); if (all) setYoutubeUrl(null); };
-  const handleRemoveFile = (index) => { URL.revokeObjectURL(attachedFiles[index].previewUrl); setAttachedFiles(prev => prev.filter((_, i) => i !== index)); };
-  const handleAttachFile = () => { setShowAssetMenu(false); fileInputRef.current.click(); };
-  const handleFileSelected = (e) => { const files = Array.from(e.target.files); if (files.length > 0) { clearAssets(false); setAttachedFiles(p => [...p, ...files.map(f => ({ file: f, previewUrl: URL.createObjectURL(f) }))]); } e.target.value = null; };
-  const handleAddYoutubeUrl = () => { setShowAssetMenu(false); setYoutubeInput(""); setShowYoutubeModal(true); };
-  const handleConfirmYoutubeUrl = () => { const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?([\w-]{11})/; if (youtubeInput && regex.test(youtubeInput)) { clearAssets(true); setYoutubeUrl(youtubeInput); } else if (youtubeInput) { setError("Invalid YouTube URL."); } setShowYoutubeModal(false); setYoutubeInput(""); };
-  const handleEditClick = (index) => { setEditingText(messages[index].parts.find(p => p.text)?.text || ""); setEditingMessageIndex(index); };
-  const handleNewChat = () => { setCurrentChatId(null); setMessages([]); setError(null); clearAssets(true); setCurrentInput(""); setLastTokenCount(null); };
-  const handleLoadChat = async (chatId) => { try { setMessages(JSON.parse(await app.vault.adapter.read(getChatHistoryDir() + chatId))); setCurrentChatId(chatId); setError(null); setLastTokenCount(null); } catch (e) { setError("Could not load chat."); } };
-  const saveChat = async (chatId, conversation) => { try { await app.vault.adapter.write(getChatHistoryDir() + chatId, JSON.stringify(conversation, null, 2)); } catch (e) { setError("Failed to save chat history."); } };
-
-  const callLLMAPI = async (history, chatIdToUpdate) => {
-    setIsLoading(true); setError(null);
-    const apiKey = apiKeys[activeProvider];
-    if (!apiKey && activeProvider !== 'ollama') { setError(`${activeProviderConfig.displayName} API Key not set.`); setIsLoading(false); return; }
-
-    try {
-        const headers = activeProviderConfig.getHeaders(apiKey);
-        const transformedMessages = activeProviderConfig.toProviderMessages(history);
-        let url, body;
-        if (activeProvider === 'gemini') {
-            const apiVersion = currentSettings.model.includes('preview') || currentSettings.model.includes('latest') ? 'v1beta' : 'v1';
-            url = `${currentSettings.baseUrl}${apiVersion}/models/${currentSettings.model}:generateContent?key=${apiKey}`;
-            body = { contents: transformedMessages, generationConfig: { temperature: Number(currentSettings.temperature), ...(currentSettings.stopSequence && { stopSequences: [currentSettings.stopSequence] }) } };
-            const tools = [];
-            if (currentSettings.isCodeExecutionEnabled) tools.push({ "code_execution": {} });
-            if (currentSettings.isGoogleSearchEnabled) tools.push({ "google_search_retrieval": {} });
-            if (tools.length > 0) body.tools = tools;
-        } else if (activeProvider === 'ollama') {
-            url = `${currentSettings.baseUrl}api/chat`;
-            body = { model: currentSettings.model, messages: transformedMessages, stream: false, options: { temperature: Number(currentSettings.temperature), num_ctx: Number(currentSettings.numCtx), ...(currentSettings.stopSequence && { stop: [currentSettings.stopSequence] }) } };
-        } else {
-            url = `${currentSettings.baseUrl.endsWith('/') ? currentSettings.baseUrl : currentSettings.baseUrl + '/'}chat/completions`;
-            body = { model: currentSettings.model, messages: transformedMessages, temperature: Number(currentSettings.temperature) };
-            if (currentSettings.stopSequence) body.stop = [currentSettings.stopSequence];
-            if (activeProvider === 'anthropic') { body.stop_sequences = body.stop; delete body.stop; body.max_tokens = Number(currentSettings.maxTokens); }
-            if (activeProvider === 'openai' || activeProvider === 'groq') { body.presence_penalty = Number(currentSettings.presencePenalty); body.frequency_penalty = Number(currentSettings.frequencyPenalty); if (currentSettings.responseFormat === 'json_object') body.response_format = { type: 'json_object' }; }
-        }
-
-        let responseData;
-        if (window.app && window.app.requestUrl) {
-            const response = await window.app.requestUrl({ url, method: 'POST', headers, contentType: 'application/json', body: JSON.stringify(body), throw: false });
-            responseData = response.json;
-            if (response.status >= 400) throw new Error(responseData?.error?.message || responseData?.detail || JSON.stringify(responseData) || `API Error (${response.status})`);
-        } else {
-            const response = await fetch(url, { method: "POST", headers, body: JSON.stringify(body) });
-            responseData = await response.json();
-            if (!response.ok) throw new Error(responseData?.error?.message || responseData?.detail || JSON.stringify(responseData) || `API Error (${response.status})`);
-        }
-        
-        const { content, usage, rawResponse } = activeProviderConfig.parseResponse(responseData);
-        setLastTokenCount(usage);
-        const updatedHistory = [...history, rawResponse || { role: 'model', parts: [{ text: content }] }];
-        setMessages(updatedHistory);
-        let newChatId = chatIdToUpdate;
-        if (!newChatId) {
-            newChatId = `${Date.now()}.json`; setCurrentChatId(newChatId);
-            const firstUserMessage = history.find(m => m.role === 'user');
-            let title = firstUserMessage?.parts?.find(p => p.text)?.text.substring(0, 50) || "[Multimodal Input]";
-            setChatHistory(prev => [{ id: newChatId, title }, ...prev]);
-        }
-        await saveChat(newChatId, updatedHistory);
-    } catch (err) { console.error("API Call Error:", err); setError(err.message); setMessages(history); } finally { setIsLoading(false); }
-  };
-
-  const handleSendMessage = async (e) => {
-    e?.preventDefault();
-    if ((!currentInput.trim() && attachedFiles.length === 0 && !youtubeUrl) || isLoading) return;
-
-    const userParts = [];
-    if (currentInput.trim()) userParts.push({ text: currentInput.trim() });
-    if (attachedFiles.length > 0) {
-      if (!activeProviderConfig.supportsVision) { setError(`Image attachments not supported by ${activeProviderConfig.displayName}.`); return; }
-      try { userParts.push(...await Promise.all(attachedFiles.map(f => getFilePart(f.file)))); } catch (err) { setError("Failed to process file(s)."); return; }
-    }
-    if (youtubeUrl) {
-      if (!activeProviderConfig.supportsYoutube) { setError(`YouTube URLs not supported by ${activeProviderConfig.displayName}.`); return; }
-      userParts.push({ fileData: { mimeType: 'video/youtube', fileUri: youtubeUrl } });
-    }
-    if (userParts.length === 0) return;
-    const newHistory = [...messages, { role: "user", parts: userParts }];
-    setMessages(newHistory); setCurrentInput(""); clearAssets(true);
-    await callLLMAPI(newHistory, currentChatId);
-  };
-
-  const handleSaveAndRerun = async (index) => {
-    const historyToEdit = messages.slice(0, index);
-    const editedMessage = { ...messages[index], parts: [...messages[index].parts.filter(p => !p.text), { text: editingText }] };
-    const newHistory = [...historyToEdit, editedMessage];
-    setEditingMessageIndex(null); setEditingText(""); setMessages(newHistory);
-    await callLLMAPI(newHistory, currentChatId);
-  };
-
-  const handleSimpleRerun = async (aiMessageIndex) => { const historyToRerun = messages.slice(0, aiMessageIndex); setMessages(historyToRerun); await callLLMAPI(historyToRerun, currentChatId); };
-  const handleKeyDown = (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSendMessage(); } };
-  const isSendDisabled = isLoading || (!apiKeys[activeProviderConfig.id] && activeProviderConfig.id !== 'ollama') || (!currentInput.trim() && attachedFiles.length === 0 && !youtubeUrl);
-
-  if (isAppLoading) return <div style={{ padding: "20px", textAlign: "center", color: '#ddd' }}>Loading Chat Engine...</div>;
-  
-  return (
-    <div ref={viewContainerRef} className={`chat-view-wrapper ${showHistory ? '' : 'history-hidden'} ${showSettings ? '' : 'settings-hidden'}`}>
-      <style>{`
-        :root {
-            --bg-deep: #21252b; --bg-medium: #282c34; --bg-light: #3a3f47; --bg-lighter: #444c56;
-            --border-color: #444; --text-primary: #e6edf3; --text-secondary: #b0b8c2;
-            --accent-primary: #007acc; --accent-primary-hover: #0095ff; --accent-primary-text: #ffffff;
-            --accent-danger: #f44336; --accent-warning-bg: #4d4d00; --accent-warning-border: #999900;
-            --font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            --border-radius: 8px; --panel-width: 260px; --settings-width: 420px; --transition-speed: 0.3s;
-        }
-        .chat-view-wrapper { display: flex; height: 85vh; width: 100%; background-color: var(--bg-medium); font-family: var(--font-family); color: var(--text-primary); border-radius: var(--border-radius); border: 1px solid var(--border-color); overflow: hidden; position: relative; }
-        .history-panel, .settings-panel { background-color: var(--bg-deep); display: flex; flex-direction: column; transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease, width var(--transition-speed) ease, min-width var(--transition-speed) ease; z-index: 20; }
-        .chat-main { display: flex; flex-direction: column; flex-grow: 1; min-width: 0; }
-        @media (min-width: 1025px) {
-            .history-panel { width: var(--panel-width); border-right: 1px solid var(--border-color); }
-            .chat-view-wrapper.history-hidden .history-panel { width: 0; min-width: 0; overflow: hidden; border-right: none; }
-            .settings-panel { width: var(--settings-width); border-left: 1px solid var(--border-color); }
-            .chat-view-wrapper.settings-hidden .settings-panel { width: 0; min-width: 0; overflow: hidden; border-left: none; }
-        }
-        @media (max-width: 1024px) {
-            .history-panel, .settings-panel { position: absolute; top: 0; bottom: 0; box-shadow: 0 0 20px rgba(0,0,0,0.3); }
-            .history-panel { left: 0; width: var(--panel-width); transform: translateX(-100%); }
-            .chat-view-wrapper:not(.history-hidden) .history-panel { transform: translateX(0); }
-            .settings-panel { right: 0; width: var(--settings-width); max-width: 90vw; transform: translateX(100%); }
-            .chat-view-wrapper:not(.settings-hidden) .settings-panel { transform: translateX(0); }
-            .panel-overlay-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 19; opacity: 0; pointer-events: none; transition: opacity var(--transition-speed); }
-            .chat-view-wrapper:not(.history-hidden) .panel-overlay-backdrop, .chat-view-wrapper:not(.settings-hidden) .panel-overlay-backdrop { opacity: 1; pointer-events: all; }
-        }
-        .chat-header { padding: 10px 15px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
-        .header-left { display: flex; align-items: center; gap: 10px; min-width: 0; flex-wrap: wrap; }
-        .header-btn, .panel-close-btn { background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 4px; border-radius: 5px; transition: background-color 0.2s, color 0.2s; }
-        .header-btn:hover, .panel-close-btn:hover { background-color: var(--bg-light); color: var(--text-primary); }
-        .header-title { margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 1.1em; flex-grow: 1; min-width: 50px; }
-        .provider-select, .model-select { padding: 6px 10px; background-color: var(--bg-light); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 5px; font-size: 0.9em; max-width: 150px; }
-        .panel-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; border-bottom: 1px solid var(--border-color); flex-shrink: 0; }
-        .panel-header h4 { margin: 0; font-size: 1.1em; }
-        .new-chat-btn { width: 100%; padding: 10px 15px; background-color: var(--bg-light); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 6px; cursor: pointer; text-align: left; font-size: 1em; transition: background-color 0.2s; }
-        .history-list { flex-grow: 1; overflow-y: auto; padding: 10px; }
-        .history-item { padding: 10px; border-radius: 5px; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: background-color 0.2s; }
-        .history-item:hover { background-color: var(--bg-light); }
-        .history-item.active { background-color: var(--accent-primary); color: var(--accent-primary-text); }
-        .chat-container { flex-grow: 1; padding: 20px; overflow-y: auto; }
-        .message-container { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 12px; }
-        .message-container.user { justify-content: flex-end; }
-        .user-message-bubble { background-color: var(--accent-primary); color: var(--accent-primary-text); }
-        .ai-message-bubble { background-color: var(--bg-lighter); color: var(--text-primary); }
-        .ai-message-bubble, .user-message-bubble { max-width: 90%; padding: 10px 15px; border-radius: 15px; line-height: 1.6; word-break: break-word; }
-        .action-button-wrapper { display: flex; flex-direction: column; gap: 8px; position: sticky; bottom: 10px; align-self: flex-end; flex-shrink: 0; z-index: 10; opacity: 0; transition: opacity 0.2s; }
-        .message-container:hover .action-button-wrapper { opacity: 1; }
-        .action-button { background-color: rgba(58, 58, 58, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); color: #d0d0d0; cursor: pointer; padding: 4px; border-radius: 6px; }
-        .chat-input-area { padding: 15px; border-top: 1px solid var(--border-color); flex-shrink: 0; }
-        .input-form { display: flex; align-items: flex-end; gap: 10px; }
-        .main-textarea { flex-grow: 1; padding: 12px; border-radius: var(--border-radius); background-color: var(--bg-deep); color: var(--text-primary); border: 1px solid var(--border-color); font-family: inherit; font-size: 1em; line-height: 1.4; resize: none; max-height: 150px; overflow-y: auto; }
-        .main-textarea:disabled { background-color: var(--bg-light); cursor: not-allowed; }
-        .send-button { padding: 10px 20px; border-radius: var(--border-radius); border: none; background-color: var(--accent-primary); color: var(--accent-primary-text); cursor: pointer; transition: background-color 0.2s; font-weight: 500; }
-        .send-button:disabled { background-color: var(--bg-light); cursor: not-allowed; }
-        .settings-panel-content { flex-grow: 1; overflow-y: auto; padding: 20px; }
-        .settings-panel-content h4 { margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
-        .settings-divider { border-top: 2px solid var(--border-color); margin: 20px 0; }
-        .setting-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .settings-panel-content input, .settings-panel-content select { padding: 8px; background-color: var(--bg-deep); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 5px; box-sizing: border-box; width: 100%; }
-        .setting-group { margin-bottom: 15px; }
-        .setting-group label, h5 { display: block; font-weight: bold; margin-bottom: 8px; }
-        .settings-info-box.warning { background-color: var(--accent-warning-bg); border: 1px solid var(--accent-warning-border); padding: 15px; border-radius: var(--border-radius); font-size: 0.9em; color: var(--text-primary); margin-top: 10px; }
-        .provider-accordion-header { background-color: var(--bg-light); padding: 12px 15px; border-radius: var(--border-radius); cursor: pointer; display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
-        .provider-accordion-header svg { transition: transform var(--transition-speed); }
-        .provider-accordion-header.open svg { transform: rotate(180deg); }
-        .provider-accordion-content { max-height: 0; overflow: hidden; transition: max-height var(--transition-speed) ease-out, padding var(--transition-speed) ease-out; background-color: var(--bg-deep); padding: 0 15px; border: 1px solid transparent; border-top: none; border-radius: 0 0 var(--border-radius) var(--border-radius); }
-        .provider-accordion-content.open { max-height: 1000px; padding: 15px; border-color: var(--border-color); }
-        .api-key-manager { margin-bottom: 15px; }
-        .api-key-controls { display: flex; gap: 8px; align-items: center; }
-        .api-key-controls button { background-color: var(--accent-primary); border: none; }
-        .model-manager-details summary { cursor: pointer; font-weight: bold; margin-top: 15px; }
-        .model-fetcher { margin-bottom: 15px; }
-        .model-fetcher button { width: 100%; }
-        .fetch-error { color: var(--accent-danger); font-size: 0.9em; }
-        .model-entry { display: flex; justify-content: space-between; align-items: center; background-color: var(--bg-deep); padding: 5px 8px; border-radius: 4px; margin: 5px 0; }
-        .model-entry button { background: none; border: none; color: var(--text-secondary); cursor: pointer; }
-        .model-add-form { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
-        .toggle-switch { position: relative; display: inline-block; width: 44px; height: 24px; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--bg-light); transition: .4s; border-radius: 24px; }
-        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: var(--accent-primary); }
-        input:checked + .slider:before { transform: translateX(20px); }
-      `}</style>
-      
-      <div className="panel-overlay-backdrop" onClick={() => { setShowHistory(false); setShowSettings(false); }}></div>
-      
-      <div className="history-panel">
-          <div className="panel-header">
-              <h4>Chat History</h4>
-              <button onClick={() => setShowHistory(false)} className="panel-close-btn" title="Close History (Esc)"><CloseIcon /></button>
-          </div>
-          <div style={{padding: '10px 15px', borderBottom: '1px solid var(--border-color)'}}><button className="new-chat-btn" onClick={handleNewChat}>+ New Chat</button></div>
-          <div className="history-list">
-            {isHistoryLoading ? <div style={{padding: '10px', color: 'var(--text-secondary)'}}>Loading...</div> :
-             chatHistory.length === 0 ? <div style={{padding: '10px', color: '#888', textAlign: 'center'}}>No chats for {activeProviderConfig.displayName}.</div> :
-             chatHistory.map(chat => <div key={chat.id} className={`history-item ${currentChatId === chat.id ? 'active' : ''}`} onClick={() => {handleLoadChat(chat.id); setShowHistory(false);}} title={chat.title}>{chat.title}</div>)
+    // Load all chat history from all providers
+    const loadChatHistory = async () => {
+        setIsHistoryLoading(true);
+        try {
+            if (!await app.vault.adapter.exists(CHAT_HISTORY_DIR)) {
+                await app.vault.adapter.mkdir(CHAT_HISTORY_DIR);
             }
-          </div>
-        </div>
+            const { files } = await app.vault.adapter.list(CHAT_HISTORY_DIR);
+            const historyItems = await Promise.all(
+                files.map(async (file) => {
+                    try {
+                        const content = await app.vault.adapter.read(file);
+                        const chat = JSON.parse(content);
+                        const fileName = file.split('/').pop();
+                        const [timestamp, providerId] = fileName.replace('.json', '').split('_');
+                        
+                        // Get first user message as title
+                        const firstUserMsg = chat.messages?.find(m => m.role === 'user');
+                        let title = 'Untitled Chat';
+                        if (firstUserMsg?.content) {
+                            title = firstUserMsg.content.substring(0, 50);
+                            if (firstUserMsg.content.length > 50) title += '...';
+                        }
+                        
+                        return {
+                            id: fileName.replace('.json', ''),
+                            title,
+                            provider: providerId || 'openai',
+                            timestamp: parseInt(timestamp),
+                            messages: chat.messages || [],
+                        };
+                    } catch (e) {
+                        return null;
+                    }
+                })
+            );
+            const validChats = historyItems.filter(Boolean).sort((a, b) => b.timestamp - a.timestamp);
+            setChatHistory(validChats);
+        } catch (e) {
+            console.error('Failed to load chat history:', e);
+        }
+        setIsHistoryLoading(false);
+    };
 
-      <div className="chat-main">
-        <div className="chat-header">
-          <div className="header-left">
-            <button onClick={() => setShowHistory(true)} className="header-btn" title="Toggle History"><HistoryIcon /></button>
-            <select value={activeProvider} onChange={(e) => { setActiveProvider(e.target.value); handleNewChat(); }} className="provider-select">
-                {Object.values(DEFAULT_PROVIDER_CONFIG).map(p => <option key={p.id} value={p.id}>{p.displayName}</option>)}
-            </select>
-            {currentSettings && currentSettings.models.length > 0 && (
-                 <select value={currentSettings.model} onChange={e => updateProviderSetting(activeProvider, 'model', e.target.value)} className="model-select">
-                    {currentSettings.models.map(model => <option key={model.id} value={model.id}>{model.name}</option>)}
-                </select>
-            )}
-            <h3 className="header-title">{currentChatId ? chatHistory.find(c => c.id === currentChatId)?.title || "Chat" : "New Chat"}</h3>
-          </div>
-          <button onClick={() => setShowSettings(true)} className="header-btn" title="Toggle Settings"><SettingsIcon /></button>
-        </div>
+    // Save current chat
+    const saveCurrentChat = async () => {
+        if (messages.length === 0) return;
         
-        <div ref={chatContainerRef} className="chat-container">
-          {messages.map((msg, index) => (
-            <div key={index} className={`message-container ${msg.role}`}>
-              {editingMessageIndex === index ? (
-                <div className="edit-prompt-container">
-                  <textarea ref={editingTextareaRef} value={editingText} onChange={(e) => setEditingText(e.target.value)} />
-                  <div className="edit-prompt-buttons">
-                    <button onClick={() => setEditingMessageIndex(null)}>Cancel</button>
-                    <button onClick={() => handleSaveAndRerun(index)}>Save & Rerun</button>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  <div className={msg.role === 'user' ? 'user-message-bubble' : ''} style={{minWidth: 0, flexShrink: 1}}>
-                    {msg.role === 'user' ? (
-                      <div>{msg.parts?.map((part, partIndex) => {
-                          if (part.text) return <div key={partIndex}>{part.text}</div>;
-                          if (part.inlineData) {
-                            const src = `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
-                            if (part.inlineData.mimeType.startsWith('image/')) return <img key={partIndex} src={src} style={{ maxWidth: '100%', borderRadius: '8px', marginTop: '5px' }} alt="User upload" />;
-                            if (part.inlineData.mimeType.startsWith('audio/')) return <audio key={partIndex} src={src} controls style={{filter: 'invert(1)', marginTop: '5px'}}/>;
-                            return <div key={partIndex} style={{ fontStyle: 'italic' }}>[File: {part.inlineData.mimeType}]</div>
-                          }
-                          if (part.fileData) return <div key={partIndex} style={{ fontStyle: 'italic' }}>[YouTube Video Attached]</div>
-                          return null;
-                        })}</div>
-                    ) : (<AIMessage content={msg.parts?.[0]?.text} />)}
-                  </div>
-                  <div className="action-button-wrapper">
-                    {msg.role === 'user' && !isLoading && <button className="action-button" onClick={() => handleEditClick(index)} title="Edit"><EditIcon /></button>}
-                    {msg.role === 'model' && !isLoading && (index === messages.length - 1) && <button className="action-button" onClick={() => handleSimpleRerun(index)} title="Rerun"><RerunIcon /></button>}
-                  </div>
-                </>
-              )}
-            </div>
-          ))}
-          {isLoading && <div style={{ textAlign: "center", color: "var(--text-secondary)" }}><i>{activeProviderConfig.displayName} is thinking...</i></div>}
-          {error && <div style={{ backgroundColor: "var(--accent-danger)", color: "white", padding: "10px", borderRadius: "var(--border-radius)", margin: '10px 0' }}><strong>Error:</strong> {error}</div>}
-        </div>
+        try {
+            if (!await app.vault.adapter.exists(CHAT_HISTORY_DIR)) {
+                await app.vault.adapter.mkdir(CHAT_HISTORY_DIR);
+            }
+            
+            const chatId = currentChatId || `${Date.now()}_${provider}`;
+            const chatData = {
+                messages,
+                provider,
+                model,
+                timestamp: Date.now(),
+            };
+            
+            await app.vault.adapter.write(
+                `${CHAT_HISTORY_DIR}${chatId}.json`,
+                JSON.stringify(chatData, null, 2)
+            );
+            
+            if (!currentChatId) {
+                setCurrentChatId(chatId);
+                loadChatHistory();
+            }
+        } catch (e) {
+            console.error('Failed to save chat:', e);
+        }
+    };
+
+    // Load a specific chat
+    const loadChat = async (chatId) => {
+        try {
+            const content = await app.vault.adapter.read(`${CHAT_HISTORY_DIR}${chatId}.json`);
+            const chat = JSON.parse(content);
+            setMessages(chat.messages || []);
+            setProvider(chat.provider || 'openai');
+            setModel(chat.model || PROVIDERS[chat.provider || 'openai'].defaultModel);
+            setCurrentChatId(chatId);
+            setShowSidebar(false);
+        } catch (e) {
+            console.error('Failed to load chat:', e);
+        }
+    };
+
+    // Delete a chat
+    const deleteChat = async (chatId, e) => {
+        e.stopPropagation();
+        try {
+            await app.vault.adapter.delete(`${CHAT_HISTORY_DIR}${chatId}.json`);
+            if (currentChatId === chatId) {
+                setMessages([]);
+                setCurrentChatId(null);
+            }
+            loadChatHistory();
+        } catch (e) {
+            console.error('Failed to delete chat:', e);
+        }
+    };
+
+    // Save chat after messages change
+    useEffect(() => {
+        if (messages.length > 0) {
+            const timer = setTimeout(() => {
+                saveCurrentChat();
+            }, 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [messages]);
+
+    // Save API key for a provider
+    const saveApiKey = async (providerId, key) => {
+        try {
+            if (!await app.vault.adapter.exists(SECRET_DIR)) {
+                await app.vault.adapter.mkdir(SECRET_DIR);
+            }
+            await app.vault.adapter.write(PROVIDERS[providerId].apiKeyFile, key);
+            setApiKeys(prev => ({ ...prev, [providerId]: key }));
+        } catch (e) {
+            console.error('Failed to save API key:', e);
+        }
+    };
+
+    // Change provider and model
+    const changeProvider = (newProvider) => {
+        setProvider(newProvider);
+        setModel(PROVIDERS[newProvider].defaultModel);
+    };
+
+    // Start new chat
+    const startNewChat = () => {
+        setMessages([]);
+        setCurrentChatId(null);
+        setInput('');
+        setShowSidebar(false);
+    };
+
+    // Full-tab effect
+    useEffect(() => {
+        const container = containerRef.current;
+        if (!container || !isFullTab) return;
+        const targetPaneContent = findNearestAncestorWithClass(
+            container,
+            "workspace-leaf-content"
+        );
+        if (!targetPaneContent) {
+            setIsFullTab(false);
+            return;
+        }
+        const contentWrapper =
+            findDirectChildByClass(targetPaneContent, "view-content") ||
+            targetPaneContent;
+        stateRefs.originalParent = container.parentNode;
+        stateRefs.placeholder = document.createElement("div");
+        stateRefs.placeholder.style.display = "none";
+        container.parentNode.insertBefore(stateRefs.placeholder, container);
+        stateRefs.parentPositionInfo = {
+            element: contentWrapper,
+            original: window.getComputedStyle(contentWrapper).position,
+        };
+        if (stateRefs.parentPositionInfo.original === "static") {
+            contentWrapper.style.position = "relative";
+        }
+        contentWrapper.appendChild(container);
+        Object.assign(container.style, {
+            position: "absolute",
+            top: "0",
+            left: "0",
+            width: "100%",
+            height: "100%",
+            zIndex: "9998",
+            overflow: "auto",
+        });
+        return () => {
+            if (stateRefs.placeholder?.parentNode) {
+                stateRefs.placeholder.parentNode.replaceChild(
+                    container,
+                    stateRefs.placeholder
+                );
+            }
+            if (stateRefs.parentPositionInfo?.element) {
+                stateRefs.parentPositionInfo.element.style.position =
+                    stateRefs.parentPositionInfo.original === "static"
+                        ? ""
+                        : stateRefs.parentPositionInfo.original;
+            }
+            container.removeAttribute("style");
+            Object.keys(stateRefs).forEach((key) => (stateRefs[key] = null));
+        };
+    }, [isFullTab]);
+
+    // Auto-scroll to bottom
+    useEffect(() => {
+        if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        }
+    }, [messages, isLoading]);
+
+    // Auto-resize textarea
+    useEffect(() => {
+        const textarea = textareaRef.current;
+        if (textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = `${Math.min(textarea.scrollHeight, 200)}px`;
+        }
+    }, [input]);
+
+    // Handle paste for images
+    useEffect(() => {
+        const handlePaste = (e) => {
+            const items = Array.from(e.clipboardData.items);
+            const imageItems = items.filter(item => item.type.startsWith('image/'));
+            
+            if (imageItems.length > 0) {
+                e.preventDefault();
+                imageItems.forEach(item => {
+                    const file = item.getAsFile();
+                    if (file) {
+                        addImageFile(file);
+                    }
+                });
+            }
+        };
+
+        const inputArea = inputAreaRef.current;
+        if (inputArea) {
+            inputArea.addEventListener('paste', handlePaste);
+            return () => inputArea.removeEventListener('paste', handlePaste);
+        }
+    }, []);
+
+    // Handle drag and drop
+    useEffect(() => {
+        const handleDragOver = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setIsDragging(true);
+        };
+
+        const handleDragLeave = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (e.target === chatContainerRef.current) {
+                setIsDragging(false);
+            }
+        };
+
+        const handleDrop = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setIsDragging(false);
+
+            const files = Array.from(e.dataTransfer.files).filter(file => 
+                file.type.startsWith('image/')
+            );
+
+            files.forEach(file => addImageFile(file));
+        };
+
+        const chatArea = chatContainerRef.current;
+        if (chatArea) {
+            chatArea.addEventListener('dragover', handleDragOver);
+            chatArea.addEventListener('dragleave', handleDragLeave);
+            chatArea.addEventListener('drop', handleDrop);
+
+            return () => {
+                chatArea.removeEventListener('dragover', handleDragOver);
+                chatArea.removeEventListener('dragleave', handleDragLeave);
+                chatArea.removeEventListener('drop', handleDrop);
+            };
+        }
+    }, []);
+
+    // Add image file
+    const addImageFile = (file) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            setAttachedImages(prev => [...prev, {
+                file,
+                preview: e.target.result,
+                base64: e.target.result.split(',')[1]
+            }]);
+        };
+        reader.readAsDataURL(file);
+    };
+
+    // Remove image
+    const removeImage = (index) => {
+        setAttachedImages(prev => prev.filter((_, i) => i !== index));
+    };
+
+    // Handle file input
+    const handleFileSelect = (e) => {
+        const files = Array.from(e.target.files).filter(file => 
+            file.type.startsWith('image/')
+        );
+        files.forEach(file => addImageFile(file));
+        e.target.value = null; // Reset input
+    };
+
+    // Check if provider supports vision
+    const supportsVision = ['openai', 'gemini', 'anthropic', 'openrouter'].includes(provider);
+
+    const handleSend = async () => {
+        const currentProvider = PROVIDERS[provider];
+        const currentApiKey = apiKeys[provider];
         
-        <div className="chat-input-area">
-            <div style={{ marginBottom: attachedFiles.length > 0 || youtubeUrl ? '10px' : '0' }}>
-              {youtubeUrl && <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'var(--bg-deep)', padding: '5px 10px', borderRadius: '5px' }}><span>📺 {youtubeUrl}</span><button onClick={() => setYoutubeUrl(null)} style={{ background:'none', border:'none', color:'var(--text-primary)', cursor:'pointer', fontSize:'1.2em' }}>×</button></div>}
-              {attachedFiles.length > 0 && ( <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                  {attachedFiles.map((item, index) => (
-                    <div key={index} style={{ position: 'relative', display: 'inline-block' }}>
-                      {item.file.type.startsWith('image/') ? <img src={item.previewUrl} style={{ height: '70px', borderRadius: '8px', border: '1px solid #555' }} alt="Asset preview" /> :
-                       item.file.type.startsWith('audio/') ? <audio src={item.previewUrl} controls style={{height: '50px', filter: 'invert(1)'}} /> :
-                       <div style={{height: '70px', width: '70px', backgroundColor: '#3a3a3a', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.8em', padding: '5px', textAlign: 'center', overflow: 'hidden'}}>{item.file.name}</div>}
-                      <button onClick={() => handleRemoveFile(index)} style={{ position: 'absolute', top: '-10px', right: '-10px', background: '#333', color: 'white', border: '2px solid #282c34', borderRadius: '50%', width: '24px', height: '24px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', lineHeight: '1' }}>×</button>
-                    </div>
-                  ))}
-                </div>)}
-            </div>
-            <form onSubmit={handleSendMessage} className="input-form">
-              <div style={{ position: 'relative' }}>
-                <button type="button" onClick={() => setShowAssetMenu(!showAssetMenu)} className="header-btn"><PlusIcon /></button>
-                {showAssetMenu && (<div className="asset-menu" style={{ position: 'absolute', bottom: '55px', left: 0, background: 'var(--bg-lighter)', borderRadius: 'var(--border-radius)', padding: '5px', boxShadow: '0 4px 8px rgba(0,0,0,0.3)', width: '220px', zIndex: 100 }}>
-                    {activeProviderConfig.supportsVision && <button onClick={handleAttachFile} style={{ display:'block', width:'100%', padding:'8px 12px', background:'none', border:'none', color:'var(--text-primary)', textAlign:'left', cursor:'pointer', borderRadius: '4px' }}>📎 Attach File</button>}
-                    {activeProviderConfig.supportsYoutube && <button onClick={handleAddYoutubeUrl} style={{ display:'block', width:'100%', padding:'8px 12px', background:'none', border:'none', color:'var(--text-primary)', textAlign:'left', cursor:'pointer', borderRadius: '4px' }}>📺 Add YouTube Video</button>}
-                  </div>)}
-              </div>
-              <textarea ref={textareaRef} value={currentInput} onChange={(e) => setCurrentInput(e.target.value)} onKeyDown={handleKeyDown} 
-                placeholder={!apiKeys[activeProviderConfig.id] && activeProviderConfig.id !== 'ollama' ? `Please add a ${activeProviderConfig.displayName} API key in Settings` : "Ask a question or paste an asset..."} 
-                disabled={isLoading || (!apiKeys[activeProviderConfig.id] && activeProviderConfig.id !== 'ollama')} 
-                rows="1" className="main-textarea"/>
-              <button type="submit" disabled={isSendDisabled} className="send-button">Send</button>
-            </form>
-        </div>
-      </div>
-      
-      <div className="settings-panel">
-          <div className="panel-header">
-              <h4>Settings</h4>
-              <button onClick={() => setShowSettings(false)} className="panel-close-btn" title="Close Settings (Esc)"><CloseIcon /></button>
-          </div>
-        {currentSettings && (
-            <div className="settings-panel-content">
-                <h4>Run Settings: {activeProviderConfig.displayName}</h4>
-                <div className="setting-group">
-                    <label>Model</label>
-                    <select value={currentSettings.model} onChange={e => updateProviderSetting(activeProvider, 'model', e.target.value)}>
-                        {currentSettings.models.map(model => <option key={model.id} value={model.id}>{model.name}</option>)}
-                    </select>
-                </div>
-                <div className="setting-row"><span>Token count</span><span>{lastTokenCount ? `${lastTokenCount.totalTokens}` : 'N/A'}</span></div>
-                <div className="setting-group">
-                    <label>Temperature: {currentSettings.temperature}</label>
-                    <input type="range" min="0" max={activeProviderConfig.id === 'anthropic' ? '1' : '2'} step="0.1" value={currentSettings.temperature} onChange={e => updateProviderSetting(activeProvider, 'temperature', e.target.value)} />
-                </div>
-                <div className="setting-group">
-                    <label>Stop sequence</label>
-                    <input type="text" value={currentSettings.stopSequence} onChange={e => updateProviderSetting(activeProvider, 'stopSequence', e.target.value)} placeholder="e.g., '##'" />
-                </div>
+        if ((!input.trim() && attachedImages.length === 0) || isLoading) return;
+        if (!currentApiKey && provider !== 'ollama') return;
+
+        // Create user message with text and images
+        const userMessage = { 
+            role: 'user', 
+            content: input,
+            images: attachedImages.length > 0 ? attachedImages.map(img => img.preview) : undefined
+        };
+        const newMessages = [...messages, userMessage];
+        setMessages(newMessages);
+        setInput('');
+        const currentImages = [...attachedImages];
+        setAttachedImages([]);
+        setIsLoading(true);
+
+        try {
+            let url, headers, body, responseData;
+
+            if (provider === 'openai' || provider === 'groq' || provider === 'openrouter' || provider === 'cerebrium') {
+                url = `${currentProvider.baseUrl}/chat/completions`;
+                headers = {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${currentApiKey}`
+                };
+                if (provider === 'openrouter') {
+                    headers['HTTP-Referer'] = 'https://obsidian.md';
+                }
                 
-                <div className="settings-divider"></div>
+                // Format messages with images if present
+                const formattedMessages = newMessages.map((m, idx) => {
+                    if (m.images && m.images.length > 0 && idx === newMessages.length - 1) {
+                        // Last message with images
+                        const content = [
+                            { type: 'text', text: m.content || 'What do you see in these images?' }
+                        ];
+                        currentImages.forEach(img => {
+                            content.push({
+                                type: 'image_url',
+                                image_url: { url: img.preview }
+                            });
+                        });
+                        return { role: m.role, content };
+                    }
+                    return { role: m.role, content: m.content };
+                });
+                
+                body = JSON.stringify({
+                    model: model,
+                    messages: formattedMessages,
+                    temperature: 0.7
+                });
 
-                <h4>Provider Configurations</h4>
-                {Object.values(DEFAULT_PROVIDER_CONFIG).map(provider => {
-                    const isOpen = openSettingsAccordion === provider.id;
-                    return (
-                        <div key={provider.id} className="provider-accordion">
-                            <button className={`provider-accordion-header ${isOpen ? 'open' : ''}`} onClick={() => setOpenSettingsAccordion(isOpen ? null : provider.id)}>
-                                <span>{provider.displayName}</span>
-                                <ChevronDownIcon />
+                const response = await fetch(url, { method: 'POST', headers, body });
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error?.message || 'API request failed');
+                }
+                responseData = await response.json();
+                const assistantMessage = {
+                    role: 'assistant',
+                    content: responseData.choices[0].message.content
+                };
+                setMessages([...newMessages, assistantMessage]);
+
+            } else if (provider === 'gemini') {
+                url = `${currentProvider.baseUrl}/v1beta/models/${model}:generateContent?key=${currentApiKey}`;
+                headers = { 'Content-Type': 'application/json' };
+                
+                const contents = newMessages.map((m, idx) => {
+                    const parts = [{ text: m.content || 'Analyze these images' }];
+                    
+                    // Add images if present (only for last message)
+                    if (m.images && m.images.length > 0 && idx === newMessages.length - 1) {
+                        currentImages.forEach(img => {
+                            parts.push({
+                                inlineData: {
+                                    mimeType: img.file.type,
+                                    data: img.base64
+                                }
+                            });
+                        });
+                    }
+                    
+                    return {
+                        role: m.role === 'assistant' ? 'model' : 'user',
+                        parts
+                    };
+                });
+                
+                body = JSON.stringify({ contents });
+
+                const response = await fetch(url, { method: 'POST', headers, body });
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error?.message || 'API request failed');
+                }
+                responseData = await response.json();
+                const assistantMessage = {
+                    role: 'assistant',
+                    content: responseData.candidates[0].content.parts[0].text
+                };
+                setMessages([...newMessages, assistantMessage]);
+
+            } else if (provider === 'anthropic') {
+                url = `${currentProvider.baseUrl}/v1/messages`;
+                headers = {
+                    'Content-Type': 'application/json',
+                    'x-api-key': currentApiKey,
+                    'anthropic-version': '2023-06-01'
+                };
+                
+                const formattedMessages = newMessages.map((m, idx) => {
+                    if (m.images && m.images.length > 0 && idx === newMessages.length - 1) {
+                        const content = [
+                            { type: 'text', text: m.content || 'Analyze these images' }
+                        ];
+                        currentImages.forEach(img => {
+                            content.push({
+                                type: 'image',
+                                source: {
+                                    type: 'base64',
+                                    media_type: img.file.type,
+                                    data: img.base64
+                                }
+                            });
+                        });
+                        return {
+                            role: m.role === 'assistant' ? 'assistant' : 'user',
+                            content
+                        };
+                    }
+                    return {
+                        role: m.role === 'assistant' ? 'assistant' : 'user',
+                        content: m.content
+                    };
+                });
+                
+                body = JSON.stringify({
+                    model: model,
+                    messages: formattedMessages,
+                    max_tokens: 4096
+                });
+
+                const response = await fetch(url, { method: 'POST', headers, body });
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error?.message || 'API request failed');
+                }
+                responseData = await response.json();
+                const assistantMessage = {
+                    role: 'assistant',
+                    content: responseData.content[0].text
+                };
+                setMessages([...newMessages, assistantMessage]);
+
+            } else if (provider === 'ollama') {
+                url = `${currentProvider.baseUrl}/api/chat`;
+                headers = { 'Content-Type': 'application/json' };
+                body = JSON.stringify({
+                    model: model,
+                    messages: newMessages.map(m => ({
+                        role: m.role === 'assistant' ? 'assistant' : 'user',
+                        content: m.content
+                    })),
+                    stream: false
+                });
+
+                const response = await fetch(url, { method: 'POST', headers, body });
+                if (!response.ok) {
+                    throw new Error('Ollama API request failed');
+                }
+                responseData = await response.json();
+                const assistantMessage = {
+                    role: 'assistant',
+                    content: responseData.message.content
+                };
+                setMessages([...newMessages, assistantMessage]);
+            }
+
+        } catch (error) {
+            console.error('API Error:', error);
+            setMessages([...newMessages, {
+                role: 'assistant',
+                content: `Error: ${error.message}`
+            }]);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleSend();
+        }
+    };
+
+    const handleExitFullTab = (e) => {
+        e.stopPropagation();
+        setIsFullTab(false);
+    };
+
+    const handleEnterFullTab = () => setIsFullTab(true);
+
+    // Compact mode
+    if (!isFullTab) {
+        return (
+            <div ref={containerRef} style={{
+                padding: "16px",
+                boxSizing: "border-box",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "12px",
+                border: "1px dashed rgba(155, 135, 245, 0.3)",
+                borderRadius: "8px",
+                backgroundColor: "#1a1a1a",
+            }}>
+                <p style={{ margin: 0, color: '#999', fontSize: '14px' }}>Chat component in compact mode</p>
+                <button 
+                    style={{
+                        padding: "8px 16px",
+                        fontSize: "12px",
+                        fontWeight: "500",
+                        color: "#fff",
+                        backgroundColor: "rgba(155, 135, 245, 0.8)",
+                        border: "none",
+                        borderRadius: "6px",
+                        cursor: "pointer",
+                    }}
+                    onClick={handleEnterFullTab}
+                >
+                    Enter Full Tab
+                </button>
+            </div>
+        );
+    }
+
+    // Full UI
+    return (
+        <div ref={containerRef} className={uniqueWrapperClass} style={{
+            height: '100%',
+            width: '100%',
+            position: 'relative',
+            backgroundColor: '#0a0a0a',
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden',
+        }}>
+            <style>{`
+                .${uniqueWrapperClass}:hover .header-icon {
+                    opacity: 0.7;
+                }
+                .${uniqueWrapperClass} .header-icon {
+                    opacity: 0;
+                    transition: opacity 0.2s ease-in-out;
+                }
+                .${uniqueWrapperClass} .header-icon:hover {
+                    opacity: 1 !important;
+                }
+                .${uniqueWrapperClass} .message-bubble {
+                    animation: fadeIn 0.3s ease-in;
+                }
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(10px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                @keyframes slideIn {
+                    from { transform: translateX(-100%); }
+                    to { transform: translateX(0); }
+                }
+                .${uniqueWrapperClass} pre {
+                    background: #1a1a1a;
+                    border: 1px solid #2a2a2a;
+                    border-radius: 6px;
+                    padding: 12px;
+                    overflow-x: auto;
+                    margin: 8px 0;
+                }
+                .${uniqueWrapperClass} code {
+                    font-family: 'Monaco', 'Menlo', monospace;
+                    font-size: 13px;
+                    color: #e0e0e0;
+                }
+                .${uniqueWrapperClass} p {
+                    margin: 8px 0;
+                    line-height: 1.6;
+                }
+            `}</style>
+
+            {/* Sidebar */}
+            {showSidebar && (
+                <>
+                    {/* Overlay */}
+                    <div
+                        onClick={() => setShowSidebar(false)}
+                        style={{
+                            position: 'fixed',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                            zIndex: 9999,
+                        }}
+                    />
+                    {/* Sidebar Panel */}
+                    <div style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        width: '280px',
+                        height: '100%',
+                        backgroundColor: '#0a0a0a',
+                        borderRight: '1px solid #2a2a2a',
+                        zIndex: 10000,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        animation: 'slideIn 0.2s ease-out',
+                    }}>
+                        {/* Sidebar Header */}
+                        <div style={{
+                            padding: '16px',
+                            borderBottom: '1px solid #2a2a2a',
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                        }}>
+                            <h3 style={{ margin: 0, color: '#fff', fontSize: '16px', fontWeight: '600' }}>
+                                Chat History
+                            </h3>
+                            <span
+                                onClick={() => setShowSidebar(false)}
+                                style={{ cursor: 'pointer', color: '#999', fontSize: '18px' }}
+                            >
+                                <dc.Icon icon="x" />
+                            </span>
+                        </div>
+
+                        {/* New Chat Button */}
+                        <div style={{ padding: '12px' }}>
+                            <button
+                                onClick={startNewChat}
+                                style={{
+                                    width: '100%',
+                                    padding: '10px',
+                                    backgroundColor: 'rgba(155, 135, 245, 0.8)',
+                                    border: 'none',
+                                    borderRadius: '6px',
+                                    color: '#fff',
+                                    fontSize: '14px',
+                                    fontWeight: '500',
+                                    cursor: 'pointer',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    gap: '8px',
+                                }}
+                            >
+                                <dc.Icon icon="plus" style={{ fontSize: '16px' }} />
+                                New Chat
                             </button>
-                            <div className={`provider-accordion-content ${isOpen ? 'open' : ''}`}>
-                                <ProviderSettingsEditor 
-                                    providerConfig={provider}
-                                    settings={providerSettings[provider.id]}
-                                    apiKey={apiKeys[provider.id]}
-                                    updateSetting={(key, value) => updateProviderSetting(provider.id, key, value)}
-                                    handleSaveKey={handleSaveKeyOrHost}
-                                    handleResetKey={handleResetKeyOrHost}
+                        </div>
+
+                        {/* Chat List */}
+                        <div style={{
+                            flex: 1,
+                            overflowY: 'auto',
+                            padding: '8px 12px',
+                        }}>
+                            {isHistoryLoading ? (
+                                <div style={{ padding: '20px', textAlign: 'center', color: '#666' }}>
+                                    Loading...
+                                </div>
+                            ) : chatHistory.length === 0 ? (
+                                <div style={{ padding: '20px', textAlign: 'center', color: '#666', fontSize: '13px' }}>
+                                    No chat history yet
+                                </div>
+                            ) : (
+                                chatHistory.map((chat) => (
+                                    <div
+                                        key={chat.id}
+                                        onClick={() => loadChat(chat.id)}
+                                        style={{
+                                            padding: '12px',
+                                            marginBottom: '8px',
+                                            backgroundColor: currentChatId === chat.id ? '#1a1a1a' : 'transparent',
+                                            borderRadius: '6px',
+                                            cursor: 'pointer',
+                                            border: '1px solid ' + (currentChatId === chat.id ? '#2a2a2a' : 'transparent'),
+                                            transition: 'all 0.2s',
+                                            position: 'relative',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            gap: '4px',
+                                        }}
+                                        onMouseEnter={(e) => {
+                                            if (currentChatId !== chat.id) {
+                                                e.currentTarget.style.backgroundColor = '#0f0f0f';
+                                            }
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            if (currentChatId !== chat.id) {
+                                                e.currentTarget.style.backgroundColor = 'transparent';
+                                            }
+                                        }}
+                                    >
+                                        <div style={{
+                                            color: '#fff',
+                                            fontSize: '13px',
+                                            fontWeight: '500',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                            whiteSpace: 'nowrap',
+                                        }}>
+                                            {chat.title}
+                                        </div>
+                                        <div style={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                        }}>
+                                            <span style={{
+                                                color: '#666',
+                                                fontSize: '11px',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '4px',
+                                            }}>
+                                                <span style={{
+                                                    width: '6px',
+                                                    height: '6px',
+                                                    borderRadius: '50%',
+                                                    backgroundColor: 'rgba(155, 135, 245, 0.6)',
+                                                }} />
+                                                {PROVIDERS[chat.provider]?.name || chat.provider}
+                                            </span>
+                                            <span
+                                                onClick={(e) => deleteChat(chat.id, e)}
+                                                style={{
+                                                    color: '#666',
+                                                    fontSize: '14px',
+                                                    padding: '4px',
+                                                    borderRadius: '4px',
+                                                    cursor: 'pointer',
+                                                }}
+                                                onMouseEnter={(e) => {
+                                                    e.currentTarget.style.color = '#ff6b6b';
+                                                    e.currentTarget.style.backgroundColor = 'rgba(255, 107, 107, 0.1)';
+                                                }}
+                                                onMouseLeave={(e) => {
+                                                    e.currentTarget.style.color = '#666';
+                                                    e.currentTarget.style.backgroundColor = 'transparent';
+                                                }}
+                                            >
+                                                <dc.Icon icon="trash-2" style={{ fontSize: '12px' }} />
+                                            </span>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                    </div>
+                </>
+            )}
+
+            {/* Header */}
+            <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '12px 20px',
+                borderBottom: '1px solid #2a2a2a',
+                backgroundColor: '#0a0a0a',
+            }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    {/* Burger Menu */}
+                    <span
+                        className="header-icon"
+                        onClick={() => setShowSidebar(!showSidebar)}
+                        style={{
+                            cursor: 'pointer',
+                            color: 'rgba(155, 135, 245, 0.8)',
+                            fontSize: '20px',
+                        }}
+                        title="Chat History"
+                    >
+                        <dc.Icon icon="menu" />
+                    </span>
+                    <h3 style={{ margin: 0, color: '#fff', fontSize: '16px', fontWeight: '600' }}>
+                        {PROVIDERS[provider].name}
+                    </h3>
+                    <span style={{ color: '#666', fontSize: '13px' }}>{model}</span>
+                </div>
+                <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                    <span
+                        className="header-icon"
+                        onClick={() => setShowSettings(!showSettings)}
+                        style={{
+                            cursor: 'pointer',
+                            color: 'rgba(155, 135, 245, 0.8)',
+                            fontSize: '18px',
+                        }}
+                        title="Settings"
+                    >
+                        <dc.Icon icon="settings" />
+                    </span>
+                    <span
+                        className="header-icon"
+                        onClick={startNewChat}
+                        style={{
+                            cursor: 'pointer',
+                            color: 'rgba(155, 135, 245, 0.8)',
+                            fontSize: '18px',
+                        }}
+                        title="New Chat"
+                    >
+                        <dc.Icon icon="plus" />
+                    </span>
+                    <span
+                        className="header-icon"
+                        onClick={handleExitFullTab}
+                        style={{
+                            cursor: 'pointer',
+                            color: 'rgba(155, 135, 245, 0.8)',
+                            fontSize: '18px',
+                        }}
+                        title="Exit Full Tab"
+                    >
+                        <dc.Icon icon="minimize-2" />
+                    </span>
+                </div>
+            </div>
+
+            {/* Settings Panel */}
+            {showSettings && (
+                <div style={{
+                    position: 'absolute',
+                    top: '50px',
+                    right: '20px',
+                    width: '360px',
+                    maxHeight: '80vh',
+                    overflowY: 'auto',
+                    backgroundColor: '#1a1a1a',
+                    border: '1px solid #2a2a2a',
+                    borderRadius: '8px',
+                    padding: '20px',
+                    zIndex: 10000,
+                    boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
+                }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                        <h4 style={{ margin: 0, color: '#fff', fontSize: '16px', fontWeight: '600' }}>Settings</h4>
+                        <span
+                            onClick={() => setShowSettings(false)}
+                            style={{ cursor: 'pointer', color: '#999', fontSize: '18px' }}
+                        >
+                            <dc.Icon icon="x" />
+                        </span>
+                    </div>
+
+                    {/* Provider Selection */}
+                    <div style={{ marginBottom: '20px' }}>
+                        <label style={{ display: 'block', color: '#999', fontSize: '12px', marginBottom: '8px', fontWeight: '500' }}>
+                            Provider
+                        </label>
+                        <select
+                            value={provider}
+                            onChange={(e) => changeProvider(e.target.value)}
+                            style={{
+                                width: '100%',
+                                padding: '10px 12px',
+                                backgroundColor: '#0a0a0a',
+                                border: '1px solid #2a2a2a',
+                                borderRadius: '6px',
+                                color: '#fff',
+                                fontSize: '14px',
+                                cursor: 'pointer',
+                                fontWeight: '500',
+                                height: '44px',
+                                boxSizing: 'border-box',
+                            }}
+                        >
+                            {Object.entries(PROVIDERS).map(([id, config]) => (
+                                <option key={id} value={id} style={{ backgroundColor: '#1a1a1a', color: '#fff', padding: '8px' }}>
+                                    {config.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    {/* API Key Input */}
+                    <div style={{ marginBottom: '20px' }}>
+                        <label style={{ display: 'block', color: '#999', fontSize: '12px', marginBottom: '8px', fontWeight: '500' }}>
+                            {provider === 'ollama' ? 'Host URL' : 'API Key'}
+                        </label>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                            <input
+                                type={provider === 'ollama' ? 'text' : 'password'}
+                                value={apiKeys[provider] || ''}
+                                onChange={(e) => saveApiKey(provider, e.target.value)}
+                                placeholder={provider === 'ollama' ? 'http://localhost:11434' : 'Enter API key...'}
+                                style={{
+                                    flex: 1,
+                                    padding: '10px',
+                                    backgroundColor: '#0a0a0a',
+                                    border: '1px solid #2a2a2a',
+                                    borderRadius: '6px',
+                                    color: '#fff',
+                                    fontSize: '13px',
+                                    boxSizing: 'border-box',
+                                }}
+                            />
+                            {apiKeys[provider] && (
+                                <span
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        padding: '8px',
+                                        color: 'rgba(76, 175, 80, 0.8)',
+                                        fontSize: '18px',
+                                    }}
+                                >
+                                    <dc.Icon icon="check" />
+                                </span>
+                            )}
+                        </div>
+                        {!apiKeys[provider] && provider !== 'ollama' && (
+                            <p style={{ margin: '6px 0 0 0', color: '#ff6b6b', fontSize: '11px' }}>
+                                API key required
+                            </p>
+                        )}
+                    </div>
+
+                    {/* Model Selection */}
+                    <div style={{ marginBottom: '16px' }}>
+                        <label style={{ display: 'block', color: '#999', fontSize: '12px', marginBottom: '8px', fontWeight: '500' }}>
+                            Model
+                        </label>
+                        <select
+                            value={model}
+                            onChange={(e) => setModel(e.target.value)}
+                            style={{
+                                width: '100%',
+                                padding: '10px 12px',
+                                backgroundColor: '#0a0a0a',
+                                border: '1px solid #2a2a2a',
+                                borderRadius: '6px',
+                                color: '#fff',
+                                fontSize: '14px',
+                                cursor: 'pointer',
+                                height: '44px',
+                                boxSizing: 'border-box',
+                            }}
+                        >
+                            {PROVIDERS[provider].models.map(m => (
+                                <option key={m} value={m} style={{ backgroundColor: '#1a1a1a', color: '#fff', padding: '8px' }}>
+                                    {m}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    {/* Info Box */}
+                    <div style={{
+                        backgroundColor: 'rgba(155, 135, 245, 0.1)',
+                        border: '1px solid rgba(155, 135, 245, 0.3)',
+                        borderRadius: '6px',
+                        padding: '12px',
+                        marginTop: '20px',
+                    }}>
+                        <p style={{ margin: 0, color: '#999', fontSize: '11px', lineHeight: '1.5' }}>
+                            💡 API keys are stored locally in <code style={{ 
+                                backgroundColor: '#0a0a0a', 
+                                padding: '2px 6px', 
+                                borderRadius: '4px',
+                                fontSize: '10px',
+                            }}>.datacore/chatllm/.secret/</code>
+                        </p>
+                    </div>
+                </div>
+            )}
+
+            {/* Messages Container */}
+            <div
+                ref={chatContainerRef}
+                style={{
+                    flex: 1,
+                    overflowY: 'auto',
+                    padding: '20px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '16px',
+                }}
+            >
+                {messages.length === 0 ? (
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        height: '100%',
+                        gap: '16px',
+                    }}>
+                        <div style={{
+                            width: '48px',
+                            height: '48px',
+                            borderRadius: '50%',
+                            background: 'linear-gradient(135deg, rgba(155, 135, 245, 0.2), rgba(155, 135, 245, 0.05))',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}>
+                            <dc.Icon icon="message-square" style={{ fontSize: '24px', color: 'rgba(155, 135, 245, 0.8)' }} />
+                        </div>
+                        <h2 style={{ color: '#fff', fontSize: '24px', fontWeight: '600', margin: 0 }}>
+                            How can I help you today?
+                        </h2>
+                        <p style={{ color: '#666', fontSize: '14px', margin: 0 }}>
+                            {(apiKeys[provider] || provider === 'ollama') 
+                                ? `Start a conversation with ${PROVIDERS[provider].name}` 
+                                : 'Please add your API key in settings'}
+                        </p>
+                    </div>
+                ) : (
+                    messages.map((msg, idx) => (
+                        <div
+                            key={idx}
+                            className="message-bubble"
+                            style={{
+                                display: 'flex',
+                                gap: '12px',
+                                maxWidth: '800px',
+                                alignSelf: 'center',
+                                width: '100%',
+                            }}
+                        >
+                            <div style={{
+                                width: '32px',
+                                height: '32px',
+                                borderRadius: '50%',
+                                backgroundColor: msg.role === 'user' ? 'rgba(155, 135, 245, 0.2)' : '#1a1a1a',
+                                border: msg.role === 'assistant' ? '1px solid #2a2a2a' : 'none',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                flexShrink: 0,
+                            }}>
+                                <dc.Icon
+                                    icon={msg.role === 'user' ? 'user' : 'bot'}
+                                    style={{
+                                        fontSize: '16px',
+                                        color: msg.role === 'user' ? 'rgba(155, 135, 245, 0.8)' : '#999'
+                                    }}
+                                />
+                            </div>
+                            <div style={{ flex: 1, paddingTop: '4px' }}>
+                                <div style={{
+                                    color: '#fff',
+                                    fontSize: '14px',
+                                    fontWeight: '600',
+                                    marginBottom: '6px',
+                                }}>
+                                    {msg.role === 'user' ? 'You' : PROVIDERS[provider].name}
+                                </div>
+                                
+                                {/* Display images if present */}
+                                {msg.images && msg.images.length > 0 && (
+                                    <div style={{
+                                        display: 'flex',
+                                        flexWrap: 'wrap',
+                                        gap: '8px',
+                                        marginBottom: '12px',
+                                    }}>
+                                        {msg.images.map((imgSrc, imgIdx) => (
+                                            <img
+                                                key={imgIdx}
+                                                src={imgSrc}
+                                                alt="Attached"
+                                                style={{
+                                                    maxWidth: '200px',
+                                                    maxHeight: '200px',
+                                                    borderRadius: '8px',
+                                                    border: '1px solid #2a2a2a',
+                                                    objectFit: 'cover',
+                                                }}
+                                            />
+                                        ))}
+                                    </div>
+                                )}
+                                
+                                <div
+                                    style={{
+                                        color: '#e0e0e0',
+                                        fontSize: '14px',
+                                        lineHeight: '1.6',
+                                        whiteSpace: 'pre-wrap',
+                                        wordWrap: 'break-word',
+                                    }}
+                                    dangerouslySetInnerHTML={{
+                                        __html: msg.content
+                                            .replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>')
+                                            .replace(/`([^`]+)`/g, '<code style="background: #1a1a1a; padding: 2px 6px; border-radius: 4px; font-size: 13px;">$1</code>')
+                                            .replace(/\n/g, '<br/>')
+                                    }}
                                 />
                             </div>
                         </div>
-                    )
-                })}
+                    ))
+                )}
+                {isLoading && (
+                    <div
+                        style={{
+                            display: 'flex',
+                            gap: '12px',
+                            maxWidth: '800px',
+                            alignSelf: 'center',
+                            width: '100%',
+                        }}
+                    >
+                        <div style={{
+                            width: '32px',
+                            height: '32px',
+                            borderRadius: '50%',
+                            backgroundColor: '#1a1a1a',
+                            border: '1px solid #2a2a2a',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexShrink: 0,
+                        }}>
+                            <dc.Icon icon="bot" style={{ fontSize: '16px', color: '#999' }} />
+                        </div>
+                        <div style={{ flex: 1, paddingTop: '12px' }}>
+                            <div style={{ display: 'flex', gap: '4px' }}>
+                                <div style={{
+                                    width: '8px',
+                                    height: '8px',
+                                    borderRadius: '50%',
+                                    backgroundColor: 'rgba(155, 135, 245, 0.6)',
+                                    animation: 'pulse 1.4s ease-in-out infinite',
+                                }} />
+                                <div style={{
+                                    width: '8px',
+                                    height: '8px',
+                                    borderRadius: '50%',
+                                    backgroundColor: 'rgba(155, 135, 245, 0.6)',
+                                    animation: 'pulse 1.4s ease-in-out 0.2s infinite',
+                                }} />
+                                <div style={{
+                                    width: '8px',
+                                    height: '8px',
+                                    borderRadius: '50%',
+                                    backgroundColor: 'rgba(155, 135, 245, 0.6)',
+                                    animation: 'pulse 1.4s ease-in-out 0.4s infinite',
+                                }} />
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
-        )}
-      </div>
 
-       <input type="file" ref={fileInputRef} onChange={handleFileSelected} style={{ display: 'none' }} multiple />
-       {showYoutubeModal && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
-          <div style={{ backgroundColor: 'var(--bg-medium)', padding: '25px', borderRadius: 'var(--border-radius)', boxShadow: '0 5px 15px rgba(0,0,0,0.5)', width: '90%', maxWidth: '500px', border: '1px solid var(--border-color)' }}>
-            <h4 style={{ marginTop: 0, marginBottom: '15px' }}>Enter YouTube Video URL</h4>
-            <input type="text" value={youtubeInput} onChange={(e) => setYoutubeInput(e.target.value)} placeholder="https://www.youtube.com/watch?v=..." style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #555', backgroundColor: '#333', color: 'white', marginBottom: '20px' }} autoFocus />
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
-              <button onClick={() => setShowYoutubeModal(false)} style={{ padding: '8px 16px', borderRadius: '5px', border: '1px solid #555', background: '#3a3a3a', color: 'white', cursor: 'pointer' }}>Cancel</button>
-              <button onClick={handleConfirmYoutubeUrl} style={{ padding: '8px 16px', borderRadius: '5px', border: 'none', background: '#007acc', color: 'white', cursor: 'pointer' }}>Add Video</button>
+            {/* Input Area */}
+            <div 
+                ref={inputAreaRef}
+                style={{
+                    padding: '20px',
+                    borderTop: '1px solid #2a2a2a',
+                    backgroundColor: '#0a0a0a',
+                    position: 'relative',
+                }}
+            >
+                {/* Drag and Drop Overlay */}
+                {isDragging && (
+                    <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: 'rgba(155, 135, 245, 0.1)',
+                        border: '2px dashed rgba(155, 135, 245, 0.5)',
+                        borderRadius: '12px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: 10,
+                        pointerEvents: 'none',
+                    }}>
+                        <div style={{ textAlign: 'center' }}>
+                            <dc.Icon icon="image" style={{ fontSize: '48px', color: 'rgba(155, 135, 245, 0.8)', marginBottom: '12px' }} />
+                            <p style={{ color: 'rgba(155, 135, 245, 0.8)', fontSize: '16px', fontWeight: '500', margin: 0 }}>
+                                Drop images here
+                            </p>
+                        </div>
+                    </div>
+                )}
+
+                {/* Image Preview Area */}
+                {attachedImages.length > 0 && (
+                    <div style={{
+                        maxWidth: '800px',
+                        margin: '0 auto 12px auto',
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        gap: '8px',
+                    }}>
+                        {attachedImages.map((img, idx) => (
+                            <div key={idx} style={{
+                                position: 'relative',
+                                width: '80px',
+                                height: '80px',
+                            }}>
+                                <img
+                                    src={img.preview}
+                                    alt="Preview"
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        objectFit: 'cover',
+                                        borderRadius: '8px',
+                                        border: '1px solid #2a2a2a',
+                                    }}
+                                />
+                                <button
+                                    onClick={() => removeImage(idx)}
+                                    style={{
+                                        position: 'absolute',
+                                        top: '-6px',
+                                        right: '-6px',
+                                        width: '20px',
+                                        height: '20px',
+                                        borderRadius: '50%',
+                                        backgroundColor: '#ff6b6b',
+                                        border: 'none',
+                                        cursor: 'pointer',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        padding: 0,
+                                    }}
+                                >
+                                    <dc.Icon icon="x" style={{ fontSize: '12px', color: '#fff' }} />
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+                <div style={{
+                    maxWidth: '800px',
+                    margin: '0 auto',
+                    display: 'flex',
+                    gap: '12px',
+                    alignItems: 'flex-end',
+                    backgroundColor: '#1a1a1a',
+                    borderRadius: '12px',
+                    padding: '12px 16px',
+                    border: '1px solid #2a2a2a',
+                }}>
+                    {/* Image Upload Button */}
+                    {supportsVision && (
+                        <>
+                            <input
+                                ref={fileInputRef}
+                                type="file"
+                                accept="image/*"
+                                multiple
+                                onChange={handleFileSelect}
+                                style={{ display: 'none' }}
+                            />
+                            <button
+                                onClick={() => fileInputRef.current?.click()}
+                                disabled={!apiKeys[provider] && provider !== 'ollama'}
+                                style={{
+                                    backgroundColor: 'transparent',
+                                    border: 'none',
+                                    borderRadius: '8px',
+                                    width: '32px',
+                                    height: '32px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    cursor: (apiKeys[provider] || provider === 'ollama') ? 'pointer' : 'not-allowed',
+                                    flexShrink: 0,
+                                }}
+                                title="Attach images (or paste/drag & drop)"
+                            >
+                                <dc.Icon
+                                    icon="paperclip"
+                                    style={{
+                                        fontSize: '18px',
+                                        color: (apiKeys[provider] || provider === 'ollama') ? '#999' : '#555'
+                                    }}
+                                />
+                            </button>
+                        </>
+                    )}
+                    
+                    <textarea
+                        ref={textareaRef}
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        placeholder={(apiKeys[provider] || provider === 'ollama') ? `Message ${PROVIDERS[provider].name}...` : "Add API key to start"}
+                        disabled={!apiKeys[provider] && provider !== 'ollama'}
+                        style={{
+                            flex: 1,
+                            backgroundColor: 'transparent',
+                            border: 'none',
+                            outline: 'none',
+                            color: '#fff',
+                            fontSize: '14px',
+                            resize: 'none',
+                            minHeight: '24px',
+                            maxHeight: '200px',
+                            fontFamily: 'inherit',
+                            lineHeight: '1.5',
+                        }}
+                        rows={1}
+                    />
+                    <button
+                        onClick={handleSend}
+                        disabled={((!input.trim() && attachedImages.length === 0) || isLoading || (!apiKeys[provider] && provider !== 'ollama'))}
+                        style={{
+                            backgroundColor: ((input.trim() || attachedImages.length > 0) && !isLoading && (apiKeys[provider] || provider === 'ollama')) ? 'rgba(155, 135, 245, 0.8)' : '#2a2a2a',
+                            border: 'none',
+                            borderRadius: '8px',
+                            width: '32px',
+                            height: '32px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            cursor: ((input.trim() || attachedImages.length > 0) && !isLoading && (apiKeys[provider] || provider === 'ollama')) ? 'pointer' : 'not-allowed',
+                            transition: 'background-color 0.2s',
+                            flexShrink: 0,
+                        }}
+                    >
+                        <dc.Icon
+                            icon={isLoading ? "loader" : "send"}
+                            style={{
+                                fontSize: '16px',
+                                color: ((input.trim() || attachedImages.length > 0) && !isLoading && (apiKeys[provider] || provider === 'ollama')) ? '#fff' : '#666'
+                            }}
+                        />
+                    </button>
+                </div>
+                <p style={{
+                    textAlign: 'center',
+                    color: '#666',
+                    fontSize: '12px',
+                    marginTop: '12px',
+                    marginBottom: 0,
+                }}>
+                    AI can make mistakes. Check important info.
+                </p>
             </div>
-          </div>
+
+            <style>{`
+                @keyframes pulse {
+                    0%, 100% { opacity: 0.4; transform: scale(0.8); }
+                    50% { opacity: 1; transform: scale(1); }
+                }
+            `}</style>
         </div>
-      )}
-    </div>
-  );
+    );
 }
 
-return { GeminiChatView };
+return { ChatLLM };
 ```

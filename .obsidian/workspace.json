@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "420e98ad78f2158a",
+        "id": "0e3852d2f6fccbca",
         "type": "tabs",
         "children": [
           {
-            "id": "c19be7cf1625a3a5",
+            "id": "8babc95885b319e4",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -88,8 +88,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 231.5
   },
   "right": {
     "id": "fe80ed10167d38ae",
@@ -105,10 +104,10 @@
             "state": {
               "type": "file-properties",
               "state": {
-                "file": "_RESOURCES/DATACORE/DATACORE.showcase.md"
+                "file": "_RESOURCES/DATACORE/12 LottieExperiment/LOTTIE EXPERIMENT.md"
               },
               "icon": "lucide-info",
-              "title": "File properties for DATACORE.showcase"
+              "title": "File properties for LOTTIE EXPERIMENT"
             }
           },
           {
@@ -188,7 +187,7 @@
             "state": {
               "type": "localgraph",
               "state": {
-                "file": "HOME.md",
+                "file": "CHANGE LOG.md",
                 "options": {
                   "collapse-filter": false,
                   "search": "",
@@ -211,12 +210,12 @@
                   "repelStrength": 10,
                   "linkStrength": 1,
                   "linkDistance": 250,
-                  "scale": 8,
+                  "scale": 1.3761028023616426,
                   "close": true
                 }
               },
               "icon": "lucide-git-fork",
-              "title": "Graph of HOME"
+              "title": "Graph of CHANGE LOG"
             }
           }
         ]
@@ -228,6 +227,7 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "test-plugin:Sample Plugin": false,
       "bases:Create new base": false,
       "publish:Publish changes...": false,
       "switcher:Open quick switcher": false,
@@ -240,58 +240,58 @@
       "random-note:Open random note": false,
       "code-files:Create Code File": false,
       "obsidian-excalidraw-plugin:New drawing": false,
-      "test-plugin:Sample Plugin": false,
       "obsidian42-brat:BRAT": false,
       "templater-obsidian:Templater": false
     }
   },
-  "active": "c19be7cf1625a3a5",
+  "active": "8babc95885b319e4",
   "lastOpenFiles": [
-    "_RESOURCES/DATACORE/8 FitnessExplorer/FITNESS EXPLORER.md",
-    "_RESOURCES/DATACORE/DATACORE.showcase.md",
-    "_RESOURCES/DATACORE/62 PluginDevSuite/PLUGIN DEV SUITE.md",
-    "_RESOURCES/IMAGES/plugin_dev_suite_1.webp",
-    "_RESOURCES/DATACORE/54 DatacorePlayground/DATACORE PLAYGROUND.md",
+    "_OPERATION/PUBLIC/INFO/DISCLAIMERS/TOS/TERMS OF SERVICE.approval.md",
     "HOME.md",
-    "_RESOURCES/DATACORE/57 DatacoreTerminal/D.q.datacoreterminal.component.md",
-    "_RESOURCES/DATACORE/61 IntegratedIDE/D.q.integratedide.component.md",
-    "_RESOURCES/DATACORE/57 DatacoreTerminal/D.q.datacoreterminal.viewer.md",
-    "CHANGE LOG.md",
-    "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.viewer.v3.md",
-    "_RESOURCES/DATACORE/62 PluginDevSuite/D.q.plugindevsuite.viewer.md",
-    "_RESOURCES/DATACORE/62 PluginDevSuite/D.q.plugindevsuite.component.md",
-    "KNOWLEDGE/EXPERIENCES/_clean/_public/obsidian/OBSIDIAN.ai.enigmas..md",
-    "_RESOURCES/DATACORE/52 AssetsLibrary/D.q.assetslibrary.component.md",
-    "_RESOURCES/IMAGES/plugin_dev_suite_2.webp",
-    "_RESOURCES/IMAGES/plugin_dev_suite_3.webp",
-    "_RESOURCES/DATACORE/60 GitSuiteManager/GIT SUITE MANAGER.md",
-    "_OPERATION/PUBLIC/DEVLOG/ITI/DEVLOG.green-4.md",
-    "_OPERATION/PUBLIC/DEVLOG/DEVLOG.md",
-    "_RESOURCES/DATACORE/59 HotReloadFiles/HOT RELOAD FILES.md",
-    "_RESOURCES/DATACORE/57 DatacoreTerminal/DATACORE TERMINAL.md",
-    "_RESOURCES/DATACORE/56 WorkspaceManager/WORKSPACE MANAGER.md",
-    "_RESOURCES/DATACORE/55 DatacoreLimitations/DATACORE LIMITATIONS.md",
-    "_RESOURCES/DATACORE/58 DatacoreCommandManager/DATACORE COMMAND MANAGER.md",
-    "KNOWLEDGE/EXPERIENCES/_clean/_public/obsidian/OBSIDIAN.ai.md",
-    "KNOWLEDGE/WEALTH/TAXES.enigmas..md",
-    "KNOWLEDGE/EXPERIENCES/_clean/MILITARY.enigmas..md",
-    "_RESOURCES/IMAGES/DEVLOG_5.webp",
-    "_RESOURCES/IMAGES/devlog_5.png",
-    "_RESOURCES/VIDS/DEVLOG_5.webm",
-    "_RESOURCES/IMAGES/DEVLOG_3.webp",
-    "_RESOURCES/IMAGES/DEVLOG_1.webp",
-    "_RESOURCES/IMAGES/DEVLOG_4.webp",
-    "_RESOURCES/IMAGES/integrated_ide.webp",
-    "_RESOURCES/IMAGES/git_suite_manager.webp",
-    "_RESOURCES/DATACORE/62 PluginDevSuite",
-    "_RESOURCES/DATACORE/61 IntegratedIDE",
-    "61 IntegratedIDE",
-    "60 GitSuiteManager",
-    "_RESOURCES/DATACORE/60 GitSuiteManager",
-    "_RESOURCES/DATACORE/59 HotReloadFiles/example-folder",
-    "_RESOURCES/DATACORE/59 HotReloadFiles",
-    "59 HotReloadFiles",
-    "_RESOURCES/DATACORE/56 WorkspaceManager",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/YOU_v02_.A.svg",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/YOU_v02_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/YOU_v01_.A.svg",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/YOU_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/YOUR_v01_.A.svg",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/YOUR_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/YING YANG_v03_.A.svg",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/YING YANG_v03_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/YING YANG_v02_.A.svg",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/YING YANG_v02_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/YING YANG_v01_.A.svg",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/YING YANG_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/YET_v01_.A.svg",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/YET_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/YEARS_v01_.A.svg",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/YEARS_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/XR_v03_.A.svg",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/XR_v03_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/XR_v02_.A.svg",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/XR_v02_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/XR_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/WRONG_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/WOULD_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/WORTH_v1_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/WORKFLOW_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/WORDS_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/WOMEN_v2_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/WOMEN_v1_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/WITH_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/WINDOWS_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/WILL_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/WHOLE_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/WHITEBOARD_v01_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/WHEN_v01_.A.md",
+    "_888_VAULT_LOGO",
+    "_RESOURCES/VIDS/DEVLOG_6.webm",
+    "_RESOURCES/DATACORE/9 ContentExplorer888/_resources/images",
+    "_RESOURCES/DATACORE/9 ContentExplorer888/_resources/example/WEALTH",
+    "_RESOURCES/DATACORE/9 ContentExplorer888/_resources/example/HEALTH",
+    "_RESOURCES/DATACORE/8 FitnessExplorer/_resources/images",
+    "_RESOURCES/DATACORE/8 FitnessExplorer/_resources/example",
+    "_RESOURCES/DATACORE/8 FitnessExplorer/_resources",
+    "_RESOURCES/DATACORE/7 BountyView 🎅/_resources/images",
+    "_RESOURCES/DATACORE/65 AnimatedSphere/_resources/images",
     "888/PROJECTS/888 copy/PROJECTS/COOKBOOK/KNOWLEDGE/DASHBOARDS/DASHBOARD.canvas",
     "888/PROJECTS/888 copy/KNOWLEDGE/EXPERIENCES/_clean/NFT LAYOUT.canvas",
     "888/PROJECTS/888/PROJECTS/COOKBOOK/KNOWLEDGE/DASHBOARDS/DASHBOARD.canvas",

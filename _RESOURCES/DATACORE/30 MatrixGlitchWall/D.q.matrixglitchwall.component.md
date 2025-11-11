@@ -1,9 +1,6 @@
 
 
 
-
-
-
 # ViewComponent
 
 ```jsx

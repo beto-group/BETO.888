@@ -1,10 +1,10 @@
-
+**
 
 
 
 
 ```datacorejsx
-const { WorldView } = await dc.require(dc.headerLink("_RESOURCES/DATACORE/34 AnimatedCard/D.q.animatedcard.component.md", "ViewComponent"));
+const { WorldView } = await dc.require(dc.headerLink(dc.resolvePath("D.q.animatedcard.component"), "ViewComponent"));
 return <WorldView />;
 
 ```

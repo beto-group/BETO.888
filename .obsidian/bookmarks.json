@@ -38,54 +38,6 @@
                 },
                 {
                   "type": "file",
-                  "ctime": 1753889910213,
-                  "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.v1.md",
-                  "title": "Datacore Flexilis v1"
-                },
-                {
-                  "type": "file",
-                  "ctime": 1753890090362,
-                  "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v1.viewer.md",
-                  "title": "Datacore Flexilis v1 Viewer"
-                },
-                {
-                  "type": "file",
-                  "ctime": 1753889963664,
-                  "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.v2.md",
-                  "title": "Datacore Flexilis v2"
-                },
-                {
-                  "type": "file",
-                  "ctime": 1753890120045,
-                  "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v2.viewer.md",
-                  "title": "Datacore Flexilis v2 Viewer"
-                },
-                {
-                  "type": "file",
-                  "ctime": 1753890177363,
-                  "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v2.component.md",
-                  "title": "Datacore Flexilis v2 Component"
-                },
-                {
-                  "type": "file",
-                  "ctime": 1753889986760,
-                  "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.v3.md",
-                  "title": "Datacore Flexilis v3"
-                },
-                {
-                  "type": "file",
-                  "ctime": 1753890138796,
-                  "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v3.viewer.md",
-                  "title": "Datacore Flexilis v3 Viewer"
-                },
-                {
-                  "type": "file",
-                  "ctime": 1753890190997,
-                  "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v3.component.md",
-                  "title": "Datacore Flexilis v3 Component"
-                },
-                {
-                  "type": "file",
                   "ctime": 1753890001545,
                   "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.v4.md",
                   "title": "Datacore Flexilis v4"
@@ -93,13 +45,13 @@
                 {
                   "type": "file",
                   "ctime": 1753890157159,
-                  "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v4.viewer.md",
+                  "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.viewer.v4.md",
                   "title": "Datacore Flexilis v4 Viewer"
                 },
                 {
                   "type": "file",
                   "ctime": 1753890213179,
-                  "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.v4.component.md",
+                  "path": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.component.v4.md",
                   "title": "Datacore Flexilis v4 Component"
                 }
               ],
@@ -118,7 +70,7 @@
                 {
                   "type": "file",
                   "ctime": 1753890257331,
-                  "path": "_RESOURCES/DATACORE/1 SearchQuery/DATACORE.query.searchquery.md",
+                  "path": "_RESOURCES/DATACORE/1 SearchQuery/D.q.searchquery.viewer.md",
                   "title": "Search Query Viewer"
                 }
               ],
@@ -137,7 +89,7 @@
                 {
                   "type": "file",
                   "ctime": 1753890287447,
-                  "path": "_RESOURCES/DATACORE/2 BasicQuery/DATACORE.query.basicquery.md",
+                  "path": "_RESOURCES/DATACORE/2 BasicQuery/D.q.basicquery.viewer.md",
                   "title": "Basic Query Viewer"
                 }
               ],
@@ -261,8 +213,8 @@
                 {
                   "type": "file",
                   "ctime": 1757378910686,
-                  "path": "_RESOURCES/DATACORE/47 RandomFileControls/RANDOM FILE CONTROLS v1.md",
-                  "title": "Random File Controls v1"
+                  "path": "_RESOURCES/DATACORE/47 RandomFileControls/RANDOM FILE CONTROLS.md",
+                  "title": "Random File Controls"
                 },
                 {
                   "type": "file",
@@ -273,8 +225,8 @@
                 {
                   "type": "file",
                   "ctime": 1757378930902,
-                  "path": "_RESOURCES/DATACORE/47 RandomFileControls/D.q.randomfilecontrols.viewer.v1.md",
-                  "title": "Random File Control Viewer v1"
+                  "path": "_RESOURCES/DATACORE/47 RandomFileControls/D.q.randomfilecontrols.viewer.md",
+                  "title": "Random File Control Viewer"
                 },
                 {
                   "type": "file",
@@ -285,8 +237,8 @@
                 {
                   "type": "file",
                   "ctime": 1757378948569,
-                  "path": "_RESOURCES/DATACORE/47 RandomFileControls/D.q.randomfilecontrols.component.v1.md",
-                  "title": "Random File Control Component v1"
+                  "path": "_RESOURCES/DATACORE/47 RandomFileControls/D.q.randomfilecontrols.component.md",
+                  "title": "Random File Control Component"
                 },
                 {
                   "type": "file",
@@ -537,20 +489,20 @@
                 {
                   "type": "file",
                   "ctime": 1753895740051,
-                  "path": "_RESOURCES/DATACORE/18 ViewsInceptions/VIEWS INCEPTIONS v1.md",
-                  "title": "Views Inceptions v1"
+                  "path": "_RESOURCES/DATACORE/18 ViewsInceptions/VIEWS INCEPTIONS.md",
+                  "title": "Views Inceptions"
                 },
                 {
                   "type": "file",
                   "ctime": 1753895750317,
-                  "path": "_RESOURCES/DATACORE/18 ViewsInceptions/D.q.viewsinceptions.viewer.v1.md",
-                  "title": "Views Inceptions Viewer v1"
+                  "path": "_RESOURCES/DATACORE/18 ViewsInceptions/D.q.viewsinceptions.viewer.md",
+                  "title": "Views Inceptions Viewer"
                 },
                 {
                   "type": "file",
                   "ctime": 1753895762349,
-                  "path": "_RESOURCES/DATACORE/18 ViewsInceptions/D.q.viewsinceptions.component.v1.md",
-                  "title": "Views Inceptions Component v1"
+                  "path": "_RESOURCES/DATACORE/18 ViewsInceptions/D.q.viewsinceptions.component.md",
+                  "title": "Views Inceptions Component"
                 },
                 {
                   "type": "file",
@@ -643,6 +595,31 @@
             },
             {
               "type": "group",
+              "ctime": 1753889210487,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1753896169841,
+                  "path": "_RESOURCES/DATACORE/28 LoadScript/LOAD SCRIPT.md",
+                  "title": "Load Script"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896177540,
+                  "path": "_RESOURCES/DATACORE/28 LoadScript/D.q.loadscript.viewer.md",
+                  "title": "Load Script Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1753896188907,
+                  "path": "_RESOURCES/DATACORE/28 LoadScript/D.q.loadscript.component.md",
+                  "title": "Load Script Component"
+                }
+              ],
+              "title": "28 LoadScript"
+            },
+            {
+              "type": "group",
               "ctime": 1754685214210,
               "items": [
                 {
@@ -718,6 +695,31 @@
             },
             {
               "type": "group",
+              "ctime": 1754685631816,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1754685664353,
+                  "path": "_RESOURCES/DATACORE/43 ReceiptTracker/RECEIPTTRACKER.md",
+                  "title": "Receipt Tracker"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1754685673154,
+                  "path": "_RESOURCES/DATACORE/43 ReceiptTracker/D.q.receipttracker.viewer.md",
+                  "title": "Receipt Tracker Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1754685685168,
+                  "path": "_RESOURCES/DATACORE/43 ReceiptTracker/D.q.receipttracker.component.md",
+                  "title": "Receipt Tracker Component"
+                }
+              ],
+              "title": "43 ReceiptTracker"
+            },
+            {
+              "type": "group",
               "ctime": 1757375801792,
               "items": [
                 {
@@ -773,20 +775,20 @@
                 {
                   "type": "file",
                   "ctime": 1757378843654,
-                  "path": "_RESOURCES/DATACORE/51 ActionsFlows/ACTIONS FLOW v1.md",
-                  "title": "Actions Flows v1"
+                  "path": "_RESOURCES/DATACORE/51 ActionsFlows/ACTIONS FLOW.md",
+                  "title": "Actions Flows"
                 },
                 {
                   "type": "file",
                   "ctime": 1757378862653,
-                  "path": "_RESOURCES/DATACORE/51 ActionsFlows/D.q.actionsflows.viewer.v1.md",
-                  "title": "Actions Flows Viewer v1"
+                  "path": "_RESOURCES/DATACORE/51 ActionsFlows/D.q.actionsflows.viewer.md",
+                  "title": "Actions Flows Viewer"
                 },
                 {
                   "type": "file",
                   "ctime": 1757378865472,
-                  "path": "_RESOURCES/DATACORE/51 ActionsFlows/D.q.actionsflows.component.v1.md",
-                  "title": "Actions Flows Component v1"
+                  "path": "_RESOURCES/DATACORE/51 ActionsFlows/D.q.actionsflows.component.md",
+                  "title": "Actions Flows Component"
                 }
               ],
               "title": "51 ActionsFlows"
@@ -868,31 +870,6 @@
             },
             {
               "type": "group",
-              "ctime": 1759999324921,
-              "items": [
-                {
-                  "type": "file",
-                  "ctime": 1759999471705,
-                  "path": "_RESOURCES/DATACORE/61 IntegratedIDE/INTEGRATED IDE.md",
-                  "title": "Integrated IDE"
-                },
-                {
-                  "type": "file",
-                  "ctime": 1759999479956,
-                  "path": "_RESOURCES/DATACORE/61 IntegratedIDE/D.q.integratedide.viewer.md",
-                  "title": "Integrated IDE Viewer"
-                },
-                {
-                  "type": "file",
-                  "ctime": 1759999488039,
-                  "path": "_RESOURCES/DATACORE/61 IntegratedIDE/D.q.integratedide.component.md",
-                  "title": "Integrated IDE Component"
-                }
-              ],
-              "title": "61 IntegratedIDE"
-            },
-            {
-              "type": "group",
               "ctime": 1759999334888,
               "items": [
                 {
@@ -915,6 +892,56 @@
                 }
               ],
               "title": "62 PluginDevSuite"
+            },
+            {
+              "type": "group",
+              "ctime": 1762893330429,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1762893770788,
+                  "path": "_RESOURCES/DATACORE/63 IconsPack/ICONS PACK.md",
+                  "title": "Icons Pack"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1762893779339,
+                  "path": "_RESOURCES/DATACORE/63 IconsPack/D.q.iconspack.viewer.md",
+                  "title": "Icons Pack Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1762893784271,
+                  "path": "_RESOURCES/DATACORE/63 IconsPack/D.q.iconspack.component.md",
+                  "title": "Icons Pack Component"
+                }
+              ],
+              "title": "63 IconsPack"
+            },
+            {
+              "type": "group",
+              "ctime": 1762893812722,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1762893841990,
+                  "path": "_RESOURCES/DATACORE/64 ObsidianSuiteKit/OBSIDIAN SUITE KIT.md",
+                  "title": "Obsidian Suite Kit"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1762893850623,
+                  "path": "_RESOURCES/DATACORE/64 ObsidianSuiteKit/D.q.obsidiansuitekit.viewer.md",
+                  "title": "Obsidian Suite Kit Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1762893870390,
+                  "path": "_RESOURCES/DATACORE/65 AnimatedSphere/D.q.animatedsphere.component.md",
+                  "title": "Obsidian Suite Kit Component"
+                }
+              ],
+              "title": "64 Obsidian Suite Kit"
             }
           ],
           "title": "DEVELOPMENT & BUILDING TOOLS"
@@ -930,7 +957,7 @@
                 {
                   "type": "file",
                   "ctime": 1753890772149,
-                  "path": "_RESOURCES/DATACORE/10 Kanban/KANBAN v2.md",
+                  "path": "_RESOURCES/DATACORE/10 Kanban/KANBAN.md",
                   "title": "Kanban"
                 },
                 {
@@ -961,7 +988,7 @@
                 {
                   "type": "file",
                   "ctime": 1753890807902,
-                  "path": "_RESOURCES/DATACORE/11 ImageRender/d.q.imagerender.viewer.md",
+                  "path": "_RESOURCES/DATACORE/11 ImageRender/D.q.imagerender.viewer.md",
                   "title": "Image Render Viewer"
                 }
               ],
@@ -1048,13 +1075,13 @@
                 {
                   "type": "file",
                   "ctime": 1753895982930,
-                  "path": "_RESOURCES/DATACORE/23 Canvas/D.q.canvas.viewer.v2.md",
+                  "path": "_RESOURCES/DATACORE/23 Canvas/D.q.canvas.viewer.v1.md",
                   "title": "Canvas v2 Viewer"
                 },
                 {
                   "type": "file",
                   "ctime": 1753896005383,
-                  "path": "_RESOURCES/DATACORE/23 Canvas/D.q.canvas.component.v2.md",
+                  "path": "_RESOURCES/DATACORE/23 Canvas/D.q.canvas.component.v1.md",
                   "title": "Canvas v2 Component"
                 }
               ],
@@ -1184,41 +1211,34 @@
                 }
               ],
               "title": "48 SVGConverter"
-            }
-          ],
-          "title": "GRAPHICS, VISUALIZATION & UI"
-        },
-        {
-          "type": "group",
-          "ctime": 1759999727009,
-          "items": [
+            },
             {
               "type": "group",
-              "ctime": 1754685631816,
+              "ctime": 1762893924264,
               "items": [
                 {
                   "type": "file",
-                  "ctime": 1754685664353,
-                  "path": "_RESOURCES/DATACORE/43 ReceiptTracker/RECEIPTTRACKER.md",
-                  "title": "Receipt Tracker"
+                  "ctime": 1762893936652,
+                  "path": "_RESOURCES/DATACORE/65 AnimatedSphere/ANIMATED SPHERE.md",
+                  "title": "Animated Sphere"
                 },
                 {
                   "type": "file",
-                  "ctime": 1754685673154,
-                  "path": "_RESOURCES/DATACORE/43 ReceiptTracker/D.q.receipttracker.viewer.md",
-                  "title": "Receipt Tracker Viewer"
+                  "ctime": 1762893940802,
+                  "path": "_RESOURCES/DATACORE/65 AnimatedSphere/D.q.animatedsphere.viewer.md",
+                  "title": "Animated Sphere Viewer"
                 },
                 {
                   "type": "file",
-                  "ctime": 1754685685168,
-                  "path": "_RESOURCES/DATACORE/43 ReceiptTracker/D.q.receipttracker.component.md",
-                  "title": "Receipt Tracker Component"
+                  "ctime": 1762893947403,
+                  "path": "_RESOURCES/DATACORE/65 AnimatedSphere/D.q.animatedsphere.component.md",
+                  "title": "Animated Sphere Component"
                 }
               ],
-              "title": "43 ReceiptTracker"
+              "title": "65 Animated Sphere"
             }
           ],
-          "title": "FINANCE"
+          "title": "GRAPHICS, VISUALIZATION & UI"
         },
         {
           "type": "group",
@@ -1480,31 +1500,6 @@
                 }
               ],
               "title": "36 MusicPlayer"
-            },
-            {
-              "type": "group",
-              "ctime": 1754685219578,
-              "items": [
-                {
-                  "type": "file",
-                  "ctime": 1754685494019,
-                  "path": "_RESOURCES/DATACORE/39 MobileMusicPlayer/MOBILE MUSIC PLAYER.md",
-                  "title": "Mobile Music Player"
-                },
-                {
-                  "type": "file",
-                  "ctime": 1754685506053,
-                  "path": "_RESOURCES/DATACORE/39 MobileMusicPlayer/D.q.mobilemusicplayer.viewer.md",
-                  "title": "Mobile Music Player Viewer"
-                },
-                {
-                  "type": "file",
-                  "ctime": 1754685516416,
-                  "path": "_RESOURCES/DATACORE/39 MobileMusicPlayer/D.q.mobilemusicplayer.component.md",
-                  "title": "Mobile Music Player Component"
-                }
-              ],
-              "title": "39 MobileMusicPlayer"
             }
           ],
           "title": "MEDIA PLAYERS"
@@ -1590,31 +1585,6 @@
             },
             {
               "type": "group",
-              "ctime": 1753889210487,
-              "items": [
-                {
-                  "type": "file",
-                  "ctime": 1753896169841,
-                  "path": "_RESOURCES/DATACORE/28 LoadScript/LOAD SCRIPT.md",
-                  "title": "Load Script"
-                },
-                {
-                  "type": "file",
-                  "ctime": 1753896177540,
-                  "path": "_RESOURCES/DATACORE/28 LoadScript/D.q.loadscript.viewer.md",
-                  "title": "Load Script Viewer"
-                },
-                {
-                  "type": "file",
-                  "ctime": 1753896188907,
-                  "path": "_RESOURCES/DATACORE/28 LoadScript/D.q.loadscript.component.md",
-                  "title": "Load Script Component"
-                }
-              ],
-              "title": "28 LoadScript"
-            },
-            {
-              "type": "group",
               "ctime": 1753889219706,
               "items": [
                 {
@@ -1662,6 +1632,31 @@
                 }
               ],
               "title": "30 MatrixGlitchWall"
+            },
+            {
+              "type": "group",
+              "ctime": 1762894023722,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1762894065404,
+                  "path": "_RESOURCES/DATACORE/39 DatacoreImporter/DATACORE IMPORTER.md",
+                  "title": "Datacore Importer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1762894062786,
+                  "path": "_RESOURCES/DATACORE/39 DatacoreImporter/D.q.datacoreimporter.viewer.md",
+                  "title": "Datacore Importer Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1762894057470,
+                  "path": "_RESOURCES/DATACORE/39 DatacoreImporter/D.q.datacoreimporter.component.md",
+                  "title": "Datacore Importer Component"
+                }
+              ],
+              "title": "39 Datacore Importer"
             },
             {
               "type": "group",
@@ -1787,6 +1782,31 @@
                 }
               ],
               "title": "60 GitSuiteManager"
+            },
+            {
+              "type": "group",
+              "ctime": 1759999324921,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1759999471705,
+                  "path": "_RESOURCES/DATACORE/61 OpenIDE/OPEN IDE.md",
+                  "title": "Open IDE"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1759999479956,
+                  "path": "_RESOURCES/DATACORE/61 OpenIDE/D.q.openide.viewer.md",
+                  "title": "Open IDE Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1759999488039,
+                  "path": "_RESOURCES/DATACORE/61 OpenIDE/D.q.openide.component.md",
+                  "title": "Open IDE Component"
+                }
+              ],
+              "title": "61 OpenIDE"
             }
           ],
           "title": "SYSTEM & UTILITY COMPONENTS"

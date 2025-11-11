@@ -2,29 +2,44 @@
 
 ### Tab: Card Picker
 
-- **Description**: An interactive virtual card deck simulator. This component allows users to draw cards from a standard 54-card deck (including two jokers), tracks a running score, and maintains a history of drawn cards. The entire state of the deck is saved automatically, so you can leave and return to your game exactly as you left it.
-    
-- **Does**:    
-    - Initializes with a full, shuffled 54-card deck.
-    - Persists the deck's state (remaining cards, last drawn card, history, score) to a JSON file, so progress is saved across sessions.
-    - Allows a user to draw one card at a time, which is then displayed in the "Last Drawn" area.
-    - Calculates and displays a running score based on the value of each drawn card (Joker=25, A=15, K=13, etc.).
-    - Keeps a visual history of all drawn cards, which can be toggled on and off.
-    - The history view is a horizontally scrollable list where hovering over a card enlarges it for a better view.
-    - Provides a "Shuffle & Reset" button to start over with a fresh, full deck.
-    - Displays the number of cards remaining in the deck.
-    - Shows loading and shuffling indicators to provide feedback during operations.
+- **Description**: An interactive and visually stunning digital card deck component with a mystical, enigmatic theme. It allows a user to draw cards from a shuffled deck, view the drawn card, and browse a history of previously drawn cards. The component features a persistent state, saving the deck's progress so the user can continue their session later.
+   
+- **Does**:
 
-- **Can’t**:    
-    - Play a specific, rule-based card game (like Poker or Solitaire); it is only a deck simulator.
-    - Allow users to manually select or reorder cards in the deck.
-    - Undo a draw; once a card is drawn, it can only be returned to the deck by resetting.
-    - Support multiple decks or custom-configured decks from the UI.
-    - Be used for multiplayer games as it's a single-user, single-state component.
-    - Change the scoring rules.
-        
+    - **Full 54-Card Deck**: Simulates a standard 54-card deck, including two distinct Jokers.
+    - **Interactive Card Drawing**:
+        - Displays a deck of face-down cards. Clicking the deck "draws" the top card.
+        - The drawn card is revealed in a separate "Last Drawn" area.
+        - The remaining card count is always visible on the deck.
+    - **Persistent State**:
+        - **Automatically saves** the state of the game after every action (drawing or resetting).
+        - The current deck, the last drawn card, the history, and the score are saved to a JSON file (.datacore/cardpicker/card-deck-state.json) in the vault.
+        - **Automatically loads** the saved state when the component is re-opened, allowing the user to seamlessly resume their session.
+    - **Scoring & History**:
+        - Calculates a score based on the value of each drawn card (Jokers are highest).
+        - Includes a "Show History" toggle that reveals a scrollable, horizontal timeline of all cards drawn in the current session. Cards in the history can be hovered over for a larger preview.
+    - **Shuffle & Reset**: A "Shuffle & Reset" button shuffles a full, fresh deck, clears the history and score, and saves the new state. The button shows a loading animation during the shuffling process.
+    - **Immersive Theming & UI**:
+        - Features a polished, dark, "enigmatic" theme with glowing purple accents and subtle background patterns.
+        - The playing cards are custom-designed with mystical icons and a clean, modern aesthetic.
+        - All interactions are accompanied by smooth animations and hover effects.
+    - **Full-Tab Experience**: Designed to run in an immersive, full-pane mode that takes over the entire Obsidian view, with a compact fallback option.
 
-![alt text](/_RESOURCES/IMAGES/card_picker.webp)
+- **Can’t**:
+   
+    - **Play Any Specific Card Game**: It is a simple card drawing simulator. It does not contain the logic for any specific card game like Poker or Blackjack.    
+    - **Support Multiple Decks or Players**: It manages a single, shared deck state. It is not a multiplayer component and does not support separate decks for different users or notes.
+    - **Be Customized via Props**: The appearance of the cards, the deck composition, and the scoring rules are all hard-coded within the component and cannot be changed through properties.
+
+
+----
+
+![card_picker.webp](_resources/images/card_picker.webp)
+
+
+
+### Components
+
 
 ###### [Card Picker Viewer](D.q.cardpicker.viewer.md)
 

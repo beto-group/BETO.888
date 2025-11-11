@@ -30,35 +30,29 @@ function findDirectChildByClass(parent, className) {
 // =================================================================================
 //  VIEW COMPONENT (UI & Full-Tab Logic)
 // =================================================================================
-function BasicView({ onCodeReloadRequest }) {
+function BasicView() {
     const instanceId = useRef(Math.random().toString(36).substr(2, 5)).current;
     const uniqueWrapperClass = `interactive-wrapper-${instanceId}`;
 
 
     const STYLES = {
         hoverEffectStyle: `
-      .${uniqueWrapperClass} .subtle-icon,
-      .${uniqueWrapperClass} .reload-button {
+      .${uniqueWrapperClass} .subtle-icon {
           opacity: 0;
           transform: scale(0.9);
           transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
       }
-      .${uniqueWrapperClass}:hover .subtle-icon,
-      .${uniqueWrapperClass}:hover .reload-button {
+      .${uniqueWrapperClass}:hover .subtle-icon {
         opacity: 0.7;
         transform: scale(1);
       }
-      .${uniqueWrapperClass} .subtle-icon:hover,
-      .${uniqueWrapperClass} .reload-button:hover {
+      .${uniqueWrapperClass} .subtle-icon:hover {
         opacity: 1;
       }
       .${uniqueWrapperClass} .subtle-icon:hover .exit-tooltip {
         visibility: visible;
         opacity: 1;
       }
-      .reload-button { background-color: transparent; }
-      .reload-button:hover { background-color: var(--background-modifier-hover); transform: scale(1.05); }
-      .reload-button:active { transform: scale(0.95); }
     `,
         fullTabWrapper: {
             position: "relative",
@@ -104,23 +98,6 @@ function BasicView({ onCodeReloadRequest }) {
             whiteSpace: "nowrap",
             pointerEvents: "none",
             border: "1px solid var(--background-modifier-border)",
-        },
-        reloadButton: {
-            position: "absolute",
-            top: "12px",
-            right: "50px",
-            zIndex: 10,
-            width: "30px",
-            height: "30px",
-            borderRadius: "50%",
-            border: "none",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            cursor: "pointer",
-            color: "var(--text-faint)",
-            outline: "none",
-            padding: 0,
         },
         title: { fontSize: "2em", fontWeight: "600", color: "var(--text-normal)" },
         subtitle: {
@@ -258,28 +235,10 @@ function BasicView({ onCodeReloadRequest }) {
                     &lt;/&gt; <span className="exit-tooltip" style={STYLES.tooltip}>
                         Close Full Mode
                     </span>{" "}
-                </div> <button
-                    onClick={onCodeReloadRequest}
-                    className="reload-button"
-                    style={STYLES.reloadButton}
-                    aria-label="Reload Code"
-                    title="Reload Code"
-                >
-                    {" "}
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                    >
-                        {" "}
-                        <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />{" "}
-                    </svg>{" "}
-                </button> <h2 style={STYLES.title}>FULL TAB VIEW</h2> <p
+                </div> <h2 style={STYLES.title}>FULL TAB VIEW</h2> <p
                     style={STYLES.subtitle}
                 >
-                    This component reloads with fresh code when you click the reload icon.
+                    This component demonstrates full-tab mode with compact fallback.
                 </p> <p style={STYLES.subtitle}>
                     Instance ID: <strong>{instanceId}</strong>
                 </p>{" "}
@@ -288,28 +247,6 @@ function BasicView({ onCodeReloadRequest }) {
     );
 }
 
-// =================================================================================
-//  CONTAINER COMPONENT (Handles Code Reloading Logic)
-// =================================================================================
-function BasicViewContainer() {
-    const handleCodeReload = () => {
-        try {
-            dc.app.workspace.activeLeaf.rebuildView();
-            new Notice("View rebuilt & code reloaded!", 2000);
-        } catch (error) {
-            console.error("Failed to rebuild the view:", error);
-            new Notice(
-                "Error: Could not rebuild the view. See console for details.",
-                5000
-            );
-        }
-    };
-
-    return <BasicView onCodeReloadRequest={handleCodeReload} />;
-}
-
-
-
-return { BasicView: BasicViewContainer };
+return { BasicView };
 
 ```

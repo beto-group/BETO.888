@@ -1,19 +1,20 @@
 
 
 
-
-Broken would most likely involve a complete rework
-
 ```datacorejsx
-const { View } = await dc.require(dc.headerLink("_RESOURCES/DATACORE/10 Kanban/D.q.kanban.component.md", "viewer"));
+const componentFile = dc.resolvePath("D.q.kanban.component");
+
+const { View } = await dc.require(dc.headerLink(componentFile, "viewer"));
 
 // Define the initial settings override with customized properties
-const initialSettingsOverride = {
-  filesAsColumns: ["EXPERIENCES.enigmas."],
-};
+//const initialSettingsOverride = {
+//  filesAsColumns: ["EXPERIENCES.enigmas."],
+//};
 
 // Render the View component with the custom initial settings
-return <View initialSettingsOverride={initialSettingsOverride} />;
+
+//return <View initialSettingsOverride={initialSettingsOverride} />;
+return <View />;
 ```
 
 

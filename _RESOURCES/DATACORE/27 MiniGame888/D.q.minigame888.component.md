@@ -4,7 +4,7 @@
 
 ```jsx
 // # ViewComponent
-const filename = "_RESOURCES/DATACORE/27 MiniGame888/D.q.minigame888.component.md"
+const filename = dc.resolvePath("D.q.minigame888.component.md");
 
 const { useRef, useEffect, useState, useCallback } = dc;
 const { h: preactH, render: preactRender } = dc.preact;
@@ -26,9 +26,10 @@ const { LoadingLogo } = await dc.require(
     dc.headerLink(filename, "LoadingLogo")
 );
 
-if (!Array.isArray(ALL_CARD_DEFINITIONS)) {
-    console.error("[WorldView Pre-load] CRITICAL: ALL_CARD_DEFINITIONS did not load as an array. Value:", ALL_CARD_DEFINITIONS);
-}
+// NEW: Import the LoadingConfirmation component
+const { LoadingConfirmation } = await dc.require(
+    dc.headerLink(filename, "LoadingConfirmation")
+);
 
 /*==============================================================================
   GLOBAL Z-INDEX MANAGEMENT
@@ -608,12 +609,12 @@ const StatusPipContentComponent = ({
 
   let gRotation = 0; // Initial rotation of the entire group containing the textPath for positioning
 
-  if (text.toUpperCase().includes('HEALTH')) {
-      gRotation = -60; // Rotate to position "HEALTH" at the top-right segment
-  } else if (text.toUpperCase().includes('WEALTH')) {
-      gRotation = -60; // Rotate to position "WEALTH" at the top-right segment
-  } else if (text.toUpperCase().includes('EXPERIENCE')) {
-      gRotation = 60; // Rotate to position "EXPERIENCE" at the bottom-right segment
+  if (text.toUpperCase().includes('SYSTEMS')) {
+      gRotation = -60; // Rotate to position "SYSTEMS" at the top-right segment
+  } else if (text.toUpperCase().includes('PERCEPTION')) {
+      gRotation = -60; // Rotate to position "PERCEPTION" at the top-right segment
+  } else if (text.toUpperCase().includes('STRATEGY')) {
+      gRotation = 60; // Rotate to position "STRATEGY" at the bottom-right segment
   }
 
     return preactH('svg', { style: svgStyle, viewBox: `0 0 ${svgEffectiveDiameter} ${svgEffectiveDiameter}` },
@@ -652,7 +653,7 @@ const WelcomeMessageComponent = ({
 }) => {
   const initialWelcomeTextWithMarkers = message;
   const secondWelcomeTextRaw = "Pick a card to start exploring.";
-  const thirdWelcomeTextRaw = "Very nice! Understand it better by pressing NARU {visual ledger}";
+  const thirdWelcomeTextRaw = "Very nice! Drag and categorize it.";
   const instructionMessageRaw = "Drag ENIGMA using the titlebar and move it into its corresponding NAMZU {category}";
   const failMessageRaw = "Oops, wrong one. Try again...";
   const successMessageRaw = "Nice! Now time to do them all 🫡";
@@ -781,8 +782,9 @@ const WelcomeMessageComponent = ({
   BasicView (Music Player) COMPONENT
 ==============================================================================*/
 function BasicView({ initialIsPlaying = true }) {
-  const songPath = "_RESOURCES/MUSIC/beto.minigame.soundtrack.wav";
-  const audioSrc = dc.app.vault.adapter.getResourcePath(songPath);
+  const currentPath = dc.resolvePath("D.q.minigame888.component.md");
+  const songPath = currentPath ? `${currentPath.substring(0, currentPath.lastIndexOf('/'))}/_resources/music/beto.minigame.soundtrack.wav` : null;
+  const audioSrc = songPath ? dc.app.vault.adapter.getResourcePath(songPath) : null;
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(initialIsPlaying);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -798,7 +800,6 @@ function BasicView({ initialIsPlaying = true }) {
     if (isLoaded) { // Only attempt playback if audio data is ready
       if (isPlaying && audioElement.paused) {
         audioElement.play().catch(error => {
-          console.warn("Audio play attempt failed:", error);
           // If autoplay is blocked, set isPlaying to false to reflect actual state
           setIsPlaying(false);
         });
@@ -820,7 +821,6 @@ function BasicView({ initialIsPlaying = true }) {
   }, []);
 
   const handleError = useCallback((e) => {
-    console.error("Audio Element Error:", e.target.error?.message || "Unknown audio error");
     setIsLoaded(false);
     setIsPlaying(false);
   }, []);
@@ -963,14 +963,74 @@ const CATEGORIZED_PIP_HOST_ID = 'categorized-pip-host';
 const ENIGMA_PIP_PERSISTENT_KEY = 'persistent-enigma-pip-key';
 
 function WorldView() {
-  const [ScreenModeHelperComponent, setScreenModeHelperComponent] = useState(null);
+  // Get the component file path for relative resource loading
+  const currentPath = dc.resolvePath("D.q.minigame888.component.md");
+  
+  // Loading confirmation states
+  const [showLoadingConfirm, setShowLoadingConfirm] = useState(false); // Show confirmation popup (default false until we check)
+  const [isDownloadingAssets, setIsDownloadingAssets] = useState(false); // Track asset download state
+  const [assetsLoaded, setAssetsLoaded] = useState(false); // Track if assets are ready
+  const [assetsChecked, setAssetsChecked] = useState(false); // Track if we've checked for local assets
+  
+  // Helper function to build relative GLB paths with remote fallback and caching
+  const getGLBPath = useCallback(async (filename) => {
+    if (!currentPath) return null;
+    
+    // currentPath is vault-relative (e.g., "_RESOURCES/DATACORE/27 MiniGame888/D.q.minigame888.component.md")
+    // Get the directory of the current file
+    const currentDir = currentPath.substring(0, currentPath.lastIndexOf('/'));
+    
+    // Build vault-relative path to GLB file
+    const vaultRelativePath = `${currentDir}/_resources/glb/${filename}`;
+    
+    // Check if file exists locally
+    const adapter = dc.app.vault.adapter;
+    const localExists = await adapter.exists(vaultRelativePath);
+    
+    if (localExists) {
+      // Use local cached file
+      const resourcePath = adapter.getResourcePath(vaultRelativePath);
+      return resourcePath;
+    } else {
+      // File not cached, download from remote
+      const remoteUrl = `https://raw.githubusercontent.com/beto-group/beto.assets/main/DATACORE/MINIGAME/${filename}`;
+      console.log(`[MiniGame] Downloading ${filename} from remote...`);
+      
+      try {
+        const response = await fetch(remoteUrl);
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        const arrayBuffer = await response.arrayBuffer();
+        
+        // Ensure directory exists
+        const cacheDir = `${currentDir}/_resources/glb`;
+        if (!(await adapter.exists(cacheDir))) {
+          console.log(`[MiniGame] Creating cache directory: ${cacheDir}`);
+          await adapter.mkdir(cacheDir);
+        }
+        
+        // Save to vault
+        const uint8Array = new Uint8Array(arrayBuffer);
+        await adapter.writeBinary(vaultRelativePath, uint8Array);
+        console.log(`[MiniGame] File cached successfully: ${vaultRelativePath}`);
+        
+        // Return the cached file path
+        const resourcePath = adapter.getResourcePath(vaultRelativePath);
+        return resourcePath;
+      } catch (downloadError) {
+        console.warn(`[MiniGame] Failed to cache file. Falling back to direct URL.`, downloadError);
+        return remoteUrl; // Fall back to direct URL
+      }
+    }
+  }, [currentPath]);
+  
   const canvasRef = useRef(null);
   const cameraRef = useRef(null);
   const [engine, setEngine] = useState(null);
   const [scene, setScene] = useState(null);
   const babylonContainerRef = useRef(null);
   const originalBabylonParentRef = useRef(null);
-  const screenModeHelperAPIRef = useRef(null);
   const [isGameModeActive, setIsGameModeActive] = useState(false);
   const [showWelcomePip, setShowWelcomePip] = useState(false);
   const [hasCardBeenClicked, setHasCardBeenClicked] = useState(false);
@@ -1054,8 +1114,27 @@ function WorldView() {
   }, []);
 
   const exitGameMode = useCallback(() => {
-    if (cameraRef.current && canvasRef.current) cameraRef.current.detachControl();
-    if (screenModeHelperAPIRef.current?.toggleMode) screenModeHelperAPIRef.current.toggleMode("default");
+    // Safely detach camera controls (can fail during Electron cleanup)
+    if (cameraRef.current && canvasRef.current) {
+      try {
+        cameraRef.current.detachControl();
+      } catch (e) {
+        // Expected during cleanup
+      }
+    }
+    
+    // Move container back to original parent
+    if (babylonContainerRef.current && originalBabylonParentRef.current) {
+      if (babylonContainerRef.current.parentNode === document.body) {
+        try {
+          document.body.removeChild(babylonContainerRef.current);
+          originalBabylonParentRef.current.appendChild(babylonContainerRef.current);
+        } catch (e) {
+          // Ignore reparenting errors
+        }
+      }
+    }
+    
     if (activeEnigmaRef.current) {
       closePersistentEnigma();
     }
@@ -1076,7 +1155,7 @@ function WorldView() {
     setShowExitPip(false);
     setIsGameFinished(false);
     setTotalTries(0);
-  }, [cameraRef, canvasRef, screenModeHelperAPIRef, closePersistentEnigma, scene, setDraggedEnigmaDetails, setHoveredStatusPipId]);
+  }, [cameraRef, canvasRef, closePersistentEnigma, scene, setDraggedEnigmaDetails, setHoveredStatusPipId]);
 
 
   const handleEnigmaPipDragStateChange = useCallback((pipId, isDragging, componentProps) => {
@@ -1099,12 +1178,12 @@ function WorldView() {
         const droppedCardDef = previouslyDragged.props?.cardDefinition;
 
         if (!droppedCardDef || !droppedCardDef.category) {
-            console.error("[WorldView] Cannot categorize PiP: cardDefinition or its category is missing.", previouslyDragged);
             setCategorizationStatus('fail');
             return false;
         }
 
-        const normalizedCardCategory = droppedCardDef.category.trim().toUpperCase().replace(/S$/, '');
+        // Normalize both to uppercase for comparison
+        const normalizedCardCategory = droppedCardDef.category.trim().toUpperCase();
         const normalizedTargetCategory = finalHoveredStatusPipId.split('-')[0].trim().toUpperCase();
 
         if (normalizedCardCategory !== normalizedTargetCategory) {
@@ -1120,7 +1199,7 @@ function WorldView() {
             {
               pipId: previouslyDragged.pipId,
               displayName: `${droppedCardDef.title} (${droppedCardDef.id.toUpperCase()})`,
-              sourceModelPath: droppedCardDef.glbPath,
+              sourceModelFilename: droppedCardDef.glbFilename,
               meshName: previouslyDragged.mesh?.name,
               cardDefinition: droppedCardDef
             }
@@ -1154,10 +1233,28 @@ function WorldView() {
 
 
   const enterGameMode = useCallback(() => {
-    if (!ScreenModeHelperComponent || !babylonContainerRef.current || !canvasRef.current || !engine || !cameraRef.current) {
-      console.error("[WorldView] Cannot enter game mode, a dependency is missing."); return;
+    if (!babylonContainerRef.current || !canvasRef.current || !engine || !cameraRef.current) {
+      return;
     }
-    cameraRef.current.attachControl(canvasRef.current, true);
+    
+    // Move container to body for fullscreen
+    if (babylonContainerRef.current && originalBabylonParentRef.current) {
+      if (!originalBabylonParentRef.current.contains(babylonContainerRef.current)) {
+        originalBabylonParentRef.current = babylonContainerRef.current.parentNode;
+      }
+      document.body.appendChild(babylonContainerRef.current);
+    }
+    
+    // Need to resize engine after DOM change
+    setTimeout(() => {
+      if (engine && !engine.isDisposed) {
+        engine.resize();
+      }
+      if (cameraRef.current && canvasRef.current) {
+        cameraRef.current.attachControl(canvasRef.current, true);
+      }
+    }, 100);
+    
     setIsGameModeActive(true);
     setShowWelcomePip(true);
     setHasCardBeenClicked(false);
@@ -1166,7 +1263,7 @@ function WorldView() {
     setShowExitPip(true);
     setIsGameFinished(false);
     setTotalTries(0);
-  }, [ScreenModeHelperComponent, engine, cameraRef, canvasRef, babylonContainerRef]);
+  }, [engine, cameraRef, canvasRef, babylonContainerRef]);
 
 
   useEffect(() => {
@@ -1478,9 +1575,9 @@ function WorldView() {
             document.head.appendChild(styleSheet);
         }
         const statusPipsConfig = [
-            { id: 'health-pip', text: 'HEALTH', originalBorderColor: '#ff7675', hoverBorderColor: '#FF4136', subtleHoverBorderColor: '#ff9a94', originalBackgroundColor: '#282828', hoverBackgroundColor: '#ffbaba', subtleHoverBgColor: '#332e2e', originalTextColor: '#f5f6fa'},
-            { id: 'wealth-pip', text: 'WEALTH', originalBorderColor: '#55efc4', hoverBorderColor: '#2ECC71', subtleHoverBorderColor: '#7cf2d3', originalBackgroundColor: '#282828', hoverBackgroundColor: '#a6e9c0', subtleHoverBgColor: '#2e3331', originalTextColor: '#f5f6fa'},
-            { id: 'experience-pip', text: 'EXPERIENCE', originalBorderColor: '#74b9ff', hoverBorderColor: '#007bff', subtleHoverBorderColor: '#9acbff', originalBackgroundColor: '#282828', hoverBackgroundColor: '#b3d9ff', subtleHoverBgColor: '#2e3133', originalTextColor: '#f5f6fa'}
+            { id: 'systems-pip', text: 'SYSTEMS', originalBorderColor: '#ff7675', hoverBorderColor: '#FF4136', subtleHoverBorderColor: '#ff9a94', originalBackgroundColor: '#282828', hoverBackgroundColor: '#ffbaba', subtleHoverBgColor: '#332e2e', originalTextColor: '#f5f6fa'},
+            { id: 'perception-pip', text: 'PERCEPTION', originalBorderColor: '#55efc4', hoverBorderColor: '#2ECC71', subtleHoverBorderColor: '#7cf2d3', originalBackgroundColor: '#282828', hoverBackgroundColor: '#a6e9c0', subtleHoverBgColor: '#2e3331', originalTextColor: '#f5f6fa'},
+            { id: 'strategy-pip', text: 'STRATEGY', originalBorderColor: '#74b9ff', hoverBorderColor: '#007bff', subtleHoverBorderColor: '#9acbff', originalBackgroundColor: '#282828', hoverBackgroundColor: '#b3d9ff', subtleHoverBgColor: '#2e3133', originalTextColor: '#f5f6fa'}
         ];
         const PIP_DIAMETER_STATUS = PIP_MINIMIZED_SIZE_NUM; // 80px
         const PIP_SPACING_STATUS = 30;
@@ -1600,7 +1697,11 @@ function WorldView() {
     if (!canvasRef.current || !window.BABYLON || !window.BABYLON.SceneLoader || engine) {
       return () => { };
     }
-    const babylonEngine = new window.BABYLON.Engine(canvasRef.current, true, { preserveDrawingBuffer: true, stencil: true });
+    const babylonEngine = new window.BABYLON.Engine(canvasRef.current, true, { 
+      preserveDrawingBuffer: true, 
+      stencil: true, 
+      antialias: true 
+    });
     const babylonScene = new window.BABYLON.Scene(babylonEngine);
 
     babylonScene.clearColor = new window.BABYLON.Color3(0, 0, 0); // Opaque black
@@ -1614,16 +1715,25 @@ function WorldView() {
     camera.wheelPrecision = 50; camera.lowerRadiusLimit = 1; camera.upperRadiusLimit = 11;
     new window.BABYLON.HemisphericLight("light1", new window.BABYLON.Vector3(1, 1, 0), babylonScene);
     new window.BABYLON.HemisphericLight("light2", new window.BABYLON.Vector3(-1, 1, -0.5), babylonScene);
-    const modelPathBlank = "_RESOURCES/GLB/MINIGAME/b26.card.blank.glb";
+    const blankCardPath = await getGLBPath("b26.card.blank.glb");
     try {
-      const resB = await window.BABYLON.SceneLoader.ImportMeshAsync(null, "", dc.app.vault.adapter.getResourcePath(modelPathBlank), babylonScene);
+      if (!blankCardPath) throw new Error("Unable to resolve blank card path");
+      
+      // Split URL to handle query params properly
+      const urlParts = blankCardPath.split('?');
+      const cleanUrl = urlParts[0];
+      const lastSlashIndex = cleanUrl.lastIndexOf('/');
+      const rootUrl = cleanUrl.substring(0, lastSlashIndex + 1);
+      const filename = cleanUrl.substring(lastSlashIndex + 1) + (urlParts[1] ? '?' + urlParts[1] : '');
+      
+      const resB = await window.BABYLON.SceneLoader.ImportMeshAsync(null, rootUrl, filename, babylonScene);
       let blankMesh = resB.meshes.find(m => m.getTotalVertices() > 0 && m.name !== "__root__") || resB.meshes[0];
       if (blankMesh) {
         blankMesh.name = "CardBlank"; blankMesh.position = stackBasePosition.clone();
         blankMesh.scaling = new window.BABYLON.Vector3(2.5, 111, 2.5);
         blankMesh.rotationQuaternion = null; blankMesh.rotation.y = Math.PI / 2;
       }
-    } catch (e) { console.error("[WorldView] Error loading Blank Card:", e); }
+    } catch (e) { /* Ignore blank card loading errors */ }
 
     const interactiveCardMeshes = [];
     const SPREAD_AREA_WIDTH = 2.675, SPREAD_AREA_DEPTH = 2.8, CARD_Y_OFFSET = 0.05, CARD_RANDOM_HEIGHT_RANGE = 0.01, CARD_RANDOM_ROTATION_Y_RANGE = Math.PI / 12, CARD_SPACING_MARGIN = 0.05;
@@ -1631,7 +1741,7 @@ function WorldView() {
     const currentCardDefinitions = Array.isArray(ALL_CARD_DEFINITIONS) ? ALL_CARD_DEFINITIONS : [];
 
     if (currentCardDefinitions.length === 0) {
-        console.warn("[WorldView InitBabylon] No card definitions found or loaded. No cards will be created.");
+        return;
     } else {
         const numCards = currentCardDefinitions.length;
         const cols = Math.min(5, Math.ceil(Math.sqrt(numCards)));
@@ -1642,20 +1752,24 @@ function WorldView() {
         const cardFootprintWidth = s_scale_factor;
         const cardFootprintDepth = s_scale_factor;
 
-        if (cellWidth < cardFootprintWidth + CARD_SPACING_MARGIN || cellHeight < cardFootprintDepth + CARD_SPACING_MARGIN) {
-            console.warn("[WorldView] Grid cells might be too small for cards given current scaling and spacing.");
-        }
-
         let cardIndex = 0;
         for (const cardDef of currentCardDefinitions) {
-            if (!cardDef.glbPath || !cardDef.id) {
-                console.warn("[WorldView] Skipping card definition due to missing glbPath or id:", cardDef);
+            if (!cardDef.glbFilename || !cardDef.id) {
                 continue;
             }
-            const modelPathForCard = cardDef.glbPath;
+            const cardModelPath = await getGLBPath(cardDef.glbFilename);
 
             try {
-                const resCard = await window.BABYLON.SceneLoader.ImportMeshAsync(null, "", dc.app.vault.adapter.getResourcePath(modelPathForCard), babylonScene);
+                if (!cardModelPath) throw new Error(`Unable to resolve path for ${cardDef.glbFilename}`);
+                
+                // Split URL to handle query params properly
+                const urlParts = cardModelPath.split('?');
+                const cleanUrl = urlParts[0];
+                const lastSlashIndex = cleanUrl.lastIndexOf('/');
+                const rootUrl = cleanUrl.substring(0, lastSlashIndex + 1);
+                const filename = cleanUrl.substring(lastSlashIndex + 1) + (urlParts[1] ? '?' + urlParts[1] : '');
+                
+                const resCard = await window.BABYLON.SceneLoader.ImportMeshAsync(null, rootUrl, filename, babylonScene);
                 let cardMesh = resCard.meshes.find(m => m.getTotalVertices() > 0 && m.name !== "__root__") || resCard.meshes[0];
                 if (cardMesh) {
                     cardMesh.name = `Card-${cardDef.id}`;
@@ -1681,7 +1795,7 @@ function WorldView() {
                     cardIndex++;
                 }
             } catch (e) {
-                console.error(`[WorldView] Error loading Card ${cardDef.id} from ${modelPathForCard}:`, e);
+                // Ignore individual card loading errors
             }
         }
     }
@@ -1694,14 +1808,12 @@ function WorldView() {
           const cardDef = clickedMesh.userData?.cardDefinition;
 
           if (!cardDef) {
-            console.warn("[WorldView] Clicked mesh has no cardDefinition in userData.", clickedMesh);
             return;
           }
 
           const pipIdForCard = `enigma-viewer-${cardDef.id}`;
 
           if (!EnigmaView) {
-            console.error(`[WorldView] Cannot open PiP for ${cardDef.title || cardDef.id}: EnigmaView component is not loaded.`);
             return;
           }
 
@@ -1742,8 +1854,7 @@ function WorldView() {
           }
 
           const enigmaViewProps = {
-            modelPath: cardDef.glbPath,
-            initialUrl: cardDef.url,
+            sourceMesh: clickedMesh, // Pass the already-loaded mesh
             titleText: `${cardDef.title}`,
             descriptionText: cardDef.description,
             cardDefinition: cardDef
@@ -1768,7 +1879,16 @@ function WorldView() {
     return () => {
       window.removeEventListener("resize", resizeHandler);
       if (babylonScene && cardPointerObserver) babylonScene.onPointerObservable.remove(cardPointerObserver);
-      if (cameraRef.current) cameraRef.current.detachControl();
+      
+      // Safely detach camera controls (can fail during Electron cleanup)
+      if (cameraRef.current) {
+        try {
+          cameraRef.current.detachControl();
+        } catch (e) {
+          // Expected during cleanup
+        }
+      }
+      
       const lastActive = activeEnigmaRef.current;
       if (lastActive && lastActive.mesh) {
         let isStillCategorized = false;
@@ -1791,16 +1911,11 @@ function WorldView() {
   };
 
   useEffect(() => {
-    if (!ScreenModeHelperComponent) {
-      dc.require(dc.headerLink("_RESOURCES/DATACORE/26 LicenseAgreement/D.q.licenseagreement.component.md", "ScreenModeHelper", "ScreenModeHelper"))
-        .then(module => {
-          if (module?.ScreenModeHelper) setScreenModeHelperComponent(() => module.ScreenModeHelper);
-          else console.error("[WorldView] ScreenModeHelper not found in loaded module.");
-        })
-        .catch(err => console.error("[WorldView] Failed to load ScreenModeHelper:", err));
+    // Don't start loading until user confirms
+    if (showLoadingConfirm || !assetsLoaded) {
+      return;
     }
-  }, []);
-  useEffect(() => {
+    
     let babylonCleanupFunction = () => { };
     let isMounted = true;
     const setupEnvironment = async () => {
@@ -1815,14 +1930,73 @@ function WorldView() {
           const cleanupFn = await initBabylon();
           if (isMounted) babylonCleanupFunction = cleanupFn; else cleanupFn?.();
         }
-      } catch (error) { console.error("[WorldView] Failed to setup Babylon environment:", error); }
+      } catch (error) { /* Ignore Babylon setup errors */ }
     };
     if (babylonContainerRef.current && canvasRef.current && !engine) setupEnvironment();
     return () => {
       isMounted = false;
       babylonCleanupFunction?.();
     };
-  }, [babylonContainerRef, canvasRef]);
+  }, [babylonContainerRef, canvasRef, assetsLoaded, showLoadingConfirm]);
+
+  // Check if assets already exist locally
+  useEffect(() => {
+    if (assetsChecked || !currentPath) return;
+
+    const checkLocalAssets = async () => {
+      try {
+        // Check if blank card exists as indicator that assets are cached
+        const currentDir = currentPath.substring(0, currentPath.lastIndexOf('/'));
+        const blankCardPath = `${currentDir}/_resources/glb/b26.card.blank.glb`;
+        
+        const adapter = dc.app.vault.adapter;
+        const localExists = await adapter.exists(blankCardPath);
+        
+        if (localExists) {
+          // Assets exist, skip confirmation and load directly
+          console.log('[MiniGame] Local assets found, loading directly...');
+          setAssetsLoaded(true);
+        } else {
+          // Assets don't exist, show confirmation
+          console.log('[MiniGame] No local assets found, showing confirmation...');
+          setShowLoadingConfirm(true);
+        }
+        setAssetsChecked(true);
+      } catch (error) {
+        console.error('[MiniGame] Error checking local assets:', error);
+        // On error, show confirmation to be safe
+        setShowLoadingConfirm(true);
+        setAssetsChecked(true);
+      }
+    };
+
+    checkLocalAssets();
+  }, [currentPath, assetsChecked]);
+
+  // Handle asset loading confirmation
+  const handleLoadAssets = async () => {
+    setShowLoadingConfirm(false);
+    setIsDownloadingAssets(true);
+    
+    // Pre-download all card assets
+    try {
+      console.log('[MiniGame] Pre-downloading all card assets...');
+      const cardDefinitions = Array.isArray(ALL_CARD_DEFINITIONS) ? ALL_CARD_DEFINITIONS : [];
+      const filesToDownload = ['b26.card.blank.glb', ...cardDefinitions.map(c => c.glbFilename).filter(Boolean)];
+      
+      for (const filename of filesToDownload) {
+        await getGLBPath(filename);
+      }
+      
+      console.log('[MiniGame] All assets loaded successfully');
+      setAssetsLoaded(true);
+    } catch (error) {
+      console.error('[MiniGame] Error loading assets:', error);
+      setAssetsLoaded(true); // Continue anyway
+    } finally {
+      setIsDownloadingAssets(false);
+    }
+  };
 
 
   useEffect(() => {
@@ -1850,53 +2024,135 @@ function WorldView() {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     zIndex: 10,
-    padding: '20px 40px',
-    background: 'rgba(0, 0, 0, 0.4)',
-    backdropFilter: 'blur(5px)',
-    border: '1px solid rgba(148, 0, 211, 0.3)',
-    borderRadius: '12px',
-    boxShadow: '0 0 15px rgba(148, 0, 211, 0.5), 0 0 30px rgba(0, 123, 255, 0.3)',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
-    transition: 'all 0.3s ease-in-out'
+    justifyContent: 'center'
   };
   
   const playButtonStyleBase = {
-    padding: '15px 30px',
-    fontSize: '20px',
+    padding: '20px 48px',
+    fontSize: '18px',
+    fontWeight: '600',
+    fontFamily: 'system-ui, -apple-system, sans-serif',
     cursor: 'pointer',
-    color: 'white',
-    border: '1px solid #8a2be2',
-    borderRadius: '8px',
-    background: 'linear-gradient(145deg, #007bff, #8a2be2)',
-    boxShadow: '0 0 10px #8a2be2',
-    textShadow: '0 0 5px rgba(255, 255, 255, 0.7)',
-    transition: 'all 0.3s ease'
+    color: '#ffffff',
+    border: '1px solid rgba(139, 92, 246, 0.3)',
+    borderRadius: '12px',
+    background: 'rgba(139, 92, 246, 0.15)',
+    backdropFilter: 'blur(10px)',
+    boxShadow: '0 0 20px rgba(139, 92, 246, 0.2), 0 4px 6px rgba(0, 0, 0, 0.3)',
+    transition: 'all 0.2s ease',
+    letterSpacing: '0.5px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px'
   };
 
   const playButtonStyleHover = {
-    background: 'linear-gradient(145deg, #0056b3, #6a1b9a)',
-    boxShadow: '0 0 20px #8a2be2, 0 0 30px #007bff',
-    transform: 'scale(1.05)'
+    background: 'rgba(139, 92, 246, 0.25)',
+    borderColor: 'rgba(139, 92, 246, 0.5)',
+    boxShadow: '0 0 30px rgba(139, 92, 246, 0.3), 0 6px 12px rgba(0, 0, 0, 0.4)',
+    transform: 'translateY(-2px)'
   };
 
   const finalPlayButtonStyle = isPlayButtonHovered
     ? { ...playButtonStyleBase, ...playButtonStyleHover }
     : playButtonStyleBase;
 
+  const isLoadingAssets = !engine || !cameraRef.current || !EnigmaView || !ALL_CARD_DEFINITIONS || !Array.isArray(ALL_CARD_DEFINITIONS) || ALL_CARD_DEFINITIONS.length === 0 || !LoadingLogo;
 
-  const DEFAULT_BABYLON_CONTAINER_STYLE = `width:100%;height:100%;position:relative;overflow:hidden;background:#1e1e1e;`;
-  const WINDOW_MODE_STYLE = `position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:9999;background-color:#000;display:flex;align-items:center;justify-content:center;`;
-  const STYLES_BY_MODE_PROP = { window: WINDOW_MODE_STYLE };
-
-  const isLoadingAssets = !ScreenModeHelperComponent || !engine || !cameraRef.current || !EnigmaView || !ALL_CARD_DEFINITIONS || !Array.isArray(ALL_CARD_DEFINITIONS) || ALL_CARD_DEFINITIONS.length === 0 || !LoadingLogo;
+  const DEFAULT_BABYLON_CONTAINER_STYLE = 'width:100%;height:100%;position:relative;overflow:hidden;background:#1e1e1e;';
+  const WINDOW_MODE_STYLE = 'position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:9999;background-color:#000;';
 
   return preactH('div', { className: 'world-view-main-wrapper', style: mainWrapperStyle },
+    // Show loading confirmation popup
+    showLoadingConfirm && preactH(LoadingConfirmation, {
+      onConfirm: handleLoadAssets,
+      onCancel: () => setShowLoadingConfirm(false)
+    }),
+    
+    // Show loading indicator while downloading assets
+    isDownloadingAssets && !showLoadingConfirm && preactH('div', {
+      style: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#000000',
+        zIndex: 10000
+      }
+    },
+      preactH('div', {
+        style: {
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '24px',
+          background: '#0a0a0a',
+          padding: '48px 64px',
+          borderRadius: '16px',
+          border: '1px solid rgba(139, 92, 246, 0.15)',
+          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(139, 92, 246, 0.1)',
+          textAlign: 'center'
+        }
+      },
+        preactH('div', {
+          style: {
+            width: '80px',
+            height: '80px',
+            borderRadius: '50%',
+            backgroundColor: '#000000',
+            border: '2px solid rgba(139, 92, 246, 0.2)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 0 30px rgba(139, 92, 246, 0.15)'
+          }
+        },
+          preactH(LoadingIcon, { size: '40px', color: '#8b5cf6' })
+        ),
+        preactH('div', {
+          style: {
+            fontSize: '24px',
+            fontWeight: '700',
+            letterSpacing: '-0.5px',
+            color: '#ffffff',
+            fontFamily: 'system-ui, -apple-system, sans-serif'
+          }
+        }, 'Loading Card Assets'),
+        preactH('div', {
+          style: {
+            fontSize: '13px',
+            color: 'rgba(255, 255, 255, 0.4)',
+            fontFamily: 'system-ui, -apple-system, sans-serif'
+          }
+        }, 'Downloading and caching game files...')
+      )
+    ),
+    
     preactH('div', { ref: originalBabylonParentRef, className: 'original-babylon-parent-placeholder', style: { width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 } },
-      preactH('div', { ref: babylonContainerRef, className: 'babylon-canvas-dynamic-container', style: (isGameModeActive && ScreenModeHelperComponent) ? {} : DEFAULT_BABYLON_CONTAINER_STYLE, },
-        preactH('canvas', { ref: canvasRef, tabIndex: isGameModeActive ? 0 : -1, style: { width: "100%", height: "100%", display: 'block', outline: "none", pointerEvents: isGameModeActive ? 'auto' : 'none' }, touchAction: "none" })
+      preactH('div', { 
+        ref: babylonContainerRef, 
+        className: 'babylon-canvas-dynamic-container', 
+        style: isGameModeActive ? WINDOW_MODE_STYLE : DEFAULT_BABYLON_CONTAINER_STYLE
+      },
+        preactH('canvas', { 
+          ref: canvasRef, 
+          tabIndex: isGameModeActive ? 0 : -1, 
+          style: { 
+            width: "100%", 
+            height: "100%", 
+            display: 'block', 
+            outline: "none", 
+            pointerEvents: 'auto'
+          }, 
+          touchAction: "none" 
+        })
       )
     ),
     !isGameModeActive && preactH('div', { style: preGameOverlayStyle },
@@ -1907,14 +2163,17 @@ function WorldView() {
             style: finalPlayButtonStyle,
             onMouseEnter: () => setIsPlayButtonHovered(true),
             onMouseLeave: () => setIsPlayButtonHovered(false),
-          }, 'Play Game')
-    ),
-    isGameModeActive && ScreenModeHelperComponent && engine && preactH(ScreenModeHelperComponent, {
-      key: `smh-${isGameModeActive}`, helperRef: screenModeHelperAPIRef, containerRef: babylonContainerRef,
-      originalParentRefForWindow: originalBabylonParentRef, allowedScreenModes: ["window"], engine: engine,
-      defaultStyle: DEFAULT_BABYLON_CONTAINER_STYLE, stylesByMode: STYLES_BY_MODE_PROP,
-      hideToggleButtons: true, initialMode: "window"
-    })
+          }, 
+          preactH('svg', {
+            width: '20px', height: '20px', viewBox: '0 0 24 24', fill: 'none',
+            stroke: 'currentColor', strokeWidth: '2', strokeLinecap: 'round', strokeLinejoin: 'round',
+            style: { display: 'block' }
+          },
+            preactH('polygon', { points: '5 3 19 12 5 21 5 3' })
+          ),
+          'Play Game'
+        )
+    )
   );
 }
 
@@ -1932,166 +2191,147 @@ const ALL_CARD_DEFINITIONS = [
   {
     id: "throne",
     title: "ENIGMA",
-    category: "HEALTH",
-    sudcategory: "VIBRATIONS/FREQUENCY",
+    category: "Perception",
+    subcategory: "VIBRATIONS/FREQUENCY",
     description: "The Next Step in Evolution.. \n 🫡",
-    url: "https://www.instagram.com/reel/C2Z6DOHyFDh/", 
-    glbPath: "_RESOURCES/GLB/MINIGAME/b26.card.throne.glb"
+    glbFilename: "b26.card.throne.glb"
   },
   {
     id: "queen",
     title: "ENIGMA",
-	category: "HEALTH",
-	sudcategory: "PHYSICAL/SLEEP",
-	sud: "BRAIN",
+    category: "Strategy",
+    subcategory: "PHYSICAL/SLEEP",
+    sud: "BRAIN",
     description: "SLEEP clean process - maintain longevity",
-    url: "https://www.instagram.com/reel/DCzaRLzyLfI", 
-    glbPath: "_RESOURCES/GLB/MINIGAME/b26.card.queen.glb"
+    glbFilename: "b26.card.queen.glb"
   },
   {
     id: "pill",
     title: "ENIGMA",
-    category: "HEALTH",
-    sudcategory: "PHYSICAL/SLEEP",
+    category: "Strategy",
+    subcategory: "PHYSICAL/SLEEP",
     description: "Sleep amount = the amount of toxic / waste within the system",
-    url: "https://www.instagram.com/reel/C5KKcWdRdiF/ ", 
-    glbPath: "_RESOURCES/GLB/MINIGAME/b26.card.pill.glb"
+    glbFilename: "b26.card.pill.glb"
   },
   {
     id: "king",
     title: "ENIGMA",
-    category: "HEALTH",
-	sudcategory: "VIBRATIONS/PERCEPTION",
+    category: "Perception",
+    subcategory: "VIBRATIONS/PERCEPTION",
     description: "Perception is KING. +- 👑 = 👀 = 🦤 =? 🔗",
-    url: "https://youtube.com/shorts/OLMfCNza4f0",
-    glbPath: "_RESOURCES/GLB/MINIGAME/b26.card.king.glb"
+    glbFilename: "b26.card.king.glb"
   },
   {
     id: "gate",
-    title: "ENIGMA", 
-    category: "HEALTH",
-	sudcategory: "MIND/MEMORY",
-    description: "Type 3 diabetes...  ¯\_(ツ)_/¯ \n ⽗",
-    url: "https://www.instagram.com/reel/C8uJzfhv56n/",
-    glbPath: "_RESOURCES/GLB/MINIGAME/b26.card.gate.glb" 
+    title: "ENIGMA",
+    category: "Systems",
+    subcategory: "MIND/MEMORY",
+    description: "Type 3 diabetes...  ¯\\_(ツ)_/¯ \n ⽗",
+    glbFilename: "b26.card.gate.glb"
   },
   {
-    id: "pills", 
+    id: "pills",
     title: "ENIGMA",
-    category: "HEALTH",
-    sudcategory: "MIND/PLACEBO",
+    category: "Perception",
+    subcategory: "MIND/PLACEBO",
     description: "You dictate your reality , will the pill dictate it",
-    url: "https://www.instagram.com/reel/C7z_I5VNb_a/", 
-    glbPath: "_RESOURCES/GLB/MINIGAME/b26.card.pills.glb"
+    glbFilename: "b26.card.pills.glb"
   },
   {
     id: "shhh",
     title: "ENIGMA",
-    category: "WEALTH",
-    sudcategory: "BUSINESS",
+    category: "Strategy",
+    subcategory: "BUSINESS",
     description: "Keep things to yourself. until... \n⛓️‍💥",
-    url: "https://www.instagram.com/reel/DFtCyOaqrK3",
-    glbPath: "_RESOURCES/GLB/MINIGAME/b26.card.shhh.glb"
+    glbFilename: "b26.card.shhh.glb"
   },
   {
     id: "innerdemon",
     title: "ENIGMA",
-    category: "WEALTH",
-	sudcategory: "BUSINESS",
+    category: "Strategy",
+    subcategory: "BUSINESS",
     description: "BUILD, build, BUILD. dont let them stop you",
-    url: "https://x.com/gregisenberg/status/1882775359290241097", 
-    glbPath: "_RESOURCES/GLB/MINIGAME/b26.card.innerdemon.glb"
+    glbFilename: "b26.card.innerdemon.glb"
   },
   {
     id: "kid",
     title: "ENIGMA",
-    category: "WEALTH",
-	sudcategory: "ECONOMIC",
+    category: "Systems",
+    subcategory: "ECONOMIC",
     description: "Childrens playing kids games , whats next",
-    url: "https://youtube.com/shorts/_1SHEtsbevc",
-    glbPath: "_RESOURCES/GLB/MINIGAME/b26.card.kid.glb"
+    glbFilename: "b26.card.kid.glb"
   },
   {
     id: "88",
     title: "ENIGMA",
-    category: "WEALTH",
-	sudcategory: "FINANCE",
+    category: "Systems",
+    subcategory: "FINANCE",
     description: "Tools to power-UP while streamlining tracking .",
-    url: "https://www.instagram.com/peripheral_inc/reel/C7pXwELyBRN/", 
-    glbPath: "_RESOURCES/GLB/MINIGAME/b26.card.88.glb"
+    glbFilename: "b26.card.88.glb"
   },
   {
     id: "joker",
     title: "ENIGMA",
-    category: "WEALTH",
-	sudcategory: "WEALTH",
+    category: "Strategy",
+    subcategory: "WEALTH",
     description: "Play the Game or Get played 🙃.\n 🎱 - 🎰 - 🃏",
-    url: "https://www.instagram.com/reel/C3Sw_DbshhY/",
-    glbPath: "_RESOURCES/GLB/MINIGAME/b26.card.joker.glb"
+    glbFilename: "b26.card.joker.glb"
   },
   {
     id: "8",
     title: "ENIGMA",
-    category: "WEALTH",
-	sudcategory: "FINANCE",
+    category: "Systems",
+    subcategory: "FINANCE",
     description: "Where you all hiding............. 🙈. ",
-    url: "https://youtube.com/shorts/F2GAfJQgstY",
-    glbPath: "_RESOURCES/GLB/MINIGAME/b26.card.8.glb"
+    glbFilename: "b26.card.8.glb"
   },
   {
-    id: "dev", 
+    id: "dev",
     title: "ENIGMA",
-    category: "EXPERIENCES",
-	sudcategory: "TECH",
+    category: "Systems",
+    subcategory: "TECH",
     description: "🌬️ . 🌳 ... 📲...\n...🤔...",
-    url: "https://www.instagram.com/reel/C4WDUDmI8Sm/", 
-    glbPath: "_RESOURCES/GLB/MINIGAME/b26.card.dev.glb"
+    glbFilename: "b26.card.dev.glb"
   },
   {
-    id: "god", 
+    id: "god",
     title: "ENIGMA",
-    category: "EXPERIENCES",
-	sudcategory: "",
-	sudcategory: "RELIGION,SCIENCE",
+    category: "Systems",
+    subcategory: "RELIGION,SCIENCE",
     description: "Creating system within systems..",
-    url: "https://www.instagram.com/reel/DB6_b56xGJh", 
-    glbPath: "_RESOURCES/GLB/MINIGAME/b26.card.god.glb"
+    glbFilename: "b26.card.god.glb"
   },
   {
     id: "888",
     title: "ENIGMA",
-    category: "EXPERIENCES",
-	sudcategory: "LAWS",
+    category: "Systems",
+    subcategory: "LAWS",
     description: "--- 𒀭 = - - - - = 𒀭 = - - - - = 𒀭 --- ",
-    url: "https://www.instagram.com/reel/DBXKMW2NUCI", 
-    glbPath: "_RESOURCES/GLB/MINIGAME/b26.card.888.glb"
+    glbFilename: "b26.card.888.glb"
   },
   {
     id: "ancestor",
     title: "ENIGMA",
-    category: "EXPERIENCES",
-	sudcategory: "MATRIX",
+    category: "Perception",
+    subcategory: "MATRIX",
     description: "Join the dark side, we got ideas...",
-    url: "https://www.youtube.com/shorts/Za95Mp_lhVc", 
-    glbPath: "_RESOURCES/GLB/MINIGAME/b26.card.ancestor.glb"
+    glbFilename: "b26.card.ancestor.glb"
   },
   {
     id: "demon",
     title: "ENIGMA",
-    category: "EXPERIENCES",
-	sudcategory: "MATRIX",
+    category: "Perception",
+    subcategory: "MATRIX",
     description: "The only demon is your[[SELF]]",
-    url: "https://www.instagram.com/reel/DFBmRHlKvgy", 
-    glbPath: "_RESOURCES/GLB/MINIGAME/b26.card.demon.glb"
+    glbFilename: "b26.card.demon.glb"
   },
   {
     id: "cat",
     title: "ENIGMA",
-    category: "EXPERIENCES",
-	sudcategory: "LEARN",
+    category: "Strategy",
+    subcategory: "LEARN",
     description: "Live, learn and fail fail fail  MORE... 😨",
-    url: "https://www.youtube.com/shorts/EYoV6lkVF-M",
-    glbPath: "_RESOURCES/GLB/MINIGAME/b26.card.cat.glb"
+    glbFilename: "b26.card.cat.glb"
   }
 ];
 
@@ -2108,7 +2348,7 @@ const finalMessageOptions = [
     minTries: 18,
     maxTries: 18,
     title: "Perfect Factotum 🫡",
-    message: "You have achieved perfect harmony with the universe of BETO.888. Your understanding of health, wealth, and experiences is unparalleled. You are a true master of the war of ideas."
+    message: "You have achieved perfect harmony with the universe of BETO.888. Your understanding of systems, perception, and strategy is unparalleled. You are a true master of the war of ideas."
   },
   {
     minTries: 19,
@@ -2174,7 +2414,7 @@ function loadScript(src, onload, onerror) {
   script.onerror =
     onerror ||
     function () {
-      console.error(`Failed to load script: ${src}`);
+      // Script loading failed
     };
   document.body.appendChild(script);
   return script;
@@ -2211,7 +2451,7 @@ async function getMediaResourcePath(filename) {
 
 // The main component to render the view.
 function LoadingLogo() {
-  const fileName = "BETO_Logo_W_Loading.svg";
+  const fileName = "BETO_Logo_T_Loading.svg";
   
   const [mediaSrc, setMediaSrc] = dc.useState(null);
   const [error, setError] = dc.useState(null);
@@ -2228,7 +2468,6 @@ function LoadingLogo() {
         setMediaSrc(url);
       })
       .catch((err) => {
-        console.error("Error loading media file:", err);
         setError(err.message);
       });
   }, [fileName]);
@@ -2286,10 +2525,9 @@ const { h: preactH, render: preactRender } = dc.preact; // Assuming dc.preact is
 function EnigmaView(props) {
   // Default props
   const {
-    initialUrl: propsInitialUrl = "https://www.youtube.com/watch?v=Leo3ZuXzleA",
+    sourceMesh = null, // The already-loaded mesh from the main scene
     titleText: propsTitleText = "ENIGMA",
     descriptionText: propsDescriptionText = "Behold the spinning artifact, a relic of unknown origins, pulsing with a subtle energy. Its facets catch the light, hinting at untold stories and veiled truths. What secrets does it safeguard? What destiny does its perpetual motion foretell? Ponder its mystery. The code is all around us.",
-    modelPath: propsModelPath = "_RESOURCES/GLB/b26.card.888.glb" // Default full relative path
   } = props || {};
 
   const canvasRef = useRef(null);
@@ -2299,33 +2537,17 @@ function EnigmaView(props) {
   const descriptionRef = useRef(null);
   const [isTextProcessed, setIsTextProcessed] = useState(false);
 
-  const [isOverlayVisible, setIsOverlayVisible] = useState(false);
-  const [LoadedOverlayComponent, setLoadedOverlayComponent] = useState(null);
-  const overlayRef = useRef(null);
-
   // Internal state for dynamic content, initialized from props
-  const [currentIframeUrl, setCurrentIframeUrl] = useState(propsInitialUrl);
   const [currentTitleText, setCurrentTitleText] = useState(propsTitleText);
   const [currentDescriptionText, setCurrentDescriptionText] = useState(propsDescriptionText);
-  const [currentModelPath, setCurrentModelPath] = useState(propsModelPath);
 
   // useEffect hooks to update internal state if props change
-  useEffect(() => { setCurrentIframeUrl(propsInitialUrl); }, [propsInitialUrl]);
   useEffect(() => { setCurrentTitleText(propsTitleText); }, [propsTitleText]);
   useEffect(() => {
     setCurrentDescriptionText(propsDescriptionText);
     setIsTextProcessed(false); 
     if (descriptionRef.current) { delete descriptionRef.current.dataset.originalText; }
   }, [propsDescriptionText]);
-  
-  useEffect(() => { 
-    const oldModelPath = currentModelPath;
-    setCurrentModelPath(propsModelPath);
-    if (engine && oldModelPath !== propsModelPath) {
-      if (isOverlayVisible) setIsOverlayVisible(false);
-      setRefreshKey(k => k + 1);
-    }
-  }, [propsModelPath, engine, isOverlayVisible, currentModelPath]);
 
 
   const loadScript = (src) => {
@@ -2339,7 +2561,6 @@ function EnigmaView(props) {
       script.async = true;
       script.onload = () => resolve(script);
       script.onerror = (e) => {
-        console.error(`Error loading script: ${src}`, e);
         reject(new Error(`Failed to load script: ${src}`));
       };
       document.body.appendChild(script);
@@ -2348,8 +2569,7 @@ function EnigmaView(props) {
 
   const initBabylon = async () => {
     if (!canvasRef.current || !window.BABYLON || !window.BABYLON.SceneLoader) {
-      console.error("initBabylon: Pre-conditions not met.");
-      return () => { console.log("Babylon initialization failed, no cleanup needed."); };
+      return () => {};
     }
 
     const babylonEngine = new window.BABYLON.Engine(
@@ -2398,20 +2618,49 @@ function EnigmaView(props) {
     directionalLight.intensity = 1.5;
     directionalLight.diffuse = new window.BABYLON.Color3(1.0, 0.95, 0.9);
 
-    // console.log(`[Babylon Init] Using model path: ${currentModelPath}`);
-
+    // Clone the mesh from the main scene instead of loading GLB again
     let mainModelMesh = null;
     let cardPivot = null;
     let modelLoadResult = null;
 
     try {
-      const assetUrl = dc.app.vault.adapter.getResourcePath(currentModelPath); 
-      modelLoadResult = await window.BABYLON.SceneLoader.ImportMeshAsync(null, "", assetUrl, babylonScene);
+      if (!sourceMesh) {
+        return () => {};
+      }
 
-      if (modelLoadResult.meshes && modelLoadResult.meshes.length > 0) {
-        mainModelMesh = modelLoadResult.meshes.find(m => m.getTotalVertices() > 0 && m.name !== "__root__");
-        if (!mainModelMesh) mainModelMesh = modelLoadResult.meshes[0];
-
+      // Serialize the mesh and all its children from the original scene
+      const serializedMesh = window.BABYLON.SceneSerializer.SerializeMesh(sourceMesh, true, true);
+      
+      // Deserialize into the new babylonScene
+      const parsedMesh = window.BABYLON.SceneLoader.ImportMesh(
+        "", "", "data:" + JSON.stringify(serializedMesh), babylonScene,
+        function (newMeshes) {
+          // Import successful
+        }
+      );
+      
+      // Wait a frame for the import to complete
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // Find the main mesh (the one with vertices)
+      mainModelMesh = babylonScene.meshes.find(m => 
+        m.name.includes(sourceMesh.name) && m.getTotalVertices() > 0
+      );
+      
+      if (!mainModelMesh) {
+        // Fallback: get the last imported mesh with vertices
+        mainModelMesh = babylonScene.meshes.filter(m => m.getTotalVertices() > 0).pop();
+      }
+      
+      if (mainModelMesh) {
+        mainModelMesh.name = "clonedCard";
+        // Keep mesh hidden initially to prevent flash before animation
+        mainModelMesh.isVisible = false;
+      } else {
+        return () => {};
+      }
+      
+      if (mainModelMesh) {
         cardPivot = new window.BABYLON.TransformNode("cardPivot", babylonScene);
         mainModelMesh.parent = cardPivot;
 
@@ -2450,6 +2699,11 @@ function EnigmaView(props) {
         animCameraBeta.setEasingFunction(cameraEasingFunction);
         animCameraRadius.setEasingFunction(cameraEasingFunction);
 
+        // Show mesh on first animation frame for smooth reveal
+        babylonScene.onBeforeRenderObservable.addOnce(() => {
+          if (mainModelMesh) mainModelMesh.isVisible = true;
+        });
+
         babylonScene.beginDirectAnimation(cardPivot, [animPivotPositionY], 0, cardTotalFrames, false, 1, () => { cardPivot.position.y = 0; });
         babylonScene.beginDirectAnimation(mainModelMesh, [animCardRotationZ], 0, cardTotalFrames, false, 1, () => {
           mainModelMesh.rotation.z = (Math.PI * 2 * cardIntroSpins) % (Math.PI * 2);
@@ -2459,10 +2713,10 @@ function EnigmaView(props) {
           });
         });
       } else {
-        console.warn(`GLB loaded from "${currentModelPath}", but no meshes found in the result.`);
+        // No mesh found
       }
     } catch (error) {
-      console.error(`Error loading GLB model from "${currentModelPath}" or during animation setup:`, error);
+      // Ignore mesh loading errors
     }
 
     setEngine(babylonEngine); setScene(babylonScene);
@@ -2517,6 +2771,12 @@ function EnigmaView(props) {
     let cleanupBabylonFunc = () => {};
     const loadedScripts = [];
     const setupEnvironment = async () => {
+      // Don't initialize if we don't have a sourceMesh yet
+      if (!sourceMesh) {
+        console.log('[EnigmaView] Waiting for sourceMesh to be provided...');
+        return;
+      }
+      
       try {
         if (!window.BABYLON || !window.BABYLON.SceneLoader) {
             loadedScripts.push(await loadScript("https://cdn.babylonjs.com/babylon.js"));
@@ -2529,9 +2789,9 @@ function EnigmaView(props) {
             }
             cleanupBabylonFunc = await initBabylon();
         } else if (!window.BABYLON || !window.BABYLON.SceneLoader) {
-            console.error("Babylon.js or SceneLoader is not available after script loading attempts.");
+            // Babylon not available
         }
-      } catch (error) { console.error("Failed to setup Babylon environment:", error); }
+      } catch (error) { /* Ignore Babylon setup errors */ }
     };
     setupEnvironment();
     return () => {
@@ -2544,7 +2804,7 @@ function EnigmaView(props) {
         }
       });
     };
-  }, [refreshKey]); // Only refreshKey drives full re-init. initBabylon uses currentModelPath from state.
+  }, [refreshKey, sourceMesh]); // Add sourceMesh as dependency
 
   useEffect(() => {
     if (descriptionRef.current && !isTextProcessed && currentDescriptionText) {
@@ -2567,37 +2827,6 @@ function EnigmaView(props) {
         setIsTextProcessed(true);
     }
   }, [currentDescriptionText, isTextProcessed]);
-
-  const loadOverlayComponent = async () => {
-    if (LoadedOverlayComponent) return LoadedOverlayComponent;
-    try {
-      const filePath = "IframeDisplay.component.v2.md"; 
-      const header = "ViewComponent";
-      const functionName = "View";      
-      const dynamicModule = await dc.require(dc.headerLink(filePath, header));
-      if (!dynamicModule || !dynamicModule[functionName]) {
-        console.error(`Component '${functionName}' not found in module from '${filePath}' with header '${header}'.`);
-        return null;
-      }
-      const LoadedComp = dynamicModule[functionName];
-      setLoadedOverlayComponent(() => LoadedComp);
-      return LoadedComp;
-    } catch (error) {
-      console.error(`Error loading IframeDisplay component from '${filePath}':`, error);
-      return null;
-    }
-  };
-  
-  const handleNaruButtonClick = async () => {
-    const comp = LoadedOverlayComponent || await loadOverlayComponent();
-    if (comp) {
-        setIsOverlayVisible(true);
-    } else {
-        alert("Failed to load overlay content.");
-    }
-  };
-
-  const closeOverlay = () => setIsOverlayVisible(false);
 
   // Palette
   const pAccent = '#C77DF2'; 
@@ -2626,14 +2855,6 @@ function EnigmaView(props) {
     .enigma-description { margin-bottom:0; line-height:1.6; font-size:1.1em; text-align:justify; color:${pInitialLetterColor}; font-family:'Courier New',Courier,monospace; position:relative; z-index:1; overflow-wrap:break-word; word-wrap:break-word; min-height: 1.6em; }
     .enigma-description .animated-letter { animation-name:letterColorShift; animation-timing-function:linear; animation-iteration-count:infinite; }
     @keyframes letterColorShift { 0%,100%{color:${pInitialLetterColor};text-shadow:none;} 12%{color:${pIntermediateColor1};} 25%{color:${pIntermediateColor2};} 40%{color:${pText};text-shadow:0 0 3px ${pTextRgba(0.5)};} 60%{color:${pAccent};text-shadow:0 0 5px ${pAccentRgba(0.7)};} 75%{color:${pText};text-shadow:0 0 3px ${pTextRgba(0.5)};} 88%{color:${pIntermediateColor2};} }
-    .naru-button { position:absolute; top:15px; right:15px; padding:8px 15px; background-color:${pDark}; color:${pAccent}; border:1px solid ${pAccent}; border-radius:5px; font-family:'Courier New',Courier,monospace; font-size:0.9em; font-weight:bold; cursor:pointer; transition:background-color 0.3s ease,transform 0.1s ease; z-index:2; }
-    .naru-button:hover { background-color:${pVeryDarkBg}; transform:scale(1.05); }
-    .naru-button:active { transform:scale(0.95); }
-    .scene-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(10, 5, 15, 0.95); z-index: 20; transform: translateY(100%); transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1); overflow: hidden; display: flex; flex-direction: column; align-items: stretch; justify-content: stretch; pointer-events: none; }
-    .scene-overlay.visible { transform: translateY(0%); pointer-events: auto; }
-    .scene-overlay-close-button { position: absolute; top: 10px; right: 10px; padding: 0; background-color: ${pDarkRgba(0.8)}; color: ${pAccent}; border: 1px solid ${pAccentRgba(0.7)}; border-radius: 50%; font-family: 'Courier New', Courier, monospace; font-size: 1.2em; font-weight: bold; cursor: pointer; transition: background-color 0.3s ease; z-index: 21; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; line-height: 1; box-sizing: border-box; }
-    .scene-overlay-close-button:hover { background-color: ${pVeryDarkBg}; }
-    .scene-overlay .iframe-display-view { flex-grow: 1; border: none; width: 100%; height: 100%; }
   `;
   
   return preactH("div", {
@@ -2644,19 +2865,14 @@ function EnigmaView(props) {
         style: { position: "relative", width: "100%", maxWidth: "800px", height: "500px", overflow: "hidden", padding: "10px", borderRadius: "8px" }
       },
       preactH("canvas", { ref: canvasRef, style: { width: "100%", height: "100%", display: "block" } }),
-      preactH("div", { ref: overlayRef, className: `scene-overlay ${isOverlayVisible ? 'visible' : ''}`},
-        isOverlayVisible && LoadedOverlayComponent && preactH(LoadedOverlayComponent, { initialUrl: currentIframeUrl }), // Use currentIframeUrl
-        isOverlayVisible && preactH("button", { className: "scene-overlay-close-button", onClick: closeOverlay, title: "Close View" }, "✕")
-      ),
-      preactH("button", { onClick: () => { if (isOverlayVisible) setIsOverlayVisible(false); setRefreshKey(prevKey => prevKey + 1); }, className: "refresh-button", "aria-label": "Refresh Scene", title: "Refresh Scene" },
+      preactH("button", { onClick: () => { setRefreshKey(prevKey => prevKey + 1); }, className: "refresh-button", "aria-label": "Refresh Scene", title: "Refresh Scene" },
         preactH("svg", { xmlns:"http://www.w3.org/2000/svg", width:"24", height:"24", viewBox:"0 0 24 24", fill:"currentColor" },
           preactH("path", { d:"M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" })
         )
       )
     ),
     preactH("div", { className: "text-content-box" },
-      preactH("button", { className: "naru-button", onClick: handleNaruButtonClick }, "NARU"),
-      preactH("h2", { className: "enigma-title" }, currentTitleText), // Use currentTitleText
+      preactH("h2", { className: "enigma-title" }, currentTitleText),
       preactH("p", { className: "enigma-description", ref: descriptionRef }, 
         !isTextProcessed && currentDescriptionText ? currentDescriptionText : "" // Use currentDescriptionText
       )
@@ -2665,4 +2881,339 @@ function EnigmaView(props) {
 }
 
 return { EnigmaView };
+```
+
+# LoadingConfirmation
+
+```jsx
+const { useState } = dc;
+const { h: preactH } = dc.preact;
+
+function LoadingConfirmation({ onConfirm, onCancel }) {
+  const [status, setStatus] = useState('ready'); // ready, checking, downloading
+
+  const handleConfirm = async () => {
+    setStatus('checking');
+    
+    // Simulate checking for assets
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    setStatus('downloading');
+    
+    // Start the actual asset loading
+    onConfirm();
+  };
+
+  return preactH('div', {
+    style: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#000000',
+      zIndex: 10000
+    }
+  },
+    preactH('div', {
+      style: {
+        background: '#0a0a0a',
+        padding: '48px',
+        borderRadius: '16px',
+        maxWidth: '560px',
+        width: '90%',
+        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(139, 92, 246, 0.1)',
+        border: '1px solid rgba(139, 92, 246, 0.15)',
+        textAlign: 'center'
+      }
+    },
+      // Icon Section
+      preactH('div', {
+        style: {
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginBottom: '24px',
+          position: 'relative'
+        }
+      },
+        preactH('div', {
+          style: {
+            width: '80px',
+            height: '80px',
+            borderRadius: '50%',
+            backgroundColor: '#000000',
+            border: '2px solid rgba(139, 92, 246, 0.2)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'relative',
+            boxShadow: '0 0 30px rgba(139, 92, 246, 0.15)'
+          }
+        },
+          status === 'ready' 
+            ? preactH('svg', {
+                width: '40px', height: '40px', viewBox: '0 0 24 24', fill: 'none',
+                stroke: '#8b5cf6', strokeWidth: '2', strokeLinecap: 'round', strokeLinejoin: 'round',
+                style: { animation: 'pulse 2s ease-in-out infinite' }
+              },
+                preactH('rect', { x: '2', y: '3', width: '20', height: '14', rx: '2' }),
+                preactH('line', { x1: '8', y1: '21', x2: '16', y2: '21' }),
+                preactH('line', { x1: '12', y1: '17', x2: '12', y2: '21' })
+              )
+            : status === 'checking'
+            ? preactH('svg', {
+                width: '40px', height: '40px', viewBox: '0 0 24 24', fill: 'none',
+                stroke: '#8b5cf6', strokeWidth: '2', strokeLinecap: 'round', strokeLinejoin: 'round'
+              },
+                preactH('circle', { cx: '11', cy: '11', r: '8' }),
+                preactH('path', { d: 'm21 21-4.35-4.35' })
+              )
+            : preactH('svg', {
+                width: '40px', height: '40px', viewBox: '0 0 50 50',
+                style: { display: 'block' }
+              }, preactH('circle', {
+                cx: '25', cy: '25', r: '20', fill: 'none', stroke: '#8b5cf6', strokeWidth: '5',
+                strokeDasharray: '31.415, 31.415', strokeDashoffset: '0'
+              }, preactH('animateTransform', {
+                attributeName: 'transform', type: 'rotate', from: '0 25 25', to: '360 25 25',
+                dur: '1s', repeatCount: 'indefinite'
+              })))
+        )
+      ),
+      
+      // Title
+      preactH('h2', {
+        style: {
+          color: '#ffffff',
+          fontSize: '32px',
+          fontWeight: '700',
+          marginBottom: '16px',
+          letterSpacing: '-0.5px',
+          fontFamily: 'system-ui, -apple-system, sans-serif'
+        }
+      }, 
+        status === 'ready' ? 'MiniGame 888' :
+        status === 'checking' ? 'Verifying Assets' :
+        'Loading Cards'
+      ),
+      
+      // Description
+      preactH('p', {
+        style: {
+          color: 'rgba(255, 255, 255, 0.5)',
+          fontSize: '15px',
+          lineHeight: '1.7',
+          marginBottom: '32px',
+          fontFamily: 'system-ui, -apple-system, sans-serif',
+          maxWidth: '420px',
+          margin: '0 auto 32px'
+        }
+      },
+        status === 'ready' ? 'Download and cache card assets (GLB files) for the game. Assets are stored locally for faster loading.' :
+        status === 'checking' ? 'Checking asset availability and local cache...' :
+        'Downloading card models and initializing game...'
+      ),
+
+      // Info Box
+      status === 'ready' && preactH('div', {
+        style: {
+          backgroundColor: '#000000',
+          border: '1px solid rgba(139, 92, 246, 0.15)',
+          borderRadius: '12px',
+          padding: '16px 20px',
+          marginBottom: '32px',
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: '12px',
+          textAlign: 'left'
+        }
+      },
+        preactH('svg', {
+          width: '18px', height: '18px', viewBox: '0 0 24 24', fill: 'none',
+          stroke: '#8b5cf6', strokeWidth: '2', strokeLinecap: 'round', strokeLinejoin: 'round',
+          style: { flexShrink: 0, marginTop: '2px' }
+        },
+          preactH('circle', { cx: '12', cy: '12', r: '10' }),
+          preactH('line', { x1: '12', y1: '16', x2: '12', y2: '12' }),
+          preactH('line', { x1: '12', y1: '8', x2: '12.01', y2: '8' })
+        ),
+        preactH('div', { style: { flex: 1 } },
+          preactH('div', {
+            style: {
+              color: '#8b5cf6',
+              fontSize: '13px',
+              fontWeight: '600',
+              marginBottom: '6px',
+              fontFamily: 'system-ui, -apple-system, sans-serif'
+            }
+          }, 'Asset Details'),
+          preactH('div', {
+            style: {
+              color: 'rgba(255, 255, 255, 0.4)',
+              fontSize: '13px',
+              lineHeight: '1.6',
+              fontFamily: 'system-ui, -apple-system, sans-serif'
+            }
+          },
+            'Source: ',
+            preactH('span', { style: { color: 'rgba(255, 255, 255, 0.6)' } }, 'beto.assets/DATACORE/MINIGAME'),
+            preactH('br'),
+            'Cache: ',
+            preactH('span', { style: { color: 'rgba(255, 255, 255, 0.6)' } }, '_resources/glb/')
+          )
+        )
+      ),
+
+      // Buttons
+      status === 'ready' && preactH('div', {
+        style: {
+          display: 'flex',
+          gap: '12px',
+          justifyContent: 'center'
+        }
+      },
+        preactH('button', {
+          onClick: onCancel,
+          style: {
+            padding: '14px 28px',
+            fontSize: '15px',
+            borderRadius: '10px',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            background: 'transparent',
+            color: 'rgba(255, 255, 255, 0.6)',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
+            fontWeight: '600',
+            fontFamily: 'system-ui, -apple-system, sans-serif',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
+          },
+          onMouseOver: (e) => {
+            e.target.style.background = 'rgba(255, 255, 255, 0.05)';
+            e.target.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+            e.target.style.color = 'rgba(255, 255, 255, 0.9)';
+          },
+          onMouseOut: (e) => {
+            e.target.style.background = 'transparent';
+            e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+            e.target.style.color = 'rgba(255, 255, 255, 0.6)';
+          }
+        },
+          preactH('svg', {
+            width: '16px', height: '16px', viewBox: '0 0 24 24', fill: 'none',
+            stroke: 'currentColor', strokeWidth: '2', strokeLinecap: 'round', strokeLinejoin: 'round',
+            style: { display: 'block' }
+          },
+            preactH('line', { x1: '18', y1: '6', x2: '6', y2: '18' }),
+            preactH('line', { x1: '6', y1: '6', x2: '18', y2: '18' })
+          ),
+          'Cancel'
+        ),
+        
+        preactH('button', {
+          onClick: handleConfirm,
+          style: {
+            padding: '14px 32px',
+            fontSize: '15px',
+            borderRadius: '10px',
+            border: '1px solid rgba(139, 92, 246, 0.3)',
+            background: 'rgba(139, 92, 246, 0.15)',
+            color: '#ffffff',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
+            fontWeight: '600',
+            fontFamily: 'system-ui, -apple-system, sans-serif',
+            boxShadow: '0 0 20px rgba(139, 92, 246, 0.2)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
+          },
+          onMouseOver: (e) => {
+            e.target.style.background = 'rgba(139, 92, 246, 0.25)';
+            e.target.style.borderColor = 'rgba(139, 92, 246, 0.5)';
+            e.target.style.boxShadow = '0 0 30px rgba(139, 92, 246, 0.3)';
+            e.target.style.transform = 'translateY(-1px)';
+          },
+          onMouseOut: (e) => {
+            e.target.style.background = 'rgba(139, 92, 246, 0.15)';
+            e.target.style.borderColor = 'rgba(139, 92, 246, 0.3)';
+            e.target.style.boxShadow = '0 0 20px rgba(139, 92, 246, 0.2)';
+            e.target.style.transform = 'translateY(0)';
+          }
+        },
+          preactH('svg', {
+            width: '16px', height: '16px', viewBox: '0 0 24 24', fill: 'none',
+            stroke: 'currentColor', strokeWidth: '2', strokeLinecap: 'round', strokeLinejoin: 'round'
+          },
+            preactH('path', { d: 'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4' }),
+            preactH('polyline', { points: '7 10 12 15 17 10' }),
+            preactH('line', { x1: '12', y1: '15', x2: '12', y2: '3' })
+          ),
+          'Load Cards'
+        )
+      ),
+
+      // Loading State
+      (status === 'checking' || status === 'downloading') && preactH('div', {
+        style: {
+          marginTop: '8px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: '8px'
+        }
+      },
+        preactH('div', {
+          style: {
+            width: '6px',
+            height: '6px',
+            borderRadius: '50%',
+            background: '#8b5cf6',
+            animation: 'bounce 1.4s infinite ease-in-out both',
+            animationDelay: '-0.32s'
+          }
+        }),
+        preactH('div', {
+          style: {
+            width: '6px',
+            height: '6px',
+            borderRadius: '50%',
+            background: '#8b5cf6',
+            animation: 'bounce 1.4s infinite ease-in-out both',
+            animationDelay: '-0.16s'
+          }
+        }),
+        preactH('div', {
+          style: {
+            width: '6px',
+            height: '6px',
+            borderRadius: '50%',
+            background: '#8b5cf6',
+            animation: 'bounce 1.4s infinite ease-in-out both'
+          }
+        })
+      ),
+
+      // Animations (CSS)
+      preactH('style', null, `
+        @keyframes pulse {
+          0%, 100% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.05); opacity: 0.9; }
+        }
+        
+        @keyframes bounce {
+          0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+          40% { transform: scale(1); opacity: 1; }
+        }
+      `)
+    )
+  );
+}
+
+return { LoadingConfirmation };
 ```

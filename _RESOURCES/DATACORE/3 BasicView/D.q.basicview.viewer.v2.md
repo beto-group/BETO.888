@@ -6,7 +6,7 @@
 ////////////////////////////////////////////////////
 ///             Viewer Entry Point               ///
 ////////////////////////////////////////////////////
-const { BasicView } = await dc.require(dc.headerLink("_RESOURCES/DATACORE/3 BasicView/D.q.basicview.component.v2.md", "ViewComponent"));
+const { BasicView } = await dc.require(dc.headerLink(dc.resolvePath("D.q.basicview.component.v2"), "ViewComponent"));
 return <BasicView />;
 
 ```

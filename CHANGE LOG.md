@@ -1,6 +1,6 @@
 ---
 permalink: change_log
-version: 1.4.0
+version: 1.5.0
 ---
 
 >[!info]- [[DEVLOG]]
@@ -8,6 +8,41 @@ version: 1.4.0
 -----
 ----
 ----
+
+
+## ORANGE-5
+
+**DATE**: 2025.11.11  
+**LICENSE**: MIT  
+**AVAILABILITY**: GITHUB
+
+**I. SUMMARY**  
+The ORANGE-5 release represents a significant maturation of the Datacore ecosystem. The theme of this update is **Refinement and Portability**. We have completed a comprehensive remaster of all existing components to improve functionality, stability, and consistency. The most significant leap forward is the introduction of true component portability, allowing users to easily import and export individual Datacore components between vaults. This release also codifies our philosophical shift towards building foundational tools for creators and tinkerers.
+
+**II. A New Development Paradigm: True Component Portability**  
+This update introduces a foundational change in how Datacore components are managed and shared. Our new focus on **True Component Portability** means that every remastered component is now a self-contained, standalone unit. Thanks to the implementation of relative pathing, individual components can be exported from this vault and imported into any other, where they will function immediately without manual setup. This is facilitated by the new **Datacore Importor** component and integrated export functions within **DASHBOARD 888**.
+
+**III. Full Component Changelog**
+
+- **New Utility Components:**
+    - **Datacore Importor:** A new tool designed to facilitate the easy import of standalone Datacore components into any vault.
+        
+- **Upgraded & Remastered Components:**
+    - **Kanban Board:** Now fully functional and stable for task management.
+    - **Aquarium:** The interactive aquarium is now fully operational.
+    - **View Control:** Upgraded with a new feature allowing windows to be completely detached from the main Obsidian interface.
+    - **Datacore Playground:** Has undergone a significant overhaul for a better development experience. Note: Folder and export functionalities are temporarily disabled pending further rework.        
+    - **loadscript:** Now includes support for loading modern ESM modules.
+    - **Music Player:** Updated with a new, mobile-friendly interface.
+    - **Integrated IDE:** The IDE has been upgraded and is now based on CodeEditor v3.
+
+- **General System Improvements:**
+    - **Component Portability:** All components have been re-architected to be fully portable with relative pathing.
+    - **Theming & UI:** Components have been updated for a more consistent look and feel, with many now utilizing a full-tab, black theme. The system now extensively uses dc.icons for better UI clarity.
+    - **Sample Data:** All components that require external data now ship with a test sample, allowing for immediate experimentation.
+
+
+-----
 
 ## GREEN-4
 
@@ -28,6 +63,7 @@ This update finalizes our vision for a professional-grade development workflow t
     
 
 **III. Full Component Changelog**
+
 - **New Core Systems:**
     - **Plugin Development Suite:** An all-in-one environment for building, deploying, and managing Obsidian plugins.
     - **Git Suite Manager:** A complete, standalone Git client UI for source control within the vault.
@@ -46,23 +82,6 @@ This update finalizes our vision for a professional-grade development workflow t
     - **Basic View v3:** added reload capabilities directly within component, speeding up prototyping further.
 
 
-------
-## YELLOW-3.patches
-DATE**: 2025.*.09  
-
-
-**I.** This patch delivers a major new tool and key infrastructure upgrades.
-- **New Core Component:**    
-    - **Datacore Playground:** A live, CodePen-like environment for building components directly in your vault.
-    
-- **Improvements:**
-    - **Core Messaging:** Reworked based on community feedback for a clearer vision.
-    - **Vault Updater:** Upgraded for significantly faster, smarter (differential) updates.
-    - **Views Inceptions v2:** Component development is now finalized.
-- **Fixes:**
-    - Addressed key updater bugs and minor UI polish for a better experience.
-    - And many small tweaks / feedback from community . Thank you
-
 -----
 
 ## YELLOW-3
@@ -70,6 +89,25 @@ DATE**: 2025.*.09
 **DATE**: 2025.09.09  
 **LICENSE**: MIT  
 **AVAILABILITY**: GITHUB
+
+----
+
+>[!info]- PATCH: YELLOW-3.1.0
+>DATE: 2025.09.18
+>**I.** This patch delivers a major new tool and key infrastructure upgrades.
+>- **New Core Component:**    
+  >  - **Datacore Playground:** A live, CodePen-like environment for building components directly in your vault.
+>    
+>- **Improvements:**
+ >   - **Core Messaging:** Reworked based on community feedback for a clearer vision.
+ >   - **Vault Updater:** Upgraded for significantly faster, smarter (differential) updates.
+ >   - **Views Inceptions v2:** Component development is now finalized.
+>- **Fixes:**
+ >   - Addressed key updater bugs and minor UI polish for a better experience.
+ >   - And many small tweaks / feedback from community . Thank you
+
+---
+
 
 **I. SUMMARY**  
 The YELLOW-3 release is a metamorphosis. Responding to community feedback, we have moved beyond individual components to forge an integrated and intuitive ecosystem. The core mission was **Unification**: a fundamental shift in design and philosophy to create a single, focused interface that guides your journey and removes friction. This release also introduces a massive optimization, reducing the vault's storage footprint from over 3GB to under 1GB, with configurations as low as 500MB.
@@ -109,7 +147,6 @@ This update manifests our vision for a cohesive user experience. The fragmented 
 A major re-architecture of our asset and resource handling has been completed. This overhaul reduces the initial vault storage requirement from over 3GB to under 1GB. With selective component usage via Git sparse-checkout, the footprint can be as low as 500MB, making the system significantly more accessible and performant.
 
 
-
 ----
 
 ## BLUE-2
@@ -137,6 +174,7 @@ This is powered by our new **Intelligence Suite**:
 	 	- Telegram Bot
  - **Upgraded Components:**
 	 	- ScreenModeHelper has been significantly enhanced with new layout management capabilities.
+
 
 ----
 
@@ -179,11 +217,7 @@ We've added a powerful suite of new tools to the vault to expand your creative c
  - **Upgraded Window Resizer:** Now includes a powerful **Tab Mode**, allowing you to embed multiple windows within a single, tabbed component.
 
 
-
-
-
 ----
-
 
 ## BLACK-0
 **DATE:** 2025.06.09 (Initial Public Release)
@@ -191,16 +225,21 @@ We've added a powerful suite of new tools to the vault to expand your creative c
 **License:** MIT (Effective: June 9, 2025 - December 8, 2025); transitions to GPLv3 on December 9, 2025.
 **Availability:** https://ko-fi.com/betogroup/shop {unavailable = please visit github ty}
 
+----
+
 >[!info]- PATCH: 0.1.1.BLACK
 >DATE: 2025.06.14
 >Added rewards to MINIGAME888 [CROSSMINT need to verify nft project will be live on 2025.06.16]
 
+----
 
 >[!info]- PATCH: 0.1.BLACK
 >**DATE**: 2025.06.12
 > - Fix MINIGAME888 [rushed it a little bit too quick , was getting too excited hehe]
 > - Upgraded version of the IframeLoader.
 > - Minor typos + Nft distribution fixed
+
+----
 
 **I. SUMMARY**
 Initial public release of the BETO.GROUP Obsidian Vault series. This release provides foundational content and tooling for knowledge management and productivity within the Obsidian ecosystem. Focus areas include curated knowledge ("Enigmas"), modular "Datacore" components for Obsidian, and a supporting asset library.
@@ -229,11 +268,6 @@ Initial public release of the BETO.GROUP Obsidian Vault series. This release pro
  - **Kanban Board Functionality:** The included Kanban board implementation is in a preliminary state with significant limitations in features and usability. It is not recommended for critical task management at this stage.
  - **Globe/Map View Feature:** The current "Globe" component has limited functionality. Implementing a full "Map View" feature would require a substantial architectural redesign and is not part of the current feature set.
  - **License Agreement Display (Client-Side):** The visual presentation of the license agreement within certain client-side views can be superficially altered using browser developer tools. This does not affect the binding nature of the terms agreed upon during download/access, nor server-side license enforcement.
-
-
-
-
-
 
 
 -----

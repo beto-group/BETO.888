@@ -3,12 +3,34 @@
 
 ```jsx
 // ViewComponent.jsx
-
-const  FileNamePath = "_RESOURCES/DATACORE/33 CodeEditor/D.q.codeeditor.component.v2.md";
+//ss
+const  FileNamePath = dc.resolvePath("D.q.codeeditor.component.v2.md");
 
 const { useAceEditor } = await dc.require(dc.headerLink(FileNamePath, "UseAceEditor"));
 const { useState, useEffect, useRef } = dc;
 const { diff_match_patch, DIFF_DELETE, DIFF_INSERT, DIFF_EQUAL } = await dc.require(dc.headerLink(FileNamePath, "diff_match_patch"));
+
+// --- DOM TRAVERSAL UTILITIES (For Full-Tab Mode) ---
+function findNearestAncestorWithClass(element, className) {
+    if (!element) return null;
+    let current = element.parentNode;
+    while (current) {
+        if (current.classList && current.classList.contains(className)) {
+            return current;
+        }
+        current = current.parentNode;
+    }
+    return null;
+}
+function findDirectChildByClass(parent, className) {
+    if (!parent) return null;
+    for (const child of parent.children) {
+        if (child.classList && child.classList.contains(className)) {
+            return child;
+        }
+    }
+    return null;
+}
 
 // --- HELPER FUNCTIONS (Unchanged) ---
 async function calculateHash(text) {
@@ -62,7 +84,13 @@ function GitControl({ filename }) {
   const objectsDir = `${fileGitBaseDir}/objects`;
   const headFile = `${fileGitBaseDir}/HEAD`;
 
-  // --- STATE & REFS (Unchanged) ---
+  // --- STATE & REFS (Including Full-Tab Mode) ---
+  const instanceId = useRef(Math.random().toString(36).substr(2, 5)).current;
+  const uniqueWrapperClass = `interactive-wrapper-${instanceId}`;
+  const [isFullTab, setIsFullTab] = useState(true);
+  const containerRef = useRef(null);
+  const stateRefs = useRef({}).current;
+  
   const [statusMessage, setStatusMessage] = useState("Initializing...");
   const [history, setHistory] = useState([]);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
@@ -362,9 +390,132 @@ function GitControl({ filename }) {
   useEffect(() => { if (!isCompareMode || !editorA || !editorB) return; let isSyncing = false; const syncScroll = (fromEditor, toEditor) => (scrollTop) => { if (isSyncing) return; isSyncing = true; toEditor.session.setScrollTop(scrollTop); requestAnimationFrame(() => { isSyncing = false; }); }; const onScrollA = syncScroll(editorA, editorB); const onScrollB = syncScroll(editorB, editorA); editorA.session.on('changeScrollTop', onScrollA); editorB.session.on('changeScrollTop', onScrollB); return () => { if (editorA && !editorA.isDisposed) editorA.session.off('changeScrollTop', onScrollA); if (editorB && !editorB.isDisposed) editorB.session.off('changeScrollTop', onScrollB); }; }, [editorA, editorB, isCompareMode]);
   useEffect(() => { const clearMarkers = (editor) => { if (!editor || !editor.session) return; const session = editor.session; const oldMarkers = session.getMarkers(false); for (const id in oldMarkers) { if (oldMarkers[id].clazz?.startsWith('ace_diff_')) session.removeMarker(id); } }; clearMarkers(editorA); clearMarkers(editorB); if (!isCompareMode || !editorA || !editorB || !window.ace) return; const Range = window.ace.require("ace/range").Range; const diffs = dmp.diff_main(displayContentA, displayContentB); dmp.diff_cleanupSemantic(diffs); let lineA = 0, colA = 0, lineB = 0, colB = 0; const updateCounters = (line, col, text) => { const lines = text.split('\n'); return lines.length > 1 ? [line + lines.length - 1, lines[lines.length - 1].length] : [line, col + text.length]; }; for (const [type, text] of diffs) { if (type === DIFF_EQUAL) { [lineA, colA] = updateCounters(lineA, colA, text); [lineB, colB] = updateCounters(lineB, colB, text); } else if (type === DIFF_DELETE) { const [endLineA, endColA] = updateCounters(lineA, colA, text); editorA.session.addMarker(new Range(lineA, colA, endLineA, endColA), "ace_diff_deleted_char", "text"); lineA = endLineA; colA = endColA; } else if (type === DIFF_INSERT) { const [endLineB, endColB] = updateCounters(lineB, colB, text); editorB.session.addMarker(new Range(lineB, colB, endLineB, endColB), "ace_diff_inserted_char", "text"); lineB = endLineB; colB = endColB; } } }, [isCompareMode, displayContentA, displayContentB, editorA, editorB]);
 
-  // --- RENDER LOGIC (Unchanged) ---
+  // --- FULL-TAB MODE LOGIC ---
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container || !isFullTab) return;
+    const targetPaneContent = findNearestAncestorWithClass(
+        container,
+        "workspace-leaf-content"
+    );
+    if (!targetPaneContent) {
+        setIsFullTab(false);
+        return;
+    }
+    const contentWrapper =
+        findDirectChildByClass(targetPaneContent, "view-content") ||
+        targetPaneContent;
+    stateRefs.originalParent = container.parentNode;
+    stateRefs.placeholder = document.createElement("div");
+    stateRefs.placeholder.style.display = "none";
+    container.parentNode.insertBefore(stateRefs.placeholder, container);
+    stateRefs.parentPositionInfo = {
+        element: contentWrapper,
+        original: window.getComputedStyle(contentWrapper).position,
+    };
+    if (stateRefs.parentPositionInfo.original === "static") {
+        contentWrapper.style.position = "relative";
+    }
+    contentWrapper.appendChild(container);
+    Object.assign(container.style, {
+        position: "absolute",
+        top: "0",
+        left: "0",
+        width: "100%",
+        height: "100%",
+        zIndex: "9998",
+        overflow: "auto",
+    });
+    return () => {
+        if (stateRefs.placeholder?.parentNode) {
+            stateRefs.placeholder.parentNode.replaceChild(
+                container,
+                stateRefs.placeholder
+            );
+        }
+        if (stateRefs.parentPositionInfo?.element) {
+            stateRefs.parentPositionInfo.element.style.position =
+                stateRefs.parentPositionInfo.original === "static"
+                    ? ""
+                    : stateRefs.parentPositionInfo.original;
+        }
+        container.removeAttribute("style");
+        Object.keys(stateRefs).forEach((key) => (stateRefs[key] = null));
+    };
+  }, [isFullTab]);
+
+  const handleExitFullTab = (e) => {
+    e.stopPropagation();
+    setIsFullTab(false);
+  };
+  const handleEnterFullTab = () => setIsFullTab(true);
+
+  // --- COMPACT MODE RENDER ---
+  if (!isFullTab) {
+    return (
+        <div ref={containerRef} style={{
+            padding: "16px",
+            boxSizing: "border-box",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "12px",
+            border: "1px dashed var(--background-modifier-border)",
+            borderRadius: "8px",
+            backgroundColor: "var(--background-primary-alt)",
+        }}>
+            <dc.Icon icon="code" style={{ fontSize: "32px", color: "var(--text-muted)" }} />
+            <p style={{ margin: 0, color: "var(--text-muted)", fontSize: "14px" }}>
+                Code Editor is in compact mode.
+            </p>
+            <div style={{ display: "flex", gap: "10px" }}>
+                <button 
+                    style={{
+                        padding: "8px 16px",
+                        fontSize: "12px",
+                        fontWeight: "500",
+                        color: "var(--text-on-accent)",
+                        backgroundColor: "var(--interactive-accent)",
+                        border: "none",
+                        borderRadius: "6px",
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "6px",
+                    }}
+                    onClick={handleEnterFullTab}
+                >
+                    <dc.Icon icon="maximize-2" style={{ fontSize: "14px" }} />
+                    Enter Full Tab
+                </button>
+            </div>
+        </div>
+    );
+  }
+
+  // --- RENDER LOGIC (Full Tab Mode) ---
   return (
-    <>
+    <div ref={containerRef}>
+        <style>{`
+            /* --- FULL TAB HOVER EFFECT --- */
+            .${uniqueWrapperClass} .subtle-icon {
+                opacity: 0;
+                transform: scale(0.9);
+                transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+            }
+            .${uniqueWrapperClass}:hover .subtle-icon {
+                opacity: 0.7;
+                transform: scale(1);
+            }
+            .${uniqueWrapperClass} .subtle-icon:hover {
+                opacity: 1;
+            }
+            .${uniqueWrapperClass} .subtle-icon:hover .exit-tooltip {
+                visibility: visible;
+                opacity: 1;
+            }
+            `}</style>
         <style>{`
             /* --- COLOR PALETTE --- */
             .git-control-dark-theme {
@@ -409,7 +560,51 @@ function GitControl({ filename }) {
             .ace_editor .ace-minimap-container .ace_line { height: auto !important; line-height: 1.25 !important; }
             .ace-minimap-viewport { position: absolute; left: 0; right: 0; top: 0; background-color: rgba(120, 120, 120, 0.3); border: 1px solid rgba(200, 200, 200, 0.5); pointer-events: none; z-index: 5; }
         `}</style>
-        <dc.Stack spacing={3} className="git-control-dark-theme" style={{ padding: "10px 15px" }}>
+        <dc.Stack spacing={3} className={`git-control-dark-theme ${uniqueWrapperClass}`} style={{ padding: "10px 15px", position: "relative" }}>
+            {/* Exit Full Tab Icon */}
+            <div
+                style={{
+                    position: "absolute",
+                    top: "15px",
+                    right: "20px",
+                    fontSize: "18px",
+                    color: "var(--text-faint)",
+                    userSelect: "none",
+                    cursor: "pointer",
+                    zIndex: 10,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                }}
+                className="subtle-icon"
+                onClick={handleExitFullTab}
+                title="Close Full Mode"
+            >
+                <dc.Icon icon="x" style={{ fontSize: "18px" }} />
+                <span 
+                    className="exit-tooltip" 
+                    style={{
+                        visibility: "hidden",
+                        opacity: 0,
+                        backgroundColor: "var(--background-secondary-alt)",
+                        color: "var(--text-normal)",
+                        textAlign: "center",
+                        borderRadius: "4px",
+                        padding: "5px 10px",
+                        position: "absolute",
+                        zIndex: 1,
+                        top: "50%",
+                        right: "120%",
+                        transform: "translateY(-50%)",
+                        fontSize: "12px",
+                        whiteSpace: "nowrap",
+                        pointerEvents: "none",
+                        border: "1px solid var(--background-modifier-border)",
+                    }}
+                >
+                    Close Full Mode
+                </span>
+            </div>
             <div className={`git-status-bar ${hasUnsavedChanges ? 'warning' : 'info'}`}>
                 Status: {statusMessage}
             </div>
@@ -421,29 +616,39 @@ function GitControl({ filename }) {
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexGrow: 1, minWidth: '300px' }}>
                                 <label style={{fontFamily: "monospace", whiteSpace: 'nowrap'}}>Compare:</label>
                                 <select value={compareHashA} onChange={e => setCompareHashA(e.target.value)} disabled={history.length < 1}>{history.map((commit) => (<option key={commit.hash} value={commit.hash}>{new Date(commit.timestamp).toLocaleString()} ({commit.hash.slice(0, 7)})</option>))}</select>
-                                <button onClick={() => handleRevert(compareHashA)} className="git-control-button" title={`Revert file to version ${compareHashA.slice(0,7)}`}>Revert</button>
+                                <button onClick={() => handleRevert(compareHashA)} className="git-control-button" title={`Revert file to version ${compareHashA.slice(0,7)}`} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                    <dc.Icon icon="undo" style={{ fontSize: "14px" }} />
+                                    Revert
+                                </button>
                             </div>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexGrow: 1, minWidth: '300px' }}>
                                 <label style={{fontFamily: "monospace"}}>With:</label>
                                 <select value={compareHashB} onChange={e => setCompareHashB(e.target.value)} disabled={history.length < 1}>{history.map((commit) => (<option key={commit.hash} value={commit.hash}>{new Date(commit.timestamp).toLocaleString()} ({commit.hash.slice(0, 7)})</option>))}</select>
-                                <button onClick={() => handleRevert(compareHashB)} className="git-control-button" title={`Revert file to version ${compareHashB.slice(0,7)}`}>Revert</button>
+                                <button onClick={() => handleRevert(compareHashB)} className="git-control-button" title={`Revert file to version ${compareHashB.slice(0,7)}`} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                    <dc.Icon icon="undo" style={{ fontSize: "14px" }} />
+                                    Revert
+                                </button>
                             </div>
                         </div>
-                        <button onClick={() => { setIsCompareMode(false); setActiveTabIndex(0); }} className="git-control-button primary">
+                        <button onClick={() => { setIsCompareMode(false); setActiveTabIndex(0); }} className="git-control-button primary" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <dc.Icon icon="arrow-left" style={{ fontSize: "14px" }} />
                             Back to Editor
                         </button>
                     </>
                 ) : (
                     <>
                         <div style={{ display: 'flex', gap: '10px' }}>
-                            <button onClick={handleSaveFile} disabled={!hasUnsavedChanges} className={`git-control-button ${hasUnsavedChanges ? 'warning' : ''}`}>
+                            <button onClick={handleSaveFile} disabled={!hasUnsavedChanges} className={`git-control-button ${hasUnsavedChanges ? 'warning' : ''}`} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                <dc.Icon icon="save" style={{ fontSize: "14px" }} />
                                 Save & Commit {hasUnsavedChanges && "*"}
                             </button>
-                            <button onClick={() => activeEditor?.execCommand("find")} className="git-control-button" title="Search in active editor (Ctrl+F)">
+                            <button onClick={() => activeEditor?.execCommand("find")} className="git-control-button" title="Search in active editor (Ctrl+F)" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                <dc.Icon icon="search" style={{ fontSize: "14px" }} />
                                 Search
                             </button>
                         </div>
-                        <button onClick={() => { setIsCompareMode(true); setActiveTabIndex(0); }} className="git-control-button primary" disabled={history.length < 2}>
+                        <button onClick={() => { setIsCompareMode(true); setActiveTabIndex(0); }} className="git-control-button primary" disabled={history.length < 2} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <dc.Icon icon="git-compare" style={{ fontSize: "14px" }} />
                             Compare Versions
                         </button>
                     </>
@@ -464,13 +669,13 @@ function GitControl({ filename }) {
                     })}
                 </div>
             )}
-            <div style={{ display: "flex", width: "100%", height: "600px", border: "1px solid var(--border-color)", borderRadius: "4px", overflow: "hidden", position: 'relative' }}>
+            <div style={{ display: "flex", width: "100%", height: "calc(100vh - 300px)", minHeight: "500px", border: "1px solid var(--border-color)", borderRadius: "4px", overflow: "hidden", position: 'relative' }}>
                 <div ref={editorContainerRefA} style={{ width: isCompareMode ? "50%" : "100%", height: "100%", position: 'relative' }} />
                 {isCompareMode && <div style={{width: '1px', background: 'var(--border-color)'}} />}
                 <div ref={editorContainerRefB} style={{ display: isCompareMode ? 'block' : 'none', width: "50%", height: "100%", position: 'relative' }} />
             </div>
         </dc.Stack>
-    </>
+    </div>
   );
 }
 
@@ -482,7 +687,7 @@ return { GitControl };
 ```jsx
 // UseAceEditor.jsxddd
 
-const { loadScript } = await dc.require(dc.headerLink("_RESOURCES/DATACORE/33 CodeEditor/D.q.codeeditor.component.v2.md", "LoadScript"));
+const { loadScript } = await dc.require(dc.headerLink(dc.resolvePath("D.q.codeeditor.component.v2.md"), "LoadScript"));
 const { useRef, useEffect, useState } = dc;
 
 const editorInstanceCache = new Map();

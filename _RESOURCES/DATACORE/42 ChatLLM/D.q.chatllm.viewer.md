@@ -5,8 +5,8 @@
 ////////////////////////////////////////////////////
 ///             Viewer Entry Point               ///
 ////////////////////////////////////////////////////
-const { GeminiChatView } = await dc.require(dc.headerLink("_RESOURCES/DATACORE/42 ChatLLM/D.q.chatllm.component.md", "ViewComponent"));
-return <GeminiChatView />;
+const { ChatLLM } = await dc.require(dc.headerLink(dc.resolvePath("D.q.chatllm.component"), "ViewComponent"));
+return <ChatLLM />;
 
 ```
 

@@ -19,7 +19,9 @@
     - Dynamically change the lighting or environment without editing the code.
 
 
-![babylon_local.webp](/_RESOURCES/IMAGES/babylon_local.webp)
+----
+
+![babylon_local.webp](_resources/images/babylon_local.webp)
 
 
 

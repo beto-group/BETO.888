@@ -7,7 +7,7 @@
 ```jsx
 const { useState, useEffect, useRef, useCallback, useMemo } = dc;
 
-const filename = "_RESOURCES/DATACORE/43 ReceiptTracker/D.q.receipttracker.component.md"
+const filename = dc.resolvePath("D.q.receipttracker.component");
 
 // Import all component parts
 const { ScreenModeHelper } = await dc.require(dc.headerLink(filename, "ScreenModeHelper"));
@@ -16,6 +16,95 @@ const { getStyles } = await dc.require(dc.headerLink(filename, "ViewStyles"));
 
 // Instantiate the styles
 const viewerStyles = getStyles();
+
+// =================================================================================
+// LOAD SCRIPT UTILITY
+// =================================================================================
+async function loadScript(dc, src, options = {}) {
+  const { type = 'script', globalName = null, cache = true, onload = null, onerror = null } = options;
+  if (!dc || !dc.app || !dc.app.vault || !dc.app.vault.adapter) {
+    const error = new Error("Datacore context 'dc' with vault adapter is required.");
+    if (onerror) onerror(error);
+    throw error;
+  }
+  const adapter = dc.app.vault.adapter;
+  const cacheDir = ".datacore/script_cache";
+  const isUrl = /^https?:\/\//.test(src);
+  if (globalName && window[globalName]) return type === 'module' ? window[globalName] : Promise.resolve();
+  window.__scriptPromises = window.__scriptPromises || {};
+  const promiseKey = `${type}:${src}`;
+  if (window.__scriptPromises[promiseKey]) return window.__scriptPromises[promiseKey];
+  const loadPromise = (async () => {
+    try {
+      let scriptContent = null;
+      if (isUrl) {
+        const safeFilename = src.replace(/^https?:\/\//, '').replace(/[\/\\?%*:|"<>]/g, '_') + '.js';
+        const cachePath = `${cacheDir}/${safeFilename}`;
+        if (cache && await adapter.exists(cachePath)) {
+          try { scriptContent = await adapter.read(cachePath); } 
+          catch (readError) { console.warn(`[LoadScript] Cache read failed, refetching:`, readError); }
+        }
+        if (scriptContent === null) {
+          const response = await fetch(src);
+          if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          scriptContent = await response.text();
+          if (cache) {
+            try {
+              if (!(await adapter.exists(cacheDir))) await adapter.mkdir(cacheDir);
+              await adapter.write(cachePath, scriptContent);
+            } catch (writeError) { console.warn(`[LoadScript] Cache write failed:`, writeError); }
+          }
+        }
+      } else {
+        if (!(await adapter.exists(src))) throw new Error(`Local file not found: ${src}`);
+        scriptContent = await adapter.read(src);
+      }
+      let result;
+      if (type === 'module') {
+        const blob = new Blob([scriptContent], { type: 'application/javascript' });
+        const blobUrl = URL.createObjectURL(blob);
+        try {
+          const moduleExports = await import(blobUrl);
+          URL.revokeObjectURL(blobUrl);
+          if (globalName) window[globalName] = moduleExports;
+          result = moduleExports;
+        } catch (importError) {
+          URL.revokeObjectURL(blobUrl);
+          throw new Error(`Module import failed: ${importError.message}`);
+        }
+      } else {
+        const scriptElement = document.createElement('script');
+        scriptElement.textContent = scriptContent;
+        document.body.appendChild(scriptElement);
+        if (globalName) {
+          const maxWaitTime = 5000;
+          const checkInterval = 50;
+          const startTime = Date.now();
+          while (!window[globalName] && (Date.now() - startTime) < maxWaitTime) {
+            await new Promise(r => setTimeout(r, checkInterval));
+          }
+          if (window[globalName]) {
+            result = window[globalName];
+          } else {
+            throw new Error(`Timeout waiting for ${globalName} to be available`);
+          }
+        } else {
+          result = scriptElement;
+        }
+      }
+      if (onload) onload(result);
+      return result;
+    } catch (error) {
+      console.error(`[LoadScript] Failed to load ${src}:`, error);
+      if (onerror) onerror(error);
+      throw error;
+    } finally {
+      delete window.__scriptPromises[promiseKey];
+    }
+  })();
+  window.__scriptPromises[promiseKey] = loadPromise;
+  return loadPromise;
+}
 
 // =================================================================================
 // HELPER COMPONENTS & ICONS
@@ -30,7 +119,11 @@ const ApiKeyManagerPopover = ({
     onDeleteKey,
     onSave,
     onCancel,
-    hasUnsavedChanges
+    hasUnsavedChanges,
+    availableModels,
+    selectedModel,
+    onModelChange,
+    isLoadingModels
 }) => {
     const popoverRef = useRef(null);
     const [newApiKeyInput, setNewApiKeyInput] = useState("");
@@ -71,7 +164,41 @@ const ApiKeyManagerPopover = ({
     return (
         <div ref={popoverRef} className="api-key-content-wrapper is-open" style={{ top: `${position.top}px`, right: `${position.right}px` }}>
             <div className="api-key-content">
-                <p>Manage Groq API keys. Changes must be saved.</p>
+                <p>Manage Groq API keys and model selection. Changes must be saved.</p>
+                
+                <div style={{ marginBottom: '16px' }}>
+                    <label style={{ display: 'block', marginBottom: '4px', fontSize: '12px', fontWeight: 600, color: 'var(--text-muted)' }}>
+                        AI Model {isLoadingModels && '(Loading...)'}
+                    </label>
+                    <select 
+                        value={selectedModel} 
+                        onChange={(e) => onModelChange(e.target.value)}
+                        disabled={isLoadingModels || availableModels.length === 0}
+                        style={{
+                            width: '100%',
+                            padding: '8px',
+                            background: 'var(--background-primary)',
+                            border: '1px solid var(--background-modifier-border)',
+                            borderRadius: '4px',
+                            color: 'var(--text-normal)',
+                            fontSize: '13px'
+                        }}
+                    >
+                        {availableModels.length === 0 ? (
+                            <option value="">Add API key to load models</option>
+                        ) : (
+                            availableModels.map(model => (
+                                <option key={model.id} value={model.id}>
+                                    {model.name} {model.owned_by ? `(${model.owned_by})` : ''}
+                                </option>
+                            ))
+                        )}
+                    </select>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '4px' }}>
+                        {availableModels.length > 0 ? `${availableModels.length} models available` : 'No models loaded'}
+                    </div>
+                </div>
+                
                 <div className="api-key-list">
                     {editedKeys.length > 0 ? (
                         editedKeys.map((key, index) => (
@@ -105,26 +232,40 @@ const ApiKeyManagerPopover = ({
 
 const GROQ_API_KEY_PATH = ".datacore/chatllm/.secret/groq_api_key.txt";
 const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
-const GROQ_MODEL = "llama3-8b-8192";
-const PROCESSED_RECEIPT_MD_FOLDER = "_RESOURCES/DATACORE/43 ReceiptTracker/Receipts/_Processed";
+const GROQ_MODELS_URL = "https://api.groq.com/openai/v1/models";
 const EXTRACTION_PROMPT = `You are an expert financial assistant specializing in parsing text from receipts. Your task is to extract key information from the provided text and return it ONLY as a valid JSON object. Do not include any other text, greetings, or explanations. Just the JSON. The JSON object should have the following schema: { "merchant_name": "string | null", "transaction_date": "string (YYYY-MM-DD format) | null", "total_amount": "number | null", "currency": "string (e.g., USD, EUR) | null", "items": [ { "description": "string", "quantity": "number", "price": "number" } ] }. If you cannot find a value for a field, use null. For 'total_amount', extract the final, grand total. It should be a number, not a string. For 'transaction_date', do your best to convert it to YYYY-MM-DD format. For 'items', list all purchased items. If you can't parse individual items, return an empty array []. Here is the receipt text to parse: ---`;
-function getTextExtractor() { return app?.plugins?.plugins?.['text-extractor']?.api; }
-const ProcessIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>;
-const CheckCircleIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={viewerStyles.iconGreen}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>;
-const XCircleIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={viewerStyles.iconRed}><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>;
-const ChevronRightIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>;
-const ChevronDownIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>;
-const EyeIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>;
-const EditIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>;
-const FullscreenIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>;
-const ExpandIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>;
-const MinimizeIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/></svg>;
+
+// Helper function to get relative path from current component location
+const getRelativePath = (currentPath, relativePath) => {
+  if (!currentPath) return relativePath;
+  // Get the directory containing the component file
+  const currentDir = currentPath.substring(0, currentPath.lastIndexOf('/'));
+  // Build the path from the component's directory
+  return currentDir + '/' + relativePath;
+};
+// Using dc.Icons
+const ProcessIcon = () => <dc.Icon icon="refresh-cw" style={{ fontSize: '16px' }} />;
+const CheckCircleIcon = () => <dc.Icon icon="check-circle" style={{ fontSize: '16px', color: '#10b981' }} />;
+const XCircleIcon = () => <dc.Icon icon="x-circle" style={{ fontSize: '16px', color: '#ef4444' }} />;
+const ChevronRightIcon = () => <dc.Icon icon="chevron-right" style={{ fontSize: '16px' }} />;
+const ChevronDownIcon = () => <dc.Icon icon="chevron-down" style={{ fontSize: '16px' }} />;
+const EyeIcon = () => <dc.Icon icon="eye" style={{ fontSize: '16px' }} />;
+const EditIcon = () => <dc.Icon icon="edit-3" style={{ fontSize: '16px' }} />;
+const FullscreenIcon = () => <dc.Icon icon="maximize-2" style={{ fontSize: '16px' }} />;
+const ExpandIcon = () => <dc.Icon icon="maximize" style={{ fontSize: '16px' }} />;
+const MinimizeIcon = () => <dc.Icon icon="minimize" style={{ fontSize: '16px' }} />;
 
 const maskApiKey = (key) => { if (typeof key !== 'string' || key.length < 12) return "Invalid Key"; return `${key.substring(0, 7)}...${key.substring(key.length - 4)}`; };
 const getProcessedMdFileName = (fileName) => { const baseName = fileName.substring(0, fileName.lastIndexOf('.')).replace(/[^\w\s-]/g, '').trim().replace(/\s+/g, '-'); return `${baseName}.md`; };
-const saveExtractedDataToMarkdown = async (receiptFile, extractedJson, ocrText) => {
+const saveExtractedDataToMarkdown = async (receiptFile, extractedJson, ocrText, processedFolderPath) => {
+    console.log('[Save] Starting save process...');
+    console.log('[Save] Receipt file:', receiptFile.name);
+    console.log('[Save] Processed folder path:', processedFolderPath);
+    
     const mdFileName = getProcessedMdFileName(receiptFile.name);
-    const mdFilePath = `${PROCESSED_RECEIPT_MD_FOLDER}/${mdFileName}`;
+    const mdFilePath = `${processedFolderPath}/${mdFileName}`;
+    console.log('[Save] Target MD file path:', mdFilePath);
+    
     const cleanMerchantName = extractedJson?.merchant_name || 'Unnamed Merchant';
     const cleanDate = extractedJson?.transaction_date || 'Unknown Date';
     let markdownContent = `---
@@ -137,10 +278,26 @@ receiptImage: "[[${receiptFile.name}]]"\n`;
         }
     }
     markdownContent += `---\n\n# Processed Receipt: ${cleanMerchantName} (${cleanDate})\n\n## Extracted Data\n\`\`\`json\n${JSON.stringify(extractedJson, null, 2)}\n\`\`\`\n\n## Raw OCR Text\n\`\`\`text\n${ocrText || 'No OCR text available.'}\n\`\`\`\n`;
+    
+    console.log('[Save] Markdown content length:', markdownContent.length);
+    
     try {
-        if (!await app.vault.adapter.exists(PROCESSED_RECEIPT_MD_FOLDER)) await app.vault.adapter.mkdir(PROCESSED_RECEIPT_MD_FOLDER);
+        const folderExists = await app.vault.adapter.exists(processedFolderPath);
+        console.log('[Save] Processed folder exists?', folderExists);
+        
+        if (!folderExists) {
+            console.log('[Save] Creating folder:', processedFolderPath);
+            await app.vault.adapter.mkdir(processedFolderPath);
+            console.log('[Save] ✓ Folder created successfully');
+        }
+        
+        console.log('[Save] Writing file to:', mdFilePath);
         await app.vault.adapter.write(mdFilePath, markdownContent);
-    } catch (err) { throw new Error(`Could not save processed data to ${mdFilePath}: ${err.message}`); }
+        console.log('[Save] ✓ File written successfully!');
+    } catch (err) { 
+        console.error('[Save] ❌ Save failed:', err);
+        throw new Error(`Could not save processed data to ${mdFilePath}: ${err.message}`); 
+    }
 };
 const parseMdContent = (content, filePath) => {
     try {
@@ -158,18 +315,18 @@ const parseMdContent = (content, filePath) => {
         return { json: Object.keys(jsonBlockData).length > 0 ? jsonBlockData : frontmatterData, ocr: ocrCodeBlockMatch ? ocrCodeBlockMatch[1] : '' };
     } catch (err) { return { error: `Could not parse data from ${filePath}: ${err.message}` }; }
 };
-const loadProcessedDataFromMarkdown = async (receiptFile) => {
+const loadProcessedDataFromMarkdown = async (receiptFile, processedFolderPath) => {
     const mdFileName = getProcessedMdFileName(receiptFile.name);
-    const mdFilePath = `${PROCESSED_RECEIPT_MD_FOLDER}/${mdFileName}`;
+    const mdFilePath = `${processedFolderPath}/${mdFileName}`;
     try {
         if (!await app.vault.adapter.exists(mdFilePath)) return null;
         const content = await app.vault.adapter.read(mdFilePath);
         return parseMdContent(content, mdFilePath);
     } catch (err) { return { error: `Could not load data from ${mdFilePath}: ${err.message}` }; }
 };
-const EmptyStatePlaceholder = ({ iconPath, title, message }) => (
+const EmptyStatePlaceholder = ({ iconName, title, message }) => (
     <div className="empty-state-placeholder">
-        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d={iconPath}></path></svg>
+        <dc.Icon icon={iconName || "file-text"} style={{ fontSize: '48px' }} />
         <h4>{title}</h4>
         <p>{message}</p>
     </div>
@@ -203,11 +360,17 @@ const EditReceiptModal = ({ isOpen, onClose, initialData, onSave }) => {
 // MAIN COMPONENT
 // =================================================================================
 function ReceiptHandlerView() {
-  const [textExtractorApi, setTextExtractorApi] = useState(null);
+  // Get current file path for relative path calculation
+  const currentPath = dc.resolvePath("D.q.receipttracker.component");
+  
+  const [tesseractLoaded, setTesseractLoaded] = useState(false);
   const [groqApiKeys, setGroqApiKeys] = useState([]);
   const [editedApiKeys, setEditedApiKeys] = useState([]);
   const [currentApiKeyIndex, setCurrentApiKeyIndex] = useState(0);
-  const [receiptFolderPath, setReceiptFolderPath] = useState("_RESOURCES/DATACORE/43 ReceiptTracker/Receipts");
+  const [availableModels, setAvailableModels] = useState([]);
+  const [selectedModel, setSelectedModel] = useState("llama-3.3-70b-versatile");
+  const [isLoadingModels, setIsLoadingModels] = useState(false);
+  const [receiptFolderPath, setReceiptFolderPath] = useState("");
   const [receiptFiles, setReceiptFiles] = useState([]);
   const [currentReceipt, setCurrentReceipt] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -223,11 +386,75 @@ function ReceiptHandlerView() {
   const [editModalData, setEditModalData] = useState(null);
   const [mainView, setMainView] = useState('processor');
   const [focusedPanel, setFocusedPanel] = useState(null);
+  const [ocrProgress, setOcrProgress] = useState(0);
+  const [ocrLanguage, setOcrLanguage] = useState('auto');
+  const [detectedLanguage, setDetectedLanguage] = useState(null);
   
   const currentBlobUrl = useRef(null);
   const containerRef = useRef(null);
   const screenModeHelperRef = useRef(null);
   const apiButtonRef = useRef(null);
+  const tesseractWorkerRef = useRef(null);
+  const currentWorkerLangRef = useRef(null);
+  
+  // Calculate default relative paths based on component location
+  const defaultReceiptsFolderPath = useMemo(() => {
+    return getRelativePath(currentPath, '_resources/receipts');
+  }, [currentPath]);
+  
+  const processedFolderPath = useMemo(() => {
+    // Always calculate processed path based on the current receiptFolderPath
+    if (!receiptFolderPath) return getRelativePath(currentPath, '_resources/receipts/_processed');
+    return receiptFolderPath + '/_processed';
+  }, [currentPath, receiptFolderPath]);
+  
+  // Initialize receiptFolderPath only once when component first mounts
+  useEffect(() => {
+    if (defaultReceiptsFolderPath && !receiptFolderPath) {
+      setReceiptFolderPath(defaultReceiptsFolderPath);
+    }
+  }, [defaultReceiptsFolderPath]); // Only depend on defaultReceiptsFolderPath, not receiptFolderPath
+  
+  // Tesseract supported languages (most common ones)
+  const OCR_LANGUAGES = [
+    { code: 'auto', name: '🤖 Auto-detect' },
+    { code: 'eng', name: 'English' },
+    { code: 'spa', name: 'Spanish' },
+    { code: 'fra', name: 'French' },
+    { code: 'deu', name: 'German' },
+    { code: 'ita', name: 'Italian' },
+    { code: 'por', name: 'Portuguese' },
+    { code: 'rus', name: 'Russian' },
+    { code: 'chi_sim', name: 'Chinese (Simplified)' },
+    { code: 'chi_tra', name: 'Chinese (Traditional)' },
+    { code: 'jpn', name: 'Japanese' },
+    { code: 'kor', name: 'Korean' },
+    { code: 'ara', name: 'Arabic' },
+    { code: 'hin', name: 'Hindi' },
+    { code: 'tha', name: 'Thai' },
+    { code: 'vie', name: 'Vietnamese' },
+    { code: 'nld', name: 'Dutch' },
+    { code: 'pol', name: 'Polish' },
+    { code: 'tur', name: 'Turkish' },
+    { code: 'swe', name: 'Swedish' },
+    { code: 'nor', name: 'Norwegian' },
+    { code: 'dan', name: 'Danish' },
+    { code: 'fin', name: 'Finnish' },
+    { code: 'ces', name: 'Czech' },
+    { code: 'hun', name: 'Hungarian' },
+    { code: 'ron', name: 'Romanian' },
+    { code: 'ukr', name: 'Ukrainian' },
+    { code: 'bul', name: 'Bulgarian' },
+    { code: 'hrv', name: 'Croatian' },
+    { code: 'srp', name: 'Serbian' },
+    { code: 'slk', name: 'Slovak' },
+    { code: 'slv', name: 'Slovenian' },
+    { code: 'ell', name: 'Greek' },
+    { code: 'heb', name: 'Hebrew' },
+    { code: 'ind', name: 'Indonesian' },
+    { code: 'msa', name: 'Malay' },
+    { code: 'fil', name: 'Filipino' }
+  ];
 
   const hasUnsavedChanges = useMemo(() => JSON.stringify(groqApiKeys) !== JSON.stringify(editedApiKeys), [groqApiKeys, editedApiKeys]);
   
@@ -245,27 +472,167 @@ function ReceiptHandlerView() {
   useEffect(() => { const timer = setTimeout(() => screenModeHelperRef.current?.toggleMode('fullTab'), 100); return () => clearTimeout(timer); }, []);
 
   const loadAllDashboardData = useCallback(async () => {
-    const dashboardData = [];
-    const folder = app.vault.getAbstractFileByPath(PROCESSED_RECEIPT_MD_FOLDER);
-    if (folder?.children) {
-      const mdFiles = folder.children.filter(f => f.extension && f.extension.toLowerCase() === 'md');
-      for (const file of mdFiles) {
-        try {
-          const content = await app.vault.adapter.read(file.path);
-          const parsed = parseMdContent(content, file.path);
-          if (parsed && !parsed.error && parsed.json) {
-            dashboardData.push({ ...parsed, path: file.path });
-          }
-        } catch(e) { console.error(`Failed to load or parse ${file.path}`, e)}
-      }
+    if (!processedFolderPath) {
+      console.log('[Dashboard] No processed folder path set');
+      return;
     }
+    
+    console.log('[Dashboard] Loading data from:', processedFolderPath);
+    const dashboardData = [];
+    
+    try {
+      // Check if folder exists first
+      const exists = await app.vault.adapter.exists(processedFolderPath);
+      if (!exists) {
+        console.warn('[Dashboard] Processed folder does not exist:', processedFolderPath);
+        console.log('[Dashboard] Creating _processed folder...');
+        
+        try {
+          await app.vault.adapter.mkdir(processedFolderPath);
+          console.log('[Dashboard] ✓ Successfully created _processed folder');
+          // Folder is now empty, so return empty array
+          setAllProcessedData([]);
+          return;
+        } catch (mkdirError) {
+          console.error('[Dashboard] Failed to create _processed folder:', mkdirError);
+          setAllProcessedData([]);
+          return;
+        }
+      }
+      
+      const folder = app.vault.getAbstractFileByPath(processedFolderPath);
+      console.log('[Dashboard] Folder object:', folder);
+      
+      if (folder?.children) {
+        const mdFiles = folder.children.filter(f => f.extension && f.extension.toLowerCase() === 'md');
+        console.log('[Dashboard] Found', mdFiles.length, 'markdown files');
+        
+        for (const file of mdFiles) {
+          try {
+            const content = await app.vault.adapter.read(file.path);
+            const parsed = parseMdContent(content, file.path);
+            if (parsed && !parsed.error && parsed.json) {
+              dashboardData.push({ ...parsed, path: file.path });
+            } else {
+              console.warn('[Dashboard] Failed to parse or invalid data:', file.path, parsed);
+            }
+          } catch(e) { console.error(`[Dashboard] Failed to load or parse ${file.path}`, e)}
+        }
+      } else {
+        console.warn('[Dashboard] Folder has no children or is invalid:', processedFolderPath);
+      }
+    } catch (err) {
+      console.error('[Dashboard] Error loading dashboard data:', err);
+    }
+    
+    console.log('[Dashboard] Loaded', dashboardData.length, 'receipts');
     setAllProcessedData(dashboardData);
-  }, [app.vault]);
+  }, [processedFolderPath]);
+  
+  // Load Tesseract.js on mount
+  useEffect(() => {
+    let mounted = true;
+    const initTesseract = async () => {
+      try {
+        if (window.Tesseract) {
+          if (mounted) setTesseractLoaded(true);
+          return;
+        }
+        await loadScript(dc, 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js', {
+          globalName: 'Tesseract',
+          type: 'script'
+        });
+        if (window.Tesseract && mounted) {
+          setTesseractLoaded(true);
+        } else if (!window.Tesseract) {
+          throw new Error('Tesseract object not found after script load');
+        }
+      } catch (err) {
+        console.error('[Receipt OCR] Failed to load Tesseract.js:', err);
+        if (mounted) {
+          setError(`Failed to load OCR library: ${err.message}`);
+        }
+      }
+    };
+    initTesseract();
+    return () => { 
+      mounted = false;
+      // Cleanup worker on unmount
+      if (tesseractWorkerRef.current) {
+        tesseractWorkerRef.current.terminate().catch(e => console.warn('Worker cleanup failed:', e));
+        tesseractWorkerRef.current = null;
+      }
+    };
+  }, []);
+  
+  // Fetch available Groq models
+  const fetchAvailableModels = useCallback(async () => {
+    // Only fetch if we have a valid API key
+    if (groqApiKeys.length === 0 || !groqApiKeys[0]) {
+      console.log('[Models] No API key available, skipping model fetch');
+      return;
+    }
+    
+    setIsLoadingModels(true);
+    const apiKey = groqApiKeys[0].trim();
+    console.log('[Models] Fetching available models...');
+    console.log('[Models] API key length:', apiKey.length);
+    console.log('[Models] API key preview:', apiKey.substring(0, 10) + '...');
+    try {
+      const response = await fetch(GROQ_MODELS_URL, {
+        method: 'GET',
+        
+
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.warn('[Models] Failed to fetch models:', response.status);
+        console.warn('[Models] Error response:', errorText);
+        return;
+      }
+      
+      const data = await response.json();
+      // Filter for active models only
+      const models = (data.data || [])
+        .filter(m => m.active)
+        .map(m => ({
+          id: m.id,
+          name: m.id,
+          owned_by: m.owned_by,
+          context_window: m.context_window
+        }))
+        .sort((a, b) => a.name.localeCompare(b.name));
+      
+      console.log('[Models] Loaded', models.length, 'available models');
+      setAvailableModels(models);
+      
+      // Auto-select a free model if current selection isn't available
+      if (models.length > 0 && !models.find(m => m.id === selectedModel)) {
+        // Prefer llama models that are free
+        const freeModel = models.find(m => 
+          m.id.includes('llama') || 
+          m.id.includes('mixtral') || 
+          m.id.includes('gemma')
+        ) || models[0];
+        setSelectedModel(freeModel.id);
+        console.log('[Models] Auto-selected model:', freeModel.id);
+      }
+    } catch (err) {
+      console.error('[Models] Error fetching models:', err);
+    } finally {
+      setIsLoadingModels(false);
+    }
+  }, [groqApiKeys, selectedModel]);
   
   useEffect(() => {
-    const api = getTextExtractor();
-    if (api) { setTextExtractorApi(api); } else { setError("Text Extractor plugin not enabled."); }
-    loadAllDashboardData();
+    if (processedFolderPath) {
+      loadAllDashboardData();
+    }
     (async () => {
       let keyFound = false;
       try {
@@ -279,7 +646,14 @@ function ReceiptHandlerView() {
       } catch (err) { setError("Error loading Groq API key file."); }
       if (!keyFound) setIsApiKeyPopoverOpen(true);
     })();
-  }, [loadAllDashboardData]);
+  }, [processedFolderPath, loadAllDashboardData]);
+  
+  // Fetch models when API keys change
+  useEffect(() => {
+    if (groqApiKeys.length > 0) {
+      fetchAvailableModels();
+    }
+  }, [groqApiKeys, fetchAvailableModels]);
 
   // =======================================================================
   // === MODIFIED `useEffect` FOR ROBUST FOLDER LOADING ====================
@@ -287,13 +661,16 @@ function ReceiptHandlerView() {
   useEffect(() => {
     const loadFilesAndData = async () => {
       setError(null); // Clear previous folder errors
-      if (!receiptFolderPath) {
+      if (!receiptFolderPath || !processedFolderPath) {
         setReceiptFiles([]);
         setProcessedData({});
         return;
       }
       try {
-        const folder = app.vault.getAbstractFileByPath(receiptFolderPath);
+        console.log('[Dashboard] Checking folder path:', receiptFolderPath);
+        console.log('[Dashboard] Using vault:', dc.app.vault.getName());
+        const folder = dc.app.vault.getAbstractFileByPath(receiptFolderPath);
+        console.log('[Dashboard] Got folder object:', folder);
         if (folder?.children) {
           const imageFiles = folder.children
             .filter(f => f.extension && ['png', 'jpg', 'jpeg', 'webp'].includes(f.extension.toLowerCase()))
@@ -302,7 +679,7 @@ function ReceiptHandlerView() {
 
           const newProcessedData = {};
           for (const file of imageFiles) {
-            const loadedData = await loadProcessedDataFromMarkdown(file);
+            const loadedData = await loadProcessedDataFromMarkdown(file, processedFolderPath);
             if (loadedData) newProcessedData[file.path] = loadedData;
           }
           setProcessedData(newProcessedData);
@@ -325,9 +702,43 @@ function ReceiptHandlerView() {
       }
     };
     loadFilesAndData();
-  }, [receiptFolderPath, app.vault]);
+  }, [receiptFolderPath, processedFolderPath]);
   
-  useEffect(() => { if (!currentReceipt) { setImagePreviewUrl(null); return; } (async () => { try { const buffer = await app.vault.readBinary(currentReceipt); const url = URL.createObjectURL(new Blob([buffer], { type: `image/${currentReceipt.extension}`})); if (currentBlobUrl.current) URL.revokeObjectURL(currentBlobUrl.current); currentBlobUrl.current = url; setImagePreviewUrl(url); } catch (err) { setError("Could not load image preview."); } })(); return () => { if (currentBlobUrl.current) URL.revokeObjectURL(currentBlobUrl.current); currentBlobUrl.current = null; } }, [currentReceipt]);
+  useEffect(() => { 
+    if (!currentReceipt) { 
+      console.log('[Preview] No current receipt, clearing preview');
+      setImagePreviewUrl(null); 
+      return; 
+    } 
+    
+    console.log('[Preview] Loading preview for:', currentReceipt.name);
+    console.log('[Preview] File path:', currentReceipt.path);
+    console.log('[Preview] File extension:', currentReceipt.extension);
+    
+    (async () => { 
+      try { 
+        console.log('[Preview] Reading file:', currentReceipt.name);
+        console.log('[Preview] File path:', currentReceipt.path);
+        console.log('[Preview] File vault:', currentReceipt.vault?.getName());
+        
+        // Read binary and create blob URL (same as working ImageRender approach)
+        const buffer = await dc.app.vault.readBinary(currentReceipt);
+        console.log('[Preview] Read buffer, size:', buffer.byteLength);
+        
+        const blob = new Blob([buffer], { type: `image/${currentReceipt.extension}` });
+        const blobUrl = URL.createObjectURL(blob);
+        console.log('[Preview] Created blob URL:', blobUrl);
+        
+        setImagePreviewUrl(blobUrl); 
+        console.log('[Preview] ✓ Blob URL set successfully');
+      } catch (err) { 
+        console.error('[Preview] ❌ Failed to load preview:', err);
+        console.error('[Preview] Error message:', err.message);
+        console.error('[Preview] Error stack:', err.stack);
+        setError("Could not load image preview."); 
+      } 
+    })(); 
+  }, [currentReceipt]);
   
   const handleAddKey = (key) => { if (key.trim()) { setEditedApiKeys([...editedApiKeys, key.trim()]); } };
   const handleDeleteKey = (indexToDelete) => { setEditedApiKeys(editedApiKeys.filter((_, index) => index !== indexToDelete)); };
@@ -335,40 +746,424 @@ function ReceiptHandlerView() {
   const handleSaveApiKeys = async () => {
     try {
         const dir = GROQ_API_KEY_PATH.substring(0, GROQ_API_KEY_PATH.lastIndexOf("/"));
-        if (!await app.vault.adapter.exists(dir)) await app.vault.adapter.mkdir(dir);
-        await app.vault.adapter.write(editedApiKeys.join('\n'));
-        setGroqApiKeys(editedApiKeys); setCurrentApiKeyIndex(0); setError(null); setIsApiKeyPopoverOpen(false);
-    } catch (err) { setError("Could not save the API keys."); }
+        if (!await app.vault.adapter.exists(dir)) {
+          console.log('[API Keys] Creating directory:', dir);
+          await app.vault.adapter.mkdir(dir);
+        }
+        
+        console.log('[API Keys] Saving keys to:', GROQ_API_KEY_PATH);
+        await app.vault.adapter.write(GROQ_API_KEY_PATH, editedApiKeys.join('\n'));
+        
+        setGroqApiKeys(editedApiKeys); 
+        setCurrentApiKeyIndex(0); 
+        setError(null); 
+        setIsApiKeyPopoverOpen(false);
+        console.log('[API Keys] ✓ Successfully saved API keys');
+    } catch (err) { 
+      console.error('[API Keys] Failed to save:', err);
+      setError("Could not save the API keys."); 
+    }
   };
-  const performOcr = async (file) => { if (!textExtractorApi) throw new Error("Text Extractor not ready."); setCurrentStatus(`(1/2) Extracting text...`); const text = await textExtractorApi.extractText(file); if (!text?.trim()) throw new Error("OCR failed: No text was recognized."); return text; };
+  const performOcr = async (file) => {
+    if (!tesseractLoaded) throw new Error("Tesseract.js not loaded yet.");
+    
+    // Determine which language(s) to use
+    let languageToUse = ocrLanguage;
+    let langDisplayName = OCR_LANGUAGES.find(l => l.code === ocrLanguage)?.name || ocrLanguage;
+    
+    if (ocrLanguage === 'auto') {
+      // Use multiple language families for comprehensive auto-detection
+      // Includes: Western European, Cyrillic, Asian (CJK), Arabic, and Thai
+      languageToUse = 'eng+spa+fra+deu+rus+jpn+chi_sim+kor+ara+tha';
+      langDisplayName = '🤖 Auto-detecting';
+    }
+    
+    setCurrentStatus(`(1/2) Extracting text with OCR (${langDisplayName})...`);
+    setOcrProgress(0);
+    setDetectedLanguage(null);
+    
+    try {
+      // Read binary and create blob URL (ensures we use correct vault)
+      console.log(`[OCR] 1. Reading binary for: ${file.name}`);
+      const buffer = await dc.app.vault.readBinary(file);
+      console.log(`[OCR] 2. Read ${buffer.byteLength} bytes`);
+      
+      const blob = new Blob([buffer], { type: `image/${file.extension}` });
+      const imageSrc = URL.createObjectURL(blob);
+      console.log(`[OCR] 3. Created blob URL: ${imageSrc}`);
+      
+      // Preprocess image for faster OCR (resize if too large)
+      try {
+        console.log(`[OCR] 4. Creating Image object...`);
+        const img = new Image();
+        
+        const loadPromise = new Promise((resolve, reject) => {
+          img.onload = () => {
+            console.log(`[OCR] 5. ✓ Image loaded successfully!`);
+            console.log(`[OCR] 5a. Image dimensions: ${img.width}x${img.height}`);
+            resolve();
+          };
+          img.onerror = (e) => {
+            console.error(`[OCR] 5. ❌ Image load ERROR!`);
+            console.error(`[OCR] 5a. Error event:`, e);
+            reject(e);
+          };
+          
+          console.log(`[OCR] 4a. Setting img.src to blob URL...`);
+          img.src = imageSrc;
+        });
+        
+        await loadPromise;
+        console.log(`[OCR] 6. Image loaded successfully, proceeding...`);
+        
+        // If image is very large, resize it for faster processing
+        // OCR doesn't need ultra high resolution
+        const MAX_DIMENSION = 2000;
+        if (img.width > MAX_DIMENSION || img.height > MAX_DIMENSION) {
+          console.log(`[OCR] 7. Image is large (${img.width}x${img.height}), will resize...`);
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          
+          let width = img.width;
+          let height = img.height;
+          
+          if (width > height) {
+            if (width > MAX_DIMENSION) {
+              height = (height * MAX_DIMENSION) / width;
+              width = MAX_DIMENSION;
+            }
+          } else {
+            if (height > MAX_DIMENSION) {
+              width = (width * MAX_DIMENSION) / height;
+              height = MAX_DIMENSION;
+            }
+          }
+          
+          console.log(`[OCR] 7a. Resizing to: ${width}x${height}`);
+          canvas.width = width;
+          canvas.height = height;
+          ctx.drawImage(img, 0, 0, width, height);
+          console.log(`[OCR] 7b. Drew image on canvas`);
+          
+          // Convert to grayscale for faster processing
+          const imageData = ctx.getImageData(0, 0, width, height);
+          const data = imageData.data;
+          for (let i = 0; i < data.length; i += 4) {
+            const gray = data[i] * 0.299 + data[i + 1] * 0.587 + data[i + 2] * 0.114;
+            data[i] = data[i + 1] = data[i + 2] = gray;
+          }
+          ctx.putImageData(imageData, 0, 0);
+          console.log(`[OCR] 7c. Applied grayscale`);
+          
+          // Revoke the original blob URL since we're replacing it
+          URL.revokeObjectURL(imageSrc);
+          imageSrc = canvas.toDataURL('image/jpeg', 0.9);
+          console.log(`[OCR] 7d. Converted to JPEG data URL for OCR processing`);
+        } else {
+          console.log(`[OCR] 7. Image size OK (${img.width}x${img.height}), using blob URL directly`);
+        }
+      } catch (preprocessErr) {
+        console.error('[OCR] ❌ PREPROCESSING FAILED!');
+        console.error('[OCR] Error:', preprocessErr);
+        console.error('[OCR] Error message:', preprocessErr.message);
+        console.error('[OCR] Error stack:', preprocessErr.stack);
+        console.warn('[OCR] Will try to continue with blob URL...');
+        // Continue with original blob URL if preprocessing fails
+      }
+      
+      let downloadProgress = 0;
+      
+      // Reuse worker if same language, otherwise create new one
+      let worker = tesseractWorkerRef.current;
+      const needsNewWorker = !worker || currentWorkerLangRef.current !== languageToUse;
+      
+      if (needsNewWorker) {
+        // Terminate old worker if exists
+        if (worker) {
+          try { await worker.terminate(); } catch (e) {}
+          tesseractWorkerRef.current = null;
+        }
+        
+        // Create a new worker for better performance
+        worker = await window.Tesseract.createWorker(languageToUse, 1, {
+          logger: (m) => {
+            // Track both download and recognition progress
+            if (m.status === 'loading tesseract core' || m.status === 'initializing tesseract') {
+              setCurrentStatus(`(1/2) Initializing OCR engine...`);
+            } else if (m.status === 'loading language traineddata') {
+              downloadProgress = Math.round(m.progress * 50); // 0-50% for download
+              setOcrProgress(downloadProgress);
+              setCurrentStatus(`(1/2) Downloading language data... (${downloadProgress}%)`);
+            } else if (m.status === 'initializing api') {
+              setCurrentStatus(`(1/2) Preparing OCR (${langDisplayName})...`);
+              setOcrProgress(50);
+            } else if (m.status === 'recognizing text') {
+              const progressPercent = 50 + Math.round(m.progress * 50); // 50-100% for recognition
+              setOcrProgress(progressPercent);
+              setCurrentStatus(`(1/2) Extracting text (${langDisplayName})...`);
+            }
+          },
+          errorHandler: (err) => {
+            console.error('[Tesseract Error]', err);
+          }
+        });
+        
+        // Set parameters for faster processing
+        // PSM 3 = Fully automatic page segmentation (faster than default)
+        // OEM 1 = Neural nets LSTM engine only (faster and more accurate)
+        await worker.setParameters({
+          tessedit_pageseg_mode: window.Tesseract.PSM.AUTO,
+          tessedit_ocr_engine_mode: window.Tesseract.OEM.LSTM_ONLY,
+        });
+        
+        // Cache the worker
+        tesseractWorkerRef.current = worker;
+        currentWorkerLangRef.current = languageToUse;
+      } else {
+        // Reusing existing worker - much faster!
+        setCurrentStatus(`(1/2) Extracting text (${langDisplayName})...`);
+        setOcrProgress(50);
+      }
+      
+      const result = await worker.recognize(imageSrc);
+      
+      const text = result.data.text;
+      console.log(`[OCR] ✓ Recognition complete! Extracted ${text.length} characters`);
+      
+      // Try to detect the primary language from confidence data
+      if (ocrLanguage === 'auto' && result.data.blocks && result.data.blocks.length > 0) {
+        const langConfidence = {};
+        const textSample = result.data.text.substring(0, 500); // Check first 500 chars
+        
+        // More comprehensive character range detection
+        const charCounts = {
+          chinese: (textSample.match(/[\u4e00-\u9fff]/g) || []).length,
+          arabic: (textSample.match(/[\u0600-\u06ff]/g) || []).length,
+          japanese_hiragana: (textSample.match(/[\u3040-\u309f]/g) || []).length,
+          japanese_katakana: (textSample.match(/[\u30a0-\u30ff]/g) || []).length,
+          korean: (textSample.match(/[\uac00-\ud7af]/g) || []).length,
+          cyrillic: (textSample.match(/[\u0400-\u04ff]/g) || []).length,
+          thai: (textSample.match(/[\u0e00-\u0e7f]/g) || []).length,
+          latin: (textSample.match(/[a-zA-Z]/g) || []).length,
+        };
+        
+        // Determine primary script
+        let detectedScript = null;
+        const totalChars = Object.values(charCounts).reduce((a, b) => a + b, 0);
+        
+        if (totalChars > 0) {
+          // Japanese uses both hiragana and katakana
+          const japaneseTotal = charCounts.japanese_hiragana + charCounts.japanese_katakana;
+          
+          if (charCounts.chinese > totalChars * 0.3) detectedScript = '🇨🇳 Chinese';
+          else if (japaneseTotal > totalChars * 0.2 || (charCounts.japanese_hiragana > 0 && charCounts.japanese_katakana > 0)) detectedScript = '🇯🇵 Japanese';
+          else if (charCounts.korean > totalChars * 0.3) detectedScript = '🇰🇷 Korean';
+          else if (charCounts.arabic > totalChars * 0.3) detectedScript = '🇸🇦 Arabic';
+          else if (charCounts.thai > totalChars * 0.3) detectedScript = '🇹🇭 Thai';
+          else if (charCounts.cyrillic > totalChars * 0.3) detectedScript = '🇷🇺 Russian/Cyrillic';
+          else if (charCounts.latin > totalChars * 0.5) detectedScript = '🌍 Latin/Western';
+          
+          if (detectedScript) {
+            setDetectedLanguage(detectedScript);
+          }
+        }
+      }
+      
+      if (!text?.trim()) throw new Error("OCR completed, but no text was detected. The image may be too blurry or not contain readable text.");
+      return text;
+    } catch (err) {
+      // Better error messages for common issues
+      if (err.message?.includes('cors') || err.message?.includes('fetch')) {
+        throw new Error(`Failed to download OCR language data. Check your internet connection. Original error: ${err.message}`);
+      } else if (err.message?.includes('traineddata')) {
+        throw new Error(`Failed to load language data for '${languageToUse}'. Try selecting a specific language instead of auto-detect.`);
+      }
+      throw err;
+    } finally {
+      setOcrProgress(0);
+    }
+  };
   
-  const analyzeTextWithGroq = async (ocrText) => {
-    if (groqApiKeys.length === 0) { throw new Error("Groq API key is not set."); }
-    setCurrentStatus("(2/2) Analyzing text with AI...");
+  // Helper to check if extraction result is mostly N/A
+  const hasLowQualityData = (jsonData) => {
+    if (!jsonData) return true;
+    const naCount = [
+      jsonData.merchant_name,
+      jsonData.transaction_date,
+      jsonData.total_amount,
+      jsonData.currency
+    ].filter(val => val === null || val === 'N/A' || val === undefined).length;
+    return naCount >= 3; // If 3+ key fields are N/A, consider it low quality
+  };
+  
+  const analyzeTextWithGroq = async (ocrText, isRetry = false) => {
+    if (groqApiKeys.length === 0) { throw new Error("Groq API key is not set. Please add an API key in the API Config."); }
+    
+    // Use enhanced prompt for retry
+    const systemPrompt = isRetry 
+      ? `You are an expert financial assistant specializing in parsing receipts from ANY language. The text may be in English, Spanish, French, German, Russian, Chinese, Japanese, Korean, Arabic, Thai, or other languages. Your task:
+
+1. TRANSLATE the text to English first if it's in another language
+2. Extract key information and return ONLY a valid JSON object
+3. Be VERY thorough - look for ANY numbers that could be totals, ANY text that could be merchant names, ANY date-like patterns
+4. For dates: look for patterns like DD/MM/YYYY, YYYY-MM-DD, MM-DD-YYYY, or text like "January 15, 2024"
+5. For amounts: look for currency symbols (¥, ₽, ฿, €, $, etc.) followed by numbers, or just prominent numbers
+6. For merchants: look for business names, usually at the top of receipts
+7. DO NOT return null unless you absolutely cannot find the information
+
+JSON schema: { "merchant_name": "string | null", "transaction_date": "string (YYYY-MM-DD format) | null", "total_amount": "number | null", "currency": "string (e.g., USD, EUR, RUB, CNY, JPY, THB) | null", "items": [ { "description": "string", "quantity": "number", "price": "number" } ] }
+
+Receipt text to parse (may be in any language): ---`
+      : EXTRACTION_PROMPT;
+    
+    setCurrentStatus(isRetry ? "(2/2) Re-analyzing with enhanced extraction..." : "(2/2) Analyzing text with AI...");
     let lastError = null;
+    let lastErrorDetails = null;
+    
     for (let i = 0; i < groqApiKeys.length; i++) {
       const keyIndexToTry = (currentApiKeyIndex + i) % groqApiKeys.length;
       const apiKey = groqApiKeys[keyIndexToTry];
       try {
         const response = await fetch(GROQ_API_URL, {
-            method: "POST", headers: { "Content-Type": "application/json", "Authorization": `Bearer ${apiKey}` },
-            body: JSON.stringify({ model: GROQ_MODEL, messages: [{ role: "system", content: EXTRACTION_PROMPT }, { role: "user", content: ocrText }], temperature: 0.1, response_format: { type: "json_object" } }),
+            method: "POST", 
+            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${apiKey}` },
+            body: JSON.stringify({
+              model: selectedModel,
+              messages: [
+                { role: "system", content: systemPrompt }, 
+                { role: "user", content: ocrText }
+              ], 
+              temperature: isRetry ? 0.3 : 0.1, // Slightly higher temp for retry to be more creative
+              response_format: { type: "json_object" } 
+            }),
         });
-        if (response.ok) { const data = await response.json(); setCurrentApiKeyIndex(keyIndexToTry); return JSON.parse(data.choices[0].message.content); }
+        
+        if (response.ok) { 
+          const data = await response.json(); 
+          setCurrentApiKeyIndex(keyIndexToTry); 
+          return JSON.parse(data.choices[0].message.content); 
+        }
+        
+        // Parse error response
         const errorText = await response.text();
-        lastError = `Groq API error (Key #${keyIndexToTry + 1}, Status: ${response.status}): ${errorText || "Unknown error"}`;
-        if (response.status === 429 || response.status === 403 || response.status >= 500) { console.warn(lastError, "Trying next key..."); continue; } 
-        else { throw new Error(lastError); }
-      } catch (err) { lastError = `Network or fetch error with Key #${keyIndexToTry + 1}: ${err.message}`; console.warn(lastError, "Trying next key..."); }
+        let errorObj = null;
+        try {
+          errorObj = JSON.parse(errorText);
+        } catch (e) {
+          errorObj = { error: { message: errorText } };
+        }
+        
+        // Extract error details
+        const errorMessage = errorObj?.error?.message || errorText || "Unknown error";
+        const errorCode = errorObj?.error?.code;
+        const errorType = errorObj?.error?.type;
+        
+        // Build detailed error message
+        let detailedError = `Key #${keyIndexToTry + 1} (Status ${response.status})`;
+        if (errorCode) detailedError += ` [${errorCode}]`;
+        detailedError += `: ${errorMessage}`;
+        
+        lastError = detailedError;
+        lastErrorDetails = { status: response.status, code: errorCode, type: errorType, message: errorMessage };
+        
+        // Handle specific error cases
+        if (errorCode === 'model_decommissioned') {
+          throw new Error(`Model '${selectedModel}' has been decommissioned. Please select a different model. Visit https://console.groq.com/docs/deprecations for alternatives.`);
+        }
+        
+        if (errorCode === 'invalid_api_key' || response.status === 401) {
+          console.warn(`Invalid API key #${keyIndexToTry + 1}, trying next...`);
+          continue;
+        }
+        
+        // Retry on rate limits, auth errors, or server errors
+        if (response.status === 429 || response.status === 403 || response.status >= 500) { 
+          console.warn(`${detailedError} - Trying next key...`);
+          continue; 
+        } 
+        
+        // For other 4xx errors, don't retry with other keys
+        throw new Error(detailedError);
+        
+      } catch (err) { 
+        // If it's our thrown error, re-throw it
+        if (err.message.includes('decommissioned') || err.message.includes('Key #')) {
+          throw err;
+        }
+        // Network or fetch error
+        lastError = `Network error with Key #${keyIndexToTry + 1}: ${err.message}`;
+        console.warn(lastError, "- Trying next key...");
+      }
     }
-    throw new Error(`All API keys failed. Last error: ${lastError}`);
+    
+    // All keys failed
+    let finalError = `All ${groqApiKeys.length} API key${groqApiKeys.length > 1 ? 's' : ''} failed.`;
+    if (lastErrorDetails) {
+      finalError += `\n\nLast error: ${lastError}`;
+      if (lastErrorDetails.code === 'model_decommissioned') {
+        finalError += `\n\n⚠️ The model '${selectedModel}' is no longer supported. Please select a different model from the dropdown.`;
+      } else if (lastErrorDetails.status === 401 || lastErrorDetails.code === 'invalid_api_key') {
+        finalError += `\n\n⚠️ All API keys appear to be invalid. Please check your keys in API Config.`;
+      } else if (lastErrorDetails.status === 429) {
+        finalError += `\n\n⚠️ Rate limit exceeded on all keys. Please try again later.`;
+      }
+    } else {
+      finalError += ` Last error: ${lastError}`;
+    }
+    
+    throw new Error(finalError);
   };
 
-  const handleProcessReceipt = async (receiptFile) => { if (!receiptFile || isLoading) return; setIsLoading(true); setError(null); setCurrentReceipt(receiptFile); let ocrText = ''; let extractedJson = {}; try { ocrText = await performOcr(receiptFile); extractedJson = await analyzeTextWithGroq(ocrText); await saveExtractedDataToMarkdown(receiptFile, extractedJson, ocrText); setProcessedData(prev => ({ ...prev, [receiptFile.path]: { ocr: ocrText, json: extractedJson } })); setActiveTab('json'); loadAllDashboardData(); } catch (err) { setError(`Failed on ${receiptFile.name}: ${err.message}`); setProcessedData(prev => ({ ...prev, [receiptFile.path]: { error: err.message, ocr: ocrText, json: extractedJson } })); } finally { setIsLoading(false); setCurrentStatus(""); } };
-  const handleProcessAll = async () => { if (isLoading) return; setIsLoading(true); let finalError = null; for (const file of receiptFiles) { if (!processedData[file.path] || processedData[file.path].error) { setError(null); await handleProcessReceipt(file); const updatedDataForThisFile = await loadProcessedDataFromMarkdown(file); if (updatedDataForThisFile?.error) { finalError = `Processing stopped due to error with ${file.name}: ${updatedDataForThisFile.error}`; break; } } } loadAllDashboardData(); setIsLoading(false); setCurrentStatus(""); setError(finalError); };
+  const handleProcessReceipt = async (receiptFile) => { 
+    if (!receiptFile || isLoading) return; 
+    setIsLoading(true); 
+    setError(null); 
+    setCurrentReceipt(receiptFile); 
+    let ocrText = ''; 
+    let extractedJson = {}; 
+    
+    try { 
+      ocrText = await performOcr(receiptFile); 
+      extractedJson = await analyzeTextWithGroq(ocrText, false);
+      
+      // Check if result is low quality (mostly N/A values)
+      if (hasLowQualityData(extractedJson)) {
+        console.log('[Receipt] Low quality data detected, retrying with enhanced prompt...');
+        setCurrentStatus("(2/2) First attempt incomplete, retrying with enhanced extraction...");
+        
+        try {
+          // Retry with enhanced prompt
+          const enhancedJson = await analyzeTextWithGroq(ocrText, true);
+          
+          // Use enhanced result if it's better
+          if (!hasLowQualityData(enhancedJson)) {
+            console.log('[Receipt] Enhanced extraction successful!');
+            extractedJson = enhancedJson;
+          } else {
+            console.log('[Receipt] Enhanced extraction also returned N/A, using original result');
+          }
+        } catch (retryErr) {
+          console.warn('[Receipt] Enhanced extraction failed:', retryErr);
+          // Continue with original result if retry fails
+        }
+      }
+      
+      await saveExtractedDataToMarkdown(receiptFile, extractedJson, ocrText, processedFolderPath); 
+      setProcessedData(prev => ({ ...prev, [receiptFile.path]: { ocr: ocrText, json: extractedJson } })); 
+      setActiveTab('json'); 
+      loadAllDashboardData(); 
+    } catch (err) { 
+      setError(`Failed on ${receiptFile.name}: ${err.message}`); 
+      setProcessedData(prev => ({ ...prev, [receiptFile.path]: { error: err.message, ocr: ocrText, json: extractedJson } })); 
+    } finally { 
+      setIsLoading(false); 
+      setCurrentStatus(""); 
+    } 
+  };
+  const handleProcessAll = async () => { if (isLoading) return; setIsLoading(true); let finalError = null; for (const file of receiptFiles) { if (!processedData[file.path] || processedData[file.path].error) { setError(null); await handleProcessReceipt(file); const updatedDataForThisFile = await loadProcessedDataFromMarkdown(file, processedFolderPath); if (updatedDataForThisFile?.error) { finalError = `Processing stopped due to error with ${file.name}: ${updatedDataForThisFile.error}`; break; } } } loadAllDashboardData(); setIsLoading(false); setCurrentStatus(""); setError(finalError); };
   const handleOpenEditModal = (file, data) => { setEditModalData({ file, json: data.json, ocr: data.ocr }); setIsEditModalOpen(true); };
   const handleCloseEditModal = () => { setIsEditModalOpen(false); setEditModalData(null); };
-  const handleSaveEditedData = async (editedJson, originalOcr) => { if (!editModalData?.file) return; try { await saveExtractedDataToMarkdown(editModalData.file, editedJson, originalOcr); setProcessedData(prev => ({ ...prev, [editModalData.file.path]: { json: editedJson, ocr: originalOcr } })); loadAllDashboardData(); setError(null); } catch (err) { setError(`Failed to save edited data for ${editModalData.file.name}: ${err.message}`); } finally { handleCloseEditModal(); } };
+  const handleSaveEditedData = async (editedJson, originalOcr) => { if (!editModalData?.file) return; try { await saveExtractedDataToMarkdown(editModalData.file, editedJson, originalOcr, processedFolderPath); setProcessedData(prev => ({ ...prev, [editModalData.file.path]: { json: editedJson, ocr: originalOcr } })); loadAllDashboardData(); setError(null); } catch (err) { setError(`Failed to save edited data for ${editModalData.file.name}: ${err.message}`); } finally { handleCloseEditModal(); } };
   const handleCloseImageModal = () => { if (modalImageUrl) URL.revokeObjectURL(modalImageUrl); setModalImageUrl(null); };
   const currentReceiptData = currentReceipt ? processedData[currentReceipt.path] : null;
 
@@ -376,7 +1171,21 @@ function ReceiptHandlerView() {
     <div ref={containerRef} className="view-container">
       <style>{viewerStyles.globalCss}</style>
       <ScreenModeHelper helperRef={screenModeHelperRef} containerRef={containerRef} />
-      <ApiKeyManagerPopover isOpen={isApiKeyPopoverOpen} onClose={() => setIsApiKeyPopoverOpen(false)} anchorRef={apiButtonRef} editedKeys={editedApiKeys} onAddKey={handleAddKey} onDeleteKey={handleDeleteKey} onSave={handleSaveApiKeys} onCancel={handleCancelEditKeys} hasUnsavedChanges={hasUnsavedChanges} />
+      <ApiKeyManagerPopover 
+        isOpen={isApiKeyPopoverOpen} 
+        onClose={() => setIsApiKeyPopoverOpen(false)} 
+        anchorRef={apiButtonRef} 
+        editedKeys={editedApiKeys} 
+        onAddKey={handleAddKey} 
+        onDeleteKey={handleDeleteKey} 
+        onSave={handleSaveApiKeys} 
+        onCancel={handleCancelEditKeys} 
+        hasUnsavedChanges={hasUnsavedChanges}
+        availableModels={availableModels}
+        selectedModel={selectedModel}
+        onModelChange={setSelectedModel}
+        isLoadingModels={isLoadingModels}
+      />
       {modalImageUrl && ( <div className="image-modal-overlay" onClick={handleCloseImageModal}> <span className="image-modal-close" onClick={handleCloseImageModal}>×</span> <img src={modalImageUrl} alt="Enlarged receipt" className="image-modal-content" onClick={(e) => e.stopPropagation()} /> </div> )}
       {isEditModalOpen && editModalData && ( <EditReceiptModal isOpen={isEditModalOpen} onClose={handleCloseEditModal} initialData={editModalData} onSave={handleSaveEditedData} /> )}
       
@@ -400,11 +1209,51 @@ function ReceiptHandlerView() {
         <>
             <div className="view-controls">
                 <label htmlFor="folder-path-input">Receipts Folder:</label>
-                <input id="folder-path-input" type="text" value={receiptFolderPath} onChange={e => setReceiptFolderPath(e.target.value)} placeholder="Path from vault root" />
-                <button className="primary" onClick={handleProcessAll} disabled={isLoading || !receiptFiles.length || !textExtractorApi || groqApiKeys.length === 0}>
-                    <ProcessIcon /> {isLoading ? 'Processing...' : 'Process All'}
+                <input id="folder-path-input" type="text" value={receiptFolderPath} onChange={e => setReceiptFolderPath(e.target.value)} placeholder="Relative to component location" />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <label htmlFor="ocr-language-select" style={{ color: '#888888', whiteSpace: 'nowrap' }}>OCR Language:</label>
+                    <select 
+                        id="ocr-language-select"
+                        value={ocrLanguage} 
+                        onChange={e => setOcrLanguage(e.target.value)}
+                        style={{
+                            backgroundColor: '#1a1a1a',
+                            border: '1px solid #2a2a2a',
+                            borderRadius: '6px',
+                            padding: '8px 12px',
+                            color: '#ffffff',
+                            fontSize: '14px',
+                            minWidth: '150px'
+                        }}
+                    >
+                        {OCR_LANGUAGES.map(lang => (
+                            <option key={lang.code} value={lang.code} style={{backgroundColor: '#1a1a1a', color: '#ffffff'}}>
+                                {lang.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <button className="primary" onClick={handleProcessAll} disabled={isLoading || !receiptFiles.length || !tesseractLoaded || groqApiKeys.length === 0}>
+                    <ProcessIcon /> {isLoading ? (ocrProgress > 0 ? `OCR: ${ocrProgress}%` : 'Processing...') : 'Process All'}
                 </button>
             </div>
+            
+            {currentPath && (
+                <div style={{ 
+                    padding: '8px 16px', 
+                    backgroundColor: '#1a1a1a', 
+                    borderRadius: '6px', 
+                    marginBottom: '16px',
+                    fontSize: '12px',
+                    color: '#888888',
+                    lineHeight: '1.6'
+                }}>
+                    <div><strong style={{ color: '#9b87f5' }}>Component:</strong> {currentPath}</div>
+                    <div><strong style={{ color: '#9b87f5' }}>Default Receipts:</strong> {defaultReceiptsFolderPath}</div>
+                    <div><strong style={{ color: '#9b87f5' }}>Current Receipts:</strong> {receiptFolderPath}</div>
+                    <div><strong style={{ color: '#9b87f5' }}>Processed Output:</strong> {processedFolderPath}</div>
+                </div>
+            )}
             
             <div className="processor-content-wrapper" style={panelLayoutStyles.wrapper}>
                 <div className="main-grid" style={panelLayoutStyles.mainGrid}>
@@ -420,11 +1269,11 @@ function ReceiptHandlerView() {
                         <div className="panel-header is-clickable" onClick={() => handlePanelFocus('processing')}>
                             <h3>{currentReceipt ? currentReceipt.name : 'Processing Details'}</h3>
                             <div className="panel-header-actions">
-                                <button onClick={(e) => { e.stopPropagation(); handleProcessReceipt(currentReceipt); }} disabled={isLoading || !currentReceipt || !textExtractorApi || groqApiKeys.length === 0}>Process</button>
+                                <button onClick={(e) => { e.stopPropagation(); handleProcessReceipt(currentReceipt); }} disabled={isLoading || !currentReceipt || !tesseractLoaded || groqApiKeys.length === 0}>Process</button>
                                 <button className="icon-button panel-focus-button" onClick={(e) => { e.stopPropagation(); handlePanelFocus('processing'); }} title={focusedPanel === 'processing' ? 'Restore Layout' : 'Expand Panel'}>{focusedPanel === 'processing' ? <MinimizeIcon/> : <ExpandIcon/>}</button>
                             </div>
                         </div>
-                        <div className="panel-content-grid">{error && <div className="notice is-error">{error}</div>}{isLoading && <div className="notice is-info">{currentStatus}</div>}{!currentReceipt ? (<EmptyStatePlaceholder iconPath="M5 12h14" title="Select a Receipt" message="Choose a receipt from the list on the left to view details."/>) : (<div className="card-grid"><div className="card"><h5>Image Preview</h5>{imagePreviewUrl ? <img src={imagePreviewUrl} alt="Receipt preview" className="preview-image" onClick={async () => { const buffer = await app.vault.readBinary(currentReceipt); setModalImageUrl(URL.createObjectURL(new Blob([buffer]))); }}/> : 'Loading...'}</div><div className="card"><div className="tab-bar"><button onClick={() => setActiveTab('json')} className={activeTab === 'json' ? 'active' : ''}>Extracted Data</button><button onClick={() => setActiveTab('ocr')} className={activeTab === 'ocr' ? 'active' : ''}>Raw OCR Text</button></div><div className="tab-content">{activeTab === 'json' && <pre className="data-pre">{currentReceiptData?.json ? JSON.stringify(currentReceiptData.json, null, 2) : currentReceiptData?.error ? `Error: ${currentReceiptData.error}` : 'Not processed.'}</pre>}{activeTab === 'ocr' && <pre className="data-pre">{currentReceiptData?.ocr || 'No OCR text.'}</pre>}</div></div></div>)}</div>
+                        <div className="panel-content-grid">{!tesseractLoaded && !error && <div className="notice is-info">Loading OCR library from CDN...</div>}{error && <div className="notice is-error">{error}</div>}{isLoading && <div className="notice is-info">{currentStatus} {ocrProgress > 0 && `- ${ocrProgress}%`}{detectedLanguage && <span style={{ marginLeft: '8px', color: '#9b87f5' }}>• Detected: {detectedLanguage}</span>}</div>}{!currentReceipt ? (<EmptyStatePlaceholder iconName="file-text" title="Select a Receipt" message="Choose a receipt from the list on the left to view details."/>) : (<div className="card-grid"><div className="card"><h5>Image Preview</h5>{imagePreviewUrl ? <img src={imagePreviewUrl} alt="Receipt preview" className="preview-image" onLoad={() => console.log('[Preview IMG] ✓ Image rendered successfully in browser')} onError={(e) => { console.error('[Preview IMG] ❌ Browser failed to render image'); console.error('[Preview IMG] Error event:', e); console.error('[Preview IMG] Img src:', e.target?.src); }} onClick={async () => { const buffer = await app.vault.readBinary(currentReceipt); setModalImageUrl(URL.createObjectURL(new Blob([buffer]))); }}/> : 'Loading...'}</div><div className="card"><div className="tab-bar"><button onClick={() => setActiveTab('json')} className={activeTab === 'json' ? 'active' : ''}>Extracted Data</button><button onClick={() => setActiveTab('ocr')} className={activeTab === 'ocr' ? 'active' : ''}>Raw OCR Text</button></div><div className="tab-content">{activeTab === 'json' && <pre className="data-pre">{currentReceiptData?.json ? JSON.stringify(currentReceiptData.json, null, 2) : currentReceiptData?.error ? `Error: ${currentReceiptData.error}` : 'Not processed.'}</pre>}{activeTab === 'ocr' && <pre className="data-pre">{currentReceiptData?.ocr || 'No OCR text.'}</pre>}</div></div></div>)}</div>
                     </div>
                 </div>
 
@@ -438,7 +1287,25 @@ function ReceiptHandlerView() {
             </div>
         </>
       )}
-      {mainView === 'dashboard' && (<DashboardView dashboardData={allProcessedData} />)}
+      {mainView === 'dashboard' && (
+        <>
+          {processedFolderPath && (
+            <div style={{ 
+              padding: '8px 16px', 
+              backgroundColor: '#1a1a1a', 
+              borderRadius: '6px', 
+              margin: '16px',
+              fontSize: '12px',
+              color: '#888888',
+              lineHeight: '1.6'
+            }}>
+              <div><strong style={{ color: '#9b87f5' }}>Loading from:</strong> {processedFolderPath}</div>
+              <div><strong style={{ color: '#9b87f5' }}>Receipts found:</strong> {allProcessedData.length}</div>
+            </div>
+          )}
+          <DashboardView dashboardData={allProcessedData} />
+        </>
+      )}
     </div>
   );
 }
@@ -472,9 +1339,9 @@ const formatCurrency = (amount, currencyCode) => {
     }
 };
 
-const DollarSignIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>;
-const ReceiptStatIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"></path><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><path d="M12 17.5v-11"></path></svg>;
-const HashIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="14" y2="21"></line></svg>;
+const DollarSignIcon = () => <dc.Icon icon="dollar-sign" style={{ fontSize: '24px' }} />;
+const ReceiptStatIcon = () => <dc.Icon icon="receipt" style={{ fontSize: '24px' }} />;
+const HashIcon = () => <dc.Icon icon="hash" style={{ fontSize: '24px' }} />;
 
 const StatCard = ({ title, value, icon }) => (
     <div className="stat-card">
@@ -517,10 +1384,13 @@ const MonthlySpendingChart = ({ data, currency }) => {
         const currencyFormatter = (value) => { try { return new Intl.NumberFormat(undefined, { style: 'currency', currency, notation: 'compact' }).format(value); } catch { return d3.format("$,.0f")(value); }};
         svg.append("g").attr("transform", `translate(0,${height - margin.bottom})`).call(d3.axisBottom(x).tickSizeOuter(0));
         svg.append("g").attr("transform", `translate(${margin.left},0)`).call(d3.axisLeft(y).ticks(5).tickFormat(currencyFormatter));
-        svg.selectAll(".domain, .tick line").style("stroke", "var(--background-modifier-border)");
-        svg.selectAll("text").style("fill", "var(--text-muted)");
-        svg.append("g").attr("fill", "var(--interactive-accent)").selectAll("rect").data(data).join("rect").attr("x", d => x(d.month)).attr("y", d => y(d.total)).attr("height", d => y(0) - y(d.total)).attr("width", x.bandwidth());
-        svg.append("text").attr("x", width / 2).attr("y", margin.top / 2).attr("text-anchor", "middle").style("font-size", "14px").style("fill", "var(--text-normal)").text("Spending Over Time");
+        svg.selectAll(".domain, .tick line").style("stroke", "#2a2a2a");
+        svg.selectAll("text").style("fill", "#888888");
+        const purpleGradient = svg.append("defs").append("linearGradient").attr("id", "purpleGradient").attr("x1", "0%").attr("y1", "0%").attr("x2", "0%").attr("y2", "100%");
+        purpleGradient.append("stop").attr("offset", "0%").style("stop-color", "rgba(155, 135, 245, 0.9)").style("stop-opacity", 1);
+        purpleGradient.append("stop").attr("offset", "100%").style("stop-color", "rgba(236, 72, 153, 0.9)").style("stop-opacity", 1);
+        svg.append("g").attr("fill", "url(#purpleGradient)").selectAll("rect").data(data).join("rect").attr("x", d => x(d.month)).attr("y", d => y(d.total)).attr("height", d => y(0) - y(d.total)).attr("width", x.bandwidth()).attr("rx", 4);
+        svg.append("text").attr("x", width / 2).attr("y", margin.top / 2).attr("text-anchor", "middle").style("font-size", "14px").style("fill", "#ffffff").text("Spending Over Time");
     }, [isD3Loaded, data, currency]);
     return <div ref={chartRef} className="chart-container"></div>;
 };
@@ -536,12 +1406,13 @@ const SpendingByMerchantChart = ({ data, currency }) => {
         const { width } = chartRef.current.getBoundingClientRect();
         const height = 300, radius = Math.min(width, height) / 2.5;
         const svg = container.append("svg").attr("viewBox", [-width / 2, -height / 2, width, height]);
-        const color = d3.scaleOrdinal(d3.schemeTableau10);
+        const customColors = ["rgba(155, 135, 245, 0.9)", "rgba(236, 72, 153, 0.9)", "rgba(255, 255, 255, 0.9)", "rgba(167, 139, 250, 0.8)", "rgba(244, 114, 182, 0.8)", "rgba(219, 39, 119, 0.8)", "rgba(139, 92, 246, 0.8)", "rgba(232, 121, 249, 0.8)", "rgba(192, 132, 252, 0.8)", "rgba(251, 207, 232, 0.8)"];
+        const color = d3.scaleOrdinal(customColors);
         const pie = d3.pie().sort(null).value(d => d.total);
         const arc = d3.arc().innerRadius(radius * 0.6).outerRadius(radius);
         const arcs = pie(data);
-        svg.append("g").attr("stroke", "var(--background-primary)").selectAll("path").data(arcs).join("path").attr("fill", d => color(d.data.merchant)).attr("d", arc).append("title").text(d => `${d.data.merchant}: ${formatCurrency(d.data.total, currency)}`);
-        svg.append("text").attr("text-anchor", "middle").style("font-size", "14px").style("fill", "var(--text-normal)").attr("y", -height/2 + 20).text("Top Spending by Merchant");
+        svg.append("g").attr("stroke", "#1a1a1a").attr("stroke-width", 2).selectAll("path").data(arcs).join("path").attr("fill", d => color(d.data.merchant)).attr("d", arc).append("title").text(d => `${d.data.merchant}: ${formatCurrency(d.data.total, currency)}`);
+        svg.append("text").attr("text-anchor", "middle").style("font-size", "14px").style("fill", "#ffffff").attr("y", -height/2 + 20).text("Top Spending by Merchant");
     }, [isD3Loaded, data, currency]);
     return <div ref={chartRef} className="chart-container"></div>;
 };
@@ -834,81 +1705,90 @@ function getStyles() {
   const globalCss = `
     .view-container { 
       display: flex; flex-direction: column; gap: 16px; padding: 16px; 
-      background-color: var(--background-secondary); height: 100%; box-sizing: border-box;
-      position: relative; 
+      background-color: #0a0a0a; height: 100%; box-sizing: border-box;
+      position: relative; color: #ffffff;
     }
     
     /* --- MODERN DASHBOARD STYLES --- */
     .dashboard-container { padding: 16px 0; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; flex-grow: 1; min-height: 0; }
     .dashboard-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
-    .dashboard-header h3 { margin: 0; font-size: 1.5em; }
+    .dashboard-header h3 { margin: 0; font-size: 1.5em; color: #ffffff; }
     .dashboard-filters { display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: center; }
     .filter-group { display: flex; align-items: center; gap: 8px; }
-    .filter-label { color: var(--text-muted); font-size: 0.9em; font-weight: 500; }
-    .filter-controls { display: flex; gap: 8px; background-color: var(--background-secondary-alt); border-radius: 6px; padding: 4px; }
-    .filter-controls button { background: none; border: none; padding: 6px 14px; border-radius: 4px; cursor: pointer; color: var(--text-muted); font-weight: 500; transition: all 0.2s ease; }
-    .filter-controls button:hover { color: var(--text-normal); background-color: var(--background-modifier-hover); }
-    .filter-controls button.active { color: var(--text-on-accent); background-color: var(--interactive-accent); }
+    .filter-label { color: #888888; font-size: 0.9em; font-weight: 500; }
+    .filter-controls { display: flex; gap: 8px; background-color: #1a1a1a; border-radius: 6px; padding: 4px; }
+    .filter-controls button { background: none; border: none; padding: 6px 14px; border-radius: 4px; cursor: pointer; color: #888888; font-weight: 500; transition: all 0.2s ease; }
+    .filter-controls button:hover { color: #ffffff; background-color: #2a2a2a; }
+    .filter-controls button.active { color: #ffffff; background-color: rgba(155, 135, 245, 0.8); }
     .base-currency-select { 
-      background-color: var(--background-secondary-alt); border: 1px solid var(--background-modifier-border); 
-      border-radius: 6px; padding: 6px 10px; color: var(--text-normal); font-weight: 500;
+      background-color: #1a1a1a; border: 1px solid #2a2a2a; 
+      border-radius: 6px; padding: 6px 10px; color: #ffffff; font-weight: 500;
     }
-    .rates-status { font-size: 0.85em; color: var(--text-faint); font-style: italic; }
-    .rates-status.error { color: var(--color-red); }
+    .rates-status { font-size: 0.85em; color: #666666; font-style: italic; }
+    .rates-status.error { color: #ef4444; }
     .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
-    .stat-card { background-color: var(--background-primary); border: 1px solid var(--background-modifier-border); border-radius: 8px; padding: 16px; display: flex; align-items: center; gap: 16px; }
-    .stat-card-icon { color: var(--interactive-accent); background-color: hsla(var(--interactive-accent-hsl), 0.1); border-radius: 50%; padding: 10px; display: flex; align-items: center; justify-content: center; }
-    .stat-card-title { font-size: 0.9em; color: var(--text-muted); margin-bottom: 4px; }
-    .stat-card-value { font-size: 1.4em; font-weight: 600; color: var(--text-normal); }
+    .stat-card { background-color: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px; padding: 16px; display: flex; align-items: center; gap: 16px; }
+    .stat-card-icon { color: rgba(155, 135, 245, 0.8); background-color: rgba(155, 135, 245, 0.1); border-radius: 50%; padding: 10px; display: flex; align-items: center; justify-content: center; }
+    .stat-card-title { font-size: 0.9em; color: #888888; margin-bottom: 4px; }
+    .stat-card-value { font-size: 1.4em; font-weight: 600; color: #ffffff; }
     .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
-    .dashboard-card { background-color: var(--background-primary); border: 1px solid var(--background-modifier-border); border-radius: 8px; padding: 16px; min-height: 340px; display: flex; flex-direction: column; }
+    .dashboard-card { background-color: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px; padding: 16px; min-height: 340px; display: flex; flex-direction: column; }
     .chart-container { width: 100%; height: 100%; flex-grow: 1; }
-    .recent-transactions-card { background-color: var(--background-primary); border: 1px solid var(--background-modifier-border); border-radius: 8px; padding: 16px; display: flex; flex-direction: column; }
-    .recent-transactions-card h4 { margin: 0 0 12px 0; }
+    .recent-transactions-card { background-color: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px; padding: 16px; display: flex; flex-direction: column; }
+    .recent-transactions-card h4 { margin: 0 0 12px 0; color: #ffffff; }
     .recent-transactions-list { overflow-y: auto; max-height: 250px; }
-    .transaction-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 8px; border-top: 1px solid var(--background-modifier-border); }
+    .transaction-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 8px; border-top: 1px solid #2a2a2a; }
     .transaction-item:first-child { border-top: none; }
     .transaction-info { display: flex; flex-direction: column; gap: 2px; }
-    .transaction-merchant { font-weight: 500; color: var(--text-normal); }
-    .transaction-date { font-size: 0.85em; color: var(--text-muted); }
-    .transaction-amount { font-weight: 600; font-family: var(--font-monospace); color: var(--text-normal); }
-    .dashboard-placeholder { display: flex; align-items: center; justify-content: center; height: 300px; width: 100%; color: var(--text-faint); font-style: italic; background-color: var(--background-primary); border: 2px dashed var(--background-modifier-border); border-radius: 8px; text-align: center; padding: 20px; }
-    .dashboard-placeholder-small { text-align: center; padding: 20px; color: var(--text-faint); }
+    .transaction-merchant { font-weight: 500; color: #ffffff; }
+    .transaction-date { font-size: 0.85em; color: #888888; }
+    .transaction-amount { font-weight: 600; font-family: var(--font-monospace); color: #ffffff; }
+    .dashboard-placeholder { display: flex; align-items: center; justify-content: center; height: 300px; width: 100%; color: #666666; font-style: italic; background-color: #1a1a1a; border: 2px dashed #2a2a2a; border-radius: 8px; text-align: center; padding: 20px; }
+    .dashboard-placeholder-small { text-align: center; padding: 20px; color: #666666; }
     
     /* --- CORE COMPONENT STYLES --- */
     input, button, select { font-family: var(--font-sans); font-size: var(--font-ui-small); }
-    input[type="text"], input[type="password"] { background-color: var(--background-primary); border: 1px solid var(--background-modifier-border); border-radius: 6px; padding: 8px 12px; color: var(--text-normal); }
-    .view-header { display: flex; align-items: center; gap: 16px; flex-shrink: 0; justify-content: space-between; width: 100%; padding-bottom: 16px; border-bottom: 1px solid var(--background-modifier-border); }
+    input[type="text"], input[type="password"] { background-color: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 6px; padding: 8px 12px; color: #ffffff; }
+    button { background-color: #1a1a1a; border: 1px solid #2a2a2a; color: #ffffff; border-radius: 6px; padding: 8px 14px; cursor: pointer; transition: all 0.2s ease; }
+    button:hover { background-color: #2a2a2a; }
+    button.primary { background-color: rgba(155, 135, 245, 0.8); border-color: rgba(155, 135, 245, 0.8); }
+    button.primary:hover { background-color: rgba(155, 135, 245, 1); }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .view-header { display: flex; align-items: center; gap: 16px; flex-shrink: 0; justify-content: space-between; width: 100%; padding-bottom: 16px; border-bottom: 1px solid #2a2a2a; }
     .header-left { display: flex; align-items: center; gap: 24px; flex-grow: 1; overflow: hidden; }
     .header-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-    .main-view-tabs { display: flex; align-items: center; background-color: var(--background-secondary-alt); border-radius: 6px; padding: 4px; }
-    .main-view-tab { background: none; border: none; padding: 6px 14px; border-radius: 4px; cursor: pointer; color: var(--text-muted); font-weight: 500; }
-    .main-view-tab.active { color: var(--text-on-accent); background-color: var(--interactive-accent); }
-    .image-modal-overlay, .receipt-edit-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.85); display: flex; align-items: center; justify-content: center; z-index: 10000; }
+    .main-view-tabs { display: flex; align-items: center; background-color: #1a1a1a; border-radius: 6px; padding: 4px; }
+    .main-view-tab { background: none; border: none; padding: 6px 14px; border-radius: 4px; cursor: pointer; color: #888888; font-weight: 500; }
+    .main-view-tab.active { color: #ffffff; background-color: rgba(155, 135, 245, 0.8); }
+    .image-modal-overlay, .receipt-edit-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.9); display: flex; align-items: center; justify-content: center; z-index: 10000; }
     .image-modal-content { max-width: 90vw; max-height: 90vh; width: auto; height: auto; object-fit: contain; }
     .image-modal-close, .receipt-edit-modal-close { position: absolute; top: 20px; right: 35px; color: #fff; font-size: 40px; cursor: pointer; }
-    .receipt-edit-modal-content { background-color: var(--background-primary); border-radius: 8px; padding: 20px; width: 90%; max-width: 800px; max-height: 90vh; display: flex; flex-direction: column; gap: 15px; overflow: hidden; position: relative; cursor: default; }
+    .receipt-edit-modal-content { background-color: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px; padding: 20px; width: 90%; max-width: 800px; max-height: 90vh; display: flex; flex-direction: column; gap: 15px; overflow: hidden; position: relative; cursor: default; }
+    .receipt-edit-modal-content h3 { color: #ffffff; margin: 0 0 10px 0; }
     .modal-form-group { display: flex; flex-direction: column; gap: 8px; flex-grow: 1; min-height: 0; }
-    .modal-json-textarea { flex-grow: 1; min-height: 150px; background-color: var(--background-secondary-alt); font-family: var(--font-monospace); resize: vertical; overflow-y: auto; white-space: pre-wrap; border-radius: 4px; padding: 10px; border: 1px solid var(--background-modifier-border); }
+    .modal-form-group label { color: #888888; font-weight: 500; }
+    .modal-json-textarea { flex-grow: 1; min-height: 150px; background-color: #0a0a0a; font-family: var(--font-monospace); resize: vertical; overflow-y: auto; white-space: pre-wrap; border-radius: 4px; padding: 10px; border: 1px solid #2a2a2a; color: #ffffff; }
     .modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
     
     /* --- API CONFIG STYLES --- */
-    .api-config-toggle { background: var(--background-primary); border: 1px solid var(--background-modifier-border); border-radius: 6px; padding: 8px 12px; cursor: pointer; color: var(--text-normal); font-weight: 500; display: flex; align-items: center; gap: 8px; }
-    .api-key-content-wrapper { position: absolute; width: 350px; background-color: var(--background-primary); border: 1px solid var(--background-modifier-border); border-radius: 8px; box-shadow: var(--shadow-l); z-index: 1000; }
+    .api-config-toggle { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 6px; padding: 8px 12px; cursor: pointer; color: #ffffff; font-weight: 500; display: flex; align-items: center; gap: 8px; }
+    .api-config-toggle:hover { background-color: #2a2a2a; }
+    .api-key-content-wrapper { position: absolute; width: 350px; background-color: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); z-index: 1000; }
     .api-key-content { padding: 12px; display: flex; flex-direction: column; gap: 12px; }
-    .api-key-content p { margin: 0; color: var(--text-muted); font-size: 0.9em; }
-    .api-key-list { display: flex; flex-direction: column; gap: 6px; max-height: 150px; overflow-y: auto; background-color: var(--background-secondary); border-radius: 4px; padding: 8px; }
-    .api-key-item { display: flex; justify-content: space-between; align-items: center; background-color: var(--background-primary-alt); padding: 6px 10px; border-radius: 4px; }
-    .api-key-masked { font-family: var(--font-monospace); font-size: 0.9em; color: var(--text-normal); }
-    .delete-key-btn { background: none; border: none; color: var(--text-muted); font-weight: bold; font-size: 1.2em; cursor: pointer; padding: 0 8px; border-radius: 4px; line-height: 1; }
-    .delete-key-btn:hover { background-color: var(--background-modifier-error); color: var(--text-on-accent); }
-    .empty-state-small { padding: 12px; text-align: center; color: var(--text-faint); font-style: italic; font-size: 0.9em; }
+    .api-key-content p { margin: 0; color: #888888; font-size: 0.9em; }
+    .api-key-list { display: flex; flex-direction: column; gap: 6px; max-height: 150px; overflow-y: auto; background-color: #0a0a0a; border-radius: 4px; padding: 8px; }
+    .api-key-item { display: flex; justify-content: space-between; align-items: center; background-color: #1a1a1a; padding: 6px 10px; border-radius: 4px; }
+    .api-key-masked { font-family: var(--font-monospace); font-size: 0.9em; color: #ffffff; }
+    .delete-key-btn { background: none; border: none; color: #888888; font-weight: bold; font-size: 1.2em; cursor: pointer; padding: 0 8px; border-radius: 4px; line-height: 1; }
+    .delete-key-btn:hover { background-color: #ef4444; color: #ffffff; }
+    .empty-state-small { padding: 12px; text-align: center; color: #666666; font-style: italic; font-size: 0.9em; }
     .add-key-form { display: flex; gap: 8px; }
     .add-key-form input { flex-grow: 1; }
-    .api-key-actions { display: flex; justify-content: flex-end; gap: 8px; border-top: 1px solid var(--background-modifier-border); padding-top: 12px; margin-top: 4px; }
+    .api-key-actions { display: flex; justify-content: flex-end; gap: 8px; border-top: 1px solid #2a2a2a; padding-top: 12px; margin-top: 4px; }
     
     /* --- PROCESSOR VIEW STYLES & FOCUS MODE --- */
     .view-controls { display: flex; gap: 16px; align-items: center; flex-shrink: 0; }
+    .view-controls label { color: #888888; }
     .view-controls input { flex-grow: 1; }
     
     .processor-content-wrapper {
@@ -917,68 +1797,78 @@ function getStyles() {
       display: grid;
       gap: 16px;
       grid-template-rows: 1fr auto;
-      transition: grid-template-rows 0.4s ease-in-out;
+      transition: grid-template-rows 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .main-grid { 
       display: grid; 
       gap: 16px; 
       overflow: hidden; 
       min-height: 0;
-      transition: all 0.4s ease-in-out;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .panel { 
       display: flex; flex-direction: column; 
-      background-color: var(--background-primary); 
-      border: 1px solid var(--background-modifier-border); 
+      background-color: #1a1a1a; 
+      border: 1px solid #2a2a2a; 
       border-radius: 8px; 
       overflow: hidden;
-      transition: all 0.4s ease-in-out;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .panel-header { 
-      padding: 10px 15px; background-color: var(--background-secondary-alt); 
-      border-bottom: 1px solid var(--background-modifier-border); 
+      padding: 10px 15px; background-color: #0a0a0a; 
+      border-bottom: 1px solid #2a2a2a; 
       display: flex; align-items: center; justify-content: space-between;
       flex-shrink: 0;
+      transition: background-color 0.3s ease;
     }
     .panel-header.is-clickable { cursor: pointer; }
-    .panel-header.is-clickable:hover { background-color: var(--background-modifier-hover); }
-    .panel-header h4, .panel-header h3 { margin: 0; flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .panel-header.is-clickable:hover { background-color: #2a2a2a; }
+    .panel-header h4, .panel-header h3 { margin: 0; flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #ffffff; }
     .panel-header-actions { display: flex; align-items: center; gap: 8px; }
     .panel-focus-button { margin-left: auto; }
     .file-list { overflow-y: auto; padding: 8px; flex-grow: 1; }
-    .file-list-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border-radius: 5px; cursor: pointer; white-space: nowrap; }
-    .file-list-item:hover { background-color: var(--background-modifier-hover); }
-    .file-list-item.is-active { background-color: var(--interactive-accent); color: var(--text-on-accent); }
+    .file-list-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border-radius: 5px; cursor: pointer; white-space: nowrap; color: #ffffff; }
+    .file-list-item:hover { background-color: #2a2a2a; }
+    .file-list-item.is-active { background-color: rgba(155, 135, 245, 0.8); color: #ffffff; }
     .file-name { text-overflow: ellipsis; overflow: hidden; }
-    .panel-content-grid { padding: 15px; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; flex-grow: 1; min-height: 0; }
+    .file-status { display: flex; align-items: center; }
+    .panel-content-grid { padding: 15px; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; flex-grow: 1; min-height: 0; opacity: 1; transition: opacity 0.4s ease; }
     .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
-    .card { padding: 15px; background-color: var(--background-secondary); border-radius: 6px; }
-    .preview-image { width: 100%; height: 250px; object-fit: contain; cursor: zoom-in; }
-    .data-pre { white-space: pre-wrap; word-break: break-word; background-color: var(--background-secondary-alt); max-height: 250px; overflow-y: auto; padding: 10px; border-radius: 4px; }
-    .notice.is-error { background-color: var(--background-modifier-error); }
-    .notice.is-info { background-color: var(--background-modifier-info); }
-    .table-container { flex-grow: 1; overflow-y: auto; }
+    .card { padding: 15px; background-color: #0a0a0a; border: 1px solid #2a2a2a; border-radius: 6px; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(155, 135, 245, 0.2); }
+    .card h5 { margin: 0 0 10px 0; color: #ffffff; }
+    .preview-image { width: 100%; height: 250px; object-fit: contain; cursor: zoom-in; background-color: #0a0a0a; }
+    .data-pre { white-space: pre-wrap; word-break: break-word; background-color: #0a0a0a; max-height: 250px; overflow-y: auto; padding: 10px; border-radius: 4px; color: #ffffff; border: 1px solid #2a2a2a; }
+    .notice { padding: 12px; border-radius: 6px; margin-bottom: 10px; white-space: pre-wrap; word-wrap: break-word; line-height: 1.5; }
+    .notice.is-error { background-color: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; color: #ff6b6b; }
+    .notice.is-info { background-color: rgba(155, 135, 245, 0.1); border: 1px solid rgba(155, 135, 245, 0.5); color: rgba(155, 135, 245, 1); }
+    .table-container { flex-grow: 1; overflow-y: auto; opacity: 1; transition: opacity 0.4s ease; }
     .summary-table { width: 100%; border-collapse: collapse; }
-    .summary-table th, .summary-table td { padding: 12px 15px; text-align: left; border-top: 1px solid var(--background-modifier-border); }
-    .icon-button { background: none; border: none; padding: 5px; border-radius: 4px; cursor: pointer; color: var(--text-muted); }
-    .icon-button:hover { background-color: var(--background-modifier-hover); color: var(--text-normal); }
-    .empty-state { padding: 20px; text-align: center; color: var(--text-faint); }
-    .empty-state-placeholder { text-align: center; color: var(--text-faint); padding: 40px 20px; }
-    .empty-state-placeholder svg { margin-bottom: 16px; }
-    .tab-bar { display: flex; border-bottom: 1px solid var(--background-modifier-border); margin-bottom: 10px; }
-    .tab-bar button { background: none; border: none; padding: 10px 15px; cursor: pointer; color: var(--text-muted); border-bottom: 2px solid transparent; }
-    .tab-bar button.active { border-bottom-color: var(--interactive-accent); color: var(--text-normal); font-weight: 500; }
+    .summary-table th { padding: 12px 15px; text-align: left; border-top: 1px solid #2a2a2a; background-color: #0a0a0a; color: #888888; font-weight: 600; }
+    .summary-table td { padding: 12px 15px; text-align: left; border-top: 1px solid #2a2a2a; color: #ffffff; transition: background-color 0.2s ease; }
+    .summary-table tbody tr:hover td { background-color: #1a1a1a; }
+    .table-actions { display: flex; gap: 8px; }
+    .icon-button { background: none; border: none; padding: 5px; border-radius: 4px; cursor: pointer; color: #888888; }
+    .icon-button:hover { background-color: #2a2a2a; color: #ffffff; }
+    .empty-state { padding: 20px; text-align: center; color: #666666; }
+    .empty-state-placeholder { text-align: center; color: #666666; padding: 40px 20px; }
+    .empty-state-placeholder h4 { color: #888888; margin: 16px 0 8px 0; }
+    .empty-state-placeholder p { color: #666666; margin: 0; }
+    .tab-bar { display: flex; border-bottom: 1px solid #2a2a2a; margin-bottom: 10px; }
+    .tab-bar button { background: none; border: none; padding: 10px 15px; cursor: pointer; color: #888888; border-bottom: 2px solid transparent; }
+    .tab-bar button.active { border-bottom-color: rgba(155, 135, 245, 0.8); color: #ffffff; font-weight: 500; }
+    .tab-content { color: #ffffff; }
   `;
 
   return {
-    headerTitle: { margin: 0, alignSelf: 'center', whiteSpace: 'nowrap' },
+    headerTitle: { margin: 0, alignSelf: 'center', whiteSpace: 'nowrap', color: '#ffffff' },
     flexRow: { display: 'flex', gap: '8px' },
     panelHeaderSpaceBetween: { justifyContent: 'space-between' },
     tableCellRight: { textAlign: 'right' },
-    tableCellRightBold: { textAlign: 'right', fontWeight: '500' },
-    tableCellCenter: { textAlign: 'center', padding: '20px', color: 'var(--text-faint)' },
-    iconGreen: { color: "var(--color-green)" },
-    iconRed: { color: "var(--color-red)" },
+    tableCellRightBold: { textAlign: 'right', fontWeight: '500', color: '#ffffff' },
+    tableCellCenter: { textAlign: 'center', padding: '20px', color: '#666666' },
+    iconGreen: { color: "#10b981" },
+    iconRed: { color: "#ef4444" },
     globalCss: globalCss,
   };
 }

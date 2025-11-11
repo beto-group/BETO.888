@@ -2,39 +2,39 @@
 
 ### Tab : Datacore Command Manager
 
-- **Description**: A self-contained command factory that empowers you to create and manage custom Obsidian commands directly from a Datacore view. It bridges the gap between simple scripting and full plugin development by automating the creation of a lightweight "helper" plugin, giving you a simple UI to inject powerful, custom JavaScript actions directly into the Obsidian command palette.
-- **Compatibility Note**: If you have the Lazy Loader community plugin installed, it may prevent the DC Commands helper plugin from loading by default. If your commands are not appearing in the command palette, go to the Lazy Loader plugin's settings, find DC Commands in the list, and change its loading type from 'Disabled' to another option (e.g., 'Short Delay', ...).
+- **Description**: A powerful "meta" component that acts as a management system for creating custom Obsidian commands. It provides a UI to define new commands and then programmatically generates and manages a lightweight, dedicated Obsidian plugin (DC Commands) to register these commands with the application. This allows users to create persistent, globally accessible commands directly from a Datacore component.
 
 - **Does**:
-    
-    - **Frictionless Setup & Installation**:
-        - On its first run, it provides a one-click installation for its required helper plugin, DC Commands.
-        - It automatically handles creating the necessary files (manifest.json, main.js), placing them in your vault's plugin directory, and enabling the plugin, requiring zero manual setup.
+   
+    - **Automated Plugin Management**:    
+        - **One-Click Installation**: On its first run, it presents a setup screen that, with a single click, creates a complete, functional Obsidian plugin (dc-cmd) in the user's vault, including the necessary main.js and manifest.json files.
+        - **Automatic Enabling**: After creating the plugin files, it programmatically enables the plugin, making it immediately active.
+    - **Custom Command Creation**:
+        - Provides a clean user interface to define new commands by specifying three key properties:
+            1. **Unique ID**: A short, unique identifier for the command (e.g., my-action).
+            2. **Command Name**: The user-friendly name that will appear in Obsidian's command palette (e.g., My Custom Action).
+            3. **Action Code**: The JavaScript code that will be executed when the command is run. This code has access to both the global Notice class for displaying messages and the dc (Datacore) object for more advanced interactions.
+    - **Live & Persistent Command Registration**:
+        - **Live Registration**: When a new command is created, it is **instantly** registered with Obsidian's command manager and becomes available in the command palette without requiring an application reload.
+        - **Persistent Storage**: All created commands are saved to a data.json file inside the generated plugin's directory. On startup, the plugin reads this file and re-registers all the user's custom commands, ensuring they persist across Obsidian sessions.
+    - **Full Command Lifecycle Management**: Allows users to view a list of all their created commands and delete any command, which both removes it from the live command palette and deletes it from the persistent data.json file.
+    - **Immersive Full-Tab UI**: Designed to run in a full-pane mode that takes over the entire Obsidian view, providing a dedicated, IDE-like environment for command management.
 
-    - **Integrated Command Management UI**:        
-        - Provides a clean interface to create, list, and delete commands.
-        - Each command is defined with a unique ID, a display name for the command palette, and a JavaScript action.
-        - Commands are registered live, becoming available in the command palette the moment you create them, no reload required. [The Command Name will slightly change on reload - To include PLugin {DC Commands} Name within commands added]
+- **Can’t**:
+   
+    - **Function Without the Core Plugin**: The component is a **manager** for the DC Commands plugin. If this plugin is not installed and enabled, the commands will not be loaded or persisted when Obsidian restarts.    
+    - **Create Commands with Hotkeys**: The UI allows for the creation of the command itself, but it does not provide an interface to assign a keyboard shortcut (hotkey) to it. This must be done through Obsidian's native "Settings → Hotkeys" menu.
+    - **Provide an Advanced Code Editor**: The "Action Code" is entered into a standard `<textarea>`. It does not include a full-featured code editor like Monaco or Ace with syntax highlighting or autocompletion.
+    - **Edit Existing Commands**: The current UI supports creating and deleting commands but does not provide a way to edit the code of an existing command. To change a command, the user must delete it and recreate it.
 
-    - **Powerful Scripting Environment**:        
-        - The action editor allows you to write JavaScript that has direct access to the new Notice() function for user feedback and the global dc object for interacting with Datacore and Obsidian APIs.
-        - This enables a wide range of custom workflows, from simple alerts to complex data manipulation scripts.
-
-    - **Seamless Obsidian Integration**:        
-        - All created commands are added directly to the standard Obsidian command palette (accessible via Ctrl/Cmd+P).
-        - It leverages Obsidian's native naming system, so a command named "My Awesome Script" will correctly appear as DC Commands: My Awesome Script.
-
-- **Can’t**:    
-    - **Define Complex Plugin Logic**: This system is designed for single-action commands. It cannot be used to create custom views, settings tabs, ribbon icons, or other advanced features that require a full plugin structure.
-    - **Operate without its Helper Plugin**: The commands are loaded and run by the dc-cmd helper plugin. If this plugin is disabled or deleted, all created commands will cease to function.
-    - **Provide an IDE Experience**: The command editor is a simple textarea. It does not offer advanced features like syntax highlighting, error-checking (linting), or a step-through debugger.
-    - **Manage External Commands**: It can only create, view, and delete commands stored within its own data.json file. It has no ability to interact with commands registered by other Obsidian plugins.
-
-
-
-![datacore_command_manager.webp](/_RESOURCES/IMAGES/datacore_command_manager.webp)
+- **Disclaimer**:
+   
+    - This component is a highly advanced "meta" tool that directly creates and modifies files within your .obsidian/plugins directory. It uses Node.js's fs module to write a new plugin to your vault. While this is a powerful demonstration of Datacore's capabilities, it should be used with a clear understanding of its function. It is a proof-of-concept for deep application-level integration and not a polished, production-ready tool.
 
 
+----
+
+![datacore_command_manager.webp](_resources/images/datacore_command_manager.webp)
 
 
 

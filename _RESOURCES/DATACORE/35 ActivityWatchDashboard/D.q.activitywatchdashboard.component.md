@@ -10,7 +10,7 @@
 // ViewComponent (main component)
 const { useState, useEffect, useCallback, useMemo, useRef } = dc;
 
-const filename = "_RESOURCES/DATACORE/35 ActivityWatchDashboard/D.q.activitywatchdashboard.component.md";
+const filename = dc.resolvePath("D.q.activitywatchdashboard.component.md");
 
 const { formatDuration, formatTime } = await dc.require(dc.headerLink(filename, "HelperFunctions"));
 const { PieChartView } = await dc.require(dc.headerLink(filename, "PieChartView"));
@@ -23,22 +23,22 @@ const { StreamgraphView } = await dc.require(dc.headerLink(filename, "Streamgrap
 // =================================================================================
 // 1. CONFIGURATION & UTILS
 // =================================================================================
-const CATEGORIES = [ { name: 'Work', color: 'var(--color-green)', subCategories: [ { name: 'Programming', regex: /GitHub|Stack Overflow|BitBucket|Gitlab|vim|Spyder|kate|Ghidra|Scite|code|visual studio code|postman|powershell|terminal|cmd|git-bash|neovim|sublime_text|webstorm|intellijidea|eclipse|jupyter-lab/i }, { name: 'Documents', regex: /Google Docs|libreoffice|ReText/i }, { name: 'Image', regex: /GIMP|Inkscape|figma/i }, { name: 'Video', regex: /Kdenlive/i }, { name: 'Audio', regex: /Audacity/i }, { name: '3D', regex: /Blender/i }, { name: 'AI', regex: /Google AI Studio/i }, { name: 'Notes', regex: /Obsidian/i } ] }, { name: 'Media', color: 'var(--color-red)', subCategories: [ { name: 'Games', regex: /Minecraft|RimWorld|steam|epicgameslauncher|league of legends|valorant/i }, { name: 'Video', regex: /YouTube|Plex|VLC|netflix/i }, { name: 'Social Media', regex: /reddit|Facebook|Twitter|Instagram|devRant|tiktok|pinterest/i }, { name: 'Music', regex: /Spotify|Deezer/i } ] }, { name: 'Comms', color: '#03A9F4', subCategories: [ { name: 'IM', regex: /Messenger|Telegram|Signal|WhatsApp|Rambox|Slack|Riot|Element|Discord|Nheko|NeoChat|Mattermost/i }, { name: 'Email', regex: /Gmail|Thunderbird|mutt|alpine/i } ] }, { name: 'General Browsing', color: 'var(--color-blue)', subCategories: [ { name: 'Web Browser', regex: /browser|chrome|firefox|edge|safari|opera/i } ] } ];
-const UNCATEGORIZED_CATEGORY = { name: 'Uncategorized', color: 'var(--text-muted)', subCategories: [] };
+const CATEGORIES = [ { name: 'Work', color: '#9d7cce', icon: 'briefcase', subCategories: [ { name: 'Programming', icon: 'code', regex: /GitHub|Stack Overflow|BitBucket|Gitlab|vim|Spyder|kate|Ghidra|Scite|code|visual studio code|postman|powershell|terminal|cmd|git-bash|neovim|sublime_text|webstorm|intellijidea|eclipse|jupyter-lab/i }, { name: 'Documents', icon: 'file-text', regex: /Google Docs|libreoffice|ReText/i }, { name: 'Image', icon: 'image', regex: /GIMP|Inkscape|figma/i }, { name: 'Video', icon: 'video', regex: /Kdenlive/i }, { name: 'Audio', icon: 'audio-lines', regex: /Audacity/i }, { name: '3D', icon: 'box', regex: /Blender/i }, { name: 'AI', icon: 'brain', regex: /Google AI Studio/i }, { name: 'Notes', icon: 'sticky-note', regex: /Obsidian/i } ] }, { name: 'Media', color: '#E91E63', icon: 'play-circle', subCategories: [ { name: 'Games', icon: 'gamepad-2', regex: /Minecraft|RimWorld|steam|epicgameslauncher|league of legends|valorant/i }, { name: 'Video', icon: 'youtube', regex: /YouTube|Plex|VLC|netflix/i }, { name: 'Social Media', icon: 'share-2', regex: /reddit|Facebook|Twitter|Instagram|devRant|tiktok|pinterest/i }, { name: 'Music', icon: 'music', regex: /Spotify|Deezer/i } ] }, { name: 'Comms', color: '#C77DFF', icon: 'message-circle', subCategories: [ { name: 'IM', icon: 'message-square', regex: /Messenger|Telegram|Signal|WhatsApp|Rambox|Slack|Riot|Element|Discord|Nheko|NeoChat|Mattermost/i }, { name: 'Email', icon: 'mail', regex: /Gmail|Thunderbird|mutt|alpine/i } ] }, { name: 'General Browsing', color: '#b19cd9', icon: 'globe', subCategories: [ { name: 'Web Browser', icon: 'globe', regex: /browser|chrome|firefox|edge|safari|opera/i } ] } ];
+const UNCATEGORIZED_CATEGORY = { name: 'Uncategorized', color: '#666666', icon: 'help-circle', subCategories: [] };
 const ITEMS_PER_PAGE_DETAILED = 15;
 
 
 
 
 
-const VIEWS = [ { id: 'summary', label: 'Top Applications' }, { id: 'detailed', label: 'Detailed Activity' }, { id: 'charts', label: 'Charts' }, { id: 'productivity', label: 'Productivity' }, { id: 'timeline', label: 'Timeline' } ];
-const CHART_SUB_VIEWS = [ { id: 'sunburst', label: 'Category Sunburst' }, { id: 'piechart', label: 'Application Pie Chart' }, { id: 'streamgraph', label: 'Category Streamgraph' }, { id: 'calendar', label: 'Activity Calendar' } ];
-const Legend = ({ events, getColorForApp }) => { const legendItems = useMemo(() => { if (!events || events.length === 0) return []; const appSet = new Set(); events.forEach(event => { if (event.data && event.data.app) { appSet.add(event.data.app); } }); return Array.from(appSet).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase())); }, [events]); if (legendItems.length === 0) return null; const styles = { container: { display: 'flex', flexWrap: 'wrap', gap: '8px 16px', padding: '10px', marginTop: '5px', maxHeight: '80px', overflowY: 'auto', backgroundColor: 'var(--background-primary)', borderRadius: '6px', border: '1px solid var(--background-modifier-border)' }, item: { display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85em', color: 'var(--text-muted)' }, swatch: { width: '12px', height: '12px', borderRadius: '3px', flexShrink: 0 } }; return dc.preact.h('div', { style: styles.container, 'aria-label': 'Timeline Legend' }, legendItems.map(app => dc.preact.h('div', { key: app, style: styles.item }, dc.preact.h('div', { style: { ...styles.swatch, backgroundColor: getColorForApp(app) } }), dc.preact.h('span', null, app))) ); };
+const VIEWS = [ { id: 'summary', label: 'Top Applications', icon: 'bar-chart-3' }, { id: 'detailed', label: 'Detailed Activity', icon: 'list' }, { id: 'charts', label: 'Charts', icon: 'pie-chart' }, { id: 'productivity', label: 'Productivity', icon: 'target' }, { id: 'timeline', label: 'Timeline', icon: 'clock' } ];
+const CHART_SUB_VIEWS = [ { id: 'sunburst', label: 'Category Sunburst', icon: 'circle-dot' }, { id: 'piechart', label: 'Application Pie Chart', icon: 'pie-chart' }, { id: 'streamgraph', label: 'Category Streamgraph', icon: 'waves' }, { id: 'calendar', label: 'Activity Calendar', icon: 'calendar' } ];
+const Legend = ({ events, getColorForApp }) => { const legendItems = useMemo(() => { if (!events || events.length === 0) return []; const appSet = new Set(); events.forEach(event => { if (event.data && event.data.app) { appSet.add(event.data.app); } }); return Array.from(appSet).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase())); }, [events]); if (legendItems.length === 0) return null; const styles = { container: { display: 'flex', flexWrap: 'wrap', gap: '8px 16px', padding: '10px', marginTop: '5px', maxHeight: '80px', overflowY: 'auto', backgroundColor: '#0a0a0a', borderRadius: '6px', border: '1px solid #333333' }, item: { display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85em', color: '#b19cd9' }, swatch: { width: '12px', height: '12px', borderRadius: '3px', flexShrink: 0 } }; return dc.preact.h('div', { style: styles.container, 'aria-label': 'Timeline Legend' }, legendItems.map(app => dc.preact.h('div', { key: app, style: styles.item }, dc.preact.h('div', { style: { ...styles.swatch, backgroundColor: getColorForApp(app) } }), dc.preact.h('span', null, app))) ); };
 
 // =================================================================================
 // 2. CUSTOM HOOKS
 // =================================================================================
-const useAppColorGenerator = () => { const appColorsRef = useRef(new Map()); const colorIndexRef = useRef(0); const palette = useMemo(() => [ '#4CAF50', '#2196F3', '#FFC107', '#F44336', '#9C27B0', '#00BCD4', '#FF9800', '#795548', '#607D8B', '#E91E63', '#03A9F4', '#8BC34A', '#CDDC39', '#FFEB3B', '#FF5722', '#673AB7', '#3F51B5', '#009688', '#AFB42B', '#FF7043', '#FF4081', '#7C4DFF', '#448AFF', '#00E676' ], []); const getColorForApp = useCallback((appName) => { if (!appName) return '#AAAAAA'; const normalizedAppName = appName.toLowerCase().replace(/\.exe$/, ''); if (!appColorsRef.current.has(normalizedAppName)) { appColorsRef.current.set(normalizedAppName, palette[colorIndexRef.current % palette.length]); colorIndexRef.current++; } return appColorsRef.current.get(normalizedAppName); }, [palette]); return getColorForApp; };
+const useAppColorGenerator = () => { const appColorsRef = useRef(new Map()); const colorIndexRef = useRef(0); const palette = useMemo(() => [ '#9d7cce', '#b19cd9', '#E91E63', '#FF6B9D', '#C77DFF', '#E0B0FF', '#FF69B4', '#DDA0DD', '#DA70D6', '#BA55D3', '#9370DB', '#8B008B', '#9932CC', '#FF1493', '#FF00FF', '#EE82EE', '#D8BFD8', '#FFB6C1', '#FFC0CB', '#DB7093', '#C71585', '#FF80ED', '#B666D2', '#967BB6' ], []); const getColorForApp = useCallback((appName) => { if (!appName) return '#b19cd9'; const normalizedAppName = appName.toLowerCase().replace(/\.exe$/, ''); if (!appColorsRef.current.has(normalizedAppName)) { appColorsRef.current.set(normalizedAppName, palette[colorIndexRef.current % palette.length]); colorIndexRef.current++; } return appColorsRef.current.get(normalizedAppName); }, [palette]); return getColorForApp; };
 function useActivityData() { const [rawEvents, setRawEvents] = useState({ window: [], afk: [] }); const [loading, setLoading] = useState(true); const [error, setError] = useState(null); const fetchActivityData = useCallback(async () => { setLoading(true); setError(null); setRawEvents({ window: [], afk: [] }); try { if (typeof requestUrl !== 'function') throw new Error("`requestUrl` is not available."); const bucketsResponse = await requestUrl({ url: "http://localhost:5600/api/0/buckets/" }); const bucketsData = bucketsResponse.json; const bucketIds = Object.keys(bucketsData); const windowBucketId = bucketIds.find(id => id.startsWith("aw-watcher-window_")); const afkBucketId = bucketIds.find(id => id.startsWith("aw-watcher-afk_")); if (!windowBucketId) throw new Error("Could not find a window watcher bucket."); const params = new URLSearchParams({ limit: '1000000' }).toString(); const eventPromises = [ requestUrl({ url: `http://localhost:5600/api/0/buckets/${windowBucketId}/events?${params}` }) ]; if (afkBucketId) { eventPromises.push(requestUrl({ url: `http://localhost:5600/api/0/buckets/${afkBucketId}/events?${params}` })); } const [windowRes, afkRes] = await Promise.all(eventPromises); const rawWindowEvents = windowRes.json || []; const rawAfkEvents = (afkRes && afkRes.json) || []; setRawEvents({ window: rawWindowEvents, afk: rawAfkEvents }); } catch (err) { console.error("[AW-Dashboard] A critical error occurred:", err); setError(err.message.includes("Failed to fetch") ? "Could not connect to ActivityWatch server." : err.message); } finally { setLoading(false); } }, []); useEffect(() => { fetchActivityData(); }, [fetchActivityData]); return { rawEvents, loading, error, refetch: fetchActivityData }; }
 
 // =================================================================================
@@ -160,8 +160,8 @@ function aggregateViewData(activeEvents, activeView) {
 // =================================================================================
 // 4. UI/PRESENTATIONAL COMPONENTS
 // =================================================================================
-const DashboardHeader = ({ viewDate, rangeSpan, onPrevDay, onNextDay, onToday, onWeek, onRefresh, loading }) => {
-    const styles = { header: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '15px', marginBottom: '15px' }, title: { margin: 0, fontSize: '1.5em' }, controls: { display: 'flex', alignItems: 'center', gap: '5px' }, button: { padding: '8px 12px', border: '1px solid var(--background-modifier-border)', borderRadius: '5px', cursor: 'pointer', backgroundColor: 'var(--background-primary)', color: 'var(--text-muted)', transition: 'all 0.2s', flexShrink: 0 }, activeButton: { backgroundColor: 'var(--interactive-accent)', color: 'white', borderColor: 'var(--interactive-accent)' }, disabledButton: { opacity: 0.5, cursor: 'not-allowed' } };
+const DashboardHeader = ({ viewDate, rangeSpan, onPrevDay, onNextDay, onToday, onWeek, onRefresh, loading, activeMode, onToggleFullTab }) => {
+    const styles = { header: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '15px', marginBottom: '15px' }, title: { margin: 0, fontSize: '1.5em', color: '#ffffff', display: 'flex', alignItems: 'center', gap: '10px' }, controls: { display: 'flex', alignItems: 'center', gap: '5px' }, button: { padding: '8px 12px', border: '1px solid #333333', borderRadius: '5px', cursor: 'pointer', backgroundColor: '#0a0a0a', color: '#b19cd9', transition: 'all 0.2s', flexShrink: 0, display: 'flex', alignItems: 'center', gap: '6px' }, activeButton: { backgroundColor: '#9d7cce', color: '#ffffff', borderColor: '#9d7cce', boxShadow: '0 0 15px rgba(157, 124, 206, 0.3)' }, disabledButton: { opacity: 0.5, cursor: 'not-allowed' } };
 
     const isSameDay = (d1, d2) => {
         if (!d1 || !d2) return false;
@@ -180,22 +180,35 @@ const DashboardHeader = ({ viewDate, rangeSpan, onPrevDay, onNextDay, onToday, o
         return viewDate.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
     }, [viewDate, isViewingToday]);
 
+    const isFullTabActive = activeMode === 'fullTab';
+
     return dc.preact.h('div', { style: styles.header },
-        dc.preact.h('h2', { style: styles.title }, 'ActivityWatch Dashboard'),
+        dc.preact.h('h2', { style: styles.title }, 
+            dc.preact.h(dc.Icon, { icon: 'activity', style: { fontSize: '24px', color: '#9d7cce' } }),
+            'ActivityWatch Dashboard'
+        ),
         dc.preact.h('div', { style: styles.controls },
-            dc.preact.h('button', { style: { ...styles.button, padding: '8px 10px' }, onClick: onPrevDay, disabled: loading, title: "Previous Day" }, '‹'),
-            dc.preact.h('button', { style: { ...styles.button, ...(rangeSpan === 1 ? styles.activeButton : {}) }, onClick: onToday, disabled: loading }, dateButtonText),
-            dc.preact.h('button', { style: { ...styles.button, padding: '8px 10px', ...(isViewingToday ? styles.disabledButton : {}) }, onClick: onNextDay, disabled: loading || isViewingToday, title: "Next Day" }, '›'),
-            dc.preact.h('button', { style: { ...styles.button, marginLeft: '10px', ...(rangeSpan === 7 ? styles.activeButton : {}) }, onClick: onWeek, disabled: loading }, 'Last 7 Days'),
-            dc.preact.h('button', { style: { ...styles.button, marginLeft: '5px' }, onClick: onRefresh, disabled: loading }, loading ? '...Loading' : '⟳ Refresh')
+            dc.preact.h('button', { style: { ...styles.button, padding: '8px 10px' }, onClick: onPrevDay, disabled: loading, title: "Previous Day" }, dc.preact.h(dc.Icon, { icon: 'chevron-left', style: { fontSize: '16px' } })),
+            dc.preact.h('button', { style: { ...styles.button, ...(rangeSpan === 1 ? styles.activeButton : {}) }, onClick: onToday, disabled: loading }, dc.preact.h(dc.Icon, { icon: 'calendar', style: { fontSize: '16px' } }), dateButtonText),
+            dc.preact.h('button', { style: { ...styles.button, padding: '8px 10px', ...(isViewingToday ? styles.disabledButton : {}) }, onClick: onNextDay, disabled: loading || isViewingToday, title: "Next Day" }, dc.preact.h(dc.Icon, { icon: 'chevron-right', style: { fontSize: '16px' } })),
+            dc.preact.h('button', { style: { ...styles.button, marginLeft: '10px', ...(rangeSpan === 7 ? styles.activeButton : {}) }, onClick: onWeek, disabled: loading }, dc.preact.h(dc.Icon, { icon: 'calendar-days', style: { fontSize: '16px' } }), 'Last 7 Days'),
+            dc.preact.h('button', { style: { ...styles.button, marginLeft: '5px' }, onClick: onRefresh, disabled: loading }, loading ? dc.preact.h(dc.Icon, { icon: 'loader', style: { fontSize: '16px', animation: 'spin 1s linear infinite' } }) : dc.preact.h(dc.Icon, { icon: 'refresh-cw', style: { fontSize: '16px' } }), loading ? 'Loading' : 'Refresh'),
+            dc.preact.h('button', { 
+                style: { ...styles.button, marginLeft: '10px', ...(isFullTabActive ? styles.activeButton : {}) }, 
+                onClick: onToggleFullTab, 
+                title: isFullTabActive ? "Exit Full Tab Mode" : "Enter Full Tab Mode"
+            }, 
+                dc.preact.h(dc.Icon, { icon: isFullTabActive ? 'minimize-2' : 'maximize-2', style: { fontSize: '16px' } }), 
+                isFullTabActive ? 'Exit Tab' : 'Full Tab'
+            )
         )
     );
 };
-const ViewTabs = ({ views, activeView, setActiveView, loading }) => { const styles = { tabContainer: { display: 'flex', gap: '5px', padding: '4px', backgroundColor: 'var(--background-primary)', borderRadius: '8px', marginBottom: '15px', flexWrap: 'wrap' }, tabButton: { flex: 1, padding: '10px', border: 'none', borderRadius: '6px', cursor: 'pointer', backgroundColor: 'transparent', color: 'var(--text-muted)', fontWeight: 'bold', transition: 'all 0.2s', minWidth: '120px' }, activeTab: { backgroundColor: 'var(--background-modifier-hover)', color: 'var(--text-normal)' }, }; return ( dc.preact.h('div', { style: styles.tabContainer }, views.map(view => dc.preact.h('button', { key: view.id, style: { ...styles.tabButton, ...(activeView === view.id ? styles.activeTab : {}) }, onClick: () => setActiveView(view.id), disabled: loading }, view.label))) ); };
-const SubViewTabs = ({ views, activeView, setActiveView, loading }) => { const styles = { tabContainer: { display: 'flex', justifyContent: 'center', gap: '10px', padding: '4px', backgroundColor: 'var(--background-primary-alt, var(--background-secondary))', borderRadius: '8px', marginBottom: '20px', flexWrap: 'wrap', border: '1px solid var(--background-modifier-border)' }, tabButton: { flexGrow: 0, padding: '8px 16px', border: 'none', borderRadius: '6px', cursor: 'pointer', backgroundColor: 'transparent', color: 'var(--text-muted)', fontWeight: 'bold', transition: 'all 0.2s', minWidth: '150px' }, activeTab: { backgroundColor: 'var(--background-modifier-hover)', color: 'var(--text-normal)' }, }; return ( dc.preact.h('div', { style: styles.tabContainer }, views.map(view => dc.preact.h('button', { key: view.id, style: { ...styles.tabButton, ...(activeView === view.id ? styles.activeTab : {}) }, onClick: () => setActiveView(view.id), disabled: loading }, view.label)) ) ); };
-const Message = ({ text, type = 'info' }) => { const baseStyle = { textAlign: 'center', padding: '40px 20px', fontStyle: 'italic', borderRadius: '5px' }; const styles = { info: { ...baseStyle, color: 'var(--text-muted)' }, error: { ...baseStyle, fontStyle: 'normal', color: 'var(--text-error)', backgroundColor: 'var(--background-modifier-error-rgb, 255, 0, 0, 0.15)', border: '1px solid var(--text-error)' } }; return dc.preact.h('p', { style: styles[type] }, text); };
-const DataListItem = ({ item, maxDuration, colorOverride = null }) => { const { name, title } = item.data; const color = colorOverride || 'var(--interactive-accent)'; const styles = { listItem: { backgroundColor: 'var(--background-primary)', padding: '12px', borderRadius: '6px', display: 'flex', flexDirection: 'column', gap: '5px' }, itemHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' }, appTitle: { fontWeight: 'bold', fontSize: '1.1em', color: 'var(--text-normal)', wordBreak: 'break-word', flexGrow: 1, minWidth: '0' }, duration: { fontSize: '1.1em', color: 'var(--interactive-accent)', whiteSpace: 'nowrap', marginLeft: '10px' }, progressBarContainer: { width: '100%', backgroundColor: 'var(--background-modifier-border)', borderRadius: '4px', height: '8px', marginTop: '8px', overflow: 'hidden' }, progressBar: { height: '100%', borderRadius: '4px', transition: 'width 0.3s ease-out', backgroundColor: color }, }; return dc.preact.h('li', { style: { ...styles.listItem, listStyle: 'none' } }, dc.preact.h('div', { style: styles.itemHeader }, dc.preact.h('span', { style: styles.appTitle }, name || 'Unknown'), dc.preact.h('span', { style: styles.duration }, formatDuration(item.duration))), title && dc.preact.h('div', { style: {fontSize: '0.9em', color: 'var(--text-muted)', wordBreak: 'break-word'} }, title), dc.preact.h('div', { style: styles.progressBarContainer }, dc.preact.h('div', { style: { ...styles.progressBar, width: `${(item.duration / maxDuration) * 100}%` } }))); };
-const TimelineControls = ({ onRangeChange }) => { const [startTime, setStartTime] = useState(''); const [endTime, setEndTime] = useState(''); const RELATIVE_RANGES = [ { label: '1h', duration: 3600 }, { label: '3h', duration: 3 * 3600 }, { label: '6h', duration: 6 * 3600 }, { label: '12h', duration: 12 * 3600 }, { label: '24h', duration: 24 * 3600 }, { label: '7d', duration: 7 * 24 * 3600 }, ]; const handleApplyAbsolute = () => { if (startTime && endTime) { onRangeChange({ mode: 'absolute', start: new Date(startTime), end: new Date(endTime) }); } }; const handleResetView = () => { setStartTime(''); setEndTime(''); onRangeChange({ mode: 'relative', duration: 24 * 3600 }); } ; const styles = { container: { display: 'flex', flexDirection: 'column', gap: '12px', padding: '12px', backgroundColor: 'var(--background-primary)', borderRadius: '6px', border: '1px solid var(--background-modifier-border)', marginBottom: '15px' }, row: { display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }, label: { fontSize: '0.9em', color: 'var(--text-muted)', minWidth: '80px' }, buttonGroup: { display: 'flex', gap: '5px' }, button: { padding: '6px 12px', border: '1px solid var(--background-modifier-border)', borderRadius: '5px', cursor: 'pointer', backgroundColor: 'var(--background-secondary)', color: 'var(--text-normal)', transition: 'background-color 0.2s' }, applyButton: { backgroundColor: 'var(--interactive-accent)', color: 'white', fontWeight: 'bold' }, input: { backgroundColor: 'var(--background-secondary)', border: '1px solid var(--background-modifier-border)', borderRadius: '5px', padding: '6px 8px', color: 'var(--text-normal)', fontFamily: 'inherit', colorScheme: 'dark' } }; return dc.preact.h('div', { style: styles.container }, dc.preact.h('div', { style: styles.row }, dc.preact.h('span', { style: styles.label }, 'Zoom to Last:'), dc.preact.h('div', { style: styles.buttonGroup }, RELATIVE_RANGES.map(range => dc.preact.h('button', { key: range.label, style: styles.button, onClick: () => onRangeChange({ mode: 'relative', duration: range.duration }) }, range.label)), dc.preact.h('button', {style: {...styles.button, marginLeft: '15px'}, onClick: handleResetView }, 'Reset View'))), dc.preact.h('div', { style: styles.row }, dc.preact.h('span', { style: styles.label }, 'Show from:'), dc.preact.h('input', { type: 'datetime-local', style: styles.input, value: startTime, onChange: e => setStartTime(e.target.value) }), dc.preact.h('span', { style: { color: 'var(--text-muted)'} }, 'to'), dc.preact.h('input', { type: 'datetime-local', style: styles.input, value: endTime, onChange: e => setEndTime(e.target.value) }), dc.preact.h('button', { style: { ...styles.button, ...styles.applyButton }, onClick: handleApplyAbsolute }, 'Apply'))); };
+const ViewTabs = ({ views, activeView, setActiveView, loading }) => { const styles = { tabContainer: { display: 'flex', gap: '5px', padding: '4px', backgroundColor: '#0a0a0a', borderRadius: '8px', marginBottom: '15px', flexWrap: 'wrap' }, tabButton: { flex: 1, padding: '10px', border: 'none', borderRadius: '6px', cursor: 'pointer', backgroundColor: 'transparent', color: '#666666', fontWeight: 'bold', transition: 'all 0.2s', minWidth: '120px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }, activeTab: { backgroundColor: 'rgba(157, 124, 206, 0.2)', color: '#9d7cce', boxShadow: '0 0 15px rgba(157, 124, 206, 0.3)' }, }; return ( dc.preact.h('div', { style: styles.tabContainer }, views.map(view => dc.preact.h('button', { key: view.id, style: { ...styles.tabButton, ...(activeView === view.id ? styles.activeTab : {}) }, onClick: () => setActiveView(view.id), disabled: loading }, view.icon && dc.preact.h(dc.Icon, { icon: view.icon, style: { fontSize: '16px' } }), view.label))) ); };
+const SubViewTabs = ({ views, activeView, setActiveView, loading }) => { const styles = { tabContainer: { display: 'flex', justifyContent: 'center', gap: '10px', padding: '4px', backgroundColor: '#0a0a0a', borderRadius: '8px', marginBottom: '20px', flexWrap: 'wrap', border: '1px solid #333333' }, tabButton: { flexGrow: 0, padding: '8px 16px', border: 'none', borderRadius: '6px', cursor: 'pointer', backgroundColor: 'transparent', color: '#666666', fontWeight: 'bold', transition: 'all 0.2s', minWidth: '150px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }, activeTab: { backgroundColor: 'rgba(157, 124, 206, 0.2)', color: '#9d7cce', boxShadow: '0 0 15px rgba(157, 124, 206, 0.3)' }, }; return ( dc.preact.h('div', { style: styles.tabContainer }, views.map(view => dc.preact.h('button', { key: view.id, style: { ...styles.tabButton, ...(activeView === view.id ? styles.activeTab : {}) }, onClick: () => setActiveView(view.id), disabled: loading }, view.icon && dc.preact.h(dc.Icon, { icon: view.icon, style: { fontSize: '16px' } }), view.label)) ) ); };
+const Message = ({ text, type = 'info' }) => { const baseStyle = { textAlign: 'center', padding: '40px 20px', fontStyle: 'italic', borderRadius: '5px' }; const styles = { info: { ...baseStyle, color: '#666666' }, error: { ...baseStyle, fontStyle: 'normal', color: '#ff6b6b', backgroundColor: 'rgba(255, 107, 107, 0.1)', border: '1px solid #ff6b6b' } }; return dc.preact.h('p', { style: styles[type] }, text); };
+const DataListItem = ({ item, maxDuration, colorOverride = null }) => { const { name, title } = item.data; const color = colorOverride || '#9d7cce'; const styles = { listItem: { backgroundColor: '#0a0a0a', padding: '12px', borderRadius: '6px', display: 'flex', flexDirection: 'column', gap: '5px', border: '1px solid #1a1a1a' }, itemHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' }, appTitle: { fontWeight: 'bold', fontSize: '1.1em', color: '#ffffff', wordBreak: 'break-word', flexGrow: 1, minWidth: '0' }, duration: { fontSize: '1.1em', color: '#9d7cce', whiteSpace: 'nowrap', marginLeft: '10px' }, progressBarContainer: { width: '100%', backgroundColor: '#1a1a1a', borderRadius: '4px', height: '8px', marginTop: '8px', overflow: 'hidden' }, progressBar: { height: '100%', borderRadius: '4px', transition: 'width 0.3s ease-out', backgroundColor: color }, }; return dc.preact.h('li', { style: { ...styles.listItem, listStyle: 'none' } }, dc.preact.h('div', { style: styles.itemHeader }, dc.preact.h('span', { style: styles.appTitle }, name || 'Unknown'), dc.preact.h('span', { style: styles.duration }, formatDuration(item.duration))), title && dc.preact.h('div', { style: {fontSize: '0.9em', color: '#666666', wordBreak: 'break-word'} }, title), dc.preact.h('div', { style: styles.progressBarContainer }, dc.preact.h('div', { style: { ...styles.progressBar, width: `${(item.duration / maxDuration) * 100}%` } }))); };
+const TimelineControls = ({ onRangeChange }) => { const [startTime, setStartTime] = useState(''); const [endTime, setEndTime] = useState(''); const RELATIVE_RANGES = [ { label: '1h', icon: 'clock-1', duration: 3600 }, { label: '3h', icon: 'clock-3', duration: 3 * 3600 }, { label: '6h', icon: 'clock-6', duration: 6 * 3600 }, { label: '12h', icon: 'clock-12', duration: 12 * 3600 }, { label: '24h', icon: 'calendar-clock', duration: 24 * 3600 }, { label: '7d', icon: 'calendar-range', duration: 7 * 24 * 3600 }, ]; const handleApplyAbsolute = () => { if (startTime && endTime) { onRangeChange({ mode: 'absolute', start: new Date(startTime), end: new Date(endTime) }); } }; const handleResetView = () => { setStartTime(''); setEndTime(''); onRangeChange({ mode: 'relative', duration: 24 * 3600 }); } ; const styles = { container: { display: 'flex', flexDirection: 'column', gap: '12px', padding: '12px', backgroundColor: '#0a0a0a', borderRadius: '6px', border: '1px solid #333333', marginBottom: '15px' }, row: { display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }, label: { fontSize: '0.9em', color: '#b19cd9', minWidth: '80px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '6px' }, buttonGroup: { display: 'flex', gap: '5px', flexWrap: 'wrap' }, button: { padding: '6px 12px', border: '1px solid #333333', borderRadius: '5px', cursor: 'pointer', backgroundColor: '#1a1a1a', color: '#ffffff', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '5px' }, applyButton: { backgroundColor: '#9d7cce', color: '#ffffff', fontWeight: 'bold', boxShadow: '0 0 10px rgba(157, 124, 206, 0.3)' }, input: { backgroundColor: '#1a1a1a', border: '1px solid #333333', borderRadius: '5px', padding: '6px 8px', color: '#ffffff', fontFamily: 'inherit', colorScheme: 'dark' } }; return dc.preact.h('div', { style: styles.container }, dc.preact.h('div', { style: styles.row }, dc.preact.h('span', { style: styles.label }, dc.preact.h(dc.Icon, { icon: 'zap', style: { fontSize: '16px' } }), 'Zoom to Last:'), dc.preact.h('div', { style: styles.buttonGroup }, RELATIVE_RANGES.map(range => dc.preact.h('button', { key: range.label, style: styles.button, onClick: () => onRangeChange({ mode: 'relative', duration: range.duration }) }, range.icon && dc.preact.h(dc.Icon, { icon: range.icon, style: { fontSize: '14px' } }), range.label)), dc.preact.h('button', {style: {...styles.button, marginLeft: '10px'}, onClick: handleResetView }, dc.preact.h(dc.Icon, { icon: 'rotate-ccw', style: { fontSize: '14px' } }), 'Reset View'))), dc.preact.h('div', { style: styles.row }, dc.preact.h('span', { style: styles.label }, dc.preact.h(dc.Icon, { icon: 'calendar-range', style: { fontSize: '16px' } }), 'Show from:'), dc.preact.h('input', { type: 'datetime-local', style: styles.input, value: startTime, onChange: e => setStartTime(e.target.value) }), dc.preact.h('span', { style: { color: '#666666'} }, 'to'), dc.preact.h('input', { type: 'datetime-local', style: styles.input, value: endTime, onChange: e => setEndTime(e.target.value) }), dc.preact.h('button', { style: { ...styles.button, ...styles.applyButton }, onClick: handleApplyAbsolute }, dc.preact.h(dc.Icon, { icon: 'check', style: { fontSize: '14px' } }), 'Apply'))); };
 const TimelineView = ({ events, getColorForApp, timelineRange }) => { const canvasRef = useRef(null); const containerRef = useRef(null); const [scale, setScale] = useState(1.0); const [panX, setPanX] = useState(0); const [hoveredEvent, setHoveredEvent] = useState(null); const hoveredEventRef = useRef(null); const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 }); const [isPanning, setIsPanning] = useState(false); const panStartRef = useRef({ x: 0 }); const OVERSCROLL_PX = 50; const useTimelineBounds = (timelineRange) => useMemo(() => { if (!timelineRange) return { minTimeS: 0, maxTimeS: 0 }; let startMs, endMs; if (timelineRange.mode === 'relative') { endMs = new Date().getTime(); startMs = endMs - timelineRange.duration * 1000; } else { startMs = timelineRange.start.getTime(); endMs = timelineRange.end.getTime(); } return { minTimeS: startMs / 1000, maxTimeS: endMs / 1000 }; }, [timelineRange]); const { minTimeS, maxTimeS } = useTimelineBounds(timelineRange); useEffect(() => { const canvas = canvasRef.current; if (!canvas || !timelineRange) return; const canvasWidth = canvas.getBoundingClientRect().width; if (canvasWidth === 0) return; const durationInSeconds = maxTimeS - minTimeS; if (durationInSeconds <= 0) { setScale(1.0); setPanX(0); return; } const newScale = canvasWidth / durationInSeconds; const newPanX = -minTimeS * newScale; setScale(newScale); setPanX(newPanX); }, [timelineRange, minTimeS, maxTimeS]); const draw = useCallback(() => { const canvas = canvasRef.current; if (!canvas) return; const ctx = canvas.getContext('2d'); if (!ctx) return; const dpr = window.devicePixelRatio || 1; const rect = canvas.getBoundingClientRect(); if (canvas.width !== rect.width * dpr || canvas.height !== rect.height * dpr) { canvas.width = rect.width * dpr; canvas.height = rect.height * dpr; } ctx.setTransform(dpr, 0, 0, dpr, 0, 0); const currentScale = scale; const currentPanX = panX; const BAR_HEIGHT = 28; const PADDING_TOP = 15; const PADDING_BOTTOM = 35; const TIME_LABEL_HEIGHT = 15; ctx.clearRect(0, 0, rect.width, rect.height); for (const event of events) { const eventStartSeconds = new Date(event.timestamp).getTime() / 1000; const x = eventStartSeconds * currentScale + currentPanX; const width = event.duration * currentScale; if (x + width < 0 || x > rect.width) continue; ctx.fillStyle = getColorForApp(event.data.app); ctx.fillRect(x, PADDING_TOP, Math.max(0.5, width), BAR_HEIGHT); if (hoveredEventRef.current === event) { ctx.strokeStyle = '#FFFFFF'; ctx.lineWidth = 2; ctx.strokeRect(x + 1, PADDING_TOP + 1, Math.max(0.5, width) - 2, BAR_HEIGHT - 2); } } ctx.strokeStyle = 'var(--background-modifier-border)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(0, rect.height - PADDING_BOTTOM); ctx.lineTo(rect.width, rect.height - PADDING_BOTTOM); ctx.stroke(); const visibleStartSeconds = -currentPanX / currentScale; const visibleEndSeconds = (rect.width - currentPanX) / currentScale; const getStartOfDay = (d) => { const D = new Date(d); D.setHours(0, 0, 0, 0); return D; }; const getStartOfWeek = (d) => { const D = getStartOfDay(d); D.setDate(D.getDate() - D.getDay()); return D; }; const getStartOfMonth = (d) => { const D = getStartOfDay(d); D.setDate(1); return D; }; const getStartOfYear = (d) => new Date(d.getFullYear(), 0, 1); const ONE_MINUTE_S = 60; const ONE_HOUR_S = 3600; const ONE_DAY_S = 86400; const ONE_WEEK_S = 7 * ONE_DAY_S; const TICK_GENERATORS = [ { unit: 'minute', interval: 15 * ONE_MINUTE_S, minSpacingPx: 70, format: d => d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }) }, { unit: 'hour', interval: ONE_HOUR_S, minSpacingPx: 65, format: d => d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }) }, { unit: 'hour', interval: 3 * ONE_HOUR_S, minSpacingPx: 80, format: d => d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }) }, { unit: 'day', interval: ONE_DAY_S, minSpacingPx: 80, format: d => d.toLocaleDateString([], { month: 'short', day: 'numeric' }) }, { unit: 'week', interval: ONE_WEEK_S, minSpacingPx: 100, format: d => `Week of ${d.toLocaleDateString([], { month: 'short', day: 'numeric' })}` }, { unit: 'month', interval: 30 * ONE_DAY_S, minSpacingPx: 120, format: d => d.toLocaleDateString([], { month: 'long', year: 'numeric' }) }, { unit: 'year', interval: 365.25 * ONE_DAY_S, minSpacingPx: 150, format: d => d.toLocaleDateString([], { year: 'numeric' }) }, ]; let bestGenerator = TICK_GENERATORS[TICK_GENERATORS.length - 1]; for (const generator of TICK_GENERATORS) { if (generator.interval * currentScale > generator.minSpacingPx) { bestGenerator = generator; break; } } ctx.font = `${TIME_LABEL_HEIGHT * 0.8}px sans-serif`; ctx.textAlign = 'center'; const visibleStartDate = new Date(visibleStartSeconds * 1000); let firstTickDate; if (bestGenerator.unit === 'year') { firstTickDate = getStartOfYear(visibleStartDate); } else if (bestGenerator.unit === 'month') { firstTickDate = getStartOfMonth(visibleStartDate); } else if (bestGenerator.unit === 'week') { firstTickDate = getStartOfWeek(visibleStartDate); } else { const firstTickS = Math.ceil(visibleStartSeconds / bestGenerator.interval) * bestGenerator.interval; firstTickDate = new Date(firstTickS * 1000); } for (let d = firstTickDate; d.getTime() / 1000 <= visibleEndSeconds; ) { const tickSeconds = d.getTime() / 1000; const x = tickSeconds * currentScale + currentPanX; if (x > 15 && x < rect.width - 15) { const isMidnight = d.getHours() === 0 && d.getMinutes() === 0; let isDayMarker = false; if (bestGenerator.unit === 'hour' && isMidnight) isDayMarker = true; ctx.fillStyle = isDayMarker ? 'var(--text-accent)' : 'var(--text-muted)'; ctx.font = isDayMarker ? `bold ${TIME_LABEL_HEIGHT * 0.85}px sans-serif` : `${TIME_LABEL_HEIGHT * 0.8}px sans-serif`; const labelText = isDayMarker ? d.toLocaleDateString([], { month: 'short', day: 'numeric' }) : bestGenerator.format(d); ctx.fillText(labelText, x, rect.height - PADDING_BOTTOM + TIME_LABEL_HEIGHT + 5); } if (bestGenerator.unit === 'year') d.setFullYear(d.getFullYear() + 1); else if (bestGenerator.unit === 'month') d.setMonth(d.getMonth() + 1); else if (bestGenerator.unit === 'week') d.setDate(d.getDate() + 7); else d.setTime(d.getTime() + bestGenerator.interval * 1000); } }, [events, getColorForApp, scale, panX]); useEffect(() => { let animationFrameId; const renderLoop = () => { draw(); animationFrameId = requestAnimationFrame(renderLoop); }; renderLoop(); return () => cancelAnimationFrame(animationFrameId); }, [draw]); const handleWheel = useCallback((e) => { e.preventDefault(); const rect = canvasRef.current.getBoundingClientRect(); if (rect.width === 0) return; const mouseX = e.clientX - rect.left; const currentScale = scale; const currentPanX = panX; const ZOOM_OUT_LIMIT_FACTOR = 1.2; const viewportDuration = maxTimeS - minTimeS; const minScale = viewportDuration > 0 ? (rect.width / (viewportDuration * ZOOM_OUT_LIMIT_FACTOR)) : 1; if (e.ctrlKey || e.metaKey || Math.abs(e.deltaY) > Math.abs(e.deltaX)) { const zoomFactor = e.deltaY < 0 ? 1.2 : 1 / 1.2; let newScale = Math.min(currentScale * zoomFactor, 10000); newScale = Math.max(newScale, minScale); let newPanX = mouseX - (mouseX - currentPanX) * (newScale / currentScale); const maxPan = OVERSCROLL_PX - (minTimeS * newScale); const minPan = (rect.width - OVERSCROLL_PX) - (maxTimeS * newScale); newPanX = Math.max(minPan, Math.min(maxPan, newPanX)); setScale(newScale); setPanX(newPanX); } else { let newPanX = currentPanX - e.deltaX; const maxPan = OVERSCROLL_PX - (minTimeS * currentScale); const minPan = (rect.width - OVERSCROLL_PX) - (maxTimeS * currentScale); newPanX = Math.max(minPan, Math.min(maxPan, newPanX)); setPanX(newPanX); } }, [scale, panX, minTimeS, maxTimeS]); const handlePanMove = useCallback((e) => { if (!isPanning) return; const rect = canvasRef.current.getBoundingClientRect(); const currentScale = scale; const dx = e.clientX - panStartRef.current.x; setPanX(p => { const newPanX = p + dx; const maxPan = OVERSCROLL_PX - (minTimeS * currentScale); const minPan = (rect.width - OVERSCROLL_PX) - (maxTimeS * currentScale); return Math.max(minPan, Math.min(maxPan, newPanX)); }); panStartRef.current.x = e.clientX; }, [isPanning, scale, minTimeS, maxTimeS]); const handlePanEnd = useCallback(() => { setIsPanning(false); window.removeEventListener('mousemove', handlePanMove); window.removeEventListener('mouseup', handlePanEnd); }, [handlePanMove]); const handlePanStart = useCallback((e) => { if (e.button !== 0) return; e.preventDefault(); setIsPanning(true); panStartRef.current.x = e.clientX; window.addEventListener('mousemove', handlePanMove); window.addEventListener('mouseup', handlePanEnd); }, [handlePanMove, handlePanEnd]); const handleMouseMove = useCallback((e) => { if (isPanning) return; const canvasRect = canvasRef.current.getBoundingClientRect(); const mouseXRelativeToCanvas = e.clientX - canvasRect.left; const mouseYRelativeToCanvas = e.clientY - canvasRect.top; const BAR_TOP_OFFSET = 15; const BAR_HEIGHT = 28; const BAR_BOTTOM_OFFSET = BAR_TOP_OFFSET + BAR_HEIGHT; if (mouseYRelativeToCanvas < BAR_TOP_OFFSET || mouseYRelativeToCanvas > BAR_BOTTOM_OFFSET) { if (hoveredEvent) { setHoveredEvent(null); hoveredEventRef.current = null; } return; } const timeAtCursor = (mouseXRelativeToCanvas - panX) / scale; let foundEvent = null; for (let i = events.length - 1; i >= 0; i--) { const event = events[i]; const eventStartSeconds = new Date(event.timestamp).getTime() / 1000; const eventEndSeconds = eventStartSeconds + event.duration; if (timeAtCursor >= eventStartSeconds && timeAtCursor <= eventEndSeconds) { foundEvent = event; break; } } if (hoveredEventRef.current !== foundEvent) { setHoveredEvent(foundEvent); hoveredEventRef.current = foundEvent; } if (foundEvent) { const parentContainerRect = containerRef.current.getBoundingClientRect(); setTooltipPos({ x: e.clientX - parentContainerRect.left, y: e.clientY - parentContainerRect.top }); } }, [isPanning, events, getColorForApp, scale, panX]); const handleMouseLeave = useCallback(() => { setHoveredEvent(null); hoveredEventRef.current = null; }, []); if (!events || events.length === 0) { return dc.preact.h('p', { style: { textAlign: 'center', color: 'var(--text-muted)', padding: '20px' } }, 'No activity data available for the timeline.'); } let tooltipContent = null; if (hoveredEvent) { const startTime = new Date(hoveredEvent.timestamp); const endTime = new Date(startTime.getTime() + hoveredEvent.duration * 1000); tooltipContent = dc.preact.h('div', { style: { position: 'absolute', left: `${tooltipPos.x + 15}px`, top: `${tooltipPos.y + 15}px`, background: 'var(--background-secondary-alt)', border: '1px solid var(--background-modifier-border)', borderRadius: '6px', padding: '10px 14px', zIndex: 10000, pointerEvents: 'none', color: 'var(--text-normal)', fontSize: '0.9em', maxWidth: '320px', boxShadow: '0 4px 12px rgba(0,0,0,0.4)', opacity: 1, display: 'flex', flexDirection: 'column', gap: '5px' } }, dc.preact.h('div', { style: { fontWeight: 'bold', fontSize: '1.05em' } }, hoveredEvent.data.app || 'Unknown'), dc.preact.h('div', { style: { color: 'var(--interactive-accent)', fontSize: '1.2em', fontWeight: 'bold', margin: '4px 0' } }, formatDuration(hoveredEvent.duration)), hoveredEvent.data.title && dc.preact.h('div', { style: { fontStyle: 'italic', color: 'var(--text-faint)', borderTop: '1px solid var(--background-modifier-border)', paddingTop: '6px', marginTop: '2px' } }, hoveredEvent.data.title), dc.preact.h('div', { style: { color: 'var(--text-muted)', fontSize: '0.85em', marginTop: '4px' } }, `From: ${formatTime(startTime)} to ${formatTime(endTime)}`) ); } return dc.preact.h('div', { ref: containerRef, style: { position: 'relative' } }, dc.preact.h('canvas', { ref: canvasRef, style: { width: '100%', height: '100%', display: 'block' }, onWheel: handleWheel, onMouseDown: handlePanStart, onMouseMove: handleMouseMove, onMouseLeave: handleMouseLeave, }), tooltipContent, dc.preact.h(Legend, { events, getColorForApp }) ); };
 
 
@@ -215,9 +228,82 @@ const DataListView = ({ items, activeView, colorProp }) => {
     })));
 };
 
-const DetailedView = ({ data }) => { const [searchTerm, setSearchTerm] = useState(''); const [currentPage, setCurrentPage] = useState(1); const filteredAndPaginatedData = useMemo(() => { const lowercasedSearchTerm = searchTerm.toLowerCase(); const filteredData = data.filter(item => (item.data.app || '').toLowerCase().includes(lowercasedSearchTerm) || (item.data.title || '').toLowerCase().includes(lowercasedSearchTerm)); const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE_DETAILED); const startIndex = (currentPage - 1) * ITEMS_PER_PAGE_DETAILED; const dataToShow = filteredData.slice(startIndex, startIndex + ITEMS_PER_PAGE_DETAILED); return { dataToShow, totalPages }; }, [data, searchTerm, currentPage]); const { dataToShow, totalPages } = filteredAndPaginatedData; const styles = { detailsControlsContainer: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '20px', marginBottom: '15px', flexWrap: 'wrap' }, searchInput: { flexGrow: 1, backgroundColor: 'var(--background-primary)', border: '1px solid var(--background-modifier-border)', borderRadius: '5px', padding: '8px 10px', color: 'var(--text-normal)', fontSize: '0.9em', minWidth: '200px' }, paginationContainer: { display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--text-muted)' }, paginationButton: { padding: '6px 10px', border: '1px solid var(--background-modifier-border)', borderRadius: '5px', cursor: 'pointer', backgroundColor: 'var(--background-secondary)', color: 'var(--text-normal)', transition: 'background-color 0.2s' }, paginationButtonDisabled: { cursor: 'not-allowed', opacity: 0.5 } }; return dc.preact.h('div', null, dc.preact.h('div', { style: styles.detailsControlsContainer }, dc.preact.h('input', { type: 'text', placeholder: 'Filter by app or window title...', style: styles.searchInput, value: searchTerm, onChange: e => { setSearchTerm(e.target.value); setCurrentPage(1); } }), totalPages > 1 && dc.preact.h('div', { style: styles.paginationContainer }, dc.preact.h('button', { style: { ...styles.paginationButton, ...(currentPage === 1 ? styles.paginationButtonDisabled : {}) }, onClick: () => setCurrentPage(p => p - 1), disabled: currentPage === 1 }, 'Prev'), dc.preact.h('span', null, `Page ${currentPage} of ${totalPages}`), dc.preact.h('button', { style: { ...styles.paginationButton, ...(currentPage === totalPages ? styles.paginationButtonDisabled : {}) }, onClick: () => setCurrentPage(p => p + 1), disabled: currentPage === totalPages }, 'Next'))), dataToShow.length > 0 ? dc.preact.h(DataListView, { items: dataToShow, activeView: 'detailed' }) : dc.preact.h(Message, { text: 'No activities match your filter.' }) ); };
-const ExpandedCategoryDetails = ({ subTotals, parentDuration, parentColor }) => { const styles = { container: { marginTop: '10px', paddingLeft: '25px', borderLeft: '3px solid var(--background-modifier-border)', display: 'flex', flexDirection: 'column', gap: '8px' } }; return dc.preact.h('div', { style: styles.container }, subTotals.map(subItem => dc.preact.h(DataListItem, { key: subItem.name, item: { data: { name: subItem.name }, duration: subItem.duration }, maxDuration: parentDuration, colorOverride: parentColor }))); };
-const ProductivityView = ({ items, expandedCategory, setExpandedCategory }) => { const styles = { list: { listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }, itemWrapper: { cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px' }, icon: { color: 'var(--text-muted)', width: '15px', textAlign: 'center', transition: 'transform 0.2s' }, expandedIcon: { transform: 'rotate(90deg)' }, dataItemContainer: { flex: 1 } }; const maxDuration = items.length > 0 ? Math.max(...items.map(item => item.duration || 0)) : 1; return dc.preact.h('ul', { style: styles.list }, items.map(category => { const isExpanded = expandedCategory === category.name; const handleToggle = () => setExpandedCategory(isExpanded ? null : category.name); return dc.preact.h('li', { key: category.name }, dc.preact.h('div', { style: styles.itemWrapper, onClick: handleToggle }, dc.preact.h('span', { style: { ...styles.icon, ...(isExpanded ? styles.expandedIcon : {}) } }, '▶'), dc.preact.h('div', { style: styles.dataItemContainer }, dc.preact.h(DataListItem, { item: { data: { name: category.name }, duration: category.duration }, maxDuration: maxDuration, colorOverride: category.color }))), isExpanded && category.subTotals.length > 0 && dc.preact.h(ExpandedCategoryDetails, { subTotals: category.subTotals, parentDuration: category.duration, parentColor: category.color })); })); };
+const DetailedView = ({ data }) => { const [searchTerm, setSearchTerm] = useState(''); const [currentPage, setCurrentPage] = useState(1); const filteredAndPaginatedData = useMemo(() => { const lowercasedSearchTerm = searchTerm.toLowerCase(); const filteredData = data.filter(item => (item.data.app || '').toLowerCase().includes(lowercasedSearchTerm) || (item.data.title || '').toLowerCase().includes(lowercasedSearchTerm)); const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE_DETAILED); const startIndex = (currentPage - 1) * ITEMS_PER_PAGE_DETAILED; const dataToShow = filteredData.slice(startIndex, startIndex + ITEMS_PER_PAGE_DETAILED); return { dataToShow, totalPages }; }, [data, searchTerm, currentPage]); const { dataToShow, totalPages } = filteredAndPaginatedData; const styles = { detailsControlsContainer: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '20px', marginBottom: '15px', flexWrap: 'wrap' }, searchWrapper: { flexGrow: 1, position: 'relative', minWidth: '200px' }, searchIcon: { position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#666666', pointerEvents: 'none' }, searchInput: { width: '100%', backgroundColor: '#0a0a0a', border: '1px solid #333333', borderRadius: '5px', padding: '8px 10px 8px 35px', color: '#ffffff', fontSize: '0.9em' }, paginationContainer: { display: 'flex', alignItems: 'center', gap: '10px', color: '#666666' }, paginationButton: { padding: '6px 10px', border: '1px solid #333333', borderRadius: '5px', cursor: 'pointer', backgroundColor: '#1a1a1a', color: '#ffffff', transition: 'background-color 0.2s', display: 'flex', alignItems: 'center', gap: '5px' }, paginationButtonDisabled: { cursor: 'not-allowed', opacity: 0.5 } }; return dc.preact.h('div', null, dc.preact.h('div', { style: styles.detailsControlsContainer }, dc.preact.h('div', { style: styles.searchWrapper }, dc.preact.h(dc.Icon, { icon: 'search', style: { ...styles.searchIcon, fontSize: '16px' } }), dc.preact.h('input', { type: 'text', placeholder: 'Filter by app or window title...', style: styles.searchInput, value: searchTerm, onChange: e => { setSearchTerm(e.target.value); setCurrentPage(1); } })), totalPages > 1 && dc.preact.h('div', { style: styles.paginationContainer }, dc.preact.h('button', { style: { ...styles.paginationButton, ...(currentPage === 1 ? styles.paginationButtonDisabled : {}) }, onClick: () => setCurrentPage(p => p - 1), disabled: currentPage === 1 }, dc.preact.h(dc.Icon, { icon: 'chevron-left', style: { fontSize: '14px' } }), 'Prev'), dc.preact.h('span', null, `Page ${currentPage} of ${totalPages}`), dc.preact.h('button', { style: { ...styles.paginationButton, ...(currentPage === totalPages ? styles.paginationButtonDisabled : {}) }, onClick: () => setCurrentPage(p => p + 1), disabled: currentPage === totalPages }, 'Next', dc.preact.h(dc.Icon, { icon: 'chevron-right', style: { fontSize: '14px' } })))), dataToShow.length > 0 ? dc.preact.h(DataListView, { items: dataToShow, activeView: 'detailed' }) : dc.preact.h(Message, { text: 'No activities match your filter.' }) ); };
+const ExpandedCategoryDetails = ({ subTotals, parentDuration, parentColor, categoryName }) => { 
+    const styles = { 
+        container: { marginTop: '10px', paddingLeft: '25px', borderLeft: '3px solid #333333', display: 'flex', flexDirection: 'column', gap: '8px' },
+        itemWrapper: { display: 'flex', alignItems: 'center', gap: '8px' }
+    }; 
+    
+    // Find the parent category to get subcategory icons
+    const parentCategory = CATEGORIES.find(cat => cat.name === categoryName);
+    
+    return dc.preact.h('div', { style: styles.container }, 
+        subTotals.map(subItem => {
+            const subCategory = parentCategory?.subCategories.find(sub => sub.name === subItem.name);
+            return dc.preact.h('div', { key: subItem.name, style: styles.itemWrapper },
+                subCategory?.icon && dc.preact.h(dc.Icon, { 
+                    icon: subCategory.icon, 
+                    style: { fontSize: '16px', color: parentColor, flexShrink: 0 } 
+                }),
+                dc.preact.h('div', { style: { flex: 1 } },
+                    dc.preact.h(DataListItem, { 
+                        item: { data: { name: subItem.name }, duration: subItem.duration }, 
+                        maxDuration: parentDuration, 
+                        colorOverride: parentColor 
+                    })
+                )
+            );
+        })
+    ); 
+};
+const ProductivityView = ({ items, expandedCategory, setExpandedCategory }) => { 
+    const styles = { 
+        list: { listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }, 
+        itemWrapper: { cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px' }, 
+        icon: { color: '#9d7cce', width: '20px', textAlign: 'center', transition: 'transform 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center' }, 
+        expandedIcon: { transform: 'rotate(90deg)' }, 
+        categoryIcon: { fontSize: '18px', flexShrink: 0 },
+        dataItemContainer: { flex: 1 } 
+    }; 
+    
+    const maxDuration = items.length > 0 ? Math.max(...items.map(item => item.duration || 0)) : 1; 
+    
+    return dc.preact.h('ul', { style: styles.list }, 
+        items.map(category => { 
+            const isExpanded = expandedCategory === category.name; 
+            const handleToggle = () => setExpandedCategory(isExpanded ? null : category.name); 
+            
+            // Find the category definition to get its icon
+            const categoryDef = CATEGORIES.find(cat => cat.name === category.name) || UNCATEGORIZED_CATEGORY;
+            
+            return dc.preact.h('li', { key: category.name }, 
+                dc.preact.h('div', { style: styles.itemWrapper, onClick: handleToggle }, 
+                    dc.preact.h('span', { style: { ...styles.icon, ...(isExpanded ? styles.expandedIcon : {}) } }, 
+                        dc.preact.h(dc.Icon, { icon: 'chevron-right', style: { fontSize: '16px' } })
+                    ),
+                    categoryDef.icon && dc.preact.h(dc.Icon, { 
+                        icon: categoryDef.icon, 
+                        style: { ...styles.categoryIcon, color: category.color } 
+                    }),
+                    dc.preact.h('div', { style: styles.dataItemContainer }, 
+                        dc.preact.h(DataListItem, { 
+                            item: { data: { name: category.name }, duration: category.duration }, 
+                            maxDuration: maxDuration, 
+                            colorOverride: category.color 
+                        })
+                    )
+                ), 
+                isExpanded && category.subTotals.length > 0 && dc.preact.h(ExpandedCategoryDetails, { 
+                    subTotals: category.subTotals, 
+                    parentDuration: category.duration, 
+                    parentColor: category.color,
+                    categoryName: category.name
+                })
+            ); 
+        })
+    ); 
+};
 
 
 // =================================================================================
@@ -326,7 +412,16 @@ function ActivityWatchDashboard() {
     const originalParentRefForWindow = useRef(null);
     const originalParentRefForPiP = useRef(null);
     const screenModeHelperRef = useRef(null);
+    const [screenMode, setScreenMode] = useState('default');
+    const screenModeToggleRef = useRef(null);
     const isDarkMode = document.body.classList.contains('theme-dark') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+    // Handler to toggle fullTab mode from the header button
+    const handleToggleFullTab = useCallback(() => {
+        if (screenModeToggleRef.current) {
+            screenModeToggleRef.current('fullTab');
+        }
+    }, []);
 
     const renderContent = () => {
         if (loading) return dc.preact.h(Message, { text: "Loading data..." });
@@ -388,7 +483,8 @@ function ActivityWatchDashboard() {
     };
 
    return (
-        dc.preact.h('div', { ref: dashboardContainerRef, style: { fontFamily: 'sans-serif', backgroundColor: 'var(--background-secondary)', padding: '20px', borderRadius: '8px', color: 'var(--text-normal)', position: 'relative', margin: '33px' } },
+        dc.preact.h('div', { ref: dashboardContainerRef, style: { fontFamily: 'sans-serif', backgroundColor: '#000000', padding: '20px', borderRadius: '8px', color: '#ffffff', position: 'relative', margin: '33px' } },
+            dc.preact.h('style', null, '@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }'),
             dc.preact.h(DashboardHeader, { 
                 viewDate: viewDate,
                 rangeSpan: rangeSpan,
@@ -397,12 +493,28 @@ function ActivityWatchDashboard() {
                 onToday: goToToday,
                 onWeek: setWeekView,
                 onRefresh: refetch, 
-                loading: loading 
+                loading: loading,
+                activeMode: screenMode,
+                onToggleFullTab: handleToggleFullTab
             }),
             dc.preact.h(ViewTabs, { views: VIEWS, activeView: activeView, setActiveView: setActiveView, loading: loading }),
             activeView === 'timeline' && !loading && !error && dc.preact.h(TimelineControls, { onRangeChange: setTimelineRange }),
             renderContent(),
-            dc.preact.h(ScreenModeHelper, { containerRef: dashboardContainerRef, helperRef: screenModeHelperRef, originalParentRefForWindow: originalParentRefForWindow, originalParentRefForPiP: originalParentRefForPiP, allowedScreenModes: ["fullTab", "window"], engine: null, AppComponent: null, isDarkMode: isDarkMode, fullscreenPadding: 33 })
+            dc.preact.h(ScreenModeHelper, { 
+                containerRef: dashboardContainerRef, 
+                helperRef: screenModeHelperRef, 
+                originalParentRefForWindow: originalParentRefForWindow, 
+                originalParentRefForPiP: originalParentRefForPiP, 
+                allowedScreenModes: ["fullTab"], 
+                initialMode: "fullTab", 
+                engine: null, 
+                AppComponent: null, 
+                isDarkMode: isDarkMode, 
+                fullscreenPadding: 33,
+                onModeChange: setScreenMode,
+                onToggleCallback: (toggleFn) => { screenModeToggleRef.current = toggleFn; },
+                hideControls: true
+            })
         )
     );
 }
@@ -421,10 +533,10 @@ const { useState, useEffect, useMemo, useRef } = dc;
 // --- CenterInfo component is unchanged ---
 function CenterInfo({ hoveredData, totalDuration, formatDuration }) {
     const styles = {
-        container: { position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', pointerEvents: 'none', color: 'var(--text-normal)', width: '60%' },
-        primaryText: { fontSize: '2em', fontWeight: 'bold', color: 'var(--interactive-accent)', lineHeight: 1.2, wordBreak: 'break-word', },
-        secondaryText: { fontSize: '0.8em', color: 'var(--text-muted)', marginTop: '5px' },
-        appName: { fontSize: '1.4em', fontWeight: 'bold', color: 'var(--text-normal)', lineHeight: 1.2, wordBreak: 'break-word', }
+        container: { position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', pointerEvents: 'none', color: '#ffffff', width: '60%' },
+        primaryText: { fontSize: '2em', fontWeight: 'bold', color: '#9d7cce', lineHeight: 1.2, wordBreak: 'break-word', },
+        secondaryText: { fontSize: '0.8em', color: '#b19cd9', marginTop: '5px' },
+        appName: { fontSize: '1.4em', fontWeight: 'bold', color: '#ffffff', lineHeight: 1.2, wordBreak: 'break-word', }
     };
 
     if (hoveredData) {
@@ -513,7 +625,7 @@ function PieChartView({ data, getColorForApp, formatDuration }) {
 
         const path = svg.selectAll("path").data(pie(chartData)).join("path")
             .attr("fill", d => getColorForApp(d.data.name))
-            .attr("stroke", "var(--background-secondary)")
+            .attr("stroke", "#000000")
             .style("stroke-width", "3px").style("cursor", "pointer")
             .on("mouseover", function(event, d) {
                 setHoveredData(d.data);
@@ -661,17 +773,17 @@ function StreamgraphView({ data, categories, formatDuration }) {
     }
 
     const tooltipStyle = {
-        position: 'fixed', opacity: 0, pointerEvents: 'none', background: 'var(--background-secondary-alt)',
-        border: '1px solid var(--background-modifier-border)', borderRadius: '6px', padding: '10px',
-        color: 'var(--text-normal)', zIndex: 10, transition: 'opacity 0.2s', boxShadow: '0 2px 8px rgba(0,0,0,0.3)'
+        position: 'fixed', opacity: 0, pointerEvents: 'none', background: '#0a0a0a',
+        border: '1px solid #333333', borderRadius: '6px', padding: '10px',
+        color: '#ffffff', zIndex: 10, transition: 'opacity 0.2s', boxShadow: '0 2px 8px rgba(0,0,0,0.3)'
     };
 
     return dc.preact.h('div', { style: { width: '100%', overflowX: 'auto' } },
         dc.preact.h('div', { ref: chartRef, style: { minWidth: '800px' } }),
         dc.preact.h('div', { ref: tooltipRef, style: tooltipStyle },
             dc.preact.h('div', { class: 'tooltip-header', style: { fontWeight: 'bold', marginBottom: '5px' } }),
-            dc.preact.h('div', { class: 'tooltip-duration', style: { fontSize: '1.2em', color: 'var(--interactive-accent)' } }),
-            dc.preact.h('div', { class: 'tooltip-date', style: { fontSize: '0.8em', color: 'var(--text-muted)', marginTop: '5px' } })
+            dc.preact.h('div', { class: 'tooltip-duration', style: { fontSize: '1.2em', color: '#9d7cce' } }),
+            dc.preact.h('div', { class: 'tooltip-date', style: { fontSize: '0.8em', color: '#b19cd9', marginTop: '5px' } })
         )
     );
 }
@@ -747,18 +859,20 @@ function CalendarHeatmapView({ data, formatDuration }) {
         const dates = d3.timeDays(yearAgo, today);
         const maxDuration = d3.max(Array.from(dataMap.values())) || 1;
         
-        // MODIFIED: Switched to a more attractive sequential color scale
-        const colorScale = d3.scaleSequential(d3.interpolateYlGn).domain([0, maxDuration]);
+        // Purple-pink gradient color scale
+        const colorScale = d3.scaleLinear()
+            .domain([0, maxDuration * 0.25, maxDuration * 0.5, maxDuration * 0.75, maxDuration])
+            .range(['#1a1a1a', '#4a2654', '#7a3f7d', '#9d7cce', '#E91E63']);
 
         svg.append("g").attr("transform", `translate(30, ${cellSize * 1.5})`).selectAll("rect")
             .data(dates).join("rect")
             .attr("width", cellSize - 1).attr("height", cellSize - 1)
             .attr("x", d => d3.timeWeek.count(d3.timeYear(d), d) * cellSize)
             .attr("y", d => d3.timeFormat("%w")(d) * cellSize)
-            // MODIFIED: Use a soft grey for zero-activity cells instead of "black"
+            // Use dark grey for zero-activity cells, purple-pink gradient for activity
             .attr("fill", d => {
                 const value = dataMap.get(d3.timeFormat("%Y-%m-%d")(d));
-                return value > 0 ? colorScale(value) : 'var(--background-primary-alt)';
+                return value > 0 ? colorScale(value) : '#1a1a1a';
             })
             .style("cursor", "pointer")
             .on("mouseover", (event, d) => {
@@ -768,7 +882,7 @@ function CalendarHeatmapView({ data, formatDuration }) {
                 const rect = event.target.getBoundingClientRect();
                 const containerRect = chartRef.current.getBoundingClientRect();
                 setTooltip({ visible: true, content, x: rect.left - containerRect.left + rect.width / 2, y: rect.top - containerRect.top });
-                d3.select(event.target).style("stroke", "var(--text-accent)").style("stroke-width", 1.5);
+                d3.select(event.target).style("stroke", "#9d7cce").style("stroke-width", 1.5);
             })
             .on("mouseout", (event) => {
                 setTooltip(t => ({ ...t, visible: false }));
@@ -779,22 +893,22 @@ function CalendarHeatmapView({ data, formatDuration }) {
             .data(d3.timeMonths(d3.timeMonth.offset(yearAgo, 1), today)).join("text")
             .attr("x", d => d3.timeWeek.count(d3.timeYear(d), d) * cellSize)
             .attr("y", -5).text(d3.timeFormat("%b"))
-            .attr("fill", "var(--text-muted)");
+            .attr("fill", "#b19cd9");
             
         const dayLabels = ["", "M", "", "W", "", "F", ""];
         svg.append("g").attr("transform", `translate(10, ${cellSize * 1.5})`).selectAll("text")
            .data(d3.range(7)).join("text")
            .attr("y", i => (i * cellSize) + (cellSize / 1.5)).text(i => dayLabels[i])
-           .attr("fill", "var(--text-muted)");
+           .attr("fill", "#b19cd9");
     }
 
     const tooltipStyle = {
         position: 'absolute', visibility: tooltip.visible ? 'visible' : 'hidden',
         left: `${tooltip.x}px`, top: `${tooltip.y}px`,
-        transform: 'translate(-50%, -110%)', background: 'var(--background-secondary-alt)',
-        border: '1px solid var(--background-modifier-border)', borderRadius: '6px',
+        transform: 'translate(-50%, -110%)', background: '#0a0a0a',
+        border: '1px solid #333333', borderRadius: '6px',
         padding: '8px 12px', zIndex: 1000, pointerEvents: 'none',
-        color: 'var(--text-normal)', textAlign: 'center',
+        color: '#ffffff', textAlign: 'center',
         boxShadow: '0 4px 12px rgba(0,0,0,0.3)', whiteSpace: 'nowrap'
     };
 
@@ -817,11 +931,11 @@ const { useState, useEffect, useMemo, useRef } = dc;
 // --- CenterInfo component is unchanged ---
 function CenterInfo({ hoveredData, totalDuration, formatDuration }) {
     const styles = {
-        container: { position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', pointerEvents: 'none', color: 'var(--text-normal)', width: '50%', display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '50%' },
-        primaryText: { fontSize: '2em', fontWeight: 'bold', color: 'var(--interactive-accent)', lineHeight: 1.1, wordBreak: 'break-word', margin: '4px 0' },
-        secondaryText: { fontSize: '0.8em', color: 'var(--text-muted)', marginTop: '5px' },
-        nameText: { fontSize: '1.4em', fontWeight: 'bold', color: 'var(--text-normal)', lineHeight: 1.2, wordBreak: 'break-word' },
-        parentText: { fontSize: '0.9em', color: 'var(--text-faint)', fontStyle: 'italic' }
+        container: { position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', pointerEvents: 'none', color: '#ffffff', width: '50%', display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '50%' },
+        primaryText: { fontSize: '2em', fontWeight: 'bold', color: '#9d7cce', lineHeight: 1.1, wordBreak: 'break-word', margin: '4px 0' },
+        secondaryText: { fontSize: '0.8em', color: '#b19cd9', marginTop: '5px' },
+        nameText: { fontSize: '1.4em', fontWeight: 'bold', color: '#ffffff', lineHeight: 1.2, wordBreak: 'break-word' },
+        parentText: { fontSize: '0.9em', color: '#666666', fontStyle: 'italic' }
     };
 
     if (hoveredData) {
@@ -1363,7 +1477,10 @@ const ScreenModeHelper = ({
   originalParentRefForWindow, originalParentRefForPiP,
   allowedScreenModes = ["browser", "window", "fullTab", "pip", "character"],
   engine, AppComponent, isDarkMode,
-  fullscreenPadding = 0 // MODIFIED PROP NAME: Default to 0
+  fullscreenPadding = 0, // MODIFIED PROP NAME: Default to 0
+  onModeChange, // NEW: Callback when mode changes
+  onToggleCallback, // NEW: Callback to expose toggle function
+  hideControls = false // NEW: Hide the default floating controls
 }) => {
   const [activeMode, setActiveMode] = useState(
     allowedScreenModes.includes(initialMode) && initialMode !== "character" ? initialMode : "default"
@@ -1390,6 +1507,11 @@ const ScreenModeHelper = ({
     }
     
     setActiveMode(newEffectiveMode);
+    
+    // Notify parent of mode change
+    if (onModeChange) {
+      onModeChange(newEffectiveMode);
+    }
 
     if (newEffectiveMode === "default") {
       setTimeout(() => {
@@ -1444,7 +1566,12 @@ const ScreenModeHelper = ({
 
   useEffect(() => {
     if (helperRef) helperRef.current = { toggleMode, getActiveMode: () => activeMode };
-  }, [helperRef, toggleMode, activeMode]);
+    
+    // NEW: Expose toggle function to parent
+    if (onToggleCallback) {
+      onToggleCallback(toggleMode);
+    }
+  }, [helperRef, toggleMode, activeMode, onToggleCallback]);
 
   useEffect(() => {
     const applyInitial = () => {
@@ -1452,9 +1579,21 @@ const ScreenModeHelper = ({
             if (initialMode === "character" && AppComponent) {
                 console.log(`[ScreenModeHelper] Spawning 'character' PiP due to initialMode.`);
                 spawnIndependentPip(AppComponent, isDarkMode);
-            } else if (initialMode !== "character") {
+            } else if (initialMode !== "character" && activeMode === "default") {
+                // Only apply if we're still in default mode (avoid double-toggle)
                 console.log(`[ScreenModeHelper] Applying initialMode: ${initialMode} on mount.`);
                 toggleMode(initialMode);
+            } else if (initialMode !== "character" && activeMode === initialMode) {
+                // If state is already set to initialMode, manually apply the mode without toggle
+                console.log(`[ScreenModeHelper] State already set to ${initialMode}, applying mode directly.`);
+                const container = containerRef.current;
+                if (initialMode === "fullTab") {
+                    const targetFullTabParent = findNearestAncestorWithClass(container, 'workspace-leaf-content');
+                    if (targetFullTabParent) {
+                        applyFullTabStyle(container, targetFullTabParent, originalParentRefForFullTab, originalParentPositionRefForFullTab, originalPositionPlaceholderRef, fullscreenPadding);
+                    }
+                }
+                if (engine?.resize) setTimeout(() => engine.resize(), 50);
             }
         }
     };
@@ -1507,6 +1646,10 @@ const ScreenModeHelper = ({
       buttonContainerRight = '40px';
   }
 
+  // NEW: Don't render controls if hideControls is true
+  if (hideControls) {
+    return null;
+  }
 
   return dc.preact.h('div', {
     className: 'screen-mode-controls',
@@ -1532,13 +1675,13 @@ const ScreenModeHelper = ({
         key: mode, onClick: () => toggleMode(mode),
         style: {
           minWidth: "38px", height: "38px", padding: "0 8px", cursor: "pointer",
-          backgroundColor: isCurrentActive ? "#007bff" : (mode === "character" ? "#28a745" : "#5a5a5a"),
-          color: "white", border: `1px solid ${isCurrentActive ? "#0056b3" : (mode === "character" ? "#1e7e34" : "#444")}`,
+          backgroundColor: isCurrentActive ? "#9d7cce" : "#0a0a0a",
+          color: "white", border: `1px solid ${isCurrentActive ? "#9d7cce" : "#333333"}`,
           borderRadius: "6px", display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: "12px", fontWeight: "bold", boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
-          transition: "background-color 0.15s ease-in-out, border-color 0.15s ease-in-out",
+          fontSize: "12px", fontWeight: "bold", boxShadow: isCurrentActive ? "0 0 15px rgba(157, 124, 206, 0.3)" : "0 1px 3px rgba(0,0,0,0.2)",
+          transition: "background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out",
         },
-        title: mode === "character" ? "Spawn New PiP Window" : `${mode.charAt(0).toUpperCase() + mode.slice(1)} Mode${isCurrentActive ? " (Active - Click to Reset)" : ""}`
+        title: mode === "character" ? "Spawn New PiP Window" : `${mode.charAt(0).toUpperCase() + mode.slice(1)} Mode${isCurrentActive ? " (Active - Click to Exit)" : ""}`
       }, modeLabel);
     })
   );

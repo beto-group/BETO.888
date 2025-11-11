@@ -7,9 +7,34 @@
 ///       Future Proof Radial Header View         ///
 ////////////////////////////////////////////////////
 
-const componentFile = "_RESOURCES/DATACORE/7 BountyView 🎅/D.q.bountyview.component.md";
+const componentFile = dc.resolvePath("D.q.bountyview.component");
 const { useState, useMemo, useRef, useEffect } = dc;
 const centerHeader = "888.namzu";
+
+// ---------------------------------------------------------------------
+// DOM Traversal Utilities (from BasicView v2)
+// ---------------------------------------------------------------------
+function findNearestAncestorWithClass(element, className) {
+  if (!element) return null;
+  let current = element.parentNode;
+  while (current) {
+    if (current.classList && current.classList.contains(className)) {
+      return current;
+    }
+    current = current.parentNode;
+  }
+  return null;
+}
+
+function findDirectChildByClass(parent, className) {
+  if (!parent) return null;
+  for (const child of parent.children) {
+    if (child.classList && child.classList.contains(className)) {
+      return child;
+    }
+  }
+  return null;
+}
 
 // ---------------------------------------------------------------------
 // 1) parseHeaderName
@@ -633,9 +658,79 @@ function ResponsiveRadialHeaderView({
 // ---------------------------------------------------------------------
 // 6) AutoRadialNamzuView (Parent) – file query + navigation
 // ---------------------------------------------------------------------
-function AutoRadialNamzuView({ centerLabel = centerHeader, ignoreFirstHeader = true, onFileSelect }) {
+function AutoRadialNamzuView({ centerLabel = centerHeader, ignoreFirstHeader = true, onFileSelect, showViewButton = true, spawnType = "fullTab" }) {
   const [currentCenter, setCurrentCenter] = useState(centerLabel);
   const [centerHistory, setCenterHistory] = useState([]);
+  
+  // Parse spawnType for full-tab mode
+  const lowerSpawnType = (spawnType || "").toLowerCase();
+  const isDisabled = lowerSpawnType === "disabled" || lowerSpawnType === "disable";
+  const isLocked = lowerSpawnType.includes(".locked");
+  const baseSpawnType = lowerSpawnType.replace(".locked", "");
+  const showFullTabToggle = !isLocked && !isDisabled;
+  const initialFullTab = !isDisabled && baseSpawnType === "fulltab";
+  
+  // Full-tab mode state
+  const [isFullTab, setIsFullTab] = useState(initialFullTab);
+  const containerRef = useRef(null);
+  const stateRefs = useRef({}).current;
+  
+  // Full-tab DOM manipulation effect
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container || !isFullTab) return;
+    
+    const targetPaneContent = findNearestAncestorWithClass(
+      container,
+      "workspace-leaf-content"
+    );
+    if (!targetPaneContent) return;
+    
+    const contentWrapper =
+      findDirectChildByClass(targetPaneContent, "view-content") ||
+      targetPaneContent;
+    
+    stateRefs.originalParent = container.parentNode;
+    stateRefs.placeholder = document.createElement("div");
+    stateRefs.placeholder.style.display = "none";
+    container.parentNode.insertBefore(stateRefs.placeholder, container);
+    
+    stateRefs.parentPositionInfo = {
+      element: contentWrapper,
+      original: window.getComputedStyle(contentWrapper).position,
+    };
+    if (stateRefs.parentPositionInfo.original === "static") {
+      contentWrapper.style.position = "relative";
+    }
+    
+    contentWrapper.appendChild(container);
+    Object.assign(container.style, {
+      position: "absolute",
+      top: "0",
+      left: "0",
+      width: "100%",
+      height: "100%",
+      zIndex: "9998",
+      overflow: "auto",
+    });
+    
+    return () => {
+      if (stateRefs.placeholder?.parentNode) {
+        stateRefs.placeholder.parentNode.replaceChild(
+          container,
+          stateRefs.placeholder
+        );
+      }
+      if (stateRefs.parentPositionInfo?.element) {
+        stateRefs.parentPositionInfo.element.style.position =
+          stateRefs.parentPositionInfo.original === "static"
+            ? ""
+            : stateRefs.parentPositionInfo.original;
+      }
+      container.removeAttribute("style");
+      Object.keys(stateRefs).forEach((key) => (stateRefs[key] = null));
+    };
+  }, [isFullTab]);
 
   const queryString = useMemo(
     () => `@page and endswith($path, "${currentCenter}.md")`,
@@ -674,27 +769,68 @@ function AutoRadialNamzuView({ centerLabel = centerHeader, ignoreFirstHeader = t
 
   // Control buttons that always appear
   const controls = (
-    <div style={{ position: "absolute", top: "10px", left: "10px", zIndex: 10, display: "flex", gap: "10px" }}>
-      <button
-        style={{ padding: "8px 12px", border: "none", borderRadius: "4px", cursor: "pointer" }}
-        onClick={handleHomeClick}
-      >
-        Home
-      </button>
-      <button
-        style={{ padding: "8px 12px", border: "none", borderRadius: "4px", cursor: "pointer" }}
-        onClick={handleTiktokFeedClick}
-      >
-        View
-      </button>
-    </div>
+    <>
+      <div style={{ position: "absolute", top: "10px", left: "10px", zIndex: 10, display: "flex", gap: "10px" }}>
+        <button
+          style={{ 
+            padding: "8px 12px", 
+            border: "none", 
+            borderRadius: "4px", 
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            gap: "6px"
+          }}
+          onClick={handleHomeClick}
+        >
+          <dc.Icon icon="home" style={{ fontSize: "14px" }} />
+          Home
+        </button>
+        {showViewButton && (
+          <button
+            style={{ 
+              padding: "8px 12px", 
+              border: "none", 
+              borderRadius: "4px", 
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "6px"
+            }}
+            onClick={handleTiktokFeedClick}
+          >
+            <dc.Icon icon="eye" style={{ fontSize: "14px" }} />
+            View
+          </button>
+        )}
+      </div>
+      {showFullTabToggle && (
+        <div style={{ position: "absolute", top: "10px", right: "10px", zIndex: 10 }}>
+          <button
+            style={{ 
+              padding: "8px", 
+              border: "none", 
+              borderRadius: "4px", 
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+            onClick={() => setIsFullTab(!isFullTab)}
+            title={isFullTab ? "Exit full-tab mode" : "Enter full-tab mode"}
+          >
+            <dc.Icon icon={isFullTab ? "minimize-2" : "maximize-2"} style={{ fontSize: "14px" }} />
+          </button>
+        </div>
+      )}
+    </>
   );
 
   // If no file is found, render the radial view with an empty second ring.
   // This displays only the center node with its spinning header.
   if (!file) {
     return (
-      <div style={{ position: "relative", width: "100%", height: "100%" }}>
+      <div ref={containerRef} style={{ position: "relative", width: "100%", height: "100%" }}>
         {controls}
         <ResponsiveRadialHeaderView
           centerLabel={currentCenter}
@@ -739,6 +875,11 @@ function AutoRadialNamzuView({ centerLabel = centerHeader, ignoreFirstHeader = t
     if (ignoreFirst && filtered.length > 1) {
       filtered = filtered.slice(1);
     }
+    // Filter out "NAVIGATE - BACK" headers
+    filtered = filtered.filter((h) => {
+      const title = h.title.toLowerCase();
+      return !title.includes("navigate") && !title.includes("back");
+    });
     return filtered.map((h) => parseHeaderName(h.title));
   }
   function getFileByName(namzuName) {
@@ -753,26 +894,23 @@ function AutoRadialNamzuView({ centerLabel = centerHeader, ignoreFirstHeader = t
   const ring2Set = new Set(ring2Raw);
   const ring2Unique = Array.from(ring2Set);
 
-  if (!ring2Unique.length) {
-    return (
-      <dc.Stack style={{ padding: "10px", color: "var(--text-normal)" }}>
-        <p>No level‑6 headers found in {currentCenter}.md</p>
-      </dc.Stack>
-    );
+  // Build ring2 data (empty array if no headers found)
+  let secondRingData = [];
+  if (ring2Unique.length > 0) {
+    ring2Unique.forEach((heading) => {
+      const subFile = getFileByName(heading);
+      let children = [];
+      if (subFile) {
+        children = getDesiredHeaders(subFile, true);
+      }
+      secondRingData.push({ heading, children });
+    });
   }
 
-  let secondRingData = [];
-  ring2Unique.forEach((heading) => {
-    const subFile = getFileByName(heading);
-    let children = [];
-    if (subFile) {
-      children = getDesiredHeaders(subFile, true);
-    }
-    secondRingData.push({ heading, children });
-  });
-
+  // Always render the radial view, even with no ring2 data
+  // This allows clicking the center node to navigate back
   return (
-    <div style={{ position: "relative", width: "100%", height: "100%" }}>
+    <div ref={containerRef} style={{ position: "relative", width: "100%", height: "100%" }}>
       {controls}
       <ResponsiveRadialHeaderView
         centerLabel={currentCenter}
@@ -791,12 +929,12 @@ function AutoRadialNamzuView({ centerLabel = centerHeader, ignoreFirstHeader = t
 // ---------------------------------------------------------------------
 // 7) Final Usage + Export in ViewBounty
 // ---------------------------------------------------------------------
-function ExampleUsage({ onFileSelect }) {
-  return <AutoRadialNamzuView centerLabel={centerHeader} onFileSelect={onFileSelect} />;
+function ExampleUsage({ onFileSelect, showViewButton, spawnType }) {
+  return <AutoRadialNamzuView centerLabel={centerHeader} onFileSelect={onFileSelect} showViewButton={showViewButton} spawnType={spawnType} />;
 }
 
-function ViewBounty({ app, onFileSelect }) {
-  return <ExampleUsage onFileSelect={onFileSelect} />;
+function ViewBounty({ app, onFileSelect, showViewButton = true, spawnType = "fullTab" }) {
+  return <ExampleUsage onFileSelect={onFileSelect} showViewButton={showViewButton} spawnType={spawnType} />;
 }
 
 return { ViewBounty };

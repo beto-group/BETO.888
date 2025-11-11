@@ -2,38 +2,33 @@
 
 ### Tab : Hot Reload Files
 
-- **Description**: A diagnostic and developmental component designed to actively monitor a specified folder within your vault for any file changes. It serves as a practical example of how to leverage the Datacore and Obsidian API to react to file system events in real-time. The component provides immediate visual feedback through UI notices and detailed logs in the developer console, making it an excellent tool for debugging workflows or learning how to build event-driven actions.
-    
-- **Compatibility Note**: This component relies on the dc.app.vault.on('raw', ...) event listener. This is a core Obsidian API function and should be broadly compatible, but its behavior could be influenced by plugins that heavily modify or intercept vault events.
-    
+- **Description**: A developer-focused utility component designed to monitor a specific folder within the vault for any file changes. It listens to Obsidian's raw file system events and provides a real-time UI that displays the details of the last detected change within the target directory.
+
 - **Does**:
-    - **Live Folder Monitoring**:
-        - Actively watches a hard-coded target folder (FOLDER_TO_WATCH) for any changes, including file creation, deletion, and modification.
-    
-    - **Precise Event Filtering**:        
-        - Implements logic to specifically check if a file system event occurred inside the target folder, ignoring all other events across the vault.
+   
+    - **Relative Path Monitoring**: Watches a folder path (_resources/example-folder) that is **relative to the location of the component file itself**. This makes the component portable, as it will always monitor the correct subfolder no matter where the parent component note is moved.
+    - **Live Event Listening**: Hooks directly into Obsidian's vault.on('raw', ...) event stream. This allows it to listen for all file system events, including creations, modifications, and deletions, as they happen.
+    - **Intelligent Filtering**: Filters the global event stream to only react to changes occurring within its designated watchFolder. All other file changes in the vault are ignored.
+    - **Real-Time UI Feedback**:
+        - Displays the fully resolved, absolute path of the folder it is currently monitoring.
+        - When a change is detected, the UI instantly updates to show the full path of the modified file and the exact time the event occurred.
+    - **Debounced Notifications**: To prevent a storm of notifications when a file is saved multiple times in quick succession (e.g., by an auto-saving application), it uses a debouncing mechanism. It waits for one second of inactivity before showing an Obsidian Notice about the file change, ensuring only one notification is shown per burst of saves.
 
-    - **Dual-Channel Feedback**:        
-        - Displays the most recently detected change directly in its user interface, showing the file path and the time of the event.
-        - Simultaneously prints detailed logs to the developer console, showing every vault event and explicitly stating whether it was a "MATCH" or "Ignoring".
+- **Can’t**:
 
-    - **Clean & Safe Operation**:        
-        - Automatically registers the event listener when the component mounts and, crucially, unregisters it when the component unmounts. This prevents memory leaks and ensures the listener doesn't run unnecessarily in the background.
+    - **Watch Multiple Folders**: The component is hardcoded to watch a single, specific relative folder and cannot be configured to monitor multiple directories at once.
+    - **Be Configured via Props**: The folder path to watch (_resources/example-folder) is hardcoded in the component's source. It cannot be changed via component properties.
+    - **Show a History of Changes**: The UI only displays the **last detected change**. It does not maintain or show a log of all previous file system events.
+    - **Distinguish Between Event Types**: It listens to the generic 'raw' event, which fires for any change. The UI does not differentiate between whether a file was created, modified, or deleted.
 
-    - **Simple Configuration**:        
-        - The folder to be monitored can be changed by editing a single constant at the top of the script, making it easy to adapt for different testing scenarios.
-
-- **Can’t**:    
-    - **Configure from the UI**: The folder path is hard-coded into the component's script. It cannot be changed dynamically through a settings menu or an input field in the interface.
-    - **Differentiate Change Types**: It listens for the generic 'raw' event, which triggers on any change. It does not distinguish between a file being created, modified, or deleted.
-    - **Perform Complex Actions**: This is a listener and a reporter. By default, it only displays notifications and logs data; it is not built to automatically process files or trigger other complex workflows.
-    - **Persist Event History**: The component only displays the last detected change. It does not store or show a history of all changes that have occurred and this state is reset if the view is reloaded.
-    - **Watch Multiple Folders Simultaneously**: Each instance of this component is designed to watch only one folder as defined in its FOLDER_TO_WATCH constant.
+- **Disclaimer**:
+   
+    - This is a developer utility designed to demonstrate and test file system event handling within Datacore. Its primary purpose is for debugging and monitoring, not for end-user content display. The console will log all file events, including those that are filtered out by the component.
 
 
-![alt text](/_RESOURCES/IMAGES/hot_reload_files.webp)
+----
 
-
+![hot_reload_files.webp](_resources/images/hot_reload_files.webp)
 
 
 

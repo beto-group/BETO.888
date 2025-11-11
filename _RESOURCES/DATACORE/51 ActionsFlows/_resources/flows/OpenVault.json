@@ -1,0 +1,35 @@
+{
+  "savedAt": "2025-11-09T12:46:13.315Z",
+  "version": "1.0",
+  "nodes": [
+    {
+      "id": "n-mhro2sqk-4ele3u8",
+      "type": "command",
+      "params": [
+        {
+          "key": "commandId",
+          "value": "app:open-vault"
+        }
+      ],
+      "inputs": [
+        "flow"
+      ],
+      "outputs": [
+        "flow"
+      ],
+      "x": 1744,
+      "y": 1632,
+      "w": 240,
+      "height": 100
+    }
+  ],
+  "edges": [],
+  "runtime": {
+    "canExecute": true,
+    "nodeCount": 1,
+    "edgeCount": 0,
+    "nodeTypes": [
+      "command"
+    ]
+  }
+}

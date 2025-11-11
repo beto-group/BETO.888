@@ -1,54 +1,53 @@
 
-### Tab : Plugin Development Suite
 
-- **Description**: An all-in-one command center for Obsidian plugin development that operates directly inside your vault. This suite streamlines the entire plugin lifecycle by integrating a project manager, an automated build system, and a version control interface into a single, cohesive view. It fundamentally changes the development workflow by leveraging other powerful components: it hosts the **Integrated IDE** for a complete in-Obsidian coding experience and embeds the **GitSuite**'s logic for seamless source control management, effectively eliminating the need to constantly switch between Obsidian and external tools.
+### Tab: Plugin Development Suite
 
-- **Compatibility Note**: This component is a high-level manager and has critical external dependencies. It requires **Node.js** and **Git** to be installed on your system and accessible in the system's PATH to perform its core functions of building and cloning projects. Its functionality is also directly dependent on the successful loading of its child components, such as the IntegratedIDE and GitSuite.
-    
+- **Description**: A complete, self-contained Integrated Development Environment (IDE) for building Obsidian plugins, running entirely within a Datacore component. It provides a full suite of professional development tools, including a file explorer, a tabbed code editor with IntelliSense, an integrated terminal, a full-featured Git client, and an automated build-and-deploy pipeline. It is a powerful proof-of-concept demonstrating deep integration with the local file system and external processes.
+
 - **Does**:
-    - **Complete Project Lifecycle Management**:
-        - Manages plugin projects from creation or cloning through to final deployment.
-        - Provides a dashboard to view all managed projects (source code) and other installed plugins.
-        - Supports scaffolding new projects from official Obsidian templates (Default, Svelte) or any custom Git repository URL.
 
-    - **Automated Build & Deployment Pipeline**:        
-        - Automatically detects the package manager (npm or yarn) and runs dependency installation and build scripts with a single click.
-        - Intelligently undeploys the old version of a plugin, copies the newly built files to the live .obsidian/plugins directory, and preserves user settings (data.json).
-        - Re-enables the plugin after a successful build if it was active before, creating a seamless update experience.
+    - **Full Project & Plugin Management**:        
+        - Provides a central dashboard to view and manage all "Managed Projects" (plugins developed within the suite) and other installed plugins.
+        - **Project Scaffolding**: Can create new plugin projects from predefined templates (e.g., Default, Svelte) or by cloning any Git repository from a URL.
+        - **File System Operations**: Allows for creating, renaming, moving, and deleting files and folders directly within the plugin's source directory.
+    - **Integrated Code Editor (Monaco)**:
+        - Features a powerful, tabbed code editor (the same engine as VS Code) hosted in an iframe for stability.
+        - **IntelliSense & Autocompletion**: Automatically downloads TypeScript definition files for the Obsidian API and React, providing rich autocompletion and type-checking.
+        - **Live Linter**: Includes a basic linter that provides real-time warnings and best-practice suggestions in the code.
+    - **Complete Build & Deploy Pipeline**:
+        - **Package Manager Detection**: Automatically detects and uses the correct package manager (npm, yarn, pnpm, bun) for a project.
+        - **One-Click Build & Deploy**: A single button runs the plugin's build script and copies the necessary files (main.js, manifest.json, etc.) to Obsidian's live plugins folder.
+        - **Auto-Build on Save**: An optional file watcher automatically triggers the build-and-deploy process whenever a source file is saved.
+        - **Hot Reloading**: A separate file watcher monitors the deployed plugin folder and automatically reloads the plugin within Obsidian whenever its files change, enabling a seamless live-editing experience.
+    - **Full-Featured Git Client**:
+        - Integrates a complete graphical user interface for Git.
+        - Supports all standard Git operations: init, status, staging/unstaging changes, commit, pull, push, creating and switching branches, merging, and configuring remote repositories.
+        - Includes a visual commit history log.
+    - **Integrated Terminal**:
+        - Provides a multi-tabbed terminal that runs shell commands directly in the plugin's working directory, allowing for advanced operations and debugging.
+    - **Immersive IDE Experience**: Designed to run in a full-pane mode, it hides the Obsidian status bar and provides a focused, app-like environment for development.
 
-    - **Integrated Development & Version Control**:        
-        - Directly hosts the **Integrated IDE** component, allowing you to open a project and get a full-featured, VS Code-like editing experience without leaving the suite.
-        - Leverages the **GitSuite** component's hooks to provide a dedicated Source Control panel for each project, enabling you to initialize repositories, manage remotes, and push/pull changes.
+- **Can’t**:
+   
+    - **Run in Mobile or Browser Versions of Obsidian**: It fundamentally relies on Node.js modules (fs, child_process) for file system access and spawning processes, which are only available in the Electron-based desktop application.    
+    - **Function Without External Dependencies**: The user must have **Node.js** and **Git** installed on their system and accessible in the system's PATH for most features (building, cloning, source control) to work.
+    - **Provide a Perfect 1:1 Obsidian Preview**: While it can render other Datacore components in its preview pane, its primary function is code editing. It does not replicate Obsidian's markdown rendering.
+    - **Guarantee Perfect Stability**: As a complex tool that interacts with the file system and spawns external processes, there is a potential for conflicts or unintended side effects.
 
-    - **Powerful Workflow Automation**:        
-        - Features an **Auto-build on Save** toggle that automatically triggers the entire build-and-deploy process whenever a file is saved within the Integrated IDE.
-        - Includes a **Hot Reload** toggle that monitors the deployed plugin folder for changes (e.g., from an external editor) and automatically reloads the plugin within Obsidian.
-
-    - **Robust System Integration**:        
-        - Automatically finds the system's Node.js installation to run build commands correctly.
-        - Provides one-click shortcuts to open projects in an external code editor or the system's file explorer.
-
-- **Can’t**:    
-	- Windows OS not tested, most likely wont work (but who knows) and need further refinement but feel no need to design something I dont need. Unless you all truly desire and make it apparent I aint gonna bother {and add some incentives otherwise I leave it to you all to configure that}.
-    - **Function Without System Dependencies**: It is a powerful orchestrator, but it cannot create plugins without git or build them without node.js. It does not install these tools for you.
-	    - Help to Install Tools :
-		    - [NODE.JS](https://nodejs.org/en/download)
-		    - [GIT](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
-    - **Manage Plugins Not in its Source Folder**: The suite can only build and manage plugins whose source code resides in its designated .datacore/plugins directory. It can view other installed plugins but cannot modify them.
-    - **Fix Broken Build Scripts**: It executes the npm run build (or equivalent) command and reports the outcome. If the build script itself is broken, the issue must be diagnosed and fixed in the source code, not within the suite's UI {though you have access to Terminal through UI, so could help speed things up}.
-    - **Provide Git Credentials Management**: While it can push and pull, it relies on your system's underlying Git configuration (e.g., credential helper, SSH keys) to handle authentication with remote repositories.
-    - **Bypass the Need for a Basic Dev Environment**: It is designed to enhance the workflow for a developer who already has a standard web development environment set up, not to replace it entirely.
-
-
-
-![alt text](plugin_dev_suite_1.webp)
+- **Disclaimer**:
+   
+    - This component is a highly experimental and advanced proof-of-concept. Its primary purpose is to **showcase the absolute limits of Datacore's capabilities**, demonstrating deep integration with system processes and the local file system to create a professional-grade tool. It is not intended to be a perfectly polished or bug-free application. Users may encounter bugs, performance issues, or unexpected behavior. It serves as a powerful demonstration of what is possible rather than a finished, stable tool.
 
 
-![alt text](plugin_dev_suite_2.webp)
+----
+
+![plugin_dev_suite_1.webp](_resources/images/plugin_dev_suite_1.webp)
 
 
-![alt text](plugin_dev_suite_3.webp)
+![plugin_dev_suite_2.webp](_resources/images/plugin_dev_suite_2.webp)
 
+
+![plugin_dev_suite_3.webp](_resources/images/plugin_dev_suite_3.webp)
 
 
 

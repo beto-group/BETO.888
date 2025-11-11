@@ -2,36 +2,42 @@
 
 ### Tab: SVG Animations
 
-- **Description**: A comprehensive creative suite for both viewing and building custom animated SVG icons. It features a beautifully animated grid of pre-built icons that draw themselves into view, alongside a powerful "Build Your Own" live editor. The editor allows users to paste raw SVG code, add custom CSS, and then instantly preview, download, or even export their creation as a video.
-    
+- **Description**: A comprehensive and interactive suite for showcasing and creating CSS-powered SVG animations. It features a gallery of pre-built, animated icons and includes an integrated "Build Your Own" environment where users can paste their own SVG and CSS code, live-preview the animation, and export the final result as either a self-animating SVG file or a WebM video.
+
 - **Does**:
-    - **Animated Icon Showcase**:
-        - Displays a grid of SVG icons from a pre-defined library.
-        - Each icon animates itself into view as the user scrolls, creating an engaging "drawing" effect.
-        - Icons loop their animation on hover, and clicking an icon opens it in an enlarged, focused modal view.
-
-    - **Live SVG Animation Editor**:
-        - Provides a split-pane view with text areas for raw SVG code and additional custom CSS.
-        - A "Preview" button instantly renders the input code as a live, animated icon.
-        - **Self-Animating SVG Download**: Intelligently analyzes the input SVG structure, generates the necessary keyframes and animation CSS, and embeds it directly within the style tags of the SVG file for a completely self-contained, animated download.
-    - **Video Export (WebM)**:
-        - Utilizes the canvg library to render the SVG animation frame-by-frame onto an offscreen canvas.            
-        - Captures the canvas stream using the MediaRecorder API to export the final animation as a high-quality, lightweight WebM video file, perfect for web use or presentations.
-
-    - **Custom CSS Integration**:
-        - Allows users to add their own CSS rules (like :hover effects) which are bundled into the final downloadable SVG.
+   
+    - **Interactive Icon Gallery**:    
+        - Displays a grid of SVG icons, each with a unique, pre-defined "line-drawing" animation.
+        - **Lazy Animation**: Intelligently triggers the drawing animation for each icon only as it scrolls into the viewport, optimizing performance.
+        - **Hover & Focus Interaction**: The animation loops continuously when a user hovers over an icon. Clicking an icon opens a full-screen modal overlay for an enlarged, focused view of the looping animation.
+    - **"Build Your Own" SVG Animator**:
+        - Provides a dedicated view with two text areas for users to paste their own SVG code and corresponding CSS animation rules.
+        - A "Animate Preview" button instantly renders the custom SVG and applies the CSS, allowing for rapid iteration and live testing.
+    - **Powerful Export Options**:
+        - **Download Self-Animating SVG**: In the "Build Your Own" tool, users can download their creation as a single .svg file with the animation CSS automatically embedded within a `<style>` tag.
+        - **Export to Video**: Can render the SVG animation to a .webm video file using the Canvg library. Users can select the output resolution (e.g., 720p, 1080p).
+    - **Seamless Obsidian Integration**:
+        - The entire UI is designed to respect Obsidian's theme, adapting to both light and dark modes.
+        - Runs in an immersive, full-pane "Full Tab" mode by default for a focused experience.
 
 - **Can’t**:
-    - Edit the SVG visually (i.e., it's not a vector editor); all changes must be made via raw code input.
-    - Animate SVG elements that do not have a unique class name (e.g., class="svg-elem-1"). The animation engine relies on these classes to target individual paths.
-    - Export to video formats other than WebM, as this is the format natively supported by the MediaRecorder API.
-    - Function properly with malformed or invalid SVG code in the live editor.
+   
+    - **Automatically Generate Animation CSS**: The component applies existing CSS to an SVG. It does not automatically create new animation keyframes or styles from a static SVG (though it recommends tools like SVG Artista for this purpose).
+    - **Persist Custom Creations**: Any SVG or CSS code entered into the "Build Your Own" tool is for the current session only and is not saved.
+    - **Function Offline (for Video Export)**: The video export feature requires an internet connection on its first use to download and cache the Canvg rendering library.
+    - **Animate Raster Images**: The component is designed exclusively for vector-based SVG graphics and cannot animate formats like PNG or JPG.
+
+- **Disclaimer**:
+   
+    - This component is an advanced proof-of-concept for showcasing complex CSS animations and client-side media rendering. The "Build Your Own" functionality is still a work-in-progress and may have some inconsistencies. It serves as a powerful example of what is possible rather than a finished, production-ready tool.
 
 
+----
+
+![svg_animation_1.webp](_resources/images/svg_animation_1.webp)
 
 
-![alt text](/_RESOURCES/IMAGES/svg_animations.webp)
-
+![svg_animation_2.webp](_resources/images/svg_animation_2.webp)
 
 
 

@@ -1,48 +1,46 @@
 
 
-
 ### Tab: SVG Converter
 
-- **Description**: A specialized, automated pipeline that synchronizes a directory of Excalidraw (.md) files into high-quality, web-ready SVG assets. Presented as a "Matrix Attunement," this component provides a guided, one-time setup process to ensure all creative assets are properly rendered and available. It's designed to be run once to initialize an asset library or periodically to batch-process new additions, providing a clear, engaging interface with a detailed log stream for power users.
-    
+- **Description**: An advanced, automated pipeline for converting Obsidian Excalidraw (.md) files into clean, optimized, and self-contained SVG images. It provides an interactive "Manual Mode" UI that allows a user to step through each conversion, preview the output, and approve the final save. The component intelligently handles complex drawings with embedded SVG dependencies and automatically embeds fonts to ensure perfect, portable rendering.
+   
 - **Does**:
-    
-    - **Guided Synchronization**:
-        - Presents a clear welcome screen prompting the user to begin the "attunement" process.
-        - Displays a dynamic progress bar and enigmatic status messages (e.g., "Harmonizing quantum states...") to create an immersive experience during the operation.
 
-    - **Automated Excalidraw-to-SVG Conversion**:
-        - Scans a predefined folder (_RESOURCES/ASSETS/888/ASSETS_.A/) for .md files that do not have a corresponding .svg file.
-        - Intelligently parses Excalidraw data, whether it's standard JSON or compressed with LZ-String.
-        - Uses the official Excalidraw library to render each drawing into a high-quality SVG, embedding the scene data for future editing.
-
-    - **High-Concurrency Processing**:
-        - Processes up to 64 files in parallel to dramatically speed up the initial synchronization of large asset libraries.
-
-    - **Custom Font Embedding** {WIP}:
-        - Loads a custom font (Futura-CondensedLight.otf) from the vault and ensures it is properly embedded in the generated SVGs, maintaining typographic consistency.
-
-    - **Detailed Log Stream**:
-
-        - Includes an optional, collapsible debug console that provides a real-time log of the entire process, including successes, warnings (e.g., skipping empty files), and detailed error messages for failed conversions.
+    - **Automated Batch Conversion Pipeline**:    
+        - **File Discovery**: Automatically finds all .md Excalidraw files in a specified vault folder (e.g., svg_samples) that do not yet have a corresponding .svg output file.
+        - **Dependency Resolution**: Scans files for embedded Excalidraw drawings (e.g., `![drawing.svg])`. It builds a dependency graph and uses a topological sort to process nested drawings in the correct order, ensuring that dependencies are converted before the files that use them.
+        - **Data Parsing & SVG Generation**: Extracts and decompresses the JSON data from Excalidraw files and uses the official **Excalidraw library** to render the drawing data into a clean SVG. It intelligently handles outliers and centers the content to produce a perfectly cropped output.
+    - **Self-Contained & Portable SVGs**:
+        - **Font Embedding**: Automatically detects which custom fonts are used in a drawing, finds the font files in the vault using a fuzzy search, and **embeds them as base64 data** directly into the final SVG's `<style>` tag. This guarantees text renders perfectly on any device, even if the font isn't installed.
+        - **Embedded SVG Resolution**: Correctly finds and renders other SVG files that are embedded within the main Excalidraw drawing, creating a complete, composite image.
+    - **Interactive Manual Workflow**:
+        - **Step-by-Step Processing**: Guides the user through a "Manual Mode" pipeline, presenting each file for conversion one by one.
+        - **Live Preview & Approval**: Shows a live preview of the generated SVG. The user has full control to "Approve & Save" the file or "Skip" it.
+        - **Auto-Process Mode**: Includes an "Auto-Process" toggle that will automatically approve valid conversions and skip files with errors, allowing for unattended batch processing.
+    - **Advanced Debugging & Control**:
+        - **Live Debug Console**: Features an expandable debug console that provides a detailed, color-coded log of every step, from file discovery and dependency loading to font embedding and file saving.
+        - **Export Controls**: Allows the user to adjust the padding around the SVG content and add an optional background color.
+    - **Self-Contained & Offline-Capable**: Dynamically loads all its dependencies (Excalidraw, Fuse.js, LZ-String) from a CDN and saves them to a local vault cache for fast, offline use on subsequent runs.
 
 - **Can’t**:
-    
-    - Select a source folder from the UI; the target directory is hardcoded for a specific vault structure.
-    - Convert files that are not valid Excalidraw markdown notes containing a JSON or compressed-json code block.
-    - Function without an active internet connection on the first run to download the required Excalidraw and LZ-String libraries from a CDN.
-    - Update existing SVG files; it only creates new ones for .md files that are missing their SVG counterpart.
-        
+   
+    - **Edit Excalidraw Drawings**: It is a one-way conversion tool. It can render Excalidraw files but does not provide an interface to edit the drawings themselves.    
+    - **Create New Drawings**: It only processes existing .md files found in the specified folder.
+    - **Function Offline on First Run**: It requires an internet connection for its initial run to download and cache its core script dependencies (Excalidraw, etc.) and any necessary fonts.
+
+- **Disclaimer**:
+   
+    - This is a highly advanced developer and automation tool. Its primary purpose is to showcase a complex file processing pipeline with dependency resolution and asset embedding. It directly interacts with your file system by creating new .svg files in your vault. While it is designed to be non-destructive, it should be used with care. It serves as a powerful example of what is possible rather than a finished, production-ready tool.
+
+
+---
+
+![svg_converter.webp](_resources/images/svg_converter.webp)
 
 
 
 
-![alt text](/_RESOURCES/IMAGES/svg_converter.webp)
-
-
-
-
-
+### Components
 
 
 ###### [SVG Converter Viewer](D.q.svgconverter.viewer.md)

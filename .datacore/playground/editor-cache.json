@@ -205,5 +205,462 @@
       }
     },
     "lastActive": "ViewComponent"
+  },
+  "_RESOURCES/DATACORE/34 AnimatedCard/D.q.animatedcard.component.md": {
+    "tabs": {
+      "ViewComponent": {
+        "cursorState": [
+          {
+            "inSelectionMode": false,
+            "selectionStart": {
+              "lineNumber": 5,
+              "column": 1
+            },
+            "position": {
+              "lineNumber": 5,
+              "column": 1
+            }
+          }
+        ],
+        "viewState": {
+          "scrollLeft": 0,
+          "firstPosition": {
+            "lineNumber": 1,
+            "column": 1
+          },
+          "firstPositionDeltaTop": 0
+        },
+        "contributionsState": {
+          "editor.contrib.wordHighlighter": false,
+          "editor.contrib.folding": {
+            "lineCount": 723,
+            "provider": "indent",
+            "foldedImports": false
+          }
+        }
+      }
+    },
+    "lastActive": "ViewComponent"
+  },
+  "datacore/obsidian": {
+    "tabs": {
+      "ViewComponent": {
+        "cursorState": [
+          {
+            "inSelectionMode": false,
+            "selectionStart": {
+              "lineNumber": 1,
+              "column": 1
+            },
+            "position": {
+              "lineNumber": 1,
+              "column": 1
+            }
+          }
+        ],
+        "viewState": {
+          "scrollLeft": 0,
+          "firstPosition": {
+            "lineNumber": 1,
+            "column": 1
+          },
+          "firstPositionDeltaTop": 0
+        },
+        "contributionsState": {
+          "editor.contrib.wordHighlighter": false,
+          "editor.contrib.folding": {
+            "lineCount": 5,
+            "foldedImports": false
+          }
+        }
+      }
+    },
+    "lastActive": "ViewComponent"
+  },
+  "_RESOURCES/DATACORE/13 Aquarium {FireStormFrontier 🫡}/D.q.aquarium.component.md": {
+    "tabs": {
+      "ViewComponent": {
+        "cursorState": [
+          {
+            "inSelectionMode": false,
+            "selectionStart": {
+              "lineNumber": 1,
+              "column": 1
+            },
+            "position": {
+              "lineNumber": 1,
+              "column": 1
+            }
+          }
+        ],
+        "viewState": {
+          "scrollLeft": 0,
+          "firstPosition": {
+            "lineNumber": 1,
+            "column": 1
+          },
+          "firstPositionDeltaTop": 0
+        },
+        "contributionsState": {
+          "editor.contrib.wordHighlighter": false,
+          "editor.contrib.folding": {
+            "lineCount": 261,
+            "foldedImports": false
+          }
+        }
+      }
+    },
+    "lastActive": "ViewComponent"
+  },
+  "_RESOURCES/DATACORE/18 ViewsInceptions/_resources/datacore/D.q.animatedsphere.component.md": {
+    "tabs": {
+      "ViewComponent": {
+        "cursorState": [
+          {
+            "inSelectionMode": false,
+            "selectionStart": {
+              "lineNumber": 5,
+              "column": 23
+            },
+            "position": {
+              "lineNumber": 5,
+              "column": 23
+            }
+          }
+        ],
+        "viewState": {
+          "scrollLeft": 0,
+          "firstPosition": {
+            "lineNumber": 1,
+            "column": 1
+          },
+          "firstPositionDeltaTop": 0
+        },
+        "contributionsState": {
+          "editor.contrib.wordHighlighter": false,
+          "editor.contrib.folding": {
+            "lineCount": 412,
+            "foldedImports": false
+          }
+        }
+      }
+    },
+    "lastActive": "ViewComponent"
+  },
+  "_RESOURCES/DATACORE/23 Canvas/_resources/datacore/D.q.animatedsphere.component.md": {
+    "tabs": {
+      "ViewComponent": {
+        "cursorState": [
+          {
+            "inSelectionMode": false,
+            "selectionStart": {
+              "lineNumber": 5,
+              "column": 23
+            },
+            "position": {
+              "lineNumber": 5,
+              "column": 23
+            }
+          }
+        ],
+        "viewState": {
+          "scrollLeft": 0,
+          "firstPosition": {
+            "lineNumber": 1,
+            "column": 1
+          },
+          "firstPositionDeltaTop": 0
+        },
+        "contributionsState": {
+          "editor.contrib.wordHighlighter": false,
+          "editor.contrib.folding": {
+            "lineCount": 412,
+            "foldedImports": false
+          }
+        }
+      }
+    },
+    "lastActive": "ViewComponent"
+  },
+  "_RESOURCES/DATACORE/50 ActionsManager/D.q.actionsmanager.component.md": {
+    "tabs": {
+      "ViewComponent": {
+        "cursorState": [
+          {
+            "inSelectionMode": false,
+            "selectionStart": {
+              "lineNumber": 1,
+              "column": 1
+            },
+            "position": {
+              "lineNumber": 1,
+              "column": 1
+            }
+          }
+        ],
+        "viewState": {
+          "scrollLeft": 0,
+          "firstPosition": {
+            "lineNumber": 1,
+            "column": 1
+          },
+          "firstPositionDeltaTop": 0
+        },
+        "contributionsState": {
+          "editor.contrib.wordHighlighter": false,
+          "editor.contrib.folding": {
+            "lineCount": 1737,
+            "foldedImports": false
+          }
+        }
+      }
+    },
+    "lastActive": "ViewComponent"
+  },
+  "_RESOURCES/DATACORE/35 ActivityWatchDashboard/D.q.activitywatchdashboard.component.md": {
+    "tabs": {
+      "ViewComponent": {
+        "cursorState": [
+          {
+            "inSelectionMode": false,
+            "selectionStart": {
+              "lineNumber": 1,
+              "column": 1
+            },
+            "position": {
+              "lineNumber": 1,
+              "column": 1
+            }
+          }
+        ],
+        "viewState": {
+          "scrollLeft": 0,
+          "firstPosition": {
+            "lineNumber": 1,
+            "column": 1
+          },
+          "firstPositionDeltaTop": 0
+        },
+        "contributionsState": {
+          "editor.contrib.wordHighlighter": false,
+          "editor.contrib.folding": {
+            "lineCount": 513,
+            "foldedImports": false
+          }
+        }
+      }
+    },
+    "lastActive": "ViewComponent"
+  },
+  "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.component.v3.md": {
+    "tabs": {
+      "ViewComponent": {
+        "cursorState": [
+          {
+            "inSelectionMode": false,
+            "selectionStart": {
+              "lineNumber": 1,
+              "column": 1
+            },
+            "position": {
+              "lineNumber": 1,
+              "column": 1
+            }
+          }
+        ],
+        "viewState": {
+          "scrollLeft": 0,
+          "firstPosition": {
+            "lineNumber": 1,
+            "column": 1
+          },
+          "firstPositionDeltaTop": 0
+        },
+        "contributionsState": {
+          "editor.contrib.wordHighlighter": false,
+          "editor.contrib.folding": {
+            "lineCount": 388,
+            "foldedImports": false
+          }
+        }
+      }
+    },
+    "lastActive": "ViewComponent"
+  },
+  "_RESOURCES/DATACORE/42 ChatLLM/D.q.chatllm.component.md": {
+    "tabs": {
+      "ViewComponent": {
+        "cursorState": [
+          {
+            "inSelectionMode": false,
+            "selectionStart": {
+              "lineNumber": 1,
+              "column": 1
+            },
+            "position": {
+              "lineNumber": 1,
+              "column": 1
+            }
+          }
+        ],
+        "viewState": {
+          "scrollLeft": 0,
+          "firstPosition": {
+            "lineNumber": 1,
+            "column": 1
+          },
+          "firstPositionDeltaTop": 0
+        },
+        "contributionsState": {
+          "editor.contrib.wordHighlighter": false,
+          "editor.contrib.folding": {
+            "lineCount": 1522,
+            "foldedImports": false
+          }
+        }
+      }
+    },
+    "lastActive": "ViewComponent"
+  },
+  "_RESOURCES/DATACORE/40 CardPicker/D.q.cardpicker.component.md": {
+    "tabs": {
+      "ViewComponent": {
+        "cursorState": [
+          {
+            "inSelectionMode": false,
+            "selectionStart": {
+              "lineNumber": 1,
+              "column": 1
+            },
+            "position": {
+              "lineNumber": 1,
+              "column": 1
+            }
+          }
+        ],
+        "viewState": {
+          "scrollLeft": 0,
+          "firstPosition": {
+            "lineNumber": 1,
+            "column": 1
+          },
+          "firstPositionDeltaTop": 0
+        },
+        "contributionsState": {
+          "editor.contrib.wordHighlighter": false,
+          "editor.contrib.folding": {
+            "lineCount": 1043,
+            "provider": "indent",
+            "foldedImports": false
+          }
+        }
+      }
+    },
+    "lastActive": "ViewComponent"
+  },
+  "_RESOURCES/DATACORE/52 AssetsLibrary/D.q.assetslibrary.component.md": {
+    "tabs": {
+      "ViewComponent": {
+        "cursorState": [
+          {
+            "inSelectionMode": false,
+            "selectionStart": {
+              "lineNumber": 1,
+              "column": 1
+            },
+            "position": {
+              "lineNumber": 1,
+              "column": 1
+            }
+          }
+        ],
+        "viewState": {
+          "scrollLeft": 0,
+          "firstPosition": {
+            "lineNumber": 1,
+            "column": 1
+          },
+          "firstPositionDeltaTop": 0
+        },
+        "contributionsState": {
+          "editor.contrib.wordHighlighter": false,
+          "editor.contrib.folding": {
+            "lineCount": 2248,
+            "foldedImports": false
+          }
+        }
+      }
+    },
+    "lastActive": "ViewComponent"
+  },
+  "_RESOURCES/DATACORE/65 AnimatedSphere/D.q.animatedsphere.component.md": {
+    "tabs": {
+      "ViewComponent": {
+        "cursorState": [
+          {
+            "inSelectionMode": false,
+            "selectionStart": {
+              "lineNumber": 1,
+              "column": 1
+            },
+            "position": {
+              "lineNumber": 1,
+              "column": 1
+            }
+          }
+        ],
+        "viewState": {
+          "scrollLeft": 0,
+          "firstPosition": {
+            "lineNumber": 1,
+            "column": 1
+          },
+          "firstPositionDeltaTop": 0
+        },
+        "contributionsState": {
+          "editor.contrib.wordHighlighter": false,
+          "editor.contrib.folding": {
+            "lineCount": 412,
+            "foldedImports": false
+          }
+        }
+      }
+    },
+    "lastActive": "ViewComponent"
+  },
+  "_RESOURCES/DATACORE/29 FuzzyText/D.q.fuzzytext.component.md": {
+    "tabs": {
+      "ViewComponent": {
+        "cursorState": [
+          {
+            "inSelectionMode": false,
+            "selectionStart": {
+              "lineNumber": 1,
+              "column": 1
+            },
+            "position": {
+              "lineNumber": 1,
+              "column": 1
+            }
+          }
+        ],
+        "viewState": {
+          "scrollLeft": 0,
+          "firstPosition": {
+            "lineNumber": 1,
+            "column": 1
+          },
+          "firstPositionDeltaTop": 0
+        },
+        "contributionsState": {
+          "editor.contrib.wordHighlighter": false,
+          "editor.contrib.folding": {
+            "lineCount": 203,
+            "foldedImports": false
+          }
+        }
+      }
+    },
+    "lastActive": "ViewComponent"
   }
 }

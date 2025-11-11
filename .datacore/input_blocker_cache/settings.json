@@ -1,0 +1,230 @@
+{
+  "whitelistedShortcuts": [
+    "Cmd+Alt+Dead"
+  ],
+  "stats": {
+    "blocked": 17,
+    "allowed": 12
+  },
+  "activityLog": [
+    {
+      "type": "blocked",
+      "shortcut": "Cmd+Meta",
+      "message": "Shortcut blocked",
+      "timestamp": "4:10:47 PM",
+      "id": 1762333847435
+    },
+    {
+      "type": "allowed",
+      "shortcut": "Cmd+Alt+Dead",
+      "message": "Shortcut allowed (whitelisted)",
+      "timestamp": "4:10:05 PM",
+      "id": 1762333805245
+    },
+    {
+      "type": "allowed",
+      "shortcut": "Cmd+Alt+Dead",
+      "message": "Shortcut allowed (whitelisted)",
+      "timestamp": "4:10:05 PM",
+      "id": 1762333805243
+    },
+    {
+      "type": "allowed",
+      "shortcut": "Cmd+Alt+Dead",
+      "message": "Shortcut allowed (whitelisted)",
+      "timestamp": "4:09:56 PM",
+      "id": 1762333796862
+    },
+    {
+      "type": "allowed",
+      "shortcut": "Cmd+Alt+Dead",
+      "message": "Shortcut allowed (whitelisted)",
+      "timestamp": "4:09:56 PM",
+      "id": 1762333796861
+    },
+    {
+      "type": "blocked",
+      "shortcut": "Cmd+Alt+Meta",
+      "message": "Shortcut blocked",
+      "timestamp": "4:09:56 PM",
+      "id": 1762333796749
+    },
+    {
+      "type": "blocked",
+      "shortcut": "Alt+Alt",
+      "message": "Shortcut blocked",
+      "timestamp": "4:09:56 PM",
+      "id": 1762333796729
+    },
+    {
+      "type": "allowed",
+      "shortcut": "Cmd+Alt+Dead",
+      "message": "Shortcut allowed (whitelisted)",
+      "timestamp": "4:09:53 PM",
+      "id": 1762333793743
+    },
+    {
+      "type": "allowed",
+      "shortcut": "Cmd+Alt+Dead",
+      "message": "Shortcut allowed (whitelisted)",
+      "timestamp": "4:09:53 PM",
+      "id": 1762333793743
+    },
+    {
+      "type": "blocked",
+      "shortcut": "Cmd+Alt+Meta",
+      "message": "Shortcut blocked",
+      "timestamp": "4:09:53 PM",
+      "id": 1762333793594
+    },
+    {
+      "type": "blocked",
+      "shortcut": "Alt+Alt",
+      "message": "Shortcut blocked",
+      "timestamp": "4:09:53 PM",
+      "id": 1762333793593
+    },
+    {
+      "type": "allowed",
+      "shortcut": "Cmd+Alt+Dead",
+      "message": "Shortcut allowed (whitelisted)",
+      "timestamp": "4:09:46 PM",
+      "id": 1762333786744
+    },
+    {
+      "type": "allowed",
+      "shortcut": "Cmd+Alt+Dead",
+      "message": "Shortcut allowed (whitelisted)",
+      "timestamp": "4:09:46 PM",
+      "id": 1762333786743
+    },
+    {
+      "type": "allowed",
+      "shortcut": "Cmd+Alt+Dead",
+      "message": "Shortcut allowed (whitelisted)",
+      "timestamp": "4:09:45 PM",
+      "id": 1762333785711
+    },
+    {
+      "type": "allowed",
+      "shortcut": "Cmd+Alt+Dead",
+      "message": "Shortcut allowed (whitelisted)",
+      "timestamp": "4:09:45 PM",
+      "id": 1762333785710
+    },
+    {
+      "type": "allowed",
+      "shortcut": "Cmd+Alt+Dead",
+      "message": "Shortcut allowed (whitelisted)",
+      "timestamp": "4:09:44 PM",
+      "id": 1762333784556
+    },
+    {
+      "type": "allowed",
+      "shortcut": "Cmd+Alt+Dead",
+      "message": "Shortcut allowed (whitelisted)",
+      "timestamp": "4:09:44 PM",
+      "id": 1762333784555
+    },
+    {
+      "type": "blocked",
+      "shortcut": "Cmd+Alt+Alt",
+      "message": "Shortcut blocked",
+      "timestamp": "4:09:44 PM",
+      "id": 1762333784331
+    },
+    {
+      "type": "blocked",
+      "shortcut": "Cmd+Meta",
+      "message": "Shortcut blocked",
+      "timestamp": "4:09:44 PM",
+      "id": 1762333784330
+    },
+    {
+      "type": "whitelisted",
+      "shortcut": "Cmd+Alt+Dead",
+      "message": "Added to whitelist",
+      "timestamp": "4:09:43 PM",
+      "id": 1762333783029
+    },
+    {
+      "type": "blocked",
+      "shortcut": "Cmd+Alt+Dead",
+      "message": "Shortcut blocked",
+      "timestamp": "4:09:40 PM",
+      "id": 1762333780412
+    },
+    {
+      "type": "blocked",
+      "shortcut": "Cmd+Alt+Meta",
+      "message": "Shortcut blocked",
+      "timestamp": "4:09:40 PM",
+      "id": 1762333780252
+    },
+    {
+      "type": "blocked",
+      "shortcut": "Alt+Alt",
+      "message": "Shortcut blocked",
+      "timestamp": "4:09:40 PM",
+      "id": 1762333780248
+    },
+    {
+      "type": "blocked",
+      "shortcut": "Cmd+w",
+      "message": "Shortcut blocked",
+      "timestamp": "4:09:35 PM",
+      "id": 1762333775263
+    },
+    {
+      "type": "blocked",
+      "shortcut": "Cmd+w",
+      "message": "Shortcut blocked",
+      "timestamp": "4:09:35 PM",
+      "id": 1762333775116
+    },
+    {
+      "type": "blocked",
+      "shortcut": "Cmd+Meta",
+      "message": "Shortcut blocked",
+      "timestamp": "4:09:35 PM",
+      "id": 1762333775077
+    },
+    {
+      "type": "blocked",
+      "shortcut": "Cmd+w",
+      "message": "Shortcut blocked",
+      "timestamp": "4:09:34 PM",
+      "id": 1762333774945
+    },
+    {
+      "type": "blocked",
+      "shortcut": "Cmd+w",
+      "message": "Shortcut blocked",
+      "timestamp": "4:09:34 PM",
+      "id": 1762333774763
+    },
+    {
+      "type": "blocked",
+      "shortcut": "Cmd+w",
+      "message": "Shortcut blocked",
+      "timestamp": "4:09:34 PM",
+      "id": 1762333774414
+    },
+    {
+      "type": "blocked",
+      "shortcut": "Cmd+Meta",
+      "message": "Shortcut blocked",
+      "timestamp": "4:09:34 PM",
+      "id": 1762333774282
+    },
+    {
+      "type": "whitelisted",
+      "shortcut": "Cache",
+      "message": "Settings restored from cache",
+      "timestamp": "4:09:30 PM",
+      "id": 1762333770453
+    }
+  ],
+  "lastBlockedShortcut": "Cmd+Meta",
+  "savedAt": "2025-11-05T09:10:48.616Z"
+}

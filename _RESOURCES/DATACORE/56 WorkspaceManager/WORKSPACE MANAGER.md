@@ -1,41 +1,43 @@
 
 
-### Tab : Workspace Manager
+### Tab: Workspace Manager
 
-- **Description**: A highly interactive, visual editor that provides a complete graphical user interface for managing the layouts of Obsidian's core "Workspaces" plugin. It transforms the abstract JSON structure of a workspace into a tangible, drag-and-drop canvas, allowing users to build, modify, and organize complex window layouts with intuitive controls.
-    
+- **Description**: An advanced, visual editor that provides direct, real-time manipulation of Obsidian's core workspace layouts. It fetches the raw JSON configuration for any saved "Workspace" and renders it as an interactive block diagram. Users can then structurally modify this layout—by adding, deleting, splitting, and rearranging panes—and save the changes directly back to the workspace configuration file.
+
 - **Does**:
-    - **Visual Workspace Builder**:
-        - Renders a live, visual representation of any saved workspace, including its main, left, and right sidebar areas.
-        - Supports full drag-and-drop functionality for re-arranging panes (leaf), tab groups (tabs), and split containers (split).
+   
+    - **Live Workspace Loading**:    
+        - Automatically detects and lists all saved workspaces from the "Workspaces" core plugin.
+        - Loads the selected workspace's JSON data and renders a live, interactive representation of its structure (main area, left sidebar, right sidebar).
+    - **Visual Layout Manipulation**:
+        - **Drag-and-Drop Panes**: All panes, tabs, and split containers can be moved and re-nested by dragging and dropping them into other containers.
+        - **Pane Splitting**: Any tab group can be split vertically or horizontally, creating a new split container with an empty pane, just like in Obsidian.
+        - **Add/Delete Panes**: Users can add new empty panes to any tab group or delete existing panes and splits. Deleting a split with only two children will intelligently collapse the container and promote the remaining child.
+    - **File Integration**:
+        - Includes a built-in, searchable file panel that lists all markdown files in the vault.
+        - Users can drag files from this panel and drop them onto any empty pane in the layout to assign that file to the pane.
+    - **Direct Configuration Saving**:
+        - Features a "Save Changes" button that takes the modified visual layout, converts it back into the clean JSON format that Obsidian expects, and **overwrites the original workspace file**.
+        - Allows for creating new, empty workspaces and deleting existing ones directly from the UI.
+            
+    - **Immersive Full-Tab UI**: Designed to run in a full-pane mode that takes over the entire Obsidian view, providing a dedicated, app-like environment for workspace editing.
+        
+- **Can’t**:
+    
+    - **Render Live Previews of Panes**: The editor displays a structural representation of the workspace. Leaf panes are shown as simple blocks with the name of the file they contain. It **does not** render a live, interactive preview of the actual notes or components within those panes.
+        
+    - **Edit Pane-Specific State**: It can assign a file to a pane but cannot modify the internal state of that pane (e.g., a note's scroll position, a Kanban board's card positions).
+        
+    - **Automatically Sync with Live Workspace**: All edits are made to the saved workspace configuration. The changes are **not reflected in the live Obsidian UI until the user manually loads the saved workspace** through the command palette or status bar.
+        
+- **Disclaimer**:
+    
+    - This is a highly advanced "meta" tool that directly modifies core Obsidian configuration files. While powerful, it operates on the raw JSON data of your workspaces. Incorrectly saving a modified layout could potentially corrupt a workspace file. **It is strongly recommended to back up your .obsidian/workspaces.json file before making significant changes.** This component is a proof-of-concept for deep application-level integration and should be used with caution.
 
-    - **Full Workspace Lifecycle Management**:        
-        - Provides a dropdown to load any existing workspace from the "Workspaces" plugin.
-        - Features controls to create new workspaces from a template, delete existing ones, and save any changes directly back to the plugin's data.
 
-    - **On-the-Fly Structure Editing**:        
-        - Allows users to add new empty panes to any tab group or split container.
-        - Enables splitting of any tab group either horizontally or vertically to create complex nested layouts.
-        - Provides simple one-click deletion for any pane, tab group, or split container.
+----
 
-    - **Integrated File Panel & Content Assignment**:        
-        - Includes a built-in, searchable file panel to quickly find any note in the vault.
-        - Uses a high-performance "virtualized list" to ensure the file panel remains fast and responsive, even with tens of thousands of notes.
-        - Allows users to drag files from the panel and drop them directly onto the layout to assign them to a pane.
-
-    - **Developer Insight**:        
-        - A "Debug View" toggle reveals the raw JSON data of the layout, which updates in real-time as you make visual changes, providing a clear link between the UI and the underlying data structure.
-
-- **Can’t**:    
-    - **Modify the Live Workspace**: The editor manipulates the saved configuration of a workspace. It cannot alter the currently active layout in Obsidian. To see changes, you must save the workspace and then load it using Obsidian's native commands.
-    - **Function Without the Core Plugin**: This component is entirely dependent on the "Workspaces" core Obsidian plugin. It will fail to load or operate if that plugin is disabled.
-    - **Manage Internal Pane State**: It can define which file goes into a pane (leaf), but it cannot control the state within that pane, such as scroll position, cursor location, or whether it's in source or live preview mode.
-    - **Browse a File Tree**: The integrated file panel is for searching only; it does not provide a folder-tree view for browsing the vault's file system.
-
-
-![workspace_manager.webp](/_RESOURCES/IMAGES/workspace_manager.webp)
-
-
+![workspace_manager.webp](_resources/images/workspace_manager.webp)
 
 
 ### COMPONENTS

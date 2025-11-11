@@ -17,7 +17,9 @@
     - Complex setup for non-coders.
 
 
-![tag_viewer.webp](/_RESOURCES/IMAGES/tag_viewer.webp)
+----
+
+![tag_viewer.webp](_resources/images/tag_viewer.webp)
 
 
 

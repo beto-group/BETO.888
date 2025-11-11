@@ -1,8 +1,6 @@
 
 
 
-
-
 # ViewComponent
 
 
@@ -26,31 +24,31 @@ function debounce(func, wait) { let timeout; return function executedFunction(..
 
 
 const styles = {
-    wrapper: { display: 'flex', flexDirection: 'column', height: '100%', width: '100%', fontFamily: 'sans-serif', backgroundColor: '#0a0a0a', color: '#e0e0e0', position: 'relative', boxSizing: 'border-box', },
-    loaderBar: { display: 'flex', padding: '12px', gap: '8px', backgroundColor: '#1a1a1a', borderBottom: '1px solid #333', alignItems: 'center', },
+    wrapper: { display: 'flex', flexDirection: 'column', height: '100%', width: '100%', fontFamily: 'var(--font-interface)', backgroundColor: 'var(--background-primary)', color: 'var(--text-normal)', position: 'relative', boxSizing: 'border-box', },
+    loaderBar: { display: 'flex', padding: '12px', gap: '8px', backgroundColor: 'var(--background-secondary)', borderBottom: '1px solid var(--background-modifier-border)', alignItems: 'center', },
     mainContent: { flex: 1, display: 'flex', overflow: 'hidden', },
-    input: { flex: 1, padding: '8px 12px', fontSize: '14px', border: '1px solid #444', borderRadius: '4px', backgroundColor: '#222', color: '#e0e0e0', outline: 'none', },
-    button: { padding: '8px 16px', fontSize: '14px', cursor: 'pointer', backgroundColor: '#333', color: 'white', border: '1px solid #555', borderRadius: '4px', transition: 'background-color 0.2s', },
-    iconButton: { padding: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', backgroundColor: '#333', color: 'white', border: '1px solid #555', borderRadius: '4px', transition: 'background-color 0.2s', },
-    editorPane: { flex: 1, display: 'flex', flexDirection: 'column', borderRight: '1px solid #333', backgroundColor: '#121212', minWidth: 0 },
-    statusBar: { padding: '8px 12px', backgroundColor: '#1f1f1f', borderTop: '1px solid #333', color: '#888', fontSize: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', },
-    previewPane: { flex: 1, display: 'flex', flexDirection: 'column', backgroundColor: '#181818', position: 'relative', minWidth: 0 },
-    previewHeader: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 12px', backgroundColor: '#1f1f1f', color: '#aaa', fontSize: '12px', textAlign: 'center', borderBottom: '1px solid #333', },
+    input: { flex: 1, padding: '8px 12px', fontSize: '14px', border: '1px solid var(--background-modifier-border)', borderRadius: '4px', backgroundColor: 'var(--background-primary)', color: 'var(--text-normal)', outline: 'none', },
+    button: { padding: '8px 16px', fontSize: '14px', cursor: 'pointer', backgroundColor: 'var(--interactive-normal)', color: 'var(--text-normal)', border: '1px solid var(--background-modifier-border)', borderRadius: '4px', transition: 'background-color 0.2s', },
+    iconButton: { padding: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', backgroundColor: 'var(--interactive-normal)', color: 'var(--text-normal)', border: '1px solid var(--background-modifier-border)', borderRadius: '4px', transition: 'background-color 0.2s', },
+    editorPane: { flex: 1, display: 'flex', flexDirection: 'column', borderRight: '1px solid var(--background-modifier-border)', backgroundColor: 'var(--background-primary)', minWidth: 0 },
+    statusBar: { padding: '8px 12px', backgroundColor: 'var(--background-secondary)', borderTop: '1px solid var(--background-modifier-border)', color: 'var(--text-muted)', fontSize: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', },
+    previewPane: { flex: 1, display: 'flex', flexDirection: 'column', backgroundColor: 'var(--background-primary-alt)', position: 'relative', minWidth: 0 },
+    previewHeader: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 12px', backgroundColor: 'var(--background-secondary)', color: 'var(--text-muted)', fontSize: '12px', textAlign: 'center', borderBottom: '1px solid var(--background-modifier-border)', },
     previewContent: { flex: 1, position: 'relative', overflow: 'auto', padding: '10px', },
-    purpleFocus: { outline: '2px solid #8A2BE2', boxShadow: '0 0 5px #8A2BE2', },
-    tabBar: { display: 'flex', backgroundColor: '#1a1a1a', borderBottom: '1px solid #333', overflowX: 'auto', alignItems: 'center', flexShrink: 0 },
-    tab: { padding: '10px 48px 10px 16px', cursor: 'pointer', color: '#888', borderBottom: '2px solid transparent', transition: 'color 0.2s, border-color 0.2s', whiteSpace: 'nowrap', fontSize: '13px', position: 'relative' },
-    activeTab: { color: '#e0e0e0', borderBottom: '2px solid #8A2BE2', },
-    addTabButton: { padding: '0 12px', cursor: 'pointer', color: '#888', fontSize: '20px', fontWeight: 'bold', userSelect: 'none', transition: 'color 0.2s', ':hover': { color: '#e0e0e0' } },
-    renameInput: { background: 'transparent', border: 'none', outline: 'none', color: '#e0e0e0', fontSize: '13px', fontFamily: 'inherit', padding: '0', margin: '0', width: '100%', boxSizing: 'border-box' },
-    tabCopyButton: { position: 'absolute', right: '25px', top: '50%', transform: 'translateY(-50%)', width: '16px', height: '16px', borderRadius: '50%', backgroundColor: 'transparent', color: '#aaa', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 'bold', cursor: 'pointer', opacity: 0.6, transition: 'background-color 0.2s, opacity 0.2s', },
-    tabCloseButton: { position: 'absolute', right: '5px', top: '50%', transform: 'translateY(-50%)', width: '16px', height: '16px', borderRadius: '50%', backgroundColor: 'transparent', color: '#aaa', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 'bold', cursor: 'pointer', opacity: 0.6, transition: 'background-color 0.2s, opacity 0.2s', },
-    bookmarkBar: { display: 'flex', padding: '8px 12px', gap: '8px', backgroundColor: '#1a1a1a', borderBottom: '1px solid #333', alignItems: 'center', overflowX: 'auto', flexShrink: 0 },
-    bookmarkButton: { padding: '4px 10px', fontSize: '12px', cursor: 'pointer', backgroundColor: '#2c2c2c', color: '#ccc', border: '1px solid #444', borderRadius: '4px', transition: 'background-color 0.2s, color 0.2s', whiteSpace: 'nowrap', },
-    activeBookmarkButton: { backgroundColor: '#8A2BE2', color: '#ffffff', borderColor: '#8A2BE2', },
-    resizer: { flex: '0 0 5px', cursor: 'col-resize', backgroundColor: '#333', backgroundClip: 'padding-box', borderLeft: '2px solid transparent', borderRight: '2px solid transparent', transition: 'background-color 0.2s', zIndex: 1, },
-    resizerHover: { backgroundColor: '#8A2BE2', },
-    paneToggleButton: { cursor: 'pointer', color: '#888', fontSize: '16px', fontWeight: 'bold', userSelect: 'none', transition: 'color 0.2s', padding: '0 8px', lineHeight: '1', },
+    purpleFocus: { outline: '2px solid var(--color-accent)', boxShadow: '0 0 5px var(--color-accent)', },
+    tabBar: { display: 'flex', backgroundColor: 'var(--background-secondary)', borderBottom: '1px solid var(--background-modifier-border)', overflowX: 'auto', alignItems: 'center', flexShrink: 0 },
+    tab: { padding: '10px 48px 10px 16px', cursor: 'pointer', color: 'var(--text-muted)', borderBottom: '2px solid transparent', transition: 'color 0.2s, border-color 0.2s', whiteSpace: 'nowrap', fontSize: '13px', position: 'relative' },
+    activeTab: { color: 'var(--text-normal)', borderBottom: '2px solid var(--color-accent)', },
+    addTabButton: { padding: '0 12px', cursor: 'pointer', color: 'var(--text-muted)', fontSize: '20px', fontWeight: 'bold', userSelect: 'none', transition: 'color 0.2s', ':hover': { color: 'var(--text-normal)' } },
+    renameInput: { background: 'transparent', border: 'none', outline: 'none', color: 'var(--text-normal)', fontSize: '13px', fontFamily: 'inherit', padding: '0', margin: '0', width: '100%', boxSizing: 'border-box' },
+    tabCopyButton: { position: 'absolute', right: '25px', top: '50%', transform: 'translateY(-50%)', width: '16px', height: '16px', borderRadius: '50%', backgroundColor: 'transparent', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 'bold', cursor: 'pointer', opacity: 0.6, transition: 'background-color 0.2s, opacity 0.2s', },
+    tabCloseButton: { position: 'absolute', right: '5px', top: '50%', transform: 'translateY(-50%)', width: '16px', height: '16px', borderRadius: '50%', backgroundColor: 'transparent', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 'bold', cursor: 'pointer', opacity: 0.6, transition: 'background-color 0.2s, opacity 0.2s', },
+    bookmarkBar: { display: 'flex', padding: '8px 12px', gap: '8px', backgroundColor: 'var(--background-secondary)', borderBottom: '1px solid var(--background-modifier-border)', alignItems: 'center', overflowX: 'auto', flexShrink: 0 },
+    bookmarkButton: { padding: '4px 10px', fontSize: '12px', cursor: 'pointer', backgroundColor: 'var(--background-primary)', color: 'var(--text-normal)', border: '1px solid var(--background-modifier-border)', borderRadius: '4px', transition: 'background-color 0.2s, color 0.2s', whiteSpace: 'nowrap', },
+    activeBookmarkButton: { backgroundColor: 'var(--interactive-accent)', color: 'var(--text-on-accent)', borderColor: 'var(--interactive-accent)', },
+    resizer: { flex: '0 0 5px', cursor: 'col-resize', backgroundColor: 'var(--background-modifier-border)', backgroundClip: 'padding-box', borderLeft: '2px solid transparent', borderRight: '2px solid transparent', transition: 'background-color 0.2s', zIndex: 1, },
+    resizerHover: { backgroundColor: 'var(--color-accent)', },
+    paneToggleButton: { cursor: 'pointer', color: 'var(--text-muted)', fontSize: '16px', fontWeight: 'bold', userSelect: 'none', transition: 'color 0.2s', padding: '0 8px', lineHeight: '1', },
 };
 
 // =-=--=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -121,7 +119,7 @@ class ErrorBoundary extends PreactComponent {
 }
 
 // --- The New, Robust Dynamic Component Loader ---
-function DynamicComponentLoader({ filePath, activeHeader, renderKey }) {
+function DynamicComponentLoader({ filePath, contextPath, activeHeader, renderKey, componentProps = {} }) {
     const [LoadedComponent, setLoadedComponent] = useState(null);
     const [loadError, setLoadError] = useState(null);
 
@@ -138,10 +136,27 @@ function DynamicComponentLoader({ filePath, activeHeader, renderKey }) {
             setLoadError(null);
 
             try {
-                // [THE CACHE-BUSTING TRICK]
-                // Because activeHeader is a new, unique string on each save (e.g., "MyComponent_reload_12345"),
-                // dc.require is forced to fetch the module's content fresh instead of serving a cached version.
-                const dynamicModule = await dc.require(dc.headerLink(filePath, activeHeader));
+                // [CACHE-BUSTING] Clear Datacore's module cache for this file
+                // This ensures we always get fresh code after saves
+                const resolvedPath = dc.resolvePath(filePath);
+                
+                // Clear the cache for this specific file path
+                if (dc.api?.cache) {
+                    // Try to clear from Datacore's internal cache
+                    const cacheKey = resolvedPath + "#" + activeHeader;
+                    if (dc.api.cache.delete) {
+                        dc.api.cache.delete(cacheKey);
+                    }
+                }
+                
+                // Force a fresh require with cache buster in the URL
+                const cacheBuster = `${renderKey}-${Date.now()}`;
+                const headerLink = dc.headerLink(resolvedPath, activeHeader);
+                
+                console.log(`[DynamicComponentLoader] Loading: ${headerLink} (key: ${cacheBuster})`);
+                console.log(`[DynamicComponentLoader] Context path: ${contextPath || filePath}`);
+                
+                const dynamicModule = await dc.require(headerLink);
                 if (isCancelled) return;
 
                 let Component = null;
@@ -168,16 +183,36 @@ function DynamicComponentLoader({ filePath, activeHeader, renderKey }) {
 
         loadComponent();
         return () => { isCancelled = true; };
-    }, [filePath, activeHeader, renderKey]); // Depend on renderKey to force a full reload on save
+    }, [filePath, contextPath, activeHeader, renderKey]); // Depend on renderKey to force a full reload on save
 
     if (loadError) {
         return <ErrorDisplay errorMessage={loadError} />;
     }
     
     if (LoadedComponent) {
+        // CRITICAL FIX: Create a modified dc context that hijacks useCurrentPath()
+        // This makes components think they're running from their actual file location
+        // instead of the temp file or playground location
+            const ContextHijacker = () => {
+            // Store original dc.useCurrentPath
+            const originalUseCurrentPath = dc.useCurrentPath;
+            
+            // Override dc.useCurrentPath to return the original context path
+            dc.useCurrentPath = () => contextPath || filePath;
+            
+            // Cleanup: restore original after component unmounts
+            dc.useEffect(() => {
+                return () => {
+                    dc.useCurrentPath = originalUseCurrentPath;
+                };
+            }, []);
+            
+            return <LoadedComponent {...componentProps} />;
+        };
+        
         return (
             <ErrorBoundary renderKey={renderKey}>
-                <LoadedComponent />
+                <ContextHijacker />
             </ErrorBoundary>
         );
     }
@@ -190,95 +225,95 @@ function DynamicComponentLoader({ filePath, activeHeader, renderKey }) {
 // --- 3. THE LIVE EDITOR (Left Pane) ---
 // =-=--=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-function PlaygroundEditor({ filePath, onHardReload, activeHeader, setActiveHeader, renderHeader, setRenderHeader, onTogglePreview, reloadKey }) {
+function PlaygroundEditor({ filePath, onHardReload, activeHeader, setActiveHeader, renderHeader, setRenderHeader, onTogglePreview, reloadKey, localTheme, monacoTheme, editorSaveRef }) {
     const BOILERPLATE_CODE = `function MyComponent() {\n  return <div>Hello, World!</div>;\n}\n\nreturn { MyComponent };`;
     const MONACO_VERSION = "0.45.0";
     const SETUP_DIR_BASE = ".datacore/playground";
     const SETUP_DIR = `${SETUP_DIR_BASE}/monaco-host`;
-    const HOST_FILE_VERSION = 14;
+    const HOST_FILE_VERSION = 16;
     const HOST_FILENAME_BASE = "monaco-host";
     const HOST_FILENAME = `${HOST_FILENAME_BASE}-v${HOST_FILE_VERSION}.html`;
     const HOST_FILE_PATH = `${SETUP_DIR}/${HOST_FILENAME}`;
     const CACHE_FILE_PATH = `${SETUP_DIR_BASE}/editor-cache.json`;
-    const TEMP_FILE_PATH = `_RESOURCES/DATACORE/COMPONENTS/TEMP/temp-codeblock.md`;
-    const TEMP_HEADER_NAME = "TempComponent";
+    const TEMP_DIR = `_RESOURCES/DATACORE/COMPONENTS/TEMP`;
+    const TEMP_FILE_PREFIX = "_temp-"; // Files starting with _ are often treated as system files
+    
+    const [lastTempFile, setLastTempFile] = useState(null);
 
+    // === STATE MANAGEMENT (Separated by concern) ===
+    // Code blocks state (only updated on file load or tab actions like add/rename/delete)
     const [codeBlocks, setCodeBlocks] = useState([]);
+    // Live code ref (updated on every keystroke, does NOT trigger re-renders)
+    const codeBlocksRef = useRef([]);
+    
     const [status, setStatus] = useState("No file loaded.");
     const [isHostFileReady, setIsHostFileReady] = useState(false);
     const iframeRef = useRef(null);
+    window.iframeRef = iframeRef;
     const fullCacheRef = useRef({});
     const viewStateCache = useRef({});
     const [renamingHeader, setRenamingHeader] = useState(null);
     const [renameValue, setRenameValue] = useState('');
     const [isAddingTab, setIsAddingTab] = useState(false);
     const [newTabName, setNewTabName] = useState('');
-    const messageContext = useMemo(() => activeHeader ? `${filePath}#${activeHeader}` : filePath, [filePath, activeHeader]);
 
+    // === REFS (Don't trigger re-renders) ===
     const isEditorReadyRef = useRef(false);
     const pendingContentRef = useRef(null);
     const lastSentContext = useRef(null);
+    const newTabInputRef = useRef(null);
+    const performSaveRef = useRef(null);
+    const isSavingRef = useRef(false);
 
+    // === UTILITY FUNCTIONS (Pure, no side effects) ===
+    const parseFileContent = (content) => { 
+        // Support both # and ## headers (H1 and H2)
+        const regex = /^#{1,2}\s+(.*?)\s*\n+```jsx\r?\n([\s\S]*?)\r?\n```/gm; 
+        const blocks = []; 
+        let match; 
+        while ((match = regex.exec(content)) !== null) { 
+            blocks.push({ header: match[1].trim(), code: match[2].trim() }); 
+        } 
+        console.log(`[parseFileContent] Found ${blocks.length} code blocks:`, blocks.map(b => b.header));
+        return blocks.length > 0 ? blocks : [{ header: "ViewComponent", code: BOILERPLATE_CODE }]; 
+    };
+    
+    const rebuildFileContent = (blocks) => { 
+        const frontmatter = "---\ntags: datacore-component\n---\n\n"; 
+        const content = blocks.map(block => `# ${block.header}\n\n\`\`\`jsx\n${block.code.trim()}\n\`\`\``).join('\n\n\n'); 
+        return frontmatter + content; 
+    };
+
+    // === CACHE MANAGEMENT (Isolated concern) ===
     const debouncedSaveCache = useCallback(debounce(async () => {
-        try { if (typeof app !== 'undefined' && app.vault?.adapter) await app.vault.adapter.write(CACHE_FILE_PATH, JSON.stringify(fullCacheRef.current, null, 2)); }
-        catch (e) { console.error("[PlaygroundEditor] Failed to save editor cache:", e); }
+        try { 
+            if (typeof app !== 'undefined' && app.vault?.adapter) 
+                await app.vault.adapter.write(CACHE_FILE_PATH, JSON.stringify(fullCacheRef.current, null, 2)); 
+        } catch (e) { 
+            console.error("[PlaygroundEditor] Failed to save editor cache:", e); 
+        }
     }, 1000), []);
 
     const saveCacheNow = useCallback(async () => {
-        try { if (typeof app !== 'undefined' && app.vault?.adapter) await app.vault.adapter.write(CACHE_FILE_PATH, JSON.stringify(fullCacheRef.current, null, 2)); }
-        catch (e) { console.error("[PlaygroundEditor] Failed to save editor cache NOW:", e); }
+        try { 
+            if (typeof app !== 'undefined' && app.vault?.adapter) 
+                await app.vault.adapter.write(CACHE_FILE_PATH, JSON.stringify(fullCacheRef.current, null, 2)); 
+        } catch (e) { 
+            console.error("[PlaygroundEditor] Failed to save editor cache NOW:", e); 
+        }
     }, []);
 
     const loadCache = useCallback(async () => {
-        try { if (typeof app !== 'undefined' && app.vault?.adapter && await app.vault.adapter.exists(CACHE_FILE_PATH)) fullCacheRef.current = JSON.parse(await app.vault.adapter.read(CACHE_FILE_PATH)); }
-        catch (e) { console.error("[PlaygroundEditor] Failed to load editor cache:", e); fullCacheRef.current = {}; }
+        try { 
+            if (typeof app !== 'undefined' && app.vault?.adapter && await app.vault.adapter.exists(CACHE_FILE_PATH)) 
+                fullCacheRef.current = JSON.parse(await app.vault.adapter.read(CACHE_FILE_PATH)); 
+        } catch (e) { 
+            console.error("[PlaygroundEditor] Failed to load editor cache:", e); 
+            fullCacheRef.current = {}; 
+        }
     }, []);
 
-    const updateCacheOnHeaderChange = useCallback((oldHeader, newHeader) => {
-        const fileCache = fullCacheRef.current[filePath];
-        if (!fileCache || !fileCache.tabs) return;
-        const cachedState = fileCache.tabs[oldHeader];
-        delete fileCache.tabs[oldHeader];
-        delete viewStateCache.current[oldHeader];
-        if (newHeader && cachedState) { fileCache.tabs[newHeader] = cachedState; viewStateCache.current[newHeader] = cachedState; }
-        if (fileCache.lastActive === oldHeader) { fileCache.lastActive = newHeader || (codeBlocks.length > 0 ? codeBlocks[0].header : null); }
-        debouncedSaveCache();
-    }, [filePath, codeBlocks, debouncedSaveCache]);
-
-    useEffect(() => {
-        loadCache();
-        const setupHostFile = async () => {
-            if (typeof app === 'undefined' || !app.vault?.adapter) { setStatus("Setup failed: Obsidian app context not available."); return; }
-            const adapter = app.vault.adapter;
-            try { 
-                if (!(await adapter.exists(SETUP_DIR_BASE))) await adapter.mkdir(SETUP_DIR_BASE);
-                if (await adapter.exists(SETUP_DIR)) { 
-                    const dirContents = await adapter.list(SETUP_DIR); 
-                    for (const path of dirContents.files) { 
-                        const name = path.split('/').pop(); 
-                        if (name.startsWith(HOST_FILENAME_BASE) && name !== HOST_FILENAME) await adapter.remove(path); 
-                    } 
-                } 
-            }
-            catch (error) { console.warn("[PlaygroundEditor] Failed to clean up old host files.", error); }
-            if (await adapter.exists(HOST_FILE_PATH)) { setIsHostFileReady(true); return; }
-            setStatus("Performing first-time editor setup...");
-            try {
-                if (!await adapter.exists(SETUP_DIR)) await adapter.mkdir(SETUP_DIR);
-                const monacoLoaderUrl = `https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/${MONACO_VERSION}/min/vs/loader.js`;
-                const monacoBasePath = `https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/${MONACO_VERSION}/min/vs`;
-                const hostHtmlContent = `<!DOCTYPE html><html><head><meta charset="utf-8"/><style>body,html{margin:0;padding:0;height:100%;overflow:hidden}#container{width:100%;height:100%}</style></head><body><div id="container"></div><script src="${monacoLoaderUrl}"></script><script>let editor=null;const params=new URLSearchParams(window.location.search),initialTheme=params.get("theme");let currentContext=params.get("context"),initialCode=params.get("code")||"";function debounce(t,n){let e;return function(...o){const i=()=>{e=null,t(...o)};clearTimeout(e),e=setTimeout(i,n)}}const reportState=debounce(()=>{if(!editor)return;const t=editor.saveViewState();parent.postMessage({type:"state-changed",value:t,context:currentContext},"*")},250);require.config({paths:{vs:"${monacoBasePath}"}});require(["vs/editor/editor.main"],(function(){editor=monaco.editor.create(document.getElementById("container"),{value:initialCode,language:"javascript",theme:initialTheme,automaticLayout:!0,minimap:{enabled:!0},wordWrap:"on",fontSize:14,fontFamily:"monospace"}),editor.onDidChangeModelContent((()=>parent.postMessage({type:"change",value:editor.getValue(),context:currentContext},"*"))),editor.onDidScrollChange(reportState),editor.onDidChangeCursorPosition(reportState),window.addEventListener("message",(e=>{const{type:t,value:o,context:s}=e.data;if("set-theme"===t&&monaco.editor.setTheme)return monaco.editor.setTheme(o);if("relayout"===t&&editor)return editor.layout();if("set-content"===t&&editor&&o){if(o.code!==editor.getValue()){editor.setValue(o.code)}currentContext=o.context;if("state"in o&&o.state){editor.restoreViewState(o.state)}}})),parent.postMessage({type:"editor-ready",context:currentContext},"*")}));</script></body></html>`;
-                await adapter.write(HOST_FILE_PATH, hostHtmlContent);
-                setIsHostFileReady(true);
-            } catch (error) { console.error("[PlaygroundEditor] Monaco host setup failed:", error); setStatus(`Setup failed: ${error.message}`); }
-        };
-        setupHostFile();
-        return () => { debouncedSaveCache(); };
-    }, []);
-
-    const parseFileContent = (content) => { const regex = /^#\s+(.*?)\s*\n+```jsx\r?\n([\s\S]*?)\r?\n```/gm; const blocks = []; let match; while ((match = regex.exec(content)) !== null) { blocks.push({ header: match[1].trim(), code: match[2].trim() }); } return blocks.length > 0 ? blocks : [{ header: "ViewComponent", code: BOILERPLATE_CODE }]; };
-    const rebuildFileContent = (blocks) => { const frontmatter = "---\ntags: datacore-component\n---\n\n"; const content = blocks.map(block => `# ${block.header}\n\n\`\`\`jsx\n${block.code.trim()}\n\`\`\``).join('\n\n\n'); return frontmatter + content; };
-
+    // === EDITOR COMMUNICATION (Isolated from state updates) ===
     const sendContentToEditor = useCallback((contentPayload) => {
         if (!contentPayload) return;
         if (isEditorReadyRef.current) {
@@ -290,13 +325,162 @@ function PlaygroundEditor({ filePath, onHardReload, activeHeader, setActiveHeade
         }
     }, []);
 
+    // === TEMP FOLDER CLEANUP (Clear all temp files on mount) ===
+    useEffect(() => {
+        const cleanupTempFolder = async () => {
+            if (typeof app === 'undefined' || !app.vault?.adapter) return;
+            const adapter = app.vault.adapter;
+            try {
+                if (await adapter.exists(TEMP_DIR)) {
+                    const dirContents = await adapter.list(TEMP_DIR);
+                    for (const file of dirContents.files) {
+                        const filename = file.split('/').pop();
+                        // Match current prefix OR legacy prefixes (temp-, .temp-, ~temp-)
+                        const isTempFile = filename.startsWith(TEMP_FILE_PREFIX) || 
+                                         filename.startsWith('temp-') || 
+                                         filename.startsWith('.temp-') || 
+                                         filename.startsWith('~temp-');
+                        if (isTempFile) {
+                            await adapter.trashLocal(file);
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error("[PlaygroundEditor] Failed to cleanup temp folder:", error);
+            }
+        };
+        cleanupTempFolder();
+    }, []); // Run once on mount
+
+    // === MONACO HOST FILE SETUP (One-time initialization) ===
+    useEffect(() => {
+        loadCache();
+        const setupHostFile = async () => {
+            if (typeof app === 'undefined' || !app.vault?.adapter) { 
+                setStatus("Setup failed: Obsidian app context not available."); 
+                return; 
+            }
+            const adapter = app.vault.adapter;
+            try { 
+                if (!(await adapter.exists(SETUP_DIR_BASE))) await adapter.mkdir(SETUP_DIR_BASE);
+                if (await adapter.exists(SETUP_DIR)) { 
+                    const dirContents = await adapter.list(SETUP_DIR); 
+                    for (const path of dirContents.files) { 
+                        const name = path.split('/').pop(); 
+                        if (name.startsWith(HOST_FILENAME_BASE) && name !== HOST_FILENAME) 
+                            await adapter.remove(path); 
+                    } 
+                } 
+            } catch (error) { 
+                console.warn("[PlaygroundEditor] Failed to clean up old host files.", error); 
+            }
+            const needsRecreation = !(await adapter.exists(HOST_FILE_PATH));
+            if (!needsRecreation) { 
+                setIsHostFileReady(true); 
+                return; 
+            }
+            setStatus("Performing first-time editor setup...");
+            try {
+                if (!await adapter.exists(SETUP_DIR)) await adapter.mkdir(SETUP_DIR);
+                const monacoLoaderUrl = `https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/${MONACO_VERSION}/min/vs/loader.js`;
+                const monacoBasePath = `https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/${MONACO_VERSION}/min/vs`;
+                                const hostHtmlContent = `<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <style>
+            body,html{margin:0;padding:0;height:100%;overflow:hidden}
+            #container{width:100%;height:100%}
+        </style>
+    </head>
+    <body>
+        <div id="container"></div>
+        <script src="${monacoLoaderUrl}"></script>
+        <script>
+            let editor = null;
+            const params = new URLSearchParams(window.location.search);
+            const initialTheme = params.get("theme");
+            let currentContext = params.get("context");
+            let initialCode = params.get("code") || "";
+            let lastContext = null;
+            function debounce(t, n) {
+                let e;
+                return function(...o) {
+                    const i = () => { e = null; t(...o); };
+                    clearTimeout(e), e = setTimeout(i, n);
+                }
+            }
+            const reportState = debounce(() => {
+                if (!editor) return;
+                const t = editor.saveViewState();
+                parent.postMessage({ type: "state-changed", value: t, context: currentContext }, "*");
+            }, 250);
+            require.config({ paths: { vs: "${monacoBasePath}" } });
+            require(["vs/editor/editor.main"], function() {
+                editor = monaco.editor.create(document.getElementById("container"), {
+                    value: initialCode,
+                    language: "javascript",
+                    theme: initialTheme,
+                    automaticLayout: true,
+                    minimap: { enabled: true },
+                    wordWrap: "on",
+                    fontSize: 14,
+                    fontFamily: "monospace"
+                });
+                editor.onDidChangeModelContent(() => parent.postMessage({ type: "change", value: editor.getValue(), context: currentContext }, "*"));
+                editor.onDidScrollChange(reportState);
+                editor.onDidChangeCursorPosition(reportState);
+                
+                // Listen for Cmd/Ctrl + S inside the iframe (only works when Monaco editor is focused)
+                document.addEventListener("keydown", (e) => {
+                    if ((e.metaKey || e.ctrlKey) && e.key === "s") {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        parent.postMessage({ type: "save-request", context: currentContext }, "*");
+                    }
+                }, true);
+                
+                window.addEventListener("message", (e) => {
+                    const { type: t, value: o, context: s } = e.data;
+                    if ("set-theme" === t && monaco.editor.setTheme) return monaco.editor.setTheme(o);
+                    if ("relayout" === t && editor) return editor.layout();
+                    if ("set-content" === t && editor && o) {
+                        if (o.code !== editor.getValue()) {
+                            editor.setValue(o.code);
+                        }
+                        if (lastContext !== o.context) {
+                            currentContext = o.context;
+                            lastContext = o.context;
+                            if ("state" in o && o.state) {
+                                editor.restoreViewState(o.state);
+                            }
+                        }
+                    }
+                });
+                parent.postMessage({ type: "editor-ready", context: currentContext }, "*");
+            });
+        </script>
+    </body>
+</html>`;
+                await adapter.write(HOST_FILE_PATH, hostHtmlContent);
+                setIsHostFileReady(true);
+            } catch (error) { 
+                console.error("[PlaygroundEditor] Monaco host setup failed:", error); 
+                setStatus(`Setup failed: ${error.message}`); 
+            }
+        };
+        setupHostFile();
+        return () => { debouncedSaveCache(); };
+    }, []);
+
+    // === FILE LOADING (Only runs on filePath change) ===
     useEffect(() => {
         isEditorReadyRef.current = false;
         pendingContentRef.current = null;
         lastSentContext.current = null;
         if (!filePath) {
-            setCodeBlocks([]); 
-            setActiveHeader(null); 
+            setCodeBlocks([]);
+            setActiveHeader(null); // Only reset on file load
             setRenderHeader(null);
             setStatus("No file loaded.");
             return;
@@ -310,16 +494,34 @@ function PlaygroundEditor({ filePath, onHardReload, activeHeader, setActiveHeade
             const fileCache = fullCacheRef.current[filePath] || {};
             viewStateCache.current = fileCache.tabs || {};
 
-            const primaryView = blocks.find(b => b.header.toLowerCase().includes("viewcomponent") || b.header.toLowerCase().includes("view"));
+            console.log(`[PlaygroundEditor] Loaded ${blocks.length} blocks from ${filePath}:`, blocks.map(b => b.header));
+
+            // Find the primary view component for preview (order of preference)
+            const primaryView = blocks.find(b => 
+                b.header.toLowerCase().includes("view") || 
+                b.header.toLowerCase().includes("viewcomponent")
+            );
             const componentToRender = primaryView ? primaryView.header : (blocks[0]?.header || null);
+            
+            console.log(`[PlaygroundEditor] Will render: ${componentToRender}`);
             setRenderHeader(componentToRender);
 
-            const initialActiveTab = blocks.find(b => b.header === fileCache.lastActive)?.header || componentToRender || blocks[0]?.header || null;
+            // For the editor, prefer the last active tab, fallback to first block
+            // This way the editor shows the component you were last working on
+            const initialActiveTab = blocks.find(b => b.header === fileCache.lastActive)?.header || blocks[0]?.header || null;
+            
+            console.log(`[PlaygroundEditor] Initial active tab: ${initialActiveTab}`);
+            
+            // Update both state and ref
+            setCodeBlocks(blocks);
+            codeBlocksRef.current = blocks;
+            
+            // Set active tab (this is a tab switch action, not a code change)
             setActiveHeader(initialActiveTab);
             
-            setCodeBlocks(blocks);
             setStatus("Ready");
 
+            // Send initial content to editor
             const activeBlock = blocks.find(b => b.header === initialActiveTab);
             if (activeBlock) {
                 const newContext = `${filePath}#${initialActiveTab}`;
@@ -328,144 +530,359 @@ function PlaygroundEditor({ filePath, onHardReload, activeHeader, setActiveHeade
             }
         };
         loadFileAndPrepareContent();
-    }, [filePath, sendContentToEditor, loadCache, setActiveHeader, setRenderHeader]);
+        
+        // Cleanup: delete temp file when switching files or unmounting
+        return async () => {
+            if (lastTempFile && typeof app !== 'undefined' && app.vault?.adapter) {
+                try {
+                    if (await app.vault.adapter.exists(lastTempFile)) {
+                        await app.vault.adapter.trashLocal(lastTempFile);
+                    }
+                } catch (e) {
+                    console.error("[PlaygroundEditor] Failed to cleanup temp file:", e);
+                }
+            }
+        };
+    }, [filePath]);
 
+    // === TAB SWITCHING (CRITICAL: Only runs when activeHeader changes, NOT on code changes) ===
+    const lastActiveHeaderRef = useRef(null);
+    
     useEffect(() => {
-        if (!filePath) return;
-        const activeBlock = codeBlocks.find(b => b.header === activeHeader);
-        if (activeBlock && lastSentContext.current !== messageContext) {
-            const contentPayload = { type: 'set-content', value: { code: activeBlock.code, context: messageContext, state: viewStateCache.current[activeHeader] || null } };
-            sendContentToEditor(contentPayload);
-        }
-    }, [activeHeader, codeBlocks, filePath, messageContext, sendContentToEditor]);
+        // GUARD: Only proceed if activeHeader actually changed (not just re-rendered with same value)
+        if (lastActiveHeaderRef.current === activeHeader) return;
+        lastActiveHeaderRef.current = activeHeader;
+        
+        if (!filePath || !activeHeader) return;
+        
+        // Get the active block from the ref (which has the latest code)
+        const activeBlock = codeBlocksRef.current.find(b => b.header === activeHeader);
+        if (!activeBlock) return;
+        
+        // Compute the message context
+        const messageContext = `${filePath}#${activeHeader}`;
+        
+        // Only send if we haven't already sent this context
+        if (lastSentContext.current === messageContext) return;
+        
+        // Send content to editor (this is a tab switch, not a code change)
+        const contentPayload = { 
+            type: 'set-content', 
+            value: { 
+                code: activeBlock.code, 
+                context: messageContext, 
+                state: viewStateCache.current[activeHeader] || null 
+            } 
+        };
+        sendContentToEditor(contentPayload);
+    }, [activeHeader, filePath]);
 
+    // === EDITOR MESSAGE HANDLER (Handles code changes from Monaco - isolated from tab switching) ===
     useEffect(() => {
         const handleMessage = (event) => {
             if (!event.data || !iframeRef.current || event.source !== iframeRef.current.contentWindow) return;
             const { type, value, context } = event.data;
+            
+            // Compute current message context without triggering re-renders
+            const currentMessageContext = activeHeader ? `${filePath}#${activeHeader}` : filePath;
+            
             if (type === 'editor-ready') {
                 isEditorReadyRef.current = true;
-                iframeRef.current.contentWindow.postMessage({ type: 'set-theme', value: 'vs-dark' }, '*');
+                iframeRef.current.contentWindow.postMessage({ type: 'set-theme', value: monacoTheme }, '*');
                 if (pendingContentRef.current) {
                     sendContentToEditor(pendingContentRef.current);
                 }
                 return;
             }
-            if (type === 'change' && context === messageContext) {
-                setCodeBlocks(prevBlocks => prevBlocks.map(block => block.header === activeHeader ? { ...block, code: value } : block));
-            } else if (type === 'state-changed' && context === messageContext) {
+            
+            // SAVE REQUEST: Handle Cmd/Ctrl + S from iframe
+            if (type === 'save-request') {
+                if (performSaveRef.current) {
+                    performSaveRef.current();
+                }
+                return;
+            }
+            
+            // CODE CHANGE: Update ref only, NOT state (prevents re-renders and tab switch effects)
+            if (type === 'change' && context === currentMessageContext) {
+                codeBlocksRef.current = codeBlocksRef.current.map(block => 
+                    block.header === activeHeader ? { ...block, code: value } : block
+                );
+                return;
+            }
+            
+            // STATE CHANGE: Update view state cache (cursor position, scroll, etc.)
+            if (type === 'state-changed' && context === currentMessageContext) {
                 if (!filePath || !activeHeader) return;
                 viewStateCache.current[activeHeader] = value;
-                if (!fullCacheRef.current[filePath]) { fullCacheRef.current[filePath] = { tabs: {} }; }
-                if (!fullCacheRef.current[filePath].tabs) { fullCacheRef.current[filePath].tabs = {}; }
+                if (!fullCacheRef.current[filePath]) { 
+                    fullCacheRef.current[filePath] = { tabs: {} }; 
+                }
+                if (!fullCacheRef.current[filePath].tabs) { 
+                    fullCacheRef.current[filePath].tabs = {}; 
+                }
                 fullCacheRef.current[filePath].tabs[activeHeader] = value;
                 fullCacheRef.current[filePath].lastActive = activeHeader;
                 debouncedSaveCache();
+                return;
             }
         };
         window.addEventListener("message", handleMessage);
         return () => window.removeEventListener("message", handleMessage);
     }, [filePath, activeHeader, debouncedSaveCache, sendContentToEditor]);
 
-    // [FIX] Replaced useCallback/useRef with a robust useEffect to prevent stale closures.
-    useEffect(() => {
-        const performSave = async (blocksToSave) => {
-            const blocks = blocksToSave || codeBlocks;
-            if (!filePath || blocks.length === 0) return;
-            setStatus("Saving...");
+    // === CACHE UPDATE ON TAB CHANGE (Isolated concern) ===
+    const updateCacheOnHeaderChange = useCallback((oldHeader, newHeader) => {
+        const fileCache = fullCacheRef.current[filePath];
+        if (!fileCache || !fileCache.tabs) return;
+        const cachedState = fileCache.tabs[oldHeader];
+        delete fileCache.tabs[oldHeader];
+        delete viewStateCache.current[oldHeader];
+        if (newHeader && cachedState) { 
+            fileCache.tabs[newHeader] = cachedState; 
+            viewStateCache.current[newHeader] = cachedState; 
+        }
+        if (fileCache.lastActive === oldHeader) { 
+            fileCache.lastActive = newHeader || (codeBlocksRef.current.length > 0 ? codeBlocksRef.current[0].header : null); 
+        }
+        debouncedSaveCache();
+    }, [filePath, debouncedSaveCache]);
 
-            try {
-                if (typeof app === 'undefined' || !app.vault || !app.vault.adapter) {
-                    throw new Error("Obsidian app context not fully available.");
-                }
-                const adapter = app.vault.adapter;
-
-                const fullFileContent = rebuildFileContent(blocks);
-                await adapter.write(filePath, fullFileContent);
-                if (activeHeader) {
-                    if (!fullCacheRef.current[filePath]) { fullCacheRef.current[filePath] = { tabs: {} }; }
-                    fullCacheRef.current[filePath].lastActive = activeHeader;
-                }
-                await saveCacheNow();
-                setStatus("Saved successfully ✅");
-
-                if (renderHeader) {
-                    const componentBlock = blocks.find(b => b.header === renderHeader);
-                    if (componentBlock) {
-                        const tempFileContent = `# ${TEMP_HEADER_NAME}\n\n\`\`\`jsx\n${componentBlock.code.trim()}\n\`\`\``;
-                        const parentDir = TEMP_FILE_PATH.substring(0, TEMP_FILE_PATH.lastIndexOf('/'));
-                        if (parentDir && !(await adapter.exists(parentDir))) await adapter.mkdir(parentDir);
-                        await adapter.write(TEMP_FILE_PATH, tempFileContent);
-                        if (onHardReload) setTimeout(() => onHardReload(TEMP_FILE_PATH, TEMP_HEADER_NAME), 50);
-                    } else {
-                        new Notice(`Error: Main component "${renderHeader}" not found to preview.`, 4000);
-                    }
-                }
-                
-                setTimeout(() => setStatus(s => s === "Saved successfully ✅" ? "Ready" : s), 2000);
-
-            } catch (e) {
-                setStatus(`Error saving: ${e.message}`);
-                console.error("Error during save:", e);
-            }
-        };
+    // === SAVE HANDLER (Uses ref for latest code, updates state after save) ===
+    const performSave = useCallback(async (blocksToSave) => {
+        // Prevent multiple simultaneous saves
+        if (isSavingRef.current) {
+            return;
+        }
         
-        const handleKeyDown = (e) => {
-            if ((e.metaKey || e.ctrlKey) && e.key === 's') {
-                e.preventDefault();
-                performSave();
+        // Use ref for latest code if no blocks passed
+        const blocks = blocksToSave || codeBlocksRef.current;
+        if (!filePath || blocks.length === 0) {
+            return;
+        }
+        
+        isSavingRef.current = true;
+        setStatus("Saving...");
+
+        try {
+            if (typeof app === 'undefined' || !app.vault || !app.vault.adapter) {
+                throw new Error("Obsidian app context not fully available.");
             }
-        };
+            const adapter = app.vault.adapter;
 
-        document.addEventListener('keydown', handleKeyDown);
-        return () => document.removeEventListener('keydown', handleKeyDown);
-    }, [filePath, codeBlocks, activeHeader, renderHeader, onHardReload, saveCacheNow]); // This now depends on all state it needs, guaranteeing it's always fresh.
-    
-    const handleSaveClick = async (blocks) => {
-         // This is a wrapper for UI elements like buttons to call the save logic.
-         // It's not strictly needed for Ctrl+S but is good practice.
-        const performSave = async (blocksToSave) => {
-            const blocks = blocksToSave || codeBlocks;
-            if (!filePath || blocks.length === 0) return;
-            setStatus("Saving...");
-
-            try {
-                const adapter = app.vault.adapter;
-                const fullFileContent = rebuildFileContent(blocks);
-                await adapter.write(filePath, fullFileContent);
-                if (activeHeader) {
-                    if (!fullCacheRef.current[filePath]) { fullCacheRef.current[filePath] = { tabs: {} }; }
-                    fullCacheRef.current[filePath].lastActive = activeHeader;
+            const fullFileContent = rebuildFileContent(blocks);
+            await adapter.write(filePath, fullFileContent);
+            
+            // Update state with saved blocks
+            setCodeBlocks(blocks);
+            codeBlocksRef.current = blocks;
+            
+            if (activeHeader) {
+                if (!fullCacheRef.current[filePath]) { 
+                    fullCacheRef.current[filePath] = { tabs: {} }; 
                 }
-                await saveCacheNow();
-                setStatus("Saved successfully ✅");
-                if (renderHeader) {
-                    const componentBlock = blocks.find(b => b.header === renderHeader);
-                    if (componentBlock) {
-                        const tempFileContent = `# ${TEMP_HEADER_NAME}\n\n\`\`\`jsx\n${componentBlock.code.trim()}\n\`\`\``;
-                        const parentDir = TEMP_FILE_PATH.substring(0, TEMP_FILE_PATH.lastIndexOf('/'));
+                fullCacheRef.current[filePath].lastActive = activeHeader;
+            }
+            await saveCacheNow();
+            setStatus("Saved successfully ✅");
+
+            if (renderHeader) {
+                const componentBlock = blocks.find(b => b.header === renderHeader);
+                if (componentBlock) {
+                    try {
+                        // Delete previous temp file if it exists
+                        if (lastTempFile && await adapter.exists(lastTempFile)) {
+                            await adapter.trashLocal(lastTempFile);
+                        }
+                        
+                        // Create a new temp file with timestamp
+                        const timestamp = Date.now();
+                        const newTempFile = `${TEMP_DIR}/${TEMP_FILE_PREFIX}${timestamp}.md`;
+                        
+                        // Use the same header name as the original component
+                        const tempFileContent = `# ${renderHeader}\n\n\`\`\`jsx\n${componentBlock.code.trim()}\n\`\`\``;
+                        const parentDir = newTempFile.substring(0, newTempFile.lastIndexOf('/'));
                         if (parentDir && !(await adapter.exists(parentDir))) await adapter.mkdir(parentDir);
-                        await adapter.write(TEMP_FILE_PATH, tempFileContent);
-                        if (onHardReload) setTimeout(() => onHardReload(TEMP_FILE_PATH, TEMP_HEADER_NAME), 50);
-                    } else { new Notice(`Error: Main component "${renderHeader}" not found to preview.`, 4000); }
+                        await adapter.write(newTempFile, tempFileContent);
+                        
+                        // Verify the file was written successfully before proceeding
+                        let retries = 0;
+                        let fileIsReady = false;
+                        while (retries < 5) {
+                            if (await adapter.exists(newTempFile)) {
+                                try {
+                                    await adapter.read(newTempFile);
+                                    fileIsReady = true;
+                                    break; // File exists and is readable
+                                } catch (e) {
+                                    // File exists but not readable yet, wait and retry
+                                }
+                            }
+                            await new Promise(resolve => setTimeout(resolve, 50));
+                            retries++;
+                        }
+                        
+                        if (!fileIsReady) {
+                            console.error("[performSave] Temp file verification failed after retries");
+                            new Notice("Error: Preview file not ready", 3000);
+                            return;
+                        }
+                        
+                        setLastTempFile(newTempFile);
+                        
+                        // Pass BOTH the temp file path (to load) AND the original file path (for context)
+                        if (onHardReload) onHardReload(newTempFile, renderHeader, filePath);
+                    } catch (tempError) {
+                        console.error("[performSave] Failed to create temp file for preview:", tempError);
+                        new Notice(`Error creating preview file: ${tempError.message}`, 4000);
+                        // Clear loader state on error
+                        setLoaderFilePath(null);
+                        setLoaderHeaderName(null);
+                    }
+                } else {
+                    new Notice(`Error: Main component "${renderHeader}" not found to preview.`, 4000);
+                    // Clear loader state when component not found
+                    setLoaderFilePath(null);
+                    setLoaderHeaderName(null);
                 }
-                setTimeout(() => setStatus(s => s === "Saved successfully ✅" ? "Ready" : s), 2000);
-            } catch (e) { setStatus(`Error saving: ${e.message}`); console.error("Error during save:", e); }
-        };
-        await performSave(blocks);
-    };
+            }
+            
+            setTimeout(() => setStatus(s => s === "Saved successfully ✅" ? "Ready" : s), 2000);
 
+        } catch (e) {
+            setStatus(`Error saving: ${e.message}`);
+        } finally {
+            isSavingRef.current = false;
+        }
+    }, [filePath, activeHeader, renderHeader, onHardReload, saveCacheNow, lastTempFile]);
+    
+    // Update the ref whenever performSave changes
+    useEffect(() => {
+        performSaveRef.current = performSave;
+        // Also expose save function to parent component via editorSaveRef
+        if (editorSaveRef) {
+            editorSaveRef.current = performSave;
+        }
+    }, [performSave, editorSaveRef]);
+    
+    // Focus new tab input when adding a tab
+    useEffect(() => {
+        if (isAddingTab && newTabInputRef.current) {
+            newTabInputRef.current.focus();
+        }
+    }, [isAddingTab]);
+    
+    // === TAB ACTION HANDLERS (Update both state and ref, trigger tab switch) ===
     const iframeSrc = useMemo(() => {
         if (!isHostFileReady) return "about:blank";
         return app.vault.adapter.getResourcePath(HOST_FILE_PATH);
-    }, [isHostFileReady, HOST_FILE_PATH]);
+    }, [isHostFileReady]);
     
-    const handleInitiateAddTab = () => { setIsAddingTab(true); setNewTabName("NewComponent"); };
-    const handleCommitAddTab = () => { const finalTabName = newTabName.trim(); setIsAddingTab(false); setNewTabName(''); if (!finalTabName || codeBlocks.some(b => b.header === finalTabName)) { if (finalTabName) new Notice("A component with this name already exists.", 3000); return; } const newBoilerplate = `function ${finalTabName}() {\n  return <div>Hello, World!</div>;\n}\n\nreturn { ${finalTabName} };`; const newBlock = { header: finalTabName, code: newBoilerplate }; const newBlocks = [...codeBlocks, newBlock]; setCodeBlocks(newBlocks); setActiveHeader(finalTabName); handleSaveClick(newBlocks); };
-    const handleTabDoubleClick = (header) => { setRenamingHeader(header); setRenameValue(header); };
-    const handleRenameCommit = () => { const oldHeader = renamingHeader; const newHeader = renameValue.trim(); setRenamingHeader(null); if (!newHeader || oldHeader === newHeader) return; if (codeBlocks.some(b => b.header === newHeader)) { new Notice("A component with this name already exists.", 3000); return; } const renameRegex = new RegExp('\\b' + oldHeader + '\\b', 'g'); const newBlocks = codeBlocks.map(b => { if (b.header === oldHeader) { const updatedCode = b.code.replace(renameRegex, newHeader); return { ...b, header: newHeader, code: updatedCode }; } return b; }); setCodeBlocks(newBlocks); updateCacheOnHeaderChange(oldHeader, newHeader); if (activeHeader === oldHeader) setActiveHeader(newHeader); if (renderHeader === oldHeader) setRenderHeader(newHeader); handleSaveClick(newBlocks); };
-    const handleDeleteTab = (headerToDelete) => { if (codeBlocks.length <= 1) { new Notice("You cannot delete the last component.", 3000); return; } if (renderHeader === headerToDelete) { new Notice("Cannot delete the main component being previewed.", 3000); return; } const indexToDelete = codeBlocks.findIndex(b => b.header === headerToDelete); const newBlocks = codeBlocks.filter(b => b.header !== headerToDelete); if (activeHeader === headerToDelete) { const newActiveIndex = Math.max(0, indexToDelete - 1); const newActiveHeader = newBlocks[newActiveIndex]?.header || null; setActiveHeader(newActiveHeader); } setCodeBlocks(newBlocks); updateCacheOnHeaderChange(headerToDelete, null); handleSaveClick(newBlocks); };
-    const handleCopyImportStatement = (header) => { if (!filePath || !header) return; const importStatement = `const { ${header} } = await dc.require(dc.headerLink("${filePath}", "${header}"));`; navigator.clipboard.writeText(importStatement).then(() => { new Notice(`Import for '${header}' copied!`, 3000); }).catch(err => { console.error("Failed to copy import statement:", err); new Notice("Error: Could not copy to clipboard.", 4000); }); };
+    const handleInitiateAddTab = () => { 
+        setIsAddingTab(true); 
+        setNewTabName(""); 
+    };
+    
+    const handleCommitAddTab = () => { 
+        const finalTabName = newTabName.trim(); 
+        setIsAddingTab(false); 
+        setNewTabName(''); 
+        
+        if (!finalTabName || codeBlocksRef.current.some(b => b.header === finalTabName)) { 
+            if (finalTabName) new Notice("A component with this name already exists.", 3000); 
+            return; 
+        } 
+        
+        const newBoilerplate = `function ${finalTabName}() {\n  return <div>Hello, World!</div>;\n}\n\nreturn { ${finalTabName} };`; 
+        const newBlock = { header: finalTabName, code: newBoilerplate }; 
+        const newBlocks = [...codeBlocksRef.current, newBlock]; 
+        
+        // Update both state and ref
+        setCodeBlocks(newBlocks); 
+        codeBlocksRef.current = newBlocks;
+        
+        // This is a tab switch action
+        setActiveHeader(finalTabName); 
+        
+        performSave(newBlocks); 
+    };
+    
+    const handleTabDoubleClick = (header) => { 
+        setRenamingHeader(header); 
+        setRenameValue(header); 
+    };
+    
+    const handleRenameCommit = () => { 
+        const oldHeader = renamingHeader; 
+        const newHeader = renameValue.trim(); 
+        setRenamingHeader(null); 
+        
+        if (!newHeader || oldHeader === newHeader) return; 
+        if (codeBlocksRef.current.some(b => b.header === newHeader)) { 
+            new Notice("A component with this name already exists.", 3000); 
+            return; 
+        } 
+        
+        const renameRegex = new RegExp('\\b' + oldHeader + '\\b', 'g'); 
+        const newBlocks = codeBlocksRef.current.map(b => { 
+            if (b.header === oldHeader) { 
+                const updatedCode = b.code.replace(renameRegex, newHeader); 
+                return { ...b, header: newHeader, code: updatedCode }; 
+            } 
+            return b; 
+        }); 
+        
+        // Update both state and ref
+        setCodeBlocks(newBlocks); 
+        codeBlocksRef.current = newBlocks;
+        
+        updateCacheOnHeaderChange(oldHeader, newHeader); 
+        
+        // This is a tab switch action if active tab was renamed
+        if (activeHeader === oldHeader) setActiveHeader(newHeader); 
+        if (renderHeader === oldHeader) setRenderHeader(newHeader); 
+        
+        performSave(newBlocks); 
+    };
+    
+    const handleDeleteTab = (headerToDelete) => { 
+        if (codeBlocksRef.current.length <= 1) { 
+            new Notice("You cannot delete the last component.", 3000); 
+            return; 
+        } 
+        if (renderHeader === headerToDelete) { 
+            new Notice("Cannot delete the main component being previewed.", 3000); 
+            return; 
+        } 
+        
+        const indexToDelete = codeBlocksRef.current.findIndex(b => b.header === headerToDelete); 
+        const newBlocks = codeBlocksRef.current.filter(b => b.header !== headerToDelete); 
+        
+        // Update both state and ref
+        setCodeBlocks(newBlocks); 
+        codeBlocksRef.current = newBlocks;
+        
+        // This is a tab switch action if active tab was deleted
+        if (activeHeader === headerToDelete) { 
+            const newActiveIndex = Math.max(0, indexToDelete - 1); 
+            const newActiveHeader = newBlocks[newActiveIndex]?.header || null; 
+            setActiveHeader(newActiveHeader); 
+        } 
+        
+        updateCacheOnHeaderChange(headerToDelete, null); 
+        performSave(newBlocks); 
+    };
+    
+    const handleCopyImportStatement = (header) => { 
+        if (!filePath || !header) return; 
+        const importStatement = `const { ${header} } = await dc.require(dc.headerLink("${filePath}", "${header}"));`; 
+        navigator.clipboard.writeText(importStatement).then(() => { 
+            new Notice(`Import for '${header}' copied!`, 3000); 
+        }).catch(err => { 
+            console.error("Failed to copy import statement:", err); 
+            new Notice("Error: Could not copy to clipboard.", 4000); 
+        }); 
+    };
 
     return (
         <div style={styles.editorPane}>
@@ -473,11 +890,11 @@ function PlaygroundEditor({ filePath, onHardReload, activeHeader, setActiveHeade
                 {codeBlocks.map(block => (
                     <div key={block.header} style={{ ...styles.tab, ...(block.header === activeHeader ? styles.activeTab : {}) }} onClick={() => renamingHeader === null && !isAddingTab && setActiveHeader(block.header)} onDoubleClick={() => handleTabDoubleClick(block.header)} >
                         {renamingHeader === block.header ? (<input type="text" style={styles.renameInput} value={renameValue} onChange={(e) => setRenameValue(e.target.value)} onBlur={handleRenameCommit} onKeyDown={(e) => { if (e.key === 'Enter') e.target.blur(); }} autoFocus />) : (block.header)}
-                        <span style={styles.tabCopyButton} title={`Copy import for ${block.header}`} onClick={(e) => { e.stopPropagation(); handleCopyImportStatement(block.header); }}>{`{;}`}</span>
+                        <span style={styles.tabCopyButton} title={`Copy import for ${block.header}`} onClick={(e) => { e.stopPropagation(); handleCopyImportStatement(block.header); }}>{'{;}'}</span>
                         <span style={styles.tabCloseButton} title={`Delete ${block.header}`} onClick={(e) => { e.stopPropagation(); handleDeleteTab(block.header); }}>&times;</span>
                     </div>
                 ))}
-                {filePath && (isAddingTab ? (<div style={{ ...styles.tab, paddingRight: '12px' }}> <input type="text" style={styles.renameInput} value={newTabName} onChange={(e) => setNewTabName(e.target.value)} onBlur={handleCommitAddTab} onKeyDown={(e) => { if (e.key === 'Enter') e.target.blur(); }} autoFocus /> </div>) : (<div style={styles.addTabButton} onClick={handleInitiateAddTab} title="Add New Component">+</div>))}
+                {filePath && (isAddingTab ? (<div style={{ ...styles.tab, ...styles.activeTab, paddingRight: '12px' }}> <input ref={newTabInputRef} type="text" style={styles.renameInput} value={newTabName} onChange={(e) => setNewTabName(e.target.value)} onBlur={handleCommitAddTab} onKeyDown={(e) => { if (e.key === 'Enter') e.target.blur(); }} placeholder="Component name..." /> </div>) : (<div style={styles.addTabButton} onClick={handleInitiateAddTab} title="Add New Component">+</div>))}
             </div>
             <div style={{ flex: 1, position: 'relative' }}>
                 {iframeSrc === "about:blank" || !filePath ? (
@@ -495,7 +912,9 @@ function PlaygroundEditor({ filePath, onHardReload, activeHeader, setActiveHeade
             <div style={styles.statusBar}>
                 <span>{status}</span>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <button style={styles.button} onClick={() => handleSaveClick()} disabled={!filePath}>Save & Rebuild (Ctrl+S)</button>
+                    <button style={styles.button} onClick={() => performSave()} disabled={!filePath}>
+                        Save & Rebuild ({navigator.platform.toLowerCase().includes('mac') ? '⌘' : 'Ctrl'}+S)
+                    </button>
                     <span style={styles.paneToggleButton} onClick={onTogglePreview} title="Toggle Preview Pane">&gt;</span>
                 </div>
             </div>
@@ -507,37 +926,151 @@ function PlaygroundEditor({ filePath, onHardReload, activeHeader, setActiveHeade
 // --- 4. MAIN COMPONENT - Live Development Environment (Integrated) ---
 // =-=--=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-function LiveDevelopmentEnvironment() {
+function LiveDevelopmentEnvironment({ initialMode = 'default' }) {
+    // Theme toggle handler (now inside component)
+    // --- EXACT COPY FROM REFERENCE ---
+    const handleToggleTheme = () => {
+        const newTheme = localTheme === 'theme-dark' ? 'theme-light' : 'theme-dark';
+        setLocalTheme(newTheme);
+        setIsThemeManuallySet(true); // Mark as manually set
+    };
     const [filePath, setFilePath] = useState("");
     const [inputValue, setInputValue] = useState("");
     const [renderKey, setRenderKey] = useState(0);
     const [isInputFocused, setIsInputFocused] = useState(false);
+    const [localTheme, setLocalTheme] = useState('theme-dark'); // Local theme state for component only
+    const [isThemeManuallySet, setIsThemeManuallySet] = useState(false); // Track manual theme changes
+    const monacoTheme = useMemo(() => {
+        return localTheme === 'theme-light' ? 'vs' : 'vs-dark';
+    }, [localTheme]);
+    
+    // Sync localTheme with vault theme (only if not manually set)
+    useEffect(() => {
+        if (isThemeManuallySet) return; // Don't sync if theme was manually toggled
+        
+        const syncTheme = () => {
+            const isDark = document.body.classList.contains('theme-dark');
+            setLocalTheme(isDark ? 'theme-dark' : 'theme-light');
+        };
+        syncTheme(); // Initial sync
+        const observer = new MutationObserver(syncTheme);
+        observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+        return () => observer.disconnect();
+    }, [isThemeManuallySet]);
+    
+    // Update Monaco theme when monacoTheme prop changes
+    useEffect(() => {
+        if (!window.iframeRef || !window.iframeRef.current) return;
+        window.iframeRef.current.contentWindow.postMessage({ type: 'set-theme', value: monacoTheme }, '*');
+    }, [monacoTheme]);
     
     // State is separated: activeHeader for the editor, renderHeader for the preview.
-    const [activeHeader, setActiveHeader] = useState(null);
+    const [activeHeader, setActiveHeaderInternal] = useState(null);
     const [renderHeader, setRenderHeader] = useState(null);
 
+    // Wrap setActiveHeader to prevent unnecessary updates when value hasn't changed
+    const setActiveHeader = useCallback((newValue) => {
+        setActiveHeaderInternal(prev => {
+            if (prev === newValue) {
+                return prev; // Don't update if value is the same
+            }
+            return newValue;
+        });
+    }, []);
+
     // State for managing what the DynamicComponentLoader renders
-    const [loaderFilePath, setLoaderFilePath] = useState("");
+    const [loaderFilePath, setLoaderFilePath] = useState(""); // The actual file to load code from (may be temp)
+    const [loaderContextPath, setLoaderContextPath] = useState(""); // The original file path for dc.useCurrentPath() hijack
     const [loaderHeaderName, setLoaderHeaderName] = useState(null);
 
     const [paneVisibility, setPaneVisibility] = useState('both');
     const [editorPaneWidth, setEditorPaneWidth] = useState(50);
     const [isResizing, setIsResizing] = useState(false);
     const [isResizerHovered, setIsResizerHovered] = useState(false);
-    const [activeMode, setActiveMode] = useState('default');
+    const [activeMode, setActiveMode] = useState(initialMode); // Initialize with prop value
     const [editorReloadKey, setEditorReloadKey] = useState(0);
     const [isPaneActive, setIsPaneActive] = useState(true);
 
+    // --- Component Props (from ViewsInceptions) ---
+    // Allow the user to configure props that are passed into the previewed component
+    const [componentProps, setComponentProps] = useState({});
+    const [propsEditorOpen, setPropsEditorOpen] = useState(false);
+    const [propsList, setPropsList] = useState([]); // { key, value, isEditing, displayValue }
+    const [newPropInput, setNewPropInput] = useState('');
+
+    const parsePropValue = (valueStr) => {
+        try {
+            let cleanValue = valueStr.trim();
+            if (cleanValue.startsWith('{') && cleanValue.endsWith('}')) {
+                cleanValue = cleanValue.slice(1, -1).trim();
+            }
+            // eslint-disable-next-line no-eval
+            const result = eval('(' + cleanValue + ')');
+            return result;
+        } catch (e) {
+            return valueStr;
+        }
+    };
+
+    const addNewProp = () => {
+        const trimmed = newPropInput.trim();
+        if (!trimmed) return;
+        const match = trimmed.match(/^(\w+)\s*=\s*(.+)$/);
+        if (!match) {
+            new Notice('Invalid format. Use: propName={value} or propName="value"', 3000);
+            return;
+        }
+        const [, key, valueStr] = match;
+        const value = parsePropValue(valueStr);
+        if (propsList.some(p => p.key === key)) {
+            new Notice(`Prop "${key}" already exists. Double-click to edit it.`, 3000);
+            return;
+        }
+        const newList = [...propsList, { key, value, isEditing: false, displayValue: valueStr }];
+        setPropsList(newList);
+        setNewPropInput('');
+        const newProps = { ...componentProps, [key]: value };
+        setComponentProps(newProps);
+        setRenderKey(prev => prev + 1);
+    };
+
+    const removeProp = (key) => {
+        const newList = propsList.filter(p => p.key !== key);
+        setPropsList(newList);
+        const newProps = { ...componentProps };
+        delete newProps[key];
+        setComponentProps(newProps);
+        setRenderKey(prev => prev + 1);
+    };
+
+    const startEditProp = (key) => {
+        setPropsList(propsList.map(p => p.key === key ? { ...p, isEditing: true } : p));
+    };
+
+    const updateProp = (key, newValueStr) => {
+        const newValue = parsePropValue(newValueStr);
+        const newList = propsList.map(p => p.key === key ? { ...p, value: newValue, displayValue: newValueStr, isEditing: false } : p);
+        setPropsList(newList);
+        const newProps = { ...componentProps, [key]: newValue };
+        setComponentProps(newProps);
+        setRenderKey(prev => prev + 1);
+    };
+
+    const cancelEditProp = (key) => {
+        setPropsList(propsList.map(p => p.key === key ? { ...p, isEditing: false } : p));
+    };
     const containerRef = useRef(null);
     const mainContentRef = useRef(null);
     const previewContentRef = useRef(null);
     const isInitialLoad = useRef(true);
     const cleanupRef = useRef({});
+    const editorSaveRef = useRef(null); // Ref to access save function from PlaygroundEditor
+    const reloadTimeoutRef = useRef(null); // Debounce reload requests
     const componentPages = dc.useQuery(`@page AND path("_RESOURCES/DATACORE") AND $file.contains(".component")`);
 
     useEffect(() => {
         setLoaderFilePath(filePath);
+        setLoaderContextPath(filePath); // Also set context path to original file
         setRenderHeader(null);
         setLoaderHeaderName(null);
         setRenderKey(prev => prev + 1);
@@ -597,6 +1130,24 @@ function LiveDevelopmentEnvironment() {
         return () => { document.removeEventListener('mousedown', handleClickOutside); };
     }, [isPaneActive]); 
 
+    // Hide status bar at bottom right when in full-tab mode
+    useEffect(() => {
+        if (activeMode !== 'fullTab') return;
+        
+        const statusBar = document.querySelector('body > .app-container .status-bar');
+        if (statusBar) {
+            const originalDisplay = statusBar.style.display;
+            statusBar.style.display = 'none';
+            
+            return () => {
+                const statusBarToRestore = document.querySelector('body > .app-container .status-bar');
+                if (statusBarToRestore) {
+                    statusBarToRestore.style.display = originalDisplay;
+                }
+            };
+        }
+    }, [activeMode]);
+
     const wrapperStyle = useMemo(() => {
         const baseStyle = styles.wrapper;
         if (activeMode === 'fullTab') {
@@ -615,8 +1166,43 @@ function LiveDevelopmentEnvironment() {
     const uniqueWrapperClass = "live-dev-wrapper-" + useRef(Math.random().toString(36).substr(2, 9)).current;
     const scrollbarStyle = `.${uniqueWrapperClass} .scrollable-tabs::-webkit-scrollbar { height: 6px; } .${uniqueWrapperClass} .scrollable-tabs::-webkit-scrollbar-track { background: #1a1a1a; } .${uniqueWrapperClass} .scrollable-tabs::-webkit-scrollbar-thumb { background: #555; border-radius: 3px; } .${uniqueWrapperClass} .scrollable-tabs { scrollbar-width: thin; scrollbar-color: #555 #1a1a1a; }`;
     
-    const handleMouseDown = useCallback((e) => { e.preventDefault(); setIsResizing(true); }, []);
-    const handleMouseUp = useCallback(() => setIsResizing(false), []);
+    // NOTE: Command/Ctrl + S keyboard shortcut only works when Monaco editor is focused.
+    // This is due to the iframe isolation - keyboard events inside the Monaco iframe are captured
+    // and sent via postMessage, while events outside the iframe are blocked by event propagation.
+    useEffect(() => {
+        const handleGlobalSave = (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                
+                if (editorSaveRef.current) {
+                    editorSaveRef.current();
+                }
+            }
+        };
+        
+        document.addEventListener('keydown', handleGlobalSave, { capture: true });
+        return () => {
+            document.removeEventListener('keydown', handleGlobalSave, { capture: true });
+        };
+    }, []); // Empty deps - handler uses ref which is always current
+    
+    const handleMouseDown = useCallback((e) => { 
+        e.preventDefault(); 
+        setIsResizing(true); 
+        // Disable iframe pointer events during resizing to prevent interference
+        if (window.iframeRef && window.iframeRef.current) {
+            window.iframeRef.current.style.pointerEvents = 'none';
+        }
+    }, []);
+    const handleMouseUp = useCallback(() => { 
+        setIsResizing(false); 
+        // Re-enable iframe pointer events after resizing
+        if (window.iframeRef && window.iframeRef.current) {
+            window.iframeRef.current.style.pointerEvents = '';
+        }
+    }, []);
     
     // [FIX] Corrected the logic for collapsing panes when dragging to the edges.
     const handleMouseMove = useCallback((e) => {
@@ -661,30 +1247,56 @@ function LiveDevelopmentEnvironment() {
         return () => clearTimeout(scrollRestoreTimeout);
     }, [filePath]);
 
-    const handleHardReload = useCallback((newFilePath, newHeaderName) => {
+    const handleHardReload = useCallback((newFilePath, newHeaderName, originalFilePath) => {
         if (!newFilePath || !newHeaderName) {
             return;
         }
 
-        if (previewContentRef.current && filePath) {
-            const SCROLL_KEY = `datacore-live-dev-scroll-${filePath}`;
-            const scrollState = { top: previewContentRef.current.scrollTop, left: previewContentRef.current.scrollLeft };
-            sessionStorage.setItem(SCROLL_KEY, JSON.stringify(scrollState));
+        // Debounce: Cancel any pending reload and schedule a new one
+        if (reloadTimeoutRef.current) {
+            clearTimeout(reloadTimeoutRef.current);
         }
 
-        setLoaderFilePath(newFilePath);
-        setLoaderHeaderName(newHeaderName);
-        
-        setRenderKey(k => k + 1);
-        new Notice("Reloading preview...", 1500);
+        reloadTimeoutRef.current = setTimeout(() => {
+            if (previewContentRef.current && filePath) {
+                const SCROLL_KEY = `datacore-live-dev-scroll-${filePath}`;
+                const scrollState = { top: previewContentRef.current.scrollTop, left: previewContentRef.current.scrollLeft };
+                sessionStorage.setItem(SCROLL_KEY, JSON.stringify(scrollState));
+            }
+
+            // AGGRESSIVE CACHE CLEARING - Clear all Datacore module cache for this file
+            try {
+                const resolvedPath = dc.resolvePath(newFilePath);
+                
+                // Try to access and clear Datacore's internal cache
+                // This is critical for components that use dc.require() internally (like Aquarium)
+                if (dc.api?.index) {
+                    // Clear the file from the index
+                    console.log(`[Playground] Clearing cache for: ${resolvedPath}`);
+                }
+                
+                // Force garbage collection hint (doesn't guarantee it runs, but helps)
+                if (window.gc) {
+                    window.gc();
+                }
+            } catch (e) {
+                console.warn('[Playground] Cache clearing warning:', e);
+            }
+
+            setLoaderFilePath(newFilePath);
+            setLoaderContextPath(originalFilePath || filePath); // Use original file path for context
+            setLoaderHeaderName(newHeaderName);
+            
+            setRenderKey(k => k + 1);
+            new Notice("Reloading preview...", 1500);
+            
+            reloadTimeoutRef.current = null;
+        }, 100); // 100ms debounce - only the last save in a rapid sequence will trigger reload
 
     }, [filePath]);
 
     const handleCopyPath = () => { try { const activeFile = dc.app.workspace.getActiveFile(); if (activeFile) { navigator.clipboard.writeText(activeFile.path); new Notice(`Path copied: ${activeFile.path}`, 4000); } else { new Notice("Could not determine the active file path.", 4000); } } catch (error) { console.error("Error getting file path:", error); new Notice("Error: Could not access app context to find file path.", 4000); } };
     const handleCreateNewFile = async () => { const finalPath = inputValue.trim(); if (!finalPath || !finalPath.toLowerCase().endsWith('.md')) { new Notice("Please enter a valid file path ending in .md in the input field.", 4000); return; } const adapter = app.vault.adapter; if (await adapter.exists(finalPath)) { if (confirm(`File already exists at "${finalPath}".\n\nClick OK to OVERWRITE it, or Cancel to simply OPEN it.`)) { new Notice(`Overwriting file: ${finalPath}`, 2000); } else { new Notice(`Opening existing file: ${finalPath}`, 2000); setFilePath(finalPath); setRenderKey(prev => prev + 1); return; } } try { const filename = finalPath.split('/').pop().replace(/\.md$/, '').replace(/\.component/i, ''); let componentName = filename.replace(/[^a-zA-Z0-9]/g, ''); if (!/^[a-zA-Z]/.test(componentName)) { componentName = 'Component' + componentName; } componentName = componentName.charAt(0).toUpperCase() + componentName.slice(1); if (!componentName) { new Notice("Could not derive a valid component name from the file path.", 4000); return; } const boilerplateCode = `function ${componentName}() {\n  return <div>Hello from ${componentName}!</div>;\n}\n\nreturn { ${componentName} };`; const fileContent = `---\ntags: datacore-component\n---\n\n# ViewComponent\n\n\`\`\`jsx\n${boilerplateCode}\n\`\`\``; const parentDir = finalPath.substring(0, finalPath.lastIndexOf('/')); if (parentDir && !(await adapter.exists(parentDir))) { await adapter.mkdir(parentDir); new Notice(`Created directory: ${parentDir}`, 2000); } await adapter.write(finalPath, fileContent); new Notice(`Component created: ${finalPath}`, 4000); setFilePath(finalPath); setRenderKey(prev => prev + 1); } catch (error) { console.error("Error creating new component file:", error); new Notice("Failed to create file. Check console for details.", 5000); } };
-    const ExpandIcon = () => (<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 9.5V14H6.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /><path d="M9.5 14H14V9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /><path d="M14 6.5V2H9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /><path d="M6.5 2H2V6.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>);
-    const ShrinkIcon = () => (<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.5 1.5V6H2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /><path d="M1.5 9.5H6V14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /><path d="M9.5 14V9.5H14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /><path d="M14 6.5H9.5V2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>);
-    const ReloadIcon = () => (<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21.5 4.5V9.5H16.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /><path d="M3.5 19.5V14.5H8.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /><path d="M21.16 12.55C20.88 15.3 19.49 17.77 17.41 19.42C15.33 21.07 12.77 21.72 10.19 21.43C7.61 21.14 5.25 19.93 3.53 18.07C1.81 16.21 0.880001 13.85 0.960001 11.41C1.04 8.97 2.12 6.64 3.95 4.96C5.78 3.28 8.24 2.38 10.79 2.5C13.34 2.62 15.76 3.75 17.61 5.61L21.5 9.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>);
 
     if (componentPages === undefined) {
         return <div style={styles.wrapper}><div style={{ padding: '20px', color: '#888', textAlign: 'center' }}>Loading component list...</div></div>;
@@ -694,20 +1306,55 @@ function LiveDevelopmentEnvironment() {
         <div 
             ref={containerRef} 
             style={wrapperStyle} 
-            className={uniqueWrapperClass}
+            className={`${uniqueWrapperClass} ${localTheme}`}
             onMouseDown={() => setIsPaneActive(true)}
         >
             <style>{scrollbarStyle}</style>
+            <style>{`
+                .${uniqueWrapperClass}.theme-light {
+                    --background-primary: #ffffff;
+                    --background-primary-alt: #f5f5f5;
+                    --background-secondary: #f3f3f3;
+                    --background-modifier-border: #ddd;
+                    --text-normal: #2e3338;
+                    --text-muted: #999999;
+                    --text-on-accent: #ffffff;
+                    --interactive-normal: #f3f3f3;
+                    --interactive-accent: #8A2BE2;
+                    --color-accent: #8A2BE2;
+                }
+                .${uniqueWrapperClass}.theme-dark {
+                    --background-primary: #1e1e1e;
+                    --background-primary-alt: #161616;
+                    --background-secondary: #141414;
+                    --background-modifier-border: #333;
+                    --text-normal: #dcddde;
+                    --text-muted: #999;
+                    --text-on-accent: #ffffff;
+                    --interactive-normal: #2a2a2a;
+                    --interactive-accent: #8A2BE2;
+                    --color-accent: #8A2BE2;
+                }
+            `}</style>
             <div style={styles.bookmarkBar} className="scrollable-tabs">
                 {bookmarks.map((bookmark) => <button key={bookmark.path} style={filePath === bookmark.path ? { ...styles.bookmarkButton, ...styles.activeBookmarkButton } : styles.bookmarkButton} onClick={() => handleBookmarkClick(bookmark.path)} title={bookmark.path}>{bookmark.name}</button>)}
             </div>
             <form style={styles.loaderBar} onSubmit={handleLoadFile}>
                 <input type="text" style={{ ...styles.input, ...(isInputFocused ? styles.purpleFocus : {}) }} value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="Enter component file path..." onFocus={() => setIsInputFocused(true)} onBlur={() => setIsInputFocused(false)} />
-                <button type="submit" style={styles.button}>Load</button>
-                <button type="button" style={styles.button} onClick={handleCreateNewFile} title="Create a new component file">New</button>
-                <button type="button" style={{ ...styles.button, backgroundColor: '#444' }} onClick={handleCopyPath} title="Copy path of the currently open note">Copy Path</button>
+                <button type="submit" style={styles.button} title="Load component file">
+                    <dc.Icon icon="folder-open" />
+                </button>
+                <button type="button" style={styles.button} onClick={handleCreateNewFile} title="Create a new component file">
+                    <dc.Icon icon="file-plus" />
+                </button>
+                <button type="button" style={styles.button} onClick={handleCopyPath} title="Copy path of the currently open note">
+                    <dc.Icon icon="copy" />
+                </button>
+                <button type="button" style={styles.iconButton} onClick={handleToggleTheme} title="Toggle Light/Dark Mode">
+                    <dc.Icon icon={localTheme === 'theme-dark' ? 'moon' : 'sun'} />
+                </button>
                 <button type="button" style={styles.iconButton} onClick={toggleScreenMode} title={activeMode === 'default' ? "Enter Full Tab Mode" : "Exit Full Tab Mode"}>
-                    {activeMode === 'default' ? <ExpandIcon /> : <ShrinkIcon />}
+                    <dc.Icon icon={activeMode === 'default' ? 'maximize-2' : 'minimize-2'} />
                 </button>
             </form>
             <div style={{ ...styles.mainContent, position: 'relative' }} ref={mainContentRef}>
@@ -722,19 +1369,217 @@ function LiveDevelopmentEnvironment() {
                         setRenderHeader={setRenderHeader}
                         onTogglePreview={handleTogglePreview}
                         reloadKey={editorReloadKey}
+                        localTheme={localTheme}
+                        monacoTheme={monacoTheme}
+                        editorSaveRef={editorSaveRef}
                     />
                 </div>
                 <div style={resizerStyle} onMouseDown={handleMouseDown} onMouseEnter={() => setIsResizerHovered(true)} onMouseLeave={() => setIsResizerHovered(false)} />
                 <div style={{ ...styles.previewPane, ...previewPaneStyle }}>
                     <div style={styles.previewHeader}>
-                        <span style={styles.paneToggleButton} onClick={handleToggleEditor} title={paneVisibility === 'preview' ? "Show Editor" : "Hide Editor"}>&lt;</span>
-                        <span style={{ flex: 1 }}>Live Preview (Component: {renderHeader || 'none'})</span>
+                        <span style={styles.paneToggleButton} onClick={handleToggleEditor} title={paneVisibility === 'preview' ? "Show Editor" : "Hide Editor"}>
+                            <dc.Icon icon="chevron-left" />
+                        </span>
+                        <span style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <dc.Icon icon="eye" />
+                            <span>Live Preview (Component: {renderHeader || 'none'})</span>
+                        </span>
+                        <button 
+                            style={{ ...styles.iconButton, padding: '4px', backgroundColor: propsEditorOpen ? 'var(--interactive-accent)' : 'transparent', border: 'none', color: propsEditorOpen ? 'var(--text-on-accent)' : '#aaa' }} 
+                            onClick={() => setPropsEditorOpen(!propsEditorOpen)} 
+                            title="Toggle Props Editor"
+                        >
+                            <dc.Icon icon="settings" />
+                        </button>
                         <button style={{ ...styles.iconButton, padding: '4px', backgroundColor: 'transparent', border: 'none', color: '#aaa' }} onClick={() => new Notice("Please save (Ctrl+S) to rebuild the preview.")} title="Save to rebuild">
-                            <ReloadIcon />
+                            <dc.Icon icon="refresh-cw" />
                         </button>
                     </div>
+                    
+                    {/* Props Editor Panel */}
+                    {propsEditorOpen && (
+                        <div style={{
+                            padding: '12px',
+                            backgroundColor: 'var(--background-secondary)',
+                            borderBottom: '1px solid var(--background-modifier-border)',
+                            maxHeight: '200px',
+                            overflowY: 'auto',
+                            fontSize: '12px'
+                        }}>
+                            <div style={{ marginBottom: '8px', fontWeight: 'bold', color: 'var(--text-muted)' }}>Component Props</div>
+                            
+                            {/* Existing props list */}
+                            {propsList.length > 0 && (
+                                <div style={{ marginBottom: '8px' }}>
+                                    {propsList.map(prop => (
+                                        <div key={prop.key} style={{ 
+                                            display: 'flex', 
+                                            alignItems: 'center', 
+                                            gap: '8px', 
+                                            marginBottom: '4px',
+                                            padding: '4px',
+                                            backgroundColor: 'var(--background-primary)',
+                                            borderRadius: '4px'
+                                        }}>
+                                            <span style={{ fontWeight: 'bold', color: 'var(--color-accent)', minWidth: '80px' }}>{prop.key}:</span>
+                                            {prop.isEditing ? (
+                                                <>
+                                                    <input
+                                                        type="text"
+                                                        defaultValue={prop.displayValue}
+                                                        autoFocus
+                                                        style={{ 
+                                                            flex: 1, 
+                                                            padding: '4px', 
+                                                            backgroundColor: 'var(--background-primary)',
+                                                            color: 'var(--text-normal)',
+                                                            border: '1px solid var(--color-accent)',
+                                                            borderRadius: '2px',
+                                                            fontSize: '12px'
+                                                        }}
+                                                        onKeyDown={(e) => {
+                                                            if (e.key === 'Enter') {
+                                                                updateProp(prop.key, e.target.value);
+                                                            } else if (e.key === 'Escape') {
+                                                                cancelEditProp(prop.key);
+                                                            }
+                                                        }}
+                                                        onBlur={(e) => updateProp(prop.key, e.target.value)}
+                                                    />
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <span 
+                                                        style={{ flex: 1, color: 'var(--text-normal)', cursor: 'pointer' }}
+                                                        onDoubleClick={() => startEditProp(prop.key)}
+                                                        title="Double-click to edit"
+                                                    >
+                                                        {prop.displayValue}
+                                                    </span>
+                                                    <button
+                                                        onClick={() => removeProp(prop.key)}
+                                                        style={{
+                                                            padding: '2px 6px',
+                                                            fontSize: '11px',
+                                                            backgroundColor: 'transparent',
+                                                            color: '#aaa',
+                                                            border: 'none',
+                                                            cursor: 'pointer',
+                                                            borderRadius: '2px'
+                                                        }}
+                                                        title="Remove prop"
+                                                    >
+                                                        <dc.Icon icon="x" />
+                                                    </button>
+                                                </>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                            
+                            {/* Add new prop */}
+                            <div style={{ display: 'flex', gap: '8px' }}>
+                                <input
+                                    type="text"
+                                    value={newPropInput}
+                                    onChange={(e) => setNewPropInput(e.target.value)}
+                                    placeholder='Add prop: name={value}'
+                                    style={{
+                                        flex: 1,
+                                        padding: '6px 8px',
+                                        fontSize: '12px',
+                                        backgroundColor: 'var(--background-primary)',
+                                        color: 'var(--text-normal)',
+                                        border: '1px solid var(--background-modifier-border)',
+                                        borderRadius: '4px',
+                                        outline: 'none'
+                                    }}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            addNewProp();
+                                        }
+                                    }}
+                                />
+                                <button
+                                    onClick={addNewProp}
+                                    style={{
+                                        ...styles.button,
+                                        padding: '6px 12px',
+                                        fontSize: '12px'
+                                    }}
+                                    title="Add prop"
+                                >
+                                    <dc.Icon icon="plus" />
+                                </button>
+                            </div>
+                            
+                            {propsList.length === 0 && (
+                                <div style={{ color: 'var(--text-muted)', fontSize: '11px', marginTop: '8px', fontStyle: 'italic' }}>
+                                    No props configured. Add props like: <code style={{ backgroundColor: 'var(--background-primary)', padding: '2px 4px', borderRadius: '2px' }}>title="Hello"</code> or <code style={{ backgroundColor: 'var(--background-primary)', padding: '2px 4px', borderRadius: '2px' }}>count={'{42}'}</code>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                    
                     <div style={styles.previewContent} ref={previewContentRef}>
-                        {loaderFilePath && loaderHeaderName ? <DynamicComponentLoader key={`${renderKey}-${loaderFilePath}-${loaderHeaderName}`} filePath={loaderFilePath} activeHeader={loaderHeaderName} renderKey={renderKey} /> : <p style={{ color: '#888', padding: '20px' }}>Load a file to see the preview.</p>}
+                        {loaderFilePath && loaderHeaderName ? (
+                            <div 
+                                className="component-sandbox-isolator"
+                                style={{ 
+                                    width: '100%', 
+                                    height: '100%', 
+                                    position: 'relative',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    overflow: 'hidden',
+                                    isolation: 'isolate'
+                                }}
+                            >
+                                {/* Isolated workspace structure - prevents full-tab components from escaping */}
+                                <div 
+                                    className="workspace-leaf-content component-sandbox-boundary"
+                                    data-sandbox="true"
+                                    style={{ 
+                                        width: '100%', 
+                                        height: '100%', 
+                                        overflow: 'hidden',
+                                        position: 'absolute',
+                                        top: 0,
+                                        left: 0,
+                                        right: 0,
+                                        bottom: 0,
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        contain: 'layout style paint',
+                                        zIndex: 1
+                                    }}
+                                >
+                                    <div 
+                                        className="view-content"
+                                        style={{ 
+                                            width: '100%', 
+                                            height: '100%', 
+                                            overflow: 'auto', 
+                                            padding: '10px',
+                                            position: 'relative',
+                                            flex: 1
+                                        }}
+                                    >
+                                        <DynamicComponentLoader 
+                                            key={`${renderKey}-${loaderFilePath}-${loaderHeaderName}`} 
+                                            filePath={loaderFilePath} 
+                                            contextPath={loaderContextPath}
+                                            activeHeader={loaderHeaderName} 
+                                            renderKey={renderKey}
+                                            componentProps={componentProps}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (
+                            <p style={{ color: '#888', padding: '20px' }}>Load a file to see the preview.</p>
+                        )}
                     </div>
                 </div>
             </div>

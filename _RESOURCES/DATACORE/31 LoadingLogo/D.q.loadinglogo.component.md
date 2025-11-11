@@ -4,20 +4,66 @@
 
 
 
+
+
 # ViewComponent
 
 ```jsx
-// A utility function to load external scripts.
+// Cache for loaded CDN scripts - persists across component instances
+if (!window._cdnScriptCache) {
+  window._cdnScriptCache = {
+    scripts: {}, // { url: { loaded: true/false, promise: Promise, error: null/Error } }
+  };
+}
+
+// A utility function to load external scripts with caching.
 function loadScript(src, onload, onerror) {
+  const cache = window._cdnScriptCache.scripts;
+  
+  // Check if script is already loaded
+  if (cache[src]) {
+    if (cache[src].loaded) {
+      // Already loaded, call onload immediately
+      if (onload) onload();
+      return null;
+    }
+    if (cache[src].error) {
+      // Previously failed to load
+      if (onerror) onerror(cache[src].error);
+      return null;
+    }
+    // Currently loading, attach to existing promise
+    cache[src].promise.then(onload).catch(onerror);
+    return null;
+  }
+
+  // Not in cache, create new script element
   const script = document.createElement("script");
   script.src = src;
   script.async = true;
-  script.onload = onload;
-  script.onerror =
-    onerror ||
-    function () {
-      console.error(`Failed to load script: ${src}`);
+  
+  // Create promise for this load operation
+  const loadPromise = new Promise((resolve, reject) => {
+    script.onload = () => {
+      cache[src].loaded = true;
+      if (onload) onload();
+      resolve();
     };
+    script.onerror = (err) => {
+      cache[src].error = err || new Error(`Failed to load script: ${src}`);
+      console.error(`Failed to load script: ${src}`);
+      if (onerror) onerror(cache[src].error);
+      reject(cache[src].error);
+    };
+  });
+  
+  // Store in cache
+  cache[src] = {
+    loaded: false,
+    promise: loadPromise,
+    error: null
+  };
+  
   document.body.appendChild(script);
   return script;
 }
@@ -25,8 +71,8 @@ function loadScript(src, onload, onerror) {
 // Fuzzy search for a file using Fuse.js and the Obsidian file index.
 async function fuzzyFindFile(filename) {
   if (!window.Fuse) {
-    await new Promise((resolve) =>
-      loadScript("https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.js", resolve)
+    await new Promise((resolve, reject) =>
+      loadScript("https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.js", resolve, reject)
     );
   }
   const files = app.vault.getFiles();
@@ -53,7 +99,7 @@ async function getMediaResourcePath(filename) {
 
 // The main component to render the view.
 function LoadingLogo() {
-  const fileName = "BETO_Logo_W_Loading.svg";
+  const fileName = "BETO_Logo_T_Loading.svg";
   
   const [mediaSrc, setMediaSrc] = dc.useState(null);
   const [error, setError] = dc.useState(null);
@@ -106,3 +152,4 @@ function LoadingLogo() {
 
 return {LoadingLogo};
 ```
+

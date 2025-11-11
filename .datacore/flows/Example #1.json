@@ -1,38 +1,16 @@
 {
+  "savedAt": "2025-11-10T22:21:08.781Z",
+  "version": "1.0",
   "nodes": [
-    {
-      "id": "n-mfb0qpgl-5tf8vuq",
-      "type": "command",
-      "label": "Open another vault",
-      "params": [
-        {
-          "key": "commandId",
-          "value": "app:open-vault"
-        }
-      ],
-      "group": "Core App",
-      "inputs": [
-        "flow"
-      ],
-      "outputs": [
-        "flow"
-      ],
-      "x": 2496,
-      "y": 544,
-      "w": 240,
-      "height": 100
-    },
     {
       "id": "n-mfc1dhjd-blwd89u",
       "type": "command",
-      "label": "Open another vault",
       "params": [
         {
           "key": "commandId",
           "value": "app:open-vault"
         }
       ],
-      "group": "Core App",
       "inputs": [
         "flow"
       ],
@@ -46,5 +24,12 @@
     }
   ],
   "edges": [],
-  "savedAt": "2025-09-21T17:28:45.691Z"
+  "runtime": {
+    "canExecute": true,
+    "nodeCount": 1,
+    "edgeCount": 0,
+    "nodeTypes": [
+      "command"
+    ]
+  }
 }

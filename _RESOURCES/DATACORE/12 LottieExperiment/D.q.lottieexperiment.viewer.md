@@ -1,10 +1,15 @@
 
 LOTTIE!! ;)
 
-
 ```datacorejsx
-const { View } = await dc.require(dc.headerLink("_RESOURCES/DATACORE/12 LottieExperiment/D.q.lottieexperiment.component.md", "ViewComponent"));
-return <View />;
+const componentPath = dc.resolvePath("D.q.lottieexperiment.component");
+const { View } = await dc.require(dc.headerLink(componentPath, "ViewComponent"));
+
+// Specify the Lottie filenames to render
+const mainLottie = "obsidian_lottie.json";
+const overlayLottie = "monkey_head.json";
+
+return <View mainLottie={mainLottie} overlayLottie={overlayLottie} />;
 ```
 
 

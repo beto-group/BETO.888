@@ -190,24 +190,6 @@
       "key": "E"
     }
   ],
-  "editor:focus-left": [
-    {
-      "modifiers": [
-        "Ctrl",
-        "Shift"
-      ],
-      "key": "ArrowLeft"
-    }
-  ],
-  "editor:focus-right": [
-    {
-      "modifiers": [
-        "Ctrl",
-        "Shift"
-      ],
-      "key": "ArrowRight"
-    }
-  ],
   "obsidian-excalidraw-plugin:Downloaded/Invert colors": [
     {
       "modifiers": [
@@ -288,24 +270,6 @@
         "Shift"
       ],
       "key": "T"
-    }
-  ],
-  "workspace:split-vertical": [
-    {
-      "modifiers": [
-        "Mod",
-        "Shift"
-      ],
-      "key": "ArrowRight"
-    }
-  ],
-  "workspace:split-horizontal": [
-    {
-      "modifiers": [
-        "Mod",
-        "Shift"
-      ],
-      "key": "ArrowDown"
     }
   ],
   "cmdr:macro-0": [
@@ -507,6 +471,42 @@
         "Shift"
       ],
       "key": "E"
+    }
+  ],
+  "workspace:split-horizontal": [
+    {
+      "modifiers": [
+        "Ctrl",
+        "Shift"
+      ],
+      "key": "ArrowDown"
+    }
+  ],
+  "workspace:split-vertical": [
+    {
+      "modifiers": [
+        "Ctrl",
+        "Shift"
+      ],
+      "key": "ArrowRight"
+    }
+  ],
+  "editor:focus-right": [
+    {
+      "modifiers": [
+        "Mod",
+        "Shift"
+      ],
+      "key": "ArrowRight"
+    }
+  ],
+  "editor:focus-left": [
+    {
+      "modifiers": [
+        "Mod",
+        "Shift"
+      ],
+      "key": "ArrowLeft"
     }
   ]
 }

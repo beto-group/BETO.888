@@ -1,11 +1,19 @@
 
 
 
-problem works in experimental vault
-	havent bothered fixing this
-
-
 ```datacorejsx
-const { AquariumView } = await dc.require(dc.headerLink("_RESOURCES/DATACORE/13 Aquarium {FireStormFrontier 🫡}/D.q.aquarium.component.md", "AquariumView"));
-return <AquariumView />;
+const componentPath = dc.resolvePath("D.q.aquarium.component");
+const { AquariumView } = await dc.require(dc.headerLink(componentPath, "ViewComponent"));
+
+// Define your fish tasks
+const fishes = [
+  { name: 'Brush Teeth' },
+  { name: 'Read' },
+  { name: 'Exercise' },
+  { name: 'Journal' },
+  { name: 'Code' },
+  { name: 'Vitamins' },
+];
+
+return <AquariumView fishes={fishes} />;
 ```

@@ -2,7 +2,7 @@
 
 
 ```datacorejsx
-const { ReceiptHandlerView } = await dc.require(dc.headerLink("_RESOURCES/DATACORE/43 ReceiptTracker/D.q.receipttracker.component.md", "ViewComponent"));
+const { ReceiptHandlerView } = await dc.require(dc.headerLink(dc.resolvePath("D.q.receipttracker.component"), "ViewComponent"));
 return <ReceiptHandlerView />;
 ```
 

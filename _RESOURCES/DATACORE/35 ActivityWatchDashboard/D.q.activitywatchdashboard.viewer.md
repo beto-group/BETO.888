@@ -1,13 +1,10 @@
 
 
-
-
-
 ```datacorejsx
 ////////////////////////////////////////////////////
 ///             Viewer Entry Point               ///
 ////////////////////////////////////////////////////
-const { ActivityWatchDashboard } = await dc.require(dc.headerLink("_RESOURCES/DATACORE/35 ActivityWatchDashboard/D.q.activitywatchdashboard.component.md", "ViewComponent"));
+const { ActivityWatchDashboard } = await dc.require(dc.headerLink(dc.resolvePath("D.q.activitywatchdashboard.component.md"), "ViewComponent"));
 return <ActivityWatchDashboard />;
 
 ```

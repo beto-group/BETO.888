@@ -1,7 +1,9 @@
+
+
 # ViewComponent
 
 ```jsx
-const { useEffect, useRef, useState } = dc;
+const { useEffect, useRef, useState, useMemo } = dc;
 
 // --- DOM Traversal Utilities ---
 function findNearestAncestorWithClass(element, className) {
@@ -28,7 +30,7 @@ function findDirectChildByClass(parent, className) {
 // =================================================================================
 //  VIEW COMPONENT (UI & Full-Tab Logic)
 // =================================================================================
-function BasicView({ onCodeReloadRequest }) {
+function BasicView({ onCodeReloadRequest, currentFilePath }) {
     const instanceId = useRef(Math.random().toString(36).substr(2, 5)).current;
     const uniqueWrapperClass = `interactive-wrapper-${instanceId}`;
 
@@ -293,6 +295,8 @@ function BasicView({ onCodeReloadRequest }) {
                     This component reloads with fresh code when you click the reload icon.
                 </p> <p style={STYLES.subtitle}>
                     Instance ID: <strong>{instanceId}</strong>
+                </p> <p style={{ ...STYLES.subtitle, fontSize: '0.8em', marginTop: '10px' }}>
+                    Current File: {currentFilePath}
                 </p>{" "}
             </div>{" "}
         </div>
@@ -300,26 +304,88 @@ function BasicView({ onCodeReloadRequest }) {
 }
 
 // =================================================================================
-//  CONTAINER COMPONENT (Handles Code Reloading Logic)
+//  CONTAINER COMPONENT (Handles Code Reloading Logic with Temp File)
 // =================================================================================
 function BasicViewContainer() {
-    const handleCodeReload = () => {
+    const currentFilePath = dc.useCurrentPath();
+    const [lastTempFile, setLastTempFile] = useState(null);
+    const tempFileRef = useRef(null);
+    
+    // Extract directory and filename info
+    const fileInfo = useMemo(() => {
+        if (!currentFilePath) return null;
+        const pathParts = currentFilePath.split('/');
+        const fileName = pathParts.pop();
+        const tempDir = `_RESOURCES/temp`;
+        return { fileName, tempDir };
+    }, [currentFilePath]);
+
+    const handleCodeReload = async () => {
+        if (!currentFilePath || !fileInfo) {
+            new Notice("Error: Could not determine current file path.", 4000);
+            return;
+        }
+
         try {
-            // This is the correct, definitive solution you provided.
-            // It tells the active Obsidian tab (leaf) to completely rebuild its view,
-            // which forces the Datacore script to be re-read from the file and re-executed.
-            dc.app.workspace.activeLeaf.rebuildView();
-            new Notice("View rebuilt & code reloaded!", 2000);
+            const adapter = dc.app.vault.adapter;
+            
+            // Read the current file content
+            const content = await adapter.read(currentFilePath);
+            
+            // Create temp directory if it doesn't exist
+            if (!(await adapter.exists(fileInfo.tempDir))) {
+                await adapter.mkdir(fileInfo.tempDir);
+            }
+            
+            // Delete the previous temp file if it exists
+            if (lastTempFile && await adapter.exists(lastTempFile)) {
+                await adapter.remove(lastTempFile);
+            }
+            
+            // Create new temp file with timestamp
+            const timestamp = Date.now();
+            const tempFileName = `_temp-${fileInfo.fileName.replace('.md', '')}-${timestamp}.md`;
+            const tempFilePath = `${fileInfo.tempDir}/${tempFileName}`;
+            
+            // Write content to temp file
+            await adapter.write(tempFilePath, content);
+            tempFileRef.current = tempFilePath;
+            setLastTempFile(tempFilePath);
+            
+            // Open the temp file (this triggers the reload)
+            const file = dc.app.vault.getAbstractFileByPath(tempFilePath);
+            if (file) {
+                await dc.app.workspace.getLeaf(false).openFile(file);
+                new Notice("Code reloaded! Viewing temp file.", 2000);
+            } else {
+                new Notice("Error: Could not open temp file.", 4000);
+            }
         } catch (error) {
-            console.error("Failed to rebuild the view:", error);
+            console.error("Failed to reload with temp file:", error);
             new Notice(
-                "Error: Could not rebuild the view. See console for details.",
+                "Error: Could not reload. See console for details.",
                 5000
             );
         }
     };
 
-    return <BasicView onCodeReloadRequest={handleCodeReload} />;
+    // Cleanup temp files on unmount
+    useEffect(() => {
+        return () => {
+            if (tempFileRef.current) {
+                dc.app.vault.adapter.exists(tempFileRef.current).then(exists => {
+                    if (exists) {
+                        dc.app.vault.adapter.remove(tempFileRef.current).catch(console.error);
+                    }
+                });
+            }
+        };
+    }, []);
+
+    return <BasicView 
+        onCodeReloadRequest={handleCodeReload} 
+        currentFilePath={currentFilePath || "Loading..."}
+    />;
 }
 
 

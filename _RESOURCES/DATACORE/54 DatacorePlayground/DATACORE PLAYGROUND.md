@@ -1,34 +1,45 @@
 
 ### Tab: Datacore Playground
 
-- **Description**: An interactive, browser-based playground for rapidly prototyping and testing Datacore components, running entirely within an Obsidian tab. Inspired by tools like the Babylon Playground, it provides a seamless workflow with a live-updating code editor and preview pane, designed for experimentation and learning.
+- **Description**: A full-featured, multi-pane Live Development Environment (IDE) that provides a complete workflow for creating, editing, and live-testing Datacore components, all from within a single, powerful interface. It combines a multi-tab Monaco editor, a sandboxed live preview, and a full-featured props editor, enabling a seamless and rapid "hot-reloading" development cycle without leaving Obsidian.
+   
 - **Does**:
-    - **Powerful Code Editor**:
-        - Powered by Monaco (the engine behind VS Code), offering a rich editing experience with syntax highlighting, word wrap, and a minimap.
-        - Supports multi-tab editing, allowing you to manage and switch between multiple components within a single source file.
-        - Includes full tab management: create new boilerplate components, rename existing ones, and delete them directly from the UI.
-    - **Real-Time Preview**:
-        - Features a resizable split-pane layout to see your code's output instantly as you work.
-        - Automatically updates the preview on save (Ctrl+S), compiling your JSX and rendering the component for an immediate feedback loop.
-        - Provides clear loading and error states, making experimentation and debugging straightforward.
-    - **Component Management**:
-        - **Load by Path**: A dedicated input bar to load any component file by its exact vault path.
-        - **Bookmark Bar**: Automatically generates a quick-access bookmark bar from all .component.md files in the _RESOURCES/DATACORE directory.
-        - **New Component Creation**: A "New" button that prompts for a name and generates a new, correctly formatted component file with boilerplate code, letting you start new experiments in seconds.
-    - **Immersive Workflow**:
-        - **Dual Mode Operation**: Starts in a compact "launcher" mode and can be expanded into an immersive "Full Playground" mode that takes over the entire tab for a focused session.
-        - **State Persistence**: Caches the editor's view state (like scroll position and cursor location) for each tab, so you can pick up your experiments exactly where you left off.
+
+    - **Advanced Code Editing with Monaco**:    
+        - **Professional Editor**: Integrates the **Monaco Editor** (the same editor that powers VS Code) for a first-class coding experience, including syntax highlighting, autocompletion, and multi-cursor support.
+        - **Multi-Component Editing**: Allows a single component file with multiple headers (e.g., # ViewComponent, # HelperFunctions) to be edited as separate tabs within the same editor instance.
+        - **Tab Management**: Users can create new component tabs, rename them (which also refactors the code), and delete them, with all changes saved back to the source .md file.
+    - **Sandboxed Live Preview & Hot-Reloading**:
+        - **Live Preview**: Features a dedicated preview pane that dynamically loads and renders the selected component.
+        - **Crash Protection**: The preview is wrapped in an ErrorBoundary, so if the component's code has a rendering error, it will display a detailed error message instead of crashing the entire IDE.
+        - **Hot-Reload on Save**: When the user saves their code (Ctrl/Cmd + S), the component automatically creates a temporary, cache-busted copy of the file and instantly re-renders the preview with the latest changes, enabling a true hot-reload workflow.
+        - **Context Hijacking**: Intelligently hijacks the dc.useCurrentPath() hook for the previewed component, making it believe it's running from its original file path. This ensures that components with relative asset paths work correctly within the playground.
+    - **Interactive Prototyping with Props Editor**:
+        - Includes a "Component Props" panel that allows developers to dynamically add, edit, and remove properties passed to the component being previewed.
+        - It intelligently parses prop values, supporting strings, numbers, booleans, and even complex JavaScript objects and arrays (e.g., title="Hello", count={42}, data=`{[{id:1}]})`.
+        - **Instantly re-renders** the preview component with the new props, allowing for rapid testing of different states and configurations.
+    - **Full-Featured IDE Interface**:
+        - **File Loading**: Includes a file loader with a "Bookmark Bar" that automatically discovers and lists all available .component.md files in the vault for quick access.
+        - **Customizable Multi-Pane Layout**: The IDE features a responsive, multi-pane layout with a resizable divider between the editor and preview panes. The user can also toggle panes to focus on just the code or the preview.
+        - **Immersive Full-Tab Mode**: Designed to run in an immersive, full-pane "Full Tab" mode for a complete, distraction-free development experience.
+    - **Self-Contained & System-Aware**:
+        - Automatically checks for and caches its dependencies (Monaco Editor) for faster subsequent loads.
+        - Automatically syncs its theme (light/dark) with Obsidian's theme, but also includes a manual override.
+
 - **Can’t**:
-    - Visually browse the vault's file system; components must be loaded by their exact path or from the bookmark bar.
-    - Edit or run non-Datacore code (e.g., Python, CSS) or files without the specific # Header and ```jsx block structure.
-    - Provide advanced IDE features like Git integration, a step-through debugger, or a terminal.
-    - Pass custom props to the previewed component; it always renders with no props.
+   
+    - **Provide a Full File Explorer**: While it has a bookmark bar for component files, it does not include a traditional file tree for navigating the entire vault.    
+    - **Debug Code with Breakpoints**: It provides excellent error catching and a linter, but it is not a full-fledged debugger. It does not support setting breakpoints or stepping through code execution.
+    - **Manage Git Repositories**: This is a code editor and playground, not a version control client.
+
+- **Disclaimer**:
+  
+    - This is a highly advanced developer tool. Its primary purpose is to showcase the absolute limits of Datacore's capabilities, including live hot-reloading, component sandboxing, and building complex, IDE-like applications. It directly modifies your files and maintains its own temporary files for previews. While powerful, it should be used with care. It serves as a powerful example of what is possible rather than a finished, production-ready tool.
 
 
+-----
 
-
-
-![datacore_playground.webp](/_RESOURCES/IMAGES/datacore_playground.webp)
+![datacore_playground.webp](_resources/images/datacore_playground.webp)
 
 
 

@@ -1,24 +1,37 @@
-### Tab: LoadScript
 
-- **Description**: A utility component that demonstrates a robust, network-aware asset loading system. It fetches scripts and images, caches them locally in the vault, and provides a real-time log of its operations.
+### Tab: Load Script
+
+- **Description**: A comprehensive developer utility and live demonstration tool for dynamically loading external JavaScript libraries. It provides a robust, cached loading mechanism for both classic scripts and modern ESM modules, complete with a user interface to test presets, load custom URLs, and inspect the properties of successfully loaded libraries in real time.
 
 - **Does**:
-    
-    - **Fetches & Caches Scripts**: Implements a loadScript function that downloads JavaScript files from a URL.
-    - **Fetches & Caches Images**: Implements a fetchAndCacheImage function that downloads binary image data from a URL.
-    - **Enables Offline Use**: Saves all downloaded assets into a local .datacore/ folder within the vault. On subsequent loads, it reads directly from this cache, allowing the component to work offline and load much faster.
-    - **Provides Live Feedback**: Displays an on-screen "mini console" that logs every step of the loading process, clearly showing whether an asset is being fetched from the network or loaded from the local cache.
+   
+    - **Universal Script Loading**:    
+        - **Classic & ESM Support**: Can load both traditional scripts (that create global variables) and modern ECMAScript Modules, automatically handling the different import mechanisms.
+        - **URL & Local Paths**: Supports loading from both external web URLs and local file paths within the Obsidian vault.
+    - **Intelligent Caching & Deduplication**:
+        - **Vault Caching**: When loading a script from a URL for the first time, it saves a copy to a local cache folder (.datacore/script_cache). All subsequent loads use the fast, local cache, enabling full offline functionality.
+        - **Global Deduplication**: Checks if a library has already been loaded (by its global variable name) and skips redundant downloads. It also tracks in-progress downloads to prevent race conditions.
+    - **Interactive UI & Library Explorer**:
+        - **Live Demo Interface**: The component's UI acts as a live testing ground for the script loader itself.
+        - **Presets & Custom Loading**: Includes preset buttons to instantly load common libraries (like D3.js, Three.js, GSAP) and a form to load any custom URL as either a classic script or an ESM module.
+        - **Real-Time Analysis**: Upon successful loading, it displays a card for the library, showing its type, URL, and a summary of its contents (e.g., number of exports, functions, and properties).
+        - **Object Explorer**: Features an "Explore" button for each loaded library that opens a navigable tree view, allowing the user to drill down into the library's nested objects and properties to understand its structure.
+    - **Immersive Full-Tab Mode**: Designed to run in a full-pane view that takes over the entire Obsidian window, providing a dedicated interface for library management and exploration.
 
 - **Can’t**:
-
-    - Function offline on its first run for any given asset, as it must initially download it to create the cache.
-    - Automatically detect when a remote asset has been updated; it will continue to use the cached version until the cache is manually cleared.
-    - Be configured to load different assets without editing the component's code, as it is a demonstration, not a general-purpose tool.
-
-
-![loadscript.webp](/_RESOURCES/IMAGES/loadscript.webp)
+   
+    - **Manage CSS or Other Asset Types**: It is specifically designed for loading and executing JavaScript files (.js) and does not handle CSS stylesheets, images, or other types of assets.    
+    - **Resolve Complex Module Dependencies Locally**: While it can load local ESM modules, it does not include a full module bundler or resolver. It cannot handle complex local import statements that point to other local files.
+    - **Guarantee Compatibility**: The loader executes scripts directly in the global scope. It cannot prevent conflicts if two different libraries attempt to define the same global variable.
+    - **Function Offline on First Run**: It requires an internet connection to download and cache any library that is not already present in the local cache.
 
 
+----
+
+![load_script_1.webp](_resources/images/load_script_1.webp)
+
+
+![load_script_2.webp](_resources/images/load_script_2.webp)
 
 
 ### Components

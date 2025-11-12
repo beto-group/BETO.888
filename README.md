@@ -32,70 +32,89 @@ At its heart, BETO.888 provides the foundational building blocks to transform yo
 
 #### What you need
 
-- [Obsidian.md](https://obsidian.md/download) installed.    
-- Git (only if you want easy updates or the lightweight install).
+- [Obsidian.md](https://www.google.com/url?sa=E&q=https%3A%2F%2Fobsidian.md%2Fdownload) installed.
+- **Git (optional):** Required only for the 'Lightweight' (Path B) or 'Full Clone' (Path C) install methods.
 
 ##### Pick your path
 
-- **A : Zero-Git (Fastest):** Direct download for immediate use.
-- **B : Git — Full (Recommended):** The complete experience.
-- **C : Git — Lightweight:** A minimal footprint; add folders as you go.
+- **A: Direct Download (Easiest):** No command line needed.
+- **B: Lightweight Clone (Recommended):** Best for most users.
+- **C: Full Clone (For Contributors):** For developers who will update using Git.
+
+
 
 >[!IMPORTANT]  
 >Once installed via any path, future updates are handled by the in-vault **Vault Updater**.
 
------
-##### Path A — Direct Download (Zero-Git)
 
-1. **Get the vault**
-	- Go to: github.com/BETO-GROUP/BETO.888 → **<> Code** → **Download ZIP**
-	- Unzip. Rename the folder to `BETO.888` (optional).
+---
 
-2. **Open in Obsidian**
-	- Open Obsidian → **Open another vault** → **Open folder as vault** → select `BETO.888` → `BETO.888-main`.
+#### Path A — Direct Download (Easiest)
 
-----
-##### Path B — Git (Full Version, recommended)
+1. **Get the Vault**
+    - Go to the repository page: [github.com/BETO-GROUP/BETO.888](https://www.google.com/url?sa=E&q=https%3A%2F%2Fgithub.com%2FBETO-GROUP%2FBETO.888)
+    - Click the green **< > Code** button, then **Download ZIP**.
+    - Unzip the file. The folder will be named BETO.888-main.
 
-1. **Clone**
+2. **Open in Obsidian**    
+    - In Obsidian, select **Open another vault** → **Open folder as vault**.
+    - Choose the BETO.888-main folder you just unzipped.
+
+
+> [!NOTE]  
+> Future updates are handled directly from within the vault.
+
+---
+
+#### Path B — Lightweight Clone (Recommended)
+
+**1. Create the Vault Folder**
+
+- Run the command for your OS. This creates a BETO.888 folder ready for Obsidian.
+
+**macOS / Linux:**
+```shell
+git clone --depth 1 https://github.com/BETO-GROUP/BETO.888.git && cd BETO.888 && rm -rf .git
+```
+    
+**Windows (Command Prompt):**
+```shell
+git clone --depth 1 https://github.com/BETO-GROUP/BETO.888.git && cd BETO.888 && rmdir /s /q .git
+```
+
+
+**2. Open in Obsidian**
+
+- In the app, go to **Open another vault** → **Open folder as vault** and select the BETO.888 folder.
+
+
+> [!NOTE]  
+> Future updates are handled directly from within the vault.
+
+---
+
+#### Path C — Full Clone (For Contributors)
+
+Use this method **only if you plan to contribute changes back to the project** and need the full commit history.
+
+> [!WARNING]  
+> This is a very large download (**nearly 1GB**), with the .git history folder itself being over 600MB. This is not necessary for simply using the vault.
+
+1. **Clone the Full Repository**
+    - Open your terminal and run:
+
 
 ```shell
 git clone https://github.com/BETO-GROUP/BETO.888
 ```
-
+    
 2. **Open in Obsidian**
-	- Open Obsidian → **Open another vault** → **Open folder as vault** → select `BETO.888`.
+    - In Obsidian, select **Open another vault** → **Open folder as vault**.
+    - Choose the new BETO.888 folder.
 
----
 
-##### Path C — Git (Lightweight / Sparse)
-
-1. **Clone without checkout**
-
-```shell
-git clone --no-checkout https://github.com/BETO-GROUP/BETO.888
-cd BETO.888
-```
-  
-2. **Enable sparse checkout and choose folders**  
-	(Start with only the essentials, e.g. `_RESOURCES/DATACORE`.)
-
-```shell
-git sparse-checkout init --cone
-git sparse-checkout set _RESOURCES/DATACORE
-git checkout main
-```
-
-3. **Open in Obsidian**
-	- Open Obsidian → **Open another vault** → **Open folder as vault** → select `BETO.888`.
-
-4. **Add more later (examples)**
-```shell
-git sparse-checkout set --add .obsidian
-git sparse-checkout set --add _RESOURCES
-```
-
-	Note: If you don’t include `.obsidian`, you won’t get the vault’s preset plugins/styles. Add it when you’re ready.
+> [!NOTE]  
+> As a contributor, you should use the git pull command to get the latest updates.
 
 ----
 

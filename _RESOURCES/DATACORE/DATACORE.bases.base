@@ -1,0 +1,83 @@
+properties:
+  note.categories:
+    displayName: category
+views:
+  - type: table
+    name: Table
+    filters:
+      and:
+        - file.inFolder("_RESOURCES/DATACORE")
+        - '!file.name.startsWith("D.q")'
+        - '!file.path.endsWith(".webp")'
+        - '!file.name.contains("B8.docs.")'
+        - '!file.path.contains(".svg")'
+        - '!file.name.contains(".enigmas")'
+        - '!file.path.contains(".wav")'
+        - '!file.path.contains(".webm")'
+        - '!file.name.contains("_.A")'
+        - '!file.name.contains("hot-reload_file")'
+        - '!file.name.contains(".namzu")'
+        - '!file.name.contains(".old")'
+        - '!file.name.contains(".json")'
+        - '!file.path.contains(".png")'
+        - '!file.name.contains("example.approval")'
+        - '!file.path.contains(".pdf")'
+        - '!file.path.contains(".jpg")'
+        - '!file.name.contains("DOCS.")'
+        - '!file.path.contains(".ttf")'
+        - '!file.path.contains(".otf")'
+        - file.name != "link_example"
+        - file.name != "ShowcasePlayground"
+        - file.name != "TestFile"
+        - file.name != "UTILITY"
+        - '!file.path.contains(".glb")'
+        - '!file.path.contains("/_resources/example")'
+        - '!file.path.contains("/_resources/")'
+        - file.name != "DATACORE.showcase"
+        - file.name != "DATACORE.bases.base"
+        - '!file.path.contains("/src/")'
+        - '!file.path.contains("/temp/")'
+    order:
+      - file.name
+      - id
+      - name.official
+      - category
+      - platform
+      - tags
+      - desc
+      - status
+      - complexity
+      - ext.dependencies
+      - linked
+      - resources
+      - price
+      - author
+      - longDesc
+      - does
+      - cant
+      - disclaimer
+      - version
+      - version.obsidian
+    sort:
+      - property: file.name
+        direction: DESC
+      - property: id
+        direction: ASC
+      - property: tags
+        direction: ASC
+      - property: category
+        direction: ASC
+      - property: platform
+        direction: ASC
+      - property: external.dependencies
+        direction: DESC
+      - property: images
+        direction: ASC
+    columnSize:
+      note.id: 104
+      note.name.official: 188
+      note.category: 254
+      note.platform: 164
+      note.tags: 173
+      note.ext.dependencies: 129
+      file.path: 425

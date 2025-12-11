@@ -42,6 +42,13 @@
     "excalidraw-embeddable-theme": "text",
     "permanent-link": "checkbox",
     "link": "multitext",
-    "test124": "checkbox"
+    "test124": "checkbox",
+    "categories": "text",
+    "images": "multitext",
+    "resources": "multitext",
+    "required": "multitext",
+    "ext.dependencies": "multitext",
+    "category": "multitext",
+    "id": "number"
   }
 }

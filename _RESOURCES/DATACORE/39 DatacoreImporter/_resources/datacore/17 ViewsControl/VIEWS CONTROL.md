@@ -65,6 +65,6 @@
 
 ###### [Views Control Viewer](D.q.viewscontrol.viewer.md)
 
-###### [Views Control Component](D.q.viewscontrol.component.md)
+###### [Views Control Component](_RESOURCES/DATACORE/39%20DatacoreImporter/_resources/datacore/17%20ViewsControl/D.q.viewscontrol.component.md)
 
 

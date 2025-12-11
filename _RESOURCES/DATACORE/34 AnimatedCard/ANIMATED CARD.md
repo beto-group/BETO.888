@@ -1,3 +1,34 @@
+---
+author: beto.group
+name.official: Animated Card
+price: "0"
+version: 1.0.2
+category:
+  - visualization
+tags:
+  - 3d
+  - babylonjs
+  - media
+  - video
+  - interactive
+  - animation
+  - textures
+  - cdn
+desc: A visually stunning 3D card renderer powered by Babylon.js that features interactive, animated video textures and seamless playback transitions.
+status: stable
+complexity: intermediate
+ext.dependencies:
+  - babylon-js
+platform:
+id: 34
+resources:
+  - animatedcard.clip.webm
+  - animated_card.webp
+longDesc: A visually stunning component that renders a 3D model of a card with interactive, animated video textures. Built with Babylon.js, it provides an immersive, full-pane viewing experience where users can rotate the 3D card and trigger different video playback sequences by clicking on its surface. It intelligently preloads and swaps video textures for seamless, on-demand playback.
+does: "[  {    \"title\": \"Live 3D Card Rendering\",    \"children\": [      {        \"content\": \"Renders a 3D model of a card with distinct front, back, and edge materials.\"      },      {        \"content\": \"The back and edges of the card use static image textures.\"      },      {        \"content\": \"The front of the card is a dynamic video texture that can play animated content.\"      }    ]  },  {    \"title\": \"Interactive Video Playback & Playlist\",    \"children\": [      {        \"content\": \"The component manages a weighted playlist of video files, allowing for both common and rare videos to be played.\"      },      {        \"content\": \"Clicking on the front face of the 3D card triggers the next video in the sequence.\"      },      {        \"content\": \"Includes a \\\"cheat code\\\" to force a rare video to play by holding Shift while clicking.\"      }    ]  },  {    \"title\": \"Seamless Video Buffering\",    \"content\": \"To ensure smooth transitions, the component employs a double-buffering system. While one video is playing, the next video in the sequence is preloaded in the background on a second, hidden video texture.\"  },  {    \"title\": \"Idle Auto-Rotation\",    \"content\": \"The 3D card gently auto-rotates to showcase its design. This rotation automatically pauses when the user interacts with the camera (panning or zooming) and resumes after a period of inactivity.\"  },  {    \"title\": \"Dynamic Dependency Loading\",    \"content\": \"Automatically checks for and loads the Babylon.js library from a CDN if it's not already available in the current session.\"  },  {    \"title\": \"Configurable & Reusable\",    \"content\": \"The component is designed to be highly reusable, accepting props to change the front and back images, the depth of the card, the edge color, and camera constraints.\"  },  {    \"title\": \"Immersive Full-Tab UI\",    \"content\": \"Designed to run in a full-pane mode that takes over the entire Obsidian view, with a compact fallback option.\"  }]"
+cant: '[  {    "title": "Visualize Vault Data",    "content": "This component is a visual media player. It does not read, parse, or display any data from the vault beyond the specified image and video files."  },  {    "title": "Provide Custom Video Controls",    "content": "All video playback is controlled by clicking the 3D object. There are no on-screen UI controls to pause, rewind, scrub, or change the volume of the videos."  },  {    "title": "Function Offline on First Run",    "content": "It requires an internet connection for its initial run to download the Babylon.js library."  },  {    "title": "Persist Playback State",    "content": "The video playlist and current playback position are not saved. The component will always restart from the beginning when the note is reloaded."  }]'
+version.obsidian: 1.4.11
+---
 
 ### Tab: AnimatedCard
 
@@ -28,6 +59,9 @@
 
 
 ----
+
+![animatedcard.clip.webm](_resources/videos/animatedcard.clip.webm)
+
 
 ![animated_card.webp](_resources/images/animated_card.webp)
 

@@ -1,0 +1,69 @@
+{
+  "nodes": [
+    {
+      "id": 1,
+      "x": 100,
+      "y": 100,
+      "width": 200,
+      "height": 70,
+      "title": "My Agent",
+      "description": "Agent",
+      "selected": false
+    },
+    {
+      "id": 2,
+      "x": 400,
+      "y": 250,
+      "width": 200,
+      "height": 70,
+      "title": "Transform",
+      "description": "Changes data",
+      "selected": false
+    },
+    {
+      "id": 1763851250824,
+      "x": 389.49981419546646,
+      "y": -79.39867265886315,
+      "width": 200,
+      "height": 70,
+      "title": "Node 3",
+      "description": "New node from link",
+      "selected": false
+    },
+    {
+      "id": 1763851253340,
+      "x": 751.0940170940177,
+      "y": -33.74649874581962,
+      "width": 200,
+      "height": 70,
+      "title": "Node 4",
+      "description": "New node from link",
+      "selected": false
+    }
+  ],
+  "links": [
+    {
+      "id": 1763851250825,
+      "from": 1,
+      "to": 1763851250824
+    },
+    {
+      "id": 1763851253341,
+      "from": 2,
+      "to": 1763851253340
+    },
+    {
+      "id": 1763851255141,
+      "from": 1763851250824,
+      "to": 1763851253340
+    }
+  ],
+  "view": {
+    "zoom": 1.3799999999999988,
+    "pan": {
+      "x": -339.50974358974315,
+      "y": 326.6607932692311
+    }
+  },
+  "timestamp": 1763851274532
+}

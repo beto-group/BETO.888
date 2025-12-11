@@ -1,3 +1,33 @@
+---
+author: beto.group
+name.official: Datacore Playground
+price: "0"
+category:
+  - utility
+platform: desktop
+tags:
+  - ide
+  - monaco-editor
+  - hot-reload
+  - developer-tool
+  - playground
+  - sandbox
+  - prototyping
+  - learn
+desc: A comprehensive in-vault IDE featuring the Monaco Editor, live preview with hot-reloading, and a props editor for rapid component development.
+status: experimental
+complexity: developer
+id: 54
+resources:
+  - datacoreplayground.clip.webm
+  - datacore_playground.webp
+longDesc: A full-featured, multi-pane Live Development Environment (IDE) that provides a complete workflow for creating, editing, and live-testing Datacore components, all from within a single, powerful interface. It combines a multi-tab Monaco editor, a sandboxed live preview, and a full-featured props editor, enabling a seamless and rapid "hot-reloading" development cycle without leaving Obsidian.
+does: "[  {    \"title\": \"Advanced Code Editing with Monaco\",    \"children\": [      {        \"title\": \"Professional Editor\",        \"content\": \"Integrates the Monaco Editor (the same editor that powers VS Code) for a first-class coding experience, including syntax highlighting, autocompletion, and multi-cursor support.\"      },      {        \"title\": \"Multi-Component Editing\",        \"content\": \"Allows a single component file with multiple headers (e.g., # ViewComponent, # HelperFunctions) to be edited as separate tabs within the same editor instance.\"      },      {        \"title\": \"Tab Management\",        \"content\": \"Users can create new component tabs, rename them (which also refactors the code), and delete them, with all changes saved back to the source .md file.\"      }    ]  },  {    \"title\": \"Sandboxed Live Preview & Hot-Reloading\",    \"children\": [      {        \"title\": \"Live Preview\",        \"content\": \"Features a dedicated preview pane that dynamically loads and renders the selected component.\"      },      {        \"title\": \"Crash Protection\",        \"content\": \"The preview is wrapped in an ErrorBoundary, so if the component's code has a rendering error, it will display a detailed error message instead of crashing the entire IDE.\"      },      {        \"title\": \"Hot-Reload on Save\",        \"content\": \"When the user saves their code (Ctrl/Cmd + S), the component automatically creates a temporary, cache-busted copy of the file and instantly re-renders the preview with the latest changes, enabling a true hot-reload workflow.\"      },      {        \"title\": \"Context Hijacking\",        \"content\": \"Intelligently hijacks the dc.useCurrentPath() hook for the previewed component, making it believe it's running from its original file path. This ensures that components with relative asset paths work correctly within the playground.\"      }    ]  },  {    \"title\": \"Interactive Prototyping with Props Editor\",    \"children\": [      {        \"content\": \"Includes a \\\"Component Props\\\" panel that allows developers to dynamically add, edit, and remove properties passed to the component being previewed.\"      },      {        \"content\": \"It intelligently parses prop values, supporting strings, numbers, booleans, and even complex JavaScript objects and arrays (e.g., title=\\\"Hello\\\", count={42}, data=`{[{id:1}]}`).\"      },      {        \"content\": \"Instantly re-renders the preview component with the new props, allowing for rapid testing of different states and configurations.\"      }    ]  },  {    \"title\": \"Full-Featured IDE Interface\",    \"children\": [      {        \"title\": \"File Loading\",        \"content\": \"Includes a file loader with a \\\"Bookmark Bar\\\" that automatically discovers and lists all available .component.md files in the vault for quick access.\"      },      {        \"title\": \"Customizable Multi-Pane Layout\",        \"content\": \"The IDE features a responsive, multi-pane layout with a resizable divider between the editor and preview panes. The user can also toggle panes to focus on just the code or the preview.\"      },      {        \"title\": \"Immersive Full-Tab Mode\",        \"content\": \"Designed to run in an immersive, full-pane \\\"Full Tab\\\" mode for a complete, distraction-free development experience.\"      }    ]  },  {    \"title\": \"Self-Contained & System-Aware\",    \"children\": [      {        \"content\": \"Automatically checks for and caches its dependencies (Monaco Editor) for faster subsequent loads.\"      },      {        \"content\": \"Automatically syncs its theme (light/dark) with Obsidian's theme, but also includes a manual override.\"      }    ]  }]"
+cant: '[  {    "title": "Provide a Full File Explorer",    "content": "While it has a bookmark bar for component files, it does not include a traditional file tree for navigating the entire vault."  },  {    "title": "Debug Code with Breakpoints",    "content": "It provides excellent error catching and a linter, but it is not a full-fledged debugger. It does not support setting breakpoints or stepping through code execution."  },  {    "title": "Manage Git Repositories",    "content": "This is a code editor and playground, not a version control client."  }]'
+disclaimer: "[  {    \"content\": \"This is a highly advanced developer tool. Its primary purpose is to showcase the absolute limits of Datacore's capabilities, including live hot-reloading, component sandboxing, and building complex, IDE-like applications. It directly modifies your files and maintains its own temporary files for previews. While powerful, it should be used with care. It serves as a powerful example of what is possible rather than a finished, production-ready tool.\"  }]"
+version.obsidian: 1.4.11
+version: 5.1.1
+---
 
 ### Tab: Datacore Playground
 
@@ -38,6 +68,10 @@
 
 
 -----
+
+![datacoreplayground.clip.webm](_resources/videos/datacoreplayground.clip.webm)
+
+
 
 ![datacore_playground.webp](_resources/images/datacore_playground.webp)
 

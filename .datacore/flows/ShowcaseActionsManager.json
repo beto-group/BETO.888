@@ -1,0 +1,33 @@
+{
+  "savedAt": "2025-11-22T09:40:44.785Z",
+  "version": "1.0",
+  "nodes": [
+    {
+      "id": "n-mia3m7dc-zd3hvpp",
+      "type": "command",
+      "params": [
+        {
+          "key": "commandId",
+          "value": "app:open-vault"
+        }
+      ],
+      "inputs": [
+        "flow"
+      ],
+      "outputs": [
+        "flow"
+      ],
+      "x": 5185.036782464003,
+      "y": 10054.11350988005
+    }
+  ],
+  "edges": [],
+  "runtime": {
+    "canExecute": true,
+    "nodeCount": 1,
+    "edgeCount": 0,
+    "nodeTypes": [
+      "command"
+    ]
+  }
+}

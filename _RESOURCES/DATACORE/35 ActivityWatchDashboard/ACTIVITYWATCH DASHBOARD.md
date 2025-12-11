@@ -1,7 +1,38 @@
+---
+author: beto.group
+name.official: ActivityWatch Dashboard
+price: "0"
+version: 1.0.1
+category:
+  - integration
+tags:
+  - dashboard
+  - time-tracking
+  - analytics
+  - charts
+  - quantified-self
+  - activitywatch
+desc: A comprehensive dashboard that visualizes personal computing activity and productivity metrics by connecting to a local ActivityWatch server.
+status: stable
+complexity: intermediate
+ext.dependencies:
+  - activitywatch-application
+id: 35
+resources:
+  - activitywatchdashboard.clip.webm
+  - activitywatch_dashboard_1.webp
+  - activitywatch_dashboard_2.webp
+  - activitywatch_dashboard_3.webp
+  - activitywatch_dashboard_4.webp
+longDesc: A comprehensive, feature-rich dashboard that connects to a local [ActivityWatch](https://activitywatch.net/) server to fetch, process, and visualize your personal computing activity. This redesigned version features a polished, modern UI with improved navigation, better visual feedback, and enhanced interactive elements for a more intuitive and aesthetically pleasing user experience.
+does: "[  {    \"content\": \"Connects directly to a local ActivityWatch server running on localhost:5600.\"  },  {    \"content\": \"Fetches raw event data for application usage and AFK (Away-From-Keyboard) status.\"  },  {    \"content\": \"Processes and categorizes your activity using a predefined set of rules (e.g., classifying 'Visual Studio Code' as 'Work' and 'Programming').\"  },  {    \"content\": \"Provides multiple data views through a redesigned tabbed interface:\",    \"children\": [      {        \"title\": \"Charts\",        \"content\": \"Includes an interactive Sunburst chart for hierarchical categories, a Pie chart for top applications, a Calendar Heatmap for daily totals, and a Streamgraph for visualizing activity flow over time.\"      },      {        \"title\": \"Detailed View\",        \"content\": \"A filterable and paginated list of all recorded application/window title events.\"      },      {        \"title\": \"Productivity\",        \"content\": \"A summary view grouping time spent by high-level categories like 'Work', 'Media', and 'Comms', now with expandable sub-categories.\"      },      {        \"title\": \"Timeline\",        \"content\": \"A pannable and zoomable timeline visualizing the precise sequence of events throughout the day, complete with an interactive legend.\"      }    ]  },  {    \"content\": \"Features a redesigned header with enhanced date controls to view data for a specific day or the last 7 days.\"  },  {    \"content\": \"Integrates a ScreenModeHelper to allow the entire dashboard to be expanded to fill the current tab or a separate window\"  }]"
+cant: "[  {    \"content\": \"Connect to a remote or differently configured ActivityWatch server; the localhost:5600 address is hardcoded.\"  },  {    \"content\": \"Add or modify the categorization rules from the UI; they are defined within the component's code.\"  },  {    \"content\": \"Edit or delete any of the underlying ActivityWatch data; it is a read-only dashboard.\"  },  {    \"content\": \"Function if the ActivityWatch server is not running on the local machine.\"  }]"
+version.obsidian: 1.4.11
+---
 
 ### Tab: ActivityWatch Dashboard
 
-- **Description**: A comprehensive, feature-rich dashboard that connects to a local [ActivityWatch](https://www.google.com/url?sa=E&q=https%3A%2F%2Factivitywatch.net%2F) server to fetch, process, and visualize your personal computing activity. This redesigned version features a polished, modern UI with improved navigation, better visual feedback, and enhanced interactive elements for a more intuitive and aesthetically pleasing user experience.
+- **Description**: A comprehensive, feature-rich dashboard that connects to a local [ActivityWatch](https://activitywatch.net/) server to fetch, process, and visualize your personal computing activity. This redesigned version features a polished, modern UI with improved navigation, better visual feedback, and enhanced interactive elements for a more intuitive and aesthetically pleasing user experience.
 
 - **Does**:
    
@@ -25,6 +56,9 @@
 
 
 ---
+
+![activitywatchdashboard.clip.webm](_resources/videos/activitywatchdashboard.clip.webm)
+
 
 ![activitywatch_dashboard_1.webp](_resources/images/activitywatch_dashboard_1.webp)
 

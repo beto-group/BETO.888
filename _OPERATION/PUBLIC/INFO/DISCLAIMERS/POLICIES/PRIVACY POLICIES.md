@@ -3,9 +3,9 @@ permalink: privacy_policies
 ---
 
 **Effective Date:** July 9, 2025  
-**Last Updated:** June 9, 2025 
+**Last Updated:** December 3, 2025 
 
-Welcome to BETO.GROUP! This Privacy Policy ("Policy") explains how BETO.GROUP ("we," "us," or "our") collects, uses, shares, discloses, and protects your personal data when you access or use the BETO.GROUP website (the "Website"), our software (including any downloadable Obsidian vault and its Releases), our Digital Collectibles (NFTs), and any related content, materials, or services (collectively, the “Platform”).
+Welcome to BETO GROUP! This Privacy Policy ("Policy") explains how BETO GROUP LLC ("BETO GROUP," "we," "us," or "our") collects, uses, shares, discloses, and protects your personal data when you access or use the BETO GROUP Website (the "Website"), our software (including any downloadable Obsidian vault and its Releases), our Digital Collectibles (NFTs), and any related content, materials, or services (collectively, the "Platform").
 
 We are committed to safeguarding your privacy and handling your personal data in an open, transparent, and lawful manner. Please read this Policy carefully to understand our data practices. By accessing or using the Platform, or by otherwise providing us with your personal data, you acknowledge that you have read and understood this Policy.
 
@@ -16,11 +16,12 @@ This Policy is incorporated by reference into our Terms of Service. For definiti
 We collect personal data to provide and improve our Platform, communicate with you effectively, ensure a secure experience, and fulfill our legal obligations. We are committed to the principle of data minimization and only collect personal data that is adequate, relevant, and limited to what is necessary for the specified purposes. The types of personal data we may collect include:
 
 **a. Information You Provide Directly to Us:**  
-* **Email Address:** When you sign up for an account (if applicable), subscribe to our communications (e.g., newsletters, updates), contact us with inquiries or for support, purchase a product, or interact with certain Platform features that require email verification, we collect your email address.  
+* **Email Address:** When you sign up for an account using our "Magic Link" passwordless authentication system, subscribe to our communications, contact us with inquiries, or purchase a product, we collect your email address. We do not store passwords as our system is designed to be passwordless.
 * **Feedback, Communications, and Support Requests:** If you provide us with feedback, report an issue, or contact us via email, community channels (like Discord, subject to that platform's policies), or other means, we will collect your name (if provided), email address, and the content of your communications, including any attachments.  
-* **Purchase Information:** If you make a purchase through our Platform (as detailed in Section 10 of our Terms of Service), we or our third-party payment processors may collect information necessary to complete the transaction, such as your name, billing address, and payment card details (though BETO.GROUP itself typically does not directly store full payment card numbers).
+* **Purchase Information:** If you make a purchase through our Platform (as detailed in Section 10 of our Terms of Service), our Merchant of Record, **Paddle.com Market Ltd ("Paddle")**, will collect information necessary to complete the transaction, such as your name, billing address, and payment card details. BETO GROUP does not directly collect or store your full payment card numbers.
 
 **b. Information Collected Automatically When You Use the Platform:**  
+* **Device Fingerprinting & Security Logs:** To secure your account and prevent unauthorized access (especially given our passwordless nature), we collect technical data such as your IP address, browser user-agent, and device characteristics. This data is used to create a "Device Fingerprint" that binds your session to your specific device.
 * **NFT Token Identifiers and Wallet Addresses:** If you utilize features of the Platform that involve Non-Fungible Tokens (NFTs) or connect a blockchain wallet, we may collect public NFT identifiers (e.g., token ID, contract address) and your public wallet address. This information is used for account verification (if applicable), access control to specific resources or utilities, to display your ownership status on the Platform (if applicable), and to track your activities and entitlements within our Platform. We do not collect or store your private keys.  
 * **Server Log and Device Information:** Our web servers automatically log standard access information when you visit or interact with our Platform. This includes your Internet Protocol (IP) address, browser type and version, operating system, device identifiers (if applicable), access times, pages viewed, and referring website addresses.  
 * **Cookies and Similar Tracking Technologies:** (Please see Section 10: "Cookies and Tracking Technologies" for detailed information). Currently, we limit our use of cookies. If this changes, this Policy will be updated.
@@ -29,7 +30,7 @@ We collect personal data to provide and improve our Platform, communicate with y
 * **Usage Data:** We may in the future implement analytics tools to collect more detailed information about how you access and use specific features of the Platform. This could include information on features utilized, time spent on pages, interaction patterns, and clickstream data. Any such future collection for analytics will be primarily anonymized or aggregated to analyze trends and improve user experience. This Policy will be updated accordingly before such specific analytics collection begins, and appropriate consent mechanisms will be implemented if required by applicable law.
 
 **d. Information from Third-Party Services:**  
-* We generally do not collect personal data about you from third parties. However, if you choose to connect your BETO.GROUP account (if applicable) with a third-party service (e.g., for single sign-on or data import, subject to availability of such features), or if you interact with us through third-party platforms (like social media or payment processors such as Crossmint for NFT delivery), we may receive certain information from that third party in accordance with your privacy settings on that service and their privacy policy. Any such collection will be subject to separate consent where required.
+* We generally do not collect personal data about you from third parties. However, if you choose to connect your BETO GROUP account (if applicable) with a third-party service (e.g., for single sign-on or data import, subject to availability of such features), or if you interact with us through third-party platforms (like social media or payment processors such as Crossmint for NFT delivery), we may receive certain information from that third party in accordance with your privacy settings on that service and their privacy policy. Any such collection will be subject to separate consent where required.
 
 ## **2. How We Use Your Information and Our Legal Basis for Processing**
 
@@ -58,7 +59,7 @@ We respect your privacy and **do not sell your personal data to third parties.*
     
 - **Legal Obligations, Safety, and Rights Protection:** We may disclose your personal data if we believe in good faith that such disclosure is necessary to:  
     (a) Comply with a legal obligation, subpoena, court order, or other lawful government or regulatory request.  
-    (b) Protect and defend the rights, property, or safety of BETO.GROUP, our users, or the public.  
+    (b) Protect and defend the rights, property, or safety of BETO GROUP, our users, or the public.  
     (c) Prevent, detect, or investigate possible wrongdoing, fraud, or security issues in connection with the Platform.  
     (d) Enforce our Terms of Service or other agreements.
     
@@ -69,7 +70,7 @@ We respect your privacy and **do not sell your personal data to third parties.*
 
 ## **4. Third-Party Services, Links, and Integrations**
 
-Our Platform may include embedded content (e.g., iframes), links to, or integrations with, third-party websites, platforms, and services (such as social media platforms, payment processors like Ko-fi or Stripe, NFT platforms like Crossmint, or community forums like Discord) that are not operated or controlled by BETO.GROUP. This Policy does not apply to the privacy practices of such third-party services.
+Our Platform may include embedded content (e.g., iframes), links to, or integrations with, third-party websites, platforms, and services (such as social media platforms, payment processors like Ko-fi or Stripe, NFT platforms like Crossmint, or community forums like Discord) that are not operated or controlled by BETO GROUP. This Policy does not apply to the privacy practices of such third-party services.
 
 When you interact with these third parties or their services, they may collect your personal data under their own privacy policies. We have no control over, and assume no responsibility for, the content, privacy policies, or practices of any third-party sites or services. We strongly advise you to review the privacy policy of every third-party service you visit or interact with.
 
@@ -88,6 +89,7 @@ When you interact with these third parties or their services, they may collect y
 - Telegram - <a href="https://telegram.org/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
 - Obsidian Forum - <a href="https://forum.obsidian.md/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
 - **Crossmint (for NFT delivery/management, if applicable) - <a href="https://www.crossmint.com/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>**
+- **Paddle (Merchant of Record) - <a href="https://www.paddle.com/legal/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>**
 - **(Other payment processors you may use, e.g., Stripe - <a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>; PayPal - <a href="https://www.paypal.com/us/legalhub/privacy-full" target="_blank" rel="noopener noreferrer">Privacy Policy</a>)**
     
 
@@ -113,7 +115,7 @@ Depending on your location and applicable data protection laws (such as GDPR for
     
 - **The Right to Withdraw Consent:** If we are processing your personal data based on your consent, you have the right to withdraw your consent at any time. Withdrawal will not affect the lawfulness of processing prior to withdrawal.
     
-- **The Right Not to Be Subject to Automated Decision-Making:** You have the right not to be subject to a decision based solely on automated processing, including profiling, which produces legal effects concerning you or similarly significantly affects you, under certain conditions. (Note: BETO.GROUP does not currently engage in such automated decision-making with significant legal effects).
+- **The Right Not to Be Subject to Automated Decision-Making:** You have the right not to be subject to a decision based solely on automated processing, including profiling, which produces legal effects concerning you or similarly significantly affects you, under certain conditions. (Note: BETO GROUP does not currently engage in such automated decision-making with significant legal effects).
     
 - **The Right to Lodge a Complaint:** If you are in the European Economic Area (EEA), the UK, or another jurisdiction with a relevant supervisory authority, you have the right to lodge a complaint with that data protection supervisory authority if you believe our processing of your personal data violates applicable data protection law.
     
@@ -146,11 +148,17 @@ We will retain your personal data only for as long as is necessary to fulfill th
 
 When your personal data is no longer needed for these purposes, or upon your valid request for erasure (subject to legal exemptions), we will take reasonable steps to securely delete or anonymize it in accordance with applicable laws and our internal data retention policies.
 
-## **8. International Data Transfers**
+## **8. International Data Transfers and Infrastructure**
 
-BETO.GROUP is based in Alberta, Canada. Your information, including personal data, may be collected, transferred to, stored, and processed in Canada and potentially in other countries where our service providers operate, which may be outside of your state, province, country, or other governmental jurisdiction where the data protection laws may differ from those in your jurisdiction.
+BETO GROUP is based in Alberta, Canada, but utilizes a distributed global infrastructure to provide its services. Your information, including personal data, may be collected, transferred to, stored, and processed in the following locations:
 
-If you are located outside Canada and choose to provide information to us, please note that we transfer the data, including personal data, to Canada and process it there. Canada has been recognized by the European Commission (for the EEA) and the UK government as providing an adequate level of data protection for personal data transferred from these regions.
+*   **Compute & Application Logic:** Processed on servers provided by third-party cloud infrastructure providers, located in the **United States and Europe**.
+*   **Object Storage & Edge Delivery:** Stored and delivered via **Cloudflare's** global network, which may cache encrypted data in data centers worldwide to ensure performance.
+*   **Disaster Recovery:** Encrypted backups are stored in a secure vault on **Oracle Cloud Infrastructure**, located in a separate geographic region.
+*   **Code Repositories & DevOps:** Source code and deployment pipelines are managed via **GitHub**, which provides version control, continuous integration, and deployment automation services.
+*   **Payment Processing:** Transaction data is processed by **Paddle** (our Merchant of Record), which operates globally and may transfer data to the United Kingdom, United States, or other jurisdictions.
+
+If you are located outside Canada and choose to provide information to us, please note that we transfer the data, including personal data, to Canada, Germany, and other jurisdictions where our service providers operate. Canada has been recognized by the European Commission (for the EEA) and the UK government as providing an adequate level of data protection for personal data transferred from these regions.
 
 For transfers of personal data to our service providers located in other countries that may not have an adequacy decision from your local authorities, we will take appropriate measures to ensure that your personal data receives an adequate level of protection in accordance with applicable data protection laws. These measures may include entering into Standard Contractual Clauses (SCCs) approved by relevant authorities (such as the European Commission or the UK Information Commissioner's Office), relying on the service provider's Binding Corporate Rules, or other legally recognized transfer mechanisms.
 
@@ -167,14 +175,14 @@ If we learn or have reason to suspect that we have inadvertently collected Perso
 
 **9.3. Notice to Parents and Guardians**
 We are committed to complying with applicable laws and regulations regarding the collection of data from minors, such as the Children's Online Privacy Protection Act (COPPA) in the United States and the General Data Protection Regulation (GDPR) in Europe.
-If you are a parent or legal guardian and you believe that your child has accessed our Platform in violation of our age policy and has provided us with Personal Data, please contact us immediately at **[legalis@beto.group](https://www.google.com/url?sa=E&q=mailto%3Alegalis%40beto.group)**. In your message, please provide information that will help us to identify any associated data so that we may investigate and, where appropriate, delete it.
+If you are a parent or legal guardian and you believe that your child has accessed our Platform in violation of our age policy and has provided us with Personal Data, please contact us immediately at **[legalis@beto.group](mailto:legalis@beto.group)**. In your message, please provide information that will help us to identify any associated data so that we may investigate and, where appropriate, delete it.
 
 **9.4. Data Deletion Process**
 Upon receiving a verifiable report of data collected from a Minor, we will promptly delete such Personal Data from our records, unless we have a separate legal obligation (such as for a security investigation or as required by law enforcement) to retain it.
 
 ## **10. Cookies and Tracking Technologies**
 
-**(a) Current Use:** Currently, the BETO.GROUP Website primarily uses only "strictly necessary" cookies, which are essential for the basic operation and security of the Website (e.g., session management if you log in, though this is not a current primary feature; security cookies to protect against cross-site request forgery). These cookies do not require your consent under most data protection laws as they are fundamental to providing the service you request. We do not currently use cookies for user tracking across different websites, targeted advertising, or non-essential analytics that involve personal data profiling.
+**(a) Current Use:** Currently, the BETO GROUP Website primarily uses only "strictly necessary" cookies, which are essential for the basic operation and security of the Website (e.g., session management if you log in, though this is not a current primary feature; security cookies to protect against cross-site request forgery). These cookies do not require your consent under most data protection laws as they are fundamental to providing the service you request. We do not currently use cookies for user tracking across different websites, targeted advertising, or non-essential analytics that involve personal data profiling.
 
 **(b) Future Use & Consent:** If we decide to use other types of cookies or similar tracking technologies (e.g., web beacons, pixels, local storage objects) in the future for purposes such as performance analytics (to understand how our Platform is used), personalization (to remember your preferences), or marketing, this Policy will be updated. For any such cookies that are not strictly necessary, we will:  
 (i) Provide detailed information about the types of cookies used and their specific purposes.  
@@ -189,7 +197,7 @@ Some web browsers may transmit "Do Not Track" (DNT) signals to websites. Current
 
 ## **12. Automated Decision-Making and Profiling**
 
-BETO.GROUP does not currently use your personal data for automated decision-making processes (i.e., decisions made solely by automated means without any human involvement) or profiling that would produce legal effects concerning you or similarly significantly affect you. If we were to implement such technologies in the future, we would update this Policy and ensure compliance with applicable laws, including providing you with information about the logic involved and your right to object or seek human intervention.
+BETO GROUP does not currently use your personal data for automated decision-making processes (i.e., decisions made solely by automated means without any human involvement) or profiling that would produce legal effects concerning you or similarly significantly affect you. If we were to implement such technologies in the future, we would update this Policy and ensure compliance with applicable laws, including providing you with information about the logic involved and your right to object or seek human intervention.
 
 ## **13. Marketing Communications (Future)**
 

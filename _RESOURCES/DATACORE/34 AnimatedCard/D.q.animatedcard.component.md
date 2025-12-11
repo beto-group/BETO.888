@@ -443,9 +443,9 @@ function WorldView({
     const componentDir = currentPath.substring(0, currentPath.lastIndexOf('/'));
 
     const videos = [
-        { path: "_resources/webm/card_cat_1.webm", weight: 45 },
-        { path: "_resources/webm/card_cat_2.webm", weight: 45 },
-        { path: "_resources/webm/card_cat_3.webm", weight: 10, isRare: true }
+        { path: "_resources/videos/card_cat_1.webm", weight: 45 },
+        { path: "_resources/videos/card_cat_2.webm", weight: 45 },
+        { path: "_resources/videos/card_cat_3.webm", weight: 10, isRare: true }
     ];
 
     const selectWeightedRandomVideo = (videoList) => {

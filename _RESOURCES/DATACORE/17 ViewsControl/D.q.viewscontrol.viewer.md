@@ -1,6 +1,3 @@
-dsadwas
-
-
 
 
 ```datacorejsx

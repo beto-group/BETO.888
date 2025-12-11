@@ -23,6 +23,12 @@
           "title": "DATACORE.showcase"
         },
         {
+          "type": "file",
+          "ctime": 1764079156794,
+          "path": "_RESOURCES/DATACORE/DATACORE.bases.base",
+          "title": "DATACORE.base"
+        },
+        {
           "type": "group",
           "ctime": 1759998697266,
           "items": [
@@ -102,55 +108,55 @@
                 {
                   "type": "file",
                   "ctime": 1753890336945,
-                  "path": "_RESOURCES/DATACORE/3 BasicView/BASIC VIEW v1.md",
+                  "path": "_RESOURCES/DATACORE/3.1 BasicView/BASIC VIEW v1.md",
                   "title": "Basic View v1"
                 },
                 {
                   "type": "file",
                   "ctime": 1753890346251,
-                  "path": "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.viewer.v1.md",
+                  "path": "_RESOURCES/DATACORE/3.1 BasicView/D.q.basicview.viewer.v1.md",
                   "title": "Basic View v1 Viewer"
                 },
                 {
                   "type": "file",
                   "ctime": 1753890363447,
-                  "path": "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.component.v1.md",
+                  "path": "_RESOURCES/DATACORE/3.1 BasicView/D.q.basicview.component.v1.md",
                   "title": "Basic View v1 Component"
                 },
                 {
                   "type": "file",
                   "ctime": 1759172098075,
-                  "path": "_RESOURCES/DATACORE/3 BasicView/BASIC VIEW v2.md",
+                  "path": "_RESOURCES/DATACORE/3.2 BasicView/BASIC VIEW v2.md",
                   "title": "Basic View v2"
                 },
                 {
                   "type": "file",
                   "ctime": 1759172283727,
-                  "path": "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.viewer.v2.md",
+                  "path": "_RESOURCES/DATACORE/3.2 BasicView/D.q.basicview.viewer.v2.md",
                   "title": "Basic View v2 Viewer"
                 },
                 {
                   "type": "file",
                   "ctime": 1759172273841,
-                  "path": "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.component.v2.md",
+                  "path": "_RESOURCES/DATACORE/3.2 BasicView/D.q.basicview.component.v2.md",
                   "title": "Basic View v2 Component"
                 },
                 {
                   "type": "file",
                   "ctime": 1759172288642,
-                  "path": "_RESOURCES/DATACORE/3 BasicView/BASIC VIEW v3.md",
+                  "path": "_RESOURCES/DATACORE/3.3 BasicView/BASIC VIEW v3.md",
                   "title": "Basic View v3"
                 },
                 {
                   "type": "file",
                   "ctime": 1759172291758,
-                  "path": "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.viewer.v3.md",
+                  "path": "_RESOURCES/DATACORE/3.3 BasicView/D.q.basicview.viewer.v3.md",
                   "title": "Basic View v3 Viewer"
                 },
                 {
                   "type": "file",
                   "ctime": 1759172295891,
-                  "path": "_RESOURCES/DATACORE/3 BasicView/D.q.basicview.component.v3.md",
+                  "path": "_RESOURCES/DATACORE/3.3 BasicView/D.q.basicview.component.v3.md",
                   "title": "Basic View v3 Component"
                 }
               ],
@@ -557,37 +563,37 @@
                 {
                   "type": "file",
                   "ctime": 1753896355181,
-                  "path": "_RESOURCES/DATACORE/33 CodeEditor/CODE EDITOR v1.md",
+                  "path": "_RESOURCES/DATACORE/33.1 CodeEditor/CODE EDITOR v1.md",
                   "title": "Code Editor v1"
                 },
                 {
                   "type": "file",
                   "ctime": 1753896363765,
-                  "path": "_RESOURCES/DATACORE/33 CodeEditor/CODE EDITOR v2.md",
+                  "path": "_RESOURCES/DATACORE/33.2 CodeEditor/CODE EDITOR v2.md",
                   "title": "Code Editor v2"
                 },
                 {
                   "type": "file",
                   "ctime": 1753896373880,
-                  "path": "_RESOURCES/DATACORE/33 CodeEditor/D.q.codeeditor.viewer.v1.md",
+                  "path": "_RESOURCES/DATACORE/33.1 CodeEditor/D.q.codeeditor.viewer.v1.md",
                   "title": "Code Editor v1 Viewer"
                 },
                 {
                   "type": "file",
                   "ctime": 1753896386531,
-                  "path": "_RESOURCES/DATACORE/33 CodeEditor/D.q.codeeditor.viewer.v2.md",
+                  "path": "_RESOURCES/DATACORE/33.2 CodeEditor/D.q.codeeditor.viewer.v2.md",
                   "title": "Code Editor Viewer v2"
                 },
                 {
                   "type": "file",
                   "ctime": 1753896395913,
-                  "path": "_RESOURCES/DATACORE/33 CodeEditor/D.q.codeeditor.component.v1.md",
+                  "path": "_RESOURCES/DATACORE/33.1 CodeEditor/D.q.codeeditor.component.v1.md",
                   "title": "Code Editor Component v1"
                 },
                 {
                   "type": "file",
                   "ctime": 1753896407280,
-                  "path": "_RESOURCES/DATACORE/33 CodeEditor/D.q.codeeditor.component.v2.md",
+                  "path": "_RESOURCES/DATACORE/33.2 CodeEditor/D.q.codeeditor.component.v2.md",
                   "title": "Code Editor Component v2"
                 }
               ],
@@ -775,7 +781,7 @@
                 {
                   "type": "file",
                   "ctime": 1757378843654,
-                  "path": "_RESOURCES/DATACORE/51 ActionsFlows/ACTIONS FLOW.md",
+                  "path": "_RESOURCES/DATACORE/51 ActionsFlows/ACTIONS FLOWS.md",
                   "title": "Actions Flows"
                 },
                 {
@@ -1051,37 +1057,37 @@
                 {
                   "type": "file",
                   "ctime": 1753895955483,
-                  "path": "_RESOURCES/DATACORE/23 Canvas/CANVAS v1.md",
+                  "path": "_RESOURCES/DATACORE/23.1 Canvas/CANVAS v1.md",
                   "title": "Canvas v1"
                 },
                 {
                   "type": "file",
                   "ctime": 1753895973733,
-                  "path": "_RESOURCES/DATACORE/23 Canvas/D.q.canvas.viewer.v1.md",
+                  "path": "_RESOURCES/DATACORE/23.1 Canvas/D.q.canvas.viewer.v1.md",
                   "title": "Canvas v1 Viewer"
                 },
                 {
                   "type": "file",
                   "ctime": 1753895995700,
-                  "path": "_RESOURCES/DATACORE/23 Canvas/D.q.canvas.component.v1.md",
+                  "path": "_RESOURCES/DATACORE/23.1 Canvas/D.q.canvas.component.v1.md",
                   "title": "Canvas v1 Component"
                 },
                 {
                   "type": "file",
                   "ctime": 1753895964601,
-                  "path": "_RESOURCES/DATACORE/23 Canvas/CANVAS v2.md",
+                  "path": "_RESOURCES/DATACORE/23.2 Canvas/CANVAS v2.md",
                   "title": "Canvas v2"
                 },
                 {
                   "type": "file",
                   "ctime": 1753895982930,
-                  "path": "_RESOURCES/DATACORE/23 Canvas/D.q.canvas.viewer.v1.md",
+                  "path": "_RESOURCES/DATACORE/23.1 Canvas/D.q.canvas.viewer.v1.md",
                   "title": "Canvas v2 Viewer"
                 },
                 {
                   "type": "file",
                   "ctime": 1753896005383,
-                  "path": "_RESOURCES/DATACORE/23 Canvas/D.q.canvas.component.v1.md",
+                  "path": "_RESOURCES/DATACORE/23.1 Canvas/D.q.canvas.component.v1.md",
                   "title": "Canvas v2 Component"
                 }
               ],
@@ -1094,20 +1100,38 @@
                 {
                   "type": "file",
                   "ctime": 1753896016366,
-                  "path": "_RESOURCES/DATACORE/24 MapGlobe/MAP GLOBE.md",
-                  "title": "Map Globe"
+                  "path": "_RESOURCES/DATACORE/24.1 MapGlobe/MAP GLOBE v1.md",
+                  "title": "Map Globe v1"
                 },
                 {
                   "type": "file",
                   "ctime": 1753896025165,
-                  "path": "_RESOURCES/DATACORE/24 MapGlobe/D.q.mapglobe.viewer.md",
-                  "title": "Map Globe Viewer"
+                  "path": "_RESOURCES/DATACORE/24.1 MapGlobe/D.q.mapglobe.viewer.v1.md",
+                  "title": "Map Globe Viewer v1"
                 },
                 {
                   "type": "file",
                   "ctime": 1753896039817,
-                  "path": "_RESOURCES/DATACORE/24 MapGlobe/D.q.mapglobe.component.md",
-                  "title": "Map Globe Component"
+                  "path": "_RESOURCES/DATACORE/24.1 MapGlobe/D.q.mapglobe.component.v1.md",
+                  "title": "Map Globe Component v1"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1765488443678,
+                  "path": "_RESOURCES/DATACORE/24.2 MapGlobe/MAP GLOBE v2.md",
+                  "title": "Map Globe v2"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1765488447895,
+                  "path": "_RESOURCES/DATACORE/24.2 MapGlobe/D.q.mapglobe.viewer.v2.md",
+                  "title": "Map Globe Viewer v2"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1765488450944,
+                  "path": "_RESOURCES/DATACORE/24.2 MapGlobe/D.q.mapglobe.component.v2.md",
+                  "title": "Map Globe Component v2"
                 }
               ],
               "title": "24 MapGlobe"
@@ -1236,6 +1260,31 @@
                 }
               ],
               "title": "65 Animated Sphere"
+            },
+            {
+              "type": "group",
+              "ctime": 1765488496564,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1765488518066,
+                  "path": "_RESOURCES/DATACORE/69 MermaidDiagram/MERMAID DIAGRAM.md",
+                  "title": "Mermaid Diagram"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1765488521996,
+                  "path": "_RESOURCES/DATACORE/69 MermaidDiagram/D.q.mermaiddiagram.viewer.md",
+                  "title": "Mermaid Diagram Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1765488524612,
+                  "path": "_RESOURCES/DATACORE/69 MermaidDiagram/D.q.mermaiddiagram.component.md",
+                  "title": "Mermaid Diagram Component"
+                }
+              ],
+              "title": "69 MermaidDiagram"
             }
           ],
           "title": "GRAPHICS, VISUALIZATION & UI"
@@ -1807,6 +1856,75 @@
                 }
               ],
               "title": "61 OpenIDE"
+            },
+            {
+              "type": "group",
+              "ctime": 1765488559979,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1765488583813,
+                  "path": "_RESOURCES/DATACORE/66 BasicFolderView/BASIC FOLDER VIEW.md",
+                  "title": "Basic Folder View"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1765488586530,
+                  "path": "_RESOURCES/DATACORE/66 BasicFolderView/D.q.basicfolderview.viewer.md",
+                  "title": "Basic Folder View Viewer"
+                }
+              ],
+              "title": "66 BasicFolderView"
+            },
+            {
+              "type": "group",
+              "ctime": 1765488615988,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1765488632614,
+                  "path": "_RESOURCES/DATACORE/67 SecureKeychain/SECURE KEYCHAIN.md",
+                  "title": "Secure Keychain"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1765488636080,
+                  "path": "_RESOURCES/DATACORE/67 SecureKeychain/D.q.securekeychain.viewer.md",
+                  "title": "Secure Keychain Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1765488638299,
+                  "path": "_RESOURCES/DATACORE/67 SecureKeychain/D.q.securekeychain.component.md",
+                  "title": "Secure Keychain Component"
+                }
+              ],
+              "title": "67 SecureKeychain"
+            },
+            {
+              "type": "group",
+              "ctime": 1765488666016,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1765488687614,
+                  "path": "_RESOURCES/DATACORE/68 FolderZip/FOLDER ZIP.md",
+                  "title": "Folder Zip"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1765488689816,
+                  "path": "_RESOURCES/DATACORE/68 FolderZip/D.q.folderzip.viewer.md",
+                  "title": "Folder Zip Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1765488692737,
+                  "path": "_RESOURCES/DATACORE/68 FolderZip/D.q.folderzip.component.md",
+                  "title": "Folder Zip Component"
+                }
+              ],
+              "title": "68 FolderZip"
             }
           ],
           "title": "SYSTEM & UTILITY COMPONENTS"

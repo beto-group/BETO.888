@@ -53,6 +53,8 @@ function ChatLLM() {
     const [isHistoryLoading, setIsHistoryLoading] = useState(false);
     const [attachedImages, setAttachedImages] = useState([]);
     const [isDragging, setIsDragging] = useState(false);
+    const [availableModels, setAvailableModels] = useState({});
+    const [isLoadingModels, setIsLoadingModels] = useState({});
     
     const chatContainerRef = useRef(null);
     const textareaRef = useRef(null);
@@ -122,6 +124,91 @@ function ChatLLM() {
         },
     };
 
+    // Fetch available models from provider APIs
+    const fetchModelsForProvider = async (providerId, explicitKey = null) => {
+        const config = PROVIDERS[providerId];
+        const apiKey = explicitKey || apiKeys[providerId];
+        
+        if (!apiKey && providerId !== 'ollama') return;
+        
+        setIsLoadingModels(prev => ({ ...prev, [providerId]: true }));
+        
+        try {
+            let models = [];
+
+            // Helper to use Obsidian's requestUrl to bypass CORS
+            const makeRequest = async (url, headers = {}) => {
+                if (window.requestUrl) {
+                    const response = await window.requestUrl({
+                        url,
+                        headers
+                    });
+                    return response.json;
+                } else {
+                    const response = await fetch(url, { headers });
+                    if (!response.ok) throw new Error('Fetch failed');
+                    return await response.json();
+                }
+            };
+            
+            if (providerId === 'openai') {
+                const data = await makeRequest(`${config.baseUrl}/models`, { 
+                    'Authorization': `Bearer ${apiKey}` 
+                });
+                models = data.data
+                    .filter(m => m.id.startsWith('gpt') || m.id.startsWith('o1'))
+                    .map(m => m.id)
+                    .sort();
+            } else if (providerId === 'gemini') {
+                const data = await makeRequest(`${config.baseUrl}/v1beta/models?key=${apiKey}`);
+                models = data.models
+                    .filter(m => m.name.includes('gemini'))
+                    .map(m => m.name.replace('models/', ''))
+                    .sort();
+            } else if (providerId === 'anthropic') {
+                const data = await makeRequest(`${config.baseUrl}/v1/models`, { 
+                    'x-api-key': apiKey,
+                    'anthropic-version': '2023-06-01'
+                });
+                models = data.data.map(m => m.id).sort();
+            } else if (providerId === 'groq') {
+                const data = await makeRequest(`${config.baseUrl}/models`, { 
+                    'Authorization': `Bearer ${apiKey}` 
+                });
+                models = data.data.map(m => m.id).sort();
+            } else if (providerId === 'ollama') {
+                const host = apiKey || config.baseUrl;
+                const response = await fetch(`${host}/api/tags`);
+                if (response.ok) {
+                    const data = await response.json();
+                    models = data.models.map(m => m.name).sort();
+                }
+            } else if (providerId === 'openrouter') {
+                const data = await makeRequest(`${config.baseUrl}/models`, { 
+                    'Authorization': `Bearer ${apiKey}` 
+                });
+                models = data.data.map(m => m.id).sort();
+            } else if (providerId === 'cerebrium') {
+                // Cerebrium uses custom models, keep hardcoded
+                models = config.models;
+            }
+            
+            if (models.length > 0) {
+                setAvailableModels(prev => ({ ...prev, [providerId]: models }));
+                // If current model is not in the list, set to first available
+                if (providerId === provider && !models.includes(model)) {
+                    setModel(models[0]);
+                }
+            }
+        } catch (error) {
+            console.error(`Failed to fetch models for ${providerId}:`, error);
+            // Fallback to default models
+            setAvailableModels(prev => ({ ...prev, [providerId]: config.models }));
+        } finally {
+            setIsLoadingModels(prev => ({ ...prev, [providerId]: false }));
+        }
+    };
+
     // Load API keys and chat history on mount
     useEffect(() => {
         const loadKeys = async () => {
@@ -134,6 +221,14 @@ function ChatLLM() {
                     }
                 }
                 setApiKeys(loadedKeys);
+                // Fetch models for all providers with keys
+                for (const [id, key] of Object.entries(loadedKeys)) {
+                    if (key) {
+                        fetchModelsForProvider(id, key);
+                    }
+                }
+                // Also fetch for ollama even without key
+                fetchModelsForProvider('ollama');
             } catch (e) {
                 console.error('Failed to load API keys:', e);
             }
@@ -265,6 +360,10 @@ function ChatLLM() {
             }
             await app.vault.adapter.write(PROVIDERS[providerId].apiKeyFile, key);
             setApiKeys(prev => ({ ...prev, [providerId]: key }));
+            // Fetch available models for this provider
+            if (key) {
+                fetchModelsForProvider(providerId, key);
+            }
         } catch (e) {
             console.error('Failed to save API key:', e);
         }
@@ -1093,11 +1192,12 @@ function ChatLLM() {
                     {/* Model Selection */}
                     <div style={{ marginBottom: '16px' }}>
                         <label style={{ display: 'block', color: '#999', fontSize: '12px', marginBottom: '8px', fontWeight: '500' }}>
-                            Model
+                            Model {isLoadingModels[provider] && '(Loading...)'}
                         </label>
                         <select
                             value={model}
                             onChange={(e) => setModel(e.target.value)}
+                            disabled={isLoadingModels[provider]}
                             style={{
                                 width: '100%',
                                 padding: '10px 12px',
@@ -1106,17 +1206,22 @@ function ChatLLM() {
                                 borderRadius: '6px',
                                 color: '#fff',
                                 fontSize: '14px',
-                                cursor: 'pointer',
+                                cursor: isLoadingModels[provider] ? 'wait' : 'pointer',
                                 height: '44px',
                                 boxSizing: 'border-box',
                             }}
                         >
-                            {PROVIDERS[provider].models.map(m => (
+                            {(availableModels[provider] || PROVIDERS[provider].models).map(m => (
                                 <option key={m} value={m} style={{ backgroundColor: '#1a1a1a', color: '#fff', padding: '8px' }}>
                                     {m}
                                 </option>
                             ))}
                         </select>
+                        {availableModels[provider] && (
+                            <p style={{ margin: '6px 0 0 0', color: 'rgba(76, 175, 80, 0.8)', fontSize: '11px' }}>
+                                ✓ {availableModels[provider].length} models available
+                            </p>
+                        )}
                     </div>
 
                     {/* Info Box */}

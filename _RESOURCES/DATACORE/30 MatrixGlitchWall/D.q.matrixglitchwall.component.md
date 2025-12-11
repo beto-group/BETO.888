@@ -27,6 +27,7 @@ const LetterGlitch = ({
   // --- UI STATE ---
   const [isHovered, setIsHovered] = useState(false);
   const [isEditPanelVisible, setIsEditPanelVisible] = useState(false);
+  const [isNearTopRight, setIsNearTopRight] = useState(false);
 
   // --- REFS FOR CANVAS AND ANIMATION ---
   const canvasRef = useRef(null);
@@ -41,13 +42,8 @@ const LetterGlitch = ({
   const charWidth = fontSize * 1.3;
   const charHeight = fontSize * 1.3;
 
-  const lettersAndSymbols = [
-    '𒀂', '𒆳', '𒀁', '𒋤', '𒈹', '𒑄', '𒎓', '𒋽', '𒀅', '𒈾', '𒌐', '𒀭', '𒐬',
-    '𒅆', '𒌓', '𒍪', '𒁓', '𒉌', '𒍪', '𒄮', '𒄭', '𒉍', '𒀏', '𒅆', '𒍑', '𒇻',
-    '𒈢', '𒐖', '𒇹', '$', '𒅖', '𒍪', '𒈨', '𒀼', '𒀳', '𒇳', '𒄷', '𒁐',
-    '𒀹', '𒐕', '𒉺', '𒊕', '𒄑', '𒀀', '𒊒', '𒍣', '𒀄',
-    '𒀃', '𒀭'
-  ];
+  const lettersAndSymbols = [ '█', '▓', '▒', '░', '■', '□', '▪', '▫', '▬', '▲', '▼', '◄', '►', '◆', '◇', '○', '●', '║', '═', '╔', '╗', '╚', '╝', '╟', '╢', '░', '▒', '▓', '$', '#', '%', '&', '@' ];
+  //const lettersAndSymbols = [ '𒀂', '𒆳', '𒀁', '𒋤', '𒈹', '𒑄', '𒎓', '𒋽', '𒀅', '𒈾', '𒌐', '𒀭', '𒐬', '𒅆', '𒌓', '𒍪', '𒁓', '𒉌', '𒍪', '𒄮', '𒄭', '𒉍', '𒀏', '𒅆', '𒍑', '𒇻', '𒈢', '𒐖', '𒇹', '$', '𒅖', '𒍪', '𒈨', '𒀼', '𒀳', '𒇳', '𒄷', '𒁐', '𒀹', '𒐕', '𒉺', '𒊕', '𒄑', '𒀀', '𒊒', '𒍣', '𒀄', '𒀃', '𒀭' ];
 
   // --- CORE ANIMATION & DRAWING LOGIC (ADAPTED TO USE STATE) ---
 
@@ -188,11 +184,18 @@ const LetterGlitch = ({
       resizeTimeout = setTimeout(setupAndStartAnimation, 100);
     };
 
+    const handleFullscreenChange = () => {
+      // Force resize when entering/exiting fullscreen
+      setTimeout(setupAndStartAnimation, 50);
+    };
+
     window.addEventListener('resize', handleResize);
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
 
     return () => {
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
       window.removeEventListener('resize', handleResize);
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
       clearTimeout(resizeTimeout);
     };
   }, [glitchSpeed, smooth, fontSize, glitchColors]); // Re-run when these state values change
@@ -215,6 +218,16 @@ const LetterGlitch = ({
 
   const addColor = () => setGlitchColors([...glitchColors, '#FFFFFF']);
   const removeColor = (index) => setGlitchColors(glitchColors.filter((_, i) => i !== index));
+
+  const handleMouseMove = (e) => {
+    const rect = containerRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    // Show buttons if mouse is within 200px from right edge and 150px from top
+    const nearTopRight = x > rect.width - 200 && y < 150;
+    setIsNearTopRight(nearTopRight);
+  };
 
   // --- STYLES ---
   const containerStyle = { position: 'relative', width: '100%', height: '100%', backgroundColor: '#000000', overflow: 'hidden' };
@@ -241,13 +254,15 @@ const LetterGlitch = ({
   // --- RENDER ---
   return (
     <div ref={containerRef} style={containerStyle} className={className}
-      onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+      onMouseEnter={() => setIsHovered(true)} 
+      onMouseLeave={() => { setIsHovered(false); setIsNearTopRight(false); }}
+      onMouseMove={handleMouseMove}>
       
       <canvas ref={canvasRef} style={canvasStyle} />
       {outerVignette && <div style={vignetteStyle('radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,0,0,1) 100%)')}></div>}
       {centerVignette && <div style={vignetteStyle('radial-gradient(circle, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 60%)')}></div>}
 
-      {isHovered && !isEditPanelVisible && (
+      {isNearTopRight && !isEditPanelVisible && (
         <div style={topButtonsContainerStyle}>
           <button onClick={() => setIsEditPanelVisible(true)} style={buttonStyle}>Edit</button>
           <button onClick={goFullScreen} style={buttonStyle}>Full Screen</button>

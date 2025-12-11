@@ -1,3 +1,34 @@
+---
+author: beto.group
+name.official: Datacore Terminal
+price: "0"
+category:
+  - integration
+platform: desktop
+tags:
+  - terminal
+  - shell
+  - command-line
+  - system-access
+  - process-management
+  - developer-tool
+  - node-js
+desc: A native terminal emulator running directly in Obsidian, providing shell access, background process management, and remote execution capabilities.
+status: experimental
+complexity: developer
+ext.dependencies:
+  - node-js
+id: 57
+resources:
+  - datacoreterminal.clip.webm
+  - datacore_terminal.webp
+longDesc: A full-featured, standalone terminal emulator that runs directly within Obsidian, providing native shell access to your file system. It leverages Node.js's child_process module to spawn a real shell (zsh, bash, powershell, etc.), allowing users to run almost any command-line tool, manage background processes, and interact with their system without ever leaving Obsidian.
+does: "[  {    \"title\": \"Native Shell Integration\",    \"content\": \"Spawns a real user shell process, inheriting the system's PATH and environment. This allows it to run standard commands like ls, git, npm, python, and more.\"  },  {    \"title\": \"Full Command-Line Interface\",    \"children\": [      {        \"content\": \"Provides a familiar terminal interface with a command prompt, input history (navigable with arrow keys), and tab-based autocompletion for common commands.\"      },      {        \"content\": \"Supports essential keyboard shortcuts like Ctrl+C to interrupt a running process and Ctrl+L to clear the screen.\"      }    ]  },  {    \"title\": \"Advanced Process Management\",    \"children\": [      {        \"title\": \"Background Processes\",        \"content\": \"Automatically detects long-running commands (like npm run dev or a local server) and runs them as background processes, allowing the user to continue using the terminal.\"      },      {        \"title\": \"Process Panel\",        \"content\": \"Features a dedicated panel to view all currently running background processes, showing their Process ID (PID), command, and runtime. Users can terminate any process directly from this UI.\"      }    ]  },  {    \"title\": \"Customizable Environment\",    \"children\": [      {        \"title\": \"Aliases\",        \"content\": \"Supports creating and using command aliases (e.g., alias gs='git status') for faster workflow.\"      },      {        \"title\": \"Environment Variables\",        \"content\": \"Allows users to set session-specific environment variables using the export command.\"      }    ]  },  {    \"title\": \"Remote Execution via URI\",    \"content\": \"Exposes a global window.startSystemProcess() function, which can be called via the Obsidian Advanced URI plugin. This allows other notes, plugins, or external tools to remotely execute shell commands in the terminal.\"  },  {    \"title\": \"Self-Contained & Dependency-Free\",    \"content\": \"Uniquely, this component has no external web dependencies. It uses only the APIs provided by Node.js and Preact (via Datacore), making it fast, reliable, and fully offline-capable from the first run.\"  },  {    \"title\": \"Immersive Full-Tab UI\",    \"content\": \"Designed to run in a full-pane mode that takes over the entire Obsidian view, creating a dedicated, IDE-like terminal experience.\"  }]"
+cant: '[  {    "title": "Run Interactive REPLs",    "content": "It is designed for executing commands and viewing their output. It does not support interactive Read-Eval-Print Loops (REPLs) like a standalone python or node shell."  },  {    "title": "Provide a True TTY Experience",    "content": "It is a powerful command runner but not a full terminal emulator. It does not support advanced TTY features like cursor positioning, which are required for complex terminal applications like vim or htop."  },  {    "title": "Persist State Across Sessions",    "content": "All command history, aliases, and environment variables are for the current session only and will be lost when the component is reloaded."  },  {    "title": "Elevate Privileges",    "content": "All commands are run with the same permissions as the Obsidian application itself. It cannot be used to run commands that require administrator or sudo privileges."  }]'
+disclaimer: "[  {    \"content\": \"This is a highly advanced developer tool that provides direct, unsandboxed access to your computer's shell. It can execute any command that your user account has permission to run, including file modifications and deletions. Use this component with extreme caution. It is a powerful proof-of-concept for deep system integration and should only be used if you fully understand the commands you are running.\"  }]"
+version.obsidian: 1.4.11
+version: 2.2.2
+---
 
 
 ### Tab : Datacore Terminal
@@ -34,6 +65,9 @@
 
 
 ----
+
+![datacoreterminal.clip.webm](_resources/videos/datacoreterminal.clip.webm)
+
 
 ![datacore_terminal.webp](_resources/images/datacore_terminal.webp)
 

@@ -36,4 +36,4 @@
 
 ###### [Animated Sphere Viewer](D.q.animatedsphere.viewer.md)
 
-###### [Animated Sphere Components](D.q.animatedsphere.component.md)
+###### [Animated Sphere Components](_RESOURCES/DATACORE/39%20DatacoreImporter/_resources/datacore/65%20AnimatedSphere/D.q.animatedsphere.component.md)

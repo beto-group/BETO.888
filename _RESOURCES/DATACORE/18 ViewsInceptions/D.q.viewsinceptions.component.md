@@ -503,18 +503,25 @@ function SimpleComponentLoader() {
             file.path.endsWith('.component.md')
         );
         
-        // Parse file info - extract component name
-        const examples = componentFiles.map(file => {
+        // Parse file info - extract component name and deduplicate
+        const seen = new Set();
+        const examples = [];
+        
+        for (const file of componentFiles) {
             const fileName = file.name.replace('.md', '');
             // Extract parts: D.q.name.component
             const parts = fileName.split('.');
             const componentName = parts[2] || parts[1]; // Get the name part
             
-            return {
-                name: componentName.charAt(0).toUpperCase() + componentName.slice(1),
-                queryName: componentName // lowercase for query
-            };
-        });
+            // Only add if we haven't seen this component name yet
+            if (!seen.has(componentName)) {
+                seen.add(componentName);
+                examples.push({
+                    name: componentName.charAt(0).toUpperCase() + componentName.slice(1),
+                    queryName: componentName // lowercase for query
+                });
+            }
+        }
         
         setExampleComponents(examples.sort((a, b) => a.name.localeCompare(b.name)));
     }, []);

@@ -1,6 +1,6 @@
 ---
 permalink: change_log
-version: 1.5.0
+version: 1.6.0
 ---
 
 >[!info]- [[DEVLOG]]
@@ -9,6 +9,27 @@ version: 1.5.0
 ----
 ----
 
+
+## BROWN-6
+
+**DATE**: 2025.12.12
+**LICENSE**: MIT
+**AVAILABILITY**: GITHUB
+
+**I. SUMMARY**
+The BROWN-6 release expands the Datacore toolkit with essential file management utilities and enhanced visualization capabilities. This update focuses on providing robust tools for vault maintenance and new ways to visualize data. 
+
+**II. Full Component Changelog**
+
+- **New Components:**
+    - **Folder Zip:** A powerful batch compression tool for archiving folder structures.
+    - **Secure Keychain:** A dedicated component for managing sensitive information.
+    - **Basic Folder View:** A new boilerplate template for creating full-pane views.
+    - **Mermaid Diagram:** Integrated support for complex Mermaid diagrams.
+    - **Map Globe v2:** A significant upgrade to the 3D globe visualization.
+
+
+-----
 
 ## ORANGE-5
 

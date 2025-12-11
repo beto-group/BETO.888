@@ -31,9 +31,11 @@ const MAX_CONCURRENCY = 1; // Manual mode: process one at a time
 const MANUAL_MODE = true; // Enable manual preview & approval
 
 // --- CDN URLs ---
-// Updated to use working Excalidraw version (0.17.0 is more stable)
-const EXCALIDRAW_UMD_URL = "https://unpkg.com/@excalidraw/excalidraw@0.17.0/dist/excalidraw.production.min.js";
-const EXCALIDRAW_ASSET_PATH = "https://unpkg.com/@excalidraw/excalidraw@0.17.0/dist/";
+// Using jsdelivr CDN which has better availability and browser builds
+const REACT_URL = "https://unpkg.com/react@18.2.0/umd/react.production.min.js";
+const REACT_DOM_URL = "https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js";
+const EXCALIDRAW_UMD_URL = "https://cdn.jsdelivr.net/npm/@excalidraw/excalidraw@0.17.6/dist/excalidraw.production.min.js";
+const EXCALIDRAW_ASSET_PATH = "https://cdn.jsdelivr.net/npm/@excalidraw/excalidraw@0.17.6/dist/";
 const LZ_STRING_CDN_URL = "https://cdn.jsdelivr.net/npm/lz-string@1.5.0/libs/lz-string.min.js";
 
 // =================================================================================
@@ -230,9 +232,89 @@ const DependencyManager = (() => {
         // Set the asset path BEFORE loading the script. This is critical for Excalidraw.
         window.EXCALIDRAW_ASSET_PATH = EXCALIDRAW_ASSET_PATH;
 
+        // Load React first (Excalidraw requires it)
+        console.log('[SVGConverter] 🔄 Loading React dependencies...');
+        if (!window.React) {
+            await loadScript(REACT_URL);
+            console.log('[SVGConverter] ✅ React loaded');
+        }
+        if (!window.ReactDOM) {
+            await loadScript(REACT_DOM_URL);
+            console.log('[SVGConverter] ✅ ReactDOM loaded');
+        }
+
         // Load scripts using cached loadScript
-        console.log('[SVGConverter] 🔄 Loading dependencies with caching...');
-        const excalidrawPromise = loadScript(EXCALIDRAW_UMD_URL).then(() => window.ExcalidrawLib);
+        console.log('[SVGConverter] 🔄 Loading Excalidraw with caching...');
+        const excalidrawPromise = loadScript(EXCALIDRAW_UMD_URL)
+            .then(() => {
+                console.log('[SVGConverter] 🔍 Script loaded successfully');
+                
+                // The library loads as webpack chunks - we need to wait a bit and check window.ExcalidrawLib
+                return new Promise((resolve) => {
+                    // Give webpack time to initialize
+                    setTimeout(() => {
+                        console.log('[SVGConverter] 🔍 Checking for library after webpack initialization...');
+                        
+                        // Try to find the library
+                        let lib = window.ExcalidrawLib || window.Excalidraw;
+                        
+                        // If still not found, check if webpack created it under a different structure
+                        if (!lib && window.webpackChunkExcalidrawLib) {
+                            console.log('[SVGConverter] 🔍 Found webpack chunk, searching for exports...');
+                            // Sometimes the library is in the webpack chunks
+                            const chunks = window.webpackChunkExcalidrawLib;
+                            console.log('[SVGConverter] 🔍 Webpack chunks type:', typeof chunks);
+                            console.log('[SVGConverter] 🔍 Is array?:', Array.isArray(chunks));
+                        }
+                        
+                        // Last resort: check ALL window properties for anything with exportToSvg
+                        if (!lib) {
+                            console.log('[SVGConverter] 🔍 Searching all window properties for exportToSvg...');
+                            for (const key in window) {
+                                if (window[key] && typeof window[key] === 'object' && window[key].exportToSvg) {
+                                    console.log(`[SVGConverter] ✅ Found exportToSvg in window.${key}`);
+                                    lib = window[key];
+                                    break;
+                                }
+                            }
+                        }
+                        
+                        if (!lib) {
+                            console.error('[SVGConverter] ❌ Library still not found after webpack init');
+                            resolve(null);
+                            return;
+                        }
+                        
+                        console.log('[SVGConverter] ✅ Found library, checking for exportToSvg...');
+                        
+                        // Find exportToSvg
+                        if (lib.exportToSvg) {
+                            resolve(lib);
+                        } else if (lib.default && lib.default.exportToSvg) {
+                            resolve(lib.default);
+                        } else {
+                            console.error('[SVGConverter] ❌ Library found but no exportToSvg');
+                            console.error('[SVGConverter] 🔍 Available keys:', Object.keys(lib));
+                            resolve(null);
+                        }
+                    }, 500); // Wait 500ms for webpack to initialize
+                });
+            })
+            .then(lib => {
+                if (!lib) {
+                    throw new Error('Excalidraw library not found after loading script and waiting for webpack');
+                }
+                if (!lib.exportToSvg) {
+                    throw new Error('exportToSvg not found in Excalidraw library');
+                }
+                console.log('[SVGConverter] ✅ Excalidraw loaded successfully with exportToSvg');
+                return lib;
+            })
+            .catch(err => {
+                console.error('[SVGConverter] ❌ Failed to load/validate Excalidraw:', err);
+                throw err;
+            });
+        
         const lzStringPromise = loadScript(LZ_STRING_CDN_URL).then(() => window.LZString);
         
         // Find the svg_samples folder dynamically
@@ -913,6 +995,21 @@ async function generateSVGPreview(sceneData, ExcalidrawModule, fontDataMap, forP
     if (log) {
         log('🚀 generateSVGPreview called - VERSION WITH VERSION INCREMENT FIX', 'info');
         log(`   📏 Using export padding: ${exportPadding}px`, 'info');
+    }
+    
+    // Validate ExcalidrawModule
+    if (!ExcalidrawModule) {
+        const error = 'ExcalidrawModule is null or undefined';
+        console.error('[SVGConverter] ❌', error);
+        if (log) log(`❌ ${error}`, 'error');
+        throw new Error(error);
+    }
+    
+    if (typeof ExcalidrawModule.exportToSvg !== 'function') {
+        const error = `ExcalidrawModule.exportToSvg is not a function. Available methods: ${Object.keys(ExcalidrawModule).join(', ')}`;
+        console.error('[SVGConverter] ❌', error);
+        if (log) log(`❌ ${error}`, 'error');
+        throw new Error(error);
     }
     
     // Create a working copy to avoid mutating the original
@@ -2161,7 +2258,12 @@ function ManualProcessorView({ onComplete }) {
                 setFileQueue(sortedPaths);
                 setPhase('ready');
             } catch (error) {
-                log(`Initialization failed: ${error.message}`, 'error');
+                console.error('[SVGConverter] ❌ Initialization error:', error);
+                console.error('[SVGConverter] ❌ Error stack:', error.stack);
+                log(`❌ Initialization failed: ${error.message}`, 'error');
+                if (error.stack) {
+                    log(`   Stack: ${error.stack.split('\n').slice(0, 3).join('\n')}`, 'error');
+                }
                 setPhase('error');
             }
         };

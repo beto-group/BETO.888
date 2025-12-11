@@ -1,3 +1,30 @@
+---
+author: beto.group
+name.official: Sound Player
+price: "0"
+category:
+  - utility
+tags:
+  - drag-and-drop
+  - audio
+  - mp3
+  - wav
+  - minimalist
+  - media-player
+  - sound
+desc: A minimalist, single-track audio player featuring drag-and-drop file loading and a clean, distraction-free full-pane interface.
+status: stable
+complexity: plug-n-play
+id: 32
+resources:
+  - soundplayer.clip.webm
+  - sound_player.webp
+longDesc: A modern, minimalist audio player designed for a focused listening experience within Obsidian. It features a full suite of playback controls and supports dynamic track loading via a drag-and-drop interface. The component is built to run in an immersive, full-pane view, providing a clean and distraction-free environment for audio playback.
+does: "[  {    \"title\": \"Full Audio Playback Controls\",    \"children\": [      {        \"content\": \"Provides a complete set of standard audio controls, including a large Play/Pause button, a clickable progress bar to seek through the track, and a volume slider.\"      },      {        \"content\": \"Displays the current playback time and the total duration of the track.\"      }    ]  },  {    \"title\": \"Drag-and-Drop Track Loading\",    \"children\": [      {        \"content\": \"Features an intuitive drag-and-drop zone that allows users to load a new audio file directly into the player.\"      },      {        \"content\": \"Supports common audio formats like .wav, .mp3, and .mp4 (audio only).\"      },      {        \"content\": \"Can load files dragged directly from the user's operating system or from within the Obsidian file explorer.\"      }    ]  },  {    \"title\": \"Informative Display\",    \"content\": \"Clearly shows the name of the currently playing track.\"  },  {    \"title\": \"Immersive Full-Tab UI\",    \"children\": [      {        \"content\": \"Designed to run by default in a \\\"Full-Tab Mode\\\" that takes over the entire Obsidian view pane, creating a dedicated, app-like experience.\"      },      {        \"content\": \"Includes an elegant, dark-themed interface with purple accents and subtle hover effects.\"      }    ]  },  {    \"title\": \"Flexible Display\",    \"content\": \"Includes a compact mode that acts as a placeholder within a note, allowing the user to enter the full-tab view on demand.\"  }]"
+cant: "[  {    \"title\": \"Manage Playlists\",    \"content\": \"It is a single-track player. It does not have functionality for creating, managing, or queuing multiple audio files in a playlist.\"  },  {    \"title\": \"Load Files via a File Picker\",    \"content\": \"The primary method for loading new tracks is drag-and-drop. It does not include a traditional \\\"Open File\\\" button or dialog.\"  },  {    \"title\": \"Remember the Last Played Track\",    \"content\": \"The player will always load with its default track when the note is reloaded. It does not save or persist the user's last played song across sessions.\"  },  {    \"title\": \"Be Customized via Props\",    \"content\": \"The initial audio file and the player's appearance are hard-coded. It does not accept properties to change its initial state or theme.\"  }]"
+version.obsidian: 1.4.11
+version: 1.0.3
+---
 
 ### Tab: Sound Player
 
@@ -27,6 +54,9 @@
 
 
 ----
+
+![soundplayer.clip.webm](_resources/videos/soundplayer.clip.webm)
+
 
 ![sound_player.webp](_resources/images/sound_player.webp)
 

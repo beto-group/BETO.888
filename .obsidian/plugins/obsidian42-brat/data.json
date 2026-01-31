@@ -1,12 +1,11 @@
 {
   "pluginList": [
-    "kctekn/obsidian-TagsRoutes",
-    "blacksmithgu/datacore"
+    "beto-group/beto-nexus"
   ],
   "pluginSubListFrozenVersion": [
     {
-      "repo": "kctekn/obsidian-TagsRoutes",
-      "version": ""
+      "repo": "beto-group/beto-nexus",
+      "version": "latest"
     }
   ],
   "themesList": [],

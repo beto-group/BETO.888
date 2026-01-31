@@ -197,6 +197,9 @@
       },
       "fix-require-modules": {
         "startupType": "short"
+      },
+      "beto-nexus": {
+        "startupType": "instant"
       }
     },
     "loadOrder": []

@@ -10,9 +10,9 @@ permalink: obsidian.plugins.datacore.showcase
 
 
 
+###### [DOOM PLAYER](70%20DoomPlayer/DOOM%20PLAYER.md) { NEW }
 
-
-
+###### [RECAP 2025](70%20DoomPlayer/DOOM%20PLAYER.md) { NEW }
 
 
 
@@ -125,7 +125,7 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [MAP GLOBE v1](24.1%20MapGlobe/MAP%20GLOBE%20v1.md)
 
-###### [MAP GLOBE v2](24.2%20MapGlobe/MAP%20GLOBE%20v2) { NEW } 
+###### [MAP GLOBE v2](24.2%20MapGlobe/MAP%20GLOBE%20v2.md) { NEW } 
 
 ###### [BABYLON LOCAL](25%20BabylonLocal/BABYLON%20LOCAL.md)
 
@@ -137,7 +137,7 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [ANIMATED SPHERE](65%20AnimatedSphere/ANIMATED%20SPHERE.md) 
 
-###### [MERMAID DIAGRAM](69%20MermaidDiagram/MERMAID%20DIAGRAM) { NEW }
+###### [MERMAID DIAGRAM](69%20MermaidDiagram/MERMAID%20DIAGRAM.md) { NEW }
 
 
 
@@ -199,10 +199,10 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [OPEN IDE](61%20OpenIDE/OPEN%20IDE.md)
 
-###### [BASIC FOLDER VIEW](66%20BasicFolderView/BASIC%20FOLDER%20VIEW) { NEW }
+###### [BASIC FOLDER VIEW](66%20BasicFolderView/BASIC%20FOLDER%20VIEW.md) { NEW }
 
-###### [SECURE KEYCHAIN](67%20SecureKeychain/SECURE%20KEYCHAIN) { NEW }
+###### [SECURE KEYCHAIN](67%20SecureKeychain/SECURE%20KEYCHAIN.md) { NEW }
 
-###### [FOLDER ZIP](68%20FolderZip/FOLDER%20ZIP) { NEW }
+###### [FOLDER ZIP](68%20FolderZip/FOLDER%20ZIP.md) { NEW }
 
 

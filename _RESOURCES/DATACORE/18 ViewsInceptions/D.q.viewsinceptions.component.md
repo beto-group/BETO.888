@@ -288,43 +288,237 @@ function DynamicComponentLoader(props) {
             setLoadError(null);
             setIsLoading(true);
 
+            // --- STUBBING VARIABLES ---
+            let originalGetActiveFile = null;
+            let originalRequire = null;
+
             try {
                 const allFiles = app.vault.getMarkdownFiles();
-                const matchingFiles = allFiles.filter(file => 
-                    file.name.toLowerCase().includes(componentName.toLowerCase()) && 
-                    file.name.includes('.component') &&
-                    file.name.endsWith('.md')
-                );
+                // Broader search: match .component OR .viewer, or just the name if it's exact
+                const matchingFiles = allFiles.filter(file => {
+                    const name = file.name.toLowerCase();
+                    const search = componentName.toLowerCase();
+                    const isMatch = name.includes(search);
+                    const isType = name.includes('.component') || name.includes('.viewer');
+                    return isMatch && isType && file.name.endsWith('.md');
+                });
+                
+                // Fallback: if no specific type found, look for any markdown file with that name
+                if (matchingFiles.length === 0) {
+                     const looseMatches = allFiles.filter(file => 
+                        file.name.toLowerCase().includes(componentName.toLowerCase()) && 
+                        file.name.endsWith('.md')
+                     );
+                     if (looseMatches.length > 0) {
+                         matchingFiles.push(...looseMatches);
+                     }
+                }
                 
                 if (matchingFiles.length === 0) {
                     throw new Error(`No component found matching "${componentName}" in vault`);
                 }
                 
+                // Prefer .viewer or .component over others
+                matchingFiles.sort((a, b) => {
+                    const aScore = (a.name.includes('.viewer') ? 2 : 0) + (a.name.includes('.component') ? 1 : 0);
+                    const bScore = (b.name.includes('.viewer') ? 2 : 0) + (b.name.includes('.component') ? 1 : 0);
+                    return bScore - aScore;
+                });
+                
                 const file = matchingFiles[0];
                 const filePath = file.path;
                 
-                const fileContent = await app.vault.read(file);
-                const headerMatch = fileContent.match(/^#\s+(\w+)/m);
-                const header = headerMatch?.[1] || "ViewComponent";
-                
-                const resolvedPath = dc.resolvePath(filePath);
-                const dynamicModule = await dc.require(dc.headerLink(resolvedPath, header));
-                if (isCancelled) return;
+                // --- NEW: Calculate Folder Path & Stub getActiveFile ---
+                // This allows components to use relative paths like folderPath + '/src/...'
+                const calculatedFolderPath = filePath.substring(0, filePath.lastIndexOf('/'));
+                console.log(`[DynamicLoader] Calculated Root: ${calculatedFolderPath}`);
 
-                let Component = null;
-                if (typeof dynamicModule === 'function') {
-                    Component = dynamicModule;
-                } else if (dynamicModule && typeof dynamicModule === 'object') {
-                    const keys = Object.keys(dynamicModule);
-                    if (keys.length > 0) Component = dynamicModule[keys[0]];
+                // Create a mock file object that resides in the component's folder
+                const mockFile = {
+                    path: `${calculatedFolderPath}/mock-viewer.md`,
+                    basename: 'mock-viewer',
+                    extension: 'md',
+                    parent: { path: calculatedFolderPath }
+                };
+
+                // Save original method
+                originalGetActiveFile = app.workspace.getActiveFile;
+                
+                // Create the stub
+                const stubbedGetActiveFile = () => {
+                    console.log(`[DynamicLoader] Stub hit! Returning: ${mockFile.path}`);
+                    return mockFile;
+                };
+
+                // Apply stub to global app
+                app.workspace.getActiveFile = stubbedGetActiveFile;
+                
+                // Also try to patch dc.app if it exists and is different
+                if (typeof dc !== 'undefined' && dc.app && dc.app !== app) {
+                    console.log('[DynamicLoader] Patching dc.app.workspace.getActiveFile as well');
+                    dc.app.workspace.getActiveFile = stubbedGetActiveFile;
                 }
 
-                if (typeof Component !== 'function') {
+                // --- NEW: Patch dc.require to handle relative paths if they fail ---
+                originalRequire = dc.require;
+                dc.require = async (requirePath) => {
+                    // console.log(`[DynamicLoader] dc.require called with:`, requirePath);
+                    try {
+                        return await originalRequire.call(dc, requirePath);
+                    } catch (err) {
+                        console.error(`[DynamicLoader] dc.require failed for:`, requirePath, err);
+                        
+                        // Only attempt auto-fix if requirePath is a string
+                        if (typeof requirePath === 'string' && err.message.includes('Could not find a script')) {
+                            
+                            // Fix double src: .../src/src/... -> .../src/...
+                            if (requirePath.includes('/src/src/')) {
+                                const fixedPath = requirePath.replace('/src/src/', '/src/');
+                                console.log(`[DynamicLoader] Retrying with fixed path: ${fixedPath}`);
+                                return await originalRequire.call(dc, fixedPath);
+                            }
+                            
+                            // Try adding .md if missing
+                            if (!requirePath.endsWith('.jsx') && !requirePath.endsWith('.js') && !requirePath.endsWith('.ts') && !requirePath.endsWith('.tsx') && !requirePath.endsWith('.md')) {
+                                 const fixedPath = requirePath + '.md';
+                                 console.log(`[DynamicLoader] Retrying with extension: ${fixedPath}`);
+                                 return await originalRequire.call(dc, fixedPath);
+                            }
+                        }
+                        throw err;
+                    }
+                };
+
+                const fileContent = await app.vault.read(file);
+                const resolvedPath = dc.resolvePath(filePath);
+                
+                // Improved regex to capture ANY level header (h1-h6)
+                const headerMatch = fileContent.match(/^#+\s+([^\n]+)/m);
+                
+                let dynamicModule = null;
+                let loadedViaManual = false;
+
+                try {
+                    let headerToUse = null;
+
+                    if (headerMatch) {
+                        headerToUse = headerMatch[1].trim();
+                        console.log(`[DynamicLoader] Found header via regex: "${headerToUse}"`);
+                    } else if (fileContent.includes('# ViewComponent') || fileContent.includes('## ViewComponent')) {
+                        // Fallback: explicit check for standard ViewComponent
+                        headerToUse = "ViewComponent";
+                        console.log(`[DynamicLoader] Found "ViewComponent" in text.`);
+                    }
+
+                    if (headerToUse) {
+                        console.log(`[DynamicLoader] Requiring with header: ${headerToUse}`);
+                        dynamicModule = await dc.require(dc.headerLink(resolvedPath, headerToUse));
+                    } else {
+                        // No explicit header found.
+                        console.log("[DynamicLoader] No header found. Trying default 'ViewComponent'...");
+                        try {
+                            dynamicModule = await dc.require(dc.headerLink(resolvedPath, "ViewComponent"));
+                        } catch (defaultErr) {
+                            console.log("[DynamicLoader] Default 'ViewComponent' failed. Trying path directly...");
+                            // Strategy B: Try path directly (for non-markdown or special setups)
+                            dynamicModule = await dc.require(resolvedPath);
+                        }
+                    }
+                } catch (requireErr) {
+                    console.warn("[DynamicLoader] All dc.require attempts failed. Attempting manual code block extraction...", requireErr);
+                    
+                    // Strategy C: Manual extraction (For scripts without headers, e.g. Dashboard Viewer)
+                    // Note: This ONLY works for plain JS/DatacoreJSX. It CANNOT handle raw JSX (<div>) because we lack a transpiler here.
+                    const codeBlockMatch = fileContent.match(/```(?:datacorejsx|jsx|js|ts|tsx)\n([\s\S]*?)\n```/);
+                    if (codeBlockMatch) {
+                        let code = codeBlockMatch[1];
+                        console.log("[DynamicLoader] Found code block. Executing manually...");
+                        
+                        // --- Simple JSX "Transpiler" for Viewer files ---
+                        // Many viewer files just do: return <Component />;
+                        // We can regex-replace this to: return dc.preact.h(Component, null);
+                        if (code.includes('<')) {
+                            console.log("[DynamicLoader] Detected potential JSX. Applying simple transforms...");
+                            
+                            // <Component />  ->  dc.preact.h(Component, null)
+                            code = code.replace(/<([A-Z]\w*)\s*\/>/g, 'dc.preact.h($1, null)');
+                            
+                            // <Component></Component>  ->  dc.preact.h(Component, null)
+                            code = code.replace(/<([A-Z]\w*)\s*>\s*<\/\1>/g, 'dc.preact.h($1, null)');
+                            
+                            // <Component prop={val} /> -> This is too hard for regex, but we can try a specific case
+                            // <Component folderPath={folderPath} /> -> dc.preact.h(Component, {folderPath: folderPath})
+                            code = code.replace(/<([A-Z]\w*)\s+folderPath=\{([^}]+)\}\s*\/>/g, 'dc.preact.h($1, {folderPath: $2})');
+                        }
+
+                        try {
+                            const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
+                            const manualFn = new AsyncFunction('dc', 'app', code);
+                            dynamicModule = await manualFn(dc, app);
+                            loadedViaManual = true;
+                        } catch (manualErr) {
+                            console.error("[DynamicLoader] Manual execution failed (likely JSX syntax).", manualErr);
+                            throw new Error(`Failed to load component. \nRequire error: ${requireErr.message}\nManual error: ${manualErr.message}`);
+                        }
+                    } else {
+                        throw new Error("No header and no valid code block found in file.");
+                    }
+                }
+                
+                if (isCancelled) return;
+
+                let FactoryOrComp = null;
+                
+                if (loadedViaManual) {
+                    // If we manually executed, the result IS the module/component
+                    FactoryOrComp = dynamicModule;
+                } else {
+                    if (typeof dynamicModule === 'function') {
+                        FactoryOrComp = dynamicModule;
+                    } else if (dynamicModule && typeof dynamicModule === 'object') {
+                        const keys = Object.keys(dynamicModule);
+                        if (keys.length > 0) FactoryOrComp = dynamicModule[keys[0]];
+                    }
+                }
+
+                if (!FactoryOrComp) {
                     throw new Error("Module did not export a renderable component.");
                 }
 
+                let FinalComp = FactoryOrComp;
+
+                // If the resolved component is an object (VNode) instead of a function, wrap it
+                if (typeof FinalComp === 'object' && FinalComp !== null) {
+                    console.log('[DynamicLoader] Component is an object (VNode). Wrapping in function...');
+                    const vnode = FinalComp;
+                    FinalComp = () => vnode;
+                }
+
+                // Check if it's the View({ folderPath }) pattern
+                // SKIP if loaded manually, as the script likely already called the factory
+                // SKIP if it was an object (we just wrapped it)
+                if (typeof FactoryOrComp === 'function' && !loadedViaManual && (FactoryOrComp.length > 0 || FactoryOrComp.constructor.name === 'AsyncFunction')) {
+                     console.log('[DynamicLoader] Executing component factory...');
+                     try {
+                         const result = await FactoryOrComp({ folderPath: calculatedFolderPath });
+                         console.log('[DynamicLoader] Factory executed. Result type:', typeof result);
+                         
+                         if (typeof result === 'function') {
+                             FinalComp = result;
+                         } else if (result && typeof result === 'object') {
+                             console.log('[DynamicLoader] Factory returned object (likely VNode). Wrapping in component...');
+                             FinalComp = () => result;
+                         } else {
+                             console.warn('[DynamicLoader] Factory returned unexpected type:', typeof result, result);
+                         }
+                     } catch (err) {
+                         console.error("[DynamicLoader] Failed to execute component factory:", err);
+                         // Fallback: maybe it was just a component that took props?
+                     }
+                }
+
                 if (!isCancelled) {
-                    setLoadedComponent(() => Component);
+                    setLoadedComponent(() => FinalComp);
                     setIsLoading(false);
                 }
             } catch (err) {
@@ -332,6 +526,18 @@ function DynamicComponentLoader(props) {
                 if (!isCancelled) {
                     setLoadError(err.toString());
                     setIsLoading(false);
+                }
+            } finally {
+                // Restore original methods
+                if (originalGetActiveFile) {
+                    app.workspace.getActiveFile = originalGetActiveFile;
+                }
+                if (typeof dc !== 'undefined' && dc.app) {
+                    dc.app.workspace.getActiveFile = originalGetActiveFile;
+                }
+                
+                if (originalRequire) {
+                    dc.require = originalRequire;
                 }
             }
         };
@@ -596,6 +802,80 @@ function SimpleComponentLoader() {
     const handleExitFullTab = () => setIsFullTab(false);
     const handleEnterFullTab = () => setIsFullTab(true);
 
+    // --- DRAG AND DROP HANDLERS ---
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'copy';
+    };
+
+    const handleDrop = (e) => {
+        e.preventDefault();
+        
+        // Try to get file from Obsidian drag event
+        let droppedText = e.dataTransfer.getData('text/plain');
+        let droppedPath = droppedText;
+
+        // 1. Handle Obsidian URI format (open?vault=...&file=...)
+        // Example: open?vault=DATACORE&file=_RESOURCES%2FDATACORE%2F...
+        if (droppedText && (droppedText.startsWith('obsidian://') || droppedText.includes('file='))) {
+            try {
+                // Extract query string part if present
+                const queryString = droppedText.includes('?') ? droppedText.split('?')[1] : droppedText;
+                const params = new URLSearchParams(queryString);
+                const fileParam = params.get('file');
+                if (fileParam) {
+                    droppedPath = decodeURIComponent(fileParam);
+                }
+            } catch (err) {
+                console.warn("Failed to parse Obsidian URI:", err);
+            }
+        }
+        
+        // 2. Handle [[Internal Links]]
+        if (droppedPath) {
+             // Remove [[ and ]] if present
+             droppedPath = droppedPath.replace(/^\[\[|\]\]$/g, '');
+             // Remove alias if present [[path|alias]]
+             if (droppedPath.includes('|')) {
+                 droppedPath = droppedPath.split('|')[0];
+             }
+        }
+        
+        // If we have a path, try to extract component name
+        if (droppedPath) {
+            // Get filename from path
+            const fileName = droppedPath.split('/').pop();
+            // Remove extension if present
+            const baseName = fileName.replace(/\.md$/, '');
+            
+            let nameToUse = "";
+            
+            // Try to extract name from patterns like:
+            // D.q.name.component
+            // D.q.name.viewer
+            // name.component
+            const parts = baseName.split('.');
+            
+            // Check for specific markers
+            const markerIndex = parts.findIndex(p => p === 'component' || p === 'viewer');
+            
+            if (markerIndex > 0) {
+                // Take the part immediately before the marker
+                nameToUse = parts[markerIndex - 1];
+            } else {
+                // Fallback: use the whole basename
+                nameToUse = baseName;
+            }
+            
+            if (nameToUse) {
+                setComponentName(nameToUse);
+                setLoadedComponentName(nameToUse);
+                setRenderKey(prev => prev + 1);
+                new Notice(`Loaded component: ${nameToUse}`);
+            }
+        }
+    };
+
     // Black on black on black theme with subtle purple accents
     const mainWrapperStyle = {
         position: "relative",
@@ -781,7 +1061,12 @@ function SimpleComponentLoader() {
     }
     
     return (
-        <div ref={containerRef} style={mainWrapperStyle}>
+        <div 
+            ref={containerRef} 
+            style={mainWrapperStyle}
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+        >
             {/* Control Panel */}
             <div style={controlPanelStyle}>
                 <div style={formStyle}>

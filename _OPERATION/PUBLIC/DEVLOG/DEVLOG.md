@@ -1,5 +1,8 @@
 
 
+###### [GOLD-8](DEVLOG.gold-8.md)
+
+###### [WHITE-7](DEVLOG.white-7.md)
 
 ###### [BROWN-6](DEVLOG.brown-6.md)
 ###### [ORANGE-5](DEVLOG.orange-5.md)

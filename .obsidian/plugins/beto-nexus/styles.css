@@ -1,0 +1,745 @@
+/* Beto Marketplace Styles */
+
+/* --- Settings Page --- */
+
+.beto-settings-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--background-modifier-border);
+    padding-bottom: 20px;
+    background: linear-gradient(to bottom, var(--background-secondary), transparent);
+    border-radius: 8px 8px 0 0;
+    padding-top: 20px;
+}
+
+.beto-settings-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.beto-support-button {
+    background-color: var(--interactive-accent);
+    color: var(--text-on-accent);
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 15px;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.beto-support-button:hover {
+    opacity: 0.9;
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.beto-social-links {
+    display: flex;
+    gap: 20px;
+    font-size: 0.9em;
+}
+
+.beto-social-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.beto-social-link:hover {
+    color: var(--text-normal);
+    background-color: var(--background-modifier-hover);
+}
+
+/* Section Headers */
+.beto-section-details {
+    margin-bottom: 20px;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--background-primary);
+}
+
+.beto-section-details[open] {
+    background-color: var(--background-primary);
+}
+
+.beto-section-summary {
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    background-color: var(--background-secondary);
+    transition: background-color 0.2s;
+    user-select: none;
+}
+
+.beto-section-summary::-webkit-details-marker {
+    display: none;
+}
+
+.beto-section-summary:hover {
+    background-color: var(--background-modifier-hover);
+}
+
+.beto-section-icon {
+    transition: transform 0.2s ease;
+    color: var(--text-muted);
+    display: flex;
+}
+
+.beto-section-details[open] .beto-section-icon {
+    transform: rotate(90deg);
+    color: var(--interactive-accent);
+}
+
+.beto-section-title-text {
+    flex: 1;
+}
+
+.beto-account-badge {
+    font-size: 0.75em;
+    font-weight: normal;
+    background-color: var(--interactive-accent);
+    color: var(--text-on-accent);
+    padding: 2px 8px;
+    border-radius: 10px;
+    opacity: 0.9;
+}
+
+.beto-section-content {
+    padding: 15px;
+}
+
+.beto-section-desc {
+    color: var(--text-muted);
+    font-size: 0.9em;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--background-modifier-border);
+    line-height: 1.4;
+}
+
+/* Library List */
+.beto-library-list {
+    margin-top: 0;
+}
+
+.beto-empty-state {
+    padding: 40px;
+    text-align: center;
+    color: var(--text-muted);
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.beto-account-info {
+    margin-top: 15px;
+    padding: 15px;
+    background-color: var(--background-secondary-alt);
+    border-radius: 6px;
+    border: 1px solid var(--background-modifier-border);
+}
+
+.beto-info-row {
+    font-family: var(--font-monospace);
+    font-size: 0.85em;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.beto-info-row:last-child {
+    margin-bottom: 0;
+}
+
+/* --- Dashboard View (Legacy/Alternative) --- */
+.beto-marketplace-container {
+    padding: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.beto-header h1 {
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--background-modifier-border);
+    padding-bottom: 10px;
+}
+
+.beto-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.beto-tab {
+    padding: 8px 16px;
+    border-radius: 4px;
+    background: var(--background-secondary);
+    border: 1px solid var(--background-modifier-border);
+    cursor: pointer;
+}
+
+.beto-tab.active {
+    background: var(--interactive-accent);
+    color: var(--text-on-accent);
+}
+
+.beto-content {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.beto-component-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.beto-card {
+    background: var(--background-secondary);
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.2s ease;
+}
+
+.beto-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--interactive-accent);
+}
+
+.beto-card-icon {
+    font-size: 24px;
+    color: var(--text-muted);
+}
+
+.beto-card-info h3 {
+    margin: 0;
+    font-size: 1.1em;
+}
+
+.beto-card-meta {
+    font-size: 0.8em;
+    color: var(--text-muted);
+}
+
+.beto-card-actions {
+    margin-top: auto;
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+/* --- Success Modal --- */
+.beto-success-modal {
+    padding: 0;
+    overflow-y: auto;
+    max-height: 85vh;
+    border-radius: 12px;
+    background-color: var(--background-primary);
+    border: 1px solid var(--background-modifier-border);
+}
+
+.beto-success-modal::-webkit-scrollbar {
+    width: 8px;
+    background-color: transparent;
+}
+
+.beto-success-modal::-webkit-scrollbar-thumb {
+    background-color: var(--background-modifier-border);
+    border-radius: 4px;
+}
+
+.beto-modal-header {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.beto-modal-header h2 {
+    margin: 0;
+    color: var(--text-normal);
+    font-size: 1.4em;
+    font-weight: 600;
+}
+
+.beto-modal-icon {
+    color: var(--interactive-accent);
+    display: flex;
+    transform: scale(1.2);
+}
+
+.beto-modal-info-box {
+    margin: 20px;
+    padding: 15px;
+    background-color: var(--background-secondary);
+    border-radius: 8px;
+    border: 1px solid var(--background-modifier-border);
+    text-align: center;
+}
+
+.beto-modal-label {
+    font-size: 0.75em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.beto-modal-name {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: var(--text-normal);
+}
+
+.beto-modal-section-title {
+    margin: 0 20px 10px 20px;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+.beto-modal-desc {
+    margin: 0 20px 10px 20px;
+    color: var(--text-muted);
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+
+.beto-code-container {
+    margin: 0 20px 20px 20px;
+    position: relative;
+    background-color: var(--background-primary-alt);
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.beto-code-container pre {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    font-family: var(--font-monospace);
+    font-size: 0.85em;
+    color: var(--text-normal);
+    white-space: pre-wrap;
+    word-break: break-all;
+    line-height: 1.5;
+}
+
+.beto-copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--background-modifier-border);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.beto-copy-btn:hover {
+    background: var(--background-modifier-hover);
+    color: var(--text-normal);
+}
+
+.beto-copy-icon {
+    display: flex;
+    width: 14px;
+    height: 14px;
+}
+
+.beto-modal-instructions {
+    margin: 0 20px 20px 20px;
+    padding: 15px;
+    background-color: var(--background-secondary);
+    border-radius: 8px;
+    display: flex;
+    gap: 12px;
+}
+
+.beto-modal-tip-icon {
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.beto-modal-steps {
+    flex: 1;
+}
+
+.beto-modal-step-title {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text-normal);
+    font-size: 0.9em;
+}
+
+.beto-modal-instructions ul {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--text-muted);
+    font-size: 0.85em;
+    line-height: 1.5;
+}
+
+.beto-modal-instructions li {
+    margin-bottom: 4px;
+}
+
+.beto-modal-instructions code {
+    background-color: var(--background-modifier-form-field);
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-family: var(--font-monospace);
+    font-size: 0.9em;
+}
+
+/* --- Requirement Box --- */
+.beto-modal-req-box {
+    margin: 0 clamp(15px, 4vw, 30px) clamp(15px, 4vw, 30px) clamp(15px, 4vw, 30px);
+    padding: 15px;
+    background-color: rgba(255, 165, 0, 0.05);
+    border: 1px solid rgba(255, 165, 0, 0.3);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.beto-req-icon {
+    color: var(--text-warning);
+    display: flex;
+    font-size: 1.2em;
+}
+
+.beto-req-content {
+    flex: 1;
+}
+
+.beto-req-title {
+    font-weight: bold;
+    font-size: 0.95em;
+    color: var(--text-warning);
+    margin-bottom: 4px;
+}
+
+.beto-req-desc {
+    font-size: 0.9em;
+    color: var(--text-muted);
+}
+
+.beto-req-btn {
+    font-size: 0.85em;
+    padding: 8px 16px;
+    cursor: pointer;
+    background-color: transparent;
+    border: 1px solid var(--text-warning);
+    color: var(--text-warning);
+    border-radius: 6px;
+    transition: all 0.2s;
+    font-weight: 600;
+}
+
+.beto-req-btn:hover {
+    background-color: var(--text-warning);
+    color: var(--background-primary);
+}
+
+
+/* --- Requirement Box --- */
+.beto-modal-req-box {
+    margin: 0 20px 20px 20px;
+    padding: 12px;
+    background-color: rgba(255, 165, 0, 0.1); /* Fallback/Custom yellow tint */
+    border: 1px solid var(--text-warning);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.beto-req-icon {
+    color: var(--text-warning);
+    display: flex;
+}
+
+.beto-req-content {
+    flex: 1;
+}
+
+.beto-req-title {
+    font-weight: bold;
+    font-size: 0.9em;
+    color: var(--text-warning);
+    margin-bottom: 2px;
+}
+
+.beto-req-desc {
+    font-size: 0.8em;
+    color: var(--text-muted);
+}
+
+.beto-req-btn {
+    font-size: 0.8em;
+    padding: 6px 12px;
+    cursor: pointer;
+    background-color: var(--interactive-normal);
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.beto-req-btn:hover {
+    background-color: var(--interactive-hover);
+}
+
+/* --- Beto Nexus Dashboard --- */
+
+.beto-nexus-container {
+    padding: 20px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.beto-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--background-modifier-border);
+    padding-bottom: 10px;
+}
+
+.beto-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.beto-logo svg {
+    width: 24px;
+    height: 24px;
+    color: var(--interactive-accent);
+}
+
+.beto-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.beto-tab {
+    background: transparent;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.beto-tab.active {
+    color: var(--text-normal);
+    border-bottom-color: var(--interactive-accent);
+}
+
+.beto-tab:hover {
+    color: var(--text-normal);
+}
+
+/* Dashboard Cards */
+.beto-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.beto-card {
+    background-color: var(--background-secondary);
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.user-card {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.user-card .card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--interactive-accent);
+    color: var(--text-on-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.user-info h2 {
+    margin: 0;
+    font-size: 1.2em;
+}
+
+.user-email {
+    color: var(--text-muted);
+    font-size: 0.9em;
+    display: block;
+}
+
+.user-badge {
+    display: inline-block;
+    background-color: var(--background-modifier-form-field);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    margin-top: 5px;
+    border: 1px solid var(--background-modifier-border);
+}
+
+.card-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.not-logged-in {
+    text-align: center;
+    align-items: center;
+}
+
+.links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.link-card {
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.link-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    background-color: var(--background-secondary-alt);
+}
+
+.link-card .card-icon {
+    margin-bottom: 10px;
+}
+
+.link-card .card-icon svg {
+    width: 32px;
+    height: 32px;
+    color: var(--interactive-accent);
+}
+
+.link-card h3 {
+    margin: 0 0 5px 0;
+}
+
+.link-card p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9em;
+}
+
+/* Library Grid (reusing some existing styles or adding new ones) */
+.beto-component-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.beto-card-icon {
+    margin-bottom: 10px;
+}
+
+.beto-card-icon svg {
+    width: 24px;
+    height: 24px;
+    color: var(--text-muted);
+}
+
+.beto-card-info h3 {
+    margin: 0 0 5px 0;
+}
+
+.beto-card-meta {
+    font-size: 0.8em;
+    color: var(--text-muted);
+    font-family: var(--font-monospace);
+}
+
+.beto-card-actions {
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.beto-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    color: var(--text-muted);
+    gap: 10px;
+}
+
+.beto-empty-state svg {
+    width: 48px;
+    height: 48px;
+    opacity: 0.5;
+}

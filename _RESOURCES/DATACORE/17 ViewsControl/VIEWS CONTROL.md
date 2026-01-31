@@ -97,7 +97,7 @@ version: 7.0.4
 
 ### Components
 
-###### [Views Control Viewer](D.q.viewscontrol.viewer.md)
+###### [Views Control Viewer](_RESOURCES/DATACORE/17%20ViewsControl/D.q.viewscontrol.viewer.md)
 
 ###### [Views Control Component](_RESOURCES/DATACORE/17%20ViewsControl/D.q.viewscontrol.component.md)
 

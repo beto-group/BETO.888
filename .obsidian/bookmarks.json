@@ -279,6 +279,25 @@
                 }
               ],
               "title": "49 MetadataEdit"
+            },
+            {
+              "type": "group",
+              "ctime": 1769961478820,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1769961558998,
+                  "path": "_RESOURCES/DATACORE/66 BasicFolderView/BASIC FOLDER VIEW.md",
+                  "title": "Basic Folder View"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1769961418016,
+                  "path": "_RESOURCES/DATACORE/66 BasicFolderView/D.q.basicfolderview.viewer.md",
+                  "title": "Basic Folder View v4 Viewer"
+                }
+              ],
+              "title": "66 BasicFolderView"
             }
           ],
           "title": "CORE QUERY & DATA HANDLING"
@@ -455,6 +474,25 @@
                 }
               ],
               "title": "52 AssetsLibrary"
+            },
+            {
+              "type": "group",
+              "ctime": 1769961700977,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1769961743473,
+                  "path": "_RESOURCES/DATACORE/71 Recap2025/RECAP 2025.md",
+                  "title": "Recap 2025"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1769961752906,
+                  "path": "_RESOURCES/DATACORE/71 Recap2025/D.q.recap2025.viewer.md",
+                  "title": "Recap 2025 Viewer"
+                }
+              ],
+              "title": "71 Recap2025"
             }
           ],
           "title": "CONTENT VIEWERS & EXPLORERS"
@@ -1442,6 +1480,31 @@
                 }
               ],
               "title": "40 CardPicker"
+            },
+            {
+              "type": "group",
+              "ctime": 1769961596964,
+              "items": [
+                {
+                  "type": "file",
+                  "ctime": 1769961626381,
+                  "path": "_RESOURCES/DATACORE/70 DoomPlayer/DOOM PLAYER.md",
+                  "title": "Doom Player"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1769961637948,
+                  "path": "_RESOURCES/DATACORE/70 DoomPlayer/D.q.doomplayer.viewer.md",
+                  "title": "Doom Player Viewer"
+                },
+                {
+                  "type": "file",
+                  "ctime": 1769961668281,
+                  "path": "_RESOURCES/DATACORE/70 DoomPlayer/D.q.doomplayer.component.md",
+                  "title": "Doom Player Component"
+                }
+              ],
+              "title": "70 DoomPlayer"
             }
           ],
           "title": "GAMES & INTERACTIVE EXPERIENCES"

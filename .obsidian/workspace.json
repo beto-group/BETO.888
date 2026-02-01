@@ -11,67 +11,6 @@
             "id": "29be9b678dad8f26",
             "type": "leaf",
             "state": {
-              "type": "bases",
-              "state": {
-                "file": "_RESOURCES/DATACORE/DATACORE.bases.base",
-                "viewName": "Table"
-              },
-              "icon": "lucide-table",
-              "title": "DATACORE.bases"
-            }
-          },
-          {
-            "id": "dd632f0361b72eec",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "_RESOURCES/DATACORE/71 Recap2025/D.q.animationtool.component.md",
-                "mode": "source",
-                "source": false,
-                "backlinks": true,
-                "backlinkOpts": {
-                  "collapseAll": false,
-                  "extraContext": false,
-                  "sortOrder": "alphabetical",
-                  "showSearch": false,
-                  "searchQuery": "",
-                  "backlinkCollapsed": false,
-                  "unlinkedCollapsed": true
-                }
-              },
-              "icon": "lucide-file",
-              "title": "D.q.animationtool.component"
-            }
-          },
-          {
-            "id": "c32780c11e9057f3",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "_OPERATION/PUBLIC/DEVLOG/DEVLOG.md",
-                "mode": "source",
-                "source": false,
-                "backlinks": true,
-                "backlinkOpts": {
-                  "collapseAll": false,
-                  "extraContext": false,
-                  "sortOrder": "alphabetical",
-                  "showSearch": false,
-                  "searchQuery": "",
-                  "backlinkCollapsed": false,
-                  "unlinkedCollapsed": true
-                }
-              },
-              "icon": "lucide-file",
-              "title": "DEVLOG"
-            }
-          },
-          {
-            "id": "94ad527825fa701d",
-            "type": "leaf",
-            "state": {
               "type": "markdown",
               "state": {
                 "file": "HOME.md",
@@ -91,33 +30,8 @@
               "icon": "lucide-file",
               "title": "HOME"
             }
-          },
-          {
-            "id": "53e5ef6070801b3f",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "_RESOURCES/DATACORE/DATACORE.showcase.md",
-                "mode": "source",
-                "source": false,
-                "backlinks": true,
-                "backlinkOpts": {
-                  "collapseAll": false,
-                  "extraContext": false,
-                  "sortOrder": "alphabetical",
-                  "showSearch": false,
-                  "searchQuery": "",
-                  "backlinkCollapsed": false,
-                  "unlinkedCollapsed": true
-                }
-              },
-              "icon": "lucide-file",
-              "title": "DATACORE.showcase"
-            }
           }
-        ],
-        "currentTab": 4
+        ]
       }
     ],
     "direction": "vertical"
@@ -130,6 +44,19 @@
         "id": "7f907c8f10e7a1c8",
         "type": "tabs",
         "children": [
+          {
+            "id": "177bf4e8b7c58f91",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabeticalReverse",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
           {
             "id": "fc367f0a2fda3ddd",
             "type": "leaf",
@@ -156,26 +83,14 @@
               "icon": "lucide-search",
               "title": "Search"
             }
-          },
-          {
-            "id": "177bf4e8b7c58f91",
-            "type": "leaf",
-            "state": {
-              "type": "file-explorer",
-              "state": {
-                "sortOrder": "alphabeticalReverse",
-                "autoReveal": false
-              },
-              "icon": "lucide-folder-closed",
-              "title": "Files"
-            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
-    "width": 336.5
+    "width": 270.5,
+    "collapsed": true
   },
   "right": {
     "id": "fe80ed10167d38ae",
@@ -331,54 +246,53 @@
       "obsidian-excalidraw-plugin:New drawing": false
     }
   },
-  "active": "53e5ef6070801b3f",
+  "active": "29be9b678dad8f26",
   "lastOpenFiles": [
-    "_RESOURCES/DATACORE/70 DoomPlayer/DOOM PLAYER.md",
-    "_RESOURCES/DATACORE/DATACORE.showcase.md",
-    "HOME.md",
-    "_OPERATION/PUBLIC/DEVLOG/ITI/DEVLOG.white-7.md",
-    "_OPERATION/PUBLIC/DEVLOG/DEVLOG.md",
-    "_OPERATION/PUBLIC/DEVLOG/ITI/DEVLOG.gold-8.md",
-    "_RESOURCES/VIDS/DEVLOG_9.webm",
-    "_RESOURCES/VIDS/DEVLOG_2.webm",
-    "_RESOURCES/IMAGES/DEVLOG_9.webp",
-    "_RESOURCES/DATACORE/71 Recap2025/D.q.animationtool.component.md",
-    "_RESOURCES/DATACORE/71 Recap2025/D.q.animationtool.viewer.md",
     "_RESOURCES/DATACORE/DATACORE.bases.base",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/Untitled.md",
-    "Untitled.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/WOMEN_v3_.A.svg",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/WOMEN_v3_.A.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/WOMAN_v01_.A.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/TIME_v03_.A 1.md",
-    "_RESOURCES/DATACORE/9 ContentExplorer888/D.q.contentexplorer888.viewer.md",
-    "_RESOURCES/DATACORE/22 World888/D.q.world888.viewer.md",
-    "_RESOURCES/DATACORE/27 MiniGame888/D.q.minigame888.viewer.md",
-    "_RESOURCES/DATACORE/8 FitnessExplorer/D.q.fitnessexplorer.viewer.md",
-    "_RESOURCES/DATACORE/24.2 MapGlobe/D.q.mapglobe.viewer.v2.md",
-    "KNOWLEDGE/EXPERIENCES/_clean/GPU.enigmas..md",
-    "KNOWLEDGE/EXPERIENCES/_clean/GPU.md",
+    "_RESOURCES/DATACORE/DATACORE.showcase.md",
+    "_RESOURCES/DATACORE/71 Recap2025/D.q.recap2025.viewer.md",
+    "_OPERATION/PUBLIC/DEVLOG/DEVLOG.md",
     "_RESOURCES/DATACORE/71 Recap2025/RECAP 2025.md",
-    "_RESOURCES/DATACORE/71 Recap2025/_resources/videos/xrbootcamp.webm",
-    "_RESOURCES/DATACORE/71 Recap2025/_resources/videos/viewsinception.webm",
-    "_RESOURCES/DATACORE/71 Recap2025/_resources/videos/viewscontrolupgrade.webm",
-    "_RESOURCES/DATACORE/71 Recap2025/_resources/videos/viewscontrol.webm",
-    "_RESOURCES/DATACORE/71 Recap2025/_resources/videos/vault.888.webm",
-    "_RESOURCES/DATACORE/71 Recap2025/_resources/videos/telegrambot.webm",
-    "_RESOURCES/DATACORE/71 Recap2025/_resources/videos/teaser.webm",
+    "_RESOURCES/DATACORE/66 BasicFolderView/BASIC FOLDER VIEW.md",
+    "_RESOURCES/DATACORE/70 DoomPlayer/DOOM PLAYER.md",
+    "_RESOURCES/DATACORE/66 BasicFolderView/D.q.basicfolderview.viewer.md",
+    "_RESOURCES/DATACORE/66 BasicFolderView/_resources/agents/BEST_PRACTICES.md",
+    "_RESOURCES/DATACORE/66 BasicFolderView/_resources/agents/SECURITY.md",
+    "_RESOURCES/DATACORE/66 BasicFolderView/_resources/agents/RALPH_WIGGUM.md",
+    "_RESOURCES/DATACORE/66 BasicFolderView/_resources/agents/PLANNER.md",
+    "_RESOURCES/DATACORE/66 BasicFolderView/_resources/agents/COORDINATOR.md",
+    "_RESOURCES/DATACORE/66 BasicFolderView/_resources/agents/implementation",
+    "_RESOURCES/DATACORE/66 BasicFolderView/_resources/agents/DEVELOPER.md",
+    "_RESOURCES/DATACORE/66 BasicFolderView/_resources/agents/tasks",
+    "_RESOURCES/DATACORE/66 BasicFolderView/_resources/agents/REVIEWER.md",
+    "_RESOURCES/DATACORE/66 BasicFolderView/_resources/agents/PROJECT_CONTEXT.md",
+    "_RESOURCES/DATACORE/66 BasicFolderView/_resources/agents",
+    "_RESOURCES/DATACORE/66 BasicFolderView/src/data/links.js",
+    "_RESOURCES/DATACORE/66 BasicFolderView/src/data",
+    "_RESOURCES/DATACORE/66 BasicFolderView/src/index.jsx",
+    "_RESOURCES/DATACORE/66 BasicFolderView/src/components/ControlsMenu.jsx",
+    "_RESOURCES/DATACORE/66 BasicFolderView/src/components/BasicComponent.jsx",
+    "_RESOURCES/DATACORE/66 BasicFolderView/src/components",
+    "_RESOURCES/DATACORE/71 Recap2025/_resources/images/recap2025.webp",
+    "HOME.md",
     "_RESOURCES/DATACORE/71 Recap2025/_resources/template/recap.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/TIME_v03_.A.md",
+    "_RESOURCES/DATACORE/71 Recap2025/AnimationTool/dist/_resources/template/recap.md",
+    "_RESOURCES/DATACORE/71 Recap2025/AnimationTool/dist/D.q.animationtool.viewer.md",
+    "_RESOURCES/DATACORE/71 Recap2025/AnimationTool/dist/D.q.animationtool.component.md",
+    "_RESOURCES/DATACORE/71 Recap2025/AnimationTool/D.q.animationtool.viewer.md",
+    "_RESOURCES/DATACORE/71 Recap2025/AnimationTool/_resources/template/recap.md",
+    "_RESOURCES/DATACORE/71 Recap2025/dist/_resources/template/recap.md",
+    "_RESOURCES/DATACORE/71 Recap2025/dist/D.q.animationtool.viewer.md",
+    "_RESOURCES/DATACORE/71 Recap2025/dist/D.q.animationtool.component.md",
+    "_RESOURCES/IMAGES/DEVLOG_9.webp",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/WOMEN_v3_.A.svg",
     "_RESOURCES/IMAGES/DEVLOG_8.webp",
     "_RESOURCES/IMAGES/DEVLOG_4.webp",
     "_RESOURCES/IMAGES/DEVLOG_7.webp",
     "_RESOURCES/ASSETS/888/ASSETS_.A/CHARACTER_v02.1_.A.svg",
     "_RESOURCES/ASSETS/888/ASSETS_.A/FAMILY_v02_.A.svg",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/FAMILY_v02_.A.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/FAMILY_v01_.A 1.md",
     "_RESOURCES/ASSETS/888/ASSETS_.A/FAMILY_v01_.A.svg",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/FAMILY_v01_.A.md",
     "_RESOURCES/ASSETS/888/ASSETS_.A/CHARACTER_v08_.A.svg",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/CHARACTER_v07_.A.svg",
     "888/PROJECTS/888 copy/PROJECTS/COOKBOOK/KNOWLEDGE/DASHBOARDS/DASHBOARD.canvas",
     "888/PROJECTS/888 copy/KNOWLEDGE/EXPERIENCES/_clean/NFT LAYOUT.canvas",
     "888/PROJECTS/888/PROJECTS/COOKBOOK/KNOWLEDGE/DASHBOARDS/DASHBOARD.canvas",

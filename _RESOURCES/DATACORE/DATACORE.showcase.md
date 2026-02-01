@@ -5,18 +5,6 @@ permalink: obsidian.plugins.datacore.showcase
 
 
 
-
-
-
-
-
-###### [DOOM PLAYER](70%20DoomPlayer/DOOM%20PLAYER.md) { NEW }
-
-###### [RECAP 2025](70%20DoomPlayer/DOOM%20PLAYER.md) { NEW }
-
-
-
-
 ## **Core Query & Data Handling**
 
 
@@ -60,6 +48,7 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [ASSETS LIBRARY](52%20AssetsLibrary/ASSETS%20LIBRARY.md)
 
+###### [RECAP 2025](71%20Recap2025/RECAP%202025.md) { NEW }
 
 
 ## **Development & Building Tools**
@@ -99,7 +88,7 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [DATACORE COMAND MANAGER](58%20DatacoreCommandManager/DATACORE%20COMMAND%20MANAGER.md)
 
-###### [PLUGIN DEV SUITE](62%20PluginDevSuite/PLUGIN%20DEV%20SUITE.md)  { FEATURED }
+###### [PLUGIN DEV SUITE](62%20PluginDevSuite/PLUGIN%20DEV%20SUITE.md) 
 
 ###### [ICONS PACK](63%20IconsPack/ICONS%20PACK.md) 
 
@@ -125,7 +114,7 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [MAP GLOBE v1](24.1%20MapGlobe/MAP%20GLOBE%20v1.md)
 
-###### [MAP GLOBE v2](24.2%20MapGlobe/MAP%20GLOBE%20v2.md) { NEW } 
+###### [MAP GLOBE v2](24.2%20MapGlobe/MAP%20GLOBE%20v2.md) 
 
 ###### [BABYLON LOCAL](25%20BabylonLocal/BABYLON%20LOCAL.md)
 
@@ -137,7 +126,7 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [ANIMATED SPHERE](65%20AnimatedSphere/ANIMATED%20SPHERE.md) 
 
-###### [MERMAID DIAGRAM](69%20MermaidDiagram/MERMAID%20DIAGRAM.md) { NEW }
+###### [MERMAID DIAGRAM](69%20MermaidDiagram/MERMAID%20DIAGRAM.md) 
 
 
 
@@ -155,6 +144,9 @@ permalink: obsidian.plugins.datacore.showcase
 ###### [ANIMATED CARD](34%20AnimatedCard/ANIMATED%20CARD.md)  
 
 ###### [CARD PICKER](40%20CardPicker/CARD%20PICKER.md) 
+
+###### [DOOM PLAYER](70%20DoomPlayer/DOOM%20PLAYER.md) { NEW }
+
 
 
 
@@ -199,10 +191,10 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [OPEN IDE](61%20OpenIDE/OPEN%20IDE.md)
 
-###### [BASIC FOLDER VIEW](66%20BasicFolderView/BASIC%20FOLDER%20VIEW.md) { NEW }
+###### [BASIC FOLDER VIEW](66%20BasicFolderView/BASIC%20FOLDER%20VIEW.md)  { UPGRADE }
 
-###### [SECURE KEYCHAIN](67%20SecureKeychain/SECURE%20KEYCHAIN.md) { NEW }
+###### [SECURE KEYCHAIN](67%20SecureKeychain/SECURE%20KEYCHAIN.md)
 
-###### [FOLDER ZIP](68%20FolderZip/FOLDER%20ZIP.md) { NEW }
+###### [FOLDER ZIP](68%20FolderZip/FOLDER%20ZIP.md) 
 
 

@@ -3,77 +3,81 @@ const STYLES = {
     position: "relative",
     height: "100%",
     width: "100%",
-    padding: "20px",
-    boxSizing: "border-box",
+    background: "linear-gradient(135deg, var(--background-secondary), var(--background-primary))",
+    color: "var(--text-normal)",
+    overflow: "hidden",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
+  },
+
+  // Controls Container (Top Right)
+  controlsContainer: {
+    position: "absolute",
+    top: "0",
+    right: "0",
+    padding: "20px",
+    display: "flex",
     gap: "10px",
-    backgroundColor: "var(--background-secondary)",
-    border: "1px solid var(--background-modifier-border)",
+    zIndex: 100,
+    transition: "opacity 0.3s ease",
+  },
+
+  // Icon Button Style (Base)
+  iconButton: {
+    width: "32px",
+    height: "32px",
     borderRadius: "8px",
-    color: "var(--text-normal)",
-  },
-  iconContainer: {
-    position: "absolute",
-    top: "15px",
-    right: "20px",
-    fontFamily: "monospace",
-    fontSize: "14px",
-    color: "var(--text-faint)",
-    userSelect: "none",
-    cursor: "pointer",
-    zIndex: 10,
-  },
-  tooltip: {
-    visibility: "hidden",
-    opacity: 0,
-    backgroundColor: "var(--background-secondary-alt)",
-    color: "var(--text-normal)",
-    textAlign: "center",
-    borderRadius: "4px",
-    padding: "5px 10px",
-    position: "absolute",
-    zIndex: 1,
-    top: "50%",
-    right: "120%",
-    transform: "translateY(-50%)",
-    fontSize: "12px",
-    whiteSpace: "nowrap",
-    pointerEvents: "none",
     border: "1px solid var(--background-modifier-border)",
-  },
-  reloadButton: {
-    position: "absolute",
-    top: "12px",
-    right: "50px",
-    zIndex: 10,
-    width: "30px",
-    height: "30px",
-    borderRadius: "50%",
-    border: "none",
+    backgroundColor: "var(--background-secondary-alt)",
+    color: "var(--text-muted)",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     cursor: "pointer",
-    color: "var(--text-faint)",
-    outline: "none",
+    transition: "all 0.2s ease",
     padding: 0,
-    backgroundColor: "transparent",
   },
-  title: { 
-    fontSize: "2em", 
-    fontWeight: "600", 
-    color: "var(--text-normal)" 
+  iconButtonHover: {
+    backgroundColor: "var(--interactive-accent)",
+    color: "var(--text-on-accent)",
+    border: "1px solid var(--interactive-accent)",
+    transform: "scale(1.05)",
   },
-  subtitle: {
-    fontSize: "1em",
-    color: "var(--text-muted)",
-    maxWidth: "400px",
-    textAlign: "center",
-    fontFamily: "monospace",
+
+  // Dropdown Menu
+  dropdown: {
+    position: "absolute",
+    top: "100%",
+    right: "0",
+    marginTop: "8px",
+    backgroundColor: "var(--background-primary-alt)",
+    border: "1px solid var(--background-modifier-border)",
+    borderRadius: "8px",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.5)",
+    width: "140px",
+    display: "flex",
+    flexDirection: "column",
+    overflow: "hidden",
+    zIndex: 101, // Above controls
   },
+  dropdownItem: {
+    padding: "10px 12px",
+    fontSize: "13px",
+    color: "var(--text-normal)",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+    transition: "background 0.2s",
+  },
+  dropdownItemHover: {
+    backgroundColor: "var(--background-modifier-hover)",
+    color: "var(--text-accent)",
+  },
+
+  // Compact mode styles
   compactWrapper: {
     padding: "16px",
     boxSizing: "border-box",
@@ -86,14 +90,14 @@ const STYLES = {
     borderRadius: "8px",
     backgroundColor: "var(--background-primary-alt)",
   },
-  compactText: { 
-    margin: 0, 
-    color: "var(--text-muted)", 
-    fontSize: "14px" 
+  compactText: {
+    margin: 0,
+    color: "var(--text-muted)",
+    fontSize: "14px"
   },
-  buttonGroup: { 
-    display: "flex", 
-    gap: "10px" 
+  buttonGroup: {
+    display: "flex",
+    gap: "10px"
   },
   button: {
     padding: "8px 16px",
@@ -109,6 +113,21 @@ const STYLES = {
     backgroundColor: "var(--background-modifier-hover)",
     color: "var(--text-muted)",
   },
+
+  // Typography
+  title: {
+    fontSize: "2em",
+    fontWeight: "700",
+    marginBottom: "10px",
+    letterSpacing: "-0.02em",
+  },
+  subtitle: {
+    fontSize: "1.1em",
+    color: "var(--text-muted)",
+    maxWidth: "400px",
+    textAlign: "center",
+    lineHeight: "1.5",
+  }
 };
 
 return { STYLES };

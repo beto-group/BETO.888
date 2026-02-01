@@ -60,10 +60,10 @@ version.obsidian: 1.4.11
 
 -----
 
-![obsidiansuitekit.clip.webm](_resources/videos/doomplayer_clip.webm)
+![doomplayer_clip.webm](_resources/videos/doomplayer_clip.webm)
 
 
-![icons_pack.webp](_resources/images/doom_player.webp)
+![doom_player.webp](_resources/images/doom_player.webp)
 
 
 

@@ -52,7 +52,7 @@
         "startupType": "disabled"
       },
       "obsidian-excalidraw-plugin": {
-        "startupType": "long"
+        "startupType": "instant"
       },
       "fantasy-calendar": {
         "startupType": "disabled"
@@ -184,7 +184,7 @@
         "startupType": "disabled"
       },
       "obsidian-advanced-uri": {
-        "startupType": "long"
+        "startupType": "short"
       },
       "advanced-debug-mode": {
         "startupType": "instant"

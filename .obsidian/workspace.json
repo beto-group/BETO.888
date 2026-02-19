@@ -1,14 +1,14 @@
 {
   "main": {
-    "id": "e4e5677e27efcc03",
+    "id": "f11a4052a96cf80c",
     "type": "split",
     "children": [
       {
-        "id": "c90de801985119d9",
+        "id": "8def320151b8b491",
         "type": "tabs",
         "children": [
           {
-            "id": "29be9b678dad8f26",
+            "id": "1ab5608a7e35778e",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -37,20 +37,20 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "5b2da7abcd180a7a",
+    "id": "1b78adf4a667dae1",
     "type": "split",
     "children": [
       {
-        "id": "7f907c8f10e7a1c8",
+        "id": "074be0cf7c253dd2",
         "type": "tabs",
         "children": [
           {
-            "id": "177bf4e8b7c58f91",
+            "id": "b6d6068a94c082ce",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
               "state": {
-                "sortOrder": "alphabeticalReverse",
+                "sortOrder": "alphabetical",
                 "autoReveal": false
               },
               "icon": "lucide-folder-closed",
@@ -58,22 +58,12 @@
             }
           },
           {
-            "id": "fc367f0a2fda3ddd",
-            "type": "leaf",
-            "state": {
-              "type": "bookmarks",
-              "state": {},
-              "icon": "lucide-bookmark",
-              "title": "Bookmarks"
-            }
-          },
-          {
-            "id": "d729f495d64f288a",
+            "id": "717660bd5345e9de",
             "type": "leaf",
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:interactive",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -83,42 +73,39 @@
               "icon": "lucide-search",
               "title": "Search"
             }
+          },
+          {
+            "id": "8578e1b859c97c2f",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
-    "width": 270.5,
+    "width": 300,
     "collapsed": true
   },
   "right": {
-    "id": "fe80ed10167d38ae",
+    "id": "16d059a39dc53a60",
     "type": "split",
     "children": [
       {
-        "id": "5ae72c952d337495",
+        "id": "45012f688ef2fc90",
         "type": "tabs",
         "children": [
           {
-            "id": "b257d546aa658fa6",
-            "type": "leaf",
-            "state": {
-              "type": "file-properties",
-              "state": {
-                "file": "_RESOURCES/DATACORE/22 World888/D.q.world888.viewer.md"
-              },
-              "icon": "lucide-info",
-              "title": "File properties for D.q.world888.viewer"
-            }
-          },
-          {
-            "id": "12d568276eba990a",
+            "id": "4fabd467a04ba934",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "HOME.md",
+                "file": "_RESOURCES/DATACORE/24.2 MapGlobe/D.q.mapglobe.viewer.v2.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -128,50 +115,39 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for HOME"
+              "title": "Backlinks for D.q.mapglobe.viewer.v2"
             }
           },
           {
-            "id": "846f0b4ea6b3d320",
+            "id": "408d476f8f4144e8",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "HOME.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from HOME"
+              "title": "Outgoing links"
             }
           },
           {
-            "id": "06eed83daab9493d",
+            "id": "4aafab972064a0aa",
             "type": "leaf",
             "state": {
               "type": "tag",
               "state": {
                 "sortOrder": "frequency",
-                "useHierarchy": true
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
               },
               "icon": "lucide-tags",
               "title": "Tags"
             }
           },
           {
-            "id": "117bece3812745e3",
-            "type": "leaf",
-            "state": {
-              "type": "outline",
-              "state": {
-                "file": "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_public/obsidian/DATACORE.md"
-              },
-              "icon": "lucide-list",
-              "title": "Outline of DATACORE"
-            }
-          },
-          {
-            "id": "7f4c2f7967465e12",
+            "id": "07f606691fc1bf45",
             "type": "leaf",
             "state": {
               "type": "all-properties",
@@ -185,123 +161,91 @@
             }
           },
           {
-            "id": "c92281035dcf47d4",
+            "id": "88bc5c417862f351",
             "type": "leaf",
             "state": {
-              "type": "localgraph",
+              "type": "outline",
               "state": {
-                "file": "CHANGE LOG.md",
-                "options": {
-                  "collapse-filter": false,
-                  "search": "",
-                  "localJumps": 1,
-                  "localBacklinks": true,
-                  "localForelinks": true,
-                  "localInterlinks": false,
-                  "showTags": false,
-                  "showAttachments": false,
-                  "hideUnresolved": false,
-                  "collapse-color-groups": true,
-                  "colorGroups": [],
-                  "collapse-display": true,
-                  "showArrow": false,
-                  "textFadeMultiplier": 0,
-                  "nodeSizeMultiplier": 1,
-                  "lineSizeMultiplier": 1,
-                  "collapse-forces": true,
-                  "centerStrength": 0.518713248970312,
-                  "repelStrength": 10,
-                  "linkStrength": 1,
-                  "linkDistance": 250,
-                  "scale": 1.3761028023616426,
-                  "close": true
-                }
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
               },
-              "icon": "lucide-git-fork",
-              "title": "Graph of CHANGE LOG"
+              "icon": "lucide-list",
+              "title": "Outline"
             }
           }
         ]
       }
     ],
     "direction": "horizontal",
-    "width": 551.5,
+    "width": 300,
     "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
-      "bases:Create new base": false,
-      "publish:Publish changes...": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "workspaces:Manage workspace layouts": false,
       "random-note:Open random note": false,
+      "workspaces:Manage workspace layouts": false,
+      "publish:Publish changes...": false,
+      "bases:Create new base": false,
       "beto-nexus:Beto Nexus": false,
+      "obsidian-excalidraw-plugin:New drawing": false,
       "obsidian42-brat:BRAT": false,
-      "code-files:Create Code File": false,
-      "obsidian-excalidraw-plugin:New drawing": false
+      "code-files:Create Code File": false
     }
   },
-  "active": "29be9b678dad8f26",
+  "active": "1ab5608a7e35778e",
   "lastOpenFiles": [
-    "_RESOURCES/DATACORE/DATACORE.bases.base",
-    "_RESOURCES/DATACORE/DATACORE.showcase.md",
-    "_RESOURCES/DATACORE/71 Recap2025/D.q.recap2025.viewer.md",
-    "_OPERATION/PUBLIC/DEVLOG/DEVLOG.md",
-    "_RESOURCES/DATACORE/71 Recap2025/RECAP 2025.md",
-    "_RESOURCES/DATACORE/66 BasicFolderView/BASIC FOLDER VIEW.md",
-    "_RESOURCES/DATACORE/70 DoomPlayer/DOOM PLAYER.md",
-    "_RESOURCES/DATACORE/66 BasicFolderView/D.q.basicfolderview.viewer.md",
-    "_RESOURCES/DATACORE/66 BasicFolderView/_resources/agents/BEST_PRACTICES.md",
-    "_RESOURCES/DATACORE/66 BasicFolderView/_resources/agents/SECURITY.md",
-    "_RESOURCES/DATACORE/66 BasicFolderView/_resources/agents/RALPH_WIGGUM.md",
-    "_RESOURCES/DATACORE/66 BasicFolderView/_resources/agents/PLANNER.md",
-    "_RESOURCES/DATACORE/66 BasicFolderView/_resources/agents/COORDINATOR.md",
-    "_RESOURCES/DATACORE/66 BasicFolderView/_resources/agents/implementation",
-    "_RESOURCES/DATACORE/66 BasicFolderView/_resources/agents/DEVELOPER.md",
-    "_RESOURCES/DATACORE/66 BasicFolderView/_resources/agents/tasks",
-    "_RESOURCES/DATACORE/66 BasicFolderView/_resources/agents/REVIEWER.md",
-    "_RESOURCES/DATACORE/66 BasicFolderView/_resources/agents/PROJECT_CONTEXT.md",
-    "_RESOURCES/DATACORE/66 BasicFolderView/_resources/agents",
-    "_RESOURCES/DATACORE/66 BasicFolderView/src/data/links.js",
-    "_RESOURCES/DATACORE/66 BasicFolderView/src/data",
-    "_RESOURCES/DATACORE/66 BasicFolderView/src/index.jsx",
-    "_RESOURCES/DATACORE/66 BasicFolderView/src/components/ControlsMenu.jsx",
-    "_RESOURCES/DATACORE/66 BasicFolderView/src/components/BasicComponent.jsx",
-    "_RESOURCES/DATACORE/66 BasicFolderView/src/components",
-    "_RESOURCES/DATACORE/71 Recap2025/_resources/images/recap2025.webp",
+    "_RESOURCES/DATACORE/24.2 MapGlobe/D.q.mapglobe.viewer.v2.md",
+    "_OPERATION/_CLEAN/SOCIALS/YOUTUBE/ODDD/OBSIDIAN.daily.discipline.d091.svg",
+    "_OPERATION/_CLEAN/SOCIALS/YOUTUBE/ODDD/OBSIDIAN.daily.discipline.d091.md",
+    "_OPERATION/_CLEAN/SOCIALS/YOUTUBE/ODDD/OBSIDIAN.daily.discipline.d090 1.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/WOMEN_v5_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/WOMEN_v5_.A 1.md",
+    "_RESOURCES/EXCALIDRAW/Scripts/Downloaded/Add Link to New Page and Open.svg",
+    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/Add Link to New Page and Open.svg",
+    "_RESOURCES/EXCALIDRAW/Scripts/Downloaded/Add Link to New Page and Open.md",
+    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/Split lines.svg",
+    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/Split lines.md",
+    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/Set Stroke Width of Selected Elements.svg",
+    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/Set Stroke Width of Selected Elements.md",
+    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/Layer Manager.md",
+    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/Group Inside Boundary.md",
+    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/DataCore Embeds.md",
+    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/Boolean Operations.svg",
+    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/Boolean Operations.md",
+    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/Add Link to New Page and Open.md",
+    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/WOMEN_v5_.A 1.svg",
     "HOME.md",
-    "_RESOURCES/DATACORE/71 Recap2025/_resources/template/recap.md",
-    "_RESOURCES/DATACORE/71 Recap2025/AnimationTool/dist/_resources/template/recap.md",
-    "_RESOURCES/DATACORE/71 Recap2025/AnimationTool/dist/D.q.animationtool.viewer.md",
-    "_RESOURCES/DATACORE/71 Recap2025/AnimationTool/dist/D.q.animationtool.component.md",
-    "_RESOURCES/DATACORE/71 Recap2025/AnimationTool/D.q.animationtool.viewer.md",
-    "_RESOURCES/DATACORE/71 Recap2025/AnimationTool/_resources/template/recap.md",
-    "_RESOURCES/DATACORE/71 Recap2025/dist/_resources/template/recap.md",
-    "_RESOURCES/DATACORE/71 Recap2025/dist/D.q.animationtool.viewer.md",
-    "_RESOURCES/DATACORE/71 Recap2025/dist/D.q.animationtool.component.md",
-    "_RESOURCES/IMAGES/DEVLOG_9.webp",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/WOMEN_v3_.A.svg",
-    "_RESOURCES/IMAGES/DEVLOG_8.webp",
-    "_RESOURCES/IMAGES/DEVLOG_4.webp",
-    "_RESOURCES/IMAGES/DEVLOG_7.webp",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/CHARACTER_v02.1_.A.svg",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/FAMILY_v02_.A.svg",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/FAMILY_v01_.A.svg",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/CHARACTER_v08_.A.svg",
-    "888/PROJECTS/888 copy/PROJECTS/COOKBOOK/KNOWLEDGE/DASHBOARDS/DASHBOARD.canvas",
-    "888/PROJECTS/888 copy/KNOWLEDGE/EXPERIENCES/_clean/NFT LAYOUT.canvas",
-    "888/PROJECTS/888/PROJECTS/COOKBOOK/KNOWLEDGE/DASHBOARDS/DASHBOARD.canvas",
-    "888/PROJECTS/888/KNOWLEDGE/EXPERIENCES/_clean/NFT LAYOUT.canvas",
-    "888/PROJECTS/BETO.888/PROJECTS/COOKBOOK/KNOWLEDGE/DASHBOARDS/DASHBOARD.canvas",
-    "888/PROJECTS/BETO.888/KNOWLEDGE/EXPERIENCES/_clean/NFT LAYOUT.canvas",
-    "888/PROJECTS/888/DASHBOARD_test.canvas",
-    "888/PROJECTS/888/DASHBOARD.canvas",
-    "888/PROJECTS/888/Untitled.canvas",
-    "TestCanvas.canvas"
+    "CHANGE LOG.md",
+    "_RESOURCES/ASSETS/EXCALIDRAW/COMMUNITY/GOOGLE ASSETS.svg",
+    "_RESOURCES/ASSETS/EXCALIDRAW/COMMUNITY/GOOGLE ASSETS.md",
+    "_RESOURCES/ASSETS/EXCALIDRAW/COMMUNITY/COMMUNITY ASSETS FOUND.svg",
+    "_RESOURCES/ASSETS/EXCALIDRAW/COMMUNITY/COMMUNITY ASSETS FOUND.md",
+    "_RESOURCES/ASSETS/EXCALIDRAW/COMMUNITY/CHARTS ASSETS.svg",
+    "_RESOURCES/ASSETS/EXCALIDRAW/COMMUNITY/CHARTS ASSETS.md",
+    "_RESOURCES/ASSETS/EXCALIDRAW/_LINKS.md",
+    "_RESOURCES/ASSETS/EXCALIDRAW/SOCIAL MEDIA ASSETS.md",
+    "_RESOURCES/ASSETS/EXCALIDRAW/ICON - SUPPLEMENTS.md",
+    "_RESOURCES/ASSETS/EXCALIDRAW/ICON - NUTRITION.md",
+    "_RESOURCES/ASSETS/EXCALIDRAW/ICON - INTERACTIVE.md",
+    "_RESOURCES/ASSETS/EXCALIDRAW/EXCALIDRAW.assets.namzu.md",
+    "_RESOURCES/ASSETS/EXCALIDRAW/EXCALIDRAW.assets.md",
+    "_RESOURCES/ASSETS/EXCALIDRAW/EXCALIDRAW.assets.enigmas..md",
+    "_RESOURCES/ASSETS/EXCALIDRAW/COMMUNITY",
+    "_RESOURCES/ASSETS/EXCALIDRAW",
+    "_RESOURCES/ASSETS/888/ASSETS_.A",
+    "_RESOURCES/ASSETS/888",
+    "_RESOURCES/ASSETS",
+    "_OPERATION/_CLEAN/SOCIALS/YOUTUBE/ODDD",
+    "_OPERATION/_CLEAN/SOCIALS/YOUTUBE",
+    "_OPERATION/_CLEAN/SOCIALS/OBSIDIAN.forum",
+    "_OPERATION/_CLEAN/_OLD"
   ]
 }

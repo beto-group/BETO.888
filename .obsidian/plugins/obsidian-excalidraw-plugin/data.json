@@ -4,8 +4,8 @@
   "cropFolder": "",
   "annotateFolder": "",
   "embedUseExcalidrawFolder": false,
-  "templateFilePath": "Excalidraw/Template.excalidraw",
-  "scriptFolderPath": "Excalidraw/Scripts",
+  "templateFilePath": "",
+  "scriptFolderPath": "_RESOURCES/EXCALIDRAW/SCRIPTS",
   "fontAssetsPath": "Excalidraw/CJK Fonts",
   "loadChineseFonts": false,
   "loadJapaneseFonts": false,
@@ -113,8 +113,53 @@
   "mdFontColor": "Black",
   "mdBorderColor": "Black",
   "mdCSS": "",
-  "scriptEngineSettings": {},
-  "defaultTrayMode": false,
+  "scriptEngineSettings": {
+    "Downloaded/LayerManager": {
+      "win_x": {
+        "value": 1170
+      },
+      "win_y": {
+        "value": 560
+      },
+      "win_w": {
+        "value": 350
+      },
+      "win_h": {
+        "value": 500
+      },
+      "group_strokes": {
+        "value": true,
+        "description": "Group consecutive freedraw strokes?"
+      },
+      "debug": {
+        "value": false,
+        "description": "Enable debug logging in the console (Layer Manager X)"
+      }
+    },
+    "Downloaded/Layer Manager": {
+      "win_x": {
+        "value": 21
+      },
+      "win_y": {
+        "value": 520
+      },
+      "win_w": {
+        "value": 283
+      },
+      "win_h": {
+        "value": 312
+      },
+      "group_strokes": {
+        "value": true,
+        "description": "Group consecutive freedraw strokes?"
+      },
+      "debug": {
+        "value": true,
+        "description": "Enable debug logging in the console (Layer Manager X)"
+      }
+    }
+  },
+  "defaultTrayMode": true,
   "previousRelease": "2.12.4",
   "showReleaseNotes": true,
   "showNewVersionNotification": true,
@@ -122,7 +167,12 @@
   "latexPreambleLocation": "preamble.sty",
   "taskboneEnabled": false,
   "taskboneAPIkey": "",
-  "pinnedScripts": [],
+  "pinnedScripts": [
+    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/Layer Manager.md",
+    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/Split lines.md",
+    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/Group Inside Boundary.md",
+    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/DataCore Embeds.md"
+  ],
   "customPens": [
     {
       "type": "default",

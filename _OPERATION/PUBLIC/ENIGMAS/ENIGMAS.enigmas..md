@@ -10,6 +10,15 @@ permalink: enigmas.enigmas
 
 
 
+
+
+create 3d avatar that plays when people walk around you in real life
+
+
+
+
+-----
+
 ecalidfaw though
 
 god and devil

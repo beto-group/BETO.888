@@ -5,6 +5,44 @@ permalink: obsidian.plugins.datacore.showcase
 
 
 
+
+[[OPEN BROWSER]]
+
+
+[[OPEN APPLICATION]]
+
+
+[[VIDEO BACKGROUND REMOVAL]]
+
+
+[[IQ GAME]]
+
+
+[[KEYCHAIN MANAGER]]
+
+[[RETRO MORPH GAME]]
+
+
+[[D.q.termuxmobile.viewer]]
+
+
+
+[[DISPLACEMENT VIEW]]
+
+
+[[DITHER PRO]]
+
+[[TORN CLOTH]]
+
+
+
+
+
+
+
+
+
+
 ## **Core Query & Data Handling**
 
 

@@ -1,0 +1,173 @@
+const STYLES = {
+    container: {
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: '#000000',
+        color: '#ffffff',
+        fontFamily: '"Outfit", "Inter", sans-serif',
+        position: 'relative',
+        overflow: 'hidden',
+    },
+    glassCard: {
+        background: 'rgba(0, 0, 0, 0)',
+        borderRadius: '24px',
+        padding: '40px',
+        maxWidth: '90%',
+        width: '600px',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '32px',
+    },
+    title: {
+        fontSize: '48px',
+        fontWeight: '800',
+        color: '#ffffff',
+        marginBottom: '16px',
+        letterSpacing: '0.2em',
+        textTransform: 'uppercase',
+        textShadow: '0 0 30px rgba(138, 43, 226, 0.5)'
+    },
+    subtitle: {
+        fontSize: '18px',
+        color: 'rgba(255, 255, 255, 0.4)',
+        marginBottom: '60px',
+        letterSpacing: '0.1em',
+        fontWeight: '300'
+    },
+    grid: {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(3, 1fr)',
+        gap: '16px',
+        marginBottom: '40px',
+        padding: '24px',
+        background: 'rgba(0, 0, 0, 0.3)',
+        borderRadius: '16px',
+        border: '1px solid rgba(255, 255, 255, 0.05)',
+    },
+    cell: {
+        width: '130px',
+        height: '130px',
+        borderRadius: '8px',
+        background: 'rgba(255, 255, 255, 0.08)', // Increased opacity
+        border: '1px solid rgba(255, 255, 255, 0.2)', // Increased opacity
+        transition: 'all 0.1s ease-out',
+    },
+    cellActive: {
+        background: '#8a2be2',
+        border: '1px solid #9d50bb',
+        boxShadow: '0 0 15px rgba(138, 43, 226, 0.4)',
+    },
+    controls: {
+        display: 'flex',
+        gap: '40px',
+        marginTop: '32px',
+        position: 'relative',
+        zIndex: 50,
+        pointerEvents: 'auto',
+    },
+    button: {
+        padding: '16px 32px',
+        fontSize: '18px',
+        background: 'rgba(138, 43, 226, 0.1)',
+        border: '1px solid rgba(138, 43, 226, 0.3)',
+        borderRadius: '8px',
+        color: '#ffffff',
+        cursor: 'pointer',
+        transition: 'all 0.2s ease',
+        letterSpacing: '0.1em',
+        fontWeight: '600',
+        minWidth: '240px',
+        textAlign: 'center',
+        margin: '12px'
+    },
+    buttonPrimary: {
+        border: '1px solid #8a2be2',
+        background: 'rgba(138, 43, 226, 0.1)',
+        padding: '20px 40px',
+        fontSize: '22px',
+        fontWeight: '700',
+    },
+    selector: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: '16px',
+        marginBottom: '24px',
+    },
+    selectorBtn: {
+        width: '32px',
+        height: '32px',
+        borderRadius: '50%',
+        border: '1px solid rgba(255, 255, 255, 0.2)',
+        background: 'transparent',
+        color: '#ffffff',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        cursor: 'pointer',
+        fontSize: '1rem',
+    },
+    nValue: {
+        fontSize: '1.5rem',
+        fontWeight: '600',
+        color: '#ffffff',
+        width: '40px',
+        textAlign: 'center',
+    },
+    stats: {
+        position: 'absolute',
+        top: '40px',
+        left: '40px',
+        fontSize: '16px', // Scaled up
+        color: 'rgba(255, 255, 255, 0.6)',
+        letterSpacing: '0.1em',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '12px'
+    },
+    statValue: {
+        color: '#ffffff',
+        fontWeight: '700',
+        fontSize: '20px' // Scaled up
+    },
+    tutorialOverlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        background: 'rgba(0, 0, 0, 0.95)',
+        zIndex: 200,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backdropFilter: 'blur(10px)',
+    },
+    tutorialStep: {
+        width: '80px',
+        height: '80px',
+        borderRadius: '6px',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: '24px',
+        fontWeight: 'bold',
+        color: '#fff',
+        margin: '0 4px',
+        transition: 'all 0.3s ease'
+    },
+    tutorialArrow: {
+        position: 'absolute',
+        height: '2px',
+        background: '#00ff88',
+        zIndex: 10
+    }
+};
+
+return { STYLES };

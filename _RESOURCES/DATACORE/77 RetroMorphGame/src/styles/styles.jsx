@@ -1,0 +1,257 @@
+const STYLES = {
+    container: {
+        width: '100%',
+        height: '100%',
+        background: '#0a0a0a',
+        color: '#ffffff',
+        fontFamily: "'Inter', -apple-system, sans-serif",
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden',
+        position: 'relative',
+        boxSizing: 'border-box',
+        border: '1px solid rgba(255,255,255,0.05)'
+    },
+    gameOverlay: {
+        position: 'absolute',
+        top: 'clamp(20px, 5vw, 40px)',
+        left: 'clamp(20px, 5vw, 40px)',
+        zIndex: 10,
+        pointerEvents: 'none'
+    },
+    title: {
+        fontSize: '48px',
+        fontWeight: '900',
+        letterSpacing: '0.4em',
+        color: '#ffffff',
+        textShadow: '0 0 10px rgba(255,255,255,0.5)',
+        margin: 0,
+        textTransform: 'uppercase',
+        fontFamily: "'Inter', sans-serif"
+    },
+    score: {
+        fontSize: 'clamp(80px, 25vw, 150px)',
+        fontWeight: '900',
+        color: 'rgba(255,255,255,0.04)',
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: 1,
+        pointerEvents: 'none',
+        fontFamily: "'Inter', sans-serif",
+        letterSpacing: '-2px'
+    },
+    startPrompt: {
+        fontSize: '16px',
+        color: '#ffffff',
+        marginTop: '20px',
+        fontFamily: "'Courier New', monospace",
+        textTransform: 'uppercase',
+        letterSpacing: '0.2em',
+        animation: 'pulse 2s infinite',
+        opacity: 0.7
+    },
+    canvas: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 5,
+        opacity: 0.9 // Slight fade for atmosphere
+    },
+    glassCard: {
+        background: 'rgba(5, 5, 5, 0.25)',
+        border: '1px solid rgba(255, 255, 255, 0.15)',
+        borderRadius: '0px',
+        padding: '24px',
+        backdropFilter: 'blur(12px)',
+        boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.8)'
+    },
+    enigmaticIndicator: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        borderLeft: '3px solid #fff',
+        paddingLeft: '20px',
+        animation: 'fadeIn 1s ease-out'
+    },
+    mysticalLabel: {
+        fontSize: '20px',
+        fontWeight: '900',
+        color: '#fff',
+        letterSpacing: '2px',
+        fontFamily: "'Inter', sans-serif",
+        textShadow: '0 0 20px rgba(255,255,255,0.3)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '4px'
+    },
+    minimalLeaderboard: {
+        position: 'absolute',
+        bottom: 0,
+        right: 0,
+        left: 0,
+        zIndex: 100,
+        width: 'min(400px, 100vw)',
+        maxHeight: 'min(35vh, 400px)',
+        marginLeft: 'auto', // Keeps it right-aligned on desktop
+        overflowY: 'auto',
+        background: 'rgba(0,0,0,0.95)',
+        backdropFilter: 'blur(25px)',
+        padding: 'min(3vh, 20px) 5vw',
+        borderTop: '1px solid rgba(255,255,255,0.1)',
+        borderLeft: '1px solid rgba(255,255,255,0.05)',
+        display: 'flex',
+        flexDirection: 'column',
+        fontFamily: "'Inter', sans-serif",
+        pointerEvents: 'auto',
+        boxShadow: '0 -10px 40px rgba(0,0,0,0.9)',
+        boxSizing: 'border-box'
+    },
+    leaderboardRow: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        padding: '2px 0',
+        fontSize: '10px',
+        letterSpacing: '1px',
+        textTransform: 'uppercase'
+    },
+    leaderboardHeader: {
+        fontSize: '12px',
+        color: '#fff',
+        fontWeight: '900',
+        marginBottom: '16px',
+        letterSpacing: '4px',
+        fontFamily: "'Inter', sans-serif",
+        textTransform: 'uppercase',
+        borderBottom: '2px solid rgba(255,255,255,0.1)',
+        paddingBottom: '10px',
+        opacity: 0.8
+    },
+    statusBanner: {
+        fontSize: 'clamp(8px, 2vw, 11px)',
+        color: '#aaa',
+        letterSpacing: 'clamp(1px, 1vw, 4px)',
+        border: '1px solid rgba(255,255,255,0.1)',
+        padding: 'clamp(6px, 2vw, 10px) clamp(10px, 3vw, 20px)',
+        marginBottom: 'clamp(15px, 4vh, 40px)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '8px',
+        fontFamily: "'Inter', sans-serif",
+        textTransform: 'uppercase',
+        fontWeight: '700',
+        maxWidth: '90vw',
+        justifyContent: 'center'
+    },
+    heroTitle: {
+        fontSize: 'clamp(24px, 7.5vw, 110px)',
+        fontWeight: '900',
+        letterSpacing: '-0.03em',
+        color: '#fff',
+        lineHeight: '0.85',
+        margin: '0',
+        textTransform: 'uppercase',
+        textAlign: 'center',
+        wordBreak: 'keep-all',
+        maxWidth: '95vw',
+        textShadow: '0 0 50px rgba(255,255,255,0.3)',
+        transition: 'all 0.5s ease-out'
+    },
+    heroSubtitle: {
+        fontSize: 'clamp(8px, 2vw, 14px)',
+        color: '#444',
+        letterSpacing: 'clamp(2px, 1vw, 8px)',
+        textTransform: 'uppercase',
+        marginBottom: 'clamp(20px, 5vh, 60px)',
+        fontFamily: "'Courier New', monospace",
+        textAlign: 'center',
+        maxWidth: '80vw'
+    },
+    secretLink: {
+        position: 'absolute',
+        bottom: '20px',
+        left: '20px',
+        fontSize: '9px',
+        color: '#111',
+        textDecoration: 'none',
+        letterSpacing: '2px',
+        transition: 'all 0.5s',
+        cursor: 'pointer',
+        zIndex: 50,
+        opacity: 0.3
+    },
+    minimalButton: {
+        background: 'transparent',
+        border: '1px solid rgba(255,255,255,0.15)',
+        color: '#888',
+        padding: '12px 24px',
+        fontSize: '11px',
+        letterSpacing: '4px',
+        cursor: 'pointer',
+        fontFamily: "'Inter', sans-serif",
+        fontWeight: '600',
+        textTransform: 'uppercase',
+        transition: 'all 0.3s'
+    },
+    cyberInput: {
+        background: 'rgba(255, 255, 255, 0.03)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        padding: '8px 15px',
+        color: '#fff',
+        fontSize: '13px',
+        fontFamily: "'Courier New', monospace",
+        outline: 'none',
+        letterSpacing: '2px',
+        width: '140px',
+        textAlign: 'center',
+        transition: 'all 0.3s',
+        '&:focus': {
+            background: 'rgba(255, 255, 255, 0.08)',
+            borderColor: '#fff'
+        }
+    },
+    modIdPrompt: {
+        fontSize: '10px',
+        color: '#666',
+        letterSpacing: '2px',
+        marginBottom: '4px',
+        fontWeight: '900'
+    },
+    bigSquareButton: {
+        width: 'clamp(180px, 60vw, 340px)',
+        height: 'clamp(50px, 8vh, 70px)',
+        border: '1px solid rgba(255,255,255,0.15)',
+        background: 'rgba(0,0,0,0.88)',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
+        cursor: 'pointer',
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        gap: '4px',
+        padding: '0 20px',
+        boxSizing: 'border-box',
+        overflow: 'hidden'
+    },
+    navButtonGroup: {
+        display: 'flex',
+        flexWrap: 'nowrap',
+        justifyContent: 'center',
+        gap: 'min(1.2vw, 10px)',
+        marginBottom: 'min(15vh, 120px)',
+        pointerEvents: 'auto',
+        maxWidth: '100vw',
+        width: '100%',
+        boxSizing: 'border-box',
+        padding: '0 min(15vw, 60px)',
+        margin: '0 auto'
+    }
+};
+
+return { STYLES };

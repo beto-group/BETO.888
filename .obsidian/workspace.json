@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "8def320151b8b491",
+        "id": "cc6e9e3f2942a76c",
         "type": "tabs",
         "children": [
           {
-            "id": "1ab5608a7e35778e",
+            "id": "b4713b931264d274",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -88,8 +88,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "16d059a39dc53a60",
@@ -173,8 +172,21 @@
               "icon": "lucide-list",
               "title": "Outline"
             }
+          },
+          {
+            "id": "57b60573733711c5",
+            "type": "leaf",
+            "state": {
+              "type": "file-properties",
+              "state": {
+                "file": "HOME.md"
+              },
+              "icon": "lucide-info",
+              "title": "File properties for HOME"
+            }
           }
-        ]
+        ],
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
@@ -199,53 +211,52 @@
       "code-files:Create Code File": false
     }
   },
-  "active": "1ab5608a7e35778e",
+  "active": "b4713b931264d274",
   "lastOpenFiles": [
-    "_RESOURCES/DATACORE/24.2 MapGlobe/D.q.mapglobe.viewer.v2.md",
-    "_OPERATION/_CLEAN/SOCIALS/YOUTUBE/ODDD/OBSIDIAN.daily.discipline.d091.svg",
-    "_OPERATION/_CLEAN/SOCIALS/YOUTUBE/ODDD/OBSIDIAN.daily.discipline.d091.md",
-    "_OPERATION/_CLEAN/SOCIALS/YOUTUBE/ODDD/OBSIDIAN.daily.discipline.d090 1.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/WOMEN_v5_.A.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/WOMEN_v5_.A 1.md",
-    "_RESOURCES/EXCALIDRAW/Scripts/Downloaded/Add Link to New Page and Open.svg",
-    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/Add Link to New Page and Open.svg",
-    "_RESOURCES/EXCALIDRAW/Scripts/Downloaded/Add Link to New Page and Open.md",
-    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/Split lines.svg",
-    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/Split lines.md",
-    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/Set Stroke Width of Selected Elements.svg",
-    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/Set Stroke Width of Selected Elements.md",
-    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/Layer Manager.md",
-    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/Group Inside Boundary.md",
-    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/DataCore Embeds.md",
-    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/Boolean Operations.svg",
-    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/Boolean Operations.md",
-    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/Add Link to New Page and Open.md",
-    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/WOMEN_v5_.A 1.svg",
-    "HOME.md",
-    "CHANGE LOG.md",
-    "_RESOURCES/ASSETS/EXCALIDRAW/COMMUNITY/GOOGLE ASSETS.svg",
-    "_RESOURCES/ASSETS/EXCALIDRAW/COMMUNITY/GOOGLE ASSETS.md",
-    "_RESOURCES/ASSETS/EXCALIDRAW/COMMUNITY/COMMUNITY ASSETS FOUND.svg",
-    "_RESOURCES/ASSETS/EXCALIDRAW/COMMUNITY/COMMUNITY ASSETS FOUND.md",
-    "_RESOURCES/ASSETS/EXCALIDRAW/COMMUNITY/CHARTS ASSETS.svg",
-    "_RESOURCES/ASSETS/EXCALIDRAW/COMMUNITY/CHARTS ASSETS.md",
-    "_RESOURCES/ASSETS/EXCALIDRAW/_LINKS.md",
-    "_RESOURCES/ASSETS/EXCALIDRAW/SOCIAL MEDIA ASSETS.md",
-    "_RESOURCES/ASSETS/EXCALIDRAW/ICON - SUPPLEMENTS.md",
-    "_RESOURCES/ASSETS/EXCALIDRAW/ICON - NUTRITION.md",
-    "_RESOURCES/ASSETS/EXCALIDRAW/ICON - INTERACTIVE.md",
-    "_RESOURCES/ASSETS/EXCALIDRAW/EXCALIDRAW.assets.namzu.md",
-    "_RESOURCES/ASSETS/EXCALIDRAW/EXCALIDRAW.assets.md",
-    "_RESOURCES/ASSETS/EXCALIDRAW/EXCALIDRAW.assets.enigmas..md",
-    "_RESOURCES/ASSETS/EXCALIDRAW/COMMUNITY",
-    "_RESOURCES/ASSETS/EXCALIDRAW",
-    "_RESOURCES/ASSETS/888/ASSETS_.A",
-    "_RESOURCES/ASSETS/888",
-    "_RESOURCES/ASSETS",
-    "_OPERATION/_CLEAN/SOCIALS/YOUTUBE/ODDD",
-    "_OPERATION/_CLEAN/SOCIALS/YOUTUBE",
-    "_OPERATION/_CLEAN/SOCIALS/OBSIDIAN.forum",
-    "_OPERATION/_CLEAN/_OLD"
+    "_RESOURCES/DATACORE/DATACORE.showcase.md",
+    "_OPERATION/PUBLIC/DEVLOG/DEVLOG.md",
+    "_OPERATION/PUBLIC/DEVLOG/ITI/DEVLOG.grey-9.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/WOMEN_v6_.A.md",
+    "_RESOURCES/DATACORE/82 ImageStream/src/utils/domUtils.jsx",
+    "_RESOURCES/DATACORE/82 ImageStream/src/styles/styles.jsx",
+    "_RESOURCES/DATACORE/82 ImageStream/src/components/StreamComponent.jsx",
+    "_RESOURCES/DATACORE/82 ImageStream/src/utils",
+    "_RESOURCES/DATACORE/82 ImageStream/src/styles",
+    "_RESOURCES/DATACORE/82 ImageStream/src/index.jsx",
+    "_RESOURCES/DATACORE/82 ImageStream/src/components",
+    "_RESOURCES/DATACORE/82 ImageStream/src",
+    "_RESOURCES/DATACORE/82 ImageStream/IMAGE STREAM.md",
+    "_RESOURCES/DATACORE/82 ImageStream/D.q.imagestream.viewer.md",
+    "_RESOURCES/DATACORE/82 ImageStream",
+    "_RESOURCES/DATACORE/70 ImageStream/src/utils/domUtils.jsx",
+    "_RESOURCES/DATACORE/70 ImageStream/IMAGE STREAM.md",
+    "_RESOURCES/DATACORE/70 ImageStream/D.q.imagestream.viewer.md",
+    "_RESOURCES/DATACORE/81 TornCloth/D.q.torncloth.viewer.md",
+    "_RESOURCES/DATACORE/81 TornCloth/TORN CLOTH.md",
+    "_RESOURCES/DATACORE/69 TornCloth/D.q.torncloth.viewer.md",
+    "_RESOURCES/DATACORE/69 TornCloth/TORN CLOTH.md",
+    "_RESOURCES/DATACORE/80 DitherPro/D.q.ditherpro.viewer.md",
+    "_RESOURCES/DATACORE/79 DisplacementView/D.q.displacementview.viewer.md",
+    "_RESOURCES/DATACORE/74 VideoBackgroundRemoval/VIDEO BACKGROUND REMOVAL.md",
+    "_RESOURCES/DATACORE/75 IQGame/D.q.iqgame.viewer.md",
+    "_RESOURCES/DATACORE/80 DitherPro/DITHER PRO.md",
+    "_RESOURCES/DATACORE/68 DitherPro/DITHER PRO.md",
+    "_RESOURCES/DATACORE/68 DitherPro/D.q.ditherpro.viewer.md",
+    "_RESOURCES/DATACORE/79 DisplacementView/DISPLACEMENT VIEW.md",
+    "_RESOURCES/DATACORE/67 DisplacementView/D.q.displacementview.viewer.md",
+    "_RESOURCES/DATACORE/67 DisplacementView/DISPLACEMENT VIEW.md",
+    "_RESOURCES/DATACORE/78 TermuxMobile/_resources/agents/TROUBLESHOOTING.md",
+    "_RESOURCES/DATACORE/78 TermuxMobile/_resources/agents/PLANNER.md",
+    "_RESOURCES/DATACORE/78 TermuxMobile/TERMUX MOBILE.md",
+    "_RESOURCES/DATACORE/76 KeychainManager/_resources/images/basic_folder_view.webp",
+    "_RESOURCES/DATACORE/82 KeychainManager/_resources/images/basic_folder_view.webp",
+    "_RESOURCES/DATACORE/71 Recap2025/_resources/images/recap2025.webp",
+    "_OPERATION/_CLEAN/SOCIALS/YOUTUBE/ODDD/OBSIDIAN.daily.discipline.d094.svg",
+    "_OPERATION/_CLEAN/SOCIALS/YOUTUBE/ODDD/OBSIDIAN.daily.discipline.d093.svg",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/WOMEN_v6_.A.restored.svg",
+    "_OPERATION/_CLEAN/SOCIALS/YOUTUBE/ODDD/OBSIDIAN.daily.discipline.d092.svg",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/WOMEN_v6_.A.svg",
+    "_RESOURCES/EXCALIDRAW/Scripts/Downloaded/Split Lines.svg",
+    "_RESOURCES/EXCALIDRAW/Scripts/Downloaded/Layer Manager.svg"
   ]
 }

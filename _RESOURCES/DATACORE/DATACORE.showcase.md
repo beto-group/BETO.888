@@ -6,33 +6,63 @@ permalink: obsidian.plugins.datacore.showcase
 
 
 
-[[OPEN BROWSER]]
 
 
-[[OPEN APPLICATION]]
+## **WIP - Needs Cleanup**
 
 
-[[VIDEO BACKGROUND REMOVAL]]
+###### [OPEN BROWSER](72%20OpenBrowser/OPEN%20BROWSER.md) { NEW }
 
+###### [OPEN APPLICATION](73%20OpenApplication/OPEN%20APPLICATION.md) { NEW }
 
-[[IQ GAME]]
+###### [VIDEO BACKGROUND REMOVAL](74%20VideoBackgroundRemoval/VIDEO%20BACKGROUND%20REMOVAL.md) { NEW }
 
+###### [IQ GAME](75%20IQGame/IQ%20GAME.md) { NEW }
 
-[[KEYCHAIN MANAGER]]
+###### [KEYCHAIN MANAGER](76%20KeychainManager/KEYCHAIN%20MANAGER.md) { NEW } 
 
-[[RETRO MORPH GAME]]
+###### [RETRO MORPH GAME](77%20RetroMorphGame/RETRO%20MORPH%20GAME.md) { NEW }
 
+###### [TERMUX MOBILE](78%20TermuxMobile/TERMUX%20MOBILE.md) { NEW }
 
-[[D.q.termuxmobile.viewer]]
+###### [DISPLACEMENT VIEW](79%20DisplacementView/DISPLACEMENT%20VIEW.md) { NEW }
 
+###### [DITHER PRO](80%20DitherPro/DITHER%20PRO.md) { NEW }
 
+###### [TORN CLOTH](81%20TornCloth/TORN%20CLOTH.md) { NEW }
 
-[[DISPLACEMENT VIEW]]
+###### [IMAGE STREAM](82%20ImageStream/IMAGE%20STREAM.md) { NEW }
 
+###### [SCENE UI](83%20SceneUI/SCENE%20UI.md) { NEW }
 
-[[DITHER PRO]]
+###### [SIGNAL MESH](84%20SignalMesh/SIGNAL%20MESH.md) { NEW }
 
-[[TORN CLOTH]]
+###### [PERLIN MOUNTAINS](85%20PerlinMountains/PERLIN%20MOUNTAINS.md) { NEW }
+
+###### [MASKED TEXT](86%20MaskedText/MASKED%20TEXT.md) { NEW }
+
+###### [REVERSE FLIGHT](87%20ReverseFlight/REVERSE%20FLIGHT.md) { NEW }
+
+###### [KINETIC TYPE](88%20KineticType/KINETIC%20TYPE.md) { NEW }
+
+###### [CARD SCANNER](89%20CardScanner/CARD%20SCANNER.md) { NEW }
+
+###### [OPTICAL ILLUSION](90%20OpticalIllusion/OPTICAL%20ILLUSION.md) { NEW }
+
+###### [HYPER SCROLL](91%20HyperScroll/HYPER%20SCROLL.md) { NEW }
+
+###### [DUOTONE EDITOR](92%20DuotoneEditor/DUOTONE%20EDITOR.md) { NEW }
+
+###### [NEURAL NETWORK](93%20NeuralNetwork/NEURAL%20NETWORK.md) { NEW }
+
+###### [OBSIDIAN DOWNLOAD STATS](94%20ObsidianDownloadStats/OBSIDIAN%20DOWNLOAD%20STATS.md) { NEW }
+
+###### [PROCEDURAL SQUID](95%20ProceduralSquid/PROCEDURAL%20SQUID.md) { NEW }
+
+###### [CUBES HOVER](96%20CubesHover/CUBES%20HOVER.md) { NEW }
+
+###### [KEYBOARD MAESTRO CLI](97%20KeyboardMaestroCLI/KEYBOARD%20MAESTRO%20CLI.md) { NEW }
+
 
 
 
@@ -86,7 +116,7 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [ASSETS LIBRARY](52%20AssetsLibrary/ASSETS%20LIBRARY.md)
 
-###### [RECAP 2025](71%20Recap2025/RECAP%202025.md) { NEW }
+###### [RECAP 2025](71%20Recap2025/RECAP%202025.md) 
 
 
 ## **Development & Building Tools**
@@ -183,7 +213,7 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [CARD PICKER](40%20CardPicker/CARD%20PICKER.md) 
 
-###### [DOOM PLAYER](70%20DoomPlayer/DOOM%20PLAYER.md) { NEW }
+###### [DOOM PLAYER](70%20DoomPlayer/DOOM%20PLAYER.md) 
 
 
 

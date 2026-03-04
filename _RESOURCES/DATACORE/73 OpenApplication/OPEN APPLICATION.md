@@ -26,7 +26,7 @@
 
 -----
 
-![icons_pack.webp](_resources/images/recap2025.webp)
+![icons_pack.webp](_resources/images/res5.webp)
 
 
 

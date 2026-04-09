@@ -1,0 +1,51 @@
+{
+  "sequence": [
+    {
+      "id": "text-seq-001",
+      "component": "KineticTextSequence",
+      "from": 0,
+      "duration": 750,
+      "text1": "Work was",
+      "text2": "Work was never meant to be this slow."
+    },
+    {
+      "id": "ui-reveal-001",
+      "component": "UIInterfaceReveal",
+      "from": 831,
+      "duration": 100,
+      "scale": 0.8,
+      "tiltX": 15,
+      "tiltY": -10
+    },
+    {
+      "id": "cursor-001",
+      "component": "CursorPointer",
+      "from": 873,
+      "duration": 60,
+      "startX": 800,
+      "startY": 800,
+      "endX": 960,
+      "endY": 540,
+      "clickFrame": 40
+    },
+    {
+      "id": "icon-split-001",
+      "component": "IconSplit",
+      "from": 912,
+      "duration": 80,
+      "explodeFrame": 40,
+      "speed": 0.8
+    },
+    {
+      "id": "brand-reveal-001",
+      "component": "BrandLogoReveal",
+      "from": 886,
+      "duration": 90,
+      "tagline": "Where work happens"
+    }
+  ],
+  "activeBackground": "PureWhiteBackground",
+  "zoom": 0.6,
+  "sidebarTab": "scenes",
+  "version": 1
+}

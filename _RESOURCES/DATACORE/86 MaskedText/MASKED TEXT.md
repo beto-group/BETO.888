@@ -16,42 +16,38 @@ desc: A dynamic typography engine that applies high-fidelity weathered grunge ma
 status: stable
 complexity: advanced
 id: 74
-resources:
-  - masked_text_1.webp
+resources: [maskedtext.clip.webm, maskedtext_1.webp]
 longDesc: "MaskedText is a performance-optimized typography component designed for high-impact visual headers. It utilizes CSS masking techniques (Webkit-mask-image) to overlay a complex, high-contrast grunge bitmap onto live, editable text. The component is powered by a real-time React styling engine that syncs with a dedicated GUI for immediate control over font weight, scale, transform, and color mapping. It bridges the gap between static design textures and dynamic web content, providing a weathered, industrial aesthetic with zero rendering overhead."
 does: "[  {    \"title\": \"Typography Masking Engine\",    \"children\": [      {        \"title\": \"CSS Grunge Masking\",        \"content\": \"Applies a weathered 'grunge' bitmap mask to editable text using high-performance CSS mask-image properties.\"      },      {        \"title\": \"Real-Time Style Sync\",        \"content\": \"Maps React state directly to typography attributes, enabling instantaneous visual feedback for all styling changes.\"      }    ]  },  {    \"title\": \"Visual Controls\",    \"children\": [      {        \"title\": \"Dynamic Layout Logic\",        \"content\": \"Provides granular control over Font Weight (100-900), Font Size, and Text Transformations (Uppercase/Lowercase/Capitalize).\"      },      {        \"title\": \"Unified Color Mapping\",        \"content\": \"Synchronizes text and background colors with the layout engine to ensure optimal contrast and aesthetic integration.\"      }    ]  },  {    \"title\": \"Lifecycle Management\",    \"children\": [      {        \"title\": \"Full-Tab Staging\",        \"content\": \"Integrates with the Datacore Full-Tab lifecycle for edge-to-edge cinematic presentations.\"      },      {        \"title\": \"Integrated System HUD\",        \"content\": \"Features a dedicated Lil-gui configuration panel for rapid prototyping of typographic designs.\"      }    ]  }]"
 cant: '[  {    \"title\": \"Custom Mask Uploads\",    \"content\": \"The current version uses a curated grunge bitmap; uploading custom mask textures through the UI is not supported.\"  },  {    \"title\": \"Multi-Layer Masking\",    \"content\": \"The engine supports a single primary mask layer per text element; complex composite masking is not supported.\"  },  {    \"title\": \"SVG Path Masking\",    \"content\": \"The system is optimized for bitmap-based pattern masking; it does not currently support vector-based SVG path clipping for text.\"  }]'
 version.obsidian: 1.4.11
 ---
 
-### Tab: MaskedText
+### Tab: Masked Text
 
-- **Description**: A dynamic typography engine that applies high-fidelity weathered grunge masking to live text. It provides an industrial, high-impact aesthetic for headers and titles.
+- **Description**: A performance-optimized typography component designed for high-impact visual headers. It utilizes CSS masking techniques (Webkit-mask-image) to overlay a complex, high-contrast grunge bitmap onto live, editable text. The component is powered by a real-time React styling engine that syncs with a dedicated GUI for immediate control over font weight, scale, transform, and color mapping.
 
 - **Does**:
-   
-    - **Typography Masking Engine**:    
-        - **CSS Grunge Masking**: Applies a weathered 'grunge' bitmap mask to editable text using high-performance CSS mask-image properties.
-        - **Real-Time Style Sync**: Maps React state directly to typography attributes, enabling instantaneous visual feedback for all styling changes.
-    - **Visual Controls**:
-        - **Dynamic Layout Logic**: Provides granular control over Font Weight (100-900), Font Size, and Text Transformations (Uppercase/Lowercase/Capitalize).
-        - **Unified Color Mapping**: Synchronizes text and background colors with the layout engine to ensure optimal contrast and aesthetic integration.
-    - **Lifecycle Management**:
-        - **Full-Tab Staging**: Integrates with the Datacore Full-Tab lifecycle for edge-to-edge cinematic presentations.
-        - **Integrated System HUD**: Features a dedicated Lil-gui configuration panel for rapid prototyping of typographic designs.
+
+    - **Typography Masking Engine**: Applies high-fidelity weathered grunge masks to live, editable text.
+    - **Real-Time Style Synchronization**: Maps React state directly to typography attributes for instantaneous feedback.
+    - **Dynamic Layout Logic**: Precision control over font weight (100-900), scale, and temporal text transforms.
+    - **Unified Color Mapping**: Synchronizes foreground and background layers for optimal contrast and integration.
+    - **Full-Tab Lifecycle Staging**: Integrates with Datacore's immersion protocols for cinematic title presentations.
+    - **Integrated System HUD**: Dedicated configuration panel for rapid prototyping of typographic design systems.
 
 - **Can’t**:
-   
-    - **Custom Mask Uploads**: The current version uses a curated grunge bitmap; uploading custom mask textures through the UI is not supported.    
-    - **Multi-Layer Masking**: The engine supports a single primary mask layer per text element; complex composite masking is not supported.
-    - **SVG Path Masking**: The system is optimized for bitmap-based pattern masking; it does not currently support vector-based SVG path clipping for text.
 
+    - **Custom Mask Uploads**: Currently limited to a curated internal grunge library; no UI-based texture ingestion.
+    - **Multi-Layer Masking**: Supports a single primary mask layer; does not allow for complex composite masking.
+    - **SVG Path Clipping**: Optimized for bitmap-based texture masking; does not support vector-path clipping logic.
+    - **Independent Font Injection**: Relies on host-level typeface availability; does not bundle heavy external font files.
 
-----
+------
+![Masked Text Clip](_resources/videos/maskedtext.clip.webm)
 
-![masked_text_1.webp](_resources/images/masked_text_1.webp)
-
+![Masked Text Screenshot 1](_resources/images/maskedtext_1.webp)
 
 ### Components
-
-###### [MaskedText Viewer](D.q.maskedtext.viewer.md)
+###### [Masked Text Viewer](D.q.maskedtext.viewer.md)
+###### [Masked Text Components {index.jsx}](src/index.jsx)

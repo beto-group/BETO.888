@@ -36,7 +36,7 @@ permalink: obsidian.plugins.datacore.showcase
 
 
 BASICs
-###### [BASIC FOLDER VIEW](66%20BasicFolderView/BASIC%20FOLDER%20VIEW.md)  { UPGRADE }
+###### [BASIC FOLDER VIEW v1](BASIC%20FOLDER%20VIEW%20v1.md)  { UPGRADE }
 
 ###### [BASIC VIEW v1](3.1%20BasicView/BASIC%20VIEW%20v1.md)
 

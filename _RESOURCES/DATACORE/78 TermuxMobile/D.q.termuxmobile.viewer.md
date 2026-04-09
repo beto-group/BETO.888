@@ -1,6 +1,6 @@
 
 ```datacorejsx
-const factoryPath = dc.resolvePath("85 TermuxMobile/src/index.jsx");
+const factoryPath = dc.resolvePath("78 TermuxMobile/src/index.jsx");
 const factory = await dc.require(factoryPath);
 
 if (factory && factory.View) {

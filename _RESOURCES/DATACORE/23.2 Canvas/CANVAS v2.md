@@ -30,9 +30,9 @@ version: 1.0.3
 ### Tab: Canvas v2
 
 - **Description**: An advanced, interactive component that provides an infinite, zoomable canvas for creating and connecting nodes. This upgraded version integrates seamlessly with the Obsidian vault for saving and loading canvas states, includes a full undo/redo history, and adapts its visual theme to match Obsidian's light or dark mode. It functions as a complete and persistent visual programming or mind-mapping environment.
-    
+
 - **Does**:
-    
+
     - **Full Canvas Persistence**:
         - **Save & Load**: Allows users to save the entire state of their canvas—including all nodes, links, and the current view position/zoom—to a JSON file within the vault (.datacore/canvas-saves).
         - **File Management**: A "Load" menu provides an interface to browse, load, and delete previously saved canvas files.
@@ -52,10 +52,10 @@ version: 1.0.3
         - **Full-Tab Mode**: Designed to run by default in a full-pane mode that takes over the entire Obsidian view, creating a dedicated, app-like environment.
 
 - **Can’t**:
-   
-    - **Live-Sync with Files**: The save and load operations are manual actions. The canvas does not automatically sync with a file in real-time.    
-    - **Customize Node Content or Appearance**: The content and appearance of nodes (title, description, icon) are hard-coded. There is no interface to edit the text or style of individual nodes.
-    - **Import or Visualize Vault Data**: This component is a self-contained diagramming tool and does not read, parse, or visualize any data from the Obsidian vault, such as notes, tags, or links.
+
+    - **Real-Time Synchronization**: The save and load operations are manual actions. The canvas does not automatically sync with a file in real-time.
+    - **Node Customization**: The content and appearance of nodes (title, description, icon) are hard-coded. There is no interface to edit the text or style of individual nodes.
+    - **Vault Data Integration**: This component is a self-contained diagramming tool and does not read, parse, or visualize any data from the Obsidian vault.
 
 
 ----

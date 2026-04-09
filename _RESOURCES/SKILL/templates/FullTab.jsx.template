@@ -1,0 +1,107 @@
+/**
+ * FullTab Utility - Validated Standard (DOM Reparenting)
+ * Use this hook to achieve a true edge-to-edge experience in Obsidian.
+ */
+const useFullTab = (containerRef) => {
+    const { useEffect, useRef } = dc;
+    const originalParentRef = useRef(null);
+    const placeholderRef = useRef(null);
+    const isActiveRef = useRef(false);
+
+    useEffect(() => {
+        const settleTimeout = setTimeout(() => {
+            if (!containerRef.current || isActiveRef.current) return;
+            const container = containerRef.current;
+            
+            // 1. LOCAL DOM RESOLUTION: NO GLOBAL SELECTORS
+            // DO NOT use global `document.querySelector('.workspace-leaf.mod-active')`. 
+            // If the component mounts while another tab gets activated (or in background), 
+            // a global selector will reparent this component into the WRONG pane.
+            // We MUST traverse the DOM upwards from our own container to find our exact local leaf.
+            let leaf = container.closest('.workspace-leaf');
+            if (!leaf) {
+                // Absolute fallback for extreme edge cases where DOM is detached during mount
+                leaf = document.querySelector('.workspace-leaf.mod-active');
+            }
+            if (!leaf) return;
+            
+            // 2. ISOLATED TARGETING: DO NOT HIDE HEADERS
+            // ONLY target `.view-content`. Do NOT apply `display: none` to the `.view-header` 
+            // or the `.status-bar` natively, because that globally alters Obsidian's framework.
+            // Absolute positioning over `.view-content` naturally paints over the data but leaves structural headers intact.
+            const wrapper = leaf.querySelector('.view-content');
+            if (!wrapper) return;
+
+            const currentParent = container.parentNode;
+            if (!currentParent) return;
+
+            isActiveRef.current = true;
+            originalParentRef.current = currentParent;
+
+            // Create Placeholder 
+            const placeholder = document.createElement('div');
+            placeholder.className = 'screen-mode-placeholder';
+            placeholder.style.display = 'none';
+            if (container.nextSibling) {
+                currentParent.insertBefore(placeholder, container.nextSibling);
+            } else {
+                currentParent.appendChild(placeholder);
+            }
+            placeholderRef.current = placeholder;
+
+            // Perform Reparenting
+            currentParent.removeChild(container);
+            wrapper.appendChild(container);
+
+            // 3. STACKING CONTEXT ENFORCEMENT: THE ANTI-BLEED PROTOCOL
+            // For `position: absolute` (below) to bind tightly to the tab pane, the `.view-content`
+            // wrapper MUST have a positioning context. If it's `static`, our absolute coordinates will
+            // escape the tab framework and cover the entire Obsidian physical window (nav rails, headers, etc).
+            const computedParentPosition = window.getComputedStyle(wrapper).position;
+            if (computedParentPosition === 'static') {
+                wrapper.style.position = "relative";
+            }
+            // Hiding overflow guarantees no visual jitter or scrollbar bleeding outside the specific tab.
+            wrapper.style.overflow = "hidden";
+
+            Object.assign(container.style, {
+                position: "absolute",
+                top: "0px",
+                left: "0px",
+                width: "100%",
+                height: "100%",
+                zIndex: "9998",
+                margin: "0",
+                padding: "0",
+                border: "none",
+                borderRadius: "0",
+                backgroundColor: "#050505",
+                overflow: "auto",
+                display: "block"
+            });
+        }, 300);
+
+        return () => {
+            clearTimeout(settleTimeout);
+            if (isActiveRef.current && containerRef.current && originalParentRef.current) {
+                try {
+                    const activePlaceholder = placeholderRef.current;
+                    if (activePlaceholder?.parentNode) {
+                        activePlaceholder.parentNode.replaceChild(containerRef.current, activePlaceholder);
+                    }
+                    Object.assign(containerRef.current.style, {
+                        position: "", top: "", left: "", width: "", height: "", 
+                        zIndex: "", margin: "", padding: "", border: "", 
+                        borderRadius: "", backgroundColor: "", 
+                        overflow: "", display: "block"
+                    });
+                    isActiveRef.current = false;
+                } catch (e) {
+                    console.error("[FullTab] Cleanup error:", e);
+                }
+            }
+        };
+    }, [containerRef]);
+};
+
+return { useFullTab };

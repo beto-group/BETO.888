@@ -1,0 +1,338 @@
+[
+  {
+    "timestamp": "2026-02-10T07:16:32.585751",
+    "action": "telegram_trigger",
+    "source": "telegram",
+    "status": "success",
+    "result": "Remote Trigger: Service Online"
+  },
+  {
+    "timestamp": "2026-02-09T12:23:11.248726",
+    "action": "telegram_trigger",
+    "source": "telegram",
+    "status": "success",
+    "result": "Remote Trigger: Service Online"
+  },
+  {
+    "timestamp": "2026-02-08T22:16:10.409Z",
+    "source": "telegram",
+    "action": "connected",
+    "result": "Bot connected",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-02-08T22:16:08.788Z",
+    "source": "telegram_connect",
+    "action": "completed",
+    "result": "Bot Connection Initiated",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-02-08T22:16:08.772Z",
+    "action": "telegram_connect",
+    "status": "executing",
+    "result": ""
+  },
+  {
+    "timestamp": "2026-02-08T22:16:06.784Z",
+    "source": "get_telegram_creds",
+    "action": "completed",
+    "result": "{\"apiId\":\"****\",\"apiHash\":\"****\",\"phone\":\"****\",\"botToken\":\"****\"}",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-02-08T22:16:06.774Z",
+    "action": "get_telegram_creds",
+    "status": "executing",
+    "result": ""
+  },
+  {
+    "timestamp": "2026-02-08T23:18:38.632962",
+    "action": "telegram_trigger",
+    "source": "telegram",
+    "status": "success",
+    "result": "Remote Trigger: Try this again"
+  },
+  {
+    "timestamp": "2026-02-08T23:18:07.659856",
+    "action": "telegram_trigger",
+    "source": "telegram",
+    "status": "success",
+    "result": "Remote Trigger: Boom?"
+  },
+  {
+    "timestamp": "2026-02-08T16:17:49.944Z",
+    "source": "telegram",
+    "action": "connected",
+    "result": "Bot connected",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-02-08T16:17:48.269Z",
+    "source": "telegram_connect",
+    "action": "completed",
+    "result": "Bot Connection Initiated",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-02-08T16:17:48.262Z",
+    "action": "telegram_connect",
+    "status": "executing",
+    "result": ""
+  },
+  {
+    "timestamp": "2026-02-08T16:17:46.266Z",
+    "source": "get_telegram_creds",
+    "action": "completed",
+    "result": "{\"apiId\":\"****\",\"apiHash\":\"****\",\"phone\":\"****\",\"botToken\":\"****\"}",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-02-08T16:17:46.261Z",
+    "action": "get_telegram_creds",
+    "status": "executing",
+    "result": ""
+  },
+  {
+    "timestamp": "2026-02-08T23:08:29.145566",
+    "action": "telegram_trigger",
+    "source": "telegram",
+    "status": "success",
+    "result": "Remote Trigger: Service Online"
+  },
+  {
+    "timestamp": "2026-02-08T23:05:59.960539",
+    "action": "telegram_trigger",
+    "source": "telegram",
+    "status": "success",
+    "result": "Remote Trigger: Yo you reading this?"
+  },
+  {
+    "timestamp": "2026-02-08T16:05:39.751Z",
+    "source": "telegram",
+    "action": "connected",
+    "result": "Bot connected",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-02-08T16:05:38.209Z",
+    "source": "telegram_connect",
+    "action": "completed",
+    "result": "Bot Connection Initiated",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-02-08T16:05:38.202Z",
+    "action": "telegram_connect",
+    "status": "executing",
+    "result": ""
+  },
+  {
+    "timestamp": "2026-02-08T16:05:36.206Z",
+    "source": "get_telegram_creds",
+    "action": "completed",
+    "result": "{\"apiId\":\"****\",\"apiHash\":\"****\",\"phone\":\"****\",\"botToken\":\"****\"}",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-02-08T16:05:36.199Z",
+    "action": "get_telegram_creds",
+    "status": "executing",
+    "result": ""
+  },
+  {
+    "timestamp": "2026-02-08T16:04:57.941Z",
+    "source": "telegram",
+    "action": "connected",
+    "result": "Bot auto-connected",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-02-08T22:57:09.319350",
+    "action": "telegram_trigger",
+    "source": "telegram",
+    "status": "success",
+    "result": "Remote Trigger: Service Online"
+  },
+  {
+    "timestamp": "2026-02-08T22:56:13.645474",
+    "action": "telegram_trigger",
+    "source": "telegram",
+    "status": "success",
+    "result": "Remote Trigger: You got this bro"
+  },
+  {
+    "timestamp": "2026-02-08T15:56:01.860Z",
+    "source": "telegram",
+    "action": "connected",
+    "result": "Bot connected",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-02-08T15:56:00.266Z",
+    "source": "telegram_connect",
+    "action": "completed",
+    "result": "Bot Connection Initiated",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-02-08T15:56:00.249Z",
+    "action": "telegram_connect",
+    "status": "executing",
+    "result": ""
+  },
+  {
+    "timestamp": "2026-02-08T15:55:58.235Z",
+    "source": "get_telegram_creds",
+    "action": "completed",
+    "result": "{\"apiId\":\"****\",\"apiHash\":\"****\",\"phone\":\"****\",\"botToken\":\"****\"}",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-02-08T15:55:58.232Z",
+    "action": "get_telegram_creds",
+    "status": "executing",
+    "result": ""
+  },
+  {
+    "timestamp": "2026-02-08T15:55:42.435Z",
+    "source": "telegram",
+    "action": "connected",
+    "result": "Bot connected",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-02-08T15:55:40.804Z",
+    "source": "telegram_connect",
+    "action": "completed",
+    "result": "Bot Connection Initiated",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-02-08T15:55:40.789Z",
+    "action": "telegram_connect",
+    "status": "executing",
+    "result": ""
+  },
+  {
+    "timestamp": "2026-02-08T15:55:38.793Z",
+    "source": "get_telegram_creds",
+    "action": "completed",
+    "result": "{\"apiId\":\"****\",\"apiHash\":\"****\",\"phone\":\"****\",\"botToken\":\"****\"}",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-02-08T15:55:38.790Z",
+    "action": "get_telegram_creds",
+    "status": "executing",
+    "result": ""
+  },
+  {
+    "timestamp": "2026-02-08T22:52:11.130372",
+    "action": "telegram_trigger",
+    "source": "telegram",
+    "status": "success",
+    "result": "Remote Trigger: Service Online"
+  },
+  {
+    "timestamp": "2026-02-08T22:50:54.211798",
+    "action": "telegram_trigger",
+    "source": "telegram",
+    "status": "success",
+    "result": "Remote Trigger: Testing again?"
+  },
+  {
+    "timestamp": "2026-02-08T22:50:31.008047",
+    "action": "telegram_trigger",
+    "source": "telegram",
+    "status": "success",
+    "result": "Remote Trigger: Yo you you got this?"
+  },
+  {
+    "timestamp": "2026-02-08T15:49:42.220Z",
+    "source": "telegram",
+    "action": "connected",
+    "result": "Bot connected",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-02-08T15:49:40.563Z",
+    "source": "telegram_connect",
+    "action": "completed",
+    "result": "Bot Connection Initiated",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-02-08T15:49:40.548Z",
+    "action": "telegram_connect",
+    "status": "executing",
+    "result": ""
+  },
+  {
+    "timestamp": "2026-02-08T15:49:38.543Z",
+    "source": "get_telegram_creds",
+    "action": "completed",
+    "result": "{\"apiId\":\"****\",\"apiHash\":\"****\",\"phone\":\"****\",\"botToken\":\"****\"}",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-02-08T15:49:38.540Z",
+    "action": "get_telegram_creds",
+    "status": "executing",
+    "result": ""
+  },
+  {
+    "timestamp": "2026-02-08T15:47:48.851Z",
+    "source": "telegram",
+    "action": "connected",
+    "result": "Bot auto-connected",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-02-08T15:43:23.792Z",
+    "source": "telegram",
+    "action": "error",
+    "result": "406: AUTH_KEY_DUPLICATED (caused by InvokeWithLayer)",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-02-08T15:43:22.320Z",
+    "source": "telegram_connect",
+    "action": "completed",
+    "result": "Bot Connection Initiated",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-02-08T15:43:22.308Z",
+    "action": "telegram_connect",
+    "status": "executing",
+    "result": ""
+  },
+  {
+    "timestamp": "2026-02-08T15:43:20.302Z",
+    "source": "get_telegram_creds",
+    "action": "completed",
+    "result": "{\"apiId\":\"****\",\"apiHash\":\"****\",\"phone\":\"****\",\"botToken\":\"****\"}",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-02-08T15:43:20.297Z",
+    "action": "get_telegram_creds",
+    "status": "executing",
+    "result": ""
+  },
+  {
+    "timestamp": "2026-02-08T15:38:43.591Z",
+    "source": "telegram",
+    "action": "error",
+    "result": "406: AUTH_KEY_DUPLICATED (caused by InvokeWithLayer)",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-02-08T15:38:42.299Z",
+    "source": "telegram_connect",
+    "action": "completed",
+    "result": "Bot Connection Initiated",
+    "status": "success"
+  }
+]

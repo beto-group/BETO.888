@@ -1,0 +1,22 @@
+{
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "google/gemini-2.5-flash"
+      },
+      "workspace": "/absolute/path/to/your/project",
+      "compaction": {
+        "mode": "safeguard"
+      }
+    },
+    "list": [
+      {
+        "id": "coder",
+        "name": "Coding Assistant",
+        "skills": {
+          "allowBundled": ["fs", "bash", "grep"]
+        }
+      }
+    ]
+  }
+}

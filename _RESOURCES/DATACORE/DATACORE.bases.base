@@ -37,6 +37,12 @@ views:
         - file.name != "DATACORE.bases.base"
         - '!file.path.contains("/src/")'
         - '!file.path.contains("/temp/")'
+        - '!file.path.contains("/resources/data")'
+        - '!file.name.contains(".extract")'
+        - '!file.name.contains(".txt")'
+        - '!file.name.contains(".jsx")'
+        - '!file.name.contains(".types")'
+        - '!file.name.contains(".html")'
     order:
       - file.name
       - id
@@ -60,7 +66,7 @@ views:
       - version.obsidian
     sort:
       - property: file.name
-        direction: DESC
+        direction: ASC
       - property: id
         direction: ASC
       - property: tags

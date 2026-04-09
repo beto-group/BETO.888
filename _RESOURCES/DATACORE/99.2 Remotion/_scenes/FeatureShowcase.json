@@ -1,0 +1,16 @@
+{
+  "sequence": [
+    {
+      "id": "feature-showcase-001",
+      "component": "FeatureShowcase",
+      "from": 0,
+      "duration": 300,
+      "title": "NEO-ISOLATION ENGINE",
+      "subtitle": "Pure React | 120 FPS | Datacore Native"
+    }
+  ],
+  "activeBackground": "AuroraLines",
+  "zoom": 1,
+  "sidebarTab": "scenes",
+  "version": 1
+}

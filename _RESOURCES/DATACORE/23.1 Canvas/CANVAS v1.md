@@ -28,10 +28,10 @@ version: 4.0.4
 ### Tab: Canvas v1
 
 - **Description**: An advanced, multi-purpose component that provides an infinite, zoomable, and pannable canvas for creating complex visual layouts. Its most powerful feature is the ability to act as a "sandbox," allowing users to dynamically load, configure, and interact with any other Datacore component as a movable, resizable object on the canvas. It is a versatile tool for building dashboards, mind maps, and a powerful utility for developing and testing other components.
-   
+
 - **Does**:
 
-    - **Infinite Canvas Workspace**:   
+    - **Infinite Canvas Workspace**:
         - Provides a limitless 2D space with smooth panning (Space + Drag) and zooming (Ctrl/Cmd + Scroll).
         - Features an adaptive grid that changes density based on the zoom level for precise alignment.
     - **Object Creation & Manipulation**:
@@ -51,11 +51,11 @@ version: 4.0.4
         - Includes multiple display modes via ScreenModeHelper, allowing the entire canvas to be expanded to fill the pane, the full window, or a floating Picture-in-Picture view.
 
 - **Can’t**:
-   
-    - **Connect Boxes with Lines**: It is a freeform canvas and does not include functionality for creating connectors or arrows between boxes, limiting its use for complex diagramming.   
-    - **Guarantee Perfect Sandboxing**: The escape-prevention mechanism is a best-effort solution. A highly complex or misbehaving component could still potentially interfere with the main application UI.
-    - **Automatically Save State**: All saves are manual user actions. There is no auto-save feature, so work could be lost if not explicitly saved.
-    - **Function Offline on First Run**: It requires an internet connection for its initial run to download and cache external libraries like marked.js and Fuse.js.
+
+    - **Box Connection**: It is a freeform canvas and does not include functionality for creating connectors or arrows between boxes, limiting its use for complex diagramming.
+    - **Guaranteed Sandboxing**: The escape-prevention mechanism is a best-effort solution. A highly complex or misbehaving component could still potentially interfere with the main application UI.
+    - **Auto-Save Functionality**: All saves are manual user actions. There is no auto-save feature, so work could be lost if not explicitly saved.
+    - **Offline Setup**: It requires an internet connection for its initial run to download and cache external libraries like marked.js and Fuse.js.
 
 
 -----

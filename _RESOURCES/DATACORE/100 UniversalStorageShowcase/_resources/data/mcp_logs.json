@@ -1,0 +1,502 @@
+[
+  {
+    "timestamp": "2026-04-06T00:14:33.487Z",
+    "type": "log",
+    "message": "MCP Bridge Unmounting"
+  },
+  {
+    "timestamp": "2026-04-06T00:14:32.923Z",
+    "type": "heartbeat",
+    "message": "2026-04-06T00:14:32.923Z"
+  },
+  {
+    "timestamp": "2026-04-06T00:14:27.926Z",
+    "type": "heartbeat",
+    "message": "2026-04-06T00:14:27.924Z"
+  },
+  {
+    "timestamp": "2026-04-06T00:14:26.787Z",
+    "type": "heartbeat",
+    "message": "2026-04-06T00:14:26.785Z"
+  },
+  {
+    "timestamp": "2026-04-06T00:14:18.610Z",
+    "type": "heartbeat",
+    "message": "2026-04-06T00:14:18.473Z"
+  },
+  {
+    "timestamp": "2026-04-06T00:13:18.660Z",
+    "type": "heartbeat",
+    "message": "2026-04-06T00:13:18.436Z"
+  },
+  {
+    "timestamp": "2026-04-06T00:12:18.826Z",
+    "type": "heartbeat",
+    "message": "2026-04-06T00:12:18.691Z"
+  },
+  {
+    "timestamp": "2026-04-06T00:11:18.633Z",
+    "type": "heartbeat",
+    "message": "2026-04-06T00:11:18.474Z"
+  },
+  {
+    "timestamp": "2026-04-06T00:10:18.640Z",
+    "type": "heartbeat",
+    "message": "2026-04-06T00:10:18.514Z"
+  },
+  {
+    "timestamp": "2026-04-06T00:09:18.574Z",
+    "type": "heartbeat",
+    "message": "2026-04-06T00:09:18.502Z"
+  },
+  {
+    "timestamp": "2026-04-06T00:08:18.743Z",
+    "type": "heartbeat",
+    "message": "2026-04-06T00:08:18.456Z"
+  },
+  {
+    "timestamp": "2026-04-06T00:07:18.542Z",
+    "type": "heartbeat",
+    "message": "2026-04-06T00:07:18.457Z"
+  },
+  {
+    "timestamp": "2026-04-06T00:06:18.616Z",
+    "type": "heartbeat",
+    "message": "2026-04-06T00:06:18.475Z"
+  },
+  {
+    "timestamp": "2026-04-06T00:05:18.633Z",
+    "type": "heartbeat",
+    "message": "2026-04-06T00:05:18.617Z"
+  },
+  {
+    "timestamp": "2026-04-06T00:04:18.659Z",
+    "type": "heartbeat",
+    "message": "2026-04-06T00:04:18.457Z"
+  },
+  {
+    "timestamp": "2026-04-06T00:03:18.584Z",
+    "type": "heartbeat",
+    "message": "2026-04-06T00:03:18.455Z"
+  },
+  {
+    "timestamp": "2026-04-06T00:02:18.616Z",
+    "type": "heartbeat",
+    "message": "2026-04-06T00:02:18.561Z"
+  },
+  {
+    "timestamp": "2026-04-06T00:01:18.681Z",
+    "type": "heartbeat",
+    "message": "2026-04-06T00:01:18.585Z"
+  },
+  {
+    "timestamp": "2026-04-06T00:00:18.561Z",
+    "type": "heartbeat",
+    "message": "2026-04-06T00:00:18.457Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:59:18.628Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:59:18.493Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:59:03.434Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:59:03.425Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:58:58.433Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:58:58.426Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:58:53.487Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:58:53.452Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:58:48.440Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:58:48.433Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:58:43.444Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:58:43.429Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:58:38.425Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:58:38.424Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:58:33.425Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:58:33.423Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:58:28.433Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:58:28.430Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:58:23.434Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:58:23.431Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:58:18.474Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:58:18.438Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:58:13.435Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:58:13.425Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:58:08.431Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:58:08.425Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:58:02.937Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:58:02.935Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:57:57.936Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:57:57.934Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:57:52.939Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:57:52.934Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:57:47.936Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:57:47.933Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:57:42.939Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:57:42.934Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:57:37.935Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:57:37.933Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:57:32.938Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:57:32.935Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:57:27.937Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:57:27.934Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:57:22.940Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:57:22.934Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:57:17.936Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:57:17.934Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:57:12.944Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:57:12.932Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:57:07.935Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:57:07.933Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:57:02.935Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:57:02.934Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:56:57.937Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:56:57.933Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:56:52.937Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:56:52.933Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:56:47.939Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:56:47.934Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:56:42.933Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:56:42.932Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:56:37.935Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:56:37.933Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:56:32.937Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:56:32.934Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:56:27.933Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:56:27.932Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:56:22.935Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:56:22.932Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:56:17.934Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:56:17.932Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:56:12.933Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:56:12.931Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:56:07.935Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:56:07.932Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:56:02.935Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:56:02.932Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:55:57.934Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:55:57.932Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:55:52.936Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:55:52.932Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:55:47.937Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:55:47.932Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:55:42.934Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:55:42.931Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:55:37.937Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:55:37.932Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:55:32.936Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:55:32.931Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:55:27.936Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:55:27.932Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:55:22.933Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:55:22.931Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:55:17.936Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:55:17.932Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:55:12.935Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:55:12.932Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:55:07.933Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:55:07.931Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:55:02.931Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:55:02.930Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:54:57.931Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:54:57.930Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:54:52.930Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:54:52.930Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:54:47.932Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:54:47.930Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:54:42.938Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:54:42.930Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:54:37.937Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:54:37.930Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:54:32.932Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:54:32.930Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:54:27.933Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:54:27.930Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:54:22.930Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:54:22.929Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:54:17.928Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:54:17.927Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:54:12.927Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:54:12.926Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:54:07.926Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:54:07.925Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:54:02.927Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:54:02.925Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:53:57.926Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:53:57.924Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:53:52.932Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:53:52.923Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:53:47.925Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:53:47.924Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:53:42.935Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:53:42.934Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:53:36.652Z",
+    "type": "log",
+    "message": "MCP Bridge Unmounting"
+  },
+  {
+    "timestamp": "2026-04-05T23:53:33.635Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:53:33.629Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:53:28.629Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:53:28.629Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:53:23.630Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:53:23.629Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:53:18.629Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:53:18.628Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:53:13.629Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:53:13.628Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:53:08.630Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:53:08.629Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:53:03.360Z",
+    "type": "log",
+    "message": "MCP Bridge Unmounting"
+  },
+  {
+    "timestamp": "2026-04-05T23:52:54.144Z",
+    "type": "log",
+    "message": "MCP Bridge Unmounting"
+  },
+  {
+    "timestamp": "2026-04-05T23:52:53.524Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:52:53.523Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:52:48.528Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:52:48.527Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:52:44.417Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:52:44.416Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:52:39.416Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:52:39.414Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:52:34.417Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:52:34.414Z"
+  },
+  {
+    "timestamp": "2026-04-05T23:52:29.418Z",
+    "type": "heartbeat",
+    "message": "2026-04-05T23:52:29.415Z"
+  }
+]

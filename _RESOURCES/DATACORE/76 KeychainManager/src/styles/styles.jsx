@@ -189,16 +189,41 @@ const STYLES = {
     },
 
     alert: {
-        background: 'rgba(34, 197, 94, 0.1)', // Subtle green for positive API
+        background: 'rgba(34, 197, 94, 0.1)',
         border: '1px solid rgba(34, 197, 94, 0.3)',
         borderRadius: '24px',
         padding: '24px 32px',
         display: 'flex',
-        alignItems: 'center',
-        gap: '24px',
+        flexDirection: 'column',
+        gap: '20px',
         color: '#86efac',
         fontSize: '1.1rem',
         lineHeight: '1.6',
+        width: '100%',
+        boxSizing: 'border-box',
+    },
+
+    secretList: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: '12px',
+        padding: '8px 0',
+        width: '100%',
+    },
+
+    buttonPrimarySmall: {
+        background: '#4ade80',
+        color: '#000',
+        border: 'none',
+        borderRadius: '12px',
+        padding: '10px 20px',
+        fontWeight: '900',
+        fontSize: '0.85rem',
+        cursor: 'pointer',
+        textTransform: 'uppercase',
+        letterSpacing: '0.05em',
+        transition: 'all 0.3s ease',
+        boxShadow: '0 8px 16px -4px rgba(42, 254, 131, 0.3)',
     },
 
     resultPanel: {

@@ -30,24 +30,24 @@ cant: '[  {    "content": "Load any model other than the hardcoded b26.card.888.
 version.obsidian: 1.4.11
 ---
 
-### Tab: BabylonLocal
+### Tab: Babylon Local
 
 - **Description**: A 3D model viewer that uses the Babylon.js engine to load and display a .glb model file from a local path within the vault.
 
 - **Does**:
-  
-- Dynamically loads the Babylon.js 3D engine and its required GLB loader from a CDN.
-- Uses dc.app.vault.adapter.getResourcePath to correctly access and load a local .glb file from the vault's resources.
-    - Renders the 3D model in a scene with a default lighting environment for realistic reflections.
-    - Features an auto-rotating camera that pans around the model.
-    - Includes a refresh button to completely tear down and re-initialize the 3D scene.
+
+    - **3D Engine Injection**: Dynamically loads the Babylon.js 3D engine and its required GLB loader from a CDN.
+    - **Local Resource Access**: Uses dc.app.vault.adapter.getResourcePath to correctly access and load a local .glb file from the vault's resources.
+    - **High-Fidelity Rendering**: Renders the 3D model in a scene with a default lighting environment for realistic reflections.
+    - **Cinematic Camera**: Features an auto-rotating camera that pans around the model.
+    - **Initialization Recovery**: Includes a refresh button to completely tear down and re-initialize the 3D scene.
 
 - **Can’t**:
-   
-    - Load any model other than the hardcoded b26.card.888.glb file.
-    - Manipulate or interact with the model beyond camera controls (e.g., no animations, no part selection).
-    - Function offline, as it depends on CDN-hosted libraries for the Babylon.js engine.
-    - Dynamically change the lighting or environment without editing the code.
+
+    - **Model Swapping**: Load any model other than the hardcoded b26.card.888.glb file.
+    - **Complex Interaction**: Manipulate or interact with the model beyond camera controls (e.g., no animations, no part selection).
+    - **Offline Operation**: Function offline, as it depends on CDN-hosted libraries for the Babylon.js engine.
+    - **Dynamic Scene Configuration**: Dynamically change the lighting or environment without editing the code.
 
 
 ----

@@ -1,0 +1,68 @@
+{
+  "overall": {
+    "gamesPlayed": 2,
+    "totalHits": 16,
+    "totalMisses": 4,
+    "totalFalseAlarms": 2
+  },
+  "sessions": [
+    {
+      "timestamp": 1775412907647,
+      "nLevel": 1,
+      "score": {
+        "pos": {
+          "hits": 7,
+          "misses": 1,
+          "falseAlarms": 0
+        },
+        "sound": {
+          "hits": 9,
+          "misses": 0,
+          "falseAlarms": 1
+        },
+        "reactionTimes": {
+          "pos": [
+            929,
+            747,
+            1293,
+            1083,
+            1150,
+            831,
+            1016
+          ],
+          "sound": [
+            901,
+            1097,
+            1344,
+            1217,
+            1082,
+            1292,
+            1148,
+            1038,
+            1007
+          ]
+        }
+      }
+    },
+    {
+      "timestamp": 1775413152325,
+      "nLevel": 1,
+      "score": {
+        "pos": {
+          "hits": 0,
+          "misses": 1,
+          "falseAlarms": 1
+        },
+        "sound": {
+          "hits": 0,
+          "misses": 2,
+          "falseAlarms": 0
+        },
+        "reactionTimes": {
+          "pos": [],
+          "sound": []
+        }
+      }
+    }
+  ]
+}

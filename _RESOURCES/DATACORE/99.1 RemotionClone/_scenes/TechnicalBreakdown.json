@@ -1,0 +1,14 @@
+{
+  "sequence": [
+    {
+      "id": "technical-breakdown-main",
+      "component": "TechnicalBreakdown",
+      "from": 0,
+      "duration": 1500
+    }
+  ],
+  "activeBackground": "PureBlack",
+  "zoom": 0.4728708045015879,
+  "sidebarTab": "scenes",
+  "version": 1
+}

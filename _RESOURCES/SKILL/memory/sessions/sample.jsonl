@@ -1,0 +1,4 @@
+{"type": "session_meta", "version": 1, "session_id": "initial-handshake-0001", "created_at_ms": 1775495000000, "updated_at_ms": 1775495000000, "persona": "Lead Architect"}
+{"type": "message", "message": {"role": "system", "blocks": [{"type": "text", "text": "BetoOS Institutional Standardized Portals Open. Session Initialized."}]}}
+{"type": "message", "message": {"role": "user", "blocks": [{"type": "text", "text": "Verify infrastructure readiness."}]}}
+{"type": "message", "message": {"role": "assistant", "blocks": [{"type": "text", "text": "Infrastructure stabilized. Claw-parity protocols active. Ready for deployment."}]}}

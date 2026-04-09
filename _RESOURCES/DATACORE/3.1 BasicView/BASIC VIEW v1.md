@@ -31,19 +31,16 @@ version.obsidian: 1.4.11
 - **Description**: A minimal, unopinionated boilerplate component that provides the essential structure for a Datacore view. It renders a clean, styled container with defined dimensions and a placeholder title, serving as the perfect "blank canvas" for developers to start building their own custom components without having to write the CSS scaffolding from scratch.
 
 - **Does**:
-   
-    - **Layout Scaffolding**:        
-        - Establishes a responsive container with 100% width and a fixed vertical height (60vh), providing a defined stage for content.
-    - **Basic Styling**:
-        - Applies a standard border (2px solid white) and rounded corners (borderRadius: 8px) to visually distinguish the component area within the Obsidian note.
-    - **Placeholder Content**:
-        - Renders a simple `<h2>` title element to verify that the component is mounting and rendering correctly.
+
+    - **Layout Scaffolding**: Establishes a responsive container with 100% width and a fixed vertical height (60vh), providing a defined stage for content.
+    - **Basic Styling**: Applies a standard border (2px solid white) and rounded corners (borderRadius: 8px) to visually distinguish the component area within the Obsidian note.
+    - **Registration Verification**: Renders a simple `<h2>` title element to verify that the component is mounting and rendering correctly.
 
 - **Can’t**:
-   
-    - **Perform Logic**: It contains no state, hooks (useState, useEffect), or data queries. It is purely a presentational shell.        
-    - **Interact**: It has no buttons, inputs, or interactive elements.
-    - **Display Data**: It is not connected to the Obsidian vault or any external API.
+
+    - **Business Logic**: It contains no state, hooks (useState, useEffect), or data queries. It is purely a presentational shell.
+    - **User Interaction**: It has no buttons, inputs, or interactive elements.
+    - **Vault Connectivity**: It is not connected to the Obsidian vault or any external API.
 
 
 ----

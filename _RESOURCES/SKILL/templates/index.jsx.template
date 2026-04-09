@@ -1,0 +1,113 @@
+/**
+ * Consolidated Datacore Component Template (v2.0)
+ * Protocol: Consolidated Master Protocol (Rule #7)
+ * Fixes: Bypasses ESM Import/Export failures and React __H Hook errors
+ */
+
+// --- 🎨 Consolidated Styles ---
+const styles = {
+    root: { width: '100%', height: '100%', background: '#050505', color: '#eee', display: 'flex', flexDirection: 'column' },
+    header: { padding: '1rem', borderBottom: '1px solid #222', fontSize: '0.9rem', fontWeight: 800 }
+};
+
+// --- Main App Component (Safe hooks isolation) ---
+// Do NOT place hooks directly in the View() factory function. 
+// They must be placed strictly inside this standard React/Preact component.
+function AppCore({ dc, folderPath }) {
+    const { useState, useEffect, useRef } = dc;
+
+    // Core Refs for FullTab reparenting
+    const containerRef = useRef(null);
+    const isActiveRef = useRef(false);
+    const originalParentRef = useRef(null);
+    const placeholderRef = useRef(null);
+
+    useEffect(() => {
+        // --- 🛠️ Standard Immersion Hook (Anti-Bleed Reparenting) ---
+        const settleTimeout = setTimeout(() => {
+            if (!containerRef.current || isActiveRef.current) return;
+            const container = containerRef.current;
+            
+            // 1. LOCAL DOM RESOLUTION: NO GLOBAL SELECTORS
+            let leaf = container.closest('.workspace-leaf');
+            if (!leaf) leaf = document.querySelector('.workspace-leaf.mod-active');
+            if (!leaf) return;
+            
+            // 2. ISOLATED TARGETING
+            const wrapper = leaf.querySelector('.view-content');
+            if (!wrapper) return;
+
+            const currentParent = container.parentNode;
+            if (!currentParent) return;
+
+            isActiveRef.current = true;
+            originalParentRef.current = currentParent;
+
+            // Create Placeholder 
+            const placeholder = document.createElement('div');
+            placeholder.className = 'screen-mode-placeholder';
+            placeholder.style.display = 'none';
+            if (container.nextSibling) currentParent.insertBefore(placeholder, container.nextSibling);
+            else currentParent.appendChild(placeholder);
+            placeholderRef.current = placeholder;
+
+            // Perform Reparenting
+            currentParent.removeChild(container);
+            wrapper.appendChild(container);
+
+            // 3. STACKING CONTEXT ENFORCEMENT
+            const computedParentPosition = window.getComputedStyle(wrapper).position;
+            if (computedParentPosition === 'static') wrapper.style.position = "relative";
+            wrapper.style.overflow = "hidden";
+
+            Object.assign(container.style, {
+                position: "absolute", top: "0px", left: "0px", width: "100%", height: "100%",
+                zIndex: "9998", margin: "0", padding: "0", border: "none", borderRadius: "0",
+                backgroundColor: "#050505", overflow: "auto", display: "block"
+            });
+        }, 300);
+
+        return () => {
+            clearTimeout(settleTimeout);
+            if (isActiveRef.current && containerRef.current && originalParentRef.current) {
+                try {
+                    const activePlaceholder = placeholderRef.current;
+                    if (activePlaceholder?.parentNode) {
+                        activePlaceholder.parentNode.replaceChild(containerRef.current, activePlaceholder);
+                    }
+                    Object.assign(containerRef.current.style, {
+                        position: "", top: "", left: "", width: "", height: "", 
+                        zIndex: "", margin: "", padding: "", border: "", 
+                        borderRadius: "", backgroundColor: "", 
+                        overflow: "", display: "block"
+                    });
+                    isActiveRef.current = false;
+                } catch (e) {
+                    console.error("[FullTab] Cleanup error:", e);
+                }
+            }
+        };
+    }, []);
+
+    // Example Query (Sanitized: No @ prefix)
+    const data = dc.useQuery('type = "your_type"');
+
+    return (
+        <div ref={containerRef} id="component-root" style={styles.root}>
+            <div style={styles.header}>COMPONENT_TITLE</div>
+            <div style={{ padding: '2rem' }}>
+                {data.length} records found. Deploy app UI here.
+            </div>
+        </div>
+    );
+}
+
+// --- View Factory Entry Point ---
+// CRITICAL: NEVER use `export function` or `export default`.
+// Datacore eval() only accepts the native return object enclosure.
+function View(props) {
+    return <AppCore dc={props.dc} folderPath={props.folderPath} />;
+}
+
+// Return the object strictly as a script evaluation response
+return { View };

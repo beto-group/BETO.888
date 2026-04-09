@@ -1,0 +1,136 @@
+[
+    {
+        "action": "reload",
+        "category": "Core",
+        "description": "Reloads the Datacore component iframe. This is essential after modifying any source code (src/...) to see changes immediately without closing the view.",
+        "usage": {
+            "action": "reload"
+        },
+        "hasTest": true
+    },
+    {
+        "action": "run_tests",
+        "category": "Dev",
+        "description": "Spawns (or brings to focus) the Agent Console window and runs the unit test suite defined in tests/suite.jsx.",
+        "usage": {
+            "action": "run_tests"
+        },
+        "hasTest": true
+    },
+    {
+        "action": "screenshot",
+        "category": "Vision",
+        "description": "Captures a high-resolution screenshot of the component. The image is saved to mcp_screenshot.png and a base64 version to mcp_screenshot_b64.txt.",
+        "usage": {
+            "action": "screenshot"
+        },
+        "hasTest": true
+    },
+    {
+        "action": "click",
+        "category": "Interaction",
+        "description": "Simulates a user click on a specific DOM element. Useful for testing button handlers or navigating the UI.",
+        "args": [
+            {
+                "name": "selector",
+                "type": "string",
+                "desc": "Valid CSS selector (e.g. #my-btn)"
+            }
+        ],
+        "usage": {
+            "action": "click",
+            "selector": "#target-id"
+        },
+        "hasTest": false
+    },
+    {
+        "action": "open_settings",
+        "category": "Obsidian",
+        "description": "Opens the main Obsidian Settings modal. Useful for verifying that the bridge is alive and has access to the app API.",
+        "usage": {
+            "action": "open_settings"
+        },
+        "hasTest": true
+    },
+    {
+        "action": "devtools",
+        "category": "Debug",
+        "description": "Opens the Electron Developer Tools for the iframe context, allowing DOM inspection and console debugging.",
+        "usage": {
+            "action": "devtools"
+        },
+        "hasTest": true
+    },
+    {
+        "action": "ping",
+        "category": "System",
+        "description": "Simple connectivity check. Returns 'Pong!' with a timestamp if the bridge is active.",
+        "usage": {
+            "action": "ping"
+        },
+        "hasTest": true
+    },
+    {
+        "action": "telegram_prompt",
+        "category": "Integration",
+        "description": "Signals that a Telegram message has been received and forwarded to external_prompt.md. The agent should read this file for new instructions.",
+        "args": [
+            {
+                "name": "sender",
+                "type": "string",
+                "desc": "Username/Name of sender"
+            },
+            {
+                "name": "text",
+                "type": "string",
+                "desc": "Message content"
+            }
+        ],
+        "usage": {
+            "action": "telegram_prompt",
+            "sender": "User",
+            "text": "Hello Agent!"
+        },
+        "hasTest": false
+    },
+    {
+        "action": "get_telegram_creds",
+        "category": "Secure",
+        "description": "Retrieves encrypted Telegram credentials from the Obsidian Keychain via the Bridge.",
+        "usage": {
+            "action": "get_telegram_creds"
+        },
+        "hasTest": false
+    },
+    {
+        "action": "save_telegram_creds",
+        "category": "Secure",
+        "description": "Saves encrypted Telegram credentials to the Obsidian Keychain via the Bridge.",
+        "args": [
+            {
+                "name": "apiId",
+                "type": "string"
+            },
+            {
+                "name": "apiHash",
+                "type": "string"
+            },
+            {
+                "name": "phone",
+                "type": "string"
+            },
+            {
+                "name": "botToken",
+                "type": "string"
+            }
+        ],
+        "usage": {
+            "action": "save_telegram_creds",
+            "apiId": "...",
+            "apiHash": "...",
+            "phone": "...",
+            "botToken": "..."
+        },
+        "hasTest": false
+    }
+]

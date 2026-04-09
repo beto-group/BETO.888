@@ -159,66 +159,126 @@ const MediaResolver = (() => {
     let filesIndexed = false;
     let fileIndex = null;
     
-    // Build file index once on first use
-    const buildIndex = () => {
-        if (filesIndexed) return fileIndex;
-        
-        console.log('[MediaResolver] Building file index...');
-        const startTime = performance.now();
-        
+    let isIndexing = false;
+    let pendingResolve = null;
+
+    // Async chunked indexer
+    const buildIndexChunked = async () => {
+        if (filesIndexed && fileIndex) return fileIndex;
+        if (isIndexing) return pendingResolve;
+
+        isIndexing = true;
         const files = dc.app.vault.getFiles();
-        fileIndex = {
+        const tempIndex = {
             byName: new Map(),
             byPath: new Map(),
             mediaFiles: []
         };
-        
         const mediaExts = new Set([...IMG_EXTS, ...VID_EXTS].map(e => e.toLowerCase()));
         
-        files.forEach(file => {
+        console.log(`[MediaResolver] Starting async indexing of ${files.length} files...`);
+        const startTime = performance.now();
+
+        pendingResolve = new Promise(async (resolve) => {
+            let cursor = 0;
+            const CHUNK_SIZE = 800;
+
+            const nextChunk = () => {
+                const end = Math.min(cursor + CHUNK_SIZE, files.length);
+                for (; cursor < end; cursor++) {
+                    const file = files[cursor];
+                    const nameLower = file.name.toLowerCase();
+                    const pathLower = file.path.toLowerCase();
+                    
+                    if (!tempIndex.byName.has(nameLower)) tempIndex.byName.set(nameLower, []);
+                    tempIndex.byName.get(nameLower).push(file);
+                    tempIndex.byPath.set(pathLower, file);
+                    
+                    const ext = file.extension?.toLowerCase();
+                    if (ext && mediaExts.has(ext)) tempIndex.mediaFiles.push(file);
+                }
+
+                if (cursor < files.length) {
+                    // Update partial index so early lookups might work
+                    fileIndex = tempIndex;
+                    setTimeout(nextChunk, 1);
+                } else {
+                    fileIndex = tempIndex;
+                    filesIndexed = true;
+                    isIndexing = false;
+                    console.log(`[MediaResolver] Async index complete in ${(performance.now() - startTime).toFixed(2)}ms`);
+                    resolve(fileIndex);
+                }
+            };
+            nextChunk();
+        });
+
+        return pendingResolve;
+    };
+
+    // Synchronous fallback (blocks main thread)
+    const buildIndexSync = () => {
+        if (filesIndexed && fileIndex) return fileIndex;
+        
+        // Only log if we are actually forced to perform a synchronous full scan
+        console.log('[MediaResolver] Synchronous index fallback triggered!');
+        const startTime = performance.now();
+        const files = dc.app.vault.getFiles();
+        const index = { byName: new Map(), byPath: new Map(), mediaFiles: [] };
+        const mediaExts = new Set([...IMG_EXTS, ...VID_EXTS].map(e => e.toLowerCase()));
+        
+        for (const file of files) {
             const nameLower = file.name.toLowerCase();
             const pathLower = file.path.toLowerCase();
-            
-            // Store by name (handle collisions by keeping array)
-            if (!fileIndex.byName.has(nameLower)) {
-                fileIndex.byName.set(nameLower, []);
-            }
-            fileIndex.byName.get(nameLower).push(file);
-            
-            // Store by path
-            fileIndex.byPath.set(pathLower, file);
-            
-            // Track media files
+            if (!index.byName.has(nameLower)) index.byName.set(nameLower, []);
+            index.byName.get(nameLower).push(file);
+            index.byPath.set(pathLower, file);
             const ext = file.extension?.toLowerCase();
-            if (ext && mediaExts.has(ext)) {
-                fileIndex.mediaFiles.push(file);
-            }
-        });
+            if (ext && mediaExts.has(ext)) index.mediaFiles.push(file);
+        }
         
+        fileIndex = index;
         filesIndexed = true;
-        console.log(`[MediaResolver] Index built in ${(performance.now() - startTime).toFixed(2)}ms - ${files.length} files indexed`);
+        console.log(`[MediaResolver] Sync index built in ${(performance.now() - startTime).toFixed(2)}ms`);
         return fileIndex;
     };
+
+    // Pre-warm the index asynchronously
+    const preWarm = () => {
+        if (filesIndexed || isIndexing) return;
+        buildIndexChunked();
+    };
     
-    // Fast path resolution
-    const resolveFast = (query, opts = {}) => {
-        const index = buildIndex();
+    // Fast path resolution (consumes an existing or sync index)
+    const resolveFast = (query, opts = {}, manualIndex = null) => {
         const q = normalizeVaultPath(query);
         if (!q) return null;
         
+        // --- PHASE 1: DIRECT TARGETED LOOKUP (O(1)) ---
+        // If we have a path-like query, try direct abstraction first
+        try {
+            const directFile = dc.app.vault.getAbstractFileByPath(q);
+            if (directFile && directFile.extension) return directFile;
+        } catch (_) {}
+
         const preferDir = opts.preferDir ? normalizeVaultPath(opts.preferDir).replace(/\/$/, '') : '';
+        if (preferDir) {
+            try {
+                const withDir = `${preferDir}/${q.split('/').pop()}`;
+                const dirFile = dc.app.vault.getAbstractFileByPath(withDir);
+                if (dirFile && dirFile.extension) return dirFile;
+            } catch (_) {}
+        }
+
+        // --- PHASE 2: INDEXED LOOKUP (O(Log N)) ---
+        const index = manualIndex || (filesIndexed ? fileIndex : null);
+        if (!index) return null; // Avoid triggering sync build in fast path
+        
         const preferExts = opts.preferExts || [...IMG_EXTS, ...VID_EXTS];
         
-        // Try exact path first
+        // Try exact path in index
         const exactFile = index.byPath.get(q.toLowerCase());
         if (exactFile) return exactFile;
-        
-        // Try with preferred directory
-        if (preferDir) {
-            const withDir = `${preferDir}/${q}`.toLowerCase();
-            const dirFile = index.byPath.get(withDir);
-            if (dirFile) return dirFile;
-        }
         
         // Try by name with extensions
         const hasExt = /\.[a-z0-9]+$/i.test(q);
@@ -232,7 +292,6 @@ const MediaResolver = (() => {
             const candidates = index.byName.get(fullName);
             
             if (candidates && candidates.length > 0) {
-                // If multiple matches, prefer files in preferDir
                 if (preferDir && candidates.length > 1) {
                     const inPreferredDir = candidates.find(f => 
                         f.path.toLowerCase().startsWith(preferDir.toLowerCase())
@@ -249,21 +308,33 @@ const MediaResolver = (() => {
     // Batch resolution for parallel loading
     const resolveBatch = async (queries) => {
         const results = [];
-        const index = buildIndex();
-        
-        for (const { query, opts } of queries) {
-            const cacheKey = `${query}|${JSON.stringify(opts || {})}`;
-            
-            if (resourceCache.has(cacheKey)) {
-                results.push(resourceCache.get(cacheKey));
+        // Only trigger index build if direct lookups fail for everything
+        const resolveOne = (q, o) => {
+            const direct = resolveFast(q, o, null);
+            if (direct) return direct;
+            return null;
+        };
+
+        const firstPass = queries.map(({query, opts}) => resolveOne(query, opts));
+        if (firstPass.every(f => f !== null)) {
+            return firstPass.map(f => dc.app.vault.getResourcePath(f));
+        }
+
+        // Second pass: Use index for anything missing
+        const index = await buildIndexChunked();
+        for (let i = 0; i < queries.length; i++) {
+            if (firstPass[i]) {
+                const cacheKey = `${queries[i].query}|${JSON.stringify(queries[i].opts || {})}`;
+                const rPath = dc.app.vault.getResourcePath(firstPass[i]);
+                resourceCache.set(cacheKey, rPath);
+                results.push(rPath);
                 continue;
             }
             
-            const file = resolveFast(query, opts);
+            const file = resolveFast(queries[i].query, queries[i].opts, index);
             if (file) {
-                const resourcePath = dc.app.vault.getResourcePath(file);
-                resourceCache.set(cacheKey, resourcePath);
-                results.push(resourcePath);
+                const rPath = dc.app.vault.getResourcePath(file);
+                results.push(rPath);
             } else {
                 results.push(null);
             }
@@ -283,8 +354,11 @@ const MediaResolver = (() => {
             return resourceCache.get(cacheKey);
         }
         
+        // Build index (async)
+        const index = await buildIndexChunked();
+        
         // Fast resolution
-        const file = resolveFast(query, opts);
+        const file = resolveFast(query, opts, index);
         if (file) {
             const resourcePath = dc.app.vault.getResourcePath(file);
             resourceCache.set(cacheKey, resourcePath);
@@ -293,7 +367,7 @@ const MediaResolver = (() => {
         
         // Fallback to fuzzy search only if really needed
         if (opts.allowFuzzy !== false) {
-            const result = await getMediaResourcePath(query, opts);
+            const result = await getMediaResourcePath(query, { ...opts, skipIndex: true });
             if (result) resourceCache.set(cacheKey, result);
             return result;
         }
@@ -317,11 +391,16 @@ const MediaResolver = (() => {
         });
     }
     
-    return { resolve, resolveBatch, clearCache, buildIndex };
+    return { resolve, resolveBatch, clearCache, buildIndex: buildIndexSync };
 })();
 
 // Backward compatibility wrapper
 async function getMediaResourcePath(filePathOrName, opts = {}) {
+    // If not skipping indexing (default call mode), prefer the MediaResolver directly
+    if (!opts.skipIndex) {
+        return await MediaResolver.resolve(filePathOrName, opts);
+    }
+
     const preferExts = opts.preferExts || [...IMG_EXTS, ...VID_EXTS];
     const preferDir = opts.preferDir
         ? normalizeVaultPath(opts.preferDir).replace(/\/$/, "")
@@ -331,8 +410,10 @@ async function getMediaResourcePath(filePathOrName, opts = {}) {
     const hasExt = /\.[a-z0-9]+$/i.test(q);
     const qBase = hasExt ? q.replace(/\.[^/.]+$/, "") : q;
     const qName = qBase.split("/").pop();
+    
     let f = dc.app.vault.getAbstractFileByPath(q);
     if (f) return dc.app.vault.getResourcePath(f);
+    
     const dirFromQ = qBase.includes("/")
         ? qBase.split("/").slice(0, -1).join("/")
         : "";
@@ -348,6 +429,8 @@ async function getMediaResourcePath(filePathOrName, opts = {}) {
             if (f) return dc.app.vault.getResourcePath(f);
         }
     }
+    
+    // Fuzzy search fallback (Legacy but stabilized)
     const files = dc.app.vault.getFiles();
     const nameCandidates = hasExt
         ? [qName]
@@ -356,6 +439,7 @@ async function getMediaResourcePath(filePathOrName, opts = {}) {
         nameCandidates.some((n) => x.name.toLowerCase() === n.toLowerCase())
     );
     if (f) return dc.app.vault.getResourcePath(f);
+    
     await loadScript(
         dc,
         "https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.js",
@@ -371,9 +455,7 @@ async function getMediaResourcePath(filePathOrName, opts = {}) {
         const res = fuse.search(qName);
         if (res?.length) return dc.app.vault.getResourcePath(res[0].item);
     } catch (_) { }
-    console.warn(
-        `Media file "${filePathOrName}" not found via exact path or fuzzy search.`
-    );
+    
     return null;
 }
 
@@ -540,15 +622,25 @@ const MatrixRain = ({
     const rafRef = useRef(null);
     const streamsRef = useRef([]); // Renamed from columnsRef for clarity
     const sizeRef = useRef({ w: 0, h: 0, dpr: 1 });
+    const isVisibleRef = useRef(true);
 
-    // --- CHANGE START ---
-    // If frequency is 0, return a static background without the rain effect.
-    if (frequency === 0) {
-        return (
-            <div style={{ position: 'absolute', inset: 0, zIndex: 0, background: '#0b0713' }} />
+    useEffect(() => {
+        const wrapper = wrapperRef.current;
+        if (!wrapper) return;
+
+        // --- GPU LAYER PROMOTION ---
+        wrapper.style.willChange = 'transform, opacity';
+        wrapper.style.transform = 'translateZ(0)';
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                isVisibleRef.current = entry.isIntersecting;
+            },
+            { threshold: 0 }
         );
-    }
-    // --- CHANGE END ---
+        observer.observe(wrapper);
+        return () => observer.disconnect();
+    }, []);
 
     const safeCharSet = String(charSet);
 
@@ -563,7 +655,7 @@ const MatrixRain = ({
         if (!ctx) return;
 
         // --- Derive animation parameters from props ---
-        const clampedFrequency = Math.max(0.01, Math.min(1, frequency));
+        const clampedFrequency = Math.max(0, Math.min(1, frequency));
         const minSpeed = 0.2 + (clampedFrequency * 0.5);
         const maxSpeed = 0.5 + (clampedFrequency * 1.0);
         const resetHeightMultiplier = 50 - (clampedFrequency * 48);
@@ -585,24 +677,29 @@ const MatrixRain = ({
             ctx.textBaseline = 'top';
             ctx.font = `${fontSize}px monospace`;
 
-            const streamCount = Math.floor(w / (fontSize * Math.max(0.5, spacingFactor)));
+            const streamCount = Math.floor(w / (fontSize * Math.max(0.5, spacingFactor * 1.2))); // Slight optimization
 
             streamsRef.current = Array.from({ length: streamCount }, () => ({
-                x: Math.random() * w, // Each stream starts at a random X position
-                y: -Math.random() * h, // Start at a random position above the screen
+                x: Math.random() * w,
+                y: -Math.random() * h,
                 speed: minSpeed + Math.random() * (maxSpeed - minSpeed),
                 resetAt: h + (Math.random() * h * 0.5),
             }));
         };
 
         const draw = () => {
+            if (!isVisibleRef.current) {
+                rafRef.current = requestAnimationFrame(draw);
+                return;
+            }
+
             const { w, h } = sizeRef.current;
             if (w === 0 || h === 0) {
                 rafRef.current = requestAnimationFrame(draw);
                 return;
             }
 
-            ctx.fillStyle = 'rgba(11, 7, 19, 0.12)';
+            ctx.fillStyle = 'rgba(11, 7, 19, 0.15)'; // Increased opacity slightly for faster fade (less CPU)
             ctx.fillRect(0, 0, w, h);
 
             ctx.font = `${fontSize}px monospace`;
@@ -633,20 +730,29 @@ const MatrixRain = ({
 
         let isInitialized = false;
         const start = () => {
+            if (!wrapper || !canvas) return;
+            const w = wrapper.clientWidth;
+            const h = wrapper.clientHeight;
+            if (w === 0 || h === 0) return;
+            
             cancelAnimationFrame(rafRef.current);
             init();
-            if (streamsRef.current.length > 0) {
-                if (!isInitialized) {
-                    const { w, h } = sizeRef.current;
-                    ctx.fillStyle = '#0b0713';
-                    ctx.fillRect(0, 0, w, h);
-                    isInitialized = true;
-                }
-                draw();
+            const { w: sw, h: sh } = sizeRef.current;
+            if (clampedFrequency <= 0) {
+                // Wipe canvas once and stop
+                ctx.clearRect(0, 0, sw, sh);
+                return;
             }
+            ctx.fillStyle = '#0b0713';
+            ctx.fillRect(0, 0, sw, sh);
+            isInitialized = true;
+            draw();
         };
 
-        const ro = new ResizeObserver(start);
+        const ro = new ResizeObserver(() => {
+            // Decouple layout notification from callback to fix the loop error
+            requestAnimationFrame(start);
+        });
         ro.observe(wrapper);
 
         start();
@@ -1103,6 +1209,36 @@ function BasicView() {
     const [displayMode, setDisplayMode] = useState("welcome");
     const [welcomeStep, setWelcomeStep] = useState("intro");
     const [section, setSection] = useState("home");
+    const [isTransitioning, setIsTransitioning] = useState(false);
+    const [pendingSection, setPendingSection] = useState(null);
+    const [transitionOpacity, setTransitionOpacity] = useState(0);
+
+    const setSectionWithTransition = useCallback((newId) => {
+        if (newId === section || isTransitioning) return;
+        
+        setIsTransitioning(true);
+        setTransitionOpacity(0);
+        setPendingSection(newId);
+        
+        // Start Fade-In (Masking)
+        requestAnimationFrame(() => {
+            setTransitionOpacity(1);
+        });
+
+        // Swap Section when opaque
+        setTimeout(() => {
+            setSection(newId);
+            // Give the new component one frame to mount, then fade out
+            setTimeout(() => {
+                setTransitionOpacity(0);
+                setTimeout(() => {
+                    setIsTransitioning(false);
+                    setPendingSection(null);
+                }, 400); // Wait for CSS transition
+            }, 50);
+        }, 350); // Matches CSS transition duration
+    }, [section, isTransitioning]);
+
     const [globalVideoPlayer, setGlobalVideoPlayer] = useState({
         media: null,
         isVisible: false,
@@ -1115,6 +1251,13 @@ function BasicView() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const scrollPosRef = useRef(0);
     const [hasPassedWelcome, setHasPassedWelcome] = useState(false);
+    useEffect(() => {
+        // Pre-warm media index in the background
+        if (typeof MediaResolver !== 'undefined' && MediaResolver.preWarm) {
+            MediaResolver.preWarm();
+        }
+    }, []);
+
     const [isSyncing, setIsSyncing] = useState(false);
     const [isReadyToLoad, setIsReadyToLoad] = useState(false);
     const [isMatrixRainOn, setIsMatrixRainOn] = useState(true);
@@ -1388,7 +1531,7 @@ function BasicView() {
             className="pill"
             style={STYLES.pill}
             data-active={section === id ? 1 : 0}
-            onClick={() => setSection(id)}
+            onClick={() => setSectionWithTransition(id)}
         >
             {label}
         </span>
@@ -1502,12 +1645,83 @@ function BasicView() {
             if (!element) return;
             const observer = new ResizeObserver((entries) => {
                 for (const entry of entries) {
-                    setIsMobileLayout(entry.contentRect.width < 768);
+                    const isMobile = entry.contentRect.width < 768;
+                    // Only update state if layout mode actually changes
+                    setIsMobileLayout(prev => {
+                        if (prev !== isMobile) return isMobile;
+                        return prev;
+                    });
                 }
             });
             observer.observe(element);
             return () => observer.disconnect();
         }, []);
+
+        const NavItem = ({ slide, index, isActive, media, onClick, isMobile, isPaused, timerDuration }) => {
+            return (
+                <div
+                    className={`showcaseNavItem ${isActive ? "is-active" : ""}`}
+                    style={{
+                        padding: "6px",
+                        gap: "10px",
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        cursor: "pointer",
+                        position: "relative",
+                    }}
+                    onClick={onClick}
+                >
+                    {media?.thumb ? (
+                        <img
+                            src={media.thumb}
+                            className="navItemThumb"
+                            style={{
+                                transform: slide.flipMedia ? "scaleX(-1)" : "none",
+                            }}
+                            alt={`${slide.title} thumbnail`}
+                            loading="lazy"
+                            decoding="async"
+                        />
+                    ) : (
+                        <div className="navItemThumb" style={{ background: "#111" }}></div>
+                    )}
+                    <div className="navItemText">
+                        <h3
+                            style={{
+                                ...STYLES.h2,
+                                fontSize: "14px",
+                                margin: 0,
+                                fontVariant: "small-caps",
+                            }}
+                        >
+                            {slide.title}
+                        </h3>
+                        {!isMobile && (
+                            <p
+                                style={{
+                                    fontSize: "12px",
+                                    margin: "4px 0 0 0",
+                                    fontVariant: "small-caps",
+                                }}
+                            >
+                                {slide.subtitle}
+                            </p>
+                        )}
+                    </div>
+                    {isActive && (
+                        <div
+                            key={`${slide.id}-${index}-progress`}
+                            className="navProgress"
+                            style={{
+                                animation: `progress ${timerDuration / 1000}s linear forwards`,
+                                animationPlayState: isPaused ? "paused" : "running",
+                            }}
+                        />
+                    )}
+                </div>
+            );
+        };
         useEffect(() => {
             const track = trackRef.current;
             const navEl = navRef.current;
@@ -1541,6 +1755,7 @@ function BasicView() {
             setContainerDimension(currentContainerDimension);
             if (currentContainerDimension === 0 || slideBlockDimension === 0) return;
             const worldDimension = slideBlockDimension + currentContainerDimension;
+            
             const calculateInitialPosition = () => {
                 if (slideMetrics.current.length === 0) return 0;
                 const viewportCenter = currentContainerDimension / 2;
@@ -1575,15 +1790,23 @@ function BasicView() {
                     }
                 } else {
                     if (!isAutoScrolling.current) {
-                        velocity.current *= 0.92;
+                        // --- HIGH-VELOCITY DAMPING (BetoOS Premium) ---
+                        // Reduced friction (0.88 -> 0.94) for a longer, smoother glide.
+                        velocity.current *= 0.94;
                     }
                     position.current += velocity.current;
                 }
-                if (position.current < -worldDimension) {
-                    position.current += worldDimension;
+                
+                // --- PHYSICS WRAP CALIBRATION ---
+                // The repeating unit is exactly (slideBlockDimension + currentContainerDimension)
+                const loopUnit = slideBlockDimension + currentContainerDimension;
+                
+                if (position.current < -loopUnit) {
+                    position.current += loopUnit;
                 } else if (position.current > 0) {
-                    position.current -= worldDimension;
+                    position.current -= loopUnit;
                 }
+
                 const transformValue = isVertical
                     ? `translateY(${position.current}px)`
                     : `translateX(${position.current}px)`;
@@ -1655,9 +1878,21 @@ function BasicView() {
                 triggerSnapToCenter();
             };
             const handleWheel = (e) => {
+                // Prevent main window scroll while interacting with hero section
+                if (e.cancelable) e.preventDefault();
                 handleInteractionStart();
                 const scrollDelta = isVertical ? e.deltaY : e.deltaX + e.deltaY;
-                velocity.current += scrollDelta * 0.05;
+                
+                // --- HIGH-VELOCITY SENSITIVITY ---
+                // Higher gain (0.008 -> 0.02) and higher cap for a "zippy" feel.
+                const sens = 0.02;
+                const maxVel = 60;
+                
+                velocity.current += scrollDelta * sens;
+                if (Math.abs(velocity.current) > maxVel) {
+                    velocity.current = Math.sign(velocity.current) * maxVel;
+                }
+                
                 startAnimation();
                 triggerSnapToCenter();
             };
@@ -1669,6 +1904,8 @@ function BasicView() {
                 lastDelta.current = 0;
             };
             const handleTouchMove = (e) => {
+                // Prevent main window pull/scroll during touch interaction
+                if (e.cancelable) e.preventDefault();
                 const currentPos = isVertical
                     ? e.touches[0].clientY
                     : e.touches[0].clientX;
@@ -1679,9 +1916,9 @@ function BasicView() {
                 velocity.current = moveDelta;
                 startAnimation();
             };
-            navEl.addEventListener("wheel", handleWheel, { passive: true });
+            navEl.addEventListener("wheel", handleWheel, { passive: false });
             navEl.addEventListener("touchstart", handleTouchStart, { passive: true });
-            navEl.addEventListener("touchmove", handleTouchMove, { passive: true });
+            navEl.addEventListener("touchmove", handleTouchMove, { passive: false });
             navEl.addEventListener("touchend", handleInteractionEnd, {
                 passive: true,
             });
@@ -1704,56 +1941,72 @@ function BasicView() {
         const saveData = navigator.connection?.saveData === true;
         const allowVideo = !reduceMotion && !saveData;
         const resolveFor = useCallback(
-            async (slide) => {
+            async (slide, isPriority = false) => {
                 const base = slide.file;
                 const thumbName = getThumbName(slide);
                 
-                // Use batch resolution for parallel loading
-                const results = await MediaResolver.resolveBatch([
-                    { query: `${videoDir}/${base}`, opts: { preferDir: videoDir, preferExts: VID_EXTS } },
+                // If priority, resolve both. If not, just thumb.
+                const queries = [
                     { query: `${imageDir}/${thumbName}`, opts: { preferDir: imageDir, preferExts: ['webp', ...IMG_EXTS] } }
-                ]);
-                
-                return { vid: results[0], thumb: results[1] };
+                ];
+                if (isPriority) {
+                    queries.push({ query: `${videoDir}/${base}`, opts: { preferDir: videoDir, preferExts: VID_EXTS } });
+                }
+
+                const results = await MediaResolver.resolveBatch(queries);
+                return { 
+                    thumb: results[0],
+                    vid: isPriority ? results[1] : null 
+                };
             },
             [imageDir, videoDir, getThumbName]
         );
-        const ensureMedia = useCallback(
-            async (id) => {
-                if (mediaMap[id]) return;
-                const slide = slides.find((s) => s.id === id);
-                if (!slide) return;
-                const resolved = await resolveFor(slide);
-                setMediaMap((m) => ({ ...m, [id]: resolved }));
-            },
-            [mediaMap, resolveFor, slides]
-        );
+
+        // --- PACKET LOAD PROTOCOL ---
+        const inflightRef = useRef(new Set());
         useEffect(() => {
-            // Load thumbnails for all slides immediately (sidebar needs them)
-            // But only load video for active slide
-            slides.forEach(slide => {
-                if (!mediaMap[slide.id]) {
-                    resolveFor(slide).then(resolved => {
-                        setMediaMap(m => ({ ...m, [slide.id]: resolved }));
+            if (!slides.length) return;
+            
+            const loadPackets = async () => {
+                // Packet 1: Thumbnails for all slides (batched)
+                const pendingSlides = slides.filter(s => !mediaMap[s.id] && !inflightRef.current.has(s.id));
+                if (pendingSlides.length === 0) return;
+
+                pendingSlides.forEach(s => inflightRef.current.add(s.id));
+                
+                // Resolve all thumbs in parallel
+                const resolvedPackets = await Promise.all(pendingSlides.map(async s => {
+                    const res = await resolveFor(s, s.id === activeId);
+                    return { id: s.id, res };
+                }));
+
+                setMediaMap(prev => {
+                    const next = { ...prev };
+                    resolvedPackets.forEach(p => {
+                        next[p.id] = p.res;
+                        inflightRef.current.delete(p.id);
                     });
-                }
+                    return next;
+                });
+            };
+
+            loadPackets();
+        }, [slides, activeId]); // Minimal dependencies to prevent loops
+
+        // Packet 2: Priority Video for Active Slide
+        useEffect(() => {
+            if (!activeId || (mediaMap[activeId] && mediaMap[activeId].vid)) return;
+            
+            const slide = slides.find(s => s.id === activeId);
+            if (!slide) return;
+
+            resolveFor(slide, true).then(resolved => {
+                setMediaMap(prev => ({
+                    ...prev,
+                    [activeId]: { ...(prev[activeId] || {}), ...resolved }
+                }));
             });
-        }, [slides, mediaMap, resolveFor]);
-        
-        // Preload next slide media in background
-        useEffect(() => {
-            if (!activeId || slides.length < 2) return;
-            const currentIndex = slides.findIndex((s) => s.id === activeId);
-            const nextSlide = slides[(currentIndex + 1) % slides.length];
-            // Preload next slide silently in background
-            setTimeout(() => {
-                if (!mediaMap[nextSlide.id]) {
-                    resolveFor(nextSlide).then(resolved => {
-                        setMediaMap(m => ({ ...m, [nextSlide.id]: resolved }));
-                    });
-                }
-            }, 500);
-        }, [activeId, slides, mediaMap, resolveFor]);
+        }, [activeId]);
         
         const stopAutoSlide = useCallback(
             () => clearInterval(slideIntervalRef.current),
@@ -1875,68 +2128,19 @@ function BasicView() {
                             }`}
                     />
                     <div ref={trackRef} className="showcaseNav-track">
-                        {slides.map((slide, index) => {
-                            const isActive = slide.id === activeId;
-                            return (
-                                <div
-                                    key={`${slide.id}-${index}`}
-                                    className={`showcaseNavItem ${isActive ? "is-active" : ""}`}
-                                    onClick={() => setActiveId(slide.id)}
-                                >
-                                    {mediaMap[slide.id]?.thumb ? (
-                                        <img
-                                            src={mediaMap[slide.id].thumb}
-                                            className="navItemThumb"
-                                            style={{
-                                                transform: slide.flipMedia ? "scaleX(-1)" : "none",
-                                            }}
-                                            alt={`${slide.title} thumbnail`}
-                                            loading="lazy"
-                                            decoding="async"
-                                        />
-                                    ) : (
-                                        <div
-                                            className="navItemThumb"
-                                            style={{ background: "#111" }}
-                                        ></div>
-                                    )}
-                                    <div className="navItemText">
-                                        <h3
-                                            style={{
-                                                ...STYLES.h2,
-                                                fontSize: "14px",
-                                                margin: 0,
-                                                fontVariant: "small-caps",
-                                            }}
-                                        >
-                                            {slide.title}
-                                        </h3>
-                                        {!isMobileLayout && (
-                                            <p
-                                                style={{
-                                                    fontSize: "12px",
-                                                    margin: "4px 0 0 0",
-                                                    fontVariant: "small-caps",
-                                                }}
-                                            >
-                                                {slide.subtitle}
-                                            </p>
-                                        )}
-                                    </div>
-                                    {isActive && (
-                                        <div
-                                            key={`${activeId}-${index}`}
-                                            className="navProgress"
-                                            style={{
-                                                animation: `progress ${TIMER_DURATION / 1000
-                                                    }s linear forwards`,
-                                                animationPlayState: isPaused ? "paused" : "running",
-                                            }}
-                                        />
-                                    )}
-                                </div>
-                            );
-                        })}
+                        {slides.map((slide, index) => (
+                            <NavItem
+                                key={`${slide.id}-${index}`}
+                                slide={slide}
+                                index={index}
+                                isActive={slide.id === activeId}
+                                media={mediaMap[slide.id]}
+                                onClick={() => setActiveId(slide.id)}
+                                isMobile={isMobileLayout}
+                                isPaused={isPaused}
+                                timerDuration={TIMER_DURATION}
+                            />
+                        ))}
                         <div
                             style={{
                                 [isMobileLayout
@@ -1945,68 +2149,41 @@ function BasicView() {
                                 flexShrink: 0,
                             }}
                         />
-                        {slides.map((slide, index) => {
-                            const isActive = slide.id === activeId;
-                            return (
-                                <div
-                                    key={`clone-${slide.id}-${index}`}
-                                    className={`showcaseNavItem ${isActive ? "is-active" : ""}`}
-                                    onClick={() => setActiveId(slide.id)}
-                                >
-                                    {mediaMap[slide.id]?.thumb ? (
-                                        <img
-                                            src={mediaMap[slide.id].thumb}
-                                            className="navItemThumb"
-                                            style={{
-                                                transform: slide.flipMedia ? "scaleX(-1)" : "none",
-                                            }}
-                                            alt={`${slide.title} thumbnail`}
-                                            loading="lazy"
-                                            decoding="async"
-                                        />
-                                    ) : (
-                                        <div
-                                            className="navItemThumb"
-                                            style={{ background: "#111" }}
-                                        ></div>
-                                    )}
-                                    <div className="navItemText">
-                                        <h3
-                                            style={{
-                                                ...STYLES.h2,
-                                                fontSize: "14px",
-                                                margin: 0,
-                                                fontVariant: "small-caps",
-                                            }}
-                                        >
-                                            {slide.title}
-                                        </h3>
-                                        {!isMobileLayout && (
-                                            <p
-                                                style={{
-                                                    fontSize: "12px",
-                                                    margin: "4px 0 0 0",
-                                                    fontVariant: "small-caps",
-                                                }}
-                                            >
-                                                {slide.subtitle}
-                                            </p>
-                                        )}
-                                    </div>
-                                    {isActive && (
-                                        <div
-                                            key={`clone-${activeId}-${index}`}
-                                            className="navProgress"
-                                            style={{
-                                                animation: `progress ${TIMER_DURATION / 1000
-                                                    }s linear forwards`,
-                                                animationPlayState: isPaused ? "paused" : "running",
-                                            }}
-                                        />
-                                    )}
-                                </div>
-                            );
-                        })}
+                        {/* Buffered Set for Infinite Scroll Seam Security */}
+                        {slides.map((slide, index) => (
+                            <NavItem
+                                key={`buffer-${slide.id}-${index}`}
+                                slide={slide}
+                                index={index}
+                                isActive={slide.id === activeId}
+                                media={mediaMap[slide.id]}
+                                onClick={() => setActiveId(slide.id)}
+                                isMobile={isMobileLayout}
+                                isPaused={isPaused}
+                                timerDuration={TIMER_DURATION}
+                            />
+                        ))}
+                        <div
+                            style={{
+                                [isMobileLayout
+                                    ? "width"
+                                    : "height"]: `${containerDimension}px`,
+                                flexShrink: 0,
+                            }}
+                        />
+                        {slides.map((slide, index) => (
+                            <NavItem
+                                key={`clone-${slide.id}-${index}`}
+                                slide={slide}
+                                index={index}
+                                isActive={slide.id === activeId}
+                                media={mediaMap[slide.id]}
+                                onClick={() => setActiveId(slide.id)}
+                                isMobile={isMobileLayout}
+                                isPaused={isPaused}
+                                timerDuration={TIMER_DURATION}
+                            />
+                        ))}
                     </div>
                 </div>
             </div>
@@ -2014,6 +2191,13 @@ function BasicView() {
     };
 
     const Home = ({ setSection }) => {
+        const [showUpdater, setShowUpdater] = useState(false);
+        useEffect(() => {
+            // Defer heavy update check to allow initial boot animation to finish
+            const timer = setTimeout(() => setShowUpdater(true), 2500);
+            return () => clearTimeout(timer);
+        }, []);
+
         const slides = [
             {
                 id: "docs",
@@ -2063,19 +2247,41 @@ function BasicView() {
                     display: "flex",
                     flexDirection: "column",
                     width: "100%",
+                    height: "100%",
                     alignItems: "center",
                     gap: "24px",
+                    overflow: "hidden",
+                    paddingBottom: "40px",
+                    boxSizing: "border-box"
                 }}
             >
                 <Showcase
                     slides={slides}
-                    onButtonClick={(slide) => setSection(slide.id)}
+                    onButtonClick={(slide) => setSectionWithTransition(slide.id)}
                     buttonTextTemplate={(title) => `[ Access ${title} ]`}
                     imageDir="_RESOURCES/IMAGES"
                     videoDir="_RESOURCES/VIDEOS"
                     getThumbName={(slide) => `${slide.file}.webp`}
                 />
-                <UpdateManager />
+                {showUpdater && <UpdateManager />}
+                {/* --- TRANSITION PORTAL --- */}
+                <div style={{
+                    position: 'absolute',
+                    inset: 0,
+                    zIndex: 2147483647, // Infinite z-index
+                    background: 'black',
+                    pointerEvents: isTransitioning ? 'auto' : 'none',
+                    opacity: transitionOpacity,
+                    transition: 'opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'var(--glow)',
+                    fontVariant: 'small-caps',
+                    letterSpacing: '4px'
+                }}>
+                   <span style={{ animation: 'pulse 1.5s infinite' }}>Initializing Mainframe...</span>
+                </div>
             </div>
         );
     };
@@ -2296,9 +2502,9 @@ function BasicView() {
         );
     };
 
-    const MODAL_STYLES = `.panel-wrap{position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;padding:clamp(16px,3vw,32px);backdrop-filter:blur(20px) saturate(1.4);background:rgba(0,0,0,.85);animation:fadeIn .35s cubic-bezier(.25,1,.5,1)}.panel{display:flex;flex-direction:column;width:min(96vw,1400px);height:min(94vh,1000px);background:linear-gradient(135deg,rgb(10,6,18) 0,rgb(5,2,8) 50%,rgb(10,6,18) 100%);border:1px solid var(--glow);box-shadow:0 0 40px rgba(138,43,226,.15),0 30px 120px rgba(0,0,0,.9),inset 0 1px 0 rgba(138,43,226,.1);border-radius:20px;animation:scaleIn .35s cubic-bezier(.25,1,.5,1);position:relative;overflow-y:auto;}.nf-sticky-header{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,rgba(10,6,18,.98) 0,rgba(5,2,8,.95) 100%);backdrop-filter:blur(12px);border-bottom:1px solid rgba(138,43,226,.15);}.nf-top-close{position:absolute;top:14px;left:18px;border:1px solid var(--glow);background:rgba(10,6,22,.9);color:var(--glow);width:36px;height:36px;border-radius:10px;cursor:pointer;display:grid;place-items:center;z-index:15;transition:all .2s;box-shadow:0 0 15px rgba(138,43,226,.2)}.nf-top-close:hover{background:var(--glow);color:rgb(0,0,0);transform:scale(1.05);box-shadow:0 0 25px rgba(138,43,226,.4)}.nf-actions{display:flex;gap:12px;align-items:center;padding:14px 18px 14px 64px;border-bottom:1px solid rgba(138,43,226,.1);background:linear-gradient(180deg,rgba(138,43,226,.03),transparent);overflow-x:auto;white-space:nowrap;}.nf-actions::-webkit-scrollbar{height:4px;}.nf-actions::-webkit-scrollbar-thumb{background:var(--glow);border-radius:4px;}.nf-btn{padding:10px 14px;border-radius:12px;border:1px solid var(--glow);background:rgba(138,43,226,.15);color:var(--glow);font-size:13px;font-weight:800;cursor:pointer;transition:all .2s;box-shadow:0 0 10px rgba(138,43,226,.1)}.nf-btn:hover{background:var(--glow);color:rgb(0,0,0);box-shadow:0 0 20px rgba(138,43,226,.4),0 4px 12px rgba(0,0,0,.3);transform:translateY(-2px)}.nf-chip{padding:8px 12px;border-radius:12px;font-size:12px;border:1px solid rgba(138,43,226,.3);background:rgba(138,43,226,.08);color:var(--text-normal);cursor:pointer;white-space:nowrap;transition:all .2s}.nf-chip:hover{border-color:var(--glow);color:var(--glow);background:rgba(138,43,226,.15);box-shadow:0 0 10px rgba(138,43,226,.2)}.panel-img-box{position:relative;width:100%;background:rgb(0,0,0)}.nf-modal-media{position:relative;width:100%;aspect-ratio:2/1;--pad:clamp(16px,3vw,32px);maxHeight:50vh;minHeight:33vh;max-width:min(100vw,600px);margin:0 auto;}.nf-safe{position:absolute;top:var(--pad);left:var(--pad);right:var(--pad);bottom:var(--pad);border-radius:16px;overflow:hidden;background:rgb(0,0,0);border:1px solid rgba(138,43,226,.2);box-shadow:inset 0 0 0 1px rgba(0,0,0,.8),0 0 20px rgba(138,43,226,.1)}.nf-slide{position:absolute;inset:0;opacity:0;transition:opacity .28s ease}.nf-slide.active{opacity:1}.nf-slide img,.nf-slide iframe{width:100%;height:100%;object-fit:contain;border:0;background:rgb(0,0,0);max-height:50vh;}.nf-dots{position:absolute;bottom:calc(var(--pad) - 10px);left:50%;transform:translateX(-50%);display:flex;gap:8px;pointer-events:none}.nf-dot{width:10px;height:10px;border-radius:50%;background:rgba(138,43,226,.25);transition:all .3s}.nf-dot.active{background:var(--glow);box-shadow:0 0 10px rgba(138,43,226,.6)}.nf-edge{position:absolute;top:0;bottom:0;width:clamp(52px,15%,180px);display:flex;align-items:center;justify-content:center;color:var(--glow);cursor:pointer;pointer-events:auto;opacity:0;transition:all .3s;}.nf-left-edge{left:0;background:linear-gradient(to right,rgba(10,6,18,.8),transparent);transform:translateX(-20px);}.nf-right-edge{right:0;background:linear-gradient(to left,rgba(10,6,18,.8),transparent);transform:translateX(20px);}.nf-edge.nav-visible{opacity:1;transform:translateX(0);}.nf-left-edge.hint-active{animation:hint-left 2.5s ease-in-out;}.nf-right-edge.hint-active{animation:hint-right 2.5s ease-in-out;}.nf-edge svg{width:34px;height:34px;filter:drop-shadow(0 0 8px rgba(138,43,226,.4));}.panel-controls{display:flex;gap:18px;align-items:center;padding:16px 18px;border-top:1px solid rgba(138,43,226,.2);background:linear-gradient(180deg,transparent,rgba(138,43,226,.02))}.panel-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}.panel-title{font-size:20px;font-weight:900;color:var(--glow);letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 0 20px rgba(138,43,226,.4)}.nf-transcript{padding:16px 18px 22px 18px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.2))}.nf-callout{border:1px solid rgba(138,43,226,.25);border-radius:12px;background:rgba(10,6,18,.6);margin-top:14px;overflow:hidden;box-shadow:0 0 15px rgba(138,43,226,.08)}.nf-callout-head{all:unset;display:flex;align-items:center;gap:10px;width:100%;padding:12px 14px;cursor:pointer;transition:background .2s}.nf-callout-head:hover{background:rgba(138,43,226,.1)}.nf-callout-icon{font-size:16px;color:var(--glow)}.nf-callout-title{font-size:14px;font-weight:900;color:var(--glow);letter-spacing:.5px}.nf-callout-body{padding:12px 16px 16px 16px;background:rgba(0,0,0,.3)}.nf-callout-body p{margin:0 0 1em 0;color:rgba(255,255,255,.8)}.nf-callout-body p:last-child{margin-bottom:0}.nf-callout-body .markdown-embed{max-width:100%;height:auto;border-radius:4px;margin:0.5em 0}.nf-list{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px}.nf-list li{font-size:13.5px;line-height:1.6;color:rgba(255,255,255,.85)}@keyframes fadeIn{from{opacity:0}to{opacity:1}}@keyframes scaleIn{from{transform:scale(.965);opacity:0}to{transform:scale(1);opacity:1}}@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}@keyframes hint-left{0%,100%{opacity:0;transform:translateX(-20px)}20%,80%{opacity:1;transform:translateX(0)}}@keyframes hint-right{0%,100%{opacity:0;transform:translateX(20px)}20%,80%{opacity:1;transform:translateX(0)}}@media (max-width:768px){.nf-modal-media{aspect-ratio:1/1}}`;
+    const MODAL_STYLES = `.panel-wrap{position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;padding:clamp(16px,3vw,32px);backdrop-filter:blur(20px) saturate(1.4);background:rgba(0,0,0,.85);animation:fadeIn .35s cubic-bezier(.25,1,.5,1)}.panel{display:flex;flex-direction:column;width:min(96vw,1400px);height:min(94vh,1000px);background:linear-gradient(135deg,rgb(15,15,20) 0,rgb(5,2,8) 50%,rgb(15,15,20) 100%);border:1px solid rgba(255,255,255,0.1);box-shadow:0 30px 120px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.05);border-radius:20px;animation:scaleIn .35s cubic-bezier(.25,1,.5,1);position:relative;overflow-y:auto;}.nf-sticky-header{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,rgba(10,6,18,.98) 0,rgba(5,2,8,.95) 100%);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.1);}.nf-top-close{position:absolute;top:14px;left:18px;border:1px solid rgba(255,255,255,0.2);background:rgba(10,6,22,.9);color:rgba(255,255,255,0.8);width:36px;height:36px;border-radius:4px;cursor:pointer;display:grid;place-items:center;z-index:15;transition:all .2s;}.nf-top-close:hover{background:rgba(255,255,255,0.1);color:rgb(255,255,255);transform:scale(1.05);}.nf-actions{display:flex;gap:12px;align-items:center;padding:18px;border-bottom:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.01);overflow-x:auto;white-space:nowrap;}.nf-actions::-webkit-scrollbar{height:4px;}.nf-actions::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px;}.nf-btn{width:86px;height:86px;padding:8px;border-radius:4px;border:1px solid rgba(255,255,255,.15);background:rgba(25,25,35,.85);color:rgba(255,255,255,.9);font-size:9.5px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-transform:uppercase;letter-spacing:0.8px;line-height:1.2;text-align:center;box-sizing:border-box}.nf-btn:hover{background:rgba(255,255,255,.08);color:rgb(255,255,255);border-color:rgba(255,255,255,0.4);transform:translateY(-2px)}.nf-btn svg{width:24px;height:24px;color:rgba(255,255,255,0.85) !important}.nf-chip{width:86px;height:86px;padding:8px;border-radius:4px;font-size:9.5px;font-weight:700;border:1px solid rgba(255,255,255,.1);background:rgba(15,15,20,.6);color:rgba(255,255,255,0.6);cursor:pointer;white-space:nowrap;transition:all .2s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;box-sizing:border-box}.nf-chip:hover{border-color:rgba(255,255,255,.2);color:rgba(255,255,255,0.95);background:rgba(255,255,255,.05)}.nf-chip svg{width:20px;height:20px;color:rgba(255,255,255,0.5) !important}.panel-img-box{position:relative;width:100%;background:rgb(0,0,0)}.nf-modal-media{position:relative;width:100%;aspect-ratio:2/1;--pad:clamp(16px,3vw,32px);maxHeight:50vh;minHeight:33vh;max-width:min(100vw,600px);margin:0 auto;}.nf-safe{position:absolute;top:var(--pad);left:var(--pad);right:var(--pad);bottom:var(--pad);border-radius:12px;overflow:hidden;background:rgb(0,0,0);border:1px solid rgba(255,255,255,0.15);box-shadow:inset 0 0 0 1px rgba(0,0,0,.8),0 0 20px rgba(0,0,0,.5)}.nf-slide{position:absolute;inset:0;opacity:0;transition:opacity .28s ease}.nf-slide.active{opacity:1}.nf-slide img,.nf-slide iframe{width:100%;height:100%;object-fit:contain;border:0;background:rgb(0,0,0);max-height:50vh;}.nf-dots{position:absolute;bottom:calc(var(--pad) - 10px);left:50%;transform:translateX(-50%);display:flex;gap:8px;pointer-events:none}.nf-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.2);transition:all .3s}.nf-dot.active{background:rgba(255,255,255,.9);box-shadow:0 0 10px rgba(255,255,255,.4)}.nf-edge{position:absolute;top:0;bottom:0;width:clamp(52px,15%,180px);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.6);cursor:pointer;pointer-events:auto;opacity:0;transition:all .3s;}.nf-left-edge{left:0;background:linear-gradient(to right,rgba(10,6,18,.8),transparent);transform:translateX(-20px);}.nf-right-edge{right:0;background:linear-gradient(to left,rgba(10,6,18,.8),transparent);transform:translateX(20px);}.nf-edge.nav-visible{opacity:1;transform:translateX(0);}.nf-edge svg{width:34px;height:34px;filter:drop-shadow(0 0 8px rgba(0,0,0,.4));}.panel-controls{display:flex;gap:18px;align-items:center;padding:16px 18px;border-top:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.01)}.panel-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}.panel-title{font-size:20px;font-weight:900;color:rgba(255,255,255,0.9);letter-spacing:.8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}.nf-transcript{padding:16px 18px 22px 18px;background:rgba(0,0,0,.05)}.nf-callout{border:1px solid rgba(255,255,255,.1);border-radius:12px;background:rgba(25,25,35,.4);margin-top:14px;overflow:hidden;}.nf-callout-head{all:unset;display:flex;align-items:center;gap:10px;width:100%;padding:12px 14px;cursor:pointer;transition:background .2s}.nf-callout-head:hover{background:rgba(255,255,255,.03)}.nf-callout-icon{font-size:16px;color:rgba(255,255,255,0.8)}.nf-callout-title{font-size:14px;font-weight:900;color:rgba(255,255,255,0.85);letter-spacing:.5px}.nf-callout-body{padding:12px 16px 16px 16px;background:rgba(0,0,0,.15)}.nf-callout-body p{margin:0 0 1em 0;color:rgba(255,255,255,.7)}.nf-callout-body p:last-child{margin-bottom:0}.nf-callout-body .markdown-embed{max-width:100%;height:auto;border-radius:4px;margin:0.5em 0}.nf-list{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px}.nf-list li{font-size:13.5px;line-height:1.6;color:rgba(255,255,255,.8)}@keyframes fadeIn{from{opacity:0}to{opacity:1}}@keyframes scaleIn{from{transform:scale(.965);opacity:0}to{transform:scale(1);opacity:1}}@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}@media (max-width:768px){.nf-modal-media{aspect-ratio:1/1}}`;
 
-    const NFModal = ({ state, onClose, setShowVaultSelector, isImporting, onFullscreenChange }) => {
+    const NFModal = ({ state, onClose, setShowVaultSelector, isImporting, onFullscreenChange, setActiveTab, setPlaygroundFilePath }) => {
         const [idx, setIdx] = useState(0);
         const [isPaused, setIsPaused] = useState(false);
         const [showNav, setShowNav] = useState(false);
@@ -2449,8 +2655,10 @@ function BasicView() {
                 new Notice(`Could not open: ${name}`, 3000);
             }
         };
-        const openAllComponents = () =>
+        const openAllComponents = () => {
+            if (state?.comp?.path) openWiki(state.comp.path);
             details?.comps?.forEach((c) => openWiki(c.path));
+        };
         if (!open) return null;
         return (
             <div
@@ -2471,50 +2679,49 @@ function BasicView() {
                 }}
             >
                 <style dangerouslySetInnerHTML={{__html: `
-                    .nf-sticky-header{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,rgba(10,6,18,.98) 0,rgba(5,2,8,.95) 100%);backdrop-filter:blur(12px);border-bottom:1px solid rgba(80,80,90,.2)}
-                    .nf-top-close{position:absolute;top:14px;left:18px;border:1px solid rgba(100,100,110,.4);background:rgba(10,6,22,.9);color:rgba(180,180,200,.9);width:36px;height:36px;border-radius:10px;cursor:pointer;display:grid;place-items:center;z-index:15;transition:all .2s;box-shadow:0 0 10px rgba(0,0,0,.3)}
-                    .nf-top-close:hover{background:rgba(138,43,226,.3);color:rgb(255,255,255);transform:scale(1.05);box-shadow:0 0 20px rgba(138,43,226,.2)}
-                    .nf-actions{display:flex;gap:12px;align-items:center;padding:14px 18px 14px 64px;border-bottom:1px solid rgba(80,80,90,.15);background:linear-gradient(180deg,rgba(138,43,226,.015),transparent);overflow-x:auto;white-space:nowrap}
-                    .nf-actions::-webkit-scrollbar{height:4px}.nf-actions::-webkit-scrollbar-thumb{background:rgba(100,100,110,.5);border-radius:4px}
-                    .nf-btn{padding:10px 14px;border-radius:12px;border:1px solid rgba(100,100,110,.4);background:rgba(20,20,30,.8);color:rgba(200,200,220,.95);font-size:13px;font-weight:800;cursor:pointer;transition:all .2s;box-shadow:0 0 8px rgba(0,0,0,.2)}
-                    .nf-btn:hover{background:rgba(138,43,226,.25);color:rgb(255,255,255);box-shadow:0 0 15px rgba(138,43,226,.3),0 4px 12px rgba(0,0,0,.3);transform:translateY(-2px)}
-                    .nf-chip{padding:8px 12px;border-radius:12px;font-size:12px;border:1px solid rgba(80,80,90,.3);background:rgba(20,20,30,.6);color:var(--text-normal);cursor:pointer;white-space:nowrap;transition:all .2s}
-                    .nf-chip:hover{border-color:rgba(138,43,226,.4);color:rgba(138,43,226,.9);background:rgba(138,43,226,.1);box-shadow:0 0 8px rgba(138,43,226,.15)}
+                    .nf-sticky-header{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,rgba(10,6,18,.98) 0,rgba(5,2,8,.95) 100%);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.1)}
+                    .nf-top-close{position:absolute;top:14px;left:18px;border:1px solid rgba(255,255,255,.15);background:rgba(10,6,22,.9);color:rgba(255,255,255,.8);width:36px;height:36px;border-radius:4px;cursor:pointer;display:grid;place-items:center;z-index:15;transition:all .2s;box-shadow:0 0 10px rgba(0,0,0,.3)}
+                    .nf-top-close:hover{background:rgba(255,255,255,.1);color:rgb(255,255,255);transform:scale(1.05);box-shadow:0 0 20px rgba(255,255,255,.1)}
+                    .nf-actions{display:flex;gap:12px;align-items:center;padding:18px;border-top:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.01);overflow-x:auto;white-space:nowrap}
+                    .nf-actions::-webkit-scrollbar{height:4px}.nf-actions::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px}
+                    .nf-btn{width:90px !important;height:90px !important;aspect-ratio:1/1 !important;padding:12px 8px !important;border-radius:4px;border:1px solid rgba(255,255,255,.15);background:rgba(25,25,35,.85);color:rgba(255,255,255,.9);font-size:8.5px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-transform:uppercase;letter-spacing:0.8px;line-height:1;text-align:center;box-sizing:border-box}
+                    .nf-btn svg{width:28px !important;height:28px !important;color:rgba(255,255,255,0.95) !important;stroke-width:2.5px !important}
+                    .nf-btn span{font-size:8.5px;text-align:center;display:block}
+                    .nf-btn:hover{background:rgba(255,255,255,.1);color:rgb(255,255,255);border-color:rgba(255,255,255,0.4);transform:translateY(-2px)}
+                    .nf-chip{width:90px !important;height:90px !important;aspect-ratio:1/1 !important;padding:12px 8px !important;border-radius:4px;font-size:8.5px;font-weight:700;border:1px solid rgba(255,255,255,.1);background:rgba(15,15,20,.6);color:rgba(255,255,255,0.6);cursor:pointer;white-space:nowrap;transition:all .2s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;box-sizing:border-box}
+                    .nf-chip svg{width:24px !important;height:24px !important;color:rgba(255,255,255,0.95) !important;stroke-width:2.5px !important}
+                    .nf-chip:hover{border-color:rgba(255,255,255,.25);color:rgba(255,255,255,0.95);background:rgba(255,255,255,.05)}
                     .panel-img-box{position:relative;width:100%;background:rgb(0,0,0);padding:20px 0}
                     .nf-modal-media{position:relative;width:100%;max-height:65vh;min-height:43vh;max-width:1100px;margin:0 auto;border-radius:16px;overflow:hidden}
-                    .nf-safe{position:absolute;inset:24px;border-radius:12px;overflow:hidden;background:rgb(0,0,0);border:2px solid rgba(138,43,226,.25);box-shadow:inset 0 0 0 1px rgba(0,0,0,.8),0 0 20px rgba(138,43,226,.15)}
+                    .nf-safe{position:absolute;inset:24px;border-radius:12px;overflow:hidden;background:rgb(0,0,0);border:1px solid rgba(255,255,255,0.15);box-shadow:inset 0 0 0 1px rgba(0,0,0,.8),0 0 20px rgba(0,0,0,.5)}
                     .nf-slide{position:absolute;inset:0;opacity:0;transition:opacity .28s ease}
                     .nf-slide.active{opacity:1}
                     .nf-slide img,.nf-slide iframe{width:100%;height:100%;object-fit:contain;border:0;background:rgb(0,0,0)}
                     .nf-dots{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);display:flex;gap:10px;pointer-events:auto;z-index:5}
-                    .nf-dot{width:12px;height:12px;border-radius:50%;background:rgba(100,100,110,.3);transition:all .3s;cursor:pointer}
-                    .nf-dot:hover{background:rgba(138,43,226,.5);transform:scale(1.1)}
-                    .nf-dot.active{background:rgba(138,43,226,.9);box-shadow:0 0 10px rgba(138,43,226,.6);transform:scale(1.2)}
-                    .nf-edge{position:absolute;top:0;bottom:0;width:160px;display:flex;align-items:center;justify-content:center;color:rgba(180,180,200,.8);cursor:pointer;pointer-events:auto;opacity:0;transition:all .3s;z-index:10}
+                    .nf-dot{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.2);transition:all .3s;cursor:pointer}
+                    .nf-dot:hover{background:rgba(255,255,255,.4);transform:scale(1.1)}
+                    .nf-dot.active{background:rgba(255,255,255,.9);box-shadow:0 0 10px rgba(255,255,255,.4);transform:scale(1.2)}
+                    .nf-edge{position:absolute;top:0;bottom:0;width:160px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.6);cursor:pointer;pointer-events:auto;opacity:0;transition:all .3s;z-index:10}
                     .nf-left-edge{left:0;background:linear-gradient(to right,rgba(10,6,18,.85),transparent);transform:translateX(-20px)}
                     .nf-right-edge{right:0;background:linear-gradient(to left,rgba(10,6,18,.85),transparent);transform:translateX(20px)}
                     .nf-edge.nav-visible{opacity:1;transform:translateX(0)}
-                    .nf-left-edge.hint-active{animation:hint-left 2.5s ease-in-out}
-                    .nf-right-edge.hint-active{animation:hint-right 2.5s ease-in-out}
                     .nf-edge svg{width:42px;height:42px;filter:drop-shadow(0 0 8px rgba(0,0,0,.6))}
-                    .nf-edge:hover svg{transform:scale(1.15);filter:drop-shadow(0 0 16px rgba(138,43,226,.5))}
-                    .panel-controls{display:flex;gap:18px;align-items:center;padding:16px 18px;border-top:1px solid rgba(80,80,90,.2);background:linear-gradient(180deg,transparent,rgba(0,0,0,.15))}
+                    .nf-edge:hover svg{transform:scale(1.15);filter:drop-shadow(0 0 16px rgba(255,255,255,.2))}
+                    .panel-controls{display:flex;gap:18px;align-items:center;padding:16px 18px;border-top:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.01)}
                     .panel-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
-                    .panel-title{font-size:20px;font-weight:900;color:rgba(200,200,220,.95);letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 0 15px rgba(138,43,226,.2)}
-                    .nf-transcript{padding:16px 18px 22px 18px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.2))}
-                    .nf-callout{border:1px solid rgba(80,80,90,.3);border-radius:12px;background:rgba(10,6,18,.6);margin-top:14px;overflow:hidden;box-shadow:0 0 10px rgba(0,0,0,.3)}
+                    .panel-title{font-size:20px;font-weight:900;color:rgba(255,255,255,0.9);letter-spacing:.8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+                    .nf-transcript{padding:16px 18px 22px 18px;background:rgba(0,0,0,.05)}
+                    .nf-callout{border:1px solid rgba(255,255,255,.1);border-radius:12px;background:rgba(25,25,35,.4);margin-top:14px;overflow:hidden;box-shadow:0 0 10px rgba(0,0,0,.3)}
                     .nf-callout-head{all:unset;display:flex;align-items:center;gap:10px;width:100%;padding:12px 14px;cursor:pointer;transition:background .2s}
-                    .nf-callout-head:hover{background:rgba(138,43,226,.08)}
-                    .nf-callout-icon{font-size:16px;color:rgba(180,180,200,.8)}
-                    .nf-callout-title{font-size:14px;font-weight:900;color:rgba(200,200,220,.95);letter-spacing:.5px}
-                    .nf-callout-body{padding:12px 16px 16px 16px;background:rgba(0,0,0,.3)}
-                    .nf-callout-body p{margin:0 0 1em 0;color:rgba(255,255,255,.8)}
+                    .nf-callout-head:hover{background:rgba(255,255,255,.03)}
+                    .nf-callout-icon{font-size:16px;color:rgba(255,255,255,.8)}
+                    .nf-callout-title{font-size:14px;font-weight:900;color:rgba(255,255,255,0.85);letter-spacing:.5px}
+                    .nf-callout-body{padding:12px 16px 16px 16px;background:rgba(0,0,0,.15)}
+                    .nf-callout-body p{margin:0 0 1em 0;color:rgba(255,255,255,.7)}
                     .nf-callout-body p:last-child{margin-bottom:0}
                     .nf-callout-body .markdown-embed{max-width:100%;height:auto;border-radius:4px;margin:0.5em 0}
                     .nf-list{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px}
-                    .nf-list li{font-size:13.5px;line-height:1.6;color:rgba(255,255,255,.85)}
-                    @keyframes hint-left{0%,100%{opacity:0;transform:translateX(-20px)}20%,80%{opacity:1;transform:translateX(0)}}
-                    @keyframes hint-right{0%,100%{opacity:0;transform:translateX(20px)}20%,80%{opacity:1;transform:translateX(0)}}
+                    .nf-list li{font-size:13.5px;line-height:1.6;color:rgba(255,255,255,.8)}
                     @media (max-width:768px){.nf-modal-media{aspect-ratio:1/1}}
                 `}} />
                 <div className="panel" onClick={(e) => e.stopPropagation()} style={{
@@ -2522,9 +2729,9 @@ function BasicView() {
                     flexDirection: "column",
                     width: "min(96vw,1400px)",
                     height: "min(94vh,1000px)",
-                    background: "linear-gradient(135deg,rgb(10,6,18) 0%,rgb(5,2,8) 50%,rgb(10,6,18) 100%)",
-                    border: "1px solid var(--interactive-accent)",
-                    boxShadow: "0 0 40px rgba(138,43,226,.15),0 30px 120px rgba(0,0,0,.9)",
+                    background: "linear-gradient(135deg,rgb(15,15,20) 0%,rgb(5,2,8) 50%,rgb(15,15,20) 100%)",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    boxShadow: "0 30px 120px rgba(0,0,0,.9)",
                     borderRadius: "20px",
                     position: "relative",
                     overflowY: "auto"
@@ -2538,59 +2745,6 @@ function BasicView() {
                             >
                                 ✕
                             </button>
-                            {/* Only show action buttons for datacore entries (with comp/comps data) */}
-                            {(state?.comp || details?.comps?.length > 0) && (
-                                <div className="nf-actions">
-                                    {state?.comp && setShowVaultSelector && (
-                                        <button
-                                            className="nf-btn"
-                                            onClick={() => setShowVaultSelector(state?.comp?.path)}
-                                            disabled={isImporting}
-                                            style={{
-                                                background: "var(--glow-med)",
-                                                borderColor: "var(--glow)",
-                                                color: "var(--glow)",
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                gap: '8px'
-                                            }}
-                                        >
-                                            {isImporting ? (
-                                                <>
-                                                    <dc.Icon icon="loader-2" style={{ animation: 'spin 1s linear infinite' }} />
-                                                    Importing...
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <dc.Icon icon="package" />
-                                                    Import to Vault
-                                                </>
-                                            )}
-                                        </button>
-                                    )}
-                                    {details?.comps?.length > 0 && (
-                                        <>
-                                            <button
-                                                className="nf-btn"
-                                                onClick={openAllComponents}
-                                                disabled={!details?.comps?.length}
-                                            >
-                                                Open Components
-                                                {details?.comps?.length ? ` (${details.comps.length})` : ""}
-                                            </button>
-                                            {details?.comps?.map((c, i) => (
-                                                <button
-                                                    key={i}
-                                                    className="nf-chip"
-                                                    onClick={() => openWiki(c.path)}
-                                                >
-                                                    {c.name}
-                                                </button>
-                                            ))}
-                                        </>
-                                    )}
-                                </div>
-                            )}
                         </div>
                         <div className="panel-img-box">
                             <div
@@ -2706,6 +2860,72 @@ function BasicView() {
                                 )}
                             </div>
                         </div>
+                        {/* Only show action buttons for datacore entries (with comp/comps data) */}
+                        {(state?.comp || details?.comps?.length > 0) && (
+                            <div className="nf-actions">
+                                    {state?.comp && (
+                                        <button
+                                            className="nf-btn"
+                                            onClick={() => {
+                                                setPlaygroundFilePath(state?.comp?.path);
+                                                setActiveTab('playground');
+                                                onClose();
+                                            }}
+                                        >
+                                            <dc.Icon icon="flask-conical" />
+                                            <span>PLAYGROUND</span>
+                                        </button>
+                                    )}
+                                    {state?.comp && (
+                                        <button
+                                            className="nf-btn"
+                                            onClick={() => openWiki(state?.comp?.path || details?.title || "")}
+                                        >
+                                            <dc.Icon icon="book-open" />
+                                            <span>SOURCE</span>
+                                        </button>
+                                    )}
+                                    {details?.comps?.map((c, i) => (
+                                        <button
+                                            key={i}
+                                            className="nf-chip"
+                                            onClick={() => openWiki(c.path)}
+                                        >
+                                            <dc.Icon icon={c.name.toLowerCase().includes('viewer') ? 'eye' : 'code'} />
+                                            <span>{c.name.toLowerCase().includes('viewer') ? 'VIEWER' : 'CODE'}</span>
+                                        </button>
+                                    ))}
+                                    {state?.comp && setShowVaultSelector && (
+                                        <button
+                                            className="nf-btn"
+                                            onClick={() => setShowVaultSelector(state?.comp?.path)}
+                                            disabled={isImporting}
+                                        >
+                                            {isImporting ? (
+                                                <>
+                                                    <dc.Icon icon="loader-2" style={{ animation: 'spin 1s linear infinite' }} />
+                                                    <span>EXPORTING...</span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <dc.Icon icon="package" />
+                                                    <span>EXPORT</span>
+                                                </>
+                                            )}
+                                        </button>
+                                    )}
+                                    {(details?.comps?.length > 0 || state?.comp) && (
+                                        <button
+                                            className="nf-btn"
+                                            onClick={openAllComponents}
+                                            disabled={!details?.comps?.length && !state?.comp}
+                                        >
+                                            <dc.Icon icon="layers" />
+                                            <span>OPEN ALL [{(details?.comps?.length || 0) + (state?.comp ? 1 : 0)}]</span>
+                                        </button>
+                                    )}
+                            </div>
+                        )}
                         <div
                             className="panel-controls"
                             style={{ borderTop: "1px solid rgba(255,255,255,.1)" }}
@@ -3056,8 +3276,35 @@ function BasicView() {
         const [heroItems, setHeroItems] = useState([]);
         const [isLoading, setIsLoading] = useState(true);
         const [error, setError] = useState(null);
+
+        useEffect(() => {
+            // DEFER INITIALIZATION TO PREVENT TRANSITION JANK
+            const timer = setTimeout(() => {
+                if (mountedRef.current) loadData();
+            }, 400);
+            return () => { clearTimeout(timer); };
+        }, []);
+
+        const loadData = async () => {
+             try {
+                const showcaseContent = await dc.app.vault.read(
+                    dc.app.vault.getAbstractFileByPath("_RESOURCES/DATACORE/DATACORE.showcase.md")
+                );
+                const basePath = "_RESOURCES/DATACORE";
+                const cats = parseShowcaseContent(showcaseContent, basePath);
+                if (mountedRef.current) {
+                    setCategories(cats);
+                    const featured = cats.flatMap(c => c.components).filter(c => c.isFeatured);
+                    setHeroItems(featured);
+                    setIsLoading(false);
+                }
+            } catch (e) {
+                if (mountedRef.current) setError(e.toString());
+            }
+        };
         const mountedRef = useRef(true);
         const [activeTab, setActiveTab] = useState('showcase'); // New state for active tab
+        const [playgroundFilePath, setPlaygroundFilePath] = useState(""); // Sync with playground
         const [modalState, setModalState] = useState({
             open: false,
             comp: null,
@@ -3144,8 +3391,15 @@ function BasicView() {
                     if (candidate) mediaFiles.push(candidate);
                 }
 
-                // Use MediaResolver batch resolution for parallel processing
-                const queries = mediaFiles.map(raw => ({ query: raw, opts: {} }));
+                // --- RELATIVE-AWARE RESOLUTION ---
+                // Extract parent directory of the component to resolve relative paths
+                const parentDir = componentPath.substring(0, componentPath.lastIndexOf("/"));
+                
+                // Use MediaResolver batch resolution with preferDir context
+                const queries = mediaFiles.map(raw => ({ 
+                    query: raw, 
+                    opts: { preferDir: parentDir } 
+                }));
                 const resolvedPaths = await MediaResolver.resolveBatch(queries);
                 
                 const imgPaths = [];
@@ -4085,7 +4339,7 @@ function BasicView() {
                 </div>
             );
         };
-        const CSS_NF = `.${uniqueWrapperClass} .nf-root{width:100%;max-width:1280px;display:flex;flex-direction:column;gap:28px}.${uniqueWrapperClass} .nf-tabs{display:flex;gap:10px;margin-bottom:16px;border-bottom:1px solid var(--glow-faint);}.${uniqueWrapperClass} .nf-tab-button{padding:8px 16px;cursor:pointer;background:transparent;border:none;color:var(--text-muted);font-weight:600;font-size:16px;border-bottom:2px solid transparent;transition:all .2s ease;}.${uniqueWrapperClass} .nf-tab-button.active{color:var(--text-normal);border-bottom-color:var(--glow);}.${uniqueWrapperClass} .nf-hero{position:relative;width:100%;max-height:60vh;min-height:40vh;border-radius:12px;overflow:hidden;border:1px solid var(--glow-faint);background:#0d0d0d; cursor: pointer;max-width:100%;margin:0 auto;}.${uniqueWrapperClass} .nf-hero-media{position:absolute;inset:0; background: #000;}.${uniqueWrapperClass} .nf-hero-media img{width:100%;height:100%;object-fit:contain;border:0}.${uniqueWrapperClass} .nf-hero-slide{position:absolute;inset:0;opacity:0;transition:opacity .4s ease-in-out;}.${uniqueWrapperClass} .nf-hero-slide.active{opacity:1;}.${uniqueWrapperClass} .nf-hero-grad{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,0.9) 100%), linear-gradient(to top, rgba(13,13,13,0.5) 0%, transparent 30%); pointer-events:none;}.${uniqueWrapperClass} .nf-hero-content{position:absolute;left:clamp(16px,4vw,40px);bottom:clamp(16px,4vw,40px);display:flex;flex-direction:column;gap:12px;max-width:min(70%,820px);z-index:2; pointer-events: none;}.${uniqueWrapperClass} .nf-hero-title{font-size:clamp(24px,4.5vw,48px);font-weight:900;letter-spacing:.5px;color:var(--glow); text-shadow: 0 0 12px rgba(0,0,0,0.8);}.${uniqueWrapperClass} .nf-hero-dots{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);z-index:3;display:flex;gap:8px; pointer-events: none;}.${uniqueWrapperClass} .nf-dot{width:10px;height:10px;border-radius:50%;background:oklch(from var(--glow) l c h/.28);transition:background .3s ease;}.${uniqueWrapperClass} .nf-dot.active{background:var(--glow)}.${uniqueWrapperClass} .nf-row{position:relative;width:100%}.${uniqueWrapperClass} .nf-row-header{padding:0 4px 8px 4px}.${uniqueWrapperClass} .nf-row-title{font-size:18px;font-weight:800;color:var(--text-normal);margin:0; font-variant: small-caps; letter-spacing: 0.5px;}.${uniqueWrapperClass} .nf-row-body{position:relative}.${uniqueWrapperClass} .nf-scroller{display:flex;gap:10px;overflow-x:auto;scroll-behavior:smooth;padding:4px 0 12px 0;scrollbar-width:none}.${uniqueWrapperClass} .nf-scroller::-webkit-scrollbar{display:none}.${uniqueWrapperClass} .nf-row-edge{position:absolute;top:0;bottom:0;height:100%;width:40px;z-index:5;color:white;cursor:pointer;border:none;padding:0;display:flex;align-items:center;justify-content:center;background:transparent;opacity:0;transition:opacity .3s ease,transform .3s ease}.${uniqueWrapperClass} .nf-row-edge svg{width:20px;height:20px;pointer-events:none}.${uniqueWrapperClass} .nf-row-left-edge{left:0;height:100%;background:linear-gradient(to right,rgba(0,0,0,0.7),transparent);transform:translateX(-10px)}.${uniqueWrapperClass} .nf-row-right-edge{right:0;height:100%;background:linear-gradient(to left,rgba(0,0,0,0.7),transparent);transform:translateX(10px)}.${uniqueWrapperClass} .nf-row-edge.nav-visible{opacity:1;transform:translateX(0)}.${uniqueWrapperClass} .nf-card{position:relative;flex:0 0 clamp(160px,22vw,240px);aspect-ratio:16/9;border-radius:8px;overflow:hidden;border:1px solid var(--glow-faint);background:#000;cursor:pointer;transform-origin:center;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}.${uniqueWrapperClass} .nf-card:hover{transform:scale(1.07);border-color:var(--glow);box-shadow:0 20px 60px rgba(0,0,0,.5);z-index:2}.${uniqueWrapperClass} .nf-card-media{position:absolute;inset:0}.${uniqueWrapperClass} .nf-card-media img, .${uniqueWrapperClass} .nf-card-media video{width:100%;height:100%;object-fit:contain;}.${uniqueWrapperClass} .nf-card-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.8) 100%);opacity:0;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;padding:10px;transition:opacity .2s ease}.${uniqueWrapperClass} .nf-card:hover .nf-card-overlay{opacity:1}.${uniqueWrapperClass} .nf-card-title{font-size:12px;color:#fff;font-weight:700;letter-spacing:.2px}.${uniqueWrapperClass} .nf-badge-new::after{content:"NEW";position:absolute;top:8px;right:8px;background:var(--glow);color:#0b0713;font-size:10px;font-weight:900;padding:3px 7px;border-radius:4px;z-index:2;}.${uniqueWrapperClass} .nf-badge-prototype::after{content:"PROTOTYPE";position:absolute;top:8px;left:8px;background:oklch(0.88 0.22 288);;color:#0b0713;font-size:10px;font-weight:900;padding:3px 7px;border-radius:4px;z-index:2;}.${uniqueWrapperClass} .nf-badge-upgrade::after{content:"UPGRADE";position:absolute;top:8px;right:8px;background:oklch(0.85 0.20 145);color:#0b0713;font-size:10px;font-weight:900;padding:3px 7px;border-radius:4px;z-index:2;}.${uniqueWrapperClass} .nf-skel{width:100%;height:100%;background:linear-gradient(90deg,rgba(255,255,255,0.06) 25%,rgba(255,255,255,0.12) 37%,rgba(255,255,255,0.06) 63%);background-size:400% 100%;animation:nf-shimmer 1.2s ease-in-out infinite}@keyframes nf-shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}.${uniqueWrapperClass} .nf-callout-body ul, .${uniqueWrapperClass} .nf-callout-body ol { margin-left: 1.5em; padding-left: 0; }.${uniqueWrapperClass} .nf-callout-body li { margin-bottom: 0.5em; }.${uniqueWrapperClass} .nf-callout-body ul ul, .${uniqueWrapperClass} .nf-callout-body ol ol { margin-left: 1.5em; }.${uniqueWrapperClass} .enigma-loader{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:32px;background:linear-gradient(135deg,oklch(0.98 0.002 300) 0%,oklch(0.96 0.008 280) 100%);position:relative;overflow:hidden}.${uniqueWrapperClass} .enigma-loader::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,oklch(0.85 0.08 290 / 0.15) 0%,transparent 50%),radial-gradient(circle at 70% 80%,oklch(0.82 0.09 270 / 0.12) 0%,transparent 50%);animation:pulse-glow 4s ease-in-out infinite;pointer-events:none}@keyframes pulse-glow{0%,100%{opacity:0.6}50%{opacity:1}}.${uniqueWrapperClass} .enigma-spinner{width:80px;height:80px;position:relative}.${uniqueWrapperClass} .enigma-ring{position:absolute;inset:0;border:3px solid transparent;border-top-color:oklch(0.70 0.15 285);border-radius:50%;animation:enigma-spin 1.2s cubic-bezier(0.68,-0.55,0.27,1.55) infinite}.${uniqueWrapperClass} .enigma-ring:nth-child(2){animation-delay:0.15s;border-top-color:oklch(0.75 0.12 275);opacity:0.7}.${uniqueWrapperClass} .enigma-ring:nth-child(3){animation-delay:0.3s;border-top-color:oklch(0.80 0.10 290);opacity:0.4}@keyframes enigma-spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}.${uniqueWrapperClass} .enigma-text{font-size:15px;font-weight:600;letter-spacing:2px;color:oklch(0.45 0.08 285);text-transform:uppercase;animation:fade-pulse 2s ease-in-out infinite}@keyframes fade-pulse{0%,100%{opacity:0.5}50%{opacity:1}}`;
+        const CSS_NF = `.${uniqueWrapperClass} .nf-root{width:100%;max-width:1280px;display:flex;flex-direction:column;gap:28px}.${uniqueWrapperClass} .nf-tabs{display:flex;gap:10px;margin-bottom:16px;border-bottom:1px solid var(--glow-faint);}.${uniqueWrapperClass} .nf-tab-button{padding:8px 16px;cursor:pointer;background:transparent;border:none;color:var(--text-muted);font-weight:600;font-size:16px;border-bottom:2px solid transparent;transition:all .2s ease;}.${uniqueWrapperClass} .nf-tab-button.active{color:var(--text-normal);border-bottom-color:var(--glow);}.${uniqueWrapperClass} .nf-hero{position:relative;width:100%;max-height:60vh;min-height:40vh;border-radius:12px;overflow:hidden;border:1px solid var(--glow-faint);background:#0d0d0d; cursor: pointer;max-width:100%;margin:0 auto;}.${uniqueWrapperClass} .nf-hero-media{position:absolute;inset:0; background: #000;}.${uniqueWrapperClass} .nf-hero-media img{width:100%;height:100%;object-fit:contain;border:0}.${uniqueWrapperClass} .nf-hero-slide{position:absolute;inset:0;opacity:0;transition:opacity .4s ease-in-out;will-change: transform, opacity; transform: translate3d(0,0,0);}.${uniqueWrapperClass} .nf-hero-slide.active{opacity:1;}.${uniqueWrapperClass} .nf-hero-grad{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,0.9) 100%), linear-gradient(to top, rgba(13,13,13,0.5) 0%, transparent 30%); pointer-events:none;}.${uniqueWrapperClass} .nf-hero-content{position:absolute;left:clamp(16px,4vw,40px);bottom:clamp(16px,4vw,40px);display:flex;flex-direction:column;gap:12px;max-width:min(70%,820px);z-index:2; pointer-events: none;}.${uniqueWrapperClass} .nf-hero-title{font-size:clamp(24px,4.5vw,48px);font-weight:900;letter-spacing:.5px;color:var(--glow); text-shadow: 0 0 12px rgba(0,0,0,0.8);}.${uniqueWrapperClass} .nf-hero-dots{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);z-index:3;display:flex;gap:8px; pointer-events: none;}.${uniqueWrapperClass} .nf-dot{width:10px;height:10px;border-radius:50%;background:oklch(from var(--glow) l c h/.28);transition:background .3s ease;}.${uniqueWrapperClass} .nf-dot.active{background:var(--glow)}.${uniqueWrapperClass} .nf-row{position:relative;width:100%}.${uniqueWrapperClass} .nf-row-header{padding:0 4px 8px 4px}.${uniqueWrapperClass} .nf-row-title{font-size:18px;font-weight:800;color:var(--text-normal);margin:0; font-variant: small-caps; letter-spacing: 0.5px;}.${uniqueWrapperClass} .nf-row-body{position:relative}.${uniqueWrapperClass} .nf-scroller{display:flex;gap:10px;overflow-x:auto;scroll-behavior:smooth;padding:4px 0 12px 0;scrollbar-width:none}.${uniqueWrapperClass} .nf-scroller::-webkit-scrollbar{display:none}.${uniqueWrapperClass} .nf-row-edge{position:absolute;top:0;bottom:0;height:100%;width:40px;z-index:5;color:white;cursor:pointer;border:none;padding:0;display:flex;align-items:center;justify-content:center;background:transparent;opacity:0;transition:opacity .3s ease,transform .3s ease}.${uniqueWrapperClass} .nf-row-edge svg{width:20px;height:20px;pointer-events:none}.${uniqueWrapperClass} .nf-row-left-edge{left:0;height:100%;background:linear-gradient(to right,rgba(0,0,0,0.7),transparent);transform:translateX(-10px)}.${uniqueWrapperClass} .nf-row-right-edge{right:0;height:100%;background:linear-gradient(to left,rgba(0,0,0,0.7),transparent);transform:translateX(10px)}.${uniqueWrapperClass} .nf-row-edge.nav-visible{opacity:1;transform:translateX(0)}.${uniqueWrapperClass} .nf-card{position:relative;flex:0 0 clamp(160px,22vw,240px);aspect-ratio:16/9;border-radius:8px;overflow:hidden;border:1px solid var(--glow-faint);background:#000;cursor:pointer;transform-origin:center;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;will-change: transform; transform: translate3d(0,0,0);}.${uniqueWrapperClass} .nf-card:hover{transform:scale(1.07);border-color:var(--glow);box-shadow:0 20px 60px rgba(0,0,0,.5);z-index:2}.${uniqueWrapperClass} .nf-card-media{position:absolute;inset:0}.${uniqueWrapperClass} .nf-card-media img, .${uniqueWrapperClass} .nf-card-media video{width:100%;height:100%;object-fit:contain;}.${uniqueWrapperClass} .nf-card-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.8) 100%);opacity:0;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;padding:10px;transition:opacity .2s ease}.${uniqueWrapperClass} .nf-card:hover .nf-card-overlay{opacity:1}.${uniqueWrapperClass} .nf-card-title{font-size:12px;color:#fff;font-weight:700;letter-spacing:.2px}.${uniqueWrapperClass} .nf-badge-new::after{content:"NEW";position:absolute;top:8px;right:8px;background:var(--glow);color:#0b0713;font-size:10px;font-weight:900;padding:3px 7px;border-radius:4px;z-index:2;}.${uniqueWrapperClass} .nf-badge-prototype::after{content:"PROTOTYPE";position:absolute;top:8px;left:8px;background:oklch(0.88 0.22 288);;color:#0b0713;font-size:10px;font-weight:900;padding:3px 7px;border-radius:4px;z-index:2;}.${uniqueWrapperClass} .nf-badge-upgrade::after{content:"UPGRADE";position:absolute;top:8px;right:8px;background:oklch(0.85 0.20 145);color:#0b0713;font-size:10px;font-weight:900;padding:3px 7px;border-radius:4px;z-index:2;}.${uniqueWrapperClass} .nf-skel{width:100%;height:100%;background:linear-gradient(90deg,rgba(255,255,255,0.06) 25%,rgba(255,255,255,0.12) 37%,rgba(255,255,255,0.06) 63%);background-size:400% 100%;animation:nf-shimmer 1.2s ease-in-out infinite}@keyframes nf-shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}.${uniqueWrapperClass} .nf-callout-body ul, .${uniqueWrapperClass} .nf-callout-body ol { margin-left: 1.5em; padding-left: 0; }.${uniqueWrapperClass} .nf-callout-body li { margin-bottom: 0.5em; }.${uniqueWrapperClass} .nf-callout-body ul ul, .${uniqueWrapperClass} .nf-callout-body ol ol { margin-left: 1.5em; }.${uniqueWrapperClass} .enigma-loader{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:32px;background:linear-gradient(135deg,oklch(0.98 0.002 300) 0%,oklch(0.96 0.008 280) 100%);position:relative;overflow:hidden}.${uniqueWrapperClass} .enigma-loader::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,oklch(0.85 0.08 290 / 0.15) 0%,transparent 50%),radial-gradient(circle at 70% 80%,oklch(0.82 0.09 270 / 0.12) 0%,transparent 50%);animation:pulse-glow 4s ease-in-out infinite;pointer-events:none}@keyframes pulse-glow{0%,100%{opacity:0.6}50%{opacity:1}}.${uniqueWrapperClass} .enigma-spinner{width:80px;height:80px;position:relative}.${uniqueWrapperClass} .enigma-ring{position:absolute;inset:0;border:3px solid transparent;border-top-color:oklch(0.70 0.15 285);border-radius:50%;animation:enigma-spin 1.2s cubic-bezier(0.68,-0.55,0.27,1.55) infinite}.${uniqueWrapperClass} .enigma-ring:nth-child(2){animation-delay:0.15s;border-top-color:oklch(0.75 0.12 275);opacity:0.7}.${uniqueWrapperClass} .enigma-ring:nth-child(3){animation-delay:0.3s;border-top-color:oklch(0.80 0.10 290);opacity:0.4}@keyframes enigma-spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}.${uniqueWrapperClass} .enigma-text{font-size:15px;font-weight:600;letter-spacing:2px;color:oklch(0.45 0.08 285);text-transform:uppercase;animation:fade-pulse 2s ease-in-out infinite}@keyframes fade-pulse{0%,100%{opacity:0.5}50%{opacity:1}}`;
 
         if (isLoading)
             return (
@@ -4134,7 +4388,7 @@ function BasicView() {
                 )}
 
                 {activeTab === 'playground' && (
-                    <DatacorePlayground />
+                    <DatacorePlayground initialFilePath={playgroundFilePath} />
                 )}
 
                 <NFModal 
@@ -4143,6 +4397,8 @@ function BasicView() {
                     setShowVaultSelector={setShowVaultSelector}
                     isImporting={isImporting}
                     onFullscreenChange={setIsMediaFullscreen}
+                    setActiveTab={setActiveTab}
+                    setPlaygroundFilePath={setPlaygroundFilePath}
                 />
 
                 {/* Vault Selector Modal */}
@@ -4640,7 +4896,7 @@ function BasicView() {
         );
     };
 
-    const memoizedSectionContent = useMemo(() => {
+    const renderSectionContent = () => {
         switch (section) {
             case "home":
                 return <Home setSection={setSection} />;
@@ -4655,7 +4911,7 @@ function BasicView() {
             default:
                 return null;
         }
-    }, [section]);
+    };
 
     useEffect(() => {
         const c = containerRef.current;
@@ -5087,18 +5343,23 @@ function BasicView() {
                         <div
                             ref={contentLayerRef}
                             className="anim-fade-in-now"
-                            style={{ ...STYLES.contentLayer }}
+                            style={{ 
+                                ...STYLES.contentLayer,
+                                overflowY: section === 'home' ? 'hidden' : 'auto',
+                                height: 'calc(100% - 60px)' // Reserve space for exit hotspot if needed
+                            }}
                         >
                             <Header />
                             <div
                                 key={section}
                                 style={{
                                     width: "100%",
+                                    height: section === 'home' ? '100%' : 'auto',
                                     display: "flex",
                                     justifyContent: "center",
                                 }}
                             >
-                                {memoizedSectionContent}
+                                {renderSectionContent()}
                             </div>
                         </div>
                         {showWelcomeOverlay && <WelcomeCover />}
@@ -5391,12 +5652,14 @@ const STYLES = {
         left: 0,
         height: "3px",
         background: "var(--glow)",
-        width: "0%",
+        width: "100%",
+        transform: "scaleX(0)",
         transformOrigin: "left",
+        willChange: "transform",
     },
 };
 const generateCSS = (uniqueWrapperClass) =>
-    `.${uniqueWrapperClass}{--glow-raw: 0.95 0.01 100;--glow-accent-purple: oklch(0.8 0.2 300);--glow: oklch(var(--glow-raw));--glow-faint: oklch(from var(--glow) l c h / 28%); --glow-rgb: 180, 100, 255; --glow-med: oklch(from var(--glow) l c h / 16%);--elev: 0 0 24px oklch(from var(--glow) l c h / 22%);--ease-out: cubic-bezier(0.25, 1, 0.5, 1);font-variant: small-caps;}.${uniqueWrapperClass} .fx-stage{position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden}.${uniqueWrapperClass} .glitch-text {position: relative;display: inline-block;}.${uniqueWrapperClass} .glitch-text::before, .${uniqueWrapperClass} .glitch-text::after {content: attr(data-text);position: absolute;inset: 0;pointer-events: none;color: var(--glow);background: transparent;}.${uniqueWrapperClass} .glitch-text::before {left: 2px;text-shadow: 2px 0 var(--glow-accent-purple);clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);animation: glitch-anim1 3.5s infinite linear alternate-reverse;}.${uniqueWrapperClass} .glitch-text::after {left: -2px;text-shadow: -2px 0 oklch(from var(--glow-accent-purple) l c h / 70%);clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);animation: glitch-anim2 4s infinite linear alternate-reverse;}.${uniqueWrapperClass} .headline{color:var(--glow);animation:textFlicker 5s linear infinite}.${uniqueWrapperClass} .btn:hover{background:var(--glow);color:#0b0713;box-shadow:var(--elev);transform:translateY(-2px)}@keyframes textFlicker {0%,100% { opacity: 1; } 2% { opacity: .85; } 4% { opacity: 1; } 6% { opacity: .55; } 8% { opacity: 1; }}@keyframes glitch-anim1 {0% { clip-path: polygon(0 2%, 100% 2%, 100% 33%, 0 33%); } 50% { clip-path: polygon(0 40%, 100% 40%, 100% 60%, 0 60%); } 100% { clip-path: polygon(0 75%, 100% 75%, 100% 100%, 0 100%); }}@keyframes glitch-anim2 {0% { clip-path: polygon(0 67%, 100% 67%, 100% 90%, 0 90%); } 50% { clip-path: polygon(0 10%, 100% 10%, 100% 28%, 0 28%); } 100% { clip-path: polygon(0 15%, 100% 15%, 100% 33%, 0 33%); }}.${uniqueWrapperClass} .homeShowcase {display: grid;grid-template-columns: minmax(0, 1fr) clamp(280px, 30%, 400px);grid-template-rows: minmax(0, 1fr);width: 100%;max-width: 1280px;max-height: 50vh;min-height: 33vh;border: 1px solid var(--glow-faint);border-radius: 12px;overflow: hidden;gap: 0;}.${uniqueWrapperClass} .showcaseFeatured {min-width: 0;position: relative;overflow: hidden;display: flex;flex-direction: column;justify-content: flex-end;padding: clamp(1.5rem, 4vw, 3rem);}.${uniqueWrapperClass} .showcaseContent > p {transition: opacity 0.3s ease, max-height 0.3s ease, margin 0.3s ease;max-height: 100px;}.${uniqueWrapperClass} .showcaseNav {background: rgba(10, 6, 16, 0.5);backdrop-filter: blur(5px);overflow: hidden; position: relative;touch-action: none; border-left: 1px solid var(--glow-faint); }.${uniqueWrapperClass} .showcaseNav-track {display: flex;flex-direction: column;will-change: transform;}.${uniqueWrapperClass} .showcaseNavItem {position: relative;display: flex;gap: 12px;padding: 16px;cursor: pointer;border-bottom: 1px solid var(--glow-faint);border-top: 1px solid var(--glow-faint);align-items: center;transition: background 0.3s ease;flex-shrink: 0;}.${uniqueWrapperClass} .navItemThumb {width: 100px;height: 56px;object-fit: cover;border-radius: 4px;filter: grayscale(50%);transition: filter 0.3s ease, transform 0.3s ease;flex-shrink: 0;}.${uniqueWrapperClass} .navItemText { flex: 1; color: var(--text-muted); transition: color 0.3s ease; min-width: 0; }.${uniqueWrapperClass} .navProgress { position: absolute; bottom: 0; left: 0; height: 3px; background: var(--glow); }.${uniqueWrapperClass} .showcaseNavItem:hover, .${uniqueWrapperClass} .showcaseNavItem.is-active { background: rgba(28, 28, 28, 0.8); }.${uniqueWrapperClass} .showcaseNavItem:hover .navItemText, .${uniqueWrapperClass} .showcaseNavItem.is-active .navItemText { color: var(--text-normal); }.${uniqueWrapperClass} .showcaseNavItem:hover .navItemThumb, .${uniqueWrapperClass} .showcaseNavItem.is-active .navItemThumb { filter: grayscale(0%); transform: scale(1.1); }.${uniqueWrapperClass} .showcase-content-anim { animation: fadeIn .6s var(--ease-out) forwards; }.${uniqueWrapperClass} .showcase-media-anim { animation: mediaZoom .6s var(--ease-out) forwards; }@keyframes fadeIn{from{opacity:0; transform:translateY(15px)} to{opacity:1; transform:translateY(0)}}@keyframes mediaZoom { from { opacity: 0.5; transform: scale(1.05); } to { opacity: 1; transform: scale(1); } }@keyframes progress { from { width: 0%; } to { width: 100%; } }.${uniqueWrapperClass} .is-mobile-layout {display: flex;flex-direction: column;height: auto;}.${uniqueWrapperClass} .is-mobile-layout .showcaseFeatured {order: 1; max-height: 50vh;min-height: 33vh;}.${uniqueWrapperClass} .is-mobile-layout .showcaseNav {order: 2; width: 100%;height: auto; padding: 0 12px;box-sizing: border-box;border-left: none; border-top: 1px solid var(--glow-faint);}.${uniqueWrapperClass} .is-mobile-layout .showcaseNav-track {flex-direction: row;}.${uniqueWrapperClass} .is-mobile-layout .showcaseNavItem {flex: 0 0 120px;flex-direction: column; justify-content: center;text-align: center;gap: 8px; padding: 12px 8px;border-bottom: none;border-right: 1px solid var(--glow-faint);}.${uniqueWrapperClass} .is-mobile-layout .navItemThumb {width: 80px;height: 45px;}.${uniqueWrapperClass} .is-mobile-layout .navItemText {flex: 0 1 auto; }@media (max-width: 400px) {.${uniqueWrapperClass} .showcaseContent > p {opacity: 0;max-height: 0;margin: 0;overflow: hidden;}}.${uniqueWrapperClass} .icon-hotspot {position: absolute;top: 0;right: 0;width: 60px;height: 60px;display: flex;align-items: center;justify-content: center;cursor: pointer;z-index: 50; }.${uniqueWrapperClass} .icon-hotspot .icon {opacity: 0;font-size: 14px;color: var(--text-muted);transition: opacity 0.3s ease-out, color 0.2s ease-out;}.${uniqueWrapperClass} .icon-hotspot:hover .icon {opacity: 1; color: var(--glow);}}@keyframes spin { to { transform: rotate(360deg); } }.showcaseNav-group-header {padding: 10px 16px 6px 16px;background: rgba(0, 0, 0, 0.4);color: var(--text-muted);font-size: 12px;font-weight: 600;text-transform: uppercase;letter-spacing: 0.5px;position: sticky;top: 0;left: 0;z-index: 10;flex-shrink: 0;}.showcaseNav-group-header + .showcaseNavItem {border-top: none;}.is-mobile-layout .showcaseNav-group-header {writing-mode: vertical-rl;text-orientation: mixed;padding: 16px 6px;text-align: center;border-right: 1px solid var(--glow-faint);border-bottom: none;}.is-mobile-layout .showcaseNav-group-header + .showcaseNavItem {border-top: none; border-left: none; }
+    `.${uniqueWrapperClass}{--glow-raw: 0.95 0.01 100;--glow-accent-purple: oklch(0.8 0.2 300);--glow: oklch(var(--glow-raw));--glow-faint: oklch(from var(--glow) l c h / 28%); --glow-rgb: 180, 100, 255; --glow-med: oklch(from var(--glow) l c h / 16%);--elev: 0 0 24px oklch(from var(--glow) l c h / 22%);--ease-out: cubic-bezier(0.25, 1, 0.5, 1);font-variant: small-caps;}.${uniqueWrapperClass} .fx-stage{position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden}.${uniqueWrapperClass} .glitch-text {position: relative;display: inline-block;}.${uniqueWrapperClass} .glitch-text::before, .${uniqueWrapperClass} .glitch-text::after {content: attr(data-text);position: absolute;inset: 0;pointer-events: none;color: var(--glow);background: transparent;}.${uniqueWrapperClass} .glitch-text::before {left: 2px;text-shadow: 2px 0 var(--glow-accent-purple);clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);animation: glitch-anim1 3.5s infinite linear alternate-reverse;}.${uniqueWrapperClass} .glitch-text::after {left: -2px;text-shadow: -2px 0 oklch(from var(--glow-accent-purple) l c h / 70%);clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);animation: glitch-anim2 4s infinite linear alternate-reverse;}.${uniqueWrapperClass} .headline{color:var(--glow);animation:textFlicker 5s linear infinite}.${uniqueWrapperClass} .btn:hover{background:var(--glow);color:#0b0713;box-shadow:var(--elev);transform:translateY(-2px)}@keyframes textFlicker {0%,100% { opacity: 1; } 2% { opacity: .85; } 4% { opacity: 1; } 6% { opacity: .55; } 8% { opacity: 1; }}@keyframes glitch-anim1 {0% { clip-path: polygon(0 2%, 100% 2%, 100% 33%, 0 33%); } 50% { clip-path: polygon(0 40%, 100% 40%, 100% 60%, 0 60%); } 100% { clip-path: polygon(0 75%, 100% 75%, 100% 100%, 0 100%); }}@keyframes glitch-anim2 {0% { clip-path: polygon(0 67%, 100% 67%, 100% 90%, 0 90%); } 50% { clip-path: polygon(0 10%, 100% 10%, 100% 28%, 0 28%); } 100% { clip-path: polygon(0 15%, 100% 15%, 100% 33%, 0 33%); }}.${uniqueWrapperClass} .homeShowcase {display: grid;grid-template-columns: minmax(0, 1fr) clamp(280px, 30%, 400px);grid-template-rows: minmax(0, 1fr);width: 100%;max-width: 1280px;max-height: 50vh;min-height: 33vh;border: 1px solid var(--glow-faint);border-radius: 12px;overflow: hidden;gap: 0;}.${uniqueWrapperClass} .showcaseFeatured {min-width: 0;position: relative;overflow: hidden;display: flex;flex-direction: column;justify-content: flex-end;padding: clamp(1.5rem, 4vw, 3rem);}.${uniqueWrapperClass} .showcaseContent > p {transition: opacity 0.3s ease, max-height 0.3s ease, margin 0.3s ease;max-height: 100px;}.${uniqueWrapperClass} .showcaseNav {background: rgba(10, 6, 16, 0.5);backdrop-filter: blur(5px);overflow: hidden; position: relative;touch-action: none; border-left: 1px solid var(--glow-faint); }.${uniqueWrapperClass} .showcaseNav-track {display: flex;flex-direction: column;will-change: transform;}.${uniqueWrapperClass} .showcaseNavItem {position: relative;display: flex;gap: 12px;padding: 16px;cursor: pointer;border-bottom: 1px solid var(--glow-faint);border-top: 1px solid var(--glow-faint);align-items: center;transition: background 0.3s ease;flex-shrink: 0;}.${uniqueWrapperClass} .navItemThumb {width: 100px;height: 56px;object-fit: cover;border-radius: 4px;filter: grayscale(50%);transition: filter 0.3s ease, transform 0.3s ease;flex-shrink: 0;}.${uniqueWrapperClass} .navItemText { flex: 1; color: var(--text-muted); transition: color 0.3s ease; min-width: 0; }.${uniqueWrapperClass} .navProgress { position: absolute; bottom: 0; left: 0; height: 3px; background: var(--glow); width: 100%; transform-origin: left; will-change: transform; transform: scaleX(0); }.${uniqueWrapperClass} .showcaseNavItem:hover, .${uniqueWrapperClass} .showcaseNavItem.is-active { background: rgba(28, 28, 28, 0.8); }.${uniqueWrapperClass} .showcaseNavItem:hover .navItemText, .${uniqueWrapperClass} .showcaseNavItem.is-active .navItemText { color: var(--text-normal); }.${uniqueWrapperClass} .showcaseNavItem:hover .navItemThumb, .${uniqueWrapperClass} .showcaseNavItem.is-active .navItemThumb { filter: grayscale(0%); transform: scale(1.1); }.${uniqueWrapperClass} .showcase-content-anim { animation: fadeIn .6s var(--ease-out) forwards; }.${uniqueWrapperClass} .showcase-media-anim { animation: mediaZoom .6s var(--ease-out) forwards; }@keyframes fadeIn{from{opacity:0; transform:translateY(15px)} to{opacity:1; transform:translateY(0)}}@keyframes mediaZoom { from { opacity: 0.5; transform: scale(1.05); } to { opacity: 1; transform: scale(1); } }@keyframes progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }.${uniqueWrapperClass} .is-mobile-layout {display: flex;flex-direction: column;height: auto;}.${uniqueWrapperClass} .is-mobile-layout .showcaseFeatured {order: 1; max-height: 50vh;min-height: 33vh;}.${uniqueWrapperClass} .is-mobile-layout .showcaseNav {order: 2; width: 100%;height: auto; padding: 0 12px;box-sizing: border-box;border-left: none; border-top: 1px solid var(--glow-faint);}.${uniqueWrapperClass} .is-mobile-layout .showcaseNav-track {flex-direction: row;}.${uniqueWrapperClass} .is-mobile-layout .showcaseNavItem {flex: 0 0 120px;flex-direction: column; justify-content: center;text-align: center;gap: 8px; padding: 12px 8px;border-bottom: none;border-right: 1px solid var(--glow-faint);}.${uniqueWrapperClass} .is-mobile-layout .navItemThumb {width: 80px;height: 45px;}.${uniqueWrapperClass} .is-mobile-layout .navItemText {flex: 0 1 auto; }@media (max-width: 400px) {.${uniqueWrapperClass} .showcaseContent > p {opacity: 0;max-height: 0;margin: 0;overflow: hidden;}}.${uniqueWrapperClass} .icon-hotspot {position: absolute;top: 0;right: 0;width: 60px;height: 60px;display: flex;align-items: center;justify-content: center;cursor: pointer;z-index: 50; }.${uniqueWrapperClass} .icon-hotspot .icon {opacity: 0;font-size: 14px;color: var(--text-muted);transition: opacity 0.3s ease-out, color 0.2s ease-out;}.${uniqueWrapperClass} .icon-hotspot:hover .icon {opacity: 1; color: var(--glow);}}@keyframes spin { to { transform: rotate(360deg); } }.showcaseNav-group-header {padding: 10px 16px 6px 16px;background: rgba(0, 0, 0, 0.4);color: var(--text-muted);font-size: 12px;font-weight: 600;text-transform: uppercase;letter-spacing: 0.5px;position: sticky;top: 0;left: 0;z-index: 10;flex-shrink: 0;}.showcaseNav-group-header + .showcaseNavItem {border-top: none;}.is-mobile-layout .showcaseNav-group-header {writing-mode: vertical-rl;text-orientation: mixed;padding: 16px 6px;text-align: center;border-right: 1px solid var(--glow-faint);border-bottom: none;}.is-mobile-layout .showcaseNav-group-header + .showcaseNavItem {border-top: none; border-left: none; }
     
      .${uniqueWrapperClass} .pill {
         transition: all 0.25s var(--ease-out);
@@ -6356,7 +6619,7 @@ function PlaygroundEditor({ filePath, onHardReload, activeHeader, setActiveHeade
 // --- 4. MAIN COMPONENT - Live Development Environment (Integrated) ---
 // =-=--=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-function LiveDevelopmentEnvironment({ initialMode = 'default' }) {
+function LiveDevelopmentEnvironment({ initialMode = 'default', initialFilePath = "" }) {
     // Theme toggle handler (now inside component)
     // --- EXACT COPY FROM REFERENCE ---
     const handleToggleTheme = () => {
@@ -6364,8 +6627,15 @@ function LiveDevelopmentEnvironment({ initialMode = 'default' }) {
         setLocalTheme(newTheme);
         setIsThemeManuallySet(true); // Mark as manually set
     };
-    const [filePath, setFilePath] = useState("");
-    const [inputValue, setInputValue] = useState("");
+    const [filePath, setFilePath] = useState(initialFilePath);
+    const [inputValue, setInputValue] = useState(initialFilePath);
+
+    dc.useEffect(() => {
+        if (initialFilePath && initialFilePath !== filePath) {
+            setFilePath(initialFilePath);
+            setInputValue(initialFilePath);
+        }
+    }, [initialFilePath]);
     const [renderKey, setRenderKey] = useState(0);
     const [isInputFocused, setIsInputFocused] = useState(false);
     const [localTheme, setLocalTheme] = useState('theme-dark'); // Local theme state for component only
@@ -11973,6 +12243,7 @@ function IntegratedDevelopmentSuite({ isActive = false }) {
     );
 
     useEffect(() => {
+        if (!isActive) return;
         const reloadIconsFromFile = async (file) => {
             
             try {
@@ -12013,6 +12284,7 @@ function IntegratedDevelopmentSuite({ isActive = false }) {
     useEffect(() => { const wrapper = wrapperRef.current; if (!wrapper) return; const handleClick = (e) => { const copyBtn = e.target.closest('.copy-code-btn'); if (copyBtn && !copyBtn.classList.contains('copied')) { const encodedCode = copyBtn.dataset.code; if (encodedCode) { const decodedCode = decodeURIComponent(escape(atob(encodedCode))); navigator.clipboard.writeText(decodedCode).then(() => { copyBtn.classList.add('copied'); setTimeout(() => { copyBtn.classList.remove('copied'); }, 2000); }); } } }; wrapper.addEventListener('click', handleClick); return () => wrapper.removeEventListener('click', handleClick); }, []);
     
     useEffect(() => {
+        if (!isActive) return;
         const init = async () => {
             try {
                 if (!codeHighlighter) {
@@ -12023,7 +12295,7 @@ function IntegratedDevelopmentSuite({ isActive = false }) {
             } catch (e) { console.error("Failed to load dependencies:", e); }
         };
         init();
-    }, []);
+    }, [isActive]);
 
     // --- FIX APPLIED HERE ---
     // This map connects the displayName from your DOCS file (in uppercase)
@@ -12054,7 +12326,7 @@ function IntegratedDevelopmentSuite({ isActive = false }) {
     const handleViewSource = () => dc.app.workspace.openLinkText("_RESOURCES/DOCS/DOCS.bet8.md", '', true);
 
     const fullStyles = {  
-        wrapper: { width: "100%", maxWidth: "1280px", margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'stretch', fontFamily: 'var(--font-sans)' }, 
+        wrapper: { width: "100%", maxWidth: "1280px", margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'stretch', fontFamily: 'var(--font-sans)', willChange: 'transform', transform: 'translate3d(0,0,0)' }, 
         mainLayout: { display: 'flex', flexDirection: 'row', alignItems: 'flex-start' }, 
         mainContentArea: { flex: 1, minWidth: 0, maxWidth: '820px', margin: '0 auto' }, 
         stickyHeader: { position: 'sticky', top: '0', zIndex: 1000, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', backdropFilter: 'blur(12px)', background: 'oklch(from var(--bg-primary) l c h / 75%)', borderBottom: '1px solid var(--glow-faint)', marginBottom: '24px' },

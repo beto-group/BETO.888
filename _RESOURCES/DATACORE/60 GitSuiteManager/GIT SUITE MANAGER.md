@@ -28,7 +28,7 @@ version.obsidian: 1.4.11
 version: 1.4.1
 ---
 
-### Tab : Git Suite Manager
+### Tab: Git Suite Manager
 
 - **Description**: A complete, self-contained Git source control panel designed to run directly within a Datacore view. It provides a comprehensive graphical user interface for managing a Git repository inside your vault by leveraging your system's own Git installation. It guides users through the entire setup process, from checking for a valid Git installation to configuring user identity, and offers a full suite of tools for common workflows like committing, pushing, pulling, and branch management—all without needing an external Git plugin.
 

@@ -29,7 +29,7 @@ version: 1.0.8
 ---
 
 
-### Tab : Hot Reload Files
+### Tab: Hot Reload Files
 
 - **Description**: A developer-focused utility component designed to monitor a specific folder within the vault for any file changes. It listens to Obsidian's raw file system events and provides a real-time UI that displays the details of the last detected change within the target directory.
 

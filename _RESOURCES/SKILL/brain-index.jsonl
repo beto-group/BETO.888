@@ -1,0 +1,43 @@
+{"type": "metadata", "protocol": "Beto Brain Index v4.0", "last_indexed": "2026-03-28T07:41:50Z"}
+{"type": "knowledge", "key": "BEST_PRACTICES", "path": "knowledge/BEST_PRACTICES.md", "description": "Master knowledge document."}
+{"type": "knowledge", "key": "ai-future-plan", "path": "knowledge/ai-future-plan.md", "description": "Guidelines for future AI agents to continue improving and scaling the Datacore ecosystem."}
+{"type": "knowledge", "key": "anti-patterns", "path": "knowledge/anti-patterns.md", "description": "Common errors, pitfalls, and anti-patterns to avoid when developing Datacore components."}
+{"type": "knowledge", "key": "architecture", "path": "knowledge/architecture.md", "description": "Master knowledge document."}
+{"type": "knowledge", "key": "automation", "path": "knowledge/automation.md", "description": "Master knowledge document."}
+{"type": "knowledge", "key": "design", "path": "knowledge/design.md", "description": "UI/UX principles, design systems, and visual language patterns for Beto.888. Includes guidance on data display, interaction models, and style standards."}
+{"type": "knowledge", "key": "development", "path": "knowledge/development.md", "description": "Technical development patterns for Beto Datacore Components, including Datacore API usage, React patterns, and Hybrid Compatibility."}
+{"type": "knowledge", "key": "elite-syncthing-protocols", "path": "knowledge/elite-syncthing-protocols.md", "description": "Advanced REST API automation, SSH tunneling, and service management for Syncthing."}
+{"type": "knowledge", "key": "graphics-and-ui", "path": "knowledge/graphics-and-ui.md", "description": "Master manifesto for immersive rendering, windowing, and visual verification."}
+{"type": "knowledge", "key": "integrations", "path": "knowledge/integrations.md", "description": "External API patterns, LLM integration, webhooks, and local service/plugin communication. Bridges the gap between the vault and the outside world."}
+{"type": "knowledge", "key": "io-and-data", "path": "knowledge/io-and-data.md", "description": "Rules for robust file I/O, reactive data systems, and human-input management."}
+{"type": "knowledge", "key": "obsidian-dev-elite", "path": "knowledge/obsidian-dev-elite.md", "description": "Optimization patterns for high-performance Datacore components, focusing on asset loading, playback smoothness, and efficient DOM updates."}
+{"type": "knowledge", "key": "obsidian-formats", "path": "knowledge/obsidian-formats.md", "description": "Core Obsidian file format specifications including Markdown, Canvas (.canvas), and Bases (.base)."}
+{"type": "knowledge", "key": "obsidian-ops-pro", "path": "knowledge/obsidian-ops-pro.md", "description": "Interact with Obsidian vaults using the Obsidian CLI to read, create, search, and manage notes, tasks, properties, and more. Also supports plugin and theme development with commands to reload plugins, run JavaScript, capture errors, take screenshots, and inspect the DOM. Use when the user asks to interact with their Obsidian vault, manage notes, search vault content, perform vault operations from the command line, or develop and debug Obsidian plugins and themes."}
+{"type": "knowledge", "key": "obsidian-ref", "path": "knowledge/obsidian-ref.md", "description": "Master knowledge document."}
+{"type": "knowledge", "key": "obsidian-theming", "path": "knowledge/obsidian-theming.md", "description": "Master knowledge document."}
+{"type": "knowledge", "key": "philosophy-and-meta", "path": "knowledge/philosophy-and-meta.md", "description": "Master knowledge document."}
+{"type": "knowledge", "key": "prompt-engineering", "path": "knowledge/prompt-engineering.md", "description": "High-performance prompting techniques for LLM anchoring, reasoning, and self-critique."}
+{"type": "knowledge", "key": "reference", "path": "knowledge/reference.md", "description": "Master knowledge document."}
+{"type": "knowledge", "key": "resources", "path": "knowledge/resources.md", "description": "External library loading (cached/simple) and local asset management. Bridge between vault assets and web-based views."}
+{"type": "agency", "key": "engineering-manifesto", "path": "agency/engineering-manifesto.md", "description": "Departmental role library."}
+{"type": "agency", "key": "game-development-manifesto", "path": "agency/game-development-manifesto.md", "description": "Departmental role library."}
+{"type": "agency", "key": "integrations-manifesto", "path": "agency/integrations-manifesto.md", "description": "Departmental role library."}
+{"type": "agency", "key": "marketing-manifesto", "path": "agency/marketing-manifesto.md", "description": "Departmental role library."}
+{"type": "agency", "key": "paid-media-manifesto", "path": "agency/paid-media-manifesto.md", "description": "Departmental role library."}
+{"type": "agency", "key": "product-manifesto", "path": "agency/product-manifesto.md", "description": "Departmental role library."}
+{"type": "agency", "key": "sales-manifesto", "path": "agency/sales-manifesto.md", "description": "Departmental role library."}
+{"type": "agency", "key": "spatial-computing-manifesto", "path": "agency/spatial-computing-manifesto.md", "description": "Departmental role library."}
+{"type": "agency", "key": "specialized-manifesto", "path": "agency/specialized-manifesto.md", "description": "Departmental role library."}
+{"type": "agency", "key": "strategy-manifesto", "path": "agency/strategy-manifesto.md", "description": "Departmental role library."}
+{"type": "agency", "key": "support-manifesto", "path": "agency/support-manifesto.md", "description": "Departmental role library."}
+{"type": "agency", "key": "testing-manifesto", "path": "agency/testing-manifesto.md", "description": "Departmental role library."}
+{"type": "workflow", "key": "/harvest", "path": "workflows/harvest.md", "description": "Slash-command workflow."}
+{"type": "workflow", "key": "/new", "path": "workflows/new.md", "description": "Slash-command workflow."}
+{"type": "workflow", "key": "/port", "path": "workflows/port.md", "description": "Slash-command workflow."}
+{"type": "workflow", "key": "/remember", "path": "workflows/remember.md", "description": "Slash-command workflow."}
+{"type": "workflow", "key": "/terminate", "path": "workflows/terminate.md", "description": "Slash-command workflow."}
+{"type": "workflow", "key": "/think", "path": "workflows/think.md", "description": "Slash-command workflow."}
+{"type": "specialized", "key": "termination", "path": "knowledge/automation/linting-termination.md", "description": "Mandatory quality gate protocol."}
+{"type": "specialized", "key": "core_rules", "path": "roles/CORE_RULES.md", "description": "Unified methodology for all agents."}
+{"type": "template", "key": "elite_view", "path": "templates/index.jsx.template"}
+{"type": "template", "key": "component_manifesto", "path": "templates/component-manifesto.md"}

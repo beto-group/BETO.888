@@ -1,0 +1,14 @@
+{
+  "sequence": [
+    {
+      "id": "breakdown-001",
+      "component": "DatacoreBreakdown",
+      "from": 0,
+      "duration": 300
+    }
+  ],
+  "activeBackground": "PureBlack",
+  "zoom": 1,
+  "sidebarTab": "scenes",
+  "version": 1
+}

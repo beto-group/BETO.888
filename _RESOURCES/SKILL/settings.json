@@ -1,0 +1,27 @@
+{
+    "version": "1.10.0",
+    "name": "BetoOS Institutional Standard",
+    "persona": "Lead Architect",
+    "permissions": {
+        "defaultMode": "read-only",
+        "allow": ["read", "list_dir", "view_file"],
+        "deny": ["rm", "mv", "rmdir"],
+        "ask": ["write_to_file", "replace_file_content", "run_command"]
+    },
+    "mcpServers": {
+        "telegram": {
+            "enabled": true,
+            "transport": "stdio"
+        }
+    },
+    "sessions": {
+        "autoSave": true,
+        "compactionThreshold": 100
+    },
+    "plugins": {
+        "datacore": {
+            "enabled": true,
+            "version": "latest"
+        }
+    }
+}

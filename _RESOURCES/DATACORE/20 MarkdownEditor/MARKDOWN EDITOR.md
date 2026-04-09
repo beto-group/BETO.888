@@ -35,7 +35,7 @@ version: 3.0.7
 ---
 
 
-### Tab : Markdown Editor {wip}
+### Tab: Markdown Editor {wip}
 
 - **Description**: A powerful, IDE-like component that provides a full-featured, side-by-side markdown editor and a live, enhanced preview pane. It is designed to replicate and extend Obsidian's native editing experience, supporting a wide range of markdown and Obsidian-specific syntax. All changes are saved directly back to the source markdown file, turning any code block into a rich, self-contained editing environment.
 

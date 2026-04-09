@@ -2,7 +2,6 @@
 author: beto.group
 name.official: Retro Morph Game
 version: 1.0.0
-price: "0"
 category:
   - game
   - entertainment
@@ -16,43 +15,37 @@ tags:
 desc: A dynamic multi-mode retro arcade engine that seamlessly morphs between game genres (Snake, Flappy, Dino) based on score progression.
 status: stable
 complexity: intermediate
-id: 84
-resources:
-  - retromorph_game_1.webp
-longDesc: "Retro Morph Game is an innovative arcade experience built for the Datacore ecosystem. It features a unique 'Morphing Logic' that transitions the gameplay mechanics, physics, and visual style between three classic retro genres—Snake, Flappy Bird, and Dino Run—as the player reaches score milestones. The component includes a global API-driven leaderboard with robust offline-sync capabilities, an integrated AI auto-player, and a cross-platform control system optimized for both desktop and mobile devices."
-does: "[  {    \"title\": \"Dynamic Game Morphing\",    \"children\": [      {        \"title\": \"Multi-Genre Integration\",        \"content\": \"Seamlessly transitions between Snake, Flappy Bird, and Dino Run modes without reloading or interrupting the game loop.\"      },      {        \"title\": \"Adaptive Score Milestones\",        \"content\": \"Triggers genre shifts every 50 points, introducing new physics, controls, and environmental hazards in real-time.\"      }    ]  },  {    \"title\": \"Global Connectivity\",    \"children\": [      {        \"title\": \"API-Driven Leaderboard\",        \"content\": \"Integrates with a global game server to rank players across different instances of the application.\"      },      {        \"title\": \"Resilient Offline Sync\",        \"content\": \"Features a local scoring buffer that automatically synchronizes with the global server when a network connection is restored.\"      }    ]  },  {    \"title\": \"Immersive Experience\",    \"children\": [      {        \"title\": \"Cross-Platform Controls\",        \"content\": \"Optimized for all inputs: directional keyboard controls, touch-based swipes for Snake, and tap/spacebar for Flappy and Dino jump modes.\"      },      {        \"title\": \"AI Auto-Player\",        \"content\": \"Includes a built-in neural simulation that can autonomously play all three game modes in the background or for demonstration purposes.\"      }    ]  }]"
-cant: '[  {    \"title\": \"Custom Game Mode Injection\",    \"content\": \"The morphing engine is strictly optimized for the hardcoded trio of modes (Snake, Flappy, Dino) and does not support external game script imports.\"  },  {    \"title\": \"Local Multiplayer Support\",    \"content\": \"The game is designed exclusively for high-score-driven single-player sessions and does not feature simultaneous local or networked multiplayer modes.\"  },  {    \"title\": \"Direct ROM Emulation\",    \"content\": \"This is a native JavaScript/React engine and cannot run legacy ROM files from external consoles or arcade systems.\"  }]'
-version.obsidian: 1.4.11
+id: 77
+resources: [retromorph.clip.webm, retromorph_1.webp, retromorph_2.webp]
 ---
 
 ### Tab: Retro Morph Game
 
-- **Description**: A dynamic multi-mode retro arcade engine that seamlessly morphs between game genres (Snake, Flappy, Dino) based on score progression. It features unique morphing logic, global leaderboards, and an integrated AI auto-player.
+- **Description**: Retro Morph Game is a dynamic multi-mode arcade engine that seamlessly morphs between classic game genres (Snake, Flappy Bird, Dino Run) based on score progression. It features unique genre-shifting logic, global leaderboards, and an integrated AI auto-player for consistent challenge and immersion.
 
 - **Does**:
-   
-    - **Dynamic Game Morphing**:    
-        - **Multi-Genre Integration**: Seamlessly transitions between Snake, Flappy Bird, and Dino Run modes without reloading or interrupting the game loop.
-        - **Adaptive Score Milestones**: Triggers genre shifts every 50 points, introducing new physics, controls, and environmental hazards in real-time.
-    - **Global Connectivity**:
-        - **API-Driven Leaderboard**: Integrates with a global game server to rank players across different instances of the application.
-        - **Resilient Offline Sync**: Features a local scoring buffer that automatically synchronizes with the global server when a network connection is restored.
-    - **Immersive Experience**:
-        - **Cross-Platform Controls**: Optimized for all inputs: directional keyboard controls, touch-based swipes for Snake, and tap/spacebar for Flappy and Dino jump modes.
-        - **AI Auto-Player**: Includes a built-in neural simulation that can autonomously play all three game modes in the background or for demonstration purposes.
 
-- **Can’t**:
-   
-    - **Custom Game Mode Injection**: The morphing engine is strictly optimized for the hardcoded trio of modes (Snake, Flappy, Dino) and does not support external game script imports.    
-    - **Local Multiplayer Support**: The game is designed exclusively for high-score-driven single-player sessions and does not feature simultaneous local or networked multiplayer modes.
-    - **Direct ROM Emulation**: This is a native JavaScript/React engine and cannot run legacy ROM files from external consoles or arcade systems.
+    - **Dynamic Game Morphing**: Seamless transitions between genres without interrupting the active game loop.
+    - **Adaptive Genre Milestones**: Triggers mechanical shifts every 50 points, introducing new physics and hazards.
+    - **Global API Connectivity**: Integrates with external servers for leaderboard ranking and competitive tracking.
+    - **Resilient Offline Synchronization**: Local scoring buffer automatically syncs once network connectivity is restored.
+    - **Cross-Platform Tactical Controls**: Optimized for keyboard (WASD), touch swipes, and tap/spacebar inputs.
+    - **AI Neural Auto-Player**: Built-in simulation capable of autonomous play for background demonstration.
 
+- **Can't**:
 
-----
+    - **External Mode Injection**: The core engine is hardcoded for the current trio; does not support scriptable plugins.
+    - **Simultaneous Local Multiplayer**: Designed exclusively for high-score single-player arcade sessions.
+    - **Legacy ROM Emulation**: Strictly a native React/JS engine; cannot execute external binary console files.
 
-![retromorph_game_1.webp](_resources/images/retromorph_game_1.webp)
+------
+![Retro Morph Game Clip](_resources/videos/retromorph.clip.webm)
 
+![Retro Morph Game Screenshot 1](_resources/images/retromorph_1.webp)
+
+![Retro Morph Game Screenshot 2](_resources/images/retromorph_2.webp)
 
 ### Components
-
 ###### [Retro Morph Viewer](D.q.retromorph.viewer.md)
+###### [Retro Morph Components {index.jsx}](src/index.jsx)
+

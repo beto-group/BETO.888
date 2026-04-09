@@ -31,7 +31,7 @@ version: 2.2.2
 ---
 
 
-### Tab : Datacore Terminal
+### Tab: Datacore Terminal
 
 - **Description**: A full-featured, standalone terminal emulator that runs directly within Obsidian, providing native shell access to your file system. It leverages Node.js's child_process module to spawn a real shell (zsh, bash, powershell, etc.), allowing users to run almost any command-line tool, manage background processes, and interact with their system without ever leaving Obsidian.
 

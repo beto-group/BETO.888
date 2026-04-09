@@ -1,0 +1,22 @@
+# Task: Code Refactoring & Workflow Alignment
+
+- [x] Transition to Project-Local Agent Workflow
+    - [x] Analyze `_resources/agents/BEST_PRACTICES.md`
+    - [x] Create Task File in `_resources/agents/tasks/`
+    - [x] Create Implementation Plan in `_resources/agents/implementation/`
+- [x] Modularize Component Creator
+    - [x] Extract `DraggableItem` to `src/components/DraggableItem.jsx`
+    - [x] Refactor `ComponentCreator.jsx` to use dynamic requires for sub-components
+- [x] Component Editing Flow
+    - [x] Implement Metadata Embedding in saved components
+    - [x] Implement Metadata Parsing in `index.jsx` (Replaced with Native Metadata)
+    - [x] Implement Native Metadata Architecture (Self-describing components)
+    - [x] Migrate Legacy Components (Manual fixup to add .metadata property)
+    - [x] Add Click-to-Edit to `LibrarySidebar`
+- [ ] Modularize Remotion Clone
+    - [ ] Clean up `RemotionClone.jsx` (Extract logic if possible)
+- [x] Update Requirements/Guidelines
+    - [x] Ensure all future code follows "One Component per File" rule
+- [x] Verification
+    - [x] Verify functionality after extraction
+    - [x] Verify dynamic loading of sub-components

@@ -1,0 +1,10 @@
+ 
+  
+```datacorejsx
+const activeFile = dc.resolvePath("D.q.remotionclone.viewer.v1")
+const folderPath = activeFile.substring(0, activeFile.lastIndexOf('/'));
+
+const { View } = await dc.require(folderPath + '/src/index.jsx');
+return await View({ folderPath });
+```
+ 

@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "cc6e9e3f2942a76c",
+        "id": "4f436da332860963",
         "type": "tabs",
         "children": [
           {
-            "id": "b4713b931264d274",
+            "id": "a4b68ad14b26ca7c",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "_RESOURCES/DATACORE/DATACORE.showcase.md",
+                "file": "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.component.v4.md",
                 "mode": "source",
                 "source": false,
                 "backlinks": true,
@@ -28,11 +28,35 @@
                 }
               },
               "icon": "lucide-file",
-              "title": "DATACORE.showcase"
+              "title": "D.q.datacore.flexilis.component.v4"
             }
           },
           {
-            "id": "3e0ae091a775da28",
+            "id": "39154eda2be43835",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "_RESOURCES/DATACORE/98 LiveStreamManager/LIVESTREAM MANAGER.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
+              "icon": "lucide-file",
+              "title": "LIVESTREAM MANAGER"
+            }
+          },
+          {
+            "id": "cab6d0bc9497fb4e",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -54,8 +78,81 @@
               "icon": "lucide-file",
               "title": "HOME"
             }
+          },
+          {
+            "id": "b449c2696c79528b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "KNOWLEDGE/HEALTH/RESTAURANTS.enigmas..md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
+              "icon": "lucide-file",
+              "title": "RESTAURANTS.enigmas."
+            }
+          },
+          {
+            "id": "434b9efc010bc6a1",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "KNOWLEDGE/HEALTH/YOGA.enigmas..md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
+              "icon": "lucide-file",
+              "title": "YOGA.enigmas."
+            }
+          },
+          {
+            "id": "d7780ca14ee662b8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "README.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
+              "icon": "lucide-file",
+              "title": "README"
+            }
           }
-        ]
+        ],
+        "currentTab": 5
       }
     ],
     "direction": "vertical"
@@ -214,7 +311,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
+    "width": 200,
     "collapsed": true
   },
   "left-ribbon": {
@@ -235,53 +332,53 @@
       "code-files:Create Code File": false
     }
   },
-  "active": "b4713b931264d274",
+  "active": "d7780ca14ee662b8",
   "lastOpenFiles": [
+    "_RESOURCES/SKILL/roles/examples/README.md",
+    "KNOWLEDGE/HEALTH/YOGA.enigmas..md",
+    "KNOWLEDGE/HEALTH/RESTAURANTS.enigmas..md",
     "HOME.md",
-    "_RESOURCES/DATACORE/73 OpenApplication/OPEN APPLICATION.md",
-    "_RESOURCES/DATACORE/DATACORE.showcase.md",
-    "_RESOURCES/DATACORE/72 OpenBrowser/OPEN BROWSER.md",
-    "KNOWLEDGE/WEALTH/BUSINESS.enigmas..md",
-    "KNOWLEDGE/HEALTH/LIFE.enigmas..md",
-    "KNOWLEDGE/HEALTH/FITNESS.tech.enigmas..md",
-    "KNOWLEDGE/EXPERIENCES/_clean/CLOTHING.enigmas..md",
-    "KNOWLEDGE/HEALTH/LIFE.iiwii.enigmas..md",
-    "KNOWLEDGE/HEALTH/LIFE.iiwii.md",
-    "KNOWLEDGE/HEALTH/LIFE.md",
-    "KNOWLEDGE/WEALTH/BUSINESS.md",
-    "_RESOURCES/DATACORE/9 ContentExplorer888/_resources/example/WEALTH/BUSINESS.enigmas..md",
-    "_RESOURCES/DATACORE/72 OpenBrowser/_resources/images/open_browser_1.webp",
-    "_RESOURCES/DATACORE/95 ProceduralSquid/PROCEDURAL SQUID.md",
-    "_RESOURCES/DATACORE/94 ObsidianDownloadStats/OBSIDIAN DOWNLOAD STATS.md",
+    "_RESOURCES/DATACORE/62 PluginDevSuite/PLUGIN DEV SUITE.md",
+    "_RESOURCES/DATACORE/62 PluginDevSuite/D.q.plugindevsuite.viewer.md",
+    "_RESOURCES/DATACORE/62 PluginDevSuite/D.q.plugindevsuite.component.md",
+    "_RESOURCES/DATACORE/98 LiveStreamManager/D.q.livestreammanager.viewer.md",
+    "_RESOURCES/DATACORE/98 LiveStreamManager/LIVESTREAM MANAGER.md",
+    "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.component.v4.md",
+    "_RESOURCES/SKILL/interface/src/index.jsx",
+    "Live Stream Manager.md",
+    "_RESOURCES/DATACORE/4 TagViewer/TAG VIEWER.md",
     "_RESOURCES/DATACORE/93 NeuralNetwork/NEURAL NETWORK.md",
-    "_RESOURCES/DATACORE/92 DuotoneEditor/DUOTONE EDITOR.md",
-    "_RESOURCES/DATACORE/91 HyperScroll/HYPER SCROLL.md",
-    "_RESOURCES/DATACORE/90 OpticalIllusion/OPTICAL ILLUSION.md",
-    "_RESOURCES/DATACORE/89 CardScanner/CARD SCANNER.md",
-    "_RESOURCES/DATACORE/88 KineticType/KINETIC TYPE.md",
-    "_RESOURCES/DATACORE/87 ReverseFlight/REVERSE FLIGHT.md",
-    "_RESOURCES/DATACORE/86 MaskedText/MASKED TEXT.md",
-    "_RESOURCES/DATACORE/85 PerlinMountains/PERLIN MOUNTAINS.md",
-    "_RESOURCES/DATACORE/84 SignalMesh/SIGNAL MESH.md",
-    "_RESOURCES/DATACORE/83 SceneUI/SCENE UI.md",
-    "_RESOURCES/DATACORE/97 KeyboardMaestroCLI/src/utils/storageUtils.js",
-    "_RESOURCES/DATACORE/97 KeyboardMaestroCLI/src/utils/kmUtils.js",
-    "_RESOURCES/DATACORE/97 KeyboardMaestroCLI/src/utils/domUtils.jsx",
-    "_RESOURCES/DATACORE/97 KeyboardMaestroCLI/src/utils/asUtils.js",
-    "_RESOURCES/DATACORE/97 KeyboardMaestroCLI/src/styles/styles.jsx",
-    "_RESOURCES/DATACORE/97 KeyboardMaestroCLI/src/components/MacroControl.jsx",
-    "_RESOURCES/DATACORE/97 KeyboardMaestroCLI/src/components/MacroBuilder.jsx",
-    "_RESOURCES/DATACORE/97 KeyboardMaestroCLI/src/components/KMBrowser.jsx",
-    "_RESOURCES/DATACORE/97 KeyboardMaestroCLI/src/components/ControlsMenu.jsx",
-    "_RESOURCES/DATACORE/97 KeyboardMaestroCLI/src/utils",
-    "_RESOURCES/DATACORE/93 NeuralNetwork/_resources/images/basic_folder_view.webp",
-    "_RESOURCES/DATACORE/98 NeuralNetwork/_resources/images/basic_folder_view.webp",
-    "_RESOURCES/DATACORE/92 DuotoneEditor/98 NeuralNetwork/_resources/images/basic_folder_view.webp",
-    "_RESOURCES/DATACORE/92 DuotoneEditor/_resources/images/basic_folder_view.webp",
-    "_RESOURCES/DATACORE/97 DuotoneEditor/_resources/images/basic_folder_view.webp",
-    "_RESOURCES/DATACORE/91 HyperScroll/_resources/images/basic_folder_view.webp",
-    "_RESOURCES/DATACORE/96 HyperScroll/_resources/images/basic_folder_view.webp",
-    "_RESOURCES/DATACORE/90 OpticalIllusion/_resources/images/basic_folder_view.webp",
-    "_RESOURCES/DATACORE/95 OpticalIllusion/_resources/images/basic_folder_view.webp"
+    "_RESOURCES/DATACORE/3.1 BasicView/BASIC VIEW v1.md",
+    "_RESOURCES/DATACORE/3.2 BasicView/BASIC VIEW v2.md",
+    "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.v4.md",
+    "_RESOURCES/DATACORE/DATACORE.showcase.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/WOMEN_v5_.A.md",
+    "_RESOURCES/ASSETS/888/ASSETS_.A/WOMEN_v6_.A.md",
+    "_RESOURCES/DATACORE/93 NeuralNetwork/_resources/images/neuralnetwork_1.webp",
+    "CHANGE LOG.md",
+    "README.md",
+    "_RESOURCES/SKILL/README.md",
+    "_RESOURCES/DATACORE/71 Recap2025/RECAP 2025.md",
+    "_RESOURCES/SKILL/workflows/media_converter/SKILL.md",
+    "_RESOURCES/SKILL/workflows/media_converter",
+    "_RESOURCES/SKILL/settings.json",
+    "_RESOURCES/SKILL/memory/sessions/sample.jsonl",
+    "_RESOURCES/SKILL/memory/sessions",
+    "_RESOURCES/DATACORE/COMPONENTS/141_Claw_Harness/D.q.claw_harness.viewer.md",
+    "_RESOURCES/DATACORE/COMPONENTS/141_Claw_Harness/141_Claw_Harness.md",
+    "_RESOURCES/DATACORE/COMPONENTS/141_Claw_Harness/src/index.jsx",
+    "_RESOURCES/DATACORE/COMPONENTS/141_Claw_Harness/src",
+    "_RESOURCES/DATACORE/COMPONENTS/141_Claw_Harness",
+    "_RESOURCES/SKILL/scripts/SessionManager.js",
+    "_RESOURCES/DATACORE/COMPONENTS/claw-code/tests/test_porting_workspace.py",
+    "_RESOURCES/DATACORE/COMPONENTS/claw-code/assets/omx/omx-readme-review-2.png",
+    "_RESOURCES/DATACORE/COMPONENTS/claw-code/assets/omx/omx-readme-review-1.png",
+    "_RESOURCES/DATACORE/COMPONENTS/claw-code/assets/tweet-screenshot.png",
+    "_RESOURCES/DATACORE/COMPONENTS/claw-code/assets/wsj-feature.png",
+    "_RESOURCES/DATACORE/COMPONENTS/claw-code/assets/star-history.png",
+    "_RESOURCES/DATACORE/COMPONENTS/claw-code/assets/sigrid-photo.png",
+    "_RESOURCES/DATACORE/COMPONENTS/claw-code/assets/claw-hero.jpeg",
+    "_RESOURCES/EXCALIDRAW/Scripts/Downloaded/Set Stroke Width of Selected Elements.svg",
+    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/Set Stroke Width of Selected Elements.svg"
   ]
 }

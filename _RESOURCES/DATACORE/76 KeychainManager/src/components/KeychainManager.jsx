@@ -17,22 +17,32 @@ const KeychainManagerComp = ({
     const [revealedSecret, setRevealedSecret] = useState(null);
     const [isSealing, setIsSealing] = useState(false);
     const [unsecuredKeys, setUnsecuredKeys] = useState([]);
+    const [failedMigrations, setFailedMigrations] = useState([]);
 
     // Form Inputs
     const [keyName, setKeyName] = useState('');
     const [plainText, setPlainText] = useState('');
 
-    // --- Data Management (Native API v1.11.4) ---
+    const VERSION = "v2.0.0";
+
+    // --- Data Management (v2.1.0 Architectural Guardrails) ---
     const scanForUnsecured = () => {
         const sensitivePatterns = ['token', 'key', 'secret', 'password', 'auth', 'cred', 'api'];
         const discovered = [];
-
-        // Exclude system/internal keys that aren't secrets
-        const ignored = ['antigravity_debug_config', 'antigravity_usage_stats_v1', 'antigravity_accounts_v2'];
+        const ignored = [
+            'antigravity_debug_config', 
+            'antigravity_usage_stats_v1', 
+            'antigravity_accounts_v2',
+            '34aa5b4e7e7b6cb7-secrets-encrypted' // Known Large Plugin Blob (Ignore to avoid Revert Loops)
+        ];
 
         for (let i = 0; i < localStorage.length; i++) {
             const key = localStorage.key(i);
-            if (ignored.includes(key)) continue;
+            if (!key || ignored.includes(key)) continue;
+
+            // Guard: Size Limit (Native Keychains are for small secrets, not 4MB blobs)
+            const val = localStorage.getItem(key);
+            if (val && val.length > 512000) continue; 
 
             const lowerKey = key.toLowerCase();
             if (sensitivePatterns.some(p => lowerKey.includes(p))) {
@@ -47,7 +57,6 @@ const KeychainManagerComp = ({
             const storage = dc.app.secretStorage || (window.app && window.app.secretStorage);
             if (!storage) return;
 
-            // Use Official listSecrets() if available, fallback to manual keys
             let keys = [];
             if (typeof storage.listSecrets === 'function') {
                 keys = await storage.listSecrets();
@@ -59,51 +68,102 @@ const KeychainManagerComp = ({
             setIsNativeApiReady(typeof storage.setSecret === 'function');
             setStatus(typeof storage.setSecret === 'function' ? "SECURE MODE" : "LEGACY MODE");
 
-            // Also scan for unsecured items
             scanForUnsecured();
-
         } catch (e) {
             console.error("[Keychain] Load failed", e);
             setStatus("API ERROR");
         }
     };
 
-    useEffect(() => {
-        loadSecrets();
-    }, []);
+    useEffect(() => { loadSecrets(); }, []);
 
-    // --- Actions ---
+    // --- Actions (Production v2.0.0) ---
+    const handleMigrateAll = async () => {
+        if (!confirm(`Secure all ${unsecuredKeys.length} items? This will move them to the native keychain and remove them from plain-text storage.`)) return;
+        
+        setStatus(`MIGRATING_BATCH...`);
+        setFailedMigrations([]);
+        const failures = [];
+        
+        try {
+            const storage = dc.app.secretStorage || (window.app && window.app.secretStorage);
+            if (typeof storage.setSecret !== 'function') return;
+
+            // Sync Re-crawl (v2.0.0)
+            const targetKeys = [];
+            const sensitivePatterns = ['token', 'key', 'secret', 'password', 'auth', 'cred', 'api'];
+            const ignored = ['antigravity_debug_config', 'antigravity_usage_stats_v1', 'antigravity_accounts_v2'];
+            
+            for (let i = 0; i < localStorage.length; i++) {
+                const k = localStorage.key(i);
+                if (k && !ignored.includes(k) && sensitivePatterns.some(p => k.toLowerCase().includes(p))) {
+                    targetKeys.push(k);
+                }
+            }
+
+            for (const key of targetKeys) {
+                try {
+                    let val = localStorage.getItem(key);
+                    if (val === null) val = window.localStorage[key];
+                    if (val === null) val = localStorage[key];
+                    
+                    if (val !== null && val !== undefined) {
+                        const safeKey = key.toLowerCase().replace(/[^a-z0-9-]/g, '-').slice(0, 64);
+                        const stringVal = String(val);
+                        await storage.setSecret(safeKey, stringVal);
+                        localStorage.removeItem(key);
+                    } else {
+                        failures.push({ key, error: "Native storage returned null/undefined for this key." });
+                    }
+                } catch (err) {
+                    failures.push({ key, error: err.message });
+                }
+            }
+            
+            await loadSecrets();
+            setFailedMigrations(failures);
+            setStatus(failures.length > 0 ? "PARTIAL_ERROR" : "ALL_SECURED");
+        } catch (e) {
+            console.error("Critical Migration Error", e);
+            setStatus("BATCH_FAILED");
+        }
+    };
+
     const handleMigrate = async (key) => {
-        const val = localStorage.getItem(key);
-        if (!val) return;
-
         setStatus(`Migrating ${key}...`);
         try {
             const storage = dc.app.secretStorage || (window.app && window.app.secretStorage);
             if (typeof storage.setSecret === 'function') {
-                await storage.setSecret(key, val);
-                localStorage.removeItem(key);
-                await loadSecrets();
+                let val = localStorage.getItem(key);
+                if (val === null) val = window.localStorage[key];
+                if (val === null) val = localStorage[key];
+
+                if (val !== null && val !== undefined) {
+                    const safeKey = key.toLowerCase().replace(/[^a-z0-9-]/g, '-').slice(0, 64);
+                    const stringVal = String(val);
+                    await storage.setSecret(safeKey, stringVal);
+                    localStorage.removeItem(key);
+                    await loadSecrets();
+                } else {
+                    setFailedMigrations([{ key, error: "Native storage returned null/undefined." }]);
+                }
             }
         } catch (e) {
-            console.error("Migration failed", e);
-            setStatus("MIGRATION FAILED");
+            setFailedMigrations([{ key, error: e.message }]);
+            setStatus("MIGRATION_FAILED");
         }
     };
 
     const handleSetSecret = async () => {
-        const safeKey = keyName.toLowerCase().replace(/[^a-z0-9-]/g, '-');
+        const safeKey = keyName.toLowerCase().replace(/[^a-z0-9-]/g, '-').slice(0, 64);
         setIsSealing(true);
         setStatus("Securing Record...");
 
         try {
             const storage = dc.app.secretStorage || (window.app && window.app.secretStorage);
-
             if (typeof storage.setSecret === 'function') {
-                // Official Native API handles encryption via OS (DPAPI/Keychain)
                 await storage.setSecret(safeKey, plainText);
             } else if (storage.secrets) {
-                // Legacy fallback
                 storage.secrets[keyName] = plainText;
                 if (storage.saveSecrets) await storage.saveSecrets();
                 else if (storage.save) await storage.save();
@@ -113,8 +173,8 @@ const KeychainManagerComp = ({
             setPlainText('');
             await loadSecrets();
         } catch (err) {
-            console.error("[Keychain] Set Error:", err);
             setStatus("SAVE FAILED");
+            setFailedMigrations([{ key: safeKey, error: err.message }]);
         } finally {
             setIsSealing(false);
         }
@@ -124,17 +184,11 @@ const KeychainManagerComp = ({
         setRevealedSecret({ id, loading: true });
         try {
             const storage = dc.app.secretStorage || (window.app && window.app.secretStorage);
-
             let val = null;
-            if (typeof storage.getSecret === 'function') {
-                val = await storage.getSecret(id);
-            } else if (storage.secrets) {
-                val = storage.secrets[id];
-            }
-
+            if (typeof storage.getSecret === 'function') { val = await storage.getSecret(id); }
+            else if (storage.secrets) { val = storage.secrets[id]; }
             setRevealedSecret({ id, value: val, loading: false });
         } catch (err) {
-            console.error("[Keychain] Get Error:", err);
             setRevealedSecret({ id, error: err.message, loading: false });
         }
     };
@@ -143,15 +197,12 @@ const KeychainManagerComp = ({
         if (!confirm(`Permanently delete "${id}"?`)) return;
         try {
             const storage = dc.app.secretStorage || (window.app && window.app.secretStorage);
-
-            if (typeof storage.deleteSecret === 'function') {
-                await storage.deleteSecret(id);
-            } else if (storage.secrets) {
+            if (typeof storage.deleteSecret === 'function') { await storage.deleteSecret(id); }
+            else if (storage.secrets) {
                 delete storage.secrets[id];
                 if (storage.saveSecrets) await storage.saveSecrets();
                 else if (storage.save) await storage.save();
             }
-
             await loadSecrets();
             if (revealedSecret?.id === id) setRevealedSecret(null);
         } catch (e) { }
@@ -183,38 +234,52 @@ const KeychainManagerComp = ({
                 <div style={STYLES.headerData}>
                     <h1 style={STYLES.title}>Native Keychain</h1>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginTop: '8px' }}>
-                        <div style={STYLES.subtitle}>Obsidian v1.11.4 Native SecretStorage API</div>
+                        <div style={STYLES.subtitle}>Obsidian Native SecretStorage API // {VERSION}</div>
                         <div style={STYLES.badge(status)}>{status}</div>
                     </div>
                 </div>
 
-                {status === "SECURE MODE" && (
-                    <div style={STYLES.alert}>
-                        <dc.Icon icon="check-circle" style={{ width: 28, color: '#4ade80' }} />
-                        <div>
-                            <strong>Active OS Protection:</strong> Using Obsidian's <code>SecretStorage</code>. Secrets are protected via <b>DPAPI (Windows)</b> or <b>Keychain (macOS)</b>. Only your logon credentials can unlock these.
+                {unsecuredKeys.length > 0 && (
+                    <div style={{ ...STYLES.alert, background: 'rgba(239, 68, 68, 0.08)', borderColor: 'rgba(239, 68, 68, 0.2)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                            <dc.Icon icon="alert-triangle" style={{ width: 28, color: '#f87171' }} />
+                            <div style={{ flex: 1 }}>
+                                <strong style={{ color: '#f87171', fontSize: '1.2rem' }}>Potential Security Leak:</strong>
+                                <div style={{ opacity: 0.7, fontSize: '0.95rem' }}>Found {unsecuredKeys.length} sensitive item(s) in plain-text storage.</div>
+                            </div>
+                            <button style={STYLES.buttonPrimarySmall} onClick={handleMigrateAll}>
+                                Secure All Records
+                            </button>
+                        </div>
+                        
+                        <div style={STYLES.secretList}>
+                            {unsecuredKeys.slice(0, isFullTab ? 20 : 5).map(k => (
+                                <button key={k} style={{ ...STYLES.buttonSecondary, padding: '8px 16px', fontSize: '0.75rem', background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.2)', color: '#f87171' }} onClick={() => handleMigrate(k)}>
+                                    {k}
+                                </button>
+                            ))}
+                            {unsecuredKeys.length > (isFullTab ? 20 : 5) && (
+                                <div style={{ fontSize: '0.75rem', opacity: 0.5, padding: '8px' }}>+ {unsecuredKeys.length - (isFullTab ? 20 : 5)} more items...</div>
+                            )}
                         </div>
                     </div>
                 )}
 
-                {unsecuredKeys.length > 0 && (
-                    <div style={{ ...STYLES.alert, background: 'rgba(239, 68, 68, 0.1)', borderColor: 'rgba(239, 68, 68, 0.3)' }}>
-                        <dc.Icon icon="alert-triangle" style={{ width: 28, color: '#f87171' }} />
-                        <div style={{ flex: 1 }}>
-                            <strong>Unsecured Secrets Detected:</strong> Found {unsecuredKeys.length} potentially sensitive item(s) in plain-text storage.
+                {failedMigrations.length > 0 && (
+                    <div style={{ ...STYLES.alert, background: '#1c1010', borderColor: '#f87171', color: '#fca5a5' }}>
+                        <div style={{ fontWeight: 'bold', fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <dc.Icon icon="bug" size={18} /> OS-Level Rejection Trace:
                         </div>
-                        <div style={{ display: 'flex', gap: '10px' }}>
-                            {unsecuredKeys.map(k => (
-                                <button key={k} style={{ ...STYLES.buttonSecondary, borderColor: '#f87171', color: '#f87171' }} onClick={() => handleMigrate(k)}>
-                                    Secure {k}
-                                </button>
+                        <div style={{ fontSize: '0.8rem', opacity: 0.8, display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                            {failedMigrations.map((f, i) => (
+                                <div key={i}>• <b>{f.key}</b>: {f.error}</div>
                             ))}
                         </div>
+                        <button onClick={() => setFailedMigrations([])} style={{ ...STYLES.buttonSecondary, fontSize: '0.6rem', padding: '4px 10px', marginTop: '10px' }}>DISMISS_TRACE</button>
                     </div>
                 )}
 
                 <div style={STYLES.mainGrid}>
-                    {/* Left: Records */}
                     <div style={STYLES.glassCard}>
                         <div style={STYLES.cardHeader}>
                             <span style={STYLES.cardLabel}>Vault Records</span>
@@ -229,89 +294,44 @@ const KeychainManagerComp = ({
                                     </div>
                                     <div style={{ display: 'flex', gap: '16px' }}>
                                         <button style={STYLES.buttonSecondary} onClick={() => handleGetSecret(s.id)}>Unlock</button>
-                                        <button style={STYLES.iconButton} onClick={() => handleDelete(s.id)}>
-                                            <dc.Icon icon="trash-2" style={{ width: 18 }} />
-                                        </button>
+                                        <button style={STYLES.iconButton} onClick={() => handleDelete(s.id)}><dc.Icon icon="trash-2" style={{ width: 18 }} /></button>
                                     </div>
                                 </div>
                             ))}
-                            {secrets.length === 0 && (
-                                <div style={{ padding: '80px', textAlign: 'center', color: 'rgba(255,255,255,0.1)', fontSize: '1.2rem' }}>
-                                    No records found in secure storage.
-                                </div>
-                            )}
+                            {secrets.length === 0 && <div style={{ padding: '80px', textAlign: 'center', color: 'rgba(255,255,255,0.1)', fontSize: '1.2rem' }}>No records found in secure storage.</div>}
                         </div>
                     </div>
 
-                    {/* Right: Actions */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
-
-                        {/* Creation Form - ULTRA VISIBILITY */}
                         <div style={STYLES.glassCard}>
-                            <div style={STYLES.cardHeader}>
-                                <span style={STYLES.cardLabel}>Register New Record</span>
-                            </div>
+                            <div style={STYLES.cardHeader}><span style={STYLES.cardLabel}>Register New Record</span></div>
                             <div style={STYLES.inputGroup}>
                                 <div>
                                     <label style={STYLES.inputLabel}>Identity / Key Name</label>
-                                    <input
-                                        style={STYLES.input}
-                                        placeholder="Service or Token Name"
-                                        value={keyName}
-                                        onChange={e => setKeyName(e.target.value)}
-                                    />
+                                    <input style={STYLES.input} placeholder="Service or Token Name" value={keyName} onChange={e => setKeyName(e.target.value)} />
                                 </div>
                                 <div>
                                     <label style={STYLES.inputLabel}>Secret Value</label>
-                                    <input
-                                        style={STYLES.input}
-                                        type="password"
-                                        placeholder="Paste sensitive data here..."
-                                        value={plainText}
-                                        onChange={e => setPlainText(e.target.value)}
-                                    />
+                                    <input style={STYLES.input} type="password" placeholder="Paste sensitive data here..." value={plainText} onChange={e => setPlainText(e.target.value)} />
                                 </div>
                                 <div style={{ marginTop: '16px' }}>
-                                    <button
-                                        style={STYLES.buttonPrimary(isButtonDisabled)}
-                                        onClick={handleSetSecret}
-                                        disabled={isButtonDisabled}
-                                    >
-                                        {isSealing ? 'Processing...' : 'Seal & Store to Keychain'}
-                                    </button>
+                                    <button style={STYLES.buttonPrimary(isButtonDisabled)} onClick={handleSetSecret} disabled={isButtonDisabled}>{isSealing ? 'Processing...' : 'Seal & Store to Keychain'}</button>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Result Display */}
                         {revealedSecret && (
                             <div style={{ ...STYLES.glassCard, transition: 'all 0.5s ease' }}>
                                 <div style={STYLES.cardHeader}>
-                                    <span style={{ ...STYLES.cardLabel, color: revealedSecret.error ? '#f87171' : '#4ade80' }}>
-                                        {revealedSecret.loading ? 'Decrypting...' : 'Credential Decoded'}
-                                    </span>
-                                    {!revealedSecret.loading && (
-                                        <button
-                                            style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer' }}
-                                            onClick={() => setRevealedSecret(null)}
-                                        >
-                                            <dc.Icon icon="x" style={{ width: 20 }} />
-                                        </button>
-                                    )}
+                                    <span style={{ ...STYLES.cardLabel, color: revealedSecret.error ? '#f87171' : '#4ade80' }}>{revealedSecret.loading ? 'Decrypting...' : 'Credential Decoded'}</span>
+                                    {!revealedSecret.loading && <button style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer' }} onClick={() => setRevealedSecret(null)}><dc.Icon icon="x" style={{ width: 20 }} /></button>}
                                 </div>
                                 <div style={STYLES.resultPanel}>
-                                    {!revealedSecret.loading && !revealedSecret.error && (
-                                        <div style={STYLES.resultCode}>{revealedSecret.value}</div>
-                                    )}
-                                    {revealedSecret.error && (
-                                        <div style={{ color: '#f87171', fontSize: '1rem', fontWeight: '600' }}>
-                                            Decryption Error: {revealedSecret.error}
-                                        </div>
-                                    )}
+                                    {!revealedSecret.loading && !revealedSecret.error && <div style={STYLES.resultCode}>{revealedSecret.value}</div>}
+                                    {revealedSecret.error && <div style={{ color: '#f87171', fontSize: '1rem', fontWeight: '600' }}>Decryption Error: {revealedSecret.error}</div>}
                                 </div>
                             </div>
                         )}
-
                     </div>
                 </div>
             </div>

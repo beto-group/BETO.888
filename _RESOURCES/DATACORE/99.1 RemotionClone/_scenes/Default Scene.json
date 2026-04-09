@@ -1,0 +1,26 @@
+{
+  "sequence": [
+    {
+      "id": "1769538055539",
+      "component": "ReactToVideoThumbnail",
+      "from": 0,
+      "duration": 600
+    },
+    {
+      "id": "1769538395643",
+      "component": "FeaturesOverview",
+      "from": 740,
+      "duration": 1431
+    },
+    {
+      "id": "1775437886548",
+      "component": "MetricPulse",
+      "from": 601,
+      "duration": 150
+    }
+  ],
+  "activeBackground": "PureBlack",
+  "zoom": 1.2781378670897656,
+  "sidebarTab": "library",
+  "version": 1
+}

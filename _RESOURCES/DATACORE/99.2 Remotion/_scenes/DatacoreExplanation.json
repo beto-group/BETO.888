@@ -1,0 +1,16 @@
+{
+  "sequence": [
+    {
+      "id": "exp-001",
+      "component": "DatacoreExplanation",
+      "from": 0,
+      "duration": 397,
+      "title": "DATACORE COMPONENTS",
+      "desc": "How we build high-fidelity interactive tools in Obsidian."
+    }
+  ],
+  "activeBackground": "GradientBackground",
+  "zoom": 1.360089230616743,
+  "sidebarTab": "library",
+  "version": 1
+}

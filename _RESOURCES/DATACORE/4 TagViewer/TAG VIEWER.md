@@ -44,15 +44,15 @@ version: 1.1.6
         - **Search**: Real-time filtering of the current view by note name or tag.
     - **Context Sync**:
         - **Sync Mode**: When enabled, clicking a note shows all tags associated with that note in a "Sync" panel, allowing quick navigation to related tag contexts.
-    - **Navigation**:
+    - **Navigation Features**:
         - **Breadcrumbs**: Interactive path bar to jump back to higher levels.
         - **File Opening**: Clicking a note opens it in the active Obsidian leaf.
 
 - **Can’t**:
 
-    - **Rename/Delete Tags**: It is a browser. It cannot rename tags globally or delete them from files.        
-    - **Create New Tags**: You cannot right-click to "New Tag". Tags must exist in a note to appear.
-    - **Persist Order Across Reloads**: The custom drag-and-drop order is stored in the component's React state (storedOrder). If the component is unmounted or the note is closed, this custom order is lost (unless expanded to save to a file).
+    - **Tag Refactoring**: It is a browser and cannot rename tags globally or delete them from files.
+    - **Tag Creation**: You cannot right-click to "New Tag"; tags must exist in a note to appear.
+    - **Order Persistence**: Custom orders are lost if the component is unmounted or the note is closed.
 
 
 ----

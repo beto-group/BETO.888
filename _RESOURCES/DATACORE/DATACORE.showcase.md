@@ -8,71 +8,6 @@ permalink: obsidian.plugins.datacore.showcase
 
 
 
-## **WIP - Needs Cleanup**
-
-
-###### [OPEN BROWSER](72%20OpenBrowser/OPEN%20BROWSER.md) { NEW }
-
-###### [OPEN APPLICATION](73%20OpenApplication/OPEN%20APPLICATION.md) { NEW }
-
-###### [VIDEO BACKGROUND REMOVAL](74%20VideoBackgroundRemoval/VIDEO%20BACKGROUND%20REMOVAL.md) { NEW }
-
-###### [IQ GAME](75%20IQGame/IQ%20GAME.md) { NEW }
-
-###### [KEYCHAIN MANAGER](76%20KeychainManager/KEYCHAIN%20MANAGER.md) { NEW } 
-
-###### [RETRO MORPH GAME](77%20RetroMorphGame/RETRO%20MORPH%20GAME.md) { NEW }
-
-###### [TERMUX MOBILE](78%20TermuxMobile/TERMUX%20MOBILE.md) { NEW }
-
-###### [DISPLACEMENT VIEW](79%20DisplacementView/DISPLACEMENT%20VIEW.md) { NEW }
-
-###### [DITHER PRO](80%20DitherPro/DITHER%20PRO.md) { NEW }
-
-###### [TORN CLOTH](81%20TornCloth/TORN%20CLOTH.md) { NEW }
-
-###### [IMAGE STREAM](82%20ImageStream/IMAGE%20STREAM.md) { NEW }
-
-###### [SCENE UI](83%20SceneUI/SCENE%20UI.md) { NEW }
-
-###### [SIGNAL MESH](84%20SignalMesh/SIGNAL%20MESH.md) { NEW }
-
-###### [PERLIN MOUNTAINS](85%20PerlinMountains/PERLIN%20MOUNTAINS.md) { NEW }
-
-###### [MASKED TEXT](86%20MaskedText/MASKED%20TEXT.md) { NEW }
-
-###### [REVERSE FLIGHT](87%20ReverseFlight/REVERSE%20FLIGHT.md) { NEW }
-
-###### [KINETIC TYPE](88%20KineticType/KINETIC%20TYPE.md) { NEW }
-
-###### [CARD SCANNER](89%20CardScanner/CARD%20SCANNER.md) { NEW }
-
-###### [OPTICAL ILLUSION](90%20OpticalIllusion/OPTICAL%20ILLUSION.md) { NEW }
-
-###### [HYPER SCROLL](91%20HyperScroll/HYPER%20SCROLL.md) { NEW }
-
-###### [DUOTONE EDITOR](92%20DuotoneEditor/DUOTONE%20EDITOR.md) { NEW }
-
-###### [NEURAL NETWORK](93%20NeuralNetwork/NEURAL%20NETWORK.md) { NEW }
-
-###### [OBSIDIAN DOWNLOAD STATS](94%20ObsidianDownloadStats/OBSIDIAN%20DOWNLOAD%20STATS.md) { NEW }
-
-###### [PROCEDURAL SQUID](95%20ProceduralSquid/PROCEDURAL%20SQUID.md) { NEW }
-
-###### [CUBES HOVER](96%20CubesHover/CUBES%20HOVER.md) { NEW }
-
-###### [KEYBOARD MAESTRO CLI](97%20KeyboardMaestroCLI/KEYBOARD%20MAESTRO%20CLI.md) { NEW }
-
-
-
-
-
-
-
-
-
-
-
 ## **Core Query & Data Handling**
 
 
@@ -95,6 +30,8 @@ permalink: obsidian.plugins.datacore.showcase
 ###### [RANDOM FILE CONTROLS](47%20RandomFileControls/RANDOM%20FILE%20CONTROLS.md)
 
 ###### [METADATA EDIT](49%20MetadataEdit/METADATA%20EDIT.md)
+
+
 
 
 
@@ -129,7 +66,7 @@ permalink: obsidian.plugins.datacore.showcase
 ###### [MARKDOWN EDITOR](20%20MarkdownEditor/MARKDOWN%20EDITOR.md)
 
 ###### [CODE EDITOR v1](33.1%20CodeEditor/CODE%20EDITOR%20v1.md) 
-
+  
 ###### [CODE EDITOR v2](33.2%20CodeEditor/CODE%20EDITOR%20v2.md) 
 
 ###### [CODE EDITOR v3](33.3%20CodeEditor/CODE%20EDITOR%20v3.md) 
@@ -160,7 +97,17 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [ICONS PACK](63%20IconsPack/ICONS%20PACK.md) 
 
-######  [OBSIDIAN SUITE KIT](64%20ObsidianSuiteKit/OBSIDIAN%20SUITE%20KIT.md) 
+###### [OBSIDIAN SUITE KIT](64%20ObsidianSuiteKit/OBSIDIAN%20SUITE%20KIT.md) 
+
+###### [OPEN BROWSER](72%20OpenBrowser/OPEN%20BROWSER.md) { UPDATED }
+
+###### [OPEN APPLICATION](73%20OpenApplication/OPEN%20APPLICATION.md) { UPDATED }
+
+###### [OBSIDIAN DOWNLOAD STATS](94%20ObsidianDownloadStats/OBSIDIAN%20DOWNLOAD%20STATS.md) { UPDATED }
+
+###### [KEYBOARD MAESTRO CLI](97%20KeyboardMaestroCLI/KEYBOARD%20MAESTRO%20CLI.md) { UPDATED }
+
+
 
 
 
@@ -196,6 +143,38 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [MERMAID DIAGRAM](69%20MermaidDiagram/MERMAID%20DIAGRAM.md) 
 
+###### [VIDEO BACKGROUND REMOVAL](74%20VideoBackgroundRemoval/VIDEO%20BACKGROUND%20REMOVAL.md) 
+
+###### [DISPLACEMENT VIEW](79%20DisplacementView/DISPLACEMENT%20VIEW.md)
+
+###### [DITHER PRO](80%20DitherPro/DITHER%20PRO.md) 
+
+###### [IMAGE STREAM](82%20ImageStream/IMAGE%20STREAM.md) 
+
+###### [SCENE UI](83%20SceneUI/SCENE%20UI.md) 
+
+###### [SIGNAL MESH](84%20SignalMesh/SIGNAL%20MESH.md) 
+
+###### [PERLIN MOUNTAINS](85%20PerlinMountains/PERLIN%20MOUNTAINS.md) 
+
+###### [MASKED TEXT](86%20MaskedText/MASKED%20TEXT.md) 
+
+###### [REVERSE FLIGHT](87%20ReverseFlight/REVERSE%20FLIGHT.md) 
+
+###### [KINETIC TYPE](88%20KineticType/KINETIC%20TYPE.md) 
+
+###### [OPTICAL ILLUSION](90%20OpticalIllusion/OPTICAL%20ILLUSION.md)
+
+###### [HYPER SCROLL](91%20HyperScroll/HYPER%20SCROLL.md)
+
+###### [DUOTONE EDITOR](92%20DuotoneEditor/DUOTONE%20EDITOR.md)
+
+###### [NEURAL NETWORK](93%20NeuralNetwork/NEURAL%20NETWORK.md) 
+
+###### [PROCEDURAL SQUID](95%20ProceduralSquid/PROCEDURAL%20SQUID.md) 
+
+###### [CUBES HOVER](96%20CubesHover/CUBES%20HOVER.md) 
+
 
 
 ## **Games & Interactive Experiences**
@@ -215,6 +194,12 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [DOOM PLAYER](70%20DoomPlayer/DOOM%20PLAYER.md) 
 
+###### [IQ GAME](75%20IQGame/IQ%20GAME.md) 
+
+###### [RETRO MORPH GAME](77%20RetroMorphGame/RETRO%20MORPH%20GAME.md) 
+
+###### [TORN CLOTH](81%20TornCloth/TORN%20CLOTH.md) 
+
 
 
 
@@ -229,6 +214,12 @@ permalink: obsidian.plugins.datacore.showcase
 ###### [SOUND PLAYER](32%20SoundPlayer/SOUND%20PLAYER.md) 
 
 ###### [MUSIC PLAYER](36%20MusicPlayer/MUSIC%20PLAYER.md) 
+
+###### [LIVESTREAM MANAGER](98%20LiveStreamManager/LIVESTREAM%20MANAGER.md) { NEW } { FEATURE }
+
+###### [REMOTION CLONE v1](99.1%20RemotionClone/REMOTION%20CLONE%20v1.md) { NEW } { FEATURE }
+
+###### [REMOTION v2](99.2%20Remotion/REMOTION%20v2.md) { NEW }
 
 
 
@@ -259,10 +250,21 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [OPEN IDE](61%20OpenIDE/OPEN%20IDE.md)
 
-###### [BASIC FOLDER VIEW](66%20BasicFolderView/BASIC%20FOLDER%20VIEW.md)  { UPGRADE }
-
 ###### [SECURE KEYCHAIN](67%20SecureKeychain/SECURE%20KEYCHAIN.md)
 
 ###### [FOLDER ZIP](68%20FolderZip/FOLDER%20ZIP.md) 
+
+###### [BASIC FOLDER VIEW v1](66.1%20BasicFolderView/BASIC%20FOLDER%20VIEW%20v1.md) { NEW }
+
+###### [BASIC FOLDER VIEW v2](66.2%20BasicFolderView/BASIC%20FOLDER%20VIEW%20v2.md) { NEW } { FEATURE }
+
+###### [UNIVERSAL STORAGE](100%20UniversalStorageShowcase/UNIVERSAL%20STORAGE.md) { NEW }
+
+###### [NATIVE GRAB](101%20NativeGrab/NATIVE%20GRAB.md) { NEW }
+
+###### [KEYCHAIN MANAGER](76%20KeychainManager/KEYCHAIN%20MANAGER.md) 
+
+###### [CARD SCANNER](89%20CardScanner/CARD%20SCANNER.md) 
+
 
 

@@ -30,7 +30,7 @@ version: 3.1.2
 ---
 
 
-### Tab : Datacore Command Manager
+### Tab: Datacore Command Manager
 
 - **Description**: A powerful "meta" component that acts as a management system for creating custom Obsidian commands. It provides a UI to define new commands and then programmatically generates and manages a lightweight, dedicated Obsidian plugin (DC Commands) to register these commands with the application. This allows users to create persistent, globally accessible commands directly from a Datacore component.
 

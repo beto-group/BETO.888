@@ -31,24 +31,22 @@ version.obsidian: 1.4.11
 - **Description**: A foundational and lightweight component designed to demonstrate the core capabilities of Datacore's querying and rendering engine. It provides a clean, paginated table view of files within a specified vault path, serving as an excellent starting point or boilerplate for users learning to build their own custom views.
 
 - **Does**:
-   
-    - **Dynamic Path Querying**:        
-        - features a simple input field where users can type any folder path (e.g., _OPERATION, Journal/2025).
+
+    - **Dynamic Path Querying**: 
+        - Features a simple input field where users can type any folder path (e.g., _OPERATION, Journal/2025).
         - Reactively updates the data query in real-time as the path changes to fetch relevant pages.
-    - **Automatic Sorting**:
-        - Automatically sorts the fetched files by **Creation Time** ($ctime) in descending order, ensuring the newest files always appear at the top.
-    - **Standardized Data Display**:
+    - **Automatic Sorting**: Automatically sorts the fetched files by **Creation Time** ($ctime) in descending order, ensuring the newest files always appear at the top.
+    - **Standardized Data Display**: 
         - Renders a clean VanillaTable with pre-defined columns for essential metadata: **Name** (as a link), **Created Date**, **Modified Date**, and **Tags**.
         - Handles data mapping to ensure raw page values are correctly formatted for the table rows.
-    - **Built-in Pagination**:
-        - Utilizes the paging={true} prop of the VanillaTable component to automatically handle large lists of files, keeping the view compact and performant.
+    - **Built-in Pagination**: Utilizes the paging={true} prop of the VanillaTable component to automatically handle large lists of files, keeping the view compact and performant.
 
 - **Can’t**:
-   
-    - **Customize Columns via UI**: The columns (Name, Created, Modified, Tags) are hardcoded in the COLUMNS constant. Users cannot add, remove, or reorder columns without editing the code directly.        
-    - **Complex Filtering**: Beyond selecting the folder path, there are no controls to filter by tag, name, or specific properties.
-    - **Persist State**: The selected path defaults to _OPERATION every time the component is reloaded; it does not remember the user's last entry.
-    - **Edit Data**: It is a read-only view. Users cannot modify file names, tags, or frontmatter directly from the table.
+
+    - **UI Column Customization**: The columns (Name, Created, Modified, Tags) are hardcoded in the COLUMNS constant and cannot be changed without editing the code.
+    - **Granular Filtering**: Beyond selecting the folder path, there are no controls to filter by tag, name, or specific properties.
+    - **State Persistence**: The selected path defaults to _OPERATION every time the component is reloaded; it does not remember the user's last entry.
+    - **Inline Data Editing**: It is a read-only view. Users cannot modify file names, tags, or frontmatter directly from the table.
 
 
 ----

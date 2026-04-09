@@ -1,6 +1,6 @@
 ---
 permalink: change_log
-version: 1.6.0
+version: 1.10.0
 ---
 
 >[!info]- [[DEVLOG]]
@@ -9,6 +9,94 @@ version: 1.6.0
 ----
 ----
 
+
+
+
+## PINK-10
+
+**DATE**: 2026.04.06
+**LICENSE**: MIT
+**AVAILABILITY**: GITHUB
+
+**I. SUMMARY**
+The PINK-10 release marks a strategic shift towards **AI-Accelerated High-Fidelity Infrastructure**. This update focuses on standardizing the existing Datacore library (IDs 1-100+) to meet the new institutional protocol, including structured JSON metadata and localized "Sterile Brutalism" documentation layouts.
+
+**II. The High-Fidelity Standard (IDs 66-101)**
+We have implemented a high-fidelity YAML schema across 100+ components, embedding capability logic directly within the `does` and `cant` property blocks as structured JSON. This allows for advanced, data-driven UI rendering across the ecosystem.
+
+**III. Full Component Changelog**
+- **New & Standardized Components:**
+    - **101 Native Grab:** System-level capturing utility for rapid asset ingestion.
+    - **100 Universal Storage:** The ultimate data persistence diagnostic dashboard (10+ backends).
+    - **99.2 Remotion v2:** Professional cinematic motion graphics engine (React-driven).
+    - **99.1 Remotion Clone v1:** Streamlined variant for rapid scene replication.
+    - **98 LiveStream Manager:** Native OBS/Twitch orchestration.
+    - **66.2 Basic Folder View v2:** Boilderplate evolution with native MCP integration.
+    - **66.1 Basic Folder View v1:** Foundational full-tab boilerplate.
+- **Architectural Shift:**
+    - **Rule #14 Alignment:** Mandatory layout sequence enforcement across all documentation.
+    - **Relative Portability:** Converted all absolute vault paths to GitHub-compatible relative links (Rule #12/13).
+    - **Metadata Standardization:** Adoption of the mandatory `does` / `cant` JSON standard for institutional memory.
+
+-----
+
+## GREY-9
+
+**DATE**: 2026.03.03
+**LICENSE**: MIT
+**AVAILABILITY**: GITHUB
+
+**I. SUMMARY**
+The GREY-9 release focuses on **AI-Driven Creative Exploration**. This month was dedicated to experimenting with Three.js web-porting and refining AI automation tools to accelerate the development of complex visual experiences.
+
+**II. AI Lifecycle Refinement**
+Initial rollout of standardized AI agent prompting for the SKILL folder, resulting in 40% fewer errors during component generation and significantly faster iteration loops.
+
+**III. Full Component Changelog**
+- **Three.js Explorations:** Ported and standardized multiple web-based 3D visualizers into Datacore.
+- **Obsidian CLI Integration:** Unified the terminal experience for system-level automation.
+- **Asset Portability:** Enhanced security checks for experimental component publishing.
+
+-----
+
+## GOLD-8
+
+**DATE**: 2026.02.02
+**LICENSE**: MIT
+**AVAILABILITY**: GITHUB
+
+**I. SUMMARY**
+The GOLD-8 release is defined by **Speed and Validation**. We have successfully crushed the latency between prototype and production, enabling a "Theory to Production" cycle in under 24 hours.
+
+**II. The Speed Validation Leap**
+Infrastructure upgrades have dropped component validation time from several days to just a few hours, shifting the bottleneck from engineering to creative output (marketing and content).
+
+**III. Status Updates**
+- **Sovereignty Focus**: Backend infrastructure hardened for self-sufficiency.
+- **Workflow Decoupling**: Released tools designed to build content faster than the underlying technology evolves.
+
+-----
+
+## WHITE-7
+
+**DATE**: 2026.01.01
+**LICENSE**: MIT
+**AVAILABILITY**: GITHUB
+
+**I. SUMMARY**
+The WHITE-7 release represents **The Experience Shift**. We are transitioning the BETO.888 vault from a static component library into a series of immersive exploration experiences.
+
+**II. Pillar Realignment**
+Defined the 2025/2026 project pillars: **Sovereignty**, **Self-Sufficiency**, and **Health 2.0**.
+
+**III. Full Component Changelog**
+- **New Core Components:**
+    - **Recap 2025 (ID 71):** A cinematic data-storytelling engine for yearly milestones.
+- **Infrastructure:**
+    - **Vault Redesign:** Reorganized top-level navigation to focus on exploration over indexed documentation.
+
+
+-----
 
 ## BROWN-6
 

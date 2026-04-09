@@ -1,0 +1,120 @@
+# Datacore WebGL Boilerplate (Three.js)
+
+```jsx
+// src/components/MainComponent.jsx
+function MainComponent(props) {
+    const { dc, loadScript, isFullTab, isInception, onToggleFullTab, styles } = props;
+    const { useState, useEffect, useRef } = dc;
+
+    const canvasContainerRef = useRef(null);
+    const guiContainerRef = useRef(null);
+    const fileInputRef = useRef(null);
+
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [error, setError] = useState(null);
+
+    // Singleton Refs for hot-reload persistence
+    const refs = useRef({
+        scene: null, camera: null, renderer: null, 
+        animationId: null, gui: null, clock: null, THREE: null,
+        params: {
+            bgColor: '#050505',
+            speed: 1.0
+        }
+    }).current;
+
+    useEffect(() => {
+        let active = true;
+
+        async function init() {
+            try {
+                // 1. Import Map Injection
+                let importMap = document.getElementById('three-import-map-template');
+                if (!importMap) {
+                    importMap = document.createElement('script');
+                    importMap.id = 'three-import-map-template';
+                    importMap.type = 'importmap';
+                    importMap.textContent = JSON.stringify({
+                        imports: {
+                            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/",
+                            "lil-gui": "https://unpkg.com/lil-gui@0.19.1/dist/lil-gui.esm.min.js"
+                        }
+                    });
+                    document.head.appendChild(importMap);
+                }
+                await new Promise(r => setTimeout(r, 50));
+
+                // 2. Script Loading
+                const THREE = await loadScript(dc, 'https://unpkg.com/three@0.160.0/build/three.module.js', { type: 'module' });
+                const GUI = await loadScript(dc, 'https://unpkg.com/lil-gui@0.19.1/dist/lil-gui.esm.min.js', { type: 'module' });
+
+                if (!active) return;
+                setIsLoaded(true);
+                refs.THREE = THREE;
+
+                const container = canvasContainerRef.current;
+                container.innerHTML = ''; 
+
+                // --- THREE.JS LOGIC GOES HERE ---
+                const scene = new THREE.Scene();
+                scene.background = new THREE.Color(refs.params.bgColor);
+                // ... setup camera, renderer ...
+                refs.scene = scene;
+
+                // --- LIL-GUI SETUP ---
+                const gui = new GUI.default({ 
+                    title: 'Settings',
+                    container: guiContainerRef.current
+                });
+                refs.gui = gui;
+                
+                const folder = gui.addFolder('Controls');
+                folder.addColor(refs.params, 'bgColor').onChange(c => scene.background.set(c));
+                folder.close();
+
+                // --- RENDER LOOP ---
+                const animate = () => {
+                    refs.animationId = requestAnimationFrame(animate);
+                    // Update visuals...
+                };
+                animate();
+
+            } catch(e) {
+                if(active) setError(e.message);
+            }
+        }
+
+        init();
+
+        // 3. Strict Cleanup Phase
+        return () => {
+             active = false;
+             if (refs.animationId) cancelAnimationFrame(refs.animationId);
+             if (refs.gui) refs.gui.destroy();
+             if (refs.renderer) refs.renderer.dispose();
+        };
+    }, []);
+
+    return (
+        <div style={styles.fullTabWrapper}>
+            {!isLoaded && !error && <div>Loading...</div>}
+            {error && <div>Error: {error}</div>}
+
+            <div ref={canvasContainerRef} style={styles.canvas} />
+            <div ref={guiContainerRef} style={{ position: 'absolute', bottom: '20px', right: '20px', zIndex: 100 }} />
+
+            {!isInception && (
+                <button
+                    onClick={onToggleFullTab}
+                    style={{ position: 'absolute', top: '20px', left: '20px', zIndex: 10 }}
+                >
+                    <dc.Icon icon={isFullTab ? "minimize" : "maximize"} />
+                </button>
+            )}
+        </div>
+    );
+}
+
+return { MainComponent };
+```

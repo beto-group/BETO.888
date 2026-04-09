@@ -29,7 +29,7 @@ version: 2.0.6
 ---
 
 
-### Tab : Views Inception
+### Tab: Views Inception
 
 - **Description**: An advanced developer utility designed to dynamically load, render, and interact with any other Datacore component within a secure, isolated "sandbox." This upgraded version introduces a powerful props editor, allowing developers to pass custom properties to the loaded component and see the changes reflected instantly. It provides a robust testing and rapid prototyping environment that prevents the loaded component from interfering with the Obsidian interface.
 

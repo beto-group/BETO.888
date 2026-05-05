@@ -57,4 +57,4 @@ version.obsidian: 1.4.11
 
 ### Components
 ###### [Remotion Viewer v2](D.q.remotion.viewer.v2.md)
-###### [Remotion Video Engine Components {index.jsx}](src/index.jsx)
+###### [Remotion Video Engine Components {index.jsx}](_RESOURCES/DATACORE/99.2%20Remotion/src/index.jsx)

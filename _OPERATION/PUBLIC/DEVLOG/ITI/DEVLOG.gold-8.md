@@ -1,3 +1,13 @@
+---
+cover: _RESOURCES/IMAGES/DEVLOG_9.webp
+video: _RESOURCES/VIDS/DEVLOG_9.webm
+subtitle: Mission Log // GOLD-8
+description:
+media_position: 50% 50%
+media_scale: 1
+modal_position: 50% 25%
+modal_scale: 0.55
+---
 
 
 January was… a trip. We started the month focusing on recovery, taking a sustainable approach to the work. But by the end? We were in pure grind mode.

@@ -64,4 +64,4 @@ version.obsidian: 1.4.11
 
 ### Components
 ###### [Recap 2025 Viewer](D.q.recap2025.viewer.md)
-###### [Recap 2025 Components {index.jsx}](src/index.jsx)
+###### [Recap 2025 Components {index.jsx}](_RESOURCES/DATACORE/71%20Recap2025/src/index.jsx)

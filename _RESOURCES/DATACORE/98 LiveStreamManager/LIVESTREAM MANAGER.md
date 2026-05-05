@@ -45,4 +45,4 @@ resources:
 
 ### Components
 ###### [Live Stream Manager Viewer](D.q.livestreammanager.viewer.md)
-###### [Live Stream Manager Components {index.jsx}](src/index.jsx)
+###### [Live Stream Manager Components {index.jsx}](_RESOURCES/DATACORE/98%20LiveStreamManager/src/index.jsx)

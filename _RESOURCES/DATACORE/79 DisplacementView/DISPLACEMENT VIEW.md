@@ -50,4 +50,4 @@ version.obsidian: 1.4.11
 
 ### Components
 ###### [Displacement View Viewer](D.q.displacementview.viewer.md)
-###### [Displacement View Components {index.jsx}](src/index.jsx)
+###### [Displacement View Components {index.jsx}](_RESOURCES/DATACORE/79%20DisplacementView/src/index.jsx)

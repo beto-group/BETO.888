@@ -48,5 +48,5 @@ version.obsidian: 1.4.11
 
 ### Components
 ###### [Open Application Viewer](D.q.openapplication.viewer.md)
-###### [Open Application Components {index.jsx}](src/index.jsx)
+###### [Open Application Components {index.jsx}](_RESOURCES/DATACORE/73%20OpenApplication/src/index.jsx)
 )

@@ -903,10 +903,10 @@ const { applyPhysicsToMesh, initializeHavokPhysics } = await dc.require(dc.heade
 const { Multiplayer } = await dc.require(dc.headerLink(fileName, "Multiplayer"));
 
 // Script URLs
-const BABYLON_URL = "https://cdn.babylonjs.com/babylon.js";
-const GLTF_LOADER_URL = "https://cdn.babylonjs.com/loaders/babylon.glTFFileLoader.min.js";
-const HAVOK_UMD_URL = "https://cdn.babylonjs.com/havok/HavokPhysics_umd.js";
-const HAVOK_WASM_URL = "https://cdn.babylonjs.com/havok/HavokPhysics.wasm";
+const BABYLON_URL = "https://cdn.babylonjs.com/babylon.js?v=7.5.0";
+const GLTF_LOADER_URL = "https://cdn.babylonjs.com/loaders/babylon.glTFFileLoader.min.js?v=7.5.0";
+const HAVOK_UMD_URL = "https://cdn.babylonjs.com/havok/HavokPhysics_umd.js?v=7.5.0";
+const HAVOK_WASM_URL = "https://cdn.babylonjs.com/havok/HavokPhysics.wasm?v=7.5.0";
 
 // --- SceneLoader Module ---
 
@@ -1341,14 +1341,24 @@ function WorldLogic({ canvasRef, glbBasePath = '_resources/glb/' }) {
 
     try {
       console.log(`${logPrefix} Stage 0: Loading Babylon.js and Havok Physics...`);
-      await loadScript(BABYLON_URL).catch(err => { throw new Error(`Stage 0 Failed - Load Babylon.js: ${err.message}`); });
-      await loadScript(GLTF_LOADER_URL).catch(err => { throw new Error(`Stage 0 Failed - Load GLTF Loader: ${err.message}`); });
+      
+      if (!window.BABYLON) {
+        await loadScript(BABYLON_URL).catch(err => { throw new Error(`Stage 0 Failed - Load Babylon.js: ${err.message}`); });
+      }
+      
+      // Check if GLTF/GLB loader is present by looking for the class or using a safer check
+      const isGltfRegistered = !!window.BABYLON.GLTFFileLoader || (window.BABYLON.SceneLoader && typeof window.BABYLON.SceneLoader.GetPluginForExtension === 'function' && !!window.BABYLON.SceneLoader.GetPluginForExtension(".glb"));
+      if (!isGltfRegistered) {
+        await loadScript(GLTF_LOADER_URL).catch(err => { throw new Error(`Stage 0 Failed - Load GLTF Loader: ${err.message}`); });
+      }
 
       const wasmResponse = await fetch(HAVOK_WASM_URL);
       if (!wasmResponse.ok) throw new Error(`Stage 0 Failed - Fetch WASM: HTTP status ${wasmResponse.status}`);
       const havokWasmBuffer = await wasmResponse.arrayBuffer();
       
-      await loadScript(HAVOK_UMD_URL).catch(err => { throw new Error(`Stage 0 Failed - Load Havok UMD: ${err.message}`); });
+      if (!window.HavokPhysics) {
+        await loadScript(HAVOK_UMD_URL).catch(err => { throw new Error(`Stage 0 Failed - Load Havok UMD: ${err.message}`); });
+      }
       
       if (typeof window.HavokPhysics !== 'function') throw new Error("Stage 0 Failed - window.HavokPhysics not found.");
       const havokModule = await window.HavokPhysics({ wasmBinary: havokWasmBuffer });
@@ -1400,12 +1410,13 @@ function WorldLogic({ canvasRef, glbBasePath = '_resources/glb/' }) {
           const animatedMeshSet = new Set(animatedVisualMeshes);
 
           for (const node of environmentMeshes) { 
-              if (!node || node.isDisposed()) { console.log(`${logPrefix} Skipping physics for null/disposed node ${node?.name}.`); continue; }
+              if (!node || node.isDisposed()) continue;
               
-              if (!(node instanceof window.BABYLON.Mesh)) {
-                //   console.log(`${logPrefix} Skipping physics for non-mesh node ${node.name}.`);
+              if (!(node instanceof window.BABYLON.Mesh) || node.getTotalVertices() === 0) {
+                  // Skip auxiliary nodes or empty meshes quietly
                   continue;
               }
+              
               if (!scene.isPhysicsEnabled()) { console.error(`${logPrefix} Physics became disabled before mesh ${node.name}! Aborting.`); break; }
 
               let physicsAggregate = null;
@@ -1420,9 +1431,6 @@ function WorldLogic({ canvasRef, glbBasePath = '_resources/glb/' }) {
                         if (physicsAggregate) {
                             node.physicsAggregate = physicsAggregate; 
                             physicsAppliedCount++;
-                            // console.log(`${logPrefix} OK - Physics applied to KINEMATIC mesh ${node.name}.`);
-                        } else {
-                            console.error(`${logPrefix} FAILED - applyPhysicsToMesh (kinematic) returned null for ${node.name}.`);
                         }
                     } else {
                         physicsAggregate = applyPhysicsToMesh({
@@ -1434,9 +1442,6 @@ function WorldLogic({ canvasRef, glbBasePath = '_resources/glb/' }) {
                         if (physicsAggregate) {
                             physicsAppliedCount++;
                             node.freezeWorldMatrix(); 
-                            // console.log(`${logPrefix} OK - Physics applied to STATIC mesh ${node.name}. World matrix frozen.`);
-                        } else {
-                            console.error(`${logPrefix} FAILED - applyPhysicsToMesh (static) returned null for ${node.name}.`);
                         }
                     }
               } catch (physicsErr) {
@@ -1612,6 +1617,12 @@ function applyHavokPhysicsInternal(mesh, scene, shapeType = window.BABYLON.Physi
     if (!mesh || mesh.isDisposed()) { console.warn("ApplyPhysicsInternal: Null or disposed mesh."); return null; }
     if (!scene || scene.isDisposed || !scene.isPhysicsEnabled()) { console.warn(`ApplyPhysicsInternal: Scene invalid or physics not enabled for mesh ${mesh.name}.`); return null; }
     if (!window.BABYLON?.PhysicsAggregate) { console.error("ApplyPhysicsInternal: BABYLON.PhysicsAggregate not found."); return null; }
+
+    // ENSURE MESH HAS GEOMETRY
+    if (!(mesh instanceof window.BABYLON.Mesh) || mesh.getTotalVertices() === 0) {
+        // console.log(`ApplyPhysicsInternal: Skipping mesh ${mesh.name} because it has no geometry (vertices: 0).`);
+        return null;
+    }
 
     if (mesh.physicsAggregate) { mesh.physicsAggregate.dispose(); }
 

@@ -50,4 +50,4 @@ version.obsidian: 1.4.11
 
 ### Components
 ###### [Masked Text Viewer](D.q.maskedtext.viewer.md)
-###### [Masked Text Components {index.jsx}](src/index.jsx)
+###### [Masked Text Components {index.jsx}](_RESOURCES/DATACORE/86%20MaskedText/src/index.jsx)

@@ -42,5 +42,5 @@ resources: [remotionclonev1.clip.webm, remotionclonev1_1.webp]
 
 ### Components
 ###### [Remotion Clone Viewer v1](D.q.remotionclone.viewer.v1.md)
-###### [Remotion Clone Components v1 {index.jsx}](src/index.jsx)
+###### [Remotion Clone Components v1 {index.jsx}](_RESOURCES/DATACORE/99.1%20RemotionClone/src/index.jsx)
 

@@ -49,4 +49,4 @@ version.obsidian: 1.4.11
 
 ### Components
 ###### [Image Stream Viewer](D.q.imagestream.viewer.md)
-###### [Image Stream Components {index.jsx}](src/index.jsx)
+###### [Image Stream Components {index.jsx}](_RESOURCES/DATACORE/82%20ImageStream/src/index.jsx)

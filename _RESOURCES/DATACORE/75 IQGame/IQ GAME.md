@@ -49,4 +49,4 @@ resources: [iqgame.clip.webm, iqgame_1.webp, iqgame_2.webp, iqgame_3.webp]
 
 ### Components
 ###### [IQ Game Viewer](D.q.iqgame.viewer.md)
-###### [IQ Game Components {index.jsx}](src/index.jsx)
+###### [IQ Game Components {index.jsx}](_RESOURCES/DATACORE/75%20IQGame/src/index.jsx)

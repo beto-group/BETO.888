@@ -49,4 +49,4 @@ version.obsidian: 1.4.11
 
 ### Components
 ###### [Kinetic Type Viewer](D.q.kinetictype.viewer.md)
-###### [Kinetic Type Components {index.jsx}](src/index.jsx)
+###### [Kinetic Type Components {index.jsx}](_RESOURCES/DATACORE/88%20KineticType/src/index.jsx)

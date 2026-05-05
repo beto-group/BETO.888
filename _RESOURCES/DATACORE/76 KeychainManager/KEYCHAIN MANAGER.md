@@ -44,4 +44,4 @@ resources: [keychain.clip.webm, keychain_1.webp]
 
 ### Components
 ###### [Keychain Manager Viewer](D.q.keychainmanager.viewer.md)
-###### [Keychain Manager Components {index.jsx}](src/index.jsx)
+###### [Keychain Manager Components {index.jsx}](_RESOURCES/DATACORE/76%20KeychainManager/src/index.jsx)

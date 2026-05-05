@@ -54,4 +54,4 @@ version.obsidian: 1.4.11
 
 ### Components
 ###### [Basic Folder View Viewer v1](D.q.basicfolderview.viewer.v1.md)
-###### [Basic Folder View v1 Components {index.jsx}](src/index.jsx)
+###### [Basic Folder View v1 Components {index.jsx}](_RESOURCES/DATACORE/66.1%20BasicFolderView/src/index.jsx)

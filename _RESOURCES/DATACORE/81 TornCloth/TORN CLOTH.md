@@ -50,4 +50,4 @@ version.obsidian: 1.4.11
 
 ### Components
 ###### [Torn Cloth Viewer](D.q.torncloth.viewer.md)
-###### [Torn Cloth Components {index.jsx}](src/index.jsx)
+###### [Torn Cloth Components {index.jsx}](_RESOURCES/DATACORE/81%20TornCloth/src/index.jsx)

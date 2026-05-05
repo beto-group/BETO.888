@@ -49,4 +49,4 @@ version.obsidian: 1.4.11
 
 ### Components
 ###### [Optical Illusion Viewer](D.q.opticalillusion.viewer.md)
-###### [Optical Illusion Components {index.jsx}](src/index.jsx)
+###### [Optical Illusion Components {index.jsx}](_RESOURCES/DATACORE/90%20OpticalIllusion/src/index.jsx)

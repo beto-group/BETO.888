@@ -44,4 +44,4 @@ resources: [cubeshover.clip.webm, cubeshover_1.webp]
 
 ### Components
 ###### [Cubes Hover Viewer](D.q.cubeshover.viewer.md)
-###### [Cubes Hover Components {index.jsx}](src/index.jsx)
+###### [Cubes Hover Components {index.jsx}](_RESOURCES/DATACORE/96%20CubesHover/src/index.jsx)

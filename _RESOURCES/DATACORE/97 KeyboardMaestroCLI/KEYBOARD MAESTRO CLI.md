@@ -52,4 +52,4 @@ version.obsidian: 1.4.11
 
 ### Components
 ###### [Keyboard Maestro CLI Viewer](D.q.kmcli.viewer.md)
-###### [Keyboard Maestro CLI Components {index.jsx}](src/index.jsx)
+###### [Keyboard Maestro CLI Components {index.jsx}](_RESOURCES/DATACORE/97%20KeyboardMaestroCLI/src/index.jsx)

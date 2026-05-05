@@ -47,4 +47,4 @@ resources:
 
 ### Components
 ###### [Native Grab Viewer](D.q.nativegrab.viewer.md)
-###### [Native Grab Components {index.jsx}](src/index.jsx)
+###### [Native Grab Components {index.jsx}](_RESOURCES/DATACORE/101%20NativeGrab/src/index.jsx)

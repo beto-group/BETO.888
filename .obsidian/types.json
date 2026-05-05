@@ -49,6 +49,7 @@
     "required": "multitext",
     "ext.dependencies": "multitext",
     "category": "multitext",
-    "id": "number"
+    "id": "number",
+    "component_path": "multitext"
   }
 }

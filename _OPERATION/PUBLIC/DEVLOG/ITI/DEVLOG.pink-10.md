@@ -1,3 +1,14 @@
+---
+cover: _RESOURCES/IMAGES/DEVLOG_11.webp
+video: _RESOURCES/VIDS/DEVLOG_11.webm
+subtitle: Mission Log // PINK-10
+description:
+media_position: 58% 55%
+media_scale: 0.88
+modal_position: 50% 27%
+modal_scale: 0.66
+---
+
 # PINK-10 | AI-Accelerated Standardization
 
 Welp, we've been deep in R&D and a slight hint of laziness. The past month hasn't seen our best work practice, and we're seeing the aftermath. It's fine since we've noticed, but we definitely need more focus-focus work. iiwii.

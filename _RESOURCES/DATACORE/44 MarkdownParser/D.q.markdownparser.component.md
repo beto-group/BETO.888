@@ -121,31 +121,18 @@ const useShallowModuleScan = () => {
 
     useEffect(() => {
         const scanMasterFile = async () => {
+            setIsLoading(true);
+            setError(null);
             try {
                 // Configuration remains the same, though the regex part is now handled internally.
                 const CONFIG = {
-                    sourceFilePath: "_RESOURCES/DOCS/DOCS.bet8.md"
+                    sourceFilePath: dc.resolvePath("_resources/content/SKILLS.bet8.md")
                 };
 
                 let sourceFile = dc.app.vault.getAbstractFileByPath(CONFIG.sourceFilePath);
                 
-                // Fallback: If not found at absolute path, try relative path from component location
                 if (!sourceFile) {
-                    console.warn(`[Docs Scanner] Master file not found at: ${CONFIG.sourceFilePath}`);
-                    console.log(`[Docs Scanner] Trying relative fallback path...`);
-                    
-                    const componentPath = dc.resolvePath("D.q.markdownparser.component.md");
-                    const componentDir = componentPath.substring(0, componentPath.lastIndexOf('/'));
-                    const relativePath = `${componentDir}/_resources/docs/DOCS.bet8.md`;
-                    
-                    console.log(`[Docs Scanner] Checking: ${relativePath}`);
-                    sourceFile = dc.app.vault.getAbstractFileByPath(relativePath);
-                    
-                    if (!sourceFile) {
-                        throw new Error(`Master file not found at absolute path (${CONFIG.sourceFilePath}) or relative path (${relativePath})`);
-                    }
-                    
-                    console.log(`[Docs Scanner] ✓ Found master file at relative path: ${relativePath}`);
+                    throw new Error(`Master file not found: ${CONFIG.sourceFilePath}`);
                 }
 
                 const sourceContent = await dc.app.vault.read(sourceFile);
@@ -158,6 +145,16 @@ const useShallowModuleScan = () => {
 
                 const modulesByCategory = {};
                 let currentMajorCategory = null;
+
+                const normalizePath = (path) => {
+                    const parts = path.split('/');
+                    const result = [];
+                    for (const p of parts) {
+                        if (p === '..') result.pop();
+                        else if (p !== '.' && p !== '') result.push(p);
+                    }
+                    return result.join('/');
+                };
 
                 for (const line of lines) {
                     const trimmedLine = line.trim();
@@ -180,7 +177,7 @@ const useShallowModuleScan = () => {
                         if (match) {
                             const displayName = match[1].trim().replace(/ info$/i, '');
                             const relativePath = match[2].trim();
-                            const filePath = `${basePath}/${decodeURIComponent(relativePath)}`;
+                            const filePath = normalizePath(`${basePath}/${decodeURIComponent(relativePath)}`);
                             moduleData = { displayName, majorCategory: currentMajorCategory, filePath, id: filePath };
                         } 
                         
@@ -190,7 +187,7 @@ const useShallowModuleScan = () => {
                             if (match) {
                                 const filePathPart = match[1].trim();
                                 const displayName = (match[2] || match[1]).trim().replace(/ info$/i, '');
-                                const filePath = `${basePath}/${decodeURIComponent(filePathPart)}.md`;
+                                const filePath = normalizePath(`${basePath}/${decodeURIComponent(filePathPart)}.md`);
                                 moduleData = { displayName, majorCategory: currentMajorCategory, filePath, id: filePath };
                             }
                         }

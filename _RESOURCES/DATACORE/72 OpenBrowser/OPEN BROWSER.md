@@ -48,4 +48,4 @@ version.obsidian: 1.4.11
 
 ### Components
 ###### [Open Browser Viewer](D.q.openbrowser.viewer.md)
-###### [Open Browser Components {index.jsx}](src/index.jsx)
+###### [Open Browser Components {index.jsx}](_RESOURCES/DATACORE/72%20OpenBrowser/src/index.jsx)

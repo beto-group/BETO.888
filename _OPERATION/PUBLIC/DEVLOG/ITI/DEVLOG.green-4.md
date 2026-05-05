@@ -1,4 +1,13 @@
-
+---
+cover: _RESOURCES/IMAGES/DEVLOG_5.webp
+video: _RESOURCES/VIDS/DEVLOG_5.webm
+subtitle: Mission Log // GREEN-4
+description:
+media_position: 60% 60%
+media_scale: 0.88
+modal_position: 50% 33%
+modal_scale: 0.55
+---
 
 Soooo, this month we’ve been focused on fully mastering everything within Obsidian. We managed to break through some limits we thought were impossible. For example, we were able to escape the browser (Electron) from Obsidian and access things a normal web app could never touch:
 

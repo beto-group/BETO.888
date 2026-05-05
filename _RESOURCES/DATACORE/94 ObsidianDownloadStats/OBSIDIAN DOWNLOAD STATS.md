@@ -44,4 +44,4 @@ resources: [obsidiandownloadstats.clip.webm, obsidiandownloadstats_1.webp]
 
 ### Components
 ###### [Obsidian Download Stats Viewer](D.q.obsidiandownloadstats.viewer.md)
-###### [Obsidian Download Stats Components {index.jsx}](src/index.jsx)
+###### [Obsidian Download Stats Components {index.jsx}](_RESOURCES/DATACORE/94%20ObsidianDownloadStats/src/index.jsx)

@@ -2,12 +2,18 @@
 
 <div align="center"> <p> <i> A creative toolkit for building rich web applications within Obsidian notes, <br/> using modular blocks to bypass complex setup and enable an AI-accelerated workflow. </i> </p> <hr style="width:50%;"> <p> <small> <small> <i> Disclaimer 🫡 <br/>We are powered by Datacore but are a separate project.<br> For official resources, Visit <a href="https://blacksmithgu.github.io/datacore/">Datacore Docs</a> and their <a href="https://discord.com/invite/KwZUX4BYba">Official Discord</a>. </i> </small> </small> </p> </div>
 
-Welcome to **BETO.888**, an **Evolving Experience** engineered to transform static repositories into immersive, interactive ecosystems.
+Welcome to **BETO.888**, an **Evolving Experience** engineered to transform static PKMs into immersive, interactive ecosystems.
 
 Instead of just writing notes, BETO.888  provides the architectural foundation for **Digital Factotums**. By utilizing a high-fidelity library of modular blocks, we eliminate dev-ops friction and enable an **AI-Accelerated Workflow**. This vault functions as your **Institutional Memory**—a persistent SKILL Registry designed to build, learn, and iterate with unprecedented velocity.
 
 Our mission is to provide the infrastructure for this next generation of creation, following a unified cycle:  
-🔄 **Discover ➔ Learn ➔ Develop ➔ Teach ➔ Repeat**
+
+**Discover ➔ Develop ➔ Teach **
+	: DDT
+
+> [!CAUTION]
+> **HIGH-RISK ABILITIES & ROOT ACCESS WARNING**
+> The tools, capabilities, and scripts provided in this ecosystem are **extremely powerful and potentially destructive** if not properly evaluated. By utilizing this infrastructure, **complete access to the root OS is possible**. Always verify scripts, workflows, and AI-generated commands before executing them.
 
 ---
 

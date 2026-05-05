@@ -50,4 +50,4 @@ version.obsidian: 1.4.11
 
 ### Components
 ###### [Hyper Scroll Viewer](D.q.hyperscroll.viewer.md)
-###### [Hyper Scroll Components {index.jsx}](src/index.jsx)
+###### [Hyper Scroll Components {index.jsx}](_RESOURCES/DATACORE/91%20HyperScroll/src/index.jsx)

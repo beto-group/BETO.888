@@ -1,6 +1,13 @@
-
-
-
+---
+cover: _RESOURCES/IMAGES/DEVLOG_10.webp
+video: _RESOURCES/VIDS/DEVLOG_10.webm
+subtitle: Mission Log // GREY-9
+description:
+media_position: 66% 50%
+media_scale: 0.8
+modal_position: 50% 23%
+modal_scale: 0.48
+---
 
 This month, experimenting experimenting experimenting
 	fabulous, very chaos, many different plans and living experience, best time highly recommend but def take away from datacore{BETO.888} progress/functionality but you all have to understand: Datacore is already perfect imho i dont need anything else and i can thrive soo if i can bring / influence you to DO the same. the more the merrier. competition is my best friend and where i thrive ;)

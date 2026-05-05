@@ -26,7 +26,7 @@ The agent should follow these steps when a message is received:
 
 1. **Identify the Command**: Parse the message text.
 2. **Write Command File**:
-   - Locate the hub data directory: `/Volumes/BackUp_WB-1TB/APPLICATIONS/BETO_BACKEND/app-repos/production-contabo/DATACORE/_RESOURCES/DATACORE/130_LiveSync_Cluster_Hub/_resources/data/`
+   - Locate the hub data directory: `[DATACORE_ROOT]/_RESOURCES/DATACORE/130_LiveSync_Cluster_Hub/_resources/data/`
    - Write (overwrite) `mcp_commands.json`:
      ```json
      {

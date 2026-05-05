@@ -51,4 +51,4 @@ version.obsidian: 1.4.11
 
 ### Components
 ###### [Signal Mesh Viewer](D.q.signalmesh.viewer.md)
-###### [Signal Mesh Components {index.jsx}](src/index.jsx)
+###### [Signal Mesh Components {index.jsx}](_RESOURCES/DATACORE/84%20SignalMesh/src/index.jsx)

@@ -50,4 +50,4 @@ version.obsidian: 1.4.11
 
 ### Components
 ###### [Scene UI Viewer](D.q.sceneui.viewer.md)
-###### [Scene UI Components {index.jsx}](src/index.jsx)
+###### [Scene UI Components {index.jsx}](_RESOURCES/DATACORE/83%20SceneUI/src/index.jsx)

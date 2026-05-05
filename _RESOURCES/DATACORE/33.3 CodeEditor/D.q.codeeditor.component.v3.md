@@ -1,7 +1,6 @@
-
-
-
-
+---
+tags: datacore-component
+---
 
 # ViewComponent
 
@@ -653,17 +652,7 @@ return { IntegratedIDE: LiveDevelopmentEnvironment };
 ```
 
 
-
-
-
-
-
-
-
-
-
-
-## GitSuite
+# GitSuite
 
 ```jsx
 const { useEffect, useRef, useState, useMemo } = dc;
@@ -1522,15 +1511,3 @@ return {
     useGit: useGitRepository
 };
 ```
-
-
-
-
-
-
-
-
-
-
-
-

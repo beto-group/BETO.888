@@ -16,5 +16,14 @@ All Datacore components generated within this vault must adhere to the **Beto El
 - **Screenshot Path**: All verification media in `_resources/images/dev/`.
 - **Stress Test**: Components must survive rapid tab-switching and re-mounting.
 
+## 4. 🧩 Modular Orchestration
+- **The Monolith Ban**: Components exceeding 500 lines must be split into a modular directory structure (`src/core/`, `src/components/`, `src/App.jsx`).
+- **The Bootstrapper Pattern**: `index.jsx` should serve as a lightweight entry point that dynamically loads sub-modules via `dc.require`.
+- **Directory Convention**:
+    - `src/core/`: Business logic, parsers, and design tokens/styles.
+    - `src/components/`: Reusable, functional UI units.
+    - `src/App.jsx`: State management and layout assembly.
+- **Cache Resilience**: When modifying required sub-modules, ensure the bootstrapper handles logic for script re-execution if the environment does not auto-refresh.
+
 ---
-*Maintain the WOW Factor.*
+*Stay Impeccable. Stay Modular.*

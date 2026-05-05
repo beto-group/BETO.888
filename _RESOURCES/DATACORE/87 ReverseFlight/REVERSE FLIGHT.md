@@ -50,4 +50,4 @@ version.obsidian: 1.4.11
 
 ### Components
 ###### [Reverse Flight Viewer](D.q.reverseflight.viewer.md)
-###### [Reverse Flight Components {index.jsx}](src/index.jsx)
+###### [Reverse Flight Components {index.jsx}](_RESOURCES/DATACORE/87%20ReverseFlight/src/index.jsx)

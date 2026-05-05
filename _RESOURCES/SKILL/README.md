@@ -1,11 +1,11 @@
-# 🧠 SKILL Registry: Institutional Memory (v1.10.0)
+# 🧠 SKILL Registry: Institutional Memory (v1.11.0)
 
 Welcome to the **SKILL Registry**, the central nervous system of the BetoOS ecosystem. This directory functions as our **Institutional Memory**, housing the high-fidelity protocols, automated workflows, and professional personas that power our **AI-Accelerated Workflow**.
 
 ## 📁 Architecture
 
 ### 1. [[SKILL.md|Master Protocol]] (The Index)
-The authoritative entry point for all operators. Defines the **Zero-Fragment Policy**, **Sterile Brutalism** UI standards, and the **Safe Agent** recovery framework.
+The authoritative entry point for all operators. Defines the **Zero-Fragment Policy**, **Sterile Brutalism** UI standards, the **Safe Agent** recovery framework, and the **Root Access Security Protocol**.
 
 ### 2. [[workflows/release/|Release Protocol]] (The Standard)
 The mandatory synchronization pipeline for all vault updates. Defines the requirements for `CHANGE LOG.md`, `README.md` branding, and high-fidelity component releases.
@@ -39,4 +39,4 @@ The visual and structural blueprints for the **Digital Factotums** and interacti
 3. **Verify**: Consult the [[release/release.md|Release Protocol]] before committing any changes to the global ecosystem.
 
 ---
-*Beto Group LLC | Institutional Memory Standardized. Portals Open. Version 1.10.0 Live.*
+*Beto Group LLC | Institutional Memory Standardized. Portals Open. Version 1.11.0 Live.*

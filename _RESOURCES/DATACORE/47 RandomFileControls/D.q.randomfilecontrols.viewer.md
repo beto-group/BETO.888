@@ -1,14 +1,15 @@
-
-
-
-
+---
+title: Random File Controls
+---
 
 ```datacorejsx
-////////////////////////////////////////////////////
-///             Viewer Entry Point               ///
-////////////////////////////////////////////////////
-const { BasicView } = await dc.require(dc.headerLink(dc.resolvePath("D.q.randomfilecontrols.component"), "ViewComponent"));
-return <BasicView />;
+/**
+ * Viewer Entry Point
+ * Implements Rule #13 relative path resolution anchor
+ */
+const indexFile = dc.resolvePath("./src/index.jsx");
+const folderPath = indexFile.substring(0, indexFile.lastIndexOf('/src/index.jsx'));
 
+const { View } = await dc.require(indexFile);
+return await View({ folderPath });
 ```
-

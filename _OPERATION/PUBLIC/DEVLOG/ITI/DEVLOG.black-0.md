@@ -1,4 +1,13 @@
-
+---
+cover: _RESOURCES/IMAGES/DEVLOG_1.webp
+video: _RESOURCES/VIDS/DEVLOG_1.webm
+subtitle: Mission Log // BLACK-0
+description:
+media_position: 50% 50%
+media_scale: 0.88
+modal_position: 50% 37%
+modal_scale: 0.66
+---
 
 The initial release of the BETO.GROUP Obsidian Vault was a massive undertaking. Our original plan was to launch with a vast, curated knowledge base called the "Enigmas" module. However, based on invaluable early feedback that the vault's structure was overwhelming, we made a critical decision to pivot.
 

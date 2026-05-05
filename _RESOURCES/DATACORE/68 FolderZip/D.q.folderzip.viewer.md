@@ -1,12 +1,17 @@
-
+---
+title: Folder Zipper
+cssclasses:
+  - "datacore-nuclear"
+---
 
 ```datacorejsx
- const { View } = await dc.require(dc.headerLink(dc.resolvePath("D.q.folderzip.component.md"), "ViewComponent"));
-return <View  />;
+/**
+ * Viewer Entry Point
+ * Implements Rule #13 relative path resolution anchor
+ */
+const indexFile = dc.resolvePath("./src/index.jsx");
+const folderPath = indexFile.substring(0, indexFile.lastIndexOf('/src/index.jsx'));
+
+const { View } = await dc.require(indexFile);
+return await View({ folderPath });
 ```
-
-
-
-
-
-

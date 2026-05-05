@@ -1,7 +1,11 @@
 
 
 
+
+###### [PURPLE-11](ITI/DEVLOG.purple-11.md)
+
 ###### [PINK-10](ITI/DEVLOG.pink-10.md)
+
 ###### [GREY-9](DEVLOG.grey-9.md)
 
 ###### [GOLD-8](DEVLOG.gold-8.md)
@@ -9,6 +13,7 @@
 ###### [WHITE-7](DEVLOG.white-7.md)
 
 ###### [BROWN-6](DEVLOG.brown-6.md)
+
 ###### [ORANGE-5](DEVLOG.orange-5.md)
 
 ###### [GREEN-4](DEVLOG.green-4.md)

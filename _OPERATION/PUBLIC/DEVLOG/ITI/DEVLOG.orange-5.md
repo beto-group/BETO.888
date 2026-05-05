@@ -1,4 +1,13 @@
-
+---
+cover: _RESOURCES/IMAGES/DEVLOG_6.webp
+video: _RESOURCES/VIDS/DEVLOG_6.webm
+subtitle: Mission Log // ORANGE-5
+description:
+media_position: 66% 50%
+media_scale: 0.77
+modal_position: 50% 27%
+modal_scale: 0.48
+---
 
 This past month has been a whirlwind of development, introspection, and significant progress. We've navigated the emotional rollercoaster of creation, questioned our approaches, and emerged with a clearer vision and a more robust toolkit. This update will cover our key learnings, major releases, and a look into the philosophical shifts guiding our project's future.
 

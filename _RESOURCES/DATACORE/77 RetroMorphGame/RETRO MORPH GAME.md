@@ -47,5 +47,5 @@ resources: [retromorph.clip.webm, retromorph_1.webp, retromorph_2.webp]
 
 ### Components
 ###### [Retro Morph Viewer](D.q.retromorph.viewer.md)
-###### [Retro Morph Components {index.jsx}](src/index.jsx)
+###### [Retro Morph Components {index.jsx}](_RESOURCES/DATACORE/77%20RetroMorphGame/src/index.jsx)
 

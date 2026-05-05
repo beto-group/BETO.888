@@ -45,5 +45,5 @@ resources: [cardscanner.clip.webm, cardscanner_1.webp]
 
 ### Components
 ###### [Card Scanner Viewer](D.q.cardscanner.viewer.md)
-###### [Card Scanner Components {index.jsx}](src/index.jsx)
+###### [Card Scanner Components {index.jsx}](_RESOURCES/DATACORE/89%20CardScanner/src/index.jsx)
 

@@ -1,113 +1,91 @@
 /**
- * Consolidated Datacore Component Template (v2.0)
- * Protocol: Consolidated Master Protocol (Rule #7)
- * Fixes: Bypasses ESM Import/Export failures and React __H Hook errors
+ * Beto Group Consolidated Master Template (v5.0)
+ * Protocol: Consolidated Master Protocol (Rule #7) + Safe Agent (Rule #10)
+ * Description: High-performance, Agent-Interactive boilerplate with built-in MCP verification.
  */
 
-// --- 🎨 Consolidated Styles ---
-const styles = {
-    root: { width: '100%', height: '100%', background: '#050505', color: '#eee', display: 'flex', flexDirection: 'column' },
-    header: { padding: '1rem', borderBottom: '1px solid #222', fontSize: '0.9rem', fontWeight: 800 }
-};
+async function View({ folderPath, dc }) {
+    const adapter = dc.app.vault.adapter;
 
-// --- Main App Component (Safe hooks isolation) ---
-// Do NOT place hooks directly in the View() factory function. 
-// They must be placed strictly inside this standard React/Preact component.
-function AppCore({ dc, folderPath }) {
-    const { useState, useEffect, useRef } = dc;
+    // 1. 🤖 SAFE AGENT (Persistent CLI/MCP Command Polling)
+    const Agent = {
+        timer: null,
+        start: (onReload) => {
+            if (Agent.timer) clearInterval(Agent.timer);
+            const cmdFile = folderPath + '/mcp_commands.json';
 
-    // Core Refs for FullTab reparenting
-    const containerRef = useRef(null);
-    const isActiveRef = useRef(false);
-    const originalParentRef = useRef(null);
-    const placeholderRef = useRef(null);
-
-    useEffect(() => {
-        // --- 🛠️ Standard Immersion Hook (Anti-Bleed Reparenting) ---
-        const settleTimeout = setTimeout(() => {
-            if (!containerRef.current || isActiveRef.current) return;
-            const container = containerRef.current;
-            
-            // 1. LOCAL DOM RESOLUTION: NO GLOBAL SELECTORS
-            let leaf = container.closest('.workspace-leaf');
-            if (!leaf) leaf = document.querySelector('.workspace-leaf.mod-active');
-            if (!leaf) return;
-            
-            // 2. ISOLATED TARGETING
-            const wrapper = leaf.querySelector('.view-content');
-            if (!wrapper) return;
-
-            const currentParent = container.parentNode;
-            if (!currentParent) return;
-
-            isActiveRef.current = true;
-            originalParentRef.current = currentParent;
-
-            // Create Placeholder 
-            const placeholder = document.createElement('div');
-            placeholder.className = 'screen-mode-placeholder';
-            placeholder.style.display = 'none';
-            if (container.nextSibling) currentParent.insertBefore(placeholder, container.nextSibling);
-            else currentParent.appendChild(placeholder);
-            placeholderRef.current = placeholder;
-
-            // Perform Reparenting
-            currentParent.removeChild(container);
-            wrapper.appendChild(container);
-
-            // 3. STACKING CONTEXT ENFORCEMENT
-            const computedParentPosition = window.getComputedStyle(wrapper).position;
-            if (computedParentPosition === 'static') wrapper.style.position = "relative";
-            wrapper.style.overflow = "hidden";
-
-            Object.assign(container.style, {
-                position: "absolute", top: "0px", left: "0px", width: "100%", height: "100%",
-                zIndex: "9998", margin: "0", padding: "0", border: "none", borderRadius: "0",
-                backgroundColor: "#050505", overflow: "auto", display: "block"
-            });
-        }, 300);
-
-        return () => {
-            clearTimeout(settleTimeout);
-            if (isActiveRef.current && containerRef.current && originalParentRef.current) {
+            Agent.timer = setInterval(async () => {
                 try {
-                    const activePlaceholder = placeholderRef.current;
-                    if (activePlaceholder?.parentNode) {
-                        activePlaceholder.parentNode.replaceChild(containerRef.current, activePlaceholder);
+                    if (!(await adapter.exists(cmdFile))) return;
+                    const content = await adapter.read(cmdFile);
+                    let cmd; try { cmd = JSON.parse(content); } catch (e) { return; }
+
+                    if (cmd && cmd.executed === false) {
+                        const SAFE_ACTIONS = ['reload', 'open_settings', 'screenshot'];
+                        if (SAFE_ACTIONS.includes(cmd.action)) {
+                            cmd.executed = true;
+                            cmd.result = "ExecutedAt: " + new Date().toISOString();
+                            await adapter.write(cmdFile, JSON.stringify(cmd, null, 2));
+
+                            if (cmd.action === 'reload') onReload();
+                            else if (cmd.action === 'open_settings') dc.app.setting.open();
+                        }
                     }
-                    Object.assign(containerRef.current.style, {
-                        position: "", top: "", left: "", width: "", height: "", 
-                        zIndex: "", margin: "", padding: "", border: "", 
-                        borderRadius: "", backgroundColor: "", 
-                        overflow: "", display: "block"
-                    });
-                    isActiveRef.current = false;
-                } catch (e) {
-                    console.error("[FullTab] Cleanup error:", e);
-                }
-            }
-        };
-    }, []);
+                } catch (e) { }
+            }, 1000);
+            return () => clearInterval(Agent.timer);
+        }
+    };
 
-    // Example Query (Sanitized: No @ prefix)
-    const data = dc.useQuery('type = "your_type"');
+    // 2. 🦾 CONSOLIDATED CORE COMPONENT
+    const AppCore = () => {
+        const [appState, setAppState] = dc.useState({ status: 'BOOTING', key: 0 });
+        const containerRef = dc.useRef(null);
 
-    return (
-        <div ref={containerRef} id="component-root" style={styles.root}>
-            <div style={styles.header}>COMPONENT_TITLE</div>
-            <div style={{ padding: '2rem' }}>
-                {data.length} records found. Deploy app UI here.
+        // A. Agent Life-Cycle
+        dc.useEffect(() => {
+            return Agent.start(() => {
+                if (dc.app.workspace.activeLeaf?.rebuildView) dc.app.workspace.activeLeaf.rebuildView();
+                else setAppState(s => ({ ...s, key: s.key + 1 }));
+            });
+        }, []);
+
+        // B. Deep Immersion (FullTab Standard)
+        dc.useEffect(() => {
+            const timer = setTimeout(() => {
+                const container = containerRef.current;
+                if (!container) return;
+                const leaf = container.closest('.workspace-leaf') || document.querySelector('.workspace-leaf.mod-active');
+                if (!leaf) return;
+                const wrapper = leaf.querySelector('.view-content');
+                if (!wrapper || container.parentNode === wrapper) return;
+
+                wrapper.style.position = "relative";
+                wrapper.style.overflow = "hidden";
+                wrapper.appendChild(container);
+                Object.assign(container.style, {
+                    position: "absolute", inset: 0, zIndex: 9999, background: "#050505", display: "block"
+                });
+            }, 300);
+            return () => clearTimeout(timer);
+        }, []);
+
+        return (
+            <div ref={containerRef} key={appState.key} style={{ width: '100%', height: '100%', color: 'white', fontFamily: 'Inter, sans-serif' }}>
+                <div style={{ padding: '40px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                    <div style={{ fontSize: '10px', color: '#a855f7', fontWeight: 900, letterSpacing: 2 }}>◆ [ SKILL_ID: {folderPath.split('/').pop()} ]</div>
+                    <h1 style={{ margin: 0, fontSize: '32px', fontWeight: 900 }}>NEW_COMPONENT_OS</h1>
+                    <div style={{ height: '1px', background: 'rgba(255,255,255,0.1)' }} />
+                    <p style={{ opacity: 0.7, lineHeight: 1.6 }}>
+                        Agent initialized. FullTab immersion active. MCP command buffer polling at 1Hz.
+                        Start building the tactical interface here.
+                    </p>
+                </div>
             </div>
-        </div>
-    );
+        );
+    };
+
+    return <AppCore />;
 }
 
-// --- View Factory Entry Point ---
-// CRITICAL: NEVER use `export function` or `export default`.
-// Datacore eval() only accepts the native return object enclosure.
-function View(props) {
-    return <AppCore dc={props.dc} folderPath={props.folderPath} />;
-}
-
-// Return the object strictly as a script evaluation response
 return { View };

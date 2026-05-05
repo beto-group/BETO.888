@@ -3,6 +3,27 @@ permalink: obsidian.plugins.datacore.showcase
 ---
 
 
+NEW 
+
+
+CLI Extension Manager
+[[D.q.cli.extension.manager.viewer]]
+
+
+Registerign custom commands to obsidian cli
+[[D.q.obsidianclicommandlab.viewer]]
+
+Obsidian Automation CDP
+[[ObsidianAutomationCDP.viewer]]
+
+
+
+
+
+
+
+
+
 
 
 
@@ -112,6 +133,23 @@ permalink: obsidian.plugins.datacore.showcase
 
 
 
+## **Advanced Automation & System Integration**
+ 
+ 
+###### [NATIVE GRAB](101%20NativeGrab/NATIVE%20GRAB.md) { NEW }
+ 
+###### [OBSIDIAN CLI COMMAND LAB](102%20ObsidianCLICommandLab/OBSIDIAN%20CLI%20COMMAND%20LAB.md) { NEW }
+ 
+###### [OBSIDIAN AUTOMATION CDP](111%20ObsidianAutomationCDP/OBSIDIAN%20AUTOMATION%20CDP.md) { NEW }
+ 
+###### [CLI EXTENSION MANAGER](112%20CLIExtensionManager/CLI%20EXTENSION%20MANAGER.md) { NEW }
+ 
+###### [CHROME EXTENSION BRIDGE](113%20ChromeExtensionBridge/CHROME%20EXTENSION%20BRIDGE.md) { NEW }
+ 
+ 
+ 
+ 
+ 
 ## **Graphics, Visualization & UI**
 
 
@@ -217,7 +255,7 @@ permalink: obsidian.plugins.datacore.showcase
 
 ###### [LIVESTREAM MANAGER](98%20LiveStreamManager/LIVESTREAM%20MANAGER.md) { NEW } { FEATURE }
 
-###### [REMOTION CLONE v1](99.1%20RemotionClone/REMOTION%20CLONE%20v1.md) { NEW } { FEATURE }
+###### [REMOTION CLONE](99.1%20RemotionClone/REMOTION%20CLONE.md) { NEW } { FEATURE }
 
 ###### [REMOTION v2](99.2%20Remotion/REMOTION%20v2.md) { NEW }
 

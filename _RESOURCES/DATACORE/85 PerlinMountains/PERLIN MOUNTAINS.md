@@ -54,4 +54,4 @@ version.obsidian: 1.4.11
 
 ### Components
 ###### [Perlin Mountains Viewer](D.q.perlinmountains.viewer.md)
-###### [Perlin Mountains Components {index.jsx}](src/index.jsx)
+###### [Perlin Mountains Components {index.jsx}](_RESOURCES/DATACORE/85%20PerlinMountains/src/index.jsx)

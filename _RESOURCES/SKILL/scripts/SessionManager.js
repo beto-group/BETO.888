@@ -4,7 +4,7 @@
  * Provides high-fidelity session lifecycle management for BetoOS.
  * Follows the 'Claw-Parity' JSONL Standard (Rule #16).
  * 
- * @version 1.10.0
+ * @version 1.11.0
  * @author beto.group
  */
 

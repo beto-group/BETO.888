@@ -5,7 +5,8 @@ This skill provides a formalized system for media conversion and delivery within
 ## 🍱 Skill Overview
 
 - **Core Engine**: `140_Media_Converter` (Standardized v1.8.7).
-- **Interface**: **MANDATORY**. Invoked via the `obsidian eval` bridge using the `window.CliLab.execute` API. Direct shell `ffmpeg` commands are BANNED for production standardization to ensure Triple-Zone Delivery.
+- **Function**: Autonomous conversion of legacy media (MOV, MP4, PNG, JPG) to high-efficiency formats (WEBM/VP9, WEBP).
+- **Interface**: Invoked via the `obsidian eval` bridge using the `window.CliLab.execute` API.
 
 ## 🚀 Triple-Zone Delivery Protocol
 
@@ -20,9 +21,6 @@ To prevent asset loss and ensure immediate usability, every conversion MUST deli
 Every conversion terminal response MUST provide **Bit-Level Proof** of successful delivery.
 - **Size Validation**: The response must report the file size (e.g., `Size: 1.9M`) for all three delivery locations.
 - **Zero-Ghost Policy**: If any of the three locations fail to report the correct size, the task is considered FAILED and requires immediate agent recovery.
-
-### 🧹 Zero-Ghost Cleanup (v1.8.8)
-Standardization is NOT binary. All legacy or orphaned assets (e.g., placeholder clips or mismatched previous names) MUST be explicitly purged from the `_resources` directory after the new, verified assets are delivered and documented.
 
 ## 📼 Media Conversion Logic
 

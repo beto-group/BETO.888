@@ -1,4 +1,5 @@
-- [ ] 2026-04-09 2026-02-19 2025-11-11 By checking this box, I confirm that I have read, understood, and agree to be bound by the BETO.GROUP Terms of Service and Privacy Policy.
+- [ ] By checking this box, I confirm that I have read, understood, and agree to be bound by the BETO.GROUP Terms of Service and Privacy Policy.
+
 
 
 

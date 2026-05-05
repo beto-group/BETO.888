@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "4f436da332860963",
+        "id": "dbcc95335d84accf",
         "type": "tabs",
         "children": [
           {
-            "id": "cab6d0bc9497fb4e",
+            "id": "ccbe11836080f85b",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -84,12 +84,11 @@
               "title": "Bookmarks"
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "horizontal",
-    "width": 364.500732421875,
+    "width": 509.50390243530273,
     "collapsed": true
   },
   "right": {
@@ -167,16 +166,17 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "_RESOURCES/DATACORE/53.1 Dashboard888/D.q.dashboard888.viewer.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline"
+              "title": "Outline of D.q.dashboard888.viewer"
             }
           },
           {
-            "id": "57b60573733711c5",
+            "id": "d9085a52223617b7",
             "type": "leaf",
             "state": {
               "type": "file-properties",
@@ -213,53 +213,53 @@
       "code-files:Create Code File": false
     }
   },
-  "active": "cab6d0bc9497fb4e",
+  "active": "ccbe11836080f85b",
   "lastOpenFiles": [
     "_OPERATION/PUBLIC/INFO/DISCLAIMERS/TOS/TERMS OF SERVICE.approval.md",
     "HOME.md",
-    "_RESOURCES/DATACORE/0 DATACORE.flexilis/D.q.datacore.flexilis.component.v4.md",
-    "_RESOURCES/DATACORE/98 LiveStreamManager/LIVESTREAM MANAGER.md",
-    "KNOWLEDGE/HEALTH/RESTAURANTS.enigmas..md",
-    "KNOWLEDGE/HEALTH/YOGA.enigmas..md",
-    "README.md",
-    "_RESOURCES/SKILL/roles/examples/README.md",
-    "_RESOURCES/DATACORE/62 PluginDevSuite/PLUGIN DEV SUITE.md",
-    "_RESOURCES/DATACORE/62 PluginDevSuite/D.q.plugindevsuite.viewer.md",
-    "_RESOURCES/DATACORE/62 PluginDevSuite/D.q.plugindevsuite.component.md",
-    "_RESOURCES/DATACORE/98 LiveStreamManager/D.q.livestreammanager.viewer.md",
-    "_RESOURCES/SKILL/interface/src/index.jsx",
-    "Live Stream Manager.md",
-    "_RESOURCES/DATACORE/4 TagViewer/TAG VIEWER.md",
-    "_RESOURCES/DATACORE/93 NeuralNetwork/NEURAL NETWORK.md",
-    "_RESOURCES/DATACORE/3.1 BasicView/BASIC VIEW v1.md",
-    "_RESOURCES/DATACORE/3.2 BasicView/BASIC VIEW v2.md",
-    "_RESOURCES/DATACORE/0 DATACORE.flexilis/DATACORE.flexilis.v4.md",
-    "_RESOURCES/DATACORE/DATACORE.showcase.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/WOMEN_v5_.A.md",
-    "_RESOURCES/ASSETS/888/ASSETS_.A/WOMEN_v6_.A.md",
-    "_RESOURCES/DATACORE/93 NeuralNetwork/_resources/images/neuralnetwork_1.webp",
-    "CHANGE LOG.md",
-    "_RESOURCES/SKILL/README.md",
-    "_RESOURCES/DATACORE/71 Recap2025/RECAP 2025.md",
-    "_RESOURCES/SKILL/workflows/media_converter/SKILL.md",
-    "_RESOURCES/SKILL/workflows/media_converter",
-    "_RESOURCES/SKILL/settings.json",
-    "_RESOURCES/SKILL/memory/sessions/sample.jsonl",
-    "_RESOURCES/SKILL/memory/sessions",
-    "_RESOURCES/DATACORE/COMPONENTS/141_Claw_Harness/D.q.claw_harness.viewer.md",
-    "_RESOURCES/DATACORE/COMPONENTS/141_Claw_Harness/src/index.jsx",
-    "_RESOURCES/DATACORE/COMPONENTS/141_Claw_Harness/src",
-    "_RESOURCES/DATACORE/COMPONENTS/141_Claw_Harness",
-    "_RESOURCES/SKILL/scripts/SessionManager.js",
-    "_RESOURCES/DATACORE/COMPONENTS/claw-code/tests/test_porting_workspace.py",
-    "_RESOURCES/DATACORE/COMPONENTS/claw-code/assets/omx/omx-readme-review-2.png",
-    "_RESOURCES/DATACORE/COMPONENTS/claw-code/assets/omx/omx-readme-review-1.png",
-    "_RESOURCES/DATACORE/COMPONENTS/claw-code/assets/tweet-screenshot.png",
-    "_RESOURCES/DATACORE/COMPONENTS/claw-code/assets/wsj-feature.png",
-    "_RESOURCES/DATACORE/COMPONENTS/claw-code/assets/star-history.png",
-    "_RESOURCES/DATACORE/COMPONENTS/claw-code/assets/sigrid-photo.png",
-    "_RESOURCES/DATACORE/COMPONENTS/claw-code/assets/claw-hero.jpeg",
-    "_RESOURCES/EXCALIDRAW/Scripts/Downloaded/Set Stroke Width of Selected Elements.svg",
-    "_RESOURCES/EXCALIDRAW/SCRIPTS/Downloaded/Set Stroke Width of Selected Elements.svg"
+    "_RESOURCES/DATACORE/53.1 Dashboard888/D.q.dashboard888.viewer.md",
+    "_RESOURCES/DATACORE/53.1 Dashboard888/DASHBOARD 888.md",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/components/Updater/VaultUpdater.md",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/components/Shared/SettingsPortal.md",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/components/Shared/NFModal.md",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/components/Shared/HeroComponents.md",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/components/Home/HomeSection.md",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/components/Docs/DocsSection.md",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/components/Devlog/DevlogSection.md",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/components/DataCore/DataCoreSection.md",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/components/Assets/AssetsSection.md",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/utils/TOSManager.md",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/utils/MediaResolver.md",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/utils/MarkdownViewer.md",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/utils/InceptionEngine.md",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/utils/FullTab.md",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/utils/DesignSystem.md",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/utils/ContentRenderer.md",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/utils/ComponentImporter.md",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/utils/CommonUtils.md",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/components/Updater",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/components/Shared",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/components/Home",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/components/Docs",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/components/Devlog",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/components/DataCore",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/components/Assets",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/layouts/ShowcaseLayout.md",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/utils",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/layouts",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/components",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/ViewComponent.md",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/IntegratedDevelopmentSuite.md",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/ICONS.md",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/_resources/images/dashboard_888_6.webp",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/_resources/images/dashboard_888_5.webp",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/_resources/images/dashboard_888_4.webp",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/_resources/images/dashboard_888_3.webp",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/_resources/images/dashboard_888_2.webp",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/_resources/images/dashboard_888_1.webp",
+    "_RESOURCES/DATACORE/112 CLIExtensionManager/_resources/images/cli_extension_manager_1.webp",
+    "_RESOURCES/DATACORE/111 ObsidianAutomationCDP/_resources/images/obsidian_automation_cdp_1.webp",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy 5/_resources/images/dashboard_888_6.webp",
+    "_RESOURCES/DATACORE/53.1 Dashboard888 copy 5/_resources/images/dashboard_888_5.webp"
   ]
 }

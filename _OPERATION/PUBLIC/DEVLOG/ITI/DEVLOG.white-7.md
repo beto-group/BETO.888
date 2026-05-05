@@ -1,3 +1,13 @@
+---
+cover: _RESOURCES/IMAGES/DEVLOG_8.webp
+video: _RESOURCES/VIDS/DEVLOG_8.webm
+subtitle: Mission Log // WHITE-7
+description:
+media_position: 50% 50%
+media_scale: 0.88
+modal_position: 50% 50%
+modal_scale: 1
+---
 
 January/December is a time for resetting. I’ve been reviewing the recap of the past year, and it is genuinely exciting to see the progress we’ve made. It’s amazing that we managed to build so much while constantly traveling and figuring things out on the fly.
 

@@ -44,4 +44,4 @@ resources: [vbr.clip.webm, vbr_1.webp]
 
 ### Components
 ###### [Video Background Removal Viewer](D.q.videobackgroundremoval.viewer.md)
-###### [Video Background Removal Components {index.jsx}](src/index.jsx)
+###### [Video Background Removal Components {index.jsx}](_RESOURCES/DATACORE/74%20VideoBackgroundRemoval/src/index.jsx)

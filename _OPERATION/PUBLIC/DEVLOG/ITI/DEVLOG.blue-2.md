@@ -1,4 +1,13 @@
-
+---
+cover: _RESOURCES/IMAGES/DEVLOG_3.webp
+video: _RESOURCES/VIDS/DEVLOG_3.webm
+subtitle: Mission Log // BLUE-2
+description:
+media_position: 80% 50%
+media_scale: 1
+modal_position: 88% 44%
+modal_scale: 0.77
+---
 
 #### I. Datacore Expansion & New Components
 

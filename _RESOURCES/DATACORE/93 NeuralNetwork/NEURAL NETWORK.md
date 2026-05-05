@@ -51,4 +51,4 @@ version.obsidian: 1.4.11
 
 ### Components
 ###### [Neural Network Viewer](D.q.neuralnetwork.viewer.md)
-###### [Neural Network Components {index.jsx}](src/index.jsx)
+###### [Neural Network Components {index.jsx}](_RESOURCES/DATACORE/93%20NeuralNetwork/src/index.jsx)

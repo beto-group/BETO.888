@@ -1,3 +1,13 @@
+---
+cover: _RESOURCES/IMAGES/DEVLOG_7.webp
+video: _RESOURCES/VIDS/DEVLOG_7.webm
+subtitle: Mission Log // BROWN-6
+description:
+media_position: 66% 53%
+media_scale: 0.84
+modal_position: 50% 32%
+modal_scale: 0.77
+---
 
 ### Devlog: 111% Energy & The Marketplace Pivot
 

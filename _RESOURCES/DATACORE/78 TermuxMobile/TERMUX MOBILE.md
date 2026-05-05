@@ -45,5 +45,5 @@ resources: [termux.clip.webm, termux_1.webp]
 
 ### Components
 ###### [Termux Mobile Viewer](D.q.termuxmobile.viewer.md)
-###### [Termux Mobile Components {index.jsx}](src/index.jsx)
+###### [Termux Mobile Components {index.jsx}](_RESOURCES/DATACORE/78%20TermuxMobile/src/index.jsx)
 

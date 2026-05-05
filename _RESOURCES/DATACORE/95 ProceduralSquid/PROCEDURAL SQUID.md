@@ -50,4 +50,4 @@ version.obsidian: 1.4.11
 
 ### Components
 ###### [Procedural Squid Viewer](D.q.proceduralsquid.viewer.md)
-###### [Procedural Squid Components {index.jsx}](src/index.jsx)
+###### [Procedural Squid Components {index.jsx}](_RESOURCES/DATACORE/95%20ProceduralSquid/src/index.jsx)

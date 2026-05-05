@@ -370,7 +370,7 @@
         "contributionsState": {
           "editor.contrib.wordHighlighter": false,
           "editor.contrib.folding": {
-            "lineCount": 412,
+            "lineCount": 489,
             "foldedImports": false
           }
         }
@@ -828,6 +828,112 @@
           "editor.contrib.wordHighlighter": false,
           "editor.contrib.folding": {
             "lineCount": 18,
+            "provider": "indent",
+            "foldedImports": false
+          }
+        }
+      }
+    },
+    "lastActive": "ViewComponent"
+  },
+  "_RESOURCES/DATACORE/2 BasicQuery/D.q.basicquery.component.md": {
+    "tabs": {
+      "ViewComponent": {
+        "cursorState": [
+          {
+            "inSelectionMode": false,
+            "selectionStart": {
+              "lineNumber": 1,
+              "column": 1
+            },
+            "position": {
+              "lineNumber": 1,
+              "column": 1
+            }
+          }
+        ],
+        "viewState": {
+          "scrollLeft": 0,
+          "firstPosition": {
+            "lineNumber": 1,
+            "column": 1
+          },
+          "firstPositionDeltaTop": 0
+        },
+        "contributionsState": {
+          "editor.contrib.wordHighlighter": false,
+          "editor.contrib.folding": {
+            "lineCount": 36,
+            "foldedImports": false
+          }
+        }
+      }
+    },
+    "lastActive": "ViewComponent"
+  },
+  "_RESOURCES/DATACORE/33.3 CodeEditor/D.q.codeeditor.component.v3.md": {
+    "tabs": {
+      "ViewComponent": {
+        "cursorState": [
+          {
+            "inSelectionMode": false,
+            "selectionStart": {
+              "lineNumber": 5,
+              "column": 36
+            },
+            "position": {
+              "lineNumber": 5,
+              "column": 36
+            }
+          }
+        ],
+        "viewState": {
+          "scrollLeft": 0,
+          "firstPosition": {
+            "lineNumber": 13,
+            "column": 4
+          },
+          "firstPositionDeltaTop": -9
+        },
+        "contributionsState": {
+          "editor.contrib.wordHighlighter": false,
+          "editor.contrib.folding": {
+            "lineCount": 644,
+            "foldedImports": false
+          }
+        }
+      }
+    },
+    "lastActive": "ViewComponent"
+  },
+  "_RESOURCES/DATACORE/54 DatacorePlayground/D.q.datacoreplayground.component.md": {
+    "tabs": {
+      "ViewComponent": {
+        "cursorState": [
+          {
+            "inSelectionMode": false,
+            "selectionStart": {
+              "lineNumber": 1,
+              "column": 1
+            },
+            "position": {
+              "lineNumber": 1,
+              "column": 1
+            }
+          }
+        ],
+        "viewState": {
+          "scrollLeft": 0,
+          "firstPosition": {
+            "lineNumber": 7,
+            "column": 49
+          },
+          "firstPositionDeltaTop": -5
+        },
+        "contributionsState": {
+          "editor.contrib.wordHighlighter": false,
+          "editor.contrib.folding": {
+            "lineCount": 1584,
             "foldedImports": false
           }
         }

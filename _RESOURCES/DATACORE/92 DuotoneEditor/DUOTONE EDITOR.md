@@ -50,4 +50,4 @@ version.obsidian: 1.4.11
 
 ### Components
 ###### [Duotone Editor Viewer](D.q.duotoneeditor.viewer.md)
-###### [Duotone Editor Components {index.jsx}](src/index.jsx)
+###### [Duotone Editor Components {index.jsx}](_RESOURCES/DATACORE/92%20DuotoneEditor/src/index.jsx)

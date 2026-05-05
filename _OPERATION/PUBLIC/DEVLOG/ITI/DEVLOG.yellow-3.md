@@ -1,7 +1,13 @@
-
-
-
-
+---
+cover: _RESOURCES/IMAGES/DEVLOG_4.webp
+video: _RESOURCES/VIDS/DEVLOG_4.webm
+subtitle: Mission Log // YELLOW-3
+description:
+media_position: 50% 50%
+media_scale: 1
+modal_position: 50% 50%
+modal_scale: 0.96
+---
 
 ## YELLOW-3: The Unification
 

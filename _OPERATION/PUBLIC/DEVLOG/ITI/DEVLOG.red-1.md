@@ -1,3 +1,13 @@
+---
+cover: _RESOURCES/IMAGES/DEVLOG_2.webp
+video: _RESOURCES/VIDS/DEVLOG_2.webm
+subtitle: Mission Log // RED-1
+description:
+media_position: 62% 50%
+media_scale: 0.84
+modal_position: 50% 40%
+modal_scale: 0.66
+---
 
 >[!danger]- ###### I. Monumental Overhaul of Our Terms & Licensing
 >This month marks a foundational shift in our philosophy. To better empower our community and accelerate development, we've completely revised our legal and distribution framework.

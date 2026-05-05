@@ -50,4 +50,4 @@ version.obsidian: 1.4.11
 
 ### Components
 ###### [Dither Pro Viewer](D.q.ditherpro.viewer.md)
-###### [Dither Pro Components {index.jsx}](src/index.jsx)
+###### [Dither Pro Components {index.jsx}](_RESOURCES/DATACORE/80%20DitherPro/src/index.jsx)

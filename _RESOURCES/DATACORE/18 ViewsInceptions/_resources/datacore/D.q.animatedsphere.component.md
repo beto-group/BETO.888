@@ -1,5 +1,6 @@
-
-
+---
+tags: datacore-component
+---
 
 # ViewComponent
 
@@ -494,5 +495,3 @@ function AsciiSphereView() {
 
 return { View: AsciiSphereView };
 ```
-
-

@@ -1,16 +1,15 @@
-
-
+---
+title: Bounty View
+---
 
 ```datacorejsx
-////////////////////////////////////////////////////
-///             Viewer Entry Point               ///
-////////////////////////////////////////////////////
+/**
+ * Viewer Entry Point
+ * Implements Rule #13 relative path resolution anchor
+ */
+const indexFile = dc.resolvePath("./src/index.jsx");
+const folderPath = indexFile.substring(0, indexFile.lastIndexOf('/src/index.jsx'));
 
-// Retrieve the View component from the setup file
-const { ViewBounty } = await dc.require(dc.headerLink(dc.resolvePath("D.q.bountyview.component"), "ViewComponentBounty"));
-
-// Render the View component
-// showViewButton prop: set to false to hide the "View" button (default: true)
-return <ViewBounty showViewButton={false} />;
-
+const { View } = await dc.require(indexFile);
+return await View({ folderPath });
 ```

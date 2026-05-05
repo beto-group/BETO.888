@@ -57,4 +57,4 @@ version.obsidian: 1.4.11
 
 ### Components
 ###### [Universal Storage Viewer](D.q.universalstorage.viewer.md)
-###### [Universal Storage Components {index.jsx}](src/index.jsx)
+###### [Universal Storage Components {index.jsx}](_RESOURCES/DATACORE/100%20UniversalStorageShowcase/src/index.jsx)

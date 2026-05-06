@@ -1301,7 +1301,7 @@ function BasicView() {
     );
 }
 
-return { BasicView };
+return { ViewComponent_v11: BasicView };
 ```
 
 

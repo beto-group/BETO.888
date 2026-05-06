@@ -33,18 +33,12 @@ Thumbs.db
 .stfolder
 
 # KNOWLEDGE BASE 
-
-KNOWLEDGE/
+/KNOWLEDGE/
 
 # DASHBOARD
+/_OPERATION/DASHBOARDS/
 
-_OPERATION/DASHBOARDS/
-
-# COOKBOOK
-
-PROJECTS/
-
-
+/_OPERATION/PRIVATE/
 
 
 #999 for now
@@ -63,12 +57,8 @@ _RESOURCES/ASSETS/888/*.svg
 !_RESOURCES/SVGS/*.svg
 
 # removing stuff not needed at this present time
-
-_OPERATION/_CLEAN/
-
-_RESOURCES/ASSETS/EXCALIDRAW/
-
-PROJECTS/
+/_OPERATION/_CLEAN/
+/_RESOURCES/ASSETS/EXCALIDRAW/
 
 # old logo stuff no more needed
 

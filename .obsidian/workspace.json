@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "dbcc95335d84accf",
+        "id": "1dcfd56df8a94618",
         "type": "tabs",
         "children": [
           {
-            "id": "ccbe11836080f85b",
+            "id": "19c6fbbca63badf4",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -213,11 +213,13 @@
       "code-files:Create Code File": false
     }
   },
-  "active": "ccbe11836080f85b",
+  "active": "19c6fbbca63badf4",
   "lastOpenFiles": [
     "_OPERATION/PUBLIC/INFO/DISCLAIMERS/TOS/TERMS OF SERVICE.approval.md",
     "HOME.md",
+    "CHANGE LOG.md",
     "_RESOURCES/DATACORE/53.1 Dashboard888/D.q.dashboard888.viewer.md",
+    "KNOWLEDGE/EXPERIENCES/_clean/MUSIC.enigmas..md",
     "_RESOURCES/DATACORE/53.1 Dashboard888/DASHBOARD 888.md",
     "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/components/Updater/VaultUpdater.md",
     "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/components/Shared/SettingsPortal.md",
@@ -249,8 +251,6 @@
     "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/layouts",
     "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/components",
     "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/ViewComponent.md",
-    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/IntegratedDevelopmentSuite.md",
-    "_RESOURCES/DATACORE/53.1 Dashboard888 copy/src/ICONS.md",
     "_RESOURCES/DATACORE/53.1 Dashboard888 copy/_resources/images/dashboard_888_6.webp",
     "_RESOURCES/DATACORE/53.1 Dashboard888 copy/_resources/images/dashboard_888_5.webp",
     "_RESOURCES/DATACORE/53.1 Dashboard888 copy/_resources/images/dashboard_888_4.webp",

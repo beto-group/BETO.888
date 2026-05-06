@@ -1,4 +1,4 @@
-e
+
 
  
  
@@ -6,7 +6,8 @@ e
 ////////////////////////////////////////////////////
 ///             Viewer Entry Point               ///
 ////////////////////////////////////////////////////
-const { BasicView } = await dc.require(dc.headerLink(dc.resolvePath("src/ViewComponent.md"), "ViewComponent_v11"));
+const dashboardPath = "_RESOURCES/DATACORE/53.1 Dashboard888/src/ViewComponent.md";
+const { ViewComponent_v11: BasicView } = await dc.require(dc.headerLink(dashboardPath, "ViewComponent_v11"));
 return <BasicView />;
 
 

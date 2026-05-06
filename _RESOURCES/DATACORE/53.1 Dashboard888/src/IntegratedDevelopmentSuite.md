@@ -1,5 +1,4 @@
-# IntegratedDevelopmentSuite_v15
-# IntegratedDevelopmentSuite_v16
+# IntegratedDevelopmentSuite_v18
 
 ```jsx
 const { useEffect, useState, useMemo, useRef, useCallback } = dc;
@@ -157,9 +156,12 @@ const useShallowModuleScan = (enabled = true) => {
             if (!GLOBAL_MODULE_CACHE) setIsLoading(true);
             try {
                 const currentFilePath = dc.resolvePath("IntegratedDevelopmentSuite.md");
-                const dashRoot = currentFilePath.split('/').slice(0, -2).join('/');
-                const skillsPath = `${dashRoot}/_resources/content/SKILLS.bet8.md`;
-                const showcasePath = `_RESOURCES/DATACORE/DATACORE.showcase.md`;
+                const dashRoot = currentFilePath.includes('/') ? currentFilePath.split('/').slice(0, -2).join('/') : "";
+                const skillsPath = dashRoot ? `${dashRoot}/_resources/content/SKILLS.bet8.md` : "_resources/content/SKILLS.bet8.md";
+                
+                console.log("[Docs Scanner] Current File:", currentFilePath);
+                console.log("[Docs Scanner] Dashboard Root:", dashRoot);
+                console.log("[Docs Scanner] Skills Path:", skillsPath);
                 
                 const modulesByCategory = {};
                 
@@ -179,6 +181,7 @@ const useShallowModuleScan = (enabled = true) => {
                 // 1. Scan SKILLS.bet8.md
                 const skillsFile = dc.app.vault.getAbstractFileByPath(skillsPath);
                 if (skillsFile) {
+                    console.log("[Docs Scanner] Found Skills file:", skillsFile.path);
                     const content = await dc.app.vault.read(skillsFile);
                     const lines = content.split('\n');
                     const basePath = skillsFile.path.substring(0, skillsFile.path.lastIndexOf('/'));
@@ -220,6 +223,8 @@ const useShallowModuleScan = (enabled = true) => {
                             }
                         }
                     }
+                } else {
+                    console.warn("[Docs Scanner] Skills file NOT found at path:", skillsPath);
                 }
 
 
@@ -1630,7 +1635,7 @@ const parseModuleFileContent = async (file) => {
 };
 
 return { 
-    IntegratedDevelopmentSuite_v16: IntegratedDevelopmentSuite, 
+    IntegratedDevelopmentSuite_v18: IntegratedDevelopmentSuite, 
     DocsDetailView: ModuleDetailView,
     MarkdownRenderer,
     DetailRenderer,

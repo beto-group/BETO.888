@@ -99,6 +99,7 @@ One of the core features of Dashboard888 is the automatic extraction of implemen
 4. **Path Resolution**: Always use `dc.app.metadataCache.getFirstLinkpathDest` for resolving internal links to ensure robust pathing across different vault structures.
 5. **Universal Props**: Every modular component receives a standard set of props (`dc`, `STYLES`, `localTheme`). Do not break this contract.
 6. **Logs**: Keep production logs to a minimum. Use prefixed logs (e.g., `[VaultUpdater]`) only for critical errors or lifecycle events.
+7. **Entry Point Stability**: When launching the dashboard from a root file like `HOME.md`, ensure the `dc.require` path to `ViewComponent.md` is robust (using `_RESOURCES/DATACORE/53.1 Dashboard888/src/ViewComponent.md` instead of simple relative paths). This prevents the "\[object Object]" error caused by incorrect path resolution in non-standard vault structures.
 
 ---
 

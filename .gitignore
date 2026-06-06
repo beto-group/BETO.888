@@ -63,3 +63,9 @@ _RESOURCES/ASSETS/888/*.svg
 # old logo stuff no more needed
 
 _RESOURCES/beto.logo/v7/
+
+
+# Removing Inner Excalidraw Obsidian Vault for better peroformance when drawing 
+_RESOURCES/ASSETS/888/.obsidian
+_RESOURCES/ASSETS/888/Excalidraw
+_RESOURCES/ASSETS/888/REFERENCES

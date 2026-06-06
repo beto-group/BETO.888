@@ -43,4 +43,5 @@ We’ve released seven high-fidelity components that showcase the new standardiz
 - **66.1 Basic Folder View v1**: The foundational full-tab boilerplate, fully standardized and protocol-compliant.
 
 ---
-*Beto Group LLC | Shifting Gears. Accelerating Infrastructure.*
+
+we"ll be around..

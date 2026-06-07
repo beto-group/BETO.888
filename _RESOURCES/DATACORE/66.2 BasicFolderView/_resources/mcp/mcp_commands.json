@@ -1,0 +1,11 @@
+{
+  "action": "telegram_connect",
+  "apiId": "39572601",
+  "apiHash": "16d7cdfdc67e15840ab9c9ce8a68fa45",
+  "phone": "14038044517",
+  "botToken": "8581957367:AAHgDGmsAdFQHAXLnyHLTiAX-LLza5Bs3aA",
+  "executed": true,
+  "id": 1770588967867,
+  "executedAt": "2026-02-08T22:16:08.768Z",
+  "result": "Bot Connection Initiated"
+}
